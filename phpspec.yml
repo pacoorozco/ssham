@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SSHAM
+        psr4_prefix: SSHAM
+        src_path: app
