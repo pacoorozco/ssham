@@ -1,5 +1,9 @@
 # SSH Access Manager Web Interface
 
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacooorozco/ssham)
+[![GitHub license](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
+
 ## Description
 
 [SSH Access Manager](http://sourceforge.net/projects/ssham/) is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
@@ -74,7 +78,7 @@ $ php artisan serve --port=4000`
 
 ## License
 
-This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) and it's released as free software under [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html).
+This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) and it's released as free software under the [MIT License](https://github.com/pacoorozco/ssham/blob/master/LICENSE).
 
 ## Additional information
 Please consult additional interfaces on [Sourceforge](http://sourceforge.net/projects/ssham/).
