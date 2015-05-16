@@ -1,5 +1,9 @@
 # SSH Access Manager Web Interface
 
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacooorozco/ssham)
+[![GitHub license](https://img.shields.io/github/license/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
+
 ## Description
 
 [SSH Access Manager](http://sourceforge.net/projects/ssham/) is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
