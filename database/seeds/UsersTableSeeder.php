@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Database\Seeder;
+
+
 class UsersTableSeeder extends Seeder
 {
 
@@ -16,26 +19,16 @@ class UsersTableSeeder extends Seeder
             array(
                 'username' => 'admin',
                 'email' => 'admin@example.org',
-                'password' => 'admin',
+                'type' => 'local',
+                'password' => bcrypt('admin'),
                 'role' => 'admin',
             )
         );
 
         foreach ($users as $userData) {
-            $user = new User;
-            $user->username = $userData['username'];
-            $user->email = $userData['email'];
-            $user->password = $userData['password'];
-            $user->password_confirmation = $userData['password'];
-
-            if (!$user->save()) {
-                Log::info('Unable to create user ' . $user->username, (array) $user->errors());
-                continue;
-            }
-
+            $user = User::create(array_except($userData, array('role')));
             $role = Role::where('name', $userData['role'])->get()->first();
             $user->attachRole($role);
-
             Log::info('Created user ' . $user->username);
         }
     }

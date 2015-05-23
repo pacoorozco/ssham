@@ -136,11 +136,12 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 
-                /*
-                 * Third party Service Providers...
-                 */
-                'yajra\Datatables\DatatablesServiceProvider',
-                'Zizaco\Entrust\EntrustServiceProvider',
+        /*
+         * Vendor Service Providers...
+         */
+        'yajra\Datatables\DatatablesServiceProvider',
+        'Zizaco\Entrust\EntrustServiceProvider',
+        'Collective\Html\HtmlServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -199,11 +200,13 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 
-                /*
-                 * Third party Aliases
-                 */
-                'Datatables' => 'yajra\Datatables\Datatables',
-                'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+        /*
+         * Vendor Aliases
+         */
+        'Datatables' => 'yajra\Datatables\Datatables',
+        'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+        'Form' => 'Collective\Html\FormFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
 
 	],
 

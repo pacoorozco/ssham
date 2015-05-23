@@ -17,11 +17,12 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->string('name')->unique();
 			$table->string('email')->unique();
+			$table->enum('type', array('local', 'ldap'));
 			$table->string('password', 60);
 			$table->rememberToken();
-                        $table->text('publicKey')->nullable();
-                        $table->string('fingerprint')->nullable();
-                        $table->boolean('enabled')->default('1');
+			$table->text('publicKey')->nullable();
+			$table->string('fingerprint')->nullable();
+			$table->boolean('enabled')->default('1');
 			$table->timestamps();
 		});
 	}

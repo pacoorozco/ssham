@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d1a064911777870c16661db4deb5dbcc",
+    "hash": "734113a5bc121ce767471851e8245eea",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -533,6 +533,56 @@
                 "laravel"
             ],
             "time": "2015-05-11 22:15:00"
+        },
+        {
+            "name": "laravelcollective/html",
+            "version": "v5.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/html.git",
+                "reference": "c55fda58b1a9a1b58bd04f97e0fb9ebc238a0a94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/c55fda58b1a9a1b58bd04f97e0fb9ebc238a0a94",
+                "reference": "c55fda58b1a9a1b58bd04f97e0fb9ebc238a0a94",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "~5.0",
+                "illuminate/routing": "~5.0",
+                "illuminate/session": "~5.0",
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                },
+                {
+                    "name": "Adam Engebretson",
+                    "email": "adam@laravelcollective.com"
+                }
+            ],
+            "time": "2015-05-06 14:23:37"
         },
         {
             "name": "league/flysystem",
@@ -1752,16 +1802,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v5.1.1",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "78f53c8e15dbc9cb35e9807eb476470d7868711d"
+                "reference": "f9926b81f23b44a6794d7aac51d88446080ee3da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/78f53c8e15dbc9cb35e9807eb476470d7868711d",
-                "reference": "78f53c8e15dbc9cb35e9807eb476470d7868711d",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/f9926b81f23b44a6794d7aac51d88446080ee3da",
+                "reference": "f9926b81f23b44a6794d7aac51d88446080ee3da",
                 "shasum": ""
             },
             "require": {
@@ -1804,7 +1854,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2015-05-15 10:02:01"
+            "time": "2015-05-21 03:02:26"
         },
         {
             "name": "zizaco/entrust",

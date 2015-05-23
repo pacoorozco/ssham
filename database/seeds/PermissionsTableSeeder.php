@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Database\Seeder;
+use SSHAM\Permission;
+
 class PermissionsTableSeeder extends Seeder
 {
 

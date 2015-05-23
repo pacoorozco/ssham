@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Database\Seeder;
+use SSHAM\Permission;
+use SSHAM\Role;
+
 class RolesTableSeeder extends Seeder
 {
 
