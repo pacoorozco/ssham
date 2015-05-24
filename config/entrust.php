@@ -1,3 +1,4 @@
+<?php
 
 return [
 	'permission' => 'SSHAM\Permission',

@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use SSHAM\Role;
+use SSHAM\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class UsersTableSeeder extends Seeder
 
         $users = array(
             array(
-                'username' => 'admin',
+                'name' => 'admin',
                 'email' => 'admin@example.org',
                 'type' => 'local',
                 'password' => bcrypt('admin'),
