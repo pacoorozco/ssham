@@ -13,6 +13,7 @@ return [
 	|
 	*/
 
+	"error"				   => "<strong>Whoops!</strong> There were some problems with your input.",
 	"accepted"             => "The :attribute must be accepted.",
 	"active_url"           => "The :attribute is not a valid URL.",
 	"after"                => "The :attribute must be a date after :date.",

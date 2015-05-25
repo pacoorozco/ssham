@@ -1,61 +1,48 @@
-@extends('app')
+@extends('layouts/login')
 
+{{-- Content --}}
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+<!-- start: LOGIN BOX -->
+<div class="box-login">
+    <h3>{!! Lang::get('auth.sign_title') !!}</h3>
+    <p>
+        {!! Lang::get('auth.sign_instructions') !!}
+    </p>
 
-					{!! Form::open(array('url' => 'auth/login', 'class' => 'form-horizontal', 'role' => 'form')) !!}
+    {!! Form::open(array('url' => array('auth/login'), 'class' => 'form-login')) !!}
 
-						<div class="form-group">
-							{!! Form::label('name', 'Username', array('class' => 'col-md-4 control-label')) !!}
-							<div class="col-md-6">
-								{!! Form::text('name', null, array('class' => 'form-control')) !!}
-							</div>
-						</div>
+    <!-- Notifications -->
+    @include('partials/notifications')
+    <!-- ./ notifications -->
 
-						<div class="form-group">
-							{!! Form::label('password', 'Password', array('class' => 'col-md-4 control-label')) !!}
-							<div class="col-md-6">
-								{!! Form::password('password', array('class' => 'form-control')) !!}
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										{!! Form::checkbox('remember', null) !!}
-										Remember Me
-									</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								{!! Form::submit('Login', array('class' => 'btn btn-primary')) !!}
-							</div>
-						</div>
-
-					{!! Form::close() !!}
-
-				</div>
-			</div>
-		</div>
-	</div>
+    <fieldset>
+        <div class="form-group">
+            <span class="input-icon">
+                {!! Form::text('name', null, array(
+                            'class' => 'form-control',
+                            'placeholder' => Lang::get('models/user.name')
+                            )) !!}
+                <i class="fa fa-user"></i> </span>
+        </div>
+        <div class="form-group form-actions">
+            <span class="input-icon">
+                {!! Form::password('password', array(
+                            'class' => 'form-control password',
+                            'placeholder' => Lang::get('models/user.password')
+                            )) !!}
+                <i class="fa fa-lock"></i> </span>
+        </div>
+        <div class="form-actions">
+            <label for="remember" class="checkbox-inline">
+                {!! Form::checkbox('remember', '1', false, array('class' => 'grey remember')) !!}
+                {!! Lang::get('auth.remember_me') !!}
+            </label>
+            <button type="submit" class="btn btn-bricky pull-right">
+                {!! Lang::get('button.submit') !!}
+            </button>
+        </div>
+    </fieldset>
+    {!! Form::close() !!}
 </div>
-@endsection
+<!-- end: LOGIN BOX -->
+@stop

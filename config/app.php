@@ -52,7 +52,7 @@ return [
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => env('APP_LOCALE', 'en'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -206,7 +206,7 @@ return [
         'Datatables' => 'yajra\Datatables\Datatables',
         'Entrust' => 'Zizaco\Entrust\EntrustFacade',
         'Form' => 'Collective\Html\FormFacade',
-        'Html' => 'Collective\Html\HtmlFacade',
+        'HTML' => 'Collective\Html\HtmlFacade',
 
 	],
 

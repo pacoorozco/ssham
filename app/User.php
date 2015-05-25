@@ -29,7 +29,7 @@ class User extends Model implements AuthenticatableContract {
             'password',
             'publicKey',
             'fingerprint',
-            'enabled'
+            'active'
         ];
 
 	/**
