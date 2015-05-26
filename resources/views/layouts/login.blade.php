@@ -3,7 +3,7 @@
 <!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
 <!--[if !IE]><!-->
 <html lang="en" class="no-js">
-<!--<![endif]-->
+    <!--<![endif]-->
     <!-- start: HEAD -->
     <head>
         <title>@yield('title', Lang::get('auth.login'))</title>
@@ -35,15 +35,15 @@
     <!-- end: HEAD -->
     <!-- start: BODY -->
     <body class="login example1">
-		<div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-			<div class="logo">SSHAM v2</div>
-                        @yield('content')
-			<!-- start: COPYRIGHT -->
-			<div class="copyright">
-				{!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', 'SSHAM v2', array('rel' => 'nofollow')) !!}
-			</div>
-			<!-- end: COPYRIGHT -->
-		</div>
+        <div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+            <div class="logo">SSHAM v2</div>
+            @yield('content')
+            <!-- start: COPYRIGHT -->
+            <div class="copyright">
+                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', 'SSHAM v2', array('rel' => 'nofollow')) !!}
+            </div>
+            <!-- end: COPYRIGHT -->
+        </div>
         <!-- start: MAIN JAVASCRIPTS -->
         <!--[if lt IE 9]>
         {!! HTML::script(asset('plugins/respond.min.js')) !!}

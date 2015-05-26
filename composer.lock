@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "734113a5bc121ce767471851e8245eea",
+    "hash": "71ea57caef7852a75083bef1c025e4f1",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1750,6 +1750,54 @@
             "time": "2015-05-01 14:14:24"
         },
         {
+            "name": "torann/registry",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Torann/laravel-registry.git",
+                "reference": "9d366fb1c0602b130324aec2a346dc4af7d19147"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Torann/laravel-registry/zipball/9d366fb1c0602b130324aec2a346dc4af7d19147",
+                "reference": "9d366fb1c0602b130324aec2a346dc4af7d19147",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Torann\\Registry\\": "src/Torann/Registry"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Stainback",
+                    "email": "daniel@lyften.com"
+                }
+            ],
+            "description": "Laravel registry manager for application configurations",
+            "keywords": [
+                "Settings",
+                "configuration",
+                "laravel",
+                "registry"
+            ],
+            "time": "2015-03-11 19:37:02"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v1.1.0",
             "source": {
@@ -3042,7 +3090,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "zizaco/entrust": 20
+        "zizaco/entrust": 20,
+        "torann/registry": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

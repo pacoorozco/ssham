@@ -1,0 +1,38 @@
+@extends('layouts.master')
+
+{{-- Web site Title --}}
+@section('title')
+	{{ $title }} :: @parent
+@stop
+
+{{-- Content Header --}}
+@section('header')
+<h1>
+    {{ $title }} <small>add a new user</small>
+</h1>
+@stop
+
+{{-- Breadcrumbs --}}
+@section('breadcrumbs')
+<li>
+    <i class="clip-bubbles-3"></i>
+    <a href="{{-- route('users.index') --}}">
+        {!! Lang::get('admin/site.users') !!}
+    </a>
+</li>
+<li class="active">
+    {!! Lang::get('admin/user/title.create_a_new_user') !!}
+</li>
+@stop
+
+
+{{-- Content --}}
+@section('content')
+
+<!-- Notifications -->
+@include('partials/notifications')
+<!-- ./ notifications -->
+
+@include('user/_form', compact()
+
+@stop
