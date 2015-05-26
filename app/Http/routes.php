@@ -19,7 +19,9 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 ]);
 
-Route::resource('user', 'UserController');
+Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
+Route::resource('users', 'UserController');
+
 
 Route::get('settings', function() {
     

@@ -5,6 +5,8 @@ use SSHAM\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use SSHAM\Http\Requests\UserForm;
+use SSHAM\User;
+use yajra\Datatables\Datatables;
 
 class UserController extends Controller {
 
@@ -18,24 +20,9 @@ class UserController extends Controller {
             // Title
             $title = \Lang::get('user/title.user_management');
 
-            /*
-            $table = Datatable::table()             
-            ->addColumn(
-                Lang::get('admin/user/table.fullname'),
-                Lang::get('admin/user/table.username'),
-                Lang::get('admin/user/table.email'),
-                Lang::get('admin/user/table.activated'),
-                Lang::get('admin/user/table.created_at'),
-                Lang::get('table.actions')
-                )
-            ->setUrl(route('admin.users.data'))
-            ->noScript();
-            */
-            $table = '';
-
             // The list of users will be filled later using the JSON Data method
             // below - to populate the DataTables table.
-            return view('user/index', compact('title', 'table'));
+            return view('user/index', compact('title'));
 	}
 
 	/**
@@ -105,4 +92,13 @@ class UserController extends Controller {
 		//
 	}
 
+        public function data(Datatables $datatable)
+        {
+            $users = User::select(array(
+                 'name', 'type', 'fingerprint', 'active'
+            ));
+
+            return $datatable->usingEloquent($users)
+                ->make(true);
+        }
 }
