@@ -21,7 +21,7 @@
 @section('breadcrumbs')
 <li>
     <i class="clip-bubbles-3"></i>
-    <a href="{{-- URL::route('admin.users.index') --}}">
+    <a href="{!! route('users.index') !!}">
         {!! Lang::get('site.users') !!}
     </a>
 </li>
@@ -40,7 +40,7 @@
 <!-- actions -->
 <div class="row">
     <div class="col-md-12 space20">
-        <a class="btn btn-green add-row" href="{{-- URL::to('admin/users/create') --}}">
+        <a class="btn btn-green add-row" href="{!! route('users.create') !!}">
             <i class="fa fa-plus"></i> {!! Lang::get('user/title.create_a_new_user') !!}
         </a>
     </div>
@@ -52,10 +52,11 @@
         <table id="users" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-3">{!! Lang::get('users/table.username') !!}</th>
-                <th class="col-md-3">{!! Lang::get('users/table.type') !!}</th>
-                <th class="col-md-3">{!! Lang::get('users/table.fingerprint') !!}</th>
-                <th class="col-md-3">{!! Lang::get('users/table.active') !!}</th>
+                <th class="col-md-3">{!! Lang::get('user/table.name') !!}</th>
+                <th class="col-md-3">{!! Lang::get('user/table.type') !!}</th>
+                <th class="col-md-3">{!! Lang::get('user/table.fingerprint') !!}</th>
+                <th class="col-md-3">{!! Lang::get('user/table.active') !!}</th>
+                <th class="col-md-3">{!! Lang::get('user/table.actions') !!}</th>
             </tr>
         </thead>
         </table>
@@ -71,14 +72,18 @@
 <script>
 $(document).ready(function() {
     oTable = $('#users').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! Lang::get('site.datatables_lang') !!}.json"
+        },
         "processing": true,
         "serverSide": true,
         "ajax": "{!! route('users.data') !!}",
         "columns": [
-            {data: 'name', name: 'name'},
-            {data: 'type', name: 'type'},
-            {data: 'fingerprint', name: 'fingerprint'},
-            {data: 'active', name: 'active'}
+            {data: "name"},
+            {data: "type"},
+            {data: "fingerprint", "orderable": false},
+            {data: "active"},
+            {data: "actions", "orderable": false, "searchable": false}
         ]
     });
 });
