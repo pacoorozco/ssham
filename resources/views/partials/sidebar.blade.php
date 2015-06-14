@@ -7,19 +7,34 @@
     <!-- end: MAIN MENU TOGGLER BUTTON -->
     <!-- start: MAIN NAVIGATION MENU -->
     <ul class="main-navigation-menu">
-        <li {{ (Request::is('admin') ? ' class="active"' : '') }}>
-            <a href="#"><i class="clip-home-3"></i>
-                <span class="title"> {!! Lang::get('site.home') !!} </span><span class="selected"></span>
+        <li {!! Request::is('home') ? ' class="active"' : '' !!}>
+            <a href="{!! route('dashboard') !!}"><i class="clip-home-3"></i>
+                <span class="title"> {!! Lang::get('site.home') !!} </span>
+                {!! Request::is('home') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
-        <li {{ (Request::is('admin/users*') ? ' class="active"' : '') }}>
-            <a href="#"><i class="clip-users"></i>
+        <li {!! Request::is('users*') ? ' class="active"' : '' !!}>
+            <a href="{!! route('users.index') !!}"><i class="clip-users"></i>
                 <span class="title"> {{ Lang::get('site.users') }} </span>
+                {!! Request::is('users*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
-        <li {{ (Request::is('admin/roles*') ? ' class="active"' : '') }}>
-            <a href="#"><i class="fa fa-flag-checkered"></i>
+        <li {!! Request::is('hosts*') ? ' class="active"' : '' !!}>
+            <a href="#"><i class="fa fa-tasks"></i>
                 <span class="title"> {{ Lang::get('site.hosts') }} </span>
+                {!! Request::is('hosts*') ? '<span class="selected"></span>' : '' !!}
+            </a>
+        </li>
+        <li {!! Request::is('access*') ? ' class="active"' : '' !!}>
+            <a href="#"><i class="clip-database"></i>
+                <span class="title"> {{ Lang::get('site.accesses') }} </span>
+                {!! Request::is('access*') ? '<span class="selected"></span>' : '' !!}
+            </a>
+        </li>
+        <li {!! Request::is('settings*') ? ' class="active"' : '' !!}>
+            <a href="{!! route('settings.index') !!}"><i class="clip-settings"></i>
+                <span class="title"> {{ Lang::get('site.settings') }} </span>
+                {!! Request::is('settings*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
         <li></li>
