@@ -19,12 +19,19 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 ]);
 
+/**
+ * ------------------------------------------
+ * Users
+ * ------------------------------------------
+ */
 Route::model('user', 'User');
-Route::resource('users', 'UserController');
+// Datatables Ajax route.
 Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
+// Delete confirmation route - uses the show/details view.
 Route::get('users/{users}/delete', ['as' => 'users.delete', 'uses' => 'UserController@delete']);
-
-
+// Pre-baked resource controller actions for index, create, store, 
+// show, edit, update, destroy
+Route::resource('users', 'UserController');
 
 Route::get('settings', ['as' => 'settings.index', 'uses' => function() {
     

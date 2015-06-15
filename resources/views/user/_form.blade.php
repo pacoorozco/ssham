@@ -16,7 +16,7 @@
     <div class="col-xs-6">
 
         <!-- username -->
-        <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
+        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
             {!! Form::label('name', Lang::get('user/model.name'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {{-- TODO: If $user->username == 'admin' this input text must be disabled --}}
@@ -27,11 +27,11 @@
         <!-- ./ username -->
         
         <!-- auth type -->
-        <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
+        <div class="form-group {{ $errors->has('type') ? 'has-error' : '' }}">
             {!! Form::label('type', Lang::get('user/model.type'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::select('type', array('local' => 'Local', 'external' => 'External'), null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('name', ':message') }}</span>
+                <span class="help-block">{{ $errors->first('type', ':message') }}</span>
             </div>
         </div>        
         <!-- ./ auth type -->
@@ -60,11 +60,11 @@
     <div class="col-xs-6">
 
         <!-- Activation Status -->
-        <div class="form-group {{ $errors->has('activated') || $errors->has('confirm') ? 'has-error' : '' }}">
-            {!! Form::label('confirm', Lang::get('user/model.confirm'), array('class' => 'control-label')) !!}
+        <div class="form-group {{ $errors->has('active') ? 'has-error' : '' }}">
+            {!! Form::label('active', Lang::get('user/model.active'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('confirm', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('confirm', ':message') }}</span>
+                {!! Form::select('active', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('active', ':message') }}</span>
             </div>
         </div>
         <!-- ./ activation status -->

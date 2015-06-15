@@ -4,7 +4,7 @@ namespace SSHAM\Http\Requests;
 
 use SSHAM\Http\Requests\Request;
 
-class UserForm extends Request
+class UserRequest extends Request
 {
 
     /**
@@ -25,13 +25,10 @@ class UserForm extends Request
     public function rules()
     {
         return [
-            'name'          => 'required',
-            'email'         => 'required',
+            'name'          => 'required|min:3',
             'type'          => 'required',
-            'password'      => '',
-            'publicKey'     => 'required',
-            'fingerprint'   => 'required',
-            'active'        => 'required',
+            'password'      => 'required|confirmed|min:8',
+            'active'        => 'required|boolean',
         ];
     }
 

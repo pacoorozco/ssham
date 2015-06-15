@@ -2,10 +2,8 @@
 
 namespace SSHAM\Http\Controllers;
 
-use SSHAM\Http\Requests;
 use SSHAM\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use SSHAM\Http\Requests\UserForm;
+use SSHAM\Http\Requests\UserRequest;
 use SSHAM\User;
 use yajra\Datatables\Datatables;
 
@@ -20,7 +18,10 @@ class UserController extends Controller
 
     /**
      * Create a new controller instance.
-     *
+     * 
+     * Inject the models.
+     * @param User       $user
+     * 
      * @return void
      */
     public function __construct(User $user)
@@ -62,16 +63,13 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function store(UserForm $userForm)
+    public function store(UserRequest $request)
     {
-        $this->user->name = Requests\Request::input('name');
-        $this->user->type = Requests\Request::input('type');
-        $this->user->fingerprint = Requests\Request::input('fingerprint');
-        $this->user->save();
+        $this->user = User::create($request->all());
         
         if ($this->user->id) {
             return redirect()->route('users.index')
-                ->with('success', Lang::get('user/messages.create.success'));
+                ->with('success', \Lang::get('user/messages.create.success'));
         } else {
             // Get validation errors (see Ardent package)
             $error = $this->user->errors()->all();
@@ -88,9 +86,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        // Title
+        $title = \Lang::get('user/title.user_show');
+
+        return view('user.show', compact('user', 'title'));
     }
 
     /**
@@ -99,9 +100,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        // Title
+        $title = \Lang::get('user/title.user_update');
+
+        return view('user.edit', compact('user', 'title'));
     }
 
     /**
@@ -110,9 +114,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        $user->fill($request->all());
+        $user->save();
+        
+        return redirect()->route('user.edit', [$user->id]);
     }
 
     /**
@@ -161,5 +168,4 @@ class UserController extends Controller
                 ->removeColumn('id')
                 ->make(true);
     }
-
 }
