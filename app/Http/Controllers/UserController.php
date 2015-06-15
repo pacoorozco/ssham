@@ -11,15 +11,22 @@ use yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
+    
+    /**
+     * User Model
+     * @var User
+     */
+    protected $user;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->middleware('auth');
+        $this->user = $user;
     }
 
     /**
@@ -45,9 +52,9 @@ class UserController extends Controller
     public function create()
     {
         // Title
-        $title = Lang::get('user/title.create_a_new_user');
+        $title = \Lang::get('user/title.create_a_new_user');
 
-        return view('user.create', compact($title));
+        return view('user.create', compact('title'));
     }
 
     /**
@@ -55,9 +62,24 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(UserForm $userForm)
     {
-        //
+        $this->user->name = Requests\Request::input('name');
+        $this->user->type = Requests\Request::input('type');
+        $this->user->fingerprint = Requests\Request::input('fingerprint');
+        $this->user->save();
+        
+        if ($this->user->id) {
+            return redirect()->route('users.index')
+                ->with('success', Lang::get('user/messages.create.success'));
+        } else {
+            // Get validation errors (see Ardent package)
+            $error = $this->user->errors()->all();
+
+            return redirect()->route('users.create')
+                ->withInput()
+                ->with('error', $error);
+        }
     }
 
     /**

@@ -57,9 +57,6 @@
                 <div class="navbar-tools">
                     <!-- start: TOP NAVIGATION MENU -->
                     <ul class="nav navbar-right">
-                        <!-- start: NOTIFICATION DROPDOWN -->
-                        
-                        <!-- end: NOTIFICATION DROPDOWN -->
                         <!-- start: USER DROPDOWN -->
                         @if (Auth::guest())
                         <li><a href="{{ url('/auth/login') }}">{!! Lang::get('auth.login') !!}</a></li>
@@ -72,7 +69,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="/auth/logout">
                                         <i class="clip-exit"></i>
                                         &nbsp;{!! Lang::get('auth.logout') !!}
                                     </a>
@@ -86,32 +83,6 @@
                 </div>
             </div>
             <!-- end: TOP NAVIGATION CONTAINER -->
-            <!-- start: PAGE TITLE & BREADCRUMB -->
-                            <ol class="breadcrumb">
-                                {{--<li>
-                                    <i class="clip-home-3"></i>
-                                    <a href="#">
-                                        Home
-                                    </a>
-                                </li>
-                                <li class="active">
-                                    Dashboard
-                                </li>--}}
-                                <li class="search-box">
-                                    <form class="sidebar-search">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="Start Searching...">
-                                            <button class="submit">
-                                                <i class="clip-search-3"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </li>
-                            </ol>
-
-                            <!-- end: PAGE TITLE & BREADCRUMB -->
-
-
         </div>
         <!-- end: HEADER -->
         <!-- start: MAIN CONTAINER -->
@@ -120,7 +91,7 @@
                 <!-- start: SIDEBAR -->
                 @include('partials.sidebar')
                 <!-- end: SIDEBAR -->
-            </div>
+            </div>      
             <!-- start: PAGE -->
             <div class="main-content">
                 <div class="container">

@@ -16,12 +16,12 @@
 @section('breadcrumbs')
 <li>
     <i class="clip-bubbles-3"></i>
-    <a href="{{-- route('users.index') --}}">
-        {!! Lang::get('admin/site.users') !!}
+    <a href="{!! route('users.index') !!}">
+        {!! Lang::get('site.users') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('admin/user/title.create_a_new_user') !!}
+    {!! Lang::get('user/title.create_a_new_user') !!}
 </li>
 @stop
 
@@ -33,6 +33,6 @@
 @include('partials/notifications')
 <!-- ./ notifications -->
 
-@include('user/_form', compact()
+@include('user/_form')
 
 @stop

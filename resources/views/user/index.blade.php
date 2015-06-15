@@ -52,11 +52,11 @@
         <table id="users" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-3">{!! Lang::get('user/table.name') !!}</th>
-                <th class="col-md-3">{!! Lang::get('user/table.type') !!}</th>
-                <th class="col-md-3">{!! Lang::get('user/table.fingerprint') !!}</th>
-                <th class="col-md-3">{!! Lang::get('user/table.active') !!}</th>
-                <th class="col-md-3">{!! Lang::get('user/table.actions') !!}</th>
+                <th class="col-md-4">{!! Lang::get('user/table.name') !!}</th>
+                <th class="col-md-1">{!! Lang::get('user/table.type') !!}</th>
+                <th class="col-md-4">{!! Lang::get('user/table.fingerprint') !!}</th>
+                <th class="col-md-1">{!! Lang::get('user/table.active') !!}</th>
+                <th class="col-md-2">{!! Lang::get('user/table.actions') !!}</th>
             </tr>
         </thead>
         </table>

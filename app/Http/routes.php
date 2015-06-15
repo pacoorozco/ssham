@@ -19,10 +19,11 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 ]);
 
-
+Route::model('user', 'User');
+Route::resource('users', 'UserController');
 Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
 Route::get('users/{users}/delete', ['as' => 'users.delete', 'uses' => 'UserController@delete']);
-Route::resource('users', 'UserController');
+
 
 
 Route::get('settings', function() {
