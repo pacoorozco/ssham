@@ -13,7 +13,7 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('home', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -26,7 +26,7 @@ Route::get('users/{users}/delete', ['as' => 'users.delete', 'uses' => 'UserContr
 
 
 
-Route::get('settings', function() {
+Route::get('settings', ['as' => 'settings.index', 'uses' => function() {
     
     $settings = array(
         /*
@@ -109,4 +109,4 @@ Route::get('settings', function() {
     Registry::store($settings);
     
     return 'Settings have been updated.';
-});
+}]);

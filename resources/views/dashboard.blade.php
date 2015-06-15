@@ -11,7 +11,7 @@
             <div class="content">
                 {!! Lang::get('dashboard.manage_users_description') !!}
             </div>
-            <a class="view-more" href="#">
+            <a class="view-more" href="{!! route('users.index') !!}">
                 {!! Lang::get('button.view_more') !!}
             </a>
         </div>
@@ -19,7 +19,7 @@
     <div class="col-sm-4">
         <div class="core-box">
             <div class="heading">
-                <i class="clip-clip circle-icon circle-teal"></i>
+                <i class="fa fa-tasks circle-icon circle-teal"></i>
                 <h2>{!! Lang::get('dashboard.manage_hosts') !!}</h2>
             </div>
             <div class="content">
