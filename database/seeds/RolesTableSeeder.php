@@ -18,14 +18,14 @@ class RolesTableSeeder extends Seeder
 
         $roles = array(
             array(
-                'name' => 'admin',
+                'name' => 'admins',
                 'description' => 'Administrative user',
                 'abilities' => array(
                     'manage_users', 'manage_hosts', 'manage_permissions', 'manage_admins', 'can_access'
                 ),
             ),
             array(
-                'name' => 'user',
+                'name' => 'users',
                 'description' => 'Regular user',
                 'abilities' => array(),
             )

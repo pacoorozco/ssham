@@ -1,9 +1,11 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 class EntrustSetupTables extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -68,4 +70,5 @@ class EntrustSetupTables extends Migration
         Schema::drop('role_user');
         Schema::drop('roles');
     }
+
 }
