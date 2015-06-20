@@ -1,49 +1,52 @@
-<?php namespace SSHAM;
+<?php
+
+namespace SSHAM;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Model implements AuthenticatableContract {
+class User extends Model implements AuthenticatableContract
+{
 
-	use Authenticatable, EntrustUserTrait;
+    use Authenticatable,
+        EntrustUserTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-            'name',
-            'email',
-            'type',
-            'password',
-            'publicKey',
-            'fingerprint',
-            'active'
-        ];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'type',
+        'password',
+        'publicKey',
+        'fingerprint',
+        'active'
+    ];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [
-            'password',
-            'remember_token'
-        ];
-        
-        public function groups() {
-            return $this->belongsToMany('SSHAM\Usergroup');
-        }
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
 
+    public function groups()
+    {
+        return $this->belongsToMany('SSHAM\Usergroup');
+    }
 }

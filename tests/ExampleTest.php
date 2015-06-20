@@ -1,17 +1,21 @@
 <?php
 
-class ExampleTest extends TestCase {
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-	/**
-	 * A basic functional test example.
-	 *
-	 * @return void
-	 */
-	public function testBasicExample()
-	{
-		$response = $this->call('GET', '/');
+class ExampleTest extends TestCase
+{
 
-		$this->assertEquals(200, $response->getStatusCode());
-	}
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this->visit('/')
+            ->see('Laravel 5');
+    }
 
 }
