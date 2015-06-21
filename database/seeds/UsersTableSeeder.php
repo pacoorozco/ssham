@@ -23,6 +23,13 @@ class UsersTableSeeder extends Seeder
                 'type' => 'local',
                 'password' => bcrypt('admin'),
                 'role' => 'admins',
+            ),
+            array(
+                'name' => 'user',
+                'email' => 'user@example.org',
+                'type' => 'local',
+                'password' => bcrypt('user'),
+                'role' => 'users',
             )
         );
 

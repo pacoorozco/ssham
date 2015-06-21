@@ -20,7 +20,7 @@ class Host extends Model {
             'hostname',
             'username',
             'type',
-            'keyHash',
+            'keyhash',
             'synced',
             'enabled'
         ];
