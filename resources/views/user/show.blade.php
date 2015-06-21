@@ -1,14 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.master')
 
 {{-- Web site Title --}}
 @section('title')
-	{{{ $title }}} :: @parent
+	{!! Lang::get('user/title.user_show') !!} :: @parent
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{{ $title }}} <small>{{{ $user->username }}}</small>
+    {!! Lang::get('user/title.user_show') !!} <small>{{ $user->name }}</small>
 </h1>
 @stop
 
@@ -16,12 +16,12 @@
 @section('breadcrumbs')
 <li>
     <i class="clip-bubbles-3"></i>
-    <a href="{{ URL::route('admin.users.index') }}">
-        {{ Lang::get('admin/site.users') }}
+    <a href="{!! route('users.index') !!}">
+        {!! Lang::get('site.users') !!}
     </a>
 </li>
 <li class="active">
-    {{ Lang::get('admin/user/title.user_show') }}
+    {!! Lang::get('user/title.user_show') !!}
 </li>
 @stop
 
@@ -29,9 +29,9 @@
 @section('content')
 
 <!-- Notifications -->
-@include('notifications')
+@include('partials.notifications')
 <!-- ./ notifications -->
 
-@include('admin/user/_details', compact('roles', 'selectedRoles'))
+@include('user._details', ['action' => 'show'])
 
 @stop

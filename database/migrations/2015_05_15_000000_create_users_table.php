@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->enum('type', ['local', 'external']);
             $table->string('password', 60);
             $table->rememberToken();
-            $table->text('publicKey')->nullable();
+            $table->text('publickey')->nullable();
             $table->string('fingerprint')->nullable();
             $table->boolean('active')->default('1');
             $table->timestamps();

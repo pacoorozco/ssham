@@ -128,6 +128,7 @@ return [
         'Zizaco\Entrust\EntrustServiceProvider',
         'Collective\Html\HtmlServiceProvider',
         'Torann\Registry\RegistryServiceProvider',
+        'Laracasts\Flash\FlashServiceProvider',
         /*
          * Application Service Providers...
          */
@@ -187,5 +188,6 @@ return [
         'Form' => 'Collective\Html\FormFacade',
         'HTML' => 'Collective\Html\HtmlFacade',
         'Registry' => 'Torann\Registry\Facades\Registry',
+        'Flash' => 'Laracasts\Flash\Flash',
     ],
 ];

@@ -15,8 +15,9 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
+Route::controller('auth', 'Auth\AuthController', [
+    'getLogin' => 'login',
+    'getLogout' => 'logout',
 ]);
 
 /**
@@ -24,7 +25,7 @@ Route::controllers([
  * Users
  * ------------------------------------------
  */
-Route::model('user', 'User');
+Route::model('users', 'SSHAM\User');
 // Datatables Ajax route.
 Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
 // Delete confirmation route - uses the show/details view.

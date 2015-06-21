@@ -1,14 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.master')
 
 {{-- Web site Title --}}
 @section('title')
-	{{{ $title }}} :: @parent
+	{!! Lang::get('user/title.user_update') !!} :: @parent
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{{ $title }}} <small>{{{ $user->username }}}</small>
+    {!! Lang::get('user/title.user_update') !!} <small>{{ $user->name }}</small>
 </h1>
 @stop
 
@@ -16,12 +16,12 @@
 @section('breadcrumbs')
 <li>
     <i class="clip-bubbles-3"></i>
-    <a href="{{ URL::route('admin.users.index') }}">
-        {{ Lang::get('admin/site.users') }}
+    <a href="{!! route('users.index') !!}">
+        {!! Lang::get('site.users') !!}
     </a>
 </li>
 <li class="active">
-    {{ Lang::get('admin/user/title.edit') }}
+    {!! Lang::get('user/title.user_update') !!}
 </li>
 @stop
 
@@ -29,9 +29,11 @@
 @section('content')
 
 <!-- Notifications -->
-@include('notifications')
+@include('partials.notifications')
 <!-- ./ notifications -->
 
-@include('admin/user/_form', compact('user'))
+{!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) !!}
+@include('user._form')
+{!! Form::close() !!}
 
 @stop

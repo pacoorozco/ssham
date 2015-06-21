@@ -6,28 +6,19 @@ use SSHAM\Http\Controllers\Controller;
 use SSHAM\Http\Requests\UserRequest;
 use SSHAM\User;
 use yajra\Datatables\Datatables;
+use Symfony\Component\Process\Process;
 
 class UserController extends Controller
 {
-    
-    /**
-     * User Model
-     * @var User
-     */
-    protected $user;
 
     /**
      * Create a new controller instance.
      * 
-     * Inject the models.
-     * @param User       $user
-     * 
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->user = $user;
     }
 
     /**
@@ -37,12 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Title
-        $title = \Lang::get('user/title.user_management');
-
-        // The list of users will be filled later using the JSON Data method
-        // below - to populate the DataTables table.
-        return view('user/index', compact('title'));
+        return view('user.index');
     }
 
     /**
@@ -52,107 +38,133 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Title
-        $title = \Lang::get('user/title.create_a_new_user');
-
-        return view('user.create', compact('title'));
+        return view('user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param UserRequest $request
      * @return Response
      */
     public function store(UserRequest $request)
     {
-        $this->user = User::create($request->all());
-        
-        if ($this->user->id) {
-            return redirect()->route('users.index')
-                ->with('success', \Lang::get('user/messages.create.success'));
-        } else {
-            // Get validation errors (see Ardent package)
-            $error = $this->user->errors()->all();
+        $user = new User($request->all());
 
-            return redirect()->route('users.create')
-                ->withInput()
-                ->with('error', $error);
+        if (empty($request->publickey)) {
+
+            $rsa = new \Crypt_RSA();
+            $keypair = $rsa->createKey();
+
+            $user->publickey = $keypair['publickey'];
+            \Illuminate\Support\Facades\Storage::put('hola323.pub', $keypair['publickey']);
+            $fingerprint = substr(chunk_split(md5($keypair['publickey']), 2, ':'), 0, -1);
+            dd($fingerprint);
+
+//
+//
+//            $private_key = str_random();
+//            $public_key = $private_key . '.pub';
+//
+//
+//            $command = '/usr/bin/ssh-keygen -q -C ' . $request->name .' -f ' . storage_path() .'/app/' . $private_key . ' -t rsa -P ' . $request->name;
+//            $process = new Process($command);
+//            $process->run();
+//
+//            // executes after the command finishes
+//            if (!$process->isSuccessful()) {
+//                throw new \RuntimeException($process->getErrorOutput());
+//            }
+//
+//            $command = '/usr/bin/ssh-keygen -l -f ' . storage_path() .'/app/' . $public_key . ' | cut -d" " -f2';
+//            $process = new Process($command);
+//            $process->run();
+//
+//            // executes after the command finishes
+//            if (!$process->isSuccessful()) {
+//                throw new \RuntimeException($process->getErrorOutput());
+//            }
+//
+//            $user->fingerprint = $process->getOutput();
+//
+//            $contents = \Illuminate\Support\Facades\Storage::get($public_key);
+//            $user->publickey = $contents;
         }
+        $user->save();
+
+        flash()->success(\Lang::get('user/messages.create.success'));
+        
+        return redirect()->route('users.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param User $user
      * @return Response
      */
     public function show(User $user)
     {
-        // Title
-        $title = \Lang::get('user/title.user_show');
-
-        return view('user.show', compact('user', 'title'));
+        return view('user.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return Response
      */
     public function edit(User $user)
     {
-        // Title
-        $title = \Lang::get('user/title.user_update');
-
-        return view('user.edit', compact('user', 'title'));
+        return view('user.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  User $user
+     * @param UserRequest $request
      * @return Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(User $user, UserRequest $request)
     {
-        $user->fill($request->all());
-        $user->save();
-        
-        return redirect()->route('user.edit', [$user->id]);
+        $user->update($request->all());
+
+        flash()->success(\Lang::get('user/messages.edit.success'));
+
+        return redirect()->route('users.edit', [$user->id]);
     }
 
     /**
      * Remove user.
      *
-     * @param $user
+     * @param User $user
      * @return Response
      */
     public function delete(User $user)
     {
-        // $roles = $this->role->all();
-        // $permissions = $this->permission->all();
-        // Title
-        $title = Lang::get('user/title.user_delete');
-
-        return view('user/delete', compact('user', 'title'));
+        return view('user.delete', compact('user'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User $user
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        flash()->success(\Lang::get('user/messages.delete.success'));
+
+        return redirect()->route('users.index');
     }
 
     public function data(Datatables $datatable)
     {
         $users = User::select(array(
-                'id', 'name', 'type', 'fingerprint', 'active'
+                'id', 'name', 'fingerprint', 'active'
         ));
 
         return $datatable->usingEloquent($users)
@@ -168,4 +180,5 @@ class UserController extends Controller
                 ->removeColumn('id')
                 ->make(true);
     }
+
 }

@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{ $title }} :: @parent
+	{!! Lang::get('user/title.create_a_new_user') !!} :: @parent
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{ $title }} <small>add a new user</small>
+    {!! Lang::get('user/title.create_a_new_user') !!} <small>add a new user</small>
 </h1>
 @stop
 
@@ -30,9 +30,11 @@
 @section('content')
 
 <!-- Notifications -->
-@include('partials/notifications')
+@include('partials.notifications')
 <!-- ./ notifications -->
 
-@include('user/_form')
+{!! Form::open(['route' => 'users.store', 'method' => 'post']) !!}
+@include('user._form')
+{!! Form::close() !!}
 
 @stop

@@ -1,17 +1,5 @@
 {{-- Create / Edit User Form --}}
 
-@if (isset($user))
-{!! Form::model($user, array(
-            'route' => array('users.update', $user->id),
-            'method' => 'put'
-            )) !!}
-@else
-{!! Form::open(array(
-            'route' => array('users.store'),
-            'method' => 'post'
-            )) !!}
-@endif
-
 <div class="row">
     <div class="col-xs-6">
 
@@ -25,36 +13,17 @@
             </div>
         </div>
         <!-- ./ username -->
-        
-        <!-- auth type -->
-        <div class="form-group {{ $errors->has('type') ? 'has-error' : '' }}">
-            {!! Form::label('type', Lang::get('user/model.type'), array('class' => 'control-label')) !!}
+       
+        <!-- public key -->
+        <div class="form-group {{ $errors->has('publickey') ? 'has-error' : '' }}">
+            {!! Form::label('publickey', Lang::get('user/model.publickey'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('type', array('local' => 'Local', 'external' => 'External'), null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('type', ':message') }}</span>
-            </div>
-        </div>        
-        <!-- ./ auth type -->
-
-        <!-- password -->
-        <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-            {!! Form::label('password', Lang::get('user/model.password'), array('class' => 'control-label')) !!}
-            <div class="controls">
-                {!! Form::password('password', array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('password', ':message') }}</span>
+                {!! Form::textarea('publickey', null, array('class' => 'form-control')) !!}
+                <span class="help-block"><i class="fa fa-info-circle"></i> If you leave blank a new SSH key will be created.</span>
+                <span class="help-block">{{ $errors->first('publickey', ':message') }}</span>
             </div>
         </div>
-        <!-- ./ password -->
-
-        <!-- password confirm -->
-        <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-            {!! Form::label('password_confirmation', Lang::get('user/model.password_confirmation'), array('class' => 'control-label')) !!}
-            <div class="controls">
-                {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('password_confirmation', ':message') }}</span>
-            </div>
-        </div>
-        <!-- ./ password confirm -->
+        <!-- ./ public key -->
 
     </div>
     <div class="col-xs-6">
@@ -85,4 +54,3 @@
     </div>
 </div>
 
-{!! Form::close() !!}

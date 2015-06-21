@@ -1,14 +1,14 @@
-@extends('layouts.admin')
+@extends('layouts.master')
 
 {{-- Web site Title --}}
 @section('title')
-	{{{ $title }}} :: @parent
+	{!! Lang::get('user/title.user_delete') !!} :: @parent
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{{ $title }}} <small>{{{ $user->username }}}</small>
+    {!! Lang::get('user/title.user_delete') !!} <small>{{ $user->name }}</small>
 </h1>
 @stop
 
@@ -16,12 +16,12 @@
 @section('breadcrumbs')
 <li>
     <i class="clip-bubbles-3"></i>
-    <a href="{{ URL::route('admin.users.index') }}">
-        {{ Lang::get('admin/site.users') }}
+    <a href="{!! route('users.index') !!}">
+        {!! Lang::get('site.users') !!}
     </a>
 </li>
 <li class="active">
-    {{ Lang::get('admin/user/title.user_delete') }}
+    {!! Lang::get('user/title.user_delete') !!}
 </li>
 @stop
 
@@ -29,12 +29,12 @@
 @section('content')
 
 <!-- Notifications -->
-@include('notifications')
+@include('partials.notifications')
 <!-- ./ notifications -->
         
 {{-- Delete User Form --}}
-{{ Form::open(array('route' => array('admin.users.destroy', $user->id), 'method' => 'delete', )) }}
-@include('admin/user/_details', compact('user'))
-{{ Form::close() }}
+{!! Form::open(array('route' => array('users.destroy', $user->id), 'method' => 'delete', )) !!}
+@include('user._details', ['action' => 'delete'])
+{!! Form::close() !!}
 
 @stop

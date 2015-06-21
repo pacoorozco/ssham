@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery conditionize.js Plugin Demo</title>
+<style>
+body {
+  background: #9fc7c0;
+}
+.conditional {
+  margin: 1em 0 0.5em;
+  border-top: 2px dotted #eee;
+  padding-top: 1em;
+  color: rgba(0,0,0,.7);
+  font-size: .9em;
+}
+.conditional > .conditional {
+  color: rgba(0,0,0,.5);
+}
+
+#demo {
+  text-align: center;
+  padding: 1.5em 3em;
+  background: #fff;
+  width: 60vw;
+  margin: 2em auto;
+  border-radius: .5em;
+  font: 24px/30px 'Open Sans', Arial, Verdana, serif;
+}
+
+label {
+  vertical-align: middle;
+  position: relative;
+}
+
+label + label {
+  margin-left: 1em;
+}
+
+input + span{
+	position: absolute;
+	left: 0;
+  top: 4px;
+	width: 15px;
+	height: 15px;
+  border: 2px solid #6ab5a8;
+}
+
+input[type=radio] + span {
+  border-radius: 50%;
+}
+
+input[type=radio]:checked + span {
+  background: rgba(106,181,169,1);
+  background: -moz-radial-gradient(center, ellipse cover, rgba(106,181,169,1) 44%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 46%, rgba(255,255,255,1) 55%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(44%, rgba(106,181,169,1)), color-stop(45%, rgba(255,255,255,1)), color-stop(46%, rgba(255,255,255,1)), color-stop(55%, rgba(255,255,255,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(106,181,169,1) 44%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 46%, rgba(255,255,255,1) 55%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(106,181,169,1) 44%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 46%, rgba(255,255,255,1) 55%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(106,181,169,1) 44%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 46%, rgba(255,255,255,1) 55%);
+  background: radial-gradient(ellipse at center, rgba(106,181,169,1) 44%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 46%, rgba(255,255,255,1) 55%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6ab5a9', endColorstr='#ffffff', GradientType=1 );
+}
+
+input[type=checkbox]:checked + span:after {
+  content: "\00d7";
+  font-weight: bold;
+  position: absolute;
+  top: -7px;
+  left: 1px;
+  font-size: 20px;
+  color: #6ab5a8;
+}
+ 
+input{
+	/*hide the radio button*/
+	filter:alpha(opacity=0);
+	-moz-opacity:0;
+	-khtml-opacity: 0;
+	opacity: 0;
+}
+</style>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div id="jquery-script-menu">
+<div class="jquery-script-center">
+<ul>
+<li><a href="http://www.jqueryscript.net/form/jQuery-Plugin-For-Conditional-Form-Fields-conditionize-js.html">Download This Plugin</a></li>
+<li><a href="http://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
+</ul>
+<div class="jquery-script-ads"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="jquery-script-clear"></div>
+</div>
+</div>
+<h1 style="margin-top:150px; text-align:center; color:#fff;">jQuery conditionize.js Plugin Demo</h1>
+<div id="demo">
+  <label><input type="radio" name="example1" value="yes"><span></span> Yes</label>
+  <label><input type="radio" name="example1" value="no"><span></span> No</label>
+
+  <div class="conditional" data-cond-option="example1" data-cond-value="yes">
+    <label><input type="checkbox" name="example2"><span></span> Are you sure?</label>
+    <label><input type="checkbox" name="example3"><span></span> Really super sure?</label>
+    
+    <div class="conditional" data-cond-option="example2" data-cond-value="on">
+      Hooray!
+    </div>
+    <div class="conditional" data-cond-option="example3" data-cond-value="on">
+      Don't get cocky!
+    </div>
+  </div>
+  
+  <div class="conditional" data-cond-option="example1" data-cond-value="no">
+    <p>That's a shame. Will you change your mind?</p>
+    
+    <label><input type="radio" name="example4" value="yes"><span></span> Yes</label>
+    <label><input type="radio" name="example4" value="no"><span></span> No</label>
+    
+    <div class="conditional" data-cond-option="example4" data-cond-value="yes">
+      Great!
+    </div>
+  </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="conditionize.jquery.js"></script>
+<script>
+ $('.conditional').conditionize();
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>

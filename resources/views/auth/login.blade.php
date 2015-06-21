@@ -1,4 +1,4 @@
-@extends('layouts/login')
+@extends('layouts.login')
 
 {{-- Content --}}
 @section('content')
@@ -12,7 +12,7 @@
     {!! Form::open(array('url' => array('auth/login'), 'class' => 'form-login')) !!}
 
     <!-- Notifications -->
-    @include('partials/notifications')
+    @include('partials.notifications')
     <!-- ./ notifications -->
 
     <fieldset>
@@ -20,7 +20,8 @@
             <span class="input-icon">
                 {!! Form::text('name', null, array(
                             'class' => 'form-control',
-                            'placeholder' => Lang::get('models/user.name')
+                            'placeholder' => Lang::get('models/user.name'),
+                            'autofocus' => 'autofocus'
                             )) !!}
                 <i class="fa fa-user"></i> </span>
         </div>

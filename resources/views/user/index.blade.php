@@ -2,18 +2,18 @@
 
 {{-- Styles --}}
 @section('styles')
-{!! HTML::style('//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css') !!}
+    {!! HTML::style('//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css') !!}
 @stop
 
 {{-- Web site Title --}}
 @section('title')
-	{{ $title }} :: @parent
+    {!! Lang::get('user/title.user_management') !!} :: @parent
 @stop
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {{ $title }} <small>create and edit users</small>
+        {!! Lang::get('user/title.user_management') !!} <small>create and edit users</small>
     </h1>
 @stop
 
@@ -34,7 +34,7 @@
 @section('content')
 
 <!-- Notifications -->
-@include('partials/notifications')
+@include('partials.notifications')
 <!-- ./ notifications -->
 
 <!-- actions -->
@@ -53,8 +53,7 @@
         <thead>
             <tr>
                 <th class="col-md-4">{!! Lang::get('user/table.name') !!}</th>
-                <th class="col-md-1">{!! Lang::get('user/table.type') !!}</th>
-                <th class="col-md-4">{!! Lang::get('user/table.fingerprint') !!}</th>
+                <th class="col-md-5">{!! Lang::get('user/table.fingerprint') !!}</th>
                 <th class="col-md-1">{!! Lang::get('user/table.active') !!}</th>
                 <th class="col-md-2">{!! Lang::get('user/table.actions') !!}</th>
             </tr>
@@ -80,7 +79,6 @@ $(document).ready(function() {
         "ajax": "{!! route('users.data') !!}",
         "columns": [
             {data: "name"},
-            {data: "type"},
             {data: "fingerprint", "orderable": false},
             {data: "active"},
             {data: "actions", "orderable": false, "searchable": false}

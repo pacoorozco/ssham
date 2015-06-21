@@ -67,7 +67,7 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect('/');
+        return redirect()->intended('home');
     }
 
 }
