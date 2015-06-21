@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasswordResetsTable extends Migration
+class CreateFileentriesTable extends Migration
 {
 
     /**
@@ -13,10 +13,12 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function(Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token')->index();
-            $table->timestamp('created_at');
+        Schema::create('fileentries', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('filename');
+            $table->string('mime');
+            $table->string('original_filename');
+            $table->timestamps();
         });
     }
 
@@ -27,7 +29,7 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('password_resets');
+        Schema::drop('fileentries');
     }
 
 }

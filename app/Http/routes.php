@@ -22,6 +22,13 @@ Route::controller('auth', 'Auth\AuthController', [
 
 /**
  * ------------------------------------------
+ * File Downloader
+ * ------------------------------------------
+ */
+Route::get('file/{filename}', ['as' => 'file.download', 'uses' => 'FileEntryController@get']);
+
+/**
+ * ------------------------------------------
  * Users
  * ------------------------------------------
  */
