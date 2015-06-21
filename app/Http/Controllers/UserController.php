@@ -7,6 +7,7 @@ use SSHAM\Http\Requests\UserRequest;
 use SSHAM\User;
 use yajra\Datatables\Datatables;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -57,42 +58,22 @@ class UserController extends Controller
             $keypair = $rsa->createKey();
 
             $user->publickey = $keypair['publickey'];
-            \Illuminate\Support\Facades\Storage::put('hola323.pub', $keypair['publickey']);
-            $fingerprint = substr(chunk_split(md5($keypair['publickey']), 2, ':'), 0, -1);
-            dd($fingerprint);
 
-//
-//
-//            $private_key = str_random();
-//            $public_key = $private_key . '.pub';
-//
-//
-//            $command = '/usr/bin/ssh-keygen -q -C ' . $request->name .' -f ' . storage_path() .'/app/' . $private_key . ' -t rsa -P ' . $request->name;
-//            $process = new Process($command);
-//            $process->run();
-//
-//            // executes after the command finishes
-//            if (!$process->isSuccessful()) {
-//                throw new \RuntimeException($process->getErrorOutput());
-//            }
-//
-//            $command = '/usr/bin/ssh-keygen -l -f ' . storage_path() .'/app/' . $public_key . ' | cut -d" " -f2';
-//            $process = new Process($command);
-//            $process->run();
-//
-//            // executes after the command finishes
-//            if (!$process->isSuccessful()) {
-//                throw new \RuntimeException($process->getErrorOutput());
-//            }
-//
-//            $user->fingerprint = $process->getOutput();
-//
-//            $contents = \Illuminate\Support\Facades\Storage::get($public_key);
-//            $user->publickey = $contents;
+            $private_key = str_random();
+            Storage::disk('local')->put($private_key, $keypair['privatekey']);
+
+            $fileentry = new \SSHAM\Fileentry();
+            $fileentry->filename = $private_key;
+            $fileentry->mime = 'application/octet-stream';
+            $fileentry->original_filename = $user->name . '.rsa';
+            $fileentry->save();
         }
         $user->save();
 
-        flash()->success(\Lang::get('user/messages.create.success'));
+        flash()->overlay(
+            'Download private key ' . link_to(route('file.download', $private_key), 'here'),
+            \Lang::get('user/messages.create.success')
+            );
         
         return redirect()->route('users.index');
     }
