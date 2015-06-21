@@ -19,10 +19,22 @@
                 {!! Request::is('users*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
+        <li {!! Request::is('usergroups*') ? ' class="active"' : '' !!}>
+            <a href="{!! route('usergroups.index') !!}"><i class="clip-users"></i>
+                <span class="title"> {{ Lang::get('site.usergroups') }} </span>
+                {!! Request::is('usergroups*') ? '<span class="selected"></span>' : '' !!}
+            </a>
+        </li>
         <li {!! Request::is('hosts*') ? ' class="active"' : '' !!}>
-            <a href="#"><i class="fa fa-tasks"></i>
+            <a href="{!! route('hosts.index') !!}"><i class="fa fa-tasks"></i>
                 <span class="title"> {{ Lang::get('site.hosts') }} </span>
                 {!! Request::is('hosts*') ? '<span class="selected"></span>' : '' !!}
+            </a>
+        </li>
+        <li {!! Request::is('hostgroups*') ? ' class="active"' : '' !!}>
+            <a href="{!! route('hostgroups.index') !!}"><i class="fa fa-tasks"></i>
+                <span class="title"> {{ Lang::get('site.hostgroups') }} </span>
+                {!! Request::is('hostgroups*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
         <li {!! Request::is('access*') ? ' class="active"' : '' !!}>

@@ -25,7 +25,7 @@
             <div class="content">
                 {!! Lang::get('dashboard.manage_hosts_description') !!}
             </div>
-            <a class="view-more" href="#">
+            <a class="view-more" href="{!! route('hosts.index') !!}">
                 {!! Lang::get('button.view_more') !!}
             </a>
         </div>

@@ -41,6 +41,48 @@ Route::get('users/{users}/delete', ['as' => 'users.delete', 'uses' => 'UserContr
 // show, edit, update, destroy
 Route::resource('users', 'UserController');
 
+/**
+ * ------------------------------------------
+ * Hosts
+ * ------------------------------------------
+ */
+Route::model('hosts', 'SSHAM\Host');
+// Datatables Ajax route.
+Route::get('hosts/data', ['as' => 'hosts.data', 'uses' => 'HostController@data']);
+// Delete confirmation route - uses the show/details view.
+Route::get('hosts/{hosts}/delete', ['as' => 'hosts.delete', 'uses' => 'HostController@delete']);
+// Pre-baked resource controller actions for index, create, store,
+// show, edit, update, destroy
+Route::resource('hosts', 'HostController');
+
+/**
+ * ------------------------------------------
+ * Usergroups
+ * ------------------------------------------
+ */
+Route::model('usergroups', 'SSHAM\Usergroup');
+// Datatables Ajax route.
+Route::get('usergroups/data', ['as' => 'usergroups.data', 'uses' => 'UsergroupController@data']);
+// Delete confirmation route - uses the show/details view.
+Route::get('usergroups/{usergroups}/delete', ['as' => 'usergroups.delete', 'uses' => 'UsergroupController@delete']);
+// Pre-baked resource controller actions for index, create, store,
+// show, edit, update, destroy
+Route::resource('usergroups', 'UsergroupController');
+
+/**
+ * ------------------------------------------
+ * Hostgroups
+ * ------------------------------------------
+ */
+Route::model('hostgroups', 'SSHAM\Hostgroup');
+// Datatables Ajax route.
+Route::get('hostgroups/data', ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data']);
+// Delete confirmation route - uses the show/details view.
+Route::get('hostgroups/{hostgroups}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
+// Pre-baked resource controller actions for index, create, store,
+// show, edit, update, destroy
+Route::resource('hostgroups', 'HostgroupController');
+
 Route::get('settings', ['as' => 'settings.index', 'uses' => function() {
     
     $settings = array(
