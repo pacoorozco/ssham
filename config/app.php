@@ -124,11 +124,12 @@ return [
         /*
          * Vendor Service Providers...
          */
-        'yajra\Datatables\DatatablesServiceProvider',
-        'Zizaco\Entrust\EntrustServiceProvider',
-        'Collective\Html\HtmlServiceProvider',
-        'Torann\Registry\RegistryServiceProvider',
-        'Laracasts\Flash\FlashServiceProvider',
+        'yajra\Datatables\DatatablesServiceProvider', // Datatables
+        'Zizaco\Entrust\EntrustServiceProvider', // Roles
+        'Collective\Html\HtmlServiceProvider', // HTML & Forms L5
+        'Torann\Registry\RegistryServiceProvider', // Settings Management
+        'Laracasts\Flash\FlashServiceProvider', // Flash Messages
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
         /*
          * Application Service Providers...
          */
