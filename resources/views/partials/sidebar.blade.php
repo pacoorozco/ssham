@@ -8,7 +8,7 @@
     <!-- start: MAIN NAVIGATION MENU -->
     <ul class="main-navigation-menu">
         <li {!! Request::is('home') ? ' class="active"' : '' !!}>
-            <a href="{!! route('dashboard') !!}"><i class="clip-home-3"></i>
+            <a href="{!! route('home') !!}"><i class="clip-home-3"></i>
                 <span class="title"> {!! Lang::get('site.home') !!} </span>
                 {!! Request::is('home') ? '<span class="selected"></span>' : '' !!}
             </a>

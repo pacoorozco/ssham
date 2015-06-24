@@ -16,7 +16,7 @@
             <br>
             Check the URL you entered for any mistakes and try again.
             <br>
-            <a href="{!! route('dashboard') !!}" class="btn btn-teal btn-return">
+            <a href="{!! route('home') !!}" class="btn btn-teal btn-return">
                 Return home
             </a>
         </p>
