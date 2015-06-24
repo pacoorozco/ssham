@@ -28,7 +28,6 @@
 
 {{-- Content --}}
 @section('content')
-
 <!-- Notifications -->
 @include('partials.notifications')
 <!-- ./ notifications -->
@@ -36,5 +35,4 @@
 {!! Form::open(['route' => 'users.store', 'method' => 'post']) !!}
 @include('user._form')
 {!! Form::close() !!}
-
 @stop

@@ -28,6 +28,20 @@
     </div>
     <div class="col-xs-6">
 
+        <!-- usergroups -->
+        <div class="form-group {{ $errors->has('usergroups[]') ? 'has-error' : '' }}">
+            {!! Form::label('usergroups[]', Lang::get('user/model.usergroups'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                @if (isset($user))
+                    {!! Form::select('usergroup[]', $groups, $user->groups->lists('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                @else
+                    {!! Form::select('usergroup[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                @endif
+                <span class="help-block">{{ $errors->first('usergroups[]', ':message') }}</span>
+            </div>
+        </div>
+        <!-- ./ usergroups -->
+
         <!-- Activation Status -->
         <div class="form-group {{ $errors->has('active') ? 'has-error' : '' }}">
             {!! Form::label('active', Lang::get('user/model.active'), array('class' => 'control-label')) !!}
@@ -54,3 +68,13 @@
     </div>
 </div>
 
+{{-- Styles --}}
+@section('styles')
+    {!! HTML::style(asset('plugins/select2/select2.css')) !!}
+@stop
+
+{{-- Scripts --}}
+@section('scripts')
+    {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
+    <script>$(".search-select").select2();</script>
+@stop

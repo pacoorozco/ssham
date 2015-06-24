@@ -2,9 +2,11 @@
 
 namespace SSHAM\Http\Controllers;
 
+use SSHAM\FileEntry;
 use SSHAM\Http\Controllers\Controller;
 use SSHAM\Http\Requests\UserRequest;
 use SSHAM\User;
+use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
@@ -14,8 +16,7 @@ class UserController extends Controller
 
     /**
      * Create a new controller instance.
-     * 
-     * @return void
+     *
      */
     public function __construct()
     {
@@ -39,7 +40,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        // Get all existing user groups
+        $groups = Usergroup::lists('name', 'id');
+        return view('user.create', compact('groups'));
     }
 
     /**
@@ -52,29 +55,34 @@ class UserController extends Controller
     {
         $user = new User($request->all());
 
-        if (empty($request->publickey)) {
-
+        if (!$request->publickey) {
             $rsa = new \Crypt_RSA();
-            $keypair = $rsa->createKey();
+            $keyPair = $rsa->createKey();
 
-            $user->publickey = $keypair['publickey'];
+            $user->publickey = $keyPair['publickey'];
 
-            $private_key = str_random();
-            Storage::disk('local')->put($private_key, $keypair['privatekey']);
+            $privateKey = str_random();
+            Storage::disk('local')->put($privateKey, $keyPair['privatekey']);
 
-            $fileentry = new \SSHAM\Fileentry();
-            $fileentry->filename = $private_key;
-            $fileentry->mime = 'application/octet-stream';
-            $fileentry->original_filename = $user->name . '.rsa';
-            $fileentry->save();
+            $fileEntry = new FileEntry();
+            $fileEntry->filename = $privateKey;
+            $fileEntry->mime = 'application/octet-stream';
+            $fileEntry->original_filename = $user->name . '.rsa';
+            $fileEntry->save();
+
+            // 'Download private key ' . link_to(route('file.download', $privateKey), 'here'),
         }
         $user->save();
 
-        flash()->overlay(
-            'Download private key ' . link_to(route('file.download', $private_key), 'here'),
-            \Lang::get('user/messages.create.success')
-            );
-        
+        // Attach user's group membership
+        foreach($request->usergroup as $group) {
+            $user->groups()->attach(Usergroup::find($group));
+        }
+
+        $user->save();
+
+        flash()->overlay(\Lang::get('user/messages/create.success'));
+
         return redirect()->route('users.index');
     }
 
@@ -92,12 +100,14 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  User  $user
+     * @param  User $user
      * @return Response
      */
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        // Get all existing user groups
+        $groups = Usergroup::lists('name', 'id');
+        return view('user.edit', compact('user', 'groups'));
     }
 
     /**
@@ -145,21 +155,21 @@ class UserController extends Controller
     public function data(Datatables $datatable)
     {
         $users = User::select(array(
-                'id', 'name', 'fingerprint', 'active'
+            'id', 'name', 'fingerprint', 'active'
         ));
 
         return $datatable->usingEloquent($users)
-                ->editColumn('active', function($model) {
-                    return ($model->active) ? '<span class="label label-sm label-success">Activo</span>' : '<span class="label label-sm label-danger">Inactivo</span>';
-                })
-                ->addColumn('actions', function($model) {
-                    return view('partials.actions_dd', array(
-                            'model' => 'users',
-                            'id' => $model->id
-                        ))->render();
-                })
-                ->removeColumn('id')
-                ->make(true);
+            ->editColumn('active', function ($model) {
+                return ($model->active) ? '<span class="label label-sm label-success">Activo</span>' : '<span class="label label-sm label-danger">Inactivo</span>';
+            })
+            ->addColumn('actions', function ($model) {
+                return view('partials.actions_dd', array(
+                    'model' => 'users',
+                    'id' => $model->id
+                ))->render();
+            })
+            ->removeColumn('id')
+            ->make(true);
     }
 
 }
