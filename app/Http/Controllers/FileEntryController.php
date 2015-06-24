@@ -5,7 +5,7 @@ namespace SSHAM\Http\Controllers;
 use SSHAM\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
-use SSHAM\Fileentry;
+use SSHAM\FileEntry;
 
 class FileEntryController extends Controller
 {
@@ -17,7 +17,7 @@ class FileEntryController extends Controller
      */
     public function get($filename)
     {
-        $entry = Fileentry::where('filename', '=', $filename)->firstOrFail();
+        $entry = FileEntry::where('filename', '=', $filename)->firstOrFail();
 
         $storagePath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
         
