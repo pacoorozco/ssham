@@ -126,7 +126,7 @@ return [
          */
         'yajra\Datatables\DatatablesServiceProvider', // Datatables
         'Zizaco\Entrust\EntrustServiceProvider', // Roles
-        'Collective\Html\HtmlServiceProvider', // HTML & Forms L5
+        Collective\Html\HtmlServiceProvider::class, // HTML & Forms L5
         'Torann\Registry\RegistryServiceProvider', // Settings Management
         'Laracasts\Flash\FlashServiceProvider', // Flash Messages
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
@@ -186,8 +186,8 @@ return [
          */
         'Datatables' => 'yajra\Datatables\Datatables',
         'Entrust' => 'Zizaco\Entrust\EntrustFacade',
-        'Form' => 'Collective\Html\FormFacade',
-        'HTML' => 'Collective\Html\HtmlFacade',
+        'Form' => Collective\Html\FormFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
         'Registry' => 'Torann\Registry\Facades\Registry',
         'Flash' => 'Laracasts\Flash\Flash',
     ],
