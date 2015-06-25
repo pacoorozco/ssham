@@ -184,7 +184,7 @@ return [
         /*
          * Vendor Aliases
          */
-        'Datatables' => 'yajra\Datatables\Datatables',
+        'Datatables' => yajra\Datatables\Datatables::class,
         'Entrust' => 'Zizaco\Entrust\EntrustFacade',
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
