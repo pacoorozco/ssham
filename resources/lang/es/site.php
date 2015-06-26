@@ -13,5 +13,7 @@ return [
     'home' => 'Dashboard',
     'users' => 'Usuarios',
     'hosts' => 'Servidores',
-    'datatables_lang' => 'Spanish',
+    'language' => 'Spanish',
+    'language_short' => 'es'
+
 ];

@@ -72,7 +72,7 @@
 $(document).ready(function() {
     oTable = $('#users').DataTable({
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! Lang::get('site.datatables_lang') !!}.json"
+            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! Lang::get('site.language') !!}.json"
         },
         "processing": true,
         "serverSide": true,

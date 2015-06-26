@@ -76,5 +76,11 @@
 {{-- Scripts --}}
 @section('scripts')
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
-    <script>$(".search-select").select2();</script>
+    <script>
+        $(".search-select").select2({
+            placeholder: "{!! Lang::get('user/messages.usergroups_placeholder') !!}",
+            allowClear: true,
+            language: "{!! Lang::get('site.language_short') !!}"
+        });
+    </script>
 @stop
