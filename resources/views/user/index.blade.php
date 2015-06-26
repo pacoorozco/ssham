@@ -54,7 +54,7 @@
             <tr>
                 <th class="col-md-4">{!! Lang::get('user/table.name') !!}</th>
                 <th class="col-md-5">{!! Lang::get('user/table.fingerprint') !!}</th>
-                <th class="col-md-1">{!! Lang::get('user/table.active') !!}</th>
+                <th class="col-md-1">{!! Lang::get('user/table.groups') !!}</th>
                 <th class="col-md-2">{!! Lang::get('user/table.actions') !!}</th>
             </tr>
         </thead>
@@ -80,7 +80,7 @@ $(document).ready(function() {
         "columns": [
             {data: "name"},
             {data: "fingerprint", "orderable": false},
-            {data: "active"},
+            {data: "groups", "orderable": false, "searchable": false},
             {data: "actions", "orderable": false, "searchable": false}
         ]
     });

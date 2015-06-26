@@ -33,9 +33,9 @@
             {!! Form::label('usergroups[]', Lang::get('user/model.usergroups'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($user))
-                    {!! Form::select('usergroup[]', $groups, $user->groups->lists('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                    {!! Form::select('usergroups[]', $groups, $user->groups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @else
-                    {!! Form::select('usergroup[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                    {!! Form::select('usergroups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @endif
                 <span class="help-block">{{ $errors->first('usergroups[]', ':message') }}</span>
             </div>

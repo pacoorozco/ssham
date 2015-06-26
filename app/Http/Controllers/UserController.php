@@ -41,7 +41,7 @@ class UserController extends Controller
     public function create()
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id');
+        $groups = Usergroup::lists('name', 'id')->all();
         return view('user.create', compact('groups'));
     }
 
@@ -56,29 +56,13 @@ class UserController extends Controller
         $user = new User($request->all());
 
         if (!$request->publickey) {
-            $rsa = new \Crypt_RSA();
-            $keyPair = $rsa->createKey();
-
-            $user->publickey = $keyPair['publickey'];
-
-            $privateKey = str_random();
-            Storage::disk('local')->put($privateKey, $keyPair['privatekey']);
-
-            $fileEntry = new FileEntry();
-            $fileEntry->filename = $privateKey;
-            $fileEntry->mime = 'application/octet-stream';
-            $fileEntry->original_filename = $user->name . '.rsa';
-            $fileEntry->save();
-
+            $privateKey = $user->createRSAKeyPair();
             // 'Download private key ' . link_to(route('file.download', $privateKey), 'here'),
         }
         $user->save();
 
-        // Attach user's group membership
-        foreach($request->usergroup as $group) {
-            $user->groups()->attach(Usergroup::find($group));
-        }
-
+        // Associate User's Groups
+        $user->groups()->sync($request->usergroups);
         $user->save();
 
         flash()->overlay(\Lang::get('user/messages/create.success'));
@@ -106,7 +90,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id');
+        $groups = Usergroup::lists('name', 'id')->all();
         return view('user.edit', compact('user', 'groups'));
     }
 
@@ -120,6 +104,10 @@ class UserController extends Controller
     public function update(User $user, UserRequest $request)
     {
         $user->update($request->all());
+
+        // Associate User's Groups
+        $user->groups()->sync($request->usergroups);
+        $user->save();
 
         flash()->success(\Lang::get('user/messages.edit.success'));
 
@@ -152,6 +140,12 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
+    /**
+     * Return all Users in order to be used as Datatables
+     *
+     * @param Datatables $datatable
+     * @return mixed
+     */
     public function data(Datatables $datatable)
     {
         $users = User::select(array(
@@ -159,8 +153,11 @@ class UserController extends Controller
         ));
 
         return $datatable->usingEloquent($users)
-            ->editColumn('active', function ($model) {
-                return ($model->active) ? '<span class="label label-sm label-success">Activo</span>' : '<span class="label label-sm label-danger">Inactivo</span>';
+            ->editColumn('name', function ($model) {
+                return ($model->active) ? $model->name : $model->name . ' <span class="label label-sm label-danger">Inactivo</span>';
+            })
+            ->addColumn('groups', function ($model) {
+                return count($model->groups->lists('id')->all());
             })
             ->addColumn('actions', function ($model) {
                 return view('partials.actions_dd', array(
@@ -169,6 +166,7 @@ class UserController extends Controller
                 ))->render();
             })
             ->removeColumn('id')
+            ->removeColumn('active')
             ->make(true);
     }
 

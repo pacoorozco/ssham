@@ -44,6 +44,25 @@ class User extends Model implements AuthenticatableContract
         'remember_token'
     ];
 
+    public function createRSAKeyPair()
+    {
+        $rsa = new \Crypt_RSA();
+        $keyPair = $rsa->createKey();
+
+        $this->publickey = $keyPair['publickey'];
+
+        $privateKey = str_random();
+        Storage::disk('local')->put($privateKey, $keyPair['privatekey']);
+
+        $fileEntry = new FileEntry();
+        $fileEntry->filename = $privateKey;
+        $fileEntry->mime = 'application/octet-stream';
+        $fileEntry->original_filename = $this->name . '.rsa';
+        $fileEntry->save();
+
+        return $privateKey;
+    }
+
     public function groups()
     {
         return $this->belongsToMany('SSHAM\Usergroup');
