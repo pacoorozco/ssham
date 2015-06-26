@@ -53,7 +53,8 @@
         <thead>
             <tr>
                 <th class="col-md-4">{!! Lang::get('hostgroup/table.name') !!}</th>
-                <th class="col-md-6">{!! Lang::get('hostgroup/table.description') !!}</th>
+                <th class="col-md-5">{!! Lang::get('hostgroup/table.description') !!}</th>
+                <th class="col-md-1">{!! Lang::get('hostgroup/table.hosts') !!}</th>
                 <th class="col-md-2">{!! Lang::get('hostgroup/table.actions') !!}</th>
             </tr>
         </thead>
@@ -79,6 +80,7 @@ $(document).ready(function() {
         "columns": [
             {data: "name"},
             {data: "description"},
+            {data: "hosts", "searchable": false},
             {data: "actions", "orderable": false, "searchable": false}
         ]
     });

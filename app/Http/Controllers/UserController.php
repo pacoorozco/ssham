@@ -144,13 +144,13 @@ class UserController extends Controller
      * Return all Users in order to be used as Datatables
      *
      * @param Datatables $datatable
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function data(Datatables $datatable)
     {
         $users = User::select(array(
             'id', 'name', 'fingerprint', 'active'
-        ));
+        ))->orderBy('name', 'ASC');
 
         return $datatable->usingEloquent($users)
             ->editColumn('name', function ($model) {

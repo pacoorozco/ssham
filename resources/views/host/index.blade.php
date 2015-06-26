@@ -43,6 +43,9 @@
         <a class="btn btn-green add-row" href="{!! route('hosts.create') !!}">
             <i class="fa fa-plus"></i> {!! Lang::get('host/title.create_a_new_host') !!}
         </a>
+        <a class="btn btn-blue add-row" href="{!! route('hostgroups.index') !!}">
+            <i class="fa fa-tasks"></i> {!! Lang::get('user/title.group_management') !!}
+        </a>
     </div>
 </div>
 <!-- /.actions -->
@@ -53,8 +56,9 @@
         <thead>
             <tr>
                 <th class="col-md-4">{!! Lang::get('host/table.hostname') !!}</th>
-                <th class="col-md-4">{!! Lang::get('host/table.username') !!}</th>
+                <th class="col-md-3">{!! Lang::get('host/table.username') !!}</th>
                 <th class="col-md-1">{!! Lang::get('host/table.type') !!}</th>
+                <th class="col-md-1">{!! Lang::get('host/table.groups') !!}</th>
                 <th class="col-md-1">{!! Lang::get('host/table.enabled') !!}</th>
                 <th class="col-md-2">{!! Lang::get('host/table.actions') !!}</th>
             </tr>
@@ -82,6 +86,7 @@ $(document).ready(function() {
             {data: "hostname"},
             {data: "username"},
             {data: "type"},
+            {data: "groups", "orderable": false, "searchable": false},
             {data: "enabled"},
             {data: "actions", "orderable": false, "searchable": false}
         ]

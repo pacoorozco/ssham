@@ -14,7 +14,7 @@
             </a>
         </li>
         <li {!! Request::is('users*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('users.index') !!}"><i class="clip-users"></i>
+            <a href="{!! route('users.index') !!}"><i class="clip-user"></i>
                 <span class="title"> {{ Lang::get('site.users') }} </span>
                 {!! Request::is('users*') ? '<span class="selected"></span>' : '' !!}
             </a>
@@ -26,7 +26,7 @@
             </a>
         </li>
         <li {!! Request::is('hosts*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('hosts.index') !!}"><i class="fa fa-tasks"></i>
+            <a href="{!! route('hosts.index') !!}"><i class="clip-screen"></i>
                 <span class="title"> {{ Lang::get('site.hosts') }} </span>
                 {!! Request::is('hosts*') ? '<span class="selected"></span>' : '' !!}
             </a>

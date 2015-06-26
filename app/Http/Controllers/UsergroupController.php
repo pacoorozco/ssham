@@ -5,6 +5,7 @@ namespace SSHAM\Http\Controllers;
 use SSHAM\Http\Controllers\Controller;
 use SSHAM\Http\Requests\GroupRequest;
 use SSHAM\Usergroup;
+use SSHAM\User;
 use yajra\Datatables\Datatables;
 
 class UsergroupController extends Controller
@@ -37,7 +38,9 @@ class UsergroupController extends Controller
      */
     public function create()
     {
-        return view('usergroup.create');
+        // Get all existing users
+        $users = User::lists('name', 'id')->all();
+        return view('usergroup.create', compact('users'));
     }
 
     /**
@@ -49,6 +52,10 @@ class UsergroupController extends Controller
     public function store(GroupRequest $request)
     {
         $usergroup = new Usergroup($request->all());
+        $usergroup->save();
+
+        // Associate Users to User's group
+        $usergroup->users()->sync($request->users);
         $usergroup->save();
 
         flash()->success(\Lang::get('usergroup/messages.create.success'));
@@ -75,7 +82,9 @@ class UsergroupController extends Controller
      */
     public function edit(Usergroup $usergroup)
     {
-        return view('usergroup.edit', compact('usergroup'));
+        // Get all existing users
+        $users = User::lists('name', 'id')->all();
+        return view('usergroup.edit', compact('usergroup', 'users'));
     }
 
     /**
@@ -88,6 +97,10 @@ class UsergroupController extends Controller
     public function update(Usergroup $usergroup, GroupRequest $request)
     {
         $usergroup->update($request->all());
+
+        // Associate Users to User's group
+        $usergroup->users()->sync($request->users);
+        $usergroup->save();
 
         flash()->success(\Lang::get('usergroup/messages.edit.success'));
 
@@ -120,21 +133,30 @@ class UsergroupController extends Controller
         return redirect()->route('usergroups.index');
     }
 
+    /**
+     * Return all Usergroups in order to be used as Datatables
+     *
+     * @param Datatables $datatable
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data(Datatables $datatable)
     {
         $usergroups = Usergroup::select(array(
                 'id', 'name', 'description'
-        ));
+        ))->orderBy('name', 'ASC');
 
         return $datatable->usingEloquent($usergroups)
-                ->addColumn('actions', function($model) {
-                    return view('partials.actions_dd', array(
-                            'model' => 'usergroups',
-                            'id' => $model->id
-                        ))->render();
-                })
-                ->removeColumn('id')
-                ->make(true);
+            ->addColumn('users', function($model) {
+                return count($model->users->lists('id')->all());
+            })
+            ->addColumn('actions', function($model) {
+                return view('partials.actions_dd', array(
+                    'model' => 'usergroups',
+                    'id' => $model->id
+                ))->render();
+            })
+            ->removeColumn('id')
+            ->make(true);
     }
 
 }

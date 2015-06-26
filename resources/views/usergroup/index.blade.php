@@ -53,7 +53,8 @@
         <thead>
             <tr>
                 <th class="col-md-4">{!! Lang::get('usergroup/table.name') !!}</th>
-                <th class="col-md-6">{!! Lang::get('usergroup/table.description') !!}</th>
+                <th class="col-md-5">{!! Lang::get('usergroup/table.description') !!}</th>
+                <th class="col-md-1">{!! Lang::get('usergroup/table.users') !!}</th>
                 <th class="col-md-2">{!! Lang::get('usergroup/table.actions') !!}</th>
             </tr>
         </thead>
@@ -79,6 +80,7 @@ $(document).ready(function() {
         "columns": [
             {data: "name"},
             {data: "description"},
+            {data: "users", "searchable": false},
             {data: "actions", "orderable": false, "searchable": false}
         ]
     });

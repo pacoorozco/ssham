@@ -13,9 +13,6 @@
         </div>
         <!-- ./ name -->
 
-    </div>
-    <div class="col-xs-6">
-
         <!-- description -->
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
             {!! Form::label('description', Lang::get('usergroup/model.description'), array('class' => 'control-label')) !!}
@@ -25,6 +22,23 @@
             </div>
         </div>
         <!-- ./ description -->
+
+    </div>
+    <div class="col-xs-6">
+
+        <!-- users -->
+        <div class="form-group {{ $errors->has('users[]') ? 'has-error' : '' }}">
+            {!! Form::label('users[]', Lang::get('user/model.users'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                @if (isset($usergroup))
+                    {!! Form::select('users[]', $users, $usergroup->users->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                @else
+                    {!! Form::select('users[]', $users, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                @endif
+                <span class="help-block">{{ $errors->first('users[]', ':message') }}</span>
+            </div>
+        </div>
+        <!-- ./ users -->
     </div>
 </div>
 
@@ -42,3 +56,19 @@
     </div>
 </div>
 
+{{-- Styles --}}
+@section('styles')
+    {!! HTML::style(asset('plugins/select2/select2.css')) !!}
+@stop
+
+{{-- Scripts --}}
+@section('scripts')
+    {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
+    <script>
+        $(".search-select").select2({
+            placeholder: "{!! Lang::get('user/messages.users_placeholder') !!}",
+            allowClear: true,
+            language: "{!! Lang::get('site.language_short') !!}"
+        });
+    </script>
+@stop

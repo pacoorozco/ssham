@@ -25,6 +25,20 @@
     </div>
     <div class="col-xs-6">
 
+        <!-- hostgroups -->
+        <div class="form-group {{ $errors->has('hostgroups[]') ? 'has-error' : '' }}">
+            {!! Form::label('hostgroups[]', Lang::get('user/model.hostgroups'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                @if (isset($host))
+                    {!! Form::select('hostgroups[]', $groups, $host->groups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                @else
+                    {!! Form::select('hostgroups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                @endif
+                <span class="help-block">{{ $errors->first('hostgroups[]', ':message') }}</span>
+            </div>
+        </div>
+        <!-- ./ hostgroups -->
+
         <!-- enabled -->
         <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
             {!! Form::label('enabled', Lang::get('host/model.enabled'), array('class' => 'control-label')) !!}
@@ -50,4 +64,21 @@
 
     </div>
 </div>
+
+{{-- Styles --}}
+@section('styles')
+    {!! HTML::style(asset('plugins/select2/select2.css')) !!}
+@stop
+
+{{-- Scripts --}}
+@section('scripts')
+    {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
+    <script>
+        $(".search-select").select2({
+            placeholder: "{!! Lang::get('user/messages.hostgroups_placeholder') !!}",
+            allowClear: true,
+            language: "{!! Lang::get('site.language_short') !!}"
+        });
+    </script>
+@stop
 

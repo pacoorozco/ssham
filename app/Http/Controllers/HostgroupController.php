@@ -2,6 +2,7 @@
 
 namespace SSHAM\Http\Controllers;
 
+use SSHAM\Host;
 use SSHAM\Http\Controllers\Controller;
 use SSHAM\Http\Requests\GroupRequest;
 use SSHAM\Hostgroup;
@@ -12,7 +13,7 @@ class HostgroupController extends Controller
 
     /**
      * Create a new controller instance.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -37,7 +38,9 @@ class HostgroupController extends Controller
      */
     public function create()
     {
-        return view('hostgroup.create');
+        // Get all existing hosts
+        $hosts = Host::lists('hostname', 'id')->all();
+        return view('hostgroup.create', compact('hosts'));
     }
 
     /**
@@ -51,8 +54,12 @@ class HostgroupController extends Controller
         $hostgroup = new Hostgroup($request->all());
         $hostgroup->save();
 
+        // Associate User's Groups
+        $hostgroup->hosts()->sync($request->hosts);
+        $hostgroup->save();
+
         flash()->success(\Lang::get('hostgroup/messages.create.success'));
-        
+
         return redirect()->route('hostgroups.index');
     }
 
@@ -64,18 +71,21 @@ class HostgroupController extends Controller
      */
     public function show(Hostgroup $hostgroup)
     {
+
         return view('hostgroup.show', compact('hostgroup'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Hostgroup  $hostgroup
+     * @param  Hostgroup $hostgroup
      * @return Response
      */
     public function edit(Hostgroup $hostgroup)
     {
-        return view('hostgroup.edit', compact('hostgroup'));
+        // Get all existing hosts
+        $hosts = Host::lists('hostname', 'id')->all();
+        return view('hostgroup.edit', compact('hostgroup', 'hosts'));
     }
 
     /**
@@ -88,6 +98,10 @@ class HostgroupController extends Controller
     public function update(Hostgroup $hostgroup, GroupRequest $request)
     {
         $hostgroup->update($request->all());
+
+        // Associate User's Groups
+        $hostgroup->hosts()->sync($request->hosts);
+        $hostgroup->save();
 
         flash()->success(\Lang::get('hostgroup/messages.edit.success'));
 
@@ -120,21 +134,30 @@ class HostgroupController extends Controller
         return redirect()->route('hostgroups.index');
     }
 
+    /**
+     * Return all Hostgroups in order to be used as Datatables
+     *
+     * @param Datatables $datatable
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function data(Datatables $datatable)
     {
         $hostgroups = Hostgroup::select(array(
-                'id', 'name', 'description'
-        ));
+            'id', 'name', 'description'
+        ))->orderBy('name', 'ASC');
 
         return $datatable->usingEloquent($hostgroups)
-                ->addColumn('actions', function($model) {
-                    return view('partials.actions_dd', array(
-                            'model' => 'hostgroups',
-                            'id' => $model->id
-                        ))->render();
-                })
-                ->removeColumn('id')
-                ->make(true);
+            ->addColumn('hosts', function ($model) {
+                return count($model->hosts->lists('id')->all());;
+            })
+            ->addColumn('actions', function ($model) {
+                return view('partials.actions_dd', array(
+                    'model' => 'hostgroups',
+                    'id' => $model->id
+                ))->render();
+            })
+            ->removeColumn('id')
+            ->make(true);
     }
 
 }

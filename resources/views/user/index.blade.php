@@ -43,6 +43,9 @@
         <a class="btn btn-green add-row" href="{!! route('users.create') !!}">
             <i class="fa fa-plus"></i> {!! Lang::get('user/title.create_a_new_user') !!}
         </a>
+        <a class="btn btn-blue add-row" href="{!! route('usergroups.index') !!}">
+            <i class="clip-users"></i> {!! Lang::get('user/title.group_management') !!}
+        </a>
     </div>
 </div>
 <!-- /.actions -->
