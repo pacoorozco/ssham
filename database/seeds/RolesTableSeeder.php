@@ -37,7 +37,7 @@ class RolesTableSeeder extends Seeder
             $role->description = $roleData['description'];
             $role->save();
 
-            // Adds permission
+            // Adds accesses
             foreach ($roleData['abilities'] as $ability) {
                 $permission = Permission::where('name', $ability)->get()->first();
                 $role->attachPermission($permission);

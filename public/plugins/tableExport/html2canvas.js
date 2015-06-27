@@ -2446,7 +2446,7 @@ _html2canvas.Preload = function( options ) {
   function getImages (el) {
     var elNodeType = false;
 
-    // Firefox fails with permission denied on pages with iframes
+    // Firefox fails with accesses denied on pages with iframes
     try {
       Util.Children(el).forEach(getImages);
     }

@@ -1713,7 +1713,7 @@ jQuery.fn.extend({
 		});
 	},
 
-	// Based off of the plugin by Clint Helfers, with permission.
+	// Based off of the plugin by Clint Helfers, with accesses.
 	// http://blindsignals.com/index.php/2009/07/jquery-delay/
 	delay: function( time, type ) {
 		time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;

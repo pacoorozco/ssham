@@ -20,13 +20,13 @@ class UsergroupHostgroupPermissionsTableSeeder extends Seeder
             array(
                 'usergroup' => 'developers',
                 'hostgroup' => 'DEV_servers',
-                'permission' => 'allow',
+                'accesses' => 'allow',
                 'description' => 'Developers can develop on development hosts',
             ),
             array(
                 'usergroup' => 'operators',
                 'hostgroup' => 'PRO_servers',
-                'permission' => 'allow',
+                'accesses' => 'allow',
                 'description' => 'Operators can make its magic on production hosts',
             )
         );
@@ -36,7 +36,7 @@ class UsergroupHostgroupPermissionsTableSeeder extends Seeder
             $hostgroup = Hostgroup::where('name', $permission['hostgroup'])->firstOrFail();
 
             $usergroup->permissions()->attach($hostgroup, [
-                'permission' => $permission['permission'],
+                'accesses' => $permission['accesses'],
                 'description' => $permission['description']
             ]);
         }

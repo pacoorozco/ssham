@@ -38,7 +38,7 @@
             </a>
         </li>
         <li {!! Request::is('access*') ? ' class="active"' : '' !!}>
-            <a href="#"><i class="clip-database"></i>
+            <a href="{!! route('rule.index') !!}"><i class="clip-database"></i>
                 <span class="title"> {{ Lang::get('site.accesses') }} </span>
                 {!! Request::is('access*') ? '<span class="selected"></span>' : '' !!}
             </a>
