@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-
         $this->call('SettingsTableSeeder');
         $this->call('PermissionsTableSeeder');
         $this->call('RolesTableSeeder');
@@ -23,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call('UsergroupsTableSeeder');
         $this->call('HostsTableSeeder');
         $this->call('HostgroupsTableSeeder');
+        $this->call('UsergroupHostgroupPermissionsTableSeeder');
     }
 
 }

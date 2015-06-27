@@ -17,12 +17,12 @@ class UsergroupsTableSeeder extends Seeder
 
         $usergroups = array(
             array(
-                'name' => 'group_1',
-                'description' => 'Group One'
+                'name' => 'developers',
+                'description' => 'Group of awesome developers'
             ),
             array(
-                'name' => 'group_2',
-                'description' => 'Group Two'
+                'name' => 'operators',
+                'description' => 'Group of incredible operators'
             )
         );
 

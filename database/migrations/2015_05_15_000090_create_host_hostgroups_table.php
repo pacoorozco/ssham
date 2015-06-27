@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHostHostgroup extends Migration
+class CreateHostHostgroupsTable extends Migration
 {
     /**
      * Run the migrations.
