@@ -22,7 +22,7 @@ class Rule extends Model
     protected $fillable = [
         'usergroup_id',
         'hostgroup_id',
-        'accesses',
+        'permission',
         'description',
         'active'
     ];

@@ -29,7 +29,7 @@ class Hostgroup extends Model
 
     public function permissions()
     {
-        return $this->hasMany('SSHAM\HostgroupPermission', 'usergroup_hostgroup_permissions');
+        return $this->hasMany('SSHAM\Rule', 'usergroup_hostgroup_permissions');
     }
 
 }

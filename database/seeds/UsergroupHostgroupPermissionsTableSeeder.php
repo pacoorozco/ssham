@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use SSHAM\Usergroup;
 use SSHAM\Hostgroup;
+use SSHAM\Rule;
 
 class UsergroupHostgroupPermissionsTableSeeder extends Seeder
 {
@@ -20,13 +21,13 @@ class UsergroupHostgroupPermissionsTableSeeder extends Seeder
             array(
                 'usergroup' => 'developers',
                 'hostgroup' => 'DEV_servers',
-                'accesses' => 'allow',
+                'permission' => 'allow',
                 'description' => 'Developers can develop on development hosts',
             ),
             array(
                 'usergroup' => 'operators',
                 'hostgroup' => 'PRO_servers',
-                'accesses' => 'allow',
+                'permission' => 'allow',
                 'description' => 'Operators can make its magic on production hosts',
             )
         );
@@ -35,10 +36,12 @@ class UsergroupHostgroupPermissionsTableSeeder extends Seeder
             $usergroup = Usergroup::where('name', $permission['usergroup'])->firstOrFail();
             $hostgroup = Hostgroup::where('name', $permission['hostgroup'])->firstOrFail();
 
-            $usergroup->permissions()->attach($hostgroup, [
-                'accesses' => $permission['accesses'],
-                'description' => $permission['description']
-            ]);
+            $rule = new Rule;
+            $rule->usergroup_id = $usergroup->id;
+            $rule->hostgroup_id = $hostgroup->id;
+            $rule->permission = $permission['permission'];
+            $rule->description = $permission['description'];
+            $rule->save();
         }
     }
 

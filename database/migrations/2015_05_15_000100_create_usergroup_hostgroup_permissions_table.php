@@ -19,9 +19,10 @@ class CreateUsergroupHostgroupPermissionsTable extends Migration
             $table->foreign('usergroup_id')->references('id')->on('usergroups')->onDelete('cascade');
             $table->integer('hostgroup_id')->unsigned();
             $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
-            $table->enum('accesses', ['allow', 'deny'])->default('allow');
+            $table->enum('permission', ['allow', 'deny'])->default('allow');
             $table->text('description')->nullable();
             $table->boolean('active')->default('1');
+            $table->timestamps();
             $table->unique(array('usergroup_id', 'hostgroup_id'));
         });
     }
@@ -33,6 +34,6 @@ class CreateUsergroupHostgroupPermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('usergroup_hostgroup_permission');
+        Schema::drop('usergroup_hostgroup_permissions');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'accesses' => 'SSHAM\Permission',
+	'permission' => 'SSHAM\Permission',
 	'role' => 'SSHAM\Role',
 ];
