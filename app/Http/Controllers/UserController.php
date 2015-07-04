@@ -2,14 +2,12 @@
 
 namespace SSHAM\Http\Controllers;
 
-use SSHAM\FileEntry;
 use SSHAM\Http\Controllers\Controller;
-use SSHAM\Http\Requests\UserRequest;
+use SSHAM\Http\Requests\UserCreateRequest;
+use SSHAM\Http\Requests\UserUpdateRequest;
 use SSHAM\User;
 use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
-use Symfony\Component\Process\Process;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -48,24 +46,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserRequest $request
+     * @param UserCreateRequest $request
      * @return Response
      */
-    public function store(UserRequest $request)
+    public function store(UserCreateRequest $request)
     {
         $user = new User($request->all());
 
-        if (!$request->publickey) {
-            $privateKey = $user->createRSAKeyPair();
-            // 'Download private key ' . link_to(route('file.download', $privateKey), 'here'),
+        if (!$request->public_key) {
+            $private_key = $user->createRSAKeyPair();
+            // 'Download private key ' . link_to(route('file.download', $private_key), 'here'),
         }
         $user->save();
 
-        // Associate User's Groups
-        $user->groups()->sync($request->usergroups);
-        $user->save();
+        // Associate User's Groups if has been submitted
+        if ($request->groups) {
+            $user->groups()->attach($request->groups);
+            $user->save();
+        }
 
-        flash()->overlay(\Lang::get('user/messages/create.success'));
+        flash()->overlay(\Lang::get('user/messages.create.success'));
 
         return redirect()->route('users.index');
     }
@@ -98,15 +98,17 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  User $user
-     * @param UserRequest $request
+     * @param UserUpdateRequest $request
      * @return Response
      */
-    public function update(User $user, UserRequest $request)
+    public function update(User $user, UserUpdateRequest $request)
     {
         $user->update($request->all());
 
         // Associate User's Groups
-        $user->groups()->sync($request->usergroups);
+        if ($request->groups) {
+            $user->groups()->sync($request->groups);
+        }
         $user->save();
 
         flash()->success(\Lang::get('user/messages.edit.success'));
@@ -149,12 +151,12 @@ class UserController extends Controller
     public function data(Datatables $datatable)
     {
         $users = User::select(array(
-            'id', 'name', 'fingerprint', 'active'
-        ))->orderBy('name', 'ASC');
+            'id', 'username', 'fingerprint', 'enabled'
+        ))->orderBy('username', 'ASC');
 
         return $datatable->usingEloquent($users)
-            ->editColumn('name', function ($model) {
-                return ($model->active) ? $model->name : $model->name . ' <span class="label label-sm label-danger">Inactivo</span>';
+            ->editColumn('username', function ($model) {
+                return ($model->enabled) ? $model->username : $model->username . ' <span class="label label-sm label-danger">' . \Lang::get('general.disabled') .'</span>';
             })
             ->addColumn('groups', function ($model) {
                 return count($model->groups->lists('id')->all());
@@ -166,7 +168,7 @@ class UserController extends Controller
                 ))->render();
             })
             ->removeColumn('id')
-            ->removeColumn('active')
+            ->removeColumn('enabled')
             ->make(true);
     }
 

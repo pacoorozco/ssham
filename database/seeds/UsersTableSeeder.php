@@ -18,17 +18,19 @@ class UsersTableSeeder extends Seeder
 
         $users = array(
             array(
-                'name' => 'admin',
+                'username' => 'admin',
                 'email' => 'admin@example.org',
-                'type' => 'local',
+                'auth_type' => 'local',
                 'password' => bcrypt('admin'),
+                'enabled' => true,
                 'role' => 'admins',
             ),
             array(
-                'name' => 'user',
+                'username' => 'user',
                 'email' => 'user@example.org',
-                'type' => 'local',
+                'auth_type' => 'local',
                 'password' => bcrypt('user'),
+                'enabled' => false,
                 'role' => 'users',
             )
         );

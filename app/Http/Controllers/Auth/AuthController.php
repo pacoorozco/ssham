@@ -13,26 +13,10 @@ class AuthController extends Controller
     /**
      * Create a new authentication controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
         $this->middleware('guest', ['except' => ['getLogout']]);
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-                'name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|confirmed|min:6',
-        ]);
     }
 
     /**
@@ -45,17 +29,26 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    /**
+     * Log the user in and redirect to the submitted page
+     *
+     * @param LoginRequest $request
+     * @return Response
+     */
     public function postLogin(LoginRequest $request)
     {
-        if (Auth::attempt(['name' => $request->name, 'password' => $request->password, 'active' => 1], $request->has('remember'))) {
+        if (Auth::attempt([
+            'username' => $request->username,
+            'password' => $request->password,
+            'enabled' => 1
+        ], $request->has('remember'))) {
             return redirect()->intended('home');
         }
 
-        return redirect($this->loginPath())
-                ->withInput($request->only('name', 'remember'))
-                ->withErrors([
-                    'name' => 'These credentials do not match our records. Try again?',
-        ]);
+        flash()->error('These credentials do not match our records. Try again?');
+
+        return redirect()->back()
+                ->withInput($request->only('username', 'remember'));
     }
 
     /**
@@ -67,7 +60,7 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->intended('home');
+        return redirect()->route('home');
     }
 
 }

@@ -26,10 +26,11 @@ class User extends Model implements AuthenticatableContract
      * @var array
      */
     protected $fillable = [
-        'name',
-        'publickey',
+        'username',
+        'public_key',
+        'private_key',
         'fingerprint',
-        'active'
+        'enabled'
     ];
 
     /**
@@ -39,7 +40,7 @@ class User extends Model implements AuthenticatableContract
      */
     protected $hidden = [
         'email',
-        'type', 
+        'auth_type',
         'password',
         'remember_token'
     ];
@@ -49,7 +50,8 @@ class User extends Model implements AuthenticatableContract
         $rsa = new \Crypt_RSA();
         $keyPair = $rsa->createKey();
 
-        $this->publickey = $keyPair['publickey'];
+        $this->public_key = $keyPair['publickey'];
+        $this->private_key = $keyPair['privatekey'];
 
         $privateKey = str_random();
         Storage::disk('local')->put($privateKey, $keyPair['privatekey']);

@@ -59,17 +59,17 @@
                     <ul class="nav navbar-right">
                         <!-- start: USER DROPDOWN -->
                         @if (Auth::guest())
-                        <li><a href="{{ url('/auth/login') }}">{!! Lang::get('auth.login') !!}</a></li>
+                        <li><a href="{!! route('login') !!}">{!! Lang::get('auth.login') !!}</a></li>
                         @else
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
                                 {{-- HTML::image('gg', null, array('class' => 'circle-img', 'height' => '30', 'width' => '30')) --}}
-                                <span class="username">{{ Auth::user()->name }}</span>
+                                <span class="username">{{ Auth::user()->username }}</span>
                                 <i class="clip-chevron-down"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/auth/logout">
+                                    <a href="{!! route('logout') !!}">
                                         <i class="clip-exit"></i>
                                         &nbsp;{!! Lang::get('auth.logout') !!}
                                     </a>

@@ -13,6 +13,9 @@ return [
     'home' => 'Dashboard',
     'users' => 'Users',
     'hosts' => 'Hosts',
-    'language' => 'English',
-    'language_short' => 'en',
+    'user_groups' => 'User Groups',
+    'host_groups' => 'Host Groups',
+
+    'language' => 'English',    // Used for jQuery Datatables
+    'language_short' => 'en',   // Used for some jQuery Plugins (like select2)
 ];

@@ -4,7 +4,7 @@ namespace SSHAM\Http\Requests;
 
 use SSHAM\Http\Requests\Request;
 
-class UserRequest extends Request
+class UserUpdateRequest extends Request
 {
 
     /**
@@ -24,9 +24,12 @@ class UserRequest extends Request
      */
     public function rules()
     {
+        $user = $this->route('users');
+
         return [
-            'name'          => 'required|min:3',
-            'active'        => 'required|boolean',
+            'username'  => 'sometimes|min:5|max:255|unique:users,username,' . $user->id,
+            'is_admin'  => 'required|boolean',
+            'enabled'   => 'required|boolean',
         ];
     }
 

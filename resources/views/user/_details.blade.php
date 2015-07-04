@@ -16,12 +16,12 @@
 
         <!-- public key -->
         <dt>{!! Lang::get('user/model.publickey') !!}</dt>
-        <dd>{{ $user->publickey }}</dd>
+        <dd>{{ $user->public_key }}</dd>
         <!-- ./ public key -->
 
         <!-- activation status -->
         <dt>{!! Lang::get('user/model.confirm') !!}</dt>
-        <dd>{{ ($user->active) ? Lang::get('general.yes') : Lang::get('general.no') }}</dd>
+        <dd>{{ ($user->enabled) ? Lang::get('general.yes') : Lang::get('general.no') }}</dd>
         <!-- ./ activation status -->
 
         </dl>

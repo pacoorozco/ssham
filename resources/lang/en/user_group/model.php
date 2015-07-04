@@ -19,5 +19,5 @@ return [
     'enabled' => 'Enabled',
     'roles' => 'Roles',
     'groups' => 'Group memberships',
-    'is_admin' => 'Has this user administrative role?',
+
 ];

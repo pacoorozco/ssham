@@ -13,7 +13,7 @@
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! Lang::get('user/title.user_management') !!} <small>create and edit users</small>
+        {!! Lang::get('user/title.user_management') !!} <small>{!! Lang::get('user/title.user_management_subtitle') !!}</small>
     </h1>
 @stop
 
@@ -44,7 +44,7 @@
             <i class="fa fa-plus"></i> {!! Lang::get('user/title.create_a_new_user') !!}
         </a>
         <a class="btn btn-blue add-row" href="{!! route('usergroups.index') !!}">
-            <i class="clip-users"></i> {!! Lang::get('user/title.group_management') !!}
+            <i class="clip-users"></i> {!! Lang::get('user_group/title.group_management') !!}
         </a>
     </div>
 </div>
@@ -55,7 +55,7 @@
         <table id="users" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">{!! Lang::get('user/table.name') !!}</th>
+                <th class="col-md-4">{!! Lang::get('user/table.username') !!}</th>
                 <th class="col-md-5">{!! Lang::get('user/table.fingerprint') !!}</th>
                 <th class="col-md-1">{!! Lang::get('user/table.groups') !!}</th>
                 <th class="col-md-2">{!! Lang::get('user/table.actions') !!}</th>
@@ -81,7 +81,7 @@ $(document).ready(function() {
         "serverSide": true,
         "ajax": "{!! route('users.data') !!}",
         "columns": [
-            {data: "name"},
+            {data: "username"},
             {data: "fingerprint", "orderable": false},
             {data: "groups", "orderable": false, "searchable": false},
             {data: "actions", "orderable": false, "searchable": false}

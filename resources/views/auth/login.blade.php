@@ -9,7 +9,7 @@
         {!! Lang::get('auth.sign_instructions') !!}
     </p>
 
-    {!! Form::open(array('url' => array('auth/login'), 'class' => 'form-login')) !!}
+    {!! Form::open(['route' => 'login', 'class' => 'form-login']) !!}
 
     <!-- Notifications -->
     @include('partials.notifications')
@@ -18,9 +18,9 @@
     <fieldset>
         <div class="form-group">
             <span class="input-icon">
-                {!! Form::text('name', null, array(
+                {!! Form::text('username', null, array(
                             'class' => 'form-control',
-                            'placeholder' => Lang::get('models/user.name'),
+                            'placeholder' => Lang::get('auth.username'),
                             'autofocus' => 'autofocus'
                             )) !!}
                 <i class="fa fa-user"></i> </span>
@@ -29,7 +29,7 @@
             <span class="input-icon">
                 {!! Form::password('password', array(
                             'class' => 'form-control password',
-                            'placeholder' => Lang::get('models/user.password')
+                            'placeholder' => Lang::get('auth.password')
                             )) !!}
                 <i class="fa fa-lock"></i> </span>
         </div>

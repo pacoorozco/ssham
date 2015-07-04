@@ -21,4 +21,5 @@ return [
         'error' => 'There was an issue deleting the user. Please try again.',
         'success' => 'The user was deleted successfully.'
     ],
+    'groups_placeholder' => 'Please select the groups where this user belongs to',
 ];

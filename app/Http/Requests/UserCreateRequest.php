@@ -1,10 +1,10 @@
 <?php
 
-namespace SSHAM\Http\Requests\Auth;
+namespace SSHAM\Http\Requests;
 
 use SSHAM\Http\Requests\Request;
 
-class LoginRequest extends Request
+class UserCreateRequest extends Request
 {
 
     /**
@@ -25,8 +25,7 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'username' => 'required|max:255',
-            'password' => 'required',
+            'username'      => 'required|min:5|max:255|unique:users',
         ];
     }
 
