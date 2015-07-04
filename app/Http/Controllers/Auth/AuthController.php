@@ -3,7 +3,6 @@
 namespace SSHAM\Http\Controllers\Auth;
 
 use Auth;
-use SSHAM\User;
 use SSHAM\Http\Controllers\Controller;
 use SSHAM\Http\Requests\Auth\LoginRequest;
 
