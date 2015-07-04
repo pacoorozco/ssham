@@ -44,7 +44,7 @@ class AuthController extends Controller
             return redirect()->intended('home');
         }
 
-        flash()->error('These credentials do not match our records. Try again?');
+        flash()->error(\Lang::get('auth.invalid_credentials'));
 
         return redirect()->back()
                 ->withInput($request->only('username', 'remember'));
@@ -59,7 +59,9 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('home');
+        flash()->success(\Lang::get('auth.logout_successfully'));
+
+        return redirect()->route('login');
     }
 
 }
