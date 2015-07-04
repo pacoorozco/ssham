@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
                 'auth_type' => 'local',
                 'password' => bcrypt('admin'),
                 'enabled' => true,
-                'role' => 'admins',
+                'role' => 'admin',
             ),
             array(
                 'username' => 'user',
@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
                 'auth_type' => 'local',
                 'password' => bcrypt('user'),
                 'enabled' => false,
-                'role' => 'users',
+                'role' => 'user',
             )
         );
 

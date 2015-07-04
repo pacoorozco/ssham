@@ -28,7 +28,6 @@ class UserUpdateRequest extends Request
 
         return [
             'username'  => 'sometimes|min:5|max:255|unique:users,username,' . $user->id,
-            'is_admin'  => 'required|boolean',
             'enabled'   => 'required|boolean',
         ];
     }

@@ -2,29 +2,36 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <dl class="dl-horizontal">
-
-        <!-- username -->
-        <dt>{!! Lang::get('user/model.username') !!}</dt>
-        <dd>{{ $user->username }}</dd>
-        <!-- ./ username -->
+        <h2>{{ $user->username }}</h2>
 
         <!-- fingerprint -->
-        <dt>{!! Lang::get('user/model.fingerprint') !!}</dt>
-        <dd>{{ $user->fingerprint }}</dd>
+        <strong>{!! Lang::get('user/model.fingerprint') !!}</strong>
+        <pre>{{ $user->fingerprint }}</pre>
         <!-- ./ fingerprint -->
 
         <!-- public key -->
-        <dt>{!! Lang::get('user/model.publickey') !!}</dt>
-        <dd>{{ $user->public_key }}</dd>
+        <strong>{!! Lang::get('user/model.public_key') !!}</strong>
+        <pre>{{ $user->public_key }}</pre>
         <!-- ./ public key -->
 
-        <!-- activation status -->
-        <dt>{!! Lang::get('user/model.confirm') !!}</dt>
-        <dd>{{ ($user->enabled) ? Lang::get('general.yes') : Lang::get('general.no') }}</dd>
-        <!-- ./ activation status -->
+        <!-- groups -->
+        <strong>{!! Lang::get('user/model.groups') !!}</strong>
+        <pre>
+            @foreach($user->groups as $group)
+                {{ $group->name }}
+            @endforeach
+        </pre>
+        <!-- ./ groups -->
 
-        </dl>
+        <!-- administrator role -->
+        <strong>{!! Lang::get('user/model.is_admin') !!}</strong>
+        <pre>{!! ($user->hasRole('admin') ? Lang::get('general.yes') : Lang::get('general.no')) !!}</pre>
+        <!-- ./ administrator role -->
+
+        <!-- enabled -->
+        <strong>{!! Lang::get('user/model.enabled') !!}</strong>
+        <pre>{!! ($user->enabled) ? Lang::get('general.yes') : Lang::get('general.no') !!}</pre>
+        <!-- ./ enabled -->
         
     </div>
 </div>

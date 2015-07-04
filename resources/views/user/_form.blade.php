@@ -50,8 +50,7 @@
             <div class="form-group {{ $errors->has('is_admin') ? 'has-error' : '' }}">
                 {!! Form::label('is_admin', Lang::get('user/model.is_admin'), array('class' => 'control-label')) !!}
                 <div class="controls">
-                    {!! Form::select('is_admin', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')),
-                    null, array('class' => 'form-control')) !!}
+                    {!! Form::select('is_admin', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), ($user->hasRole('admin') ? '1' : '0'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
                     <span class="help-block">{{ $errors->first('is_admin', ':message') }}</span>
                 </div>
             </div>
