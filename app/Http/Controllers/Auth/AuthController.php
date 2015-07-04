@@ -41,7 +41,7 @@ class AuthController extends Controller
             'password' => $request->password,
             'enabled' => 1
         ], $request->has('remember'))) {
-            return redirect()->intended('home');
+            return redirect()->intended();
         }
 
         flash()->error(\Lang::get('auth.invalid_credentials'));
