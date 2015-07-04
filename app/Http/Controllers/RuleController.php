@@ -8,6 +8,7 @@ use SSHAM\Rule;
 use SSHAM\Usergroup;
 use SSHAM\Hostgroup;
 use yajra\Datatables\Datatables;
+use SSHAM\Http\Requests\RuleRequest;
 
 class RuleController extends Controller
 {
@@ -27,7 +28,7 @@ class RuleController extends Controller
      */
     public function index()
     {
-        return view('accesses.index');
+        return view('rule.index');
     }
 
     /**
@@ -37,7 +38,10 @@ class RuleController extends Controller
      */
     public function create()
     {
-        //
+        // Get all existing user and hosts groups
+        $usergroups = Usergroup::lists('name', 'id')->all();
+        $hostgroups = Hostgroup::lists('name', 'id')->all();
+        return view('rule.create', compact('usergroups', 'hostgroups'));
     }
 
     /**
@@ -45,9 +49,14 @@ class RuleController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(RuleRequest $request)
     {
-        //
+        $rule = new Rule($request->all());
+        $rule->save();
+
+        flash()->success(\Lang::get('rule/messages.create.success'));
+
+        return redirect()->route('rules.index');
     }
 
     /**
@@ -94,6 +103,14 @@ class RuleController extends Controller
         //
     }
 
+    public function toggleStatus(Rule $rule) {
+        if ($rule->active) {
+            $rule->setActive(0);
+        } else {
+            $rule->setActive(1);
+        }
+    }
+
     /**
      * Return all Users in order to be used as Datatables
      *
@@ -114,7 +131,7 @@ class RuleController extends Controller
                 return Hostgroup::findOrFail($model->hostgroup_id)->name;
             })
             ->addColumn('actions', function ($model) {
-                return view('partials.actions_dd', array(
+                return view('partials.rules_dd', array(
                     'model' => 'users',
                     'id' => $model->id
                 ))->render();

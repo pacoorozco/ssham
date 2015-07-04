@@ -26,4 +26,5 @@ class Rule extends Model
         'description',
         'active'
     ];
+
 }

@@ -7,13 +7,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('permission/title.permission_management') !!} :: @parent
+    {!! Lang::get('rule/title.rules_management') !!} :: @parent
 @stop
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! Lang::get('permission/title.permission_management') !!} <small>permissions</small>
+        {!! Lang::get('rule/title.rules_management') !!} <small>rules</small>
     </h1>
 @stop
 
@@ -21,12 +21,12 @@
 @section('breadcrumbs')
 <li>
     <i class="clip-bubbles-3"></i>
-    <a href="{!! route('users.index') !!}">
-        {!! Lang::get('site.users') !!}
+    <a href="{!! route('rules.index') !!}">
+        {!! Lang::get('site.rules') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('user/title.user_management') !!}
+    {!! Lang::get('rule/title.rules_management') !!}
 </li>
 @stop
 
@@ -40,8 +40,8 @@
 <!-- actions -->
 <div class="row">
     <div class="col-md-12 space20">
-        <a class="btn btn-green add-row" href="{!! route('users.create') !!}">
-            <i class="fa fa-plus"></i> {!! Lang::get('user/title.create_a_new_user') !!}
+        <a class="btn btn-green add-row" href="{!! route('rules.create') !!}">
+            <i class="fa fa-plus"></i> {!! Lang::get('rule/title.create_a_new_rule') !!}
         </a>
     </div>
 </div>
@@ -77,7 +77,7 @@ $(document).ready(function() {
         },
         "processing": true,
         "serverSide": true,
-        "ajax": "{!! route('rule.data') !!}",
+        "ajax": "{!! route('rules.data') !!}",
         "columns": [
             {data: "usergroup"},
             {data: "hostgroup"},

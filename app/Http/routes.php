@@ -86,14 +86,14 @@ Route::resource('hostgroups', 'HostgroupController');
  * HostgroupPermissions
  * ------------------------------------------
  */
-Route::model('rule', 'SSHAM\Rule');
+Route::model('rules', 'SSHAM\Rule');
 // Datatables Ajax route.
-Route::get('rule/data', ['as' => 'rule.data', 'uses' => 'RuleController@data']);
+Route::get('rules/data', ['as' => 'rules.data', 'uses' => 'RuleController@data']);
 // Delete confirmation route - uses the show/details view.
 // Route::get('hostgroups/{hostgroups}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('rule', 'RuleController');
+Route::resource('rules', 'RuleController');
 
 /**
  * ------------------------------------------
