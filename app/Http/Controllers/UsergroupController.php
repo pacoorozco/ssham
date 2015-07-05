@@ -3,7 +3,8 @@
 namespace SSHAM\Http\Controllers;
 
 use SSHAM\Http\Controllers\Controller;
-use SSHAM\Http\Requests\GroupRequest;
+use SSHAM\Http\Requests\UsergroupCreateRequest;
+use SSHAM\Http\Requests\UsergroupUpdateRequest;
 use SSHAM\Usergroup;
 use SSHAM\User;
 use yajra\Datatables\Datatables;
@@ -13,8 +14,7 @@ class UsergroupController extends Controller
 
     /**
      * Create a new controller instance.
-     * 
-     * @return void
+     *
      */
     public function __construct()
     {
@@ -39,24 +39,26 @@ class UsergroupController extends Controller
     public function create()
     {
         // Get all existing users
-        $users = User::lists('name', 'id')->all();
+        $users = User::lists('username', 'id')->all();
         return view('usergroup.create', compact('users'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param GroupRequest $request
+     * @param UsergroupCreateRequest $request
      * @return Response
      */
-    public function store(GroupRequest $request)
+    public function store(UsergroupCreateRequest $request)
     {
         $usergroup = new Usergroup($request->all());
         $usergroup->save();
 
         // Associate Users to User's group
-        $usergroup->users()->sync($request->users);
-        $usergroup->save();
+        if ($request->users) {
+            $usergroup->users()->sync($request->users);
+            $usergroup->save();
+        }
 
         flash()->success(\Lang::get('usergroup/messages.create.success'));
         
@@ -83,7 +85,7 @@ class UsergroupController extends Controller
     public function edit(Usergroup $usergroup)
     {
         // Get all existing users
-        $users = User::lists('name', 'id')->all();
+        $users = User::lists('username', 'id')->all();
         return view('usergroup.edit', compact('usergroup', 'users'));
     }
 
@@ -91,20 +93,24 @@ class UsergroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Usergroup $usergroup
-     * @param GroupRequest $request
+     * @param UsergroupUpdateRequest $request
      * @return Response
      */
-    public function update(Usergroup $usergroup, GroupRequest $request)
+    public function update(Usergroup $usergroup, UsergroupUpdateRequest $request)
     {
         $usergroup->update($request->all());
 
         // Associate Users to User's group
-        $usergroup->users()->sync($request->users);
+        if ($request->users) {
+            $usergroup->users()->sync($request->users);
+        } else {
+            $usergroup->users()->detach();
+        }
         $usergroup->save();
 
         flash()->success(\Lang::get('usergroup/messages.edit.success'));
 
-        return redirect()->route('usergroups.edit', [$usergroup->id]);
+        return redirect()->route('usergroups.index');
     }
 
     /**

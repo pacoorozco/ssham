@@ -1,25 +1,17 @@
 <?php
 
 return [
-    'already_exists' => 'User already exists!',
-    'does_not_exist' => 'User does not exist.',
-    'login_required' => 'The login field is required',
-    'password_required' => 'The password is required.',
-    'password_does_not_match' => 'The passwords provided do not match.',
-    'roles_help' => 'Select a role to assign to the user, remember that a user takes on the permissions of the role they are assigned.',
     'create' => [
-        'error' => 'User was not created, please try again.',
-        'success' => 'User created successfully.'
+        'error' => 'Group was not created, please try again.',
+        'success' => 'Group created successfully.'
     ],
     'edit' => [
-        'impossible' => 'You cannot edit yourself.',
-        'error' => 'There was an issue editing the user. Please try again.',
-        'success' => 'The user was edited successfully.'
+        'error' => 'There was an issue editing the group. Please try again.',
+        'success' => 'The group was edited successfully.'
     ],
     'delete' => [
-        'impossible' => 'You cannot delete yourself.',
-        'error' => 'There was an issue deleting the user. Please try again.',
-        'success' => 'The user was deleted successfully.'
+        'error' => 'There was an issue deleting the group. Please try again.',
+        'success' => 'The group was deleted successfully.'
     ],
-    'groups_placeholder' => 'Please select the groups where this user belongs to',
+    'users_placeholder' => 'Please select the users who belongs to this group',
 ];

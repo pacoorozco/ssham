@@ -21,7 +21,7 @@
         </li>
         <li {!! Request::is('usergroups*') ? ' class="active"' : '' !!}>
             <a href="{!! route('usergroups.index') !!}"><i class="clip-users"></i>
-                <span class="title"> {{ Lang::get('site.usergroups') }} </span>
+                <span class="title"> {{ Lang::get('site.user_groups') }} </span>
                 {!! Request::is('usergroups*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>

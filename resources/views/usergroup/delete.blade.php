@@ -2,26 +2,26 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('usergroup/title.usergroup_delete') !!}
+	{!! Lang::get('usergroup/title.user_group_delete') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('usergroup/title.usergroup_delete') !!} <small>{{ $usergroup->name }}</small>
+    {!! Lang::get('usergroup/title.user_group_delete') !!} <small>{{ $usergroup->name }}</small>
 </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="clip-users"></i>
     <a href="{!! route('usergroups.index') !!}">
-        {!! Lang::get('site.usergroups') !!}
+        {!! Lang::get('site.user_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('usergroup/title.usergroup_delete') !!}
+    {!! Lang::get('usergroup/title.user_group_delete') !!}
 </li>
 @stop
 

@@ -7,26 +7,26 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('usergroup/title.usergroup_management') !!}
+    {!! Lang::get('usergroup/title.user_group_management') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! Lang::get('usergroup/title.usergroup_management') !!} <small>create and edit usergroups</small>
+        {!! Lang::get('usergroup/title.user_group_management') !!} <small>{!! Lang::get('usergroup/title.user_group_management_subtitle') !!}</small>
     </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="clip-users"></i>
     <a href="{!! route('usergroups.index') !!}">
-        {!! Lang::get('site.usergroups') !!}
+        {!! Lang::get('site.user_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('usergroup/title.usergroup_management') !!}
+    {!! Lang::get('usergroup/title.user_group_management') !!}
 </li>
 @stop
 
@@ -41,7 +41,7 @@
 <div class="row">
     <div class="col-md-12 space20">
         <a class="btn btn-green add-row" href="{!! route('usergroups.create') !!}">
-            <i class="fa fa-plus"></i> {!! Lang::get('usergroup/title.create_a_new_usergroup') !!}
+            <i class="fa fa-plus"></i> {!! Lang::get('usergroup/title.create_a_new_user_group') !!}
         </a>
     </div>
 </div>

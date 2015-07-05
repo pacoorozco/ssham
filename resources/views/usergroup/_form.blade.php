@@ -1,4 +1,4 @@
-{{-- Create / Edit User Form --}}
+{{-- Create / Edit Usergroup Form --}}
 
 <div class="row">
     <div class="col-xs-6">
@@ -28,7 +28,7 @@
 
         <!-- users -->
         <div class="form-group {{ $errors->has('users[]') ? 'has-error' : '' }}">
-            {!! Form::label('users[]', Lang::get('user/model.users'), array('class' => 'control-label')) !!}
+            {!! Form::label('users[]', Lang::get('usergroup/model.users'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($usergroup))
                     {!! Form::select('users[]', $users, $usergroup->users->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
@@ -66,7 +66,7 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! Lang::get('user/messages.users_placeholder') !!}",
+            placeholder: "{!! Lang::get('usergroup/messages.users_placeholder') !!}",
             allowClear: true,
             language: "{!! Lang::get('site.language_short') !!}"
         });

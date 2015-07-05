@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'username' => 'Username',
-    'groups' => 'Groups',
-    'fingerprint' => 'Fingerprint',
+    'name' => 'Name',
+    'description' => 'Description',
+    'users' => 'Members',
     'actions' => 'Actions',
 ];
