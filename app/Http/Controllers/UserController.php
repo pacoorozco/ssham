@@ -108,6 +108,8 @@ class UserController extends Controller
         // Associate User's Groups
         if ($request->groups) {
             $user->groups()->sync($request->groups);
+        } else {
+            $user->groups()->detach();
         }
         $user->save();
 
