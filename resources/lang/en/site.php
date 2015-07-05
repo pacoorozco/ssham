@@ -10,7 +10,8 @@ return [
      */
 
     'title' => 'SSHAM v2',
-    'home' => 'Dashboard',
+    'home' => 'Home',
+    'dashboard' => 'Dashboard',
     'users' => 'Users',
     'hosts' => 'Hosts',
     'user_groups' => 'User Groups',

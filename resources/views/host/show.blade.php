@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('host/title.host_show') !!} :: @parent
+	{!! Lang::get('host/title.host_show') !!}
 @stop
 
 {{-- Content Header --}}

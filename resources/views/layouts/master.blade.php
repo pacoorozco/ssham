@@ -6,7 +6,7 @@
 <!--<![endif]-->
     <!-- start: HEAD -->
     <head>
-        <title>@yield('title', 'Administration Dashboard')</title>
+        <title>@yield('title', 'Dashboard') :: {!! Lang::get('site.title') !!}</title>
         <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}" />        
         <!-- start: META -->
         <meta charset="utf-8" />
@@ -49,8 +49,8 @@
                     </button>
                     <!-- end: RESPONSIVE MENU TOGGLER -->
                     <!-- start: LOGO -->
-                    <a class="navbar-brand" href="#">
-                        SSHAM v2
+                    <a class="navbar-brand" href="{!! route('home') !!}">
+                        {!! Lang::get('site.title') !!}
                     </a>
                     <!-- end: LOGO -->
                 </div>
@@ -120,7 +120,7 @@
         <!-- start: FOOTER -->
         <div class="footer clearfix">
             <div class="footer-inner">
-                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', 'SSHAM v2', array('rel' => 'nofollow')) !!}
+                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', Lang::get('site.title'), array('rel' => 'nofollow')) !!}
             </div>
             <div class="footer-items">
                 <span class="go-top"><i class="clip-chevron-up"></i></span>

@@ -7,7 +7,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('rule/title.rules_management') !!} :: @parent
+    {!! Lang::get('rule/title.rules_management') !!}
 @stop
 
 {{-- Content Header --}}

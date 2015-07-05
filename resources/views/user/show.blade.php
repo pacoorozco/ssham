@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('user/title.user_show') !!} :: @parent
+	{!! Lang::get('user/title.user_show') !!}
 @stop
 
 {{-- Content Header --}}

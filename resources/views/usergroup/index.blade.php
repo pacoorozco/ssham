@@ -7,7 +7,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('usergroup/title.usergroup_management') !!} :: @parent
+    {!! Lang::get('usergroup/title.usergroup_management') !!}
 @stop
 
 {{-- Content Header --}}

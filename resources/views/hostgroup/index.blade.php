@@ -7,7 +7,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('hostgroup/title.hostgroup_management') !!} :: @parent
+    {!! Lang::get('hostgroup/title.hostgroup_management') !!}
 @stop
 
 {{-- Content Header --}}

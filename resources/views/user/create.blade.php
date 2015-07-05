@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('user/title.create_a_new_user') !!} :: @parent
+	{!! Lang::get('user/title.create_a_new_user') !!}
 @stop
 
 {{-- Content Header --}}

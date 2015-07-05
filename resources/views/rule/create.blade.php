@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('rule/title.create_a_new_rule') !!} :: @parent
+	{!! Lang::get('rule/title.create_a_new_rule') !!}
 @stop
 
 {{-- Content Header --}}

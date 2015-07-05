@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('site.settings') !!} :: @parent
+    {!! Lang::get('site.settings') !!}
 @stop
 
 {{-- Content Header --}}

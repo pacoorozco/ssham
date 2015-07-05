@@ -1,15 +1,40 @@
 @extends('layouts.master')
 
+{{-- Web site Title --}}
+@section('title')
+    {!! Lang::get('dashboard/messages.title') !!}
+@stop
+
+{{-- Content Header --}}
+@section('header')
+    <h1>
+        {!! Lang::get('dashboard/messages.title') !!} <small>{!! Lang::get('dashboard/messages.subtitle') !!}</small>
+    </h1>
+@stop
+
+{{-- Breadcrumbs --}}
+@section('breadcrumbs')
+    <li>
+        <i class="clip-home-3"></i>
+        <a href="{!! route('home') !!}">
+            {!! Lang::get('site.home') !!}
+        </a>
+    </li>
+    <li class="active">
+        {!! Lang::get('dashboard/messages.title') !!}
+    </li>
+@stop
+
 @section('content')
 <div class="row">
     <div class="col-sm-4">
         <div class="core-box">
             <div class="heading">
                 <i class="clip-user-4 circle-icon circle-green"></i>
-                <h2>{!! Lang::get('dashboard.manage_users') !!}</h2>
+                <h2>{!! Lang::get('dashboard/messages.manage_users') !!}</h2>
             </div>
             <div class="content">
-                {!! Lang::get('dashboard.manage_users_description') !!}
+                {!! Lang::get('dashboard/messages.manage_users_description') !!}
             </div>
             <a class="view-more" href="{!! route('users.index') !!}">
                 {!! Lang::get('button.view_more') !!}
@@ -20,10 +45,10 @@
         <div class="core-box">
             <div class="heading">
                 <i class="fa fa-tasks circle-icon circle-teal"></i>
-                <h2>{!! Lang::get('dashboard.manage_hosts') !!}</h2>
+                <h2>{!! Lang::get('dashboard/messages.manage_hosts') !!}</h2>
             </div>
             <div class="content">
-                {!! Lang::get('dashboard.manage_hosts_description') !!}
+                {!! Lang::get('dashboard/messages.manage_hosts_description') !!}
             </div>
             <a class="view-more" href="{!! route('hosts.index') !!}">
                 {!! Lang::get('button.view_more') !!}
@@ -34,10 +59,10 @@
         <div class="core-box">
             <div class="heading">
                 <i class="clip-database circle-icon circle-bricky"></i>
-                <h2>{!! Lang::get('dashboard.manage_accesses') !!}</h2>
+                <h2>{!! Lang::get('dashboard/messages.manage_accesses') !!}</h2>
             </div>
             <div class="content">
-                {!! Lang::get('dashboard.manage_accesses_description') !!}
+                {!! Lang::get('dashboard/messages.manage_accesses_description') !!}
             </div>
             <a class="view-more" href="#">
                 {!! Lang::get('button.view_more') !!}
