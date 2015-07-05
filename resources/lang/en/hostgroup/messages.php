@@ -13,5 +13,5 @@ return [
         'error' => 'There was an issue deleting the group. Please try again.',
         'success' => 'The group was deleted successfully.'
     ],
-    'users_placeholder' => 'Please select the users who belongs to this group',
+    'hosts_placeholder' => 'Please select the hosts who belongs to this group',
 ];

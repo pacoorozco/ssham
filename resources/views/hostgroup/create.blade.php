@@ -2,26 +2,26 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('hostgroup/title.create_a_new_hostgroup') !!}
+	{!! Lang::get('hostgroup/title.create_a_new_host_group') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('hostgroup/title.create_a_new_hostgroup') !!} <small>add a new hostgroup</small>
+    {!! Lang::get('hostgroup/title.create_a_new_host_group') !!} <small>{!! Lang::get('hostgroup/title.create_a_new_host_group_subtitle') !!}</small>
 </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="fa fa-tasks"></i>
     <a href="{!! route('hostgroups.index') !!}">
-        {!! Lang::get('site.hostgroups') !!}
+        {!! Lang::get('site.host_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('hostgroup/title.create_a_new_hostgroup') !!}
+    {!! Lang::get('hostgroup/title.create_a_new_host_group') !!}
 </li>
 @stop
 

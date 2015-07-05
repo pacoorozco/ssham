@@ -1,4 +1,4 @@
-{{-- Create / Edit User Form --}}
+{{-- Create / Edit Host Groups Form --}}
 
 <div class="row">
     <div class="col-xs-6">
@@ -28,7 +28,7 @@
 
         <!-- hosts -->
         <div class="form-group {{ $errors->has('hosts[]') ? 'has-error' : '' }}">
-            {!! Form::label('hosts[]', Lang::get('user/model.hosts'), array('class' => 'control-label')) !!}
+            {!! Form::label('hosts[]', Lang::get('hostgroup/model.hosts'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($hostgroup))
                     {!! Form::select('hosts[]', $hosts, $hostgroup->hosts->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
@@ -66,7 +66,7 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! Lang::get('user/messages.hosts_placeholder') !!}",
+            placeholder: "{!! Lang::get('hostgroup/messages.hosts_placeholder') !!}",
             allowClear: true,
             language: "{!! Lang::get('site.language_short') !!}"
         });

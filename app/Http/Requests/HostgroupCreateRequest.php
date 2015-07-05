@@ -4,7 +4,7 @@ namespace SSHAM\Http\Requests;
 
 use SSHAM\Http\Requests\Request;
 
-class GroupRequest extends Request
+class HostgroupCreateRequest extends Request
 {
 
     /**
@@ -25,8 +25,8 @@ class GroupRequest extends Request
     public function rules()
     {
         return [
-            'name'  => 'required|min:5',
-            'description'  => '',
+            'name'  => 'required|min:5|max:255|unique:hostgroups',
+            'description'  => 'max:255',
         ];
     }
 

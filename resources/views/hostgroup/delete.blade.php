@@ -2,26 +2,26 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('hostgroup/title.hostgroup_delete') !!}
+	{!! Lang::get('hostgroup/title.host_group_delete') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('hostgroup/title.hostgroup_delete') !!} <small>{{ $hostgroup->name }}</small>
+    {!! Lang::get('hostgroup/title.host_group_delete') !!} <small>{{ $hostgroup->name }}</small>
 </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="fa fa-tasks"></i>
     <a href="{!! route('hostgroups.index') !!}">
-        {!! Lang::get('site.hostgroups') !!}
+        {!! Lang::get('site.host_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('hostgroup/title.hostgroup_delete') !!}
+    {!! Lang::get('hostgroup/title.host_group_delete') !!}
 </li>
 @stop
 

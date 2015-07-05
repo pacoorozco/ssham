@@ -4,7 +4,8 @@ namespace SSHAM\Http\Controllers;
 
 use SSHAM\Host;
 use SSHAM\Http\Controllers\Controller;
-use SSHAM\Http\Requests\GroupRequest;
+use SSHAM\Http\Requests\HostgroupCreateRequest;
+use SSHAM\Http\Requests\HostgroupUpdateRequest;
 use SSHAM\Hostgroup;
 use yajra\Datatables\Datatables;
 
@@ -14,7 +15,6 @@ class HostgroupController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -46,17 +46,19 @@ class HostgroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param GroupRequest $request
+     * @param HostgroupCreateRequest $request
      * @return Response
      */
-    public function store(GroupRequest $request)
+    public function store(HostgroupCreateRequest $request)
     {
         $hostgroup = new Hostgroup($request->all());
         $hostgroup->save();
 
-        // Associate User's Groups
-        $hostgroup->hosts()->sync($request->hosts);
-        $hostgroup->save();
+        // Associate Host's Groups
+        if ($request->hosts) {
+            $hostgroup->hosts()->sync($request->hosts);
+            $hostgroup->save();
+        }
 
         flash()->success(\Lang::get('hostgroup/messages.create.success'));
 
@@ -92,15 +94,19 @@ class HostgroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Hostgroup $hostgroup
-     * @param GroupRequest $request
+     * @param HostgroupUpdateRequest $request
      * @return Response
      */
-    public function update(Hostgroup $hostgroup, GroupRequest $request)
+    public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request)
     {
         $hostgroup->update($request->all());
 
         // Associate User's Groups
-        $hostgroup->hosts()->sync($request->hosts);
+        if ($request->hosts) {
+            $hostgroup->hosts()->sync($request->hosts);
+        } else {
+            $hostgroup->hosts()->detach();
+        }
         $hostgroup->save();
 
         flash()->success(\Lang::get('hostgroup/messages.edit.success'));

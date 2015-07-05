@@ -7,26 +7,26 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('hostgroup/title.hostgroup_management') !!}
+    {!! Lang::get('hostgroup/title.host_group_management') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! Lang::get('hostgroup/title.hostgroup_management') !!} <small>create and edit hostgroups</small>
+        {!! Lang::get('hostgroup/title.host_group_management') !!} <small>{!! Lang::get('hostgroup/title.host_group_management_subtitle') !!}</small>
     </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="fa fa-tasks"></i>
     <a href="{!! route('hostgroups.index') !!}">
-        {!! Lang::get('site.hostgroups') !!}
+        {!! Lang::get('site.host_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('hostgroup/title.hostgroup_management') !!}
+    {!! Lang::get('hostgroup/title.host_group_management') !!}
 </li>
 @stop
 
@@ -41,7 +41,7 @@
 <div class="row">
     <div class="col-md-12 space20">
         <a class="btn btn-green add-row" href="{!! route('hostgroups.create') !!}">
-            <i class="fa fa-plus"></i> {!! Lang::get('hostgroup/title.create_a_new_hostgroup') !!}
+            <i class="fa fa-plus"></i> {!! Lang::get('hostgroup/title.create_a_new_host_group') !!}
         </a>
     </div>
 </div>

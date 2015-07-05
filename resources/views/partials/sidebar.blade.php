@@ -33,7 +33,7 @@
         </li>
         <li {!! Request::is('hostgroups*') ? ' class="active"' : '' !!}>
             <a href="{!! route('hostgroups.index') !!}"><i class="fa fa-tasks"></i>
-                <span class="title"> {{ Lang::get('site.hostgroups') }} </span>
+                <span class="title"> {{ Lang::get('site.host_groups') }} </span>
                 {!! Request::is('hostgroups*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>

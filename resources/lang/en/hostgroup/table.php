@@ -3,6 +3,6 @@
 return [
     'name' => 'Name',
     'description' => 'Description',
-    'users' => 'Members',
+    'hosts' => 'Hosts',
     'actions' => 'Actions',
 ];
