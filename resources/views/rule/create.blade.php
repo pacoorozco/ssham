@@ -8,20 +8,20 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('rule/title.create_a_new_rule') !!} <small>add a new rule</small>
+    {!! Lang::get('rule/title.create_a_new_rule') !!} <small>{!! Lang::get('rule/title.create_a_new_rule_subtitle') !!}</small>
 </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="clip-database"></i>
     <a href="{!! route('rules.index') !!}">
         {!! Lang::get('site.rules') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('rule/title.create_a_new_rules') !!}
+    {!! Lang::get('rule/title.create_a_new_rule') !!}
 </li>
 @stop
 

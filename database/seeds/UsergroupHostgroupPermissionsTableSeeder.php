@@ -21,13 +21,13 @@ class UsergroupHostgroupPermissionsTableSeeder extends Seeder
             array(
                 'usergroup' => 'developers',
                 'hostgroup' => 'DEV_servers',
-                'permission' => 'allow',
+                'action' => 'allow',
                 'description' => 'Developers can develop on development hosts',
             ),
             array(
                 'usergroup' => 'operators',
                 'hostgroup' => 'PRO_servers',
-                'permission' => 'allow',
+                'action' => 'deny',
                 'description' => 'Operators can make its magic on production hosts',
             )
         );
@@ -39,8 +39,8 @@ class UsergroupHostgroupPermissionsTableSeeder extends Seeder
             $rule = new Rule;
             $rule->usergroup_id = $usergroup->id;
             $rule->hostgroup_id = $hostgroup->id;
-            $rule->permission = $permission['permission'];
-            $rule->description = $permission['description'];
+            $rule->action = $permission['action'];
+            $rule->name = $permission['description'];
             $rule->save();
         }
     }

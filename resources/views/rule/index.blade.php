@@ -7,26 +7,26 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('rule/title.rules_management') !!}
+    {!! Lang::get('rule/title.rule_management') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! Lang::get('rule/title.rules_management') !!} <small>rules</small>
+        {!! Lang::get('rule/title.rule_management') !!} <small>{!! Lang::get('rule/title.rule_management_subtitle') !!}</small>
     </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="clip-database"></i>
     <a href="{!! route('rules.index') !!}">
         {!! Lang::get('site.rules') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('rule/title.rules_management') !!}
+    {!! Lang::get('rule/title.rule_management') !!}
 </li>
 @stop
 
@@ -52,10 +52,10 @@
         <table id="rules" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">{!! Lang::get('rule/table.usergroup') !!}</th>
-                <th class="col-md-4">{!! Lang::get('rule/table.hostgroup') !!}</th>
-                <th class="col-md-2">{!! Lang::get('rule/table.permission') !!}</th>
-                <th class="col-md-2">{!! Lang::get('rule/table.active') !!}</th>
+                <th class="col-md-4">{!! Lang::get('rule/table.user_group') !!}</th>
+                <th class="col-md-4">{!! Lang::get('rule/table.host_group') !!}</th>
+                <th class="col-md-2">{!! Lang::get('rule/table.action') !!}</th>
+                <th class="col-md-2">{!! Lang::get('rule/table.enabled') !!}</th>
                 <th class="col-md-2">{!! Lang::get('rule/table.actions') !!}</th>
             </tr>
         </thead>
@@ -81,8 +81,8 @@ $(document).ready(function() {
         "columns": [
             {data: "usergroup"},
             {data: "hostgroup"},
-            {data: "permission"},
-            {data: "active"},
+            {data: "action"},
+            {data: "enabled"},
             {data: "actions", "orderable": false, "searchable": false}
         ]
     });

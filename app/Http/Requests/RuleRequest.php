@@ -27,9 +27,9 @@ class RuleRequest extends Request
         return [
             'usergroup_id' => 'required|unique:usergroup_hostgroup_permissions',
             'hostgroup_id' => 'required',
-            'permission' => 'required',
-            'description' => '',
-            'active' => 'required|boolean'
+            'action' => 'required',
+            'name' => 'max:255',
+            'enabled' => 'required|boolean'
         ];
     }
 

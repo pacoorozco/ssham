@@ -120,7 +120,7 @@ class RuleController extends Controller
     public function data(Datatables $datatable)
     {
         $rules = Rule::select(array(
-            'id', 'usergroup_id', 'hostgroup_id', 'permission', 'active'
+            'id', 'usergroup_id', 'hostgroup_id', 'action', 'enabled'
         ));
 
         return $datatable->usingEloquent($rules)
