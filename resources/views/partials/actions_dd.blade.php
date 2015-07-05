@@ -1,14 +1,5 @@
-<div class="btn-group">
-    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-        {!! Lang::get('button.actions') !!}
-    </button>
-    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li><a href="{!! route($model . '.show', $id) !!}">{!! Lang::get('button.show') !!}</a></li>
-        <li><a href="{!! route($model . '.edit', $id) !!}">{!! Lang::get('button.edit') !!}</a></li>
-        <li><a href="{!! route($model . '.delete', $id) !!}">{!! Lang::get('button.delete') !!}</a></li>
-    </ul>
+<div class="visible-md visible-lg hidden-sm hidden-xs">
+    <a href="{!! route($model . '.show', $id) !!}" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="{!! Lang::get('general.show') !!}"><i class="fa fa-eye"></i></a>
+    <a href="{!! route($model . '.edit', $id) !!}" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="{!! Lang::get('general.edit') !!}"><i class="fa fa-edit"></i></a>
+    <a href="{!! route($model . '.delete', $id) !!}" class="btn btn-xs btn-bricky tooltips" data-placement="top" data-original-title="{!! Lang::get('general.delete') !!}"><i class="fa fa-trash-o"></i></a>
 </div>
-

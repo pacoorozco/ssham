@@ -23,7 +23,6 @@
         {!! HTML::style(asset('css/main.css')) !!}
         {!! HTML::style(asset('css/main-responsive.css')) !!}
         {!! HTML::style(asset('plugins/iCheck/skins/all.css')) !!}
-        {!! HTML::style(asset('plugins/bootstrap-colorpalette/css/bootstrap-colorpalette.css')) !!}
         {!! HTML::style(asset('plugins/perfect-scrollbar/src/perfect-scrollbar.css')) !!}
         {!! HTML::style(asset('css/theme_light.css'), array('id' => 'skin_color')) !!}
         {!! HTML::style(asset('css/print.css'), array('media' => 'print')) !!}
@@ -143,9 +142,6 @@
         {!! HTML::script(asset('plugins/iCheck/jquery.icheck.min.js')) !!}
         {!! HTML::script(asset('plugins/perfect-scrollbar/src/jquery.mousewheel.js')) !!}
         {!! HTML::script(asset('plugins/perfect-scrollbar/src/perfect-scrollbar.js')) !!}
-        {!! HTML::script(asset('plugins/less/less-1.5.0.min.js')) !!}
-        {!! HTML::script(asset('plugins/jquery-cookie/jquery.cookie.js')) !!}
-        {!! HTML::script(asset('plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js')) !!}
         {!! HTML::script(asset('plugins/jquery-cookie/jquery.cookie.js')) !!}
         {!! HTML::script(asset('js/main.js')) !!}
         <!-- end: MAIN JAVASCRIPTS -->
