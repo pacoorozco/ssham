@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('user/title.user_delete') !!} <small>{{ $user->name }}</small>
+    {!! Lang::get('user/title.user_delete') !!} <small>{{ $user->username }}</small>
 </h1>
 @stop
 

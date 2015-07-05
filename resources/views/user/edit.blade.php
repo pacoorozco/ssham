@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('user/title.user_update') !!} <small>{{ $user->name }}</small>
+    {!! Lang::get('user/title.user_update') !!} <small>{{ $user->username }}</small>
 </h1>
 @stop
 

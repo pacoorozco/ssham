@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('user/title.create_a_new_user') !!} <small>add a new user</small>
+    {!! Lang::get('user/title.create_a_new_user') !!} <small>{!! Lang::get('user/title.create_a_new_user_subtitle') !!}</small>
 </h1>
 @stop
 
