@@ -1,43 +1,55 @@
-{{-- Create / Edit User Form --}}
+{{-- Create / Edit Host Form --}}
 
 <div class="row">
     <div class="col-xs-6">
 
-        <!-- hostname -->
-        <div class="form-group {{ $errors->has('hostname') ? 'has-error' : '' }}">
-            {!! Form::label('hostname', Lang::get('host/model.hostname'), array('class' => 'control-label')) !!}
-            <div class="controls">
-                {!! Form::text('hostname', null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('hostname', ':message') }}</span>
+        @if (isset($host))
+            <!-- hostname -->
+            <div class="form-group">
+                {!! Form::label('hostname', Lang::get('host/model.full_hostname'), array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('hostname', $host->getFullHostname(), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                </div>
             </div>
-        </div>
-        <!-- ./ hostname -->
+            <!-- ./ hostname -->
+        @else
+            <!-- hostname -->
+            <div class="form-group {{ $errors->has('hostname') ? 'has-error' : '' }}">
+                {!! Form::label('hostname', Lang::get('host/model.hostname'), array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('hostname', null, array('class' => 'form-control')) !!}
+                    <span class="help-block">{{ $errors->first('hostname', ':message') }}</span>
+                </div>
+            </div>
+            <!-- ./ hostname -->
 
-        <!-- username -->
-        <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
-            {!! Form::label('username', Lang::get('host/model.username'), array('class' => 'control-label')) !!}
-            <div class="controls">
-                {!! Form::text('username', null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('username', ':message') }}</span>
+            <!-- username -->
+            <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
+                {!! Form::label('username', Lang::get('host/model.username'), array('class' => 'control-label')) !!}
+                <div class="controls">
+                    {!! Form::text('username', 'root', array('class' => 'form-control')) !!}
+                    <span class="help-block">{{ $errors->first('username', ':message') }}</span>
+                </div>
             </div>
-        </div>
-        <!-- ./ username -->
+            <!-- ./ username -->
+        @endif
+
     </div>
     <div class="col-xs-6">
 
-        <!-- hostgroups -->
-        <div class="form-group {{ $errors->has('hostgroups[]') ? 'has-error' : '' }}">
-            {!! Form::label('hostgroups[]', Lang::get('user/model.hostgroups'), array('class' => 'control-label')) !!}
+        <!-- host groups -->
+        <div class="form-group {{ $errors->has('groups[]') ? 'has-error' : '' }}">
+            {!! Form::label('groups[]', Lang::get('host/model.groups'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($host))
-                    {!! Form::select('hostgroups[]', $groups, $host->groups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                    {!! Form::select('groups[]', $groups, $host->groups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @else
-                    {!! Form::select('hostgroups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                    {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @endif
-                <span class="help-block">{{ $errors->first('hostgroups[]', ':message') }}</span>
+                <span class="help-block">{{ $errors->first('groups[]', ':message') }}</span>
             </div>
         </div>
-        <!-- ./ hostgroups -->
+        <!-- ./ host groups -->
 
         <!-- enabled -->
         <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
@@ -48,6 +60,7 @@
             </div>
         </div>
         <!-- ./ enabled -->
+
     </div>
 </div>
 
@@ -75,7 +88,7 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! Lang::get('user/messages.hostgroups_placeholder') !!}",
+            placeholder: "{!! Lang::get('host/messages.groups_help') !!}",
             allowClear: true,
             language: "{!! Lang::get('site.language_short') !!}"
         });

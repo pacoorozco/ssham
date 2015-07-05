@@ -3,7 +3,8 @@
 namespace SSHAM\Http\Controllers;
 
 use SSHAM\Http\Controllers\Controller;
-use SSHAM\Http\Requests\HostRequest;
+use SSHAM\Http\Requests\HostCreateRequest;
+use SSHAM\Http\Requests\HostUpdateRequest;
 use SSHAM\Host;
 use SSHAM\Hostgroup;
 use yajra\Datatables\Datatables;
@@ -13,8 +14,7 @@ class HostController extends Controller
 
     /**
      * Create a new controller instance.
-     * 
-     * @return void
+     *
      */
     public function __construct()
     {
@@ -46,17 +46,19 @@ class HostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param HostRequest $request
+     * @param HostCreateRequest $request
      * @return Response
      */
-    public function store(HostRequest $request)
+    public function store(HostCreateRequest $request)
     {
         $host = new Host($request->all());
         $host->save();
 
         // Associate Host's Groups
-        $host->groups()->sync($request->hostgroups);
-        $host->save();
+        if ($request->groups) {
+            $host->groups()->sync($request->groups);
+            $host->save();
+        }
 
         flash()->success(\Lang::get('host/messages.create.success'));
         
@@ -91,15 +93,19 @@ class HostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Host $host
-     * @param HostRequest $request
+     * @param HostUpdateRequest $request
      * @return Response
      */
-    public function update(Host $host, HostRequest $request)
+    public function update(Host $host, HostUpdateRequest $request)
     {
         $host->update($request->all());
 
         // Associate Host's Groups
-        $host->groups()->sync($request->hostgroups);
+        if ($request->groups) {
+            $host->groups()->sync($request->groups);
+        } else {
+            $host->groups()->detach();
+        }
         $host->save();
 
         flash()->success(\Lang::get('host/messages.edit.success'));
@@ -147,7 +153,8 @@ class HostController extends Controller
 
         return $datatable->usingEloquent($hosts)
             ->editColumn('enabled', function($model) {
-                return ($model->enabled) ? '<span class="label label-sm label-success">Activo</span>' : '<span class="label label-sm label-danger">Inactivo</span>';
+                return ($model->enabled) ? '<span class="label label-sm label-success">' . \Lang::get('general.enabled') . '</span>'
+                    : '<span class="label label-sm label-danger">' . \Lang::get('general.disabled') . '</span>';
             })
             ->addColumn('groups', function ($model) {
                 return count($model->groups->lists('id')->all());

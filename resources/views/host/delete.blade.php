@@ -8,14 +8,14 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('host/title.host_delete') !!} <small>{{ $host->hostname }}</small>
+    {!! Lang::get('host/title.host_delete') !!} <small>{{ $host->getFullHostname() }}</small>
 </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="clip-screen"></i>
     <a href="{!! route('hosts.index') !!}">
         {!! Lang::get('site.hosts') !!}
     </a>

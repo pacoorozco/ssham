@@ -4,7 +4,7 @@ namespace SSHAM\Http\Requests;
 
 use SSHAM\Http\Requests\Request;
 
-class HostRequest extends Request
+class HostCreateRequest extends Request
 {
 
     /**
@@ -25,8 +25,8 @@ class HostRequest extends Request
     public function rules()
     {
         return [
-            'hostname'  => 'required',
-            'username'  => 'required',
+            'hostname'  => 'required|min:5|max:255|unique:hosts',
+            'username'  => 'required|max:255',
             'enabled'   => 'required|boolean',
         ];
     }

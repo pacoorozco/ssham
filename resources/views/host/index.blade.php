@@ -13,14 +13,14 @@
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! Lang::get('host/title.host_management') !!} <small>create and edit hosts</small>
+        {!! Lang::get('host/title.host_management') !!} <small>{!! Lang::get('host/title.host_management_subtitle') !!}</small>
     </h1>
 @stop
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
 <li>
-    <i class="clip-bubbles-3"></i>
+    <i class="clip-screen"></i>
     <a href="{!! route('hosts.index') !!}">
         {!! Lang::get('site.hosts') !!}
     </a>
@@ -44,7 +44,7 @@
             <i class="fa fa-plus"></i> {!! Lang::get('host/title.create_a_new_host') !!}
         </a>
         <a class="btn btn-blue add-row" href="{!! route('hostgroups.index') !!}">
-            <i class="fa fa-tasks"></i> {!! Lang::get('user/title.group_management') !!}
+            <i class="fa fa-tasks"></i> {!! Lang::get('hostgroup/title.host_group_management') !!}
         </a>
     </div>
 </div>

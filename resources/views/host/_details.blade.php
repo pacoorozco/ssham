@@ -4,18 +4,13 @@
 
         <dl class="dl-horizontal">
 
-        <!-- hostname -->
-        <dt>{!! Lang::get('host/model.hostname') !!}</dt>
-        <dd>{{ $host->hostname }}</dd>
-        <!-- ./ hostname -->
-
-        <!-- username -->
-        <dt>{!! Lang::get('host/model.username') !!}</dt>
-        <dd>{{ $host->username }}</dd>
-        <!-- ./ fingerprint -->
+        <!-- full hostname -->
+        <dt>{!! Lang::get('host/model.full_hostname') !!}</dt>
+        <dd>{{ $host->getFullHostname() }}</dd>
+        <!-- ./ full hostname -->
 
         <!-- enabled -->
-        <dt>{!! Lang::get('host/model.confirm') !!}</dt>
+        <dt>{!! Lang::get('host/model.enabled') !!}</dt>
         <dd>{{ ($host->enabled) ? Lang::get('general.yes') : Lang::get('general.no') }}</dd>
         <!-- ./ enabled -->
 

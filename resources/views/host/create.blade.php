@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('host/title.create_a_new_host') !!} <small>add a new host</small>
+    {!! Lang::get('host/title.create_a_new_host') !!} <small>{!! Lang::get('host/title.create_a_new_host_subtitle') !!}</small>
 </h1>
 @stop
 
