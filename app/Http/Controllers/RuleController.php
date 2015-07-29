@@ -95,12 +95,16 @@ class RuleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Rule $rule
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Rule $rule)
     {
-        //
+        $rule->delete();
+
+        flash()->success(\Lang::get('rule/messages.delete.success'));
+
+        return redirect()->route('rule.index');
     }
 
     public function toggleStatus(Rule $rule) {

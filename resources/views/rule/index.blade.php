@@ -69,6 +69,7 @@
 @section('scripts')
 {!! HTML::script('//cdn.datatables.net/1.10.7/js/jquery.dataTables.js') !!}
 {!! HTML::script('//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js') !!}
+{!! HTML::script('js/jquery-ujs/rails.js') !!}
 <script>
 $(document).ready(function() {
     oTable = $('#rules').DataTable({
