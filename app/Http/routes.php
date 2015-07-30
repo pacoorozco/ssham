@@ -30,7 +30,6 @@ Route::get('file/{filename}', ['as' => 'file.download', 'uses' => 'FileEntryCont
  * Users
  * ------------------------------------------
  */
-Route::model('users', 'SSHAM\User');
 // Datatables Ajax route.
 Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
 // Delete confirmation route - uses the show/details view.
@@ -44,7 +43,6 @@ Route::resource('users', 'UserController');
  * Hosts
  * ------------------------------------------
  */
-Route::model('hosts', 'SSHAM\Host');
 // Datatables Ajax route.
 Route::get('hosts/data', ['as' => 'hosts.data', 'uses' => 'HostController@data']);
 // Delete confirmation route - uses the show/details view.
@@ -58,7 +56,6 @@ Route::resource('hosts', 'HostController');
  * Usergroups
  * ------------------------------------------
  */
-Route::model('usergroups', 'SSHAM\Usergroup');
 // Datatables Ajax route.
 Route::get('usergroups/data', ['as' => 'usergroups.data', 'uses' => 'UsergroupController@data']);
 // Delete confirmation route - uses the show/details view.
@@ -72,7 +69,6 @@ Route::resource('usergroups', 'UsergroupController');
  * Hostgroups
  * ------------------------------------------
  */
-Route::model('hostgroups', 'SSHAM\Hostgroup');
 // Datatables Ajax route.
 Route::get('hostgroups/data', ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data']);
 // Delete confirmation route - uses the show/details view.
@@ -86,7 +82,6 @@ Route::resource('hostgroups', 'HostgroupController');
  * Rules
  * ------------------------------------------
  */
-Route::model('rules', 'SSHAM\Rule');
 // Datatables Ajax route.
 Route::get('rules/data', ['as' => 'rules.data', 'uses' => 'RuleController@data']);
 // Delete confirmation route - uses the show/details view.

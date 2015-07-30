@@ -28,6 +28,14 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot($router);
+
+        # Define route model bindings
+        $router->model('users', 'SSHAM\User');
+        $router->model('hosts', 'SSHAM\Host');
+        $router->model('usergroups', 'SSHAM\Usergroup');
+        $router->model('hostgroups', 'SSHAM\Hostgroup');
+        $router->model('rules', 'SSHAM\Rule');
+
     }
 
     /**
