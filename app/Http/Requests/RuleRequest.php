@@ -25,11 +25,10 @@ class RuleRequest extends Request
     public function rules()
     {
         return [
-            'usergroup_id' => 'required|unique:usergroup_hostgroup_permissions',
+            'usergroup_id' => 'required|unique_with:usergroup_hostgroup_permissions,hostgroup_id',
             'hostgroup_id' => 'required',
             'action' => 'required',
-            'name' => 'max:255',
-            'enabled' => 'required|boolean'
+            'name' => 'max:255'
         ];
     }
 

@@ -130,6 +130,8 @@ return [
         'Torann\Registry\RegistryServiceProvider', // Settings Management
         'Laracasts\Flash\FlashServiceProvider', // Flash Messages
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
+        'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider', // unique_with Validator Rule
+
         /*
          * Application Service Providers...
          */
