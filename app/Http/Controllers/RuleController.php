@@ -47,6 +47,7 @@ class RuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param RuleRequest $request
      * @return Response
      */
     public function store(RuleRequest $request)
@@ -104,7 +105,7 @@ class RuleController extends Controller
 
         flash()->success(\Lang::get('rule/messages.delete.success'));
 
-        return redirect()->route('rule.index');
+        return redirect()->route('rules.index');
     }
 
     public function toggleStatus(Rule $rule) {
@@ -136,7 +137,7 @@ class RuleController extends Controller
             })
             ->addColumn('actions', function ($model) {
                 return view('partials.rules_dd', array(
-                    'model' => 'users',
+                    'model' => 'rules',
                     'id' => $model->id
                 ))->render();
             })
