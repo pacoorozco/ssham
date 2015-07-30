@@ -1,5 +1,10 @@
 @extends('layouts.master')
 
+@section('meta')
+<meta name="csrf-token" content="{!! csrf_token() !!}" />
+<meta name="csrf-param" content="_token" />
+@stop
+
 {{-- Styles --}}
 @section('styles')
     {!! HTML::style('//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css') !!}
