@@ -71,7 +71,7 @@ class User extends Model implements AuthenticatableContract
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups()
+    public function usergroups()
     {
         return $this->belongsToMany('SSHAM\Usergroup');
     }

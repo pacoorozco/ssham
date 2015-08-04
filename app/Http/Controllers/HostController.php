@@ -8,6 +8,7 @@ use SSHAM\Http\Requests\HostUpdateRequest;
 use SSHAM\Host;
 use SSHAM\Hostgroup;
 use SSHAM\Rule;
+use SSHAM\User;
 use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 
@@ -58,7 +59,7 @@ class HostController extends Controller
 
         // Associate Host's Groups
         if ($request->groups) {
-            $host->groups()->sync($request->groups);
+            $host->hostgroups()->sync($request->groups);
             $host->save();
         }
 
@@ -104,9 +105,9 @@ class HostController extends Controller
 
         // Associate Host's Groups
         if ($request->groups) {
-            $host->groups()->sync($request->groups);
+            $host->hostgroups()->sync($request->groups);
         } else {
-            $host->groups()->detach();
+            $host->hostgroups()->detach();
         }
         $host->save();
 
@@ -143,20 +144,12 @@ class HostController extends Controller
 
     public function getSSHKeysForHost(Host $host)
     {
-        // obtain hostsgroups where host belongs to
-        $hostgroups = $host->groups()->get();
+        $hostID = $host->id;
+        $users = User::whereHas('usergroups.hostgroups.hosts', function($q) use ($hostID){
+            $q->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
+        })->get();
 
-        // for each hostgroups obtain usergroups with allow / deny policy
-        foreach ($hostgroups as $group) {
-            $rules[] = Rule::where('hostgroup_id', $group->id)->get();
-        }
-
-        // for each usergroup obtain users, maintain allow / deny policy
-        foreach($rules as $rule) {
-            dd($rule);
-            $usergroups = Usergroup::find($rule->usergroup_id)->get();
-        }
-        dd($usergroups);
+        dd($users);
 
         // construct list with only users with allow policy
 
@@ -182,7 +175,7 @@ class HostController extends Controller
                     : '<span class="label label-sm label-danger">' . \Lang::get('general.disabled') . '</span>';
             })
             ->addColumn('groups', function ($model) {
-                return count($model->groups->lists('id')->all());
+                return count($model->hostgroups->lists('id')->all());
             })
             ->addColumn('actions', function($model) {
                 return view('partials.actions_dd', array(

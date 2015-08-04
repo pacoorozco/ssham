@@ -42,7 +42,7 @@
             {!! Form::label('groups[]', Lang::get('host/model.groups'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($host))
-                    {!! Form::select('groups[]', $groups, $host->groups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                    {!! Form::select('groups[]', $groups, $host->hostgroups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @else
                     {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @endif

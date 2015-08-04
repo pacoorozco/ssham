@@ -61,7 +61,7 @@ class UserController extends Controller
 
         // Associate User's Groups if has been submitted
         if ($request->groups) {
-            $user->groups()->attach($request->groups);
+            $user->usergroups()->attach($request->groups);
             $user->save();
         }
 
@@ -107,9 +107,9 @@ class UserController extends Controller
 
         // Associate User's Groups
         if ($request->groups) {
-            $user->groups()->sync($request->groups);
+            $user->usergroups()->sync($request->groups);
         } else {
-            $user->groups()->detach();
+            $user->usergroups()->detach();
         }
         $user->save();
 
@@ -161,7 +161,7 @@ class UserController extends Controller
                 return ($model->enabled) ? $model->username : $model->username . ' <span class="label label-sm label-danger">' . \Lang::get('general.disabled') .'</span>';
             })
             ->addColumn('groups', function ($model) {
-                return count($model->groups->lists('id')->all());
+                return count($model->usergroups->lists('id')->all());
             })
             ->addColumn('actions', function ($model) {
                 return view('partials.actions_dd', array(

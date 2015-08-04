@@ -30,8 +30,8 @@ class Usergroup extends Model {
         return $this->belongsToMany('SSHAM\User');
     }
 
-    public function permissions() {
-        return $this->hasMany('SSHAM\Rule', 'usergroup_hostgroup_permissions');
+    public function hostgroups()
+    {
+        return $this->belongsToMany('SSHAM\Hostgroup', 'usergroup_hostgroup_permissions');
     }
-
 }

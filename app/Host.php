@@ -28,7 +28,7 @@ class Host extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups()
+    public function hostgroups()
     {
         return $this->belongsToMany('SSHAM\Hostgroup');
     }

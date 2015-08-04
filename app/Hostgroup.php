@@ -32,9 +32,9 @@ class Hostgroup extends Model
         return $this->belongsToMany('SSHAM\Host');
     }
 
-    public function permissions()
+    public function usergroups()
     {
-        return $this->hasMany('SSHAM\Rule', 'usergroup_hostgroup_permissions');
+        return $this->belongsToMany('SSHAM\Usergroup', 'usergroup_hostgroup_permissions');
     }
 
 }

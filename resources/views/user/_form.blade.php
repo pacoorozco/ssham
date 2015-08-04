@@ -36,7 +36,7 @@
             {!! Form::label('groups[]', Lang::get('user/model.groups'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($user))
-                    {!! Form::select('groups[]', $groups, $user->groups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                    {!! Form::select('groups[]', $groups, $user->usergroups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @else
                     {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                 @endif
