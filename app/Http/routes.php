@@ -51,6 +51,9 @@ Route::get('hosts/{hosts}/delete', ['as' => 'hosts.delete', 'uses' => 'HostContr
 // show, edit, update, destroy
 Route::resource('hosts', 'HostController');
 
+// test
+Route::get('hosts/{hosts}/ssh', 'HostController@getSSHKeysForHost');
+
 /**
  * ------------------------------------------
  * Usergroups

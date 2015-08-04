@@ -20,7 +20,12 @@ class Usergroup extends Model {
             'name',
             'description'
         ];
-    
+
+    /**
+     * An Usergroup is composed by many User (many-to-many)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users() {
         return $this->belongsToMany('SSHAM\User');
     }

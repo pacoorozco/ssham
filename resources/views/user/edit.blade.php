@@ -32,8 +32,6 @@
 @include('partials.notifications')
 <!-- ./ notifications -->
 
-{!! var_dump($user) !!}
-
 {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) !!}
 @include('user._form')
 {!! Form::close() !!}

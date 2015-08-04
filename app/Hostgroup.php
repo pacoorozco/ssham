@@ -22,6 +22,11 @@ class Hostgroup extends Model
         'description'
     ];
 
+    /**
+     * A Hostgroup is composed by Host (many-to-many)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function hosts()
     {
         return $this->belongsToMany('SSHAM\Host');

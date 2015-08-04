@@ -7,6 +7,8 @@ use SSHAM\Http\Requests\HostCreateRequest;
 use SSHAM\Http\Requests\HostUpdateRequest;
 use SSHAM\Host;
 use SSHAM\Hostgroup;
+use SSHAM\Rule;
+use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 
 class HostController extends Controller
@@ -137,6 +139,29 @@ class HostController extends Controller
         flash()->success(\Lang::get('host/messages.delete.success'));
 
         return redirect()->route('hosts.index');
+    }
+
+    public function getSSHKeysForHost(Host $host)
+    {
+        // obtain hostsgroups where host belongs to
+        $hostgroups = $host->groups()->get();
+
+        // for each hostgroups obtain usergroups with allow / deny policy
+        foreach ($hostgroups as $group) {
+            $rules[] = Rule::where('hostgroup_id', $group->id)->get();
+        }
+
+        // for each usergroup obtain users, maintain allow / deny policy
+        foreach($rules as $rule) {
+            dd($rule);
+            $usergroups = Usergroup::find($rule->usergroup_id)->get();
+        }
+        dd($usergroups);
+
+        // construct list with only users with allow policy
+
+        // obtain SSH keys
+
     }
 
     /**

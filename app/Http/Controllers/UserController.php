@@ -89,7 +89,6 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        dd($user);
         // Get all existing user groups
         $groups = Usergroup::lists('name', 'id')->all();
         return view('user.edit', compact('user', 'groups'));

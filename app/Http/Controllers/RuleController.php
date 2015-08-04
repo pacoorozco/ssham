@@ -108,14 +108,6 @@ class RuleController extends Controller
         return redirect()->route('rules.index');
     }
 
-    public function toggleStatus(Rule $rule) {
-        if ($rule->active) {
-            $rule->setActive(0);
-        } else {
-            $rule->setActive(1);
-        }
-    }
-
     /**
      * Return all Users in order to be used as Datatables
      *

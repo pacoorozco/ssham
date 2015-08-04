@@ -42,6 +42,7 @@ class User extends Model implements AuthenticatableContract
         'email',
         'auth_type',
         'password',
+        'private_key',
         'remember_token'
     ];
 
@@ -65,6 +66,11 @@ class User extends Model implements AuthenticatableContract
         return $privateKey;
     }
 
+    /**
+     * An User belongs to many Usergroups (many-to-many)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function groups()
     {
         return $this->belongsToMany('SSHAM\Usergroup');
