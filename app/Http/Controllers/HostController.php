@@ -142,19 +142,27 @@ class HostController extends Controller
         return redirect()->route('hosts.index');
     }
 
+    /**
+     * Gets all SSH User Keys for a Host
+     *
+     * @param Host $host
+     * @return array
+     */
     public function getSSHKeysForHost(Host $host)
     {
+        $sshKeys = array();
         $hostID = $host->id;
+
         $users = User::whereHas('usergroups.hostgroups.hosts', function($q) use ($hostID){
             $q->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
-        })->get();
+        })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
 
-        dd($users);
+        foreach($users as $user)
+        {
+            $sshKeys[] = $user->public_key . ' ' . $user->username;
+        }
 
-        // construct list with only users with allow policy
-
-        // obtain SSH keys
-
+        return $sshKeys;
     }
 
     /**
