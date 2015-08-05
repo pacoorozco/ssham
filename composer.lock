@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "24ee626c482d2ce4858587d98087ca95",
+    "hash": "5642624de88b47caee56216ea1fffe49",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -689,6 +689,59 @@
                 }
             ],
             "time": "2015-07-28 03:18:41"
+        },
+        {
+            "name": "laravelcollective/remote",
+            "version": "v5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/remote.git",
+                "reference": "bb0cdfb7e846ef15fdf13a0fb3cd0ff8215b7f8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/remote/zipball/bb0cdfb7e846ef15fdf13a0fb3cd0ff8215b7f8e",
+                "reference": "bb0cdfb7e846ef15fdf13a0fb3cd0ff8215b7f8e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "5.1.*",
+                "illuminate/support": "5.1.*",
+                "php": ">=5.5.9",
+                "phpseclib/phpseclib": "0.3.*"
+            },
+            "require-dev": {
+                "illuminate/console": "5.1.*",
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Remote\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tom Shafer",
+                    "email": "tj@tjshafer.com"
+                },
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "Remote for The Laravel Framework.",
+            "keywords": [
+                "framework",
+                "laravel",
+                "remote"
+            ],
+            "time": "2015-06-18 02:58:27"
         },
         {
             "name": "league/flysystem",
@@ -2427,16 +2480,16 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v2.1.5",
+            "version": "v2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "ca55677158b1ae83106195537092095573b5822a"
+                "reference": "968dd528fee49eecc496610c053a80e42b61560b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/ca55677158b1ae83106195537092095573b5822a",
-                "reference": "ca55677158b1ae83106195537092095573b5822a",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/968dd528fee49eecc496610c053a80e42b61560b",
+                "reference": "968dd528fee49eecc496610c053a80e42b61560b",
                 "shasum": ""
             },
             "require": {
@@ -2464,7 +2517,7 @@
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2015-07-23 14:53:43"
+            "time": "2015-08-04 02:11:37"
         },
         {
             "name": "phpspec/php-diff",
@@ -2640,16 +2693,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "6526d9bdb56e2af1e8950114d42391044d18cfa7"
+                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6526d9bdb56e2af1e8950114d42391044d18cfa7",
-                "reference": "6526d9bdb56e2af1e8950114d42391044d18cfa7",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2d7c03c0e4e080901b8f33b2897b0577be18a13c",
+                "reference": "2d7c03c0e4e080901b8f33b2897b0577be18a13c",
                 "shasum": ""
             },
             "require": {
@@ -2657,7 +2710,7 @@
                 "phpunit/php-file-iterator": "~1.3",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-token-stream": "~1.3",
-                "sebastian/environment": "~1.3.1",
+                "sebastian/environment": "^1.3.2",
                 "sebastian/version": "~1.0"
             },
             "require-dev": {
@@ -2698,7 +2751,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-08-02 04:45:08"
+            "time": "2015-08-04 03:42:39"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3124,16 +3177,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "3e39374f4c9ec3757839e2952e7a68ac28941760"
+                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/3e39374f4c9ec3757839e2952e7a68ac28941760",
-                "reference": "3e39374f4c9ec3757839e2952e7a68ac28941760",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6324c907ce7a52478eeeaede764f48733ef5ae44",
+                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44",
                 "shasum": ""
             },
             "require": {
@@ -3170,7 +3223,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2015-08-02 04:41:00"
+            "time": "2015-08-03 06:14:51"
         },
         {
             "name": "sebastian/exporter",

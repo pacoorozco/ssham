@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'SSHAM\Console\Commands\Inspire',
+		'SSHAM\Console\Commands\SendKeysToHosts',
 	];
 
 	/**

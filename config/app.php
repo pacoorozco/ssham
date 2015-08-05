@@ -131,6 +131,7 @@ return [
         'Laracasts\Flash\FlashServiceProvider', // Flash Messages
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
         'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider', // unique_with Validator Rule
+        Collective\Remote\RemoteServiceProvider::class, // SSH L5
 
         /*
          * Application Service Providers...
@@ -192,5 +193,6 @@ return [
         'HTML' => Collective\Html\HtmlFacade::class,
         'Registry' => 'Torann\Registry\Facades\Registry',
         'Flash' => 'Laracasts\Flash\Flash',
+        'SSH' => 'Collective\Remote\RemoteFacade',
     ],
 ];

@@ -77,4 +77,26 @@ class Host extends Model
         $status = ($status === 1 || $status == 'enabled' || $status === true) ? 1 : 0;
         $this->enabled = $status;
     }
+
+    /**
+     * Gets all SSH User Keys for Host
+     *
+     * @return array
+     */
+    public function getSSHKeysForHost()
+    {
+        $sshKeys = array();
+        $hostID = $this->id;
+
+        $users = User::whereHas('usergroups.hostgroups.hosts', function($q) use ($hostID){
+            $q->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
+        })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
+
+        foreach($users as $user)
+        {
+            $sshKeys[] = $user->public_key . ' ' . $user->username;
+        }
+
+        return $sshKeys;
+    }
 }
