@@ -173,6 +173,10 @@ class HostController extends Controller
      */
     public function data(Datatables $datatable)
     {
+        if (! \Request::ajax()) {
+            \App::abort(403, 'Forbidden');
+        }
+
         $hosts = Host::select(array(
                 'id', 'hostname', 'username', 'type', 'enabled'
         ))->orderBy('hostname', 'ASC');

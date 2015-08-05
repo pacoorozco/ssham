@@ -116,6 +116,10 @@ class RuleController extends Controller
      */
     public function data(Datatables $datatable)
     {
+        if (! \Request::ajax()) {
+            \App::abort(403, 'Forbidden');
+        }
+
         $rules = Rule::select(array(
             'id', 'usergroup_id', 'hostgroup_id', 'action', 'enabled'
         ));

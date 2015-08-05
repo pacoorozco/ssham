@@ -152,6 +152,10 @@ class UserController extends Controller
      */
     public function data(Datatables $datatable)
     {
+        if (! \Request::ajax()) {
+            \App::abort(403, 'Forbidden');
+        }
+
         $users = User::select(array(
             'id', 'username', 'fingerprint', 'enabled'
         ))->orderBy('username', 'ASC');

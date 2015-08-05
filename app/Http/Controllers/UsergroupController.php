@@ -147,6 +147,10 @@ class UsergroupController extends Controller
      */
     public function data(Datatables $datatable)
     {
+        if (! \Request::ajax()) {
+            \App::abort(403, 'Forbidden');
+        }
+        
         $usergroups = Usergroup::select(array(
                 'id', 'name', 'description'
         ))->orderBy('name', 'ASC');
