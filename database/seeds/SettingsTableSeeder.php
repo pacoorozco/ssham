@@ -47,7 +47,12 @@ class SettingsTableSeeder extends Seeder
             /*
              * Time (seconds) to wait before a SSH connection ends (timed out)
              */
-            'ssh_timeout' => '10',
+            'ssh_timeout' => '5',
+
+            /*
+             * Port to use as SSH
+             */
+            'ssh_port' => '22',
 
             /*
              * SSHAM will generate an authorized_keys for every remote host,
