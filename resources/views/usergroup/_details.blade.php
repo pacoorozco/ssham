@@ -2,19 +2,21 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <dl class="dl-horizontal">
-
-        <!-- name -->
-        <dt>{!! Lang::get('usergroup/model.name') !!}</dt>
-        <dd>{{ $usergroup->name }}</dd>
-        <!-- ./ name -->
+        <h2>{{ $usergroup->name }}</h2>
 
         <!-- description -->
-        <dt>{!! Lang::get('usergroup/model.description') !!}</dt>
-        <dd>{{ $usergroup->description }}</dd>
+        <strong>{!! Lang::get('usergroup/model.description') !!}</strong>
+        <pre>{{ $usergroup->description }}</pre>
         <!-- ./ description -->
 
-        </dl>
+        <!-- groups -->
+        <strong>{!! Lang::get('usergroup/model.users') !!}</strong>
+        <pre>
+            @foreach($usergroup->users as $user)
+                {{ $user->username }}
+            @endforeach
+        </pre>
+        <!-- ./ groups -->
         
     </div>
 </div>

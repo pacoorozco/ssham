@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
     {!! Lang::get('dashboard/messages.title') !!}
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1>
         {!! Lang::get('dashboard/messages.title') !!} <small>{!! Lang::get('dashboard/messages.subtitle') !!}</small>
     </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
     <li class="active">
         {!! Lang::get('dashboard/messages.title') !!}
     </li>
-@stop
+@endsection
 
 @section('content')
 <div class="row">
@@ -64,11 +64,10 @@
             <div class="content">
                 {!! Lang::get('dashboard/messages.manage_accesses_description') !!}
             </div>
-            <a class="view-more" href="#">
+            <a class="view-more" href="{!! route('rules.index') !!}">
                 {!! Lang::get('button.view_more') !!}
             </a>
         </div>
     </div>
 </div>
-
 @endsection

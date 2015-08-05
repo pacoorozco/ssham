@@ -3,6 +3,19 @@
 <div class="row">
     <div class="col-xs-6">
 
+        <!-- description -->
+        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+            {!! Form::label('description', Lang::get('rule/model.description'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::textarea('description', null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('description', ':message') }}</span>
+            </div>
+        </div>
+        <!-- ./ description -->
+
+    </div>
+    <div class="col-xs-6">
+
         <!-- usergroup -->
         <div class="form-group {{ $errors->has('usergroup_id') ? 'has-error' : '' }}">
             {!! Form::label('usergroup_id', Lang::get('rule/model.user_group'), array('class' => 'control-label')) !!}
@@ -16,6 +29,16 @@
             </div>
         </div>
         <!-- ./ usergroup -->
+
+        <!-- action -->
+        <div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
+            {!! Form::label('action', Lang::get('rule/model.action'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::select('action', array('allow' => Lang::get('rule/model.action_allow'), 'deny' => Lang::get('rule/model.action_deny')), null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('action', ':message') }}</span>
+            </div>
+        </div>
+        <!-- ./ action -->
 
         <!-- hostgroup -->
         <div class="form-group {{ $errors->has('hostgroup_id') ? 'has-error' : '' }}">
@@ -31,33 +54,10 @@
         </div>
         <!-- ./ hostgroup -->
 
-    </div>
-    <div class="col-xs-6">
-
-        <!-- action -->
-        <div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
-            {!! Form::label('action', Lang::get('rule/model.action'), array('class' => 'control-label')) !!}
-            <div class="controls">
-                {!! Form::select('action', array('allow' => Lang::get('rule/model.action_allow'), 'deny' => Lang::get('rule/model.action_deny')), null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('action', ':message') }}</span>
-            </div>
-        </div>
-        <!-- ./ action -->
-
-        <!-- description -->
-        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-            {!! Form::label('description', Lang::get('rule/model.description'), array('class' => 'control-label')) !!}
-            <div class="controls">
-                {!! Form::textarea('description', null, array('class' => 'form-control')) !!}
-                <span class="help-block">{{ $errors->first('description', ':message') }}</span>
-            </div>
-        </div>
-        <!-- ./ description -->
-
         @if (isset($rule))
         <!-- enabled -->
         <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
-            {!! Form::label('enabled', Lang::get('user/model.enabled'), array('class' => 'control-label')) !!}
+            {!! Form::label('enabled', Lang::get('rule/model.enabled'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::select('enabled', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('enabled', ':message') }}</span>

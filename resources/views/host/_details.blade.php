@@ -2,20 +2,22 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <dl class="dl-horizontal">
+        <h2>{{ $host->getFullHostname() }}</h2>
 
-        <!-- full hostname -->
-        <dt>{!! Lang::get('host/model.full_hostname') !!}</dt>
-        <dd>{{ $host->getFullHostname() }}</dd>
-        <!-- ./ full hostname -->
+        <!-- groups -->
+        <strong>{!! Lang::get('host/model.groups') !!}</strong>
+        <pre>
+            @foreach($host->hostgroups as $group)
+                {{ $group->name }}
+            @endforeach
+        </pre>
+        <!-- ./ groups -->
 
         <!-- enabled -->
-        <dt>{!! Lang::get('host/model.enabled') !!}</dt>
-        <dd>{{ ($host->enabled) ? Lang::get('general.yes') : Lang::get('general.no') }}</dd>
+        <strong>{!! Lang::get('host/model.enabled') !!}</strong>
+        <pre>{{ ($host->enabled) ? Lang::get('general.yes') : Lang::get('general.no') }}</pre>
         <!-- ./ enabled -->
 
-        </dl>
-        
     </div>
 </div>
 

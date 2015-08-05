@@ -3,24 +3,24 @@
 @section('meta')
 <meta name="csrf-token" content="{!! csrf_token() !!}" />
 <meta name="csrf-param" content="_token" />
-@stop
+@endsection
 
 {{-- Styles --}}
 @section('styles')
     {!! HTML::style('//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css') !!}
-@stop
+@endsection
 
 {{-- Web site Title --}}
 @section('title')
     {!! Lang::get('rule/title.rule_management') !!}
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
         {!! Lang::get('rule/title.rule_management') !!} <small>{!! Lang::get('rule/title.rule_management_subtitle') !!}</small>
     </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -33,7 +33,7 @@
 <li class="active">
     {!! Lang::get('rule/title.rule_management') !!}
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -68,7 +68,7 @@
     </div>
 </div>
 
-@stop
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -94,4 +94,4 @@ $(document).ready(function() {
     });
 });
 </script>
-@stop
+@endsection

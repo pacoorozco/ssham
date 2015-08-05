@@ -17,7 +17,7 @@
         <!-- groups -->
         <strong>{!! Lang::get('user/model.groups') !!}</strong>
         <pre>
-            @foreach($user->groups as $group)
+            @foreach($user->usergroups as $group)
                 {{ $group->name }}
             @endforeach
         </pre>

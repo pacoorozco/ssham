@@ -2,19 +2,21 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <dl class="dl-horizontal">
-
-        <!-- name -->
-        <dt>{!! Lang::get('hostgroup/model.name') !!}</dt>
-        <dd>{{ $hostgroup->name }}</dd>
-        <!-- ./ name -->
+        <h2>{{ $hostgroup->name }}</h2>
 
         <!-- description -->
-        <dt>{!! Lang::get('hostgroup/model.description') !!}</dt>
-        <dd>{{ $hostgroup->description }}</dd>
+        <strong>{!! Lang::get('hostgroup/model.description') !!}</strong>
+        <pre>{{ $hostgroup->description }}</pre>
         <!-- ./ description -->
 
-        </dl>
+        <!-- groups -->
+        <strong>{!! Lang::get('hostgroup/model.hosts') !!}</strong>
+        <pre>
+            @foreach($hostgroup->hosts as $host)
+                {{ $host->getFullHostname() }}
+            @endforeach
+        </pre>
+        <!-- ./ groups -->
         
     </div>
 </div>

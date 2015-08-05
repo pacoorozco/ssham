@@ -27,7 +27,7 @@ class HostUpdateRequest extends Request
         $host = $this->route('hosts');
 
         return [
-            'hostname'  => 'sometimes|min:5|max:255|unique:hosts,hostname,' . $host->id,
+            'hostname'  => 'sometimes|min:5|max:255|unique_with:hosts,username,' . $host->id,
             'username'  => 'sometimes|max:255',
             'enabled'   => 'required|boolean',
         ];

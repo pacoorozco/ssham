@@ -149,7 +149,7 @@ class HostgroupController extends Controller
     public function data(Datatables $datatable)
     {
         if (! \Request::ajax()) {
-            \App::abort(403, 'Forbidden');
+            \App::abort(403);
         }
 
         $hostgroups = Hostgroup::select(array(
