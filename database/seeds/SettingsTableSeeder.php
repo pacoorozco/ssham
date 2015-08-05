@@ -25,7 +25,7 @@ class SettingsTableSeeder extends Seeder
             /*
              * Where I will put authorized keys on remote hosts?
              */
-            'authorized_keys' => '~/.ssh/authorized_keys',
+            'authorized_keys' => '.ssh/authorized_keys',
 
             /*
              * Bastion Host Private Key, used to access other hosts
@@ -70,13 +70,13 @@ class SettingsTableSeeder extends Seeder
              * This is the file that SSHAM will generate on remote hosts, this
              * file contains generated keys by SSHAM.
              */
-            'ssham_file' => '~/.ssh/authorized_keys-ssham',
+            'ssham_file' => '.ssh/authorized_keys-ssham',
 
             /*
              * This is the file containing keys not managed by SSHAM. If you
              * want to use it, please put 'mixed_mode = 1'. Otherwise it's ignored.
              */
-            'non_ssham_file' => '~/.ssh/authorized_keys-non-ssham',
+            'non_ssham_file' => '.ssh/authorized_keys-non-ssham',
 
             /*
              * Authentication Type
@@ -94,8 +94,7 @@ class SettingsTableSeeder extends Seeder
             /*
              * Tools to use to deply SSH
              */
-            'cmd_keygen' => '/usr/bin/ssh-keygen',
-            'cmd_remote_updater' => 'ssham-remote-updater.sh',
+            'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
         );
 
         Registry::store($settings);

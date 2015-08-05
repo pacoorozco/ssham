@@ -42,19 +42,69 @@ class SendKeysToHosts extends Command
         foreach ($hosts as $host) {
             echo 'Connecting to ' . $host->getFullHostname() . "\n";
 
-            \Config::set('remote.connections.runtime.host', $host->hostname);
-            \Config::set('remote.connections.runtime.port', '22');
-            \Config::set('remote.connections.runtime.username', $host->username);
-            \Config::set('remote.connections.runtime.key', \Registry::get('private_key'));
-            \Config::set('remote.connections.runtime.keyphrase', '');
+            $sftp = new \Net_SFTP($host->hostname, \Registry::get('ssh_port'), \Registry::get('ssh_timeout'));
+
+            $key = new \Crypt_RSA();
+            $key->loadKey(file_get_contents(\Registry::get('private_key')));
 
             try {
-            \SSH::into('runtime')->run(array(
-                'touch hola',
-            ));
-            } catch(\ErrorException $e) {
-                echo "Adios \n";
+                if(! $sftp->login($host->username, $key)) {
+
+                    // Set last_error field on Host
+                    // Set last_update on error status on Host
+
+                    echo "Error auth \n";
+                    continue;
+                }
+            } catch (\ErrorException $e) {
+
+                // Set last_error field on Host
+                // Set last_update on error status on Host
+
+                echo $e->getMessage() . "\n";
+                continue;
             }
+
+            // Send remote_updater script to remote Host
+            $fileContents = \File::get('ssham-remote-updater.sh');
+            $sftp->put(\Registry::get('cmd_remote_updater'), $fileContents);
+            $sftp->chmod(0700, \Registry::get('cmd_remote_updater'));
+
+            // Create a file containing all SSH keys on a temporary location
+            // Send authorized_keys file to remote Host
+            $sshKeys = $host->getSSHKeysForHost();
+            $temp = '/tmp/lll.out';
+            \File::delete($temp);
+            foreach($sshKeys as $sshKey) {
+                $rsa = new \Crypt_RSA();
+                $rsa->loadKey($sshKey);
+                $rsa->setPublicKey();
+
+                $publickey = $rsa->getPublicKey(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
+                if (! $publickey) {
+                    echo "Error with key '" . $sshKey . "' \n";
+                    continue;
+                }
+                \File::append($temp, $publickey . "\n");
+            }
+            $fileContents = \File::get($temp);
+            $sftp->put(\Registry::get('ssham_file'), $fileContents);
+            $sftp->chmod(0600, \Registry::get('ssham_file'));
+
+            // Executed remote_updater script on remote Host
+            $sftp->enableQuietMode();
+            $command = \Registry::get('cmd_remote_updater') .' update '
+                . ((\Registry::get('mixed_mode') == '1') ? 'true ' : 'false ')
+                . \Registry::get('authorized_keys') . ' '
+                . \Registry::get('non_ssham_file') .' '
+                . \Registry::get('ssham_file');
+
+            echo "$command \n";
+            echo $sftp->exec($command);
+
+            $sftp->disconnect();
+
+            // Set synced status
         }
 
     }

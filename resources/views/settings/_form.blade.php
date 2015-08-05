@@ -97,7 +97,7 @@
                     <div class="form-group {{ $errors->has('mixed_mode') ? 'has-error' : '' }}">
                         {!! Form::label('mixed_mode', Lang::get('settings/model.mixed_mode'), array('class' => 'control-label')) !!}
                         <div class="controls">
-                            {!! Form::checkbox('mixed_mode', Registry::get('mixed_mode'), array('class' => 'form-control')) !!}
+                            {!! Form::select('mixed_mode', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), Registry::get('mixed_mode'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('mixed_mode', ':message') }}</span>
                         </div>
                     </div>
@@ -132,16 +132,6 @@
                         </div>
                     </div>
                     <!-- ./ non_ssham_file -->
-
-                    <!-- cmd_keygen -->
-                    <div class="form-group {{ $errors->has('cmd_keygen') ? 'has-error' : '' }}">
-                        {!! Form::label('cmd_keygen', Lang::get('settings/model.cmd_keygen'), array('class' => 'control-label')) !!}
-                        <div class="controls">
-                            {!! Form::text('cmd_keygen', Registry::get('cmd_keygen'), array('class' => 'form-control')) !!}
-                            <span class="help-block">{{ $errors->first('cmd_keygen', ':message') }}</span>
-                        </div>
-                    </div>
-                    <!-- ./ cmd_keygen -->
 
                     <!-- cmd_remote_updater -->
                     <div class="form-group {{ $errors->has('cmd_remote_updater') ? 'has-error' : '' }}">
