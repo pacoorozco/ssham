@@ -39,36 +39,6 @@
             </div>
         </div>
         <!-- end: PAGE -->
-        <!-- start: MAIN JAVASCRIPTS -->
-        <!--[if lt IE 9]>
-        {!! HTML::script(asset('plugins/respond.min.js')) !!}
-        {!! HTML::script(asset('plugins/excanvas.min.js')) !!}
-        {!! HTML::script(asset('plugins/jQuery-lib/1.10.2/jquery.min.js')) !!}
-        <![endif]-->
-        <!--[if gte IE 9]><!-->
-        {!! HTML::script(asset('plugins/jQuery-lib/2.0.3/jquery.min.js')) !!}
-        <!--<![endif]-->
-        {!! HTML::script(asset('plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js')) !!}
-        {!! HTML::script(asset('plugins/bootstrap/js/bootstrap.min.js')) !!}
-        {!! HTML::script(asset('plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js')) !!}
-        {!! HTML::script(asset('plugins/blockUI/jquery.blockUI.js')) !!}
-        {!! HTML::script(asset('plugins/iCheck/jquery.icheck.min.js')) !!}
-        {!! HTML::script(asset('plugins/perfect-scrollbar/src/jquery.mousewheel.js')) !!}
-        {!! HTML::script(asset('plugins/perfect-scrollbar/src/perfect-scrollbar.js')) !!}
-        {!! HTML::script(asset('plugins/less/less-1.5.0.min.js')) !!}
-        {!! HTML::script(asset('plugins/jquery-cookie/jquery.cookie.js')) !!}
-        {!! HTML::script(asset('plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js')) !!}
-        {!! HTML::script(asset('plugins/jquery-cookie/jquery.cookie.js')) !!}
-        {!! HTML::script(asset('js/main.js')) !!}
-        <!-- end: MAIN JAVASCRIPTS -->
-        <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-        @yield('scripts')
-        <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-        <script>
-            jQuery(document).ready(function () {
-                Main.init();
-            });
-        </script>
     </body>
     <!-- end: BODY -->
 </html>
