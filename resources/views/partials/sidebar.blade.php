@@ -37,10 +37,10 @@
                 {!! Request::is('hostgroups*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
-        <li {!! Request::is('access*') ? ' class="active"' : '' !!}>
+        <li {!! Request::is('rules*') ? ' class="active"' : '' !!}>
             <a href="{!! route('rules.index') !!}"><i class="clip-database"></i>
                 <span class="title"> {{ Lang::get('site.rules') }} </span>
-                {!! Request::is('access*') ? '<span class="selected"></span>' : '' !!}
+                {!! Request::is('rules*') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>
         <li {!! Request::is('settings*') ? ' class="active"' : '' !!}>

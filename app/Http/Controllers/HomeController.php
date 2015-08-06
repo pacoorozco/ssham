@@ -1,5 +1,7 @@
 <?php namespace SSHAM\Http\Controllers;
 
+use SSHAM\Host;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,7 +32,10 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+		$synced = (Host::where('synced', 1)->count() + 1);
+		$unsynced = Host::where('synced', 0)->count();
+
+		return view('home', compact('synced', 'unsynced'));
 	}
 
 }

@@ -15,7 +15,7 @@
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
     <li>
-        <i class="clip-bubbles-3"></i>
+        <i class="clip-settings"></i>
         <a href="{!! route('settings.index') !!}">
             {!! Lang::get('site.settings') !!}
         </a>

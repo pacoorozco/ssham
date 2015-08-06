@@ -131,6 +131,13 @@ class RuleController extends Controller
             ->addColumn('hostgroup', function ($model) {
                 return Hostgroup::findOrFail($model->hostgroup_id)->name;
             })
+            ->editColumn('action', function($model) {
+                return ($model->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i> Allowed</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> Denied</span>';
+            })
+            ->editColumn('enabled', function($model) {
+                return ($model->enabled) ? '<span class="label label-sm label-success">' . \Lang::get('general.enabled') . '</span>'
+                    : '<span class="label label-sm label-danger">' . \Lang::get('general.disabled') . '</span>';
+            })
             ->addColumn('actions', function ($model) {
                 return view('partials.rules_dd', array(
                     'model' => 'rules',

@@ -45,7 +45,7 @@ class SendKeysToHosts extends Command
             $sftp = new \Net_SFTP($host->hostname, \Registry::get('ssh_port'), \Registry::get('ssh_timeout'));
 
             $key = new \Crypt_RSA();
-            $key->loadKey(file_get_contents(\Registry::get('private_key')));
+            $key->loadKey(\Registry::get('private_key'));
 
             try {
                 if(! $sftp->login($host->username, $key)) {
@@ -75,6 +75,11 @@ class SendKeysToHosts extends Command
             $sshKeys = $host->getSSHKeysForHost();
             $temp = '/tmp/lll.out';
             \File::delete($temp);
+
+            // SSHAM public key
+            \File::put($temp, \Registry::get('public_key'));
+
+            // User's keys
             foreach($sshKeys as $sshKey) {
                 $rsa = new \Crypt_RSA();
                 $rsa->loadKey($sshKey);
