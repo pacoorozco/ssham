@@ -36,7 +36,7 @@ class UserCreateRequest extends Request
     {
         return [
             'username' => 'required|max:255|unique:users',
-            'public_key' => 'openssh_key:public',
+            'public_key' => 'rsa_key:public',
         ];
     }
 

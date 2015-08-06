@@ -14,14 +14,23 @@ class OpenSSHKeyValidatorServiceProvider extends ServiceProvider
     public function boot()
     {
         // Registering the validator extension with the validator factory
-        \Validator::extend('openssh_key', function ($attribute, $value, $parameters) {
+        \Validator::extend('rsa_key', function ($attribute, $value, $parameters) {
 
-            // Convert $value in a OpenSSH Key and compares with input
+            // first item equals key type (public or private)
+            $keyType = array_shift($parameters);
+
             $rsa = new \Crypt_RSA();
             $rsa->loadKey($value);
-            $rsa->setPublicKey();
 
-            return ($value == $rsa->getPublicKey(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH));
+            // Convert $value in a RSA Key and compares with input
+            if ($keyType == 'private') {
+                $convertedKey = $rsa->getPrivateKey();
+            } else {
+                $rsa->setPublicKey();
+                $convertedKey = $rsa->getPublicKey(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
+            }
+
+            return ($value == $convertedKey);
         });
     }
 

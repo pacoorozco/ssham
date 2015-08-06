@@ -39,7 +39,7 @@ class UserUpdateRequest extends Request
         return [
             'username'  => 'sometimes|min:5|max:255|unique:users,username,' . $user->id,
             'enabled'   => 'required|boolean',
-            'public_key' => 'required|openssh_key:public',
+            'public_key' => 'required|rsa_key:public',
         ];
     }
 
