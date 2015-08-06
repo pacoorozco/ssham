@@ -139,6 +139,7 @@ return [
         SSHAM\Providers\AppServiceProvider::class,
         SSHAM\Providers\EventServiceProvider::class,
         SSHAM\Providers\RouteServiceProvider::class,
+        SSHAM\Providers\OpenSSHKeyValidatorServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
