@@ -94,7 +94,10 @@ class Host extends Model
 
         foreach($users as $user)
         {
-            $sshKeys[] = $user->public_key . ' ' . $user->username;
+            $content = explode(' ', $user->public_key, 3);
+            $content[2] = $user->username . '@ssham';
+
+            $sshKeys[] = join(' ', $content);
         }
 
         return $sshKeys;
