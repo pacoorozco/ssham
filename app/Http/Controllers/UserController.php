@@ -53,10 +53,15 @@ class UserController extends Controller
     {
         $user = new User($request->all());
 
-        if (!$request->public_key) {
-            $private_key = $user->createRSAKeyPair();
-            // 'Download private key ' . link_to(route('file.download', $private_key), 'here'),
-        }
+//        if (!$request->public_key) {
+//            $private_key = $user->createRSAKeyPair();
+//            // 'Download private key ' . link_to(route('file.download', $private_key), 'here'),
+//        }
+
+        // Calculates fingerprint of a SSH public key
+        $content = explode(' ', $request->public_key, 3);
+        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
+
         $user->save();
 
         // Associate User's Groups if has been submitted
@@ -111,6 +116,11 @@ class UserController extends Controller
         } else {
             $user->usergroups()->detach();
         }
+
+        // Calculates fingerprint of a SSH public key
+        $content = explode(' ', $request->public_key, 3);
+        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
+
         $user->save();
 
         flash()->success(\Lang::get('user/messages.edit.success'));
