@@ -18,6 +18,16 @@ class UserCreateRequest extends Request
     }
 
     /**
+     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
+     *
+     * @return mixed
+     */
+    protected function getValidatorInstance() {
+        $this->sanitize();
+        return parent::getValidatorInstance();
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -25,8 +35,22 @@ class UserCreateRequest extends Request
     public function rules()
     {
         return [
-            'username'      => 'required|min:5|max:255|unique:users',
+            'username' => 'required|max:255|unique:users',
+            'public_key' => 'openssh_key:public',
         ];
+    }
+
+    /**
+     * Sanitizes user input. In special 'public_key' to remove carriage returns
+     */
+    protected function sanitize()
+    {
+        $input = $this->all();
+
+        // Removes carriage returns from 'public_key' input
+        $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+
+        $this->replace($input);
     }
 
 }
