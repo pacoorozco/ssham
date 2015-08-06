@@ -30,7 +30,7 @@
                     <div class="form-group {{ $errors->has('private_key') ? 'has-error' : '' }}">
                         {!! Form::label('private_key', Lang::get('settings/model.private_key'), array('class' => 'control-label')) !!}
                         <div class="controls">
-                            {!! Form::text('private_key', Registry::get('private_key'), array('class' => 'form-control')) !!}
+                            {!! Form::textarea('private_key', Registry::get('private_key'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('private_key', ':message') }}</span>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                     <div class="form-group {{ $errors->has('public_key') ? 'has-error' : '' }}">
                         {!! Form::label('public_key', Lang::get('settings/model.public_key'), array('class' => 'control-label')) !!}
                         <div class="controls">
-                            {!! Form::text('public_key', Registry::get('public_key'), array('class' => 'form-control')) !!}
+                            {!! Form::textarea('public_key', Registry::get('public_key'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('public_key', ':message') }}</span>
                         </div>
                     </div>
