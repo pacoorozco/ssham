@@ -77,12 +77,10 @@ $(document).ready(function() {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! Lang::get('site.language') !!}.json"
         },
-        "processing": true,
-        "serverSide": true,
         "ajax": "{!! route('users.data') !!}",
         "columns": [
             {data: "username"},
-            {data: "fingerprint", "orderable": false},
+            {data: "fingerprint", "orderable": false, "searchable": true},
             {data: "groups", "orderable": false, "searchable": false},
             {data: "actions", "orderable": false, "searchable": false}
         ]

@@ -81,8 +81,6 @@ $(document).ready(function() {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! Lang::get('site.language') !!}.json"
         },
-        "processing": true,
-        "serverSide": true,
         "ajax": "{!! route('rules.data') !!}",
         "columns": [
             {data: "usergroup"},

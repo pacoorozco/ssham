@@ -79,8 +79,6 @@ $(document).ready(function() {
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! Lang::get('site.datatables_lang') !!}.json"
         },
-        "processing": true,
-        "serverSide": true,
         "ajax": "{!! route('hosts.data') !!}",
         "columns": [
             {data: "hostname"},
