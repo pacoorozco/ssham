@@ -28,7 +28,6 @@ class User extends Model implements AuthenticatableContract
     protected $fillable = [
         'username',
         'public_key',
-        'private_key',
         'fingerprint',
         'enabled'
     ];
@@ -42,7 +41,6 @@ class User extends Model implements AuthenticatableContract
         'email',
         'auth_type',
         'password',
-        'private_key',
         'remember_token'
     ];
 

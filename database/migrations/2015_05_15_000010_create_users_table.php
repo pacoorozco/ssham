@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->rememberToken();
             $table->text('public_key')->nullable();
-            $table->text('private_key')->nullable();
             $table->string('fingerprint')->nullable();
             $table->boolean('enabled')->default('1');
             $table->timestamps();
