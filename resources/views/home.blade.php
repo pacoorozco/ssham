@@ -39,7 +39,7 @@
                     {{ trans('dashboard/messages.manage_users_description') }}
                 </div>
                 <a class="view-more" href="{!! route('users.index') !!}">
-                    {{ trans('button.view_more') }}
+                    {{ trans('general.view_more') }}  <i class="clip-arrow-right-2"></i>
                 </a>
             </div>
         </div>
@@ -54,7 +54,7 @@
                     {{ trans('dashboard/messages.manage_hosts_description') }}
                 </div>
                 <a class="view-more" href="{!! route('hosts.index') !!}">
-                    {{ trans('button.view_more') }}
+                    {{ trans('general.view_more') }}  <i class="clip-arrow-right-2"></i>
                 </a>
             </div>
         </div>
@@ -69,7 +69,7 @@
                     {{ trans('dashboard/messages.manage_accesses_description') }}
                 </div>
                 <a class="view-more" href="{!! route('rules.index') !!}">
-                    {{ trans('button.view_more') }}
+                    {{ trans('general.view_more') }}  <i class="clip-arrow-right-2"></i>
                 </a>
             </div>
         </div>

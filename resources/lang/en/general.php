@@ -12,7 +12,6 @@ return [
     'update' => 'Update',
     'save' => 'Save data',
     'back' => 'Back',
-    'actions' => 'Actions',
     'submit' => 'Submit',
     'view_more' => 'View More',
 ];

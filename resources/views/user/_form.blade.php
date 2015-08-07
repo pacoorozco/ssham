@@ -122,7 +122,7 @@
         <!-- Form Actions -->
         <div class="form-group">
             <div class="controls">
-                {!! Form::button(trans('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                {!! Form::button('<i class="fa fa-floppy-o"></i> ' . trans('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             </div>
         </div>
         <!-- ./ form actions -->

@@ -39,11 +39,11 @@
                 {{ trans('auth.remember_me') }}
             </label>
             <button type="submit" class="btn btn-bricky pull-right">
-                {{ trans('button.submit') }}
+                {{ trans('general.submit') }} <i class="fa fa-arrow-circle-right"></i>
             </button>
         </div>
     </fieldset>
     {!! Form::close() !!}
 </div>
 <!-- end: LOGIN BOX -->
-@stop
+@endsection

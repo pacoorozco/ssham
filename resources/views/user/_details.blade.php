@@ -41,11 +41,11 @@
 
         <div class="form-group">
             <div class="controls">
-                <a href="{!! route('users.index') !!}" class="btn btn-primary">{{ trans('button.back') }}</a>
+                <a href="{!! route('users.index') !!}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> {{ trans('general.back') }}</a>
                 @if ($action == 'show')
-                <a href="{!! route('users.edit', $user->id) !!}" class="btn btn-primary">{{ trans('button.edit') }}</a>
+                <a href="{!! route('users.edit', $user->id) !!}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ trans('general.edit') }}</a>
                 @else
-                {!! Form::button(trans('button.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
+                {!! Form::button('<i class="fa fa-trash-o"></i> ' . trans('general.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif
             </div>
         </div>
