@@ -12,13 +12,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! trans('rule/title.rule_management') !!}
+    {{ trans('rule/title.rule_management') }}
 @endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
-        {!! trans('rule/title.rule_management') !!} <small>{!! trans('rule/title.rule_management_subtitle') !!}</small>
+        {{ trans('rule/title.rule_management') }} <small>{{ trans('rule/title.rule_management_subtitle') }}</small>
     </h1>
 @endsection
 
@@ -27,11 +27,11 @@
 <li>
     <i class="clip-database"></i>
     <a href="{!! route('rules.index') !!}">
-        {!! trans('site.rules') !!}
+        {{ trans('site.rules') }}
     </a>
 </li>
 <li class="active">
-    {!! trans('rule/title.rule_management') !!}
+    {{ trans('rule/title.rule_management') }}
 </li>
 @endsection
 
@@ -46,7 +46,7 @@
 <div class="row">
     <div class="col-md-12 space20">
         <a class="btn btn-green add-row" href="{!! route('rules.create') !!}">
-            <i class="fa fa-plus"></i> {!! trans('rule/title.create_a_new_rule') !!}
+            <i class="fa fa-plus"></i> {{ trans('rule/title.create_a_new_rule') }}
         </a>
     </div>
 </div>
@@ -57,11 +57,11 @@
         <table id="rules" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">{!! trans('rule/table.user_group') !!}</th>
-                <th class="col-md-4">{!! trans('rule/table.host_group') !!}</th>
-                <th class="col-md-2">{!! trans('rule/table.action') !!}</th>
-                <th class="col-md-2">{!! trans('rule/table.enabled') !!}</th>
-                <th class="col-md-2">{!! trans('rule/table.actions') !!}</th>
+                <th class="col-md-4">{{ trans('rule/table.user_group') }}</th>
+                <th class="col-md-4">{{ trans('rule/table.host_group') }}</th>
+                <th class="col-md-2">{{ trans('rule/table.action') }}</th>
+                <th class="col-md-2">{{ trans('rule/table.enabled') }}</th>
+                <th class="col-md-2">{{ trans('rule/table.actions') }}</th>
             </tr>
         </thead>
         </table>
@@ -79,7 +79,7 @@
 $(document).ready(function() {
     oTable = $('#rules').DataTable({
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{!! trans('site.language') !!}.json"
+            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{{ trans('site.language') }}.json"
         },
         "ajax": "{!! route('rules.data') !!}",
         "columns": [

@@ -5,12 +5,12 @@
         <h2>{{ $hostgroup->name }}</h2>
 
         <!-- description -->
-        <strong>{!! trans('hostgroup/model.description') !!}</strong>
+        <strong>{{ trans('hostgroup/model.description') }}</strong>
         <pre>{{ $hostgroup->description }}</pre>
         <!-- ./ description -->
 
         <!-- groups -->
-        <strong>{!! trans('hostgroup/model.hosts') !!}</strong>
+        <strong>{{ trans('hostgroup/model.hosts') }}</strong>
         <pre>
             @foreach($hostgroup->hosts as $host)
                 {{ $host->getFullHostname() }}
@@ -26,9 +26,9 @@
 
         <div class="form-group">
             <div class="controls">
-                <a href="{!! route('hostgroups.index') !!}" class="btn btn-primary">{!! trans('button.back') !!}</a>
+                <a href="{!! route('hostgroups.index') !!}" class="btn btn-primary">{{ trans('button.back') }}</a>
                 @if ($action == 'show')
-                <a href="{!! route('hostgroups.edit', $hostgroup->id) !!}" class="btn btn-primary">{!! trans('button.edit') !!}</a>
+                <a href="{!! route('hostgroups.edit', $hostgroup->id) !!}" class="btn btn-primary">{{ trans('button.edit') }}</a>
                 @else
                 {!! Form::button(trans('button.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif

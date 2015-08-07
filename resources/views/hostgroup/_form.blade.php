@@ -66,9 +66,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! trans('hostgroup/messages.hosts_placeholder') !!}",
+            placeholder: "{{ trans('hostgroup/messages.hosts_placeholder') }}",
             allowClear: true,
-            language: "{!! trans('site.language_short') !!}"
+            language: "{{ trans('site.language_short') }}"
         });
     </script>
 @stop

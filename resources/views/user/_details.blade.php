@@ -5,17 +5,17 @@
         <h2>{{ $user->username }}</h2>
 
         <!-- fingerprint -->
-        <strong>{!! trans('user/model.fingerprint') !!}</strong>
+        <strong>{{ trans('user/model.fingerprint') }}</strong>
         <pre>{{ $user->fingerprint }}</pre>
         <!-- ./ fingerprint -->
 
         <!-- public key -->
-        <strong>{!! trans('user/model.public_key') !!}</strong>
+        <strong>{{ trans('user/model.public_key') }}</strong>
         <pre>{{ $user->public_key }}</pre>
         <!-- ./ public key -->
 
         <!-- groups -->
-        <strong>{!! trans('user/model.groups') !!}</strong>
+        <strong>{{ trans('user/model.groups') }}</strong>
         <pre>
             @foreach($user->usergroups as $group)
                 {{ $group->name }}
@@ -24,12 +24,12 @@
         <!-- ./ groups -->
 
         <!-- administrator role -->
-        <strong>{!! trans('user/model.is_admin') !!}</strong>
+        <strong>{{ trans('user/model.is_admin') }}</strong>
         <pre>{!! ($user->hasRole('admin') ? trans('general.yes') : trans('general.no')) !!}</pre>
         <!-- ./ administrator role -->
 
         <!-- enabled -->
-        <strong>{!! trans('user/model.enabled') !!}</strong>
+        <strong>{{ trans('user/model.enabled') }}</strong>
         <pre>{!! ($user->enabled) ? trans('general.yes') : trans('general.no') !!}</pre>
         <!-- ./ enabled -->
         
@@ -41,9 +41,9 @@
 
         <div class="form-group">
             <div class="controls">
-                <a href="{!! route('users.index') !!}" class="btn btn-primary">{!! trans('button.back') !!}</a>
+                <a href="{!! route('users.index') !!}" class="btn btn-primary">{{ trans('button.back') }}</a>
                 @if ($action == 'show')
-                <a href="{!! route('users.edit', $user->id) !!}" class="btn btn-primary">{!! trans('button.edit') !!}</a>
+                <a href="{!! route('users.edit', $user->id) !!}" class="btn btn-primary">{{ trans('button.edit') }}</a>
                 @else
                 {!! Form::button(trans('button.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif

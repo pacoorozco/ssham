@@ -4,9 +4,9 @@
 @section('content')
 <!-- start: LOGIN BOX -->
 <div class="box-login">
-    <h3>{!! trans('auth.sign_title') !!}</h3>
+    <h3>{{ trans('auth.sign_title') }}</h3>
     <p>
-        {!! trans('auth.sign_instructions') !!}
+        {{ trans('auth.sign_instructions') }}
     </p>
 
     {!! Form::open(['route' => 'login', 'class' => 'form-login']) !!}
@@ -36,10 +36,10 @@
         <div class="form-actions">
             <label for="remember" class="checkbox-inline">
                 {!! Form::checkbox('remember', '1', false, array('class' => 'grey remember')) !!}
-                {!! trans('auth.remember_me') !!}
+                {{ trans('auth.remember_me') }}
             </label>
             <button type="submit" class="btn btn-bricky pull-right">
-                {!! trans('button.submit') !!}
+                {{ trans('button.submit') }}
             </button>
         </div>
     </fieldset>

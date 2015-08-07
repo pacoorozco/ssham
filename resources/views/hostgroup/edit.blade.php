@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! trans('hostgroup/title.host_group_update') !!}
+	{{ trans('hostgroup/title.host_group_update') }}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! trans('hostgroup/title.host_group_update') !!} <small>{{ $hostgroup->name }}</small>
+    {{ trans('hostgroup/title.host_group_update') }} <small>{{ $hostgroup->name }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="fa fa-tasks"></i>
     <a href="{!! route('hostgroups.index') !!}">
-        {!! trans('site.hostgroups') !!}
+        {{ trans('site.hostgroups') }}
     </a>
 </li>
 <li class="active">
-    {!! trans('hostgroup/title.host_group_update') !!}
+    {{ trans('hostgroup/title.host_group_update') }}
 </li>
 @stop
 

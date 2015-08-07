@@ -9,7 +9,7 @@
     <ul class="main-navigation-menu">
         <li {!! Request::is('home') ? ' class="active"' : '' !!}>
             <a href="{!! route('home') !!}"><i class="clip-home-3"></i>
-                <span class="title"> {!! trans('site.home') !!} </span>
+                <span class="title"> {{ trans('site.home') }} </span>
                 {!! Request::is('home') ? '<span class="selected"></span>' : '' !!}
             </a>
         </li>

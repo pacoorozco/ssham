@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! trans('usergroup/title.user_group_update') !!}
+	{{ trans('usergroup/title.user_group_update') }}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! trans('usergroup/title.user_group_update') !!} <small>{{ $usergroup->name }}</small>
+    {{ trans('usergroup/title.user_group_update') }} <small>{{ $usergroup->name }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-users"></i>
     <a href="{!! route('usergroups.index') !!}">
-        {!! trans('site.user_groups') !!}
+        {{ trans('site.user_groups') }}
     </a>
 </li>
 <li class="active">
-    {!! trans('usergroup/title.user_group_update') !!}
+    {{ trans('usergroup/title.user_group_update') }}
 </li>
 @stop
 

@@ -88,9 +88,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! trans('host/messages.groups_help') !!}",
+            placeholder: "{{ trans('host/messages.groups_help') }}",
             allowClear: true,
-            language: "{!! trans('site.language_short') !!}"
+            language: "{{ trans('site.language_short') }}"
         });
     </script>
 @stop

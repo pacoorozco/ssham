@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! trans('rule/title.create_a_new_rule') !!}
+	{{ trans('rule/title.create_a_new_rule') }}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! trans('rule/title.create_a_new_rule') !!} <small>{!! trans('rule/title.create_a_new_rule_subtitle') !!}</small>
+    {{ trans('rule/title.create_a_new_rule') !!} <small>{!! trans('rule/title.create_a_new_rule_subtitle') }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-database"></i>
     <a href="{!! route('rules.index') !!}">
-        {!! trans('site.rules') !!}
+        {{ trans('site.rules') }}
     </a>
 </li>
 <li class="active">
-    {!! trans('rule/title.create_a_new_rule') !!}
+    {{ trans('rule/title.create_a_new_rule') }}
 </li>
 @stop
 

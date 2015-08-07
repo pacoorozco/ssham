@@ -5,12 +5,12 @@
         <h2>{{ $usergroup->name }}</h2>
 
         <!-- description -->
-        <strong>{!! trans('usergroup/model.description') !!}</strong>
+        <strong>{{ trans('usergroup/model.description') }}</strong>
         <pre>{{ $usergroup->description }}</pre>
         <!-- ./ description -->
 
         <!-- groups -->
-        <strong>{!! trans('usergroup/model.users') !!}</strong>
+        <strong>{{ trans('usergroup/model.users') }}</strong>
         <pre>
             @foreach($usergroup->users as $user)
                 {{ $user->username }}
@@ -26,9 +26,9 @@
 
         <div class="form-group">
             <div class="controls">
-                <a href="{!! route('usergroups.index') !!}" class="btn btn-primary">{!! trans('button.back') !!}</a>
+                <a href="{!! route('usergroups.index') !!}" class="btn btn-primary">{{ trans('button.back') }}</a>
                 @if ($action == 'show')
-                <a href="{!! route('usergroups.edit', $usergroup->id) !!}" class="btn btn-primary">{!! trans('button.edit') !!}</a>
+                <a href="{!! route('usergroups.edit', $usergroup->id) !!}" class="btn btn-primary">{{ trans('button.edit') }}</a>
                 @else
                 {!! Form::button(trans('button.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif
