@@ -17,16 +17,59 @@
         </div>
         <!-- ./ username -->
 
-        <!-- public_key -->
+        <!-- SSH public key -->
         <div class="form-group {{ $errors->has('public_key') ? 'has-error' : '' }}">
             {!! Form::label('public_key', Lang::get('user/model.public_key'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::textarea('public_key', null, array('class' => 'form-control')) !!}
-                <span class="help-block"><i class="fa fa-info-circle"></i> If you leave blank a new SSH key will be created.</span>
+
+                <!-- create RSA key -->
+                @if (isset($user))
+                    <label class="radio-inline">
+                        {!! Form::radio('create_rsa_key', '1', false, array('id' => 'create_rsa_key_true')) !!}
+                        {!! Lang::get('user/messages.create_rsa_key') !!}
+                    </label>
+                    <div id="create_rsa_key" style="display: none">
+                        <span class="help-block">{!! Lang::get('user/messages.create_rsa_key_help') !!}</span>
+                        <span class="help-block">{!! Lang::get('user/messages.create_rsa_key_help_notice') !!}</span>
+                    </div>
+                @else
+                    <label class="radio-inline">
+                        {!! Form::radio('create_rsa_key', '1', true, array('id' => 'create_rsa_key_true')) !!}
+                        {!! Lang::get('user/messages.create_rsa_key') !!}
+                    </label>
+                    <div id="create_rsa_key">
+                        <span class="help-block">{!! Lang::get('user/messages.create_rsa_key_help') !!}</span>
+                    </div>
+                @endif
+                <!-- ./ create RSA key -->
+
+                <p></p>
+                <!-- import / edit public_key -->
+                @if (isset($user))
+                    <label class="radio-inline">
+                        {!! Form::radio('create_rsa_key', '0', true, array('id' => 'create_rsa_key_false')) !!}
+                        {!! Lang::get('user/messages.import_rsa_key') !!}
+                    </label>
+                    <div id="import_rsa_key">
+                        <span class="help-block">{!! Lang::get('user/messages.import_rsa_key_help') !!}</span>
+                        {!! Form::textarea('public_key', null, array('class' => 'form-control', 'id' => 'public_key_input')) !!}
+                    </div>
+                @else
+                    <label class="radio-inline">
+                        {!! Form::radio('create_rsa_key', '0', false, array('id' => 'create_rsa_key_false')) !!}
+                        {!! Lang::get('user/messages.import_rsa_key') !!}
+                    </label>
+                    <div id="import_rsa_key" style="display: none">
+                        <span class="help-block">{!! Lang::get('user/messages.import_rsa_key_help') !!}</span>
+                        {!! Form::textarea('public_key', null, array('class' => 'form-control', 'id' => 'public_key_input', 'disabled' => 'disabled')) !!}
+                    </div>
+                @endif
+
                 <span class="help-block">{{ $errors->first('public_key', ':message') }}</span>
+                <!-- ./ import / edit public_key -->
             </div>
         </div>
-        <!-- ./ public_key -->
+        <!-- ./ SSH public key -->
 
     </div>
     <div class="col-xs-6">
@@ -46,28 +89,28 @@
         <!-- ./ user's groups -->
 
         @if (isset($user))
-            <!-- administrator role -->
-            <div class="form-group {{ $errors->has('is_admin') ? 'has-error' : '' }}">
-                {!! Form::label('is_admin', Lang::get('user/model.is_admin'), array('class' => 'control-label')) !!}
-                <div class="controls">
-                    {!! Form::select('is_admin', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), ($user->hasRole('admin') ? '1' : '0'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
-                    <span class="help-block">{{ $errors->first('is_admin', ':message') }}</span>
-                </div>
+                <!-- administrator role -->
+        <div class="form-group {{ $errors->has('is_admin') ? 'has-error' : '' }}">
+            {!! Form::label('is_admin', Lang::get('user/model.is_admin'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::select('is_admin', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), ($user->hasRole('admin') ? '1' : '0'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                <span class="help-block">{{ $errors->first('is_admin', ':message') }}</span>
             </div>
-            <!-- ./ administrator role -->
+        </div>
+        <!-- ./ administrator role -->
         @endif
 
         @if (isset($user))
-            <!-- enabled -->
-            <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
-                {!! Form::label('enabled', Lang::get('user/model.enabled'), array('class' => 'control-label')) !!}
-                <div class="controls">
-                    {!! Form::select('enabled', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')),
-                    null, array('class' => 'form-control')) !!}
-                    <span class="help-block">{{ $errors->first('enabled', ':message') }}</span>
-                </div>
+                <!-- enabled -->
+        <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
+            {!! Form::label('enabled', Lang::get('user/model.enabled'), array('class' => 'control-label')) !!}
+            <div class="controls">
+                {!! Form::select('enabled', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')),
+                null, array('class' => 'form-control')) !!}
+                <span class="help-block">{{ $errors->first('enabled', ':message') }}</span>
             </div>
-            <!-- ./ enabled -->
+        </div>
+        <!-- ./ enabled -->
         @endif
 
     </div>
@@ -100,6 +143,18 @@
             placeholder: "{!! Lang::get('user/messages.groups_help') !!}",
             allowClear: true,
             language: "{!! Lang::get('site.language_short') !!}"
+        });
+
+        $("#create_rsa_key_false").click(function(){
+            $("#create_rsa_key").hide();
+            $("#public_key_input").removeAttr("disabled");
+            $("#import_rsa_key").show();
+        });
+
+        $("#create_rsa_key_true").click(function(){
+            $("#create_rsa_key").show();
+            $("#public_key_input").attr("disabled", "disabled");
+            $("#import_rsa_key").hide();
         });
     </script>
 @stop

@@ -48,22 +48,27 @@ class User extends Model implements AuthenticatableContract
 
     public function createRSAKeyPair()
     {
+        // create a new RSA key pair
         $rsa = new \Crypt_RSA();
+        $rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
         $keyPair = $rsa->createKey();
 
+        // save RSA public key
         $this->public_key = $keyPair['publickey'];
-        $this->private_key = $keyPair['privatekey'];
 
-        $privateKey = str_random();
-        Storage::disk('local')->put($privateKey, $keyPair['privatekey']);
+        // create a random name for RSA private key file
+        $privateKey = str_random(32);
+        \Storage::disk('local')->put($privateKey, $keyPair['privatekey']);
 
+        // create a downloadable file, with a random name
         $fileEntry = new FileEntry();
         $fileEntry->filename = $privateKey;
         $fileEntry->mime = 'application/octet-stream';
-        $fileEntry->original_filename = $this->name . '.rsa';
+        $fileEntry->original_filename = $this->username . '.rsa';
+
         $fileEntry->save();
 
-        return $privateKey;
+        return array($keyPair['publickey'], $privateKey);
     }
 
     /**

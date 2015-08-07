@@ -36,7 +36,8 @@ class UserCreateRequest extends Request
     {
         return [
             'username' => 'required|max:255|unique:users',
-            'public_key' => 'rsa_key:public',
+            'create_rsa_key' => 'required|boolean',
+            'public_key' => 'required_if:create_rsa_key,0|rsa_key:public',
         ];
     }
 
@@ -48,7 +49,9 @@ class UserCreateRequest extends Request
         $input = $this->all();
 
         // Removes carriage returns from 'public_key' input
-        $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        if (isset($input['public_key'])) {
+            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        }
 
         $this->replace($input);
     }

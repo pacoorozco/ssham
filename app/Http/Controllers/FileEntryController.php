@@ -17,14 +17,26 @@ class FileEntryController extends Controller
      */
     public function get($filename)
     {
-        $entry = FileEntry::where('filename', '=', $filename)->firstOrFail();
+        // If file doesn't exists sends an 404 error
+        if (! Storage::disk('local')->exists($filename)) {
+            abort(404);
+        }
 
-        $storagePath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
-        
+        // Obtain information for file download
+        $entry = FileEntry::where('filename', '=', $filename)->firstOrFail();
+        $original_filename = $entry->original_filename;
+
+        // Get local storage path
+        $filename_path = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . $filename;
+
+        // Remove FileEntry
+        $entry->delete();
+
+        // Returns file to be downloaded and deletes after finish
         return response()->download(
-            $storagePath . '/' . $filename,
-            $entry->original_filename
-            );
+            $filename_path,
+            $original_filename
+            )->deleteFileAfterSend(true);
     }
 
 }

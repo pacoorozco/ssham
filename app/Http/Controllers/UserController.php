@@ -53,10 +53,10 @@ class UserController extends Controller
     {
         $user = new User($request->all());
 
-//        if (!$request->public_key) {
-//            $private_key = $user->createRSAKeyPair();
-//            // 'Download private key ' . link_to(route('file.download', $private_key), 'here'),
-//        }
+        // Test if we need to create a new RSA key
+        if($request->create_rsa_key == '1') {
+            list($request->public_key, $private_key) = $user->createRSAKeyPair();
+        }
 
         // Calculates fingerprint of a SSH public key
         $content = explode(' ', $request->public_key, 3);
@@ -70,7 +70,11 @@ class UserController extends Controller
             $user->save();
         }
 
-        flash()->overlay(\Lang::get('user/messages.create.success'));
+        if($request->create_rsa_key == '1') {
+            flash()->overlay(trans('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
+        } else {
+            flash()->overlay(trans('user/messages.create.success'));
+        }
 
         return redirect()->route('users.index');
     }
@@ -110,11 +114,9 @@ class UserController extends Controller
     {
         $user->update($request->all());
 
-        // Associate User's Groups
-        if ($request->groups) {
-            $user->usergroups()->sync($request->groups);
-        } else {
-            $user->usergroups()->detach();
+        // Test if we need to create a new RSA key
+        if($request->create_rsa_key == '1') {
+            list($request->public_key, $private_key) = $user->createRSAKeyPair();
         }
 
         // Calculates fingerprint of a SSH public key
@@ -123,9 +125,22 @@ class UserController extends Controller
 
         $user->save();
 
-        flash()->success(\Lang::get('user/messages.edit.success'));
+        // Associate User's Groups
+        if ($request->groups) {
+            $user->usergroups()->sync($request->groups);
+        } else {
+            $user->usergroups()->detach();
+        }
 
-        return redirect()->route('users.edit', [$user->id]);
+        $user->save();
+
+        if($request->create_rsa_key == '1') {
+            flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
+        } else {
+            flash()->overlay(trans('user/messages.edit.success'));
+        }
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -149,7 +164,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        flash()->success(\Lang::get('user/messages.delete.success'));
+        flash()->success(trans('user/messages.delete.success'));
 
         return redirect()->route('users.index');
     }
@@ -172,7 +187,7 @@ class UserController extends Controller
 
         return $datatable->usingEloquent($users)
             ->editColumn('username', function ($model) {
-                return ($model->enabled) ? $model->username : $model->username . ' <span class="label label-sm label-danger">' . \Lang::get('general.disabled') .'</span>';
+                return ($model->enabled) ? $model->username : $model->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') .'</span>';
             })
             ->addColumn('groups', function ($model) {
                 return count($model->usergroups->lists('id')->all());

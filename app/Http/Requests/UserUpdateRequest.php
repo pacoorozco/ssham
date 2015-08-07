@@ -37,9 +37,10 @@ class UserUpdateRequest extends Request
         $user = $this->route('users');
 
         return [
-            'username'  => 'sometimes|min:5|max:255|unique:users,username,' . $user->id,
+            'username'  => 'sometimes|max:255|unique:users,username,' . $user->id,
+            'create_rsa_key' => 'required|boolean',
+            'public_key' => 'required_if:create_rsa_key,0|rsa_key:public',
             'enabled'   => 'required|boolean',
-            'public_key' => 'required|rsa_key:public',
         ];
     }
 
@@ -51,7 +52,9 @@ class UserUpdateRequest extends Request
         $input = $this->all();
 
         // Removes carriage returns from 'public_key' input
-        $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        if (isset($input['public_key'])) {
+            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        }
 
         $this->replace($input);
     }
