@@ -44,7 +44,7 @@ class AuthController extends Controller
             return redirect()->intended();
         }
 
-        flash()->error(\Lang::get('auth.invalid_credentials'));
+        flash()->error(trans('auth.invalid_credentials'));
 
         return redirect()->back()
                 ->withInput($request->only('username', 'remember'));
@@ -59,7 +59,7 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        flash()->success(\Lang::get('auth.logout_successfully'));
+        flash()->success(trans('auth.logout_successfully'));
 
         return redirect()->route('login');
     }

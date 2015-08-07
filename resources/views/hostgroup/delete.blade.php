@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('hostgroup/title.host_group_delete') !!}
+	{!! trans('hostgroup/title.host_group_delete') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('hostgroup/title.host_group_delete') !!} <small>{{ $hostgroup->name }}</small>
+    {!! trans('hostgroup/title.host_group_delete') !!} <small>{{ $hostgroup->name }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="fa fa-tasks"></i>
     <a href="{!! route('hostgroups.index') !!}">
-        {!! Lang::get('site.host_groups') !!}
+        {!! trans('site.host_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('hostgroup/title.host_group_delete') !!}
+    {!! trans('hostgroup/title.host_group_delete') !!}
 </li>
 @stop
 

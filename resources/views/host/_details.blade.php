@@ -5,7 +5,7 @@
         <h2>{{ $host->getFullHostname() }}</h2>
 
         <!-- groups -->
-        <strong>{!! Lang::get('host/model.groups') !!}</strong>
+        <strong>{!! trans('host/model.groups') !!}</strong>
         <pre>
             @foreach($host->hostgroups as $group)
                 {{ $group->name }}
@@ -14,8 +14,8 @@
         <!-- ./ groups -->
 
         <!-- enabled -->
-        <strong>{!! Lang::get('host/model.enabled') !!}</strong>
-        <pre>{{ ($host->enabled) ? Lang::get('general.yes') : Lang::get('general.no') }}</pre>
+        <strong>{!! trans('host/model.enabled') !!}</strong>
+        <pre>{{ ($host->enabled) ? trans('general.yes') : trans('general.no') }}</pre>
         <!-- ./ enabled -->
 
     </div>
@@ -26,11 +26,11 @@
 
         <div class="form-group">
             <div class="controls">
-                <a href="{!! route('hosts.index') !!}" class="btn btn-primary">{!! Lang::get('button.back') !!}</a>
+                <a href="{!! route('hosts.index') !!}" class="btn btn-primary">{!! trans('button.back') !!}</a>
                 @if ($action == 'show')
-                <a href="{!! route('hosts.edit', $host->id) !!}" class="btn btn-primary">{!! Lang::get('button.edit') !!}</a>
+                <a href="{!! route('hosts.edit', $host->id) !!}" class="btn btn-primary">{!! trans('button.edit') !!}</a>
                 @else
-                {!! Form::button(Lang::get('button.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
+                {!! Form::button(trans('button.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif
             </div>
         </div>

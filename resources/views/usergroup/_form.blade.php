@@ -5,7 +5,7 @@
 
         <!-- name -->
         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-            {!! Form::label('name', Lang::get('usergroup/model.name'), array('class' => 'control-label')) !!}
+            {!! Form::label('name', trans('usergroup/model.name'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::text('name', null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('name', ':message') }}</span>
@@ -15,7 +15,7 @@
 
         <!-- description -->
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
-            {!! Form::label('description', Lang::get('usergroup/model.description'), array('class' => 'control-label')) !!}
+            {!! Form::label('description', trans('usergroup/model.description'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::textarea('description', null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('description', ':message') }}</span>
@@ -28,7 +28,7 @@
 
         <!-- users -->
         <div class="form-group {{ $errors->has('users[]') ? 'has-error' : '' }}">
-            {!! Form::label('users[]', Lang::get('usergroup/model.users'), array('class' => 'control-label')) !!}
+            {!! Form::label('users[]', trans('usergroup/model.users'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($usergroup))
                     {!! Form::select('users[]', $users, $usergroup->users->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
@@ -48,7 +48,7 @@
         <!-- Form Actions -->
         <div class="form-group">
             <div class="controls">
-                {!! Form::button(Lang::get('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                {!! Form::button(trans('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             </div>
         </div>
         <!-- ./ form actions -->
@@ -66,9 +66,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! Lang::get('usergroup/messages.users_placeholder') !!}",
+            placeholder: "{!! trans('usergroup/messages.users_placeholder') !!}",
             allowClear: true,
-            language: "{!! Lang::get('site.language_short') !!}"
+            language: "{!! trans('site.language_short') !!}"
         });
     </script>
 @stop

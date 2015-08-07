@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('usergroup/title.user_group_show') !!}
+	{!! trans('usergroup/title.user_group_show') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('usergroup/title.user_group_show') !!} <small>{{ $usergroup->name }}</small>
+    {!! trans('usergroup/title.user_group_show') !!} <small>{{ $usergroup->name }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-users"></i>
     <a href="{!! route('usergroups.index') !!}">
-        {!! Lang::get('site.user_groups') !!}
+        {!! trans('site.user_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('usergroup/title.user_group_show') !!}
+    {!! trans('usergroup/title.user_group_show') !!}
 </li>
 @stop
 

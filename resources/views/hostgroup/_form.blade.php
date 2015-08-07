@@ -5,7 +5,7 @@
 
         <!-- name -->
         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-            {!! Form::label('name', Lang::get('hostgroup/model.name'), array('class' => 'control-label')) !!}
+            {!! Form::label('name', trans('hostgroup/model.name'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::text('name', null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('name', ':message') }}</span>
@@ -15,7 +15,7 @@
 
         <!-- description -->
         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
-            {!! Form::label('description', Lang::get('hostgroup/model.description'), array('class' => 'control-label')) !!}
+            {!! Form::label('description', trans('hostgroup/model.description'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::textarea('description', null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('description', ':message') }}</span>
@@ -28,7 +28,7 @@
 
         <!-- hosts -->
         <div class="form-group {{ $errors->has('hosts[]') ? 'has-error' : '' }}">
-            {!! Form::label('hosts[]', Lang::get('hostgroup/model.hosts'), array('class' => 'control-label')) !!}
+            {!! Form::label('hosts[]', trans('hostgroup/model.hosts'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($hostgroup))
                     {!! Form::select('hosts[]', $hosts, $hostgroup->hosts->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
@@ -48,7 +48,7 @@
         <!-- Form Actions -->
         <div class="form-group">
             <div class="controls">
-                {!! Form::button(Lang::get('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                {!! Form::button(trans('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             </div>
         </div>
         <!-- ./ form actions -->
@@ -66,9 +66,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! Lang::get('hostgroup/messages.hosts_placeholder') !!}",
+            placeholder: "{!! trans('hostgroup/messages.hosts_placeholder') !!}",
             allowClear: true,
-            language: "{!! Lang::get('site.language_short') !!}"
+            language: "{!! trans('site.language_short') !!}"
         });
     </script>
 @stop

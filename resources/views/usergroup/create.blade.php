@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('usergroup/title.create_a_new_user_group') !!}
+	{!! trans('usergroup/title.create_a_new_user_group') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('usergroup/title.create_a_new_user_group') !!} <small>{!! Lang::get('usergroup/title.create_a_new_user_group_subtitle') !!}</small>
+    {!! trans('usergroup/title.create_a_new_user_group') !!} <small>{!! trans('usergroup/title.create_a_new_user_group_subtitle') !!}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-users"></i>
     <a href="{!! route('usergroups.index') !!}">
-        {!! Lang::get('site.user_groups') !!}
+        {!! trans('site.user_groups') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('usergroup/title.create_a_new_user_group') !!}
+    {!! trans('usergroup/title.create_a_new_user_group') !!}
 </li>
 @stop
 

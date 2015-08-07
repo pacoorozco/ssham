@@ -60,7 +60,7 @@ class HostgroupController extends Controller
             $hostgroup->save();
         }
 
-        flash()->success(\Lang::get('hostgroup/messages.create.success'));
+        flash()->success(trans('hostgroup/messages.create.success'));
 
         return redirect()->route('hostgroups.index');
     }
@@ -109,7 +109,7 @@ class HostgroupController extends Controller
         }
         $hostgroup->save();
 
-        flash()->success(\Lang::get('hostgroup/messages.edit.success'));
+        flash()->success(trans('hostgroup/messages.edit.success'));
 
         return redirect()->route('hostgroups.edit', [$hostgroup->id]);
     }
@@ -135,7 +135,7 @@ class HostgroupController extends Controller
     {
         $hostgroup->delete();
 
-        flash()->success(\Lang::get('hostgroup/messages.delete.success'));
+        flash()->success(trans('hostgroup/messages.delete.success'));
 
         return redirect()->route('hostgroups.index');
     }

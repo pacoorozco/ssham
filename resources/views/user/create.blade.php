@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('user/title.create_a_new_user') !!}
+	{!! trans('user/title.create_a_new_user') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('user/title.create_a_new_user') !!} <small>{!! Lang::get('user/title.create_a_new_user_subtitle') !!}</small>
+    {!! trans('user/title.create_a_new_user') !!} <small>{!! trans('user/title.create_a_new_user_subtitle') !!}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        {!! Lang::get('site.users') !!}
+        {!! trans('site.users') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('user/title.create_a_new_user') !!}
+    {!! trans('user/title.create_a_new_user') !!}
 </li>
 @stop
 

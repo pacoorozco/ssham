@@ -34,7 +34,7 @@ class SettingsController extends Controller
     {
         Registry::store($request->except('_token', '_method'));
 
-        flash()->success(\Lang::get('settings/messages.save.success'));
+        flash()->success(trans('settings/messages.save.success'));
 
         return redirect()->route('settings.index');
     }

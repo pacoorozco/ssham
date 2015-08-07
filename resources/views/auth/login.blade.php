@@ -4,9 +4,9 @@
 @section('content')
 <!-- start: LOGIN BOX -->
 <div class="box-login">
-    <h3>{!! Lang::get('auth.sign_title') !!}</h3>
+    <h3>{!! trans('auth.sign_title') !!}</h3>
     <p>
-        {!! Lang::get('auth.sign_instructions') !!}
+        {!! trans('auth.sign_instructions') !!}
     </p>
 
     {!! Form::open(['route' => 'login', 'class' => 'form-login']) !!}
@@ -20,7 +20,7 @@
             <span class="input-icon">
                 {!! Form::text('username', null, array(
                             'class' => 'form-control',
-                            'placeholder' => Lang::get('auth.username'),
+                            'placeholder' => trans('auth.username'),
                             'autofocus' => 'autofocus'
                             )) !!}
                 <i class="fa fa-user"></i> </span>
@@ -29,17 +29,17 @@
             <span class="input-icon">
                 {!! Form::password('password', array(
                             'class' => 'form-control password',
-                            'placeholder' => Lang::get('auth.password')
+                            'placeholder' => trans('auth.password')
                             )) !!}
                 <i class="fa fa-lock"></i> </span>
         </div>
         <div class="form-actions">
             <label for="remember" class="checkbox-inline">
                 {!! Form::checkbox('remember', '1', false, array('class' => 'grey remember')) !!}
-                {!! Lang::get('auth.remember_me') !!}
+                {!! trans('auth.remember_me') !!}
             </label>
             <button type="submit" class="btn btn-bricky pull-right">
-                {!! Lang::get('button.submit') !!}
+                {!! trans('button.submit') !!}
             </button>
         </div>
     </fieldset>

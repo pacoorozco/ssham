@@ -63,7 +63,7 @@ class HostController extends Controller
             $host->save();
         }
 
-        flash()->success(\Lang::get('host/messages.create.success'));
+        flash()->success(trans('host/messages.create.success'));
         
         return redirect()->route('hosts.index');
     }
@@ -111,7 +111,7 @@ class HostController extends Controller
         }
         $host->save();
 
-        flash()->success(\Lang::get('host/messages.edit.success'));
+        flash()->success(trans('host/messages.edit.success'));
 
         return redirect()->route('hosts.edit', [$host->id]);
     }
@@ -137,7 +137,7 @@ class HostController extends Controller
     {
         $host->delete();
 
-        flash()->success(\Lang::get('host/messages.delete.success'));
+        flash()->success(trans('host/messages.delete.success'));
 
         return redirect()->route('hosts.index');
     }
@@ -183,8 +183,8 @@ class HostController extends Controller
 
         return $datatable->usingEloquent($hosts)
             ->editColumn('enabled', function($model) {
-                return ($model->enabled) ? '<span class="label label-sm label-success">' . \Lang::get('general.enabled') . '</span>'
-                    : '<span class="label label-sm label-danger">' . \Lang::get('general.disabled') . '</span>';
+                return ($model->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
+                    : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
             })
             ->addColumn('groups', function ($model) {
                 return count($model->hostgroups->lists('id')->all());

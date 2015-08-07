@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {!! Lang::get('site.settings') !!}
+    {!! trans('site.settings') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
     <h1>
-        {!! Lang::get('site.settings') !!} <small>configure SSHAM</small>
+        {!! trans('site.settings') !!} <small>configure SSHAM</small>
     </h1>
 @stop
 
@@ -17,11 +17,11 @@
     <li>
         <i class="clip-settings"></i>
         <a href="{!! route('settings.index') !!}">
-            {!! Lang::get('site.settings') !!}
+            {!! trans('site.settings') !!}
         </a>
     </li>
     <li class="active">
-        {!! Lang::get('user/title.user_management') !!}
+        {!! trans('user/title.user_management') !!}
     </li>
 @stop
 

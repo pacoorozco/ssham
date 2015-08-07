@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('host/title.create_a_new_host') !!}
+	{!! trans('host/title.create_a_new_host') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('host/title.create_a_new_host') !!} <small>{!! Lang::get('host/title.create_a_new_host_subtitle') !!}</small>
+    {!! trans('host/title.create_a_new_host') !!} <small>{!! trans('host/title.create_a_new_host_subtitle') !!}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-bubbles-3"></i>
     <a href="{!! route('hosts.index') !!}">
-        {!! Lang::get('site.hosts') !!}
+        {!! trans('site.hosts') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('host/title.create_a_new_host') !!}
+    {!! trans('host/title.create_a_new_host') !!}
 </li>
 @stop
 

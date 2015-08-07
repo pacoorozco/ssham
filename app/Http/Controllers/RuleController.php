@@ -55,7 +55,7 @@ class RuleController extends Controller
         $rule = new Rule($request->all());
         $rule->save();
 
-        flash()->success(\Lang::get('rule/messages.create.success'));
+        flash()->success(trans('rule/messages.create.success'));
 
         return redirect()->route('rules.index');
     }
@@ -103,7 +103,7 @@ class RuleController extends Controller
     {
         $rule->delete();
 
-        flash()->success(\Lang::get('rule/messages.delete.success'));
+        flash()->success(trans('rule/messages.delete.success'));
 
         return redirect()->route('rules.index');
     }
@@ -135,8 +135,8 @@ class RuleController extends Controller
                 return ($model->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i> Allowed</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> Denied</span>';
             })
             ->editColumn('enabled', function($model) {
-                return ($model->enabled) ? '<span class="label label-sm label-success">' . \Lang::get('general.enabled') . '</span>'
-                    : '<span class="label label-sm label-danger">' . \Lang::get('general.disabled') . '</span>';
+                return ($model->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
+                    : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
             })
             ->addColumn('actions', function ($model) {
                 return view('partials.rules_dd', array(

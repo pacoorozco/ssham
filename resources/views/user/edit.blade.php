@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{!! Lang::get('user/title.user_update') !!}
+	{!! trans('user/title.user_update') !!}
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {!! Lang::get('user/title.user_update') !!} <small>{{ $user->username }}</small>
+    {!! trans('user/title.user_update') !!} <small>{{ $user->username }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        {!! Lang::get('site.users') !!}
+        {!! trans('site.users') !!}
     </a>
 </li>
 <li class="active">
-    {!! Lang::get('user/title.user_update') !!}
+    {!! trans('user/title.user_update') !!}
 </li>
 @stop
 

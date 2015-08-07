@@ -28,7 +28,7 @@
 
                     <!-- private_key -->
                     <div class="form-group {{ $errors->has('private_key') ? 'has-error' : '' }}">
-                        {!! Form::label('private_key', Lang::get('settings/model.private_key'), array('class' => 'control-label')) !!}
+                        {!! Form::label('private_key', trans('settings/model.private_key'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::textarea('private_key', Registry::get('private_key'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('private_key', ':message') }}</span>
@@ -38,7 +38,7 @@
 
                     <!-- public_key -->
                     <div class="form-group {{ $errors->has('public_key') ? 'has-error' : '' }}">
-                        {!! Form::label('public_key', Lang::get('settings/model.public_key'), array('class' => 'control-label')) !!}
+                        {!! Form::label('public_key', trans('settings/model.public_key'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::textarea('public_key', Registry::get('public_key'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('public_key', ':message') }}</span>
@@ -48,7 +48,7 @@
 
                     <!-- SSH port -->
                     <div class="form-group {{ $errors->has('ssh_port') ? 'has-error' : '' }}">
-                        {!! Form::label('ssh_port', Lang::get('settings/model.ssh_port'), array('class' => 'control-label')) !!}
+                        {!! Form::label('ssh_port', trans('settings/model.ssh_port'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::number('ssh_port', Registry::get('ssh_port'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('ssh_port', ':message') }}</span>
@@ -58,7 +58,7 @@
 
                     <!-- SSH connect timeout -->
                     <div class="form-group {{ $errors->has('ssh_timeout') ? 'has-error' : '' }}">
-                        {!! Form::label('ssh_timeout', Lang::get('settings/model.ssh_timeout'), array('class' => 'control-label')) !!}
+                        {!! Form::label('ssh_timeout', trans('settings/model.ssh_timeout'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::number('ssh_timeout', Registry::get('ssh_timeout'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('ssh_timeout', ':message') }}</span>
@@ -72,7 +72,7 @@
 
                     <!-- ldap_host -->
                     <div class="form-group {{ $errors->has('ldap_host') ? 'has-error' : '' }}">
-                        {!! Form::label('ldap_host', Lang::get('settings/model.ldap_host'), array('class' => 'control-label')) !!}
+                        {!! Form::label('ldap_host', trans('settings/model.ldap_host'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::text('ldap_host', Registry::get('ldap_host'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('ldap_host', ':message') }}</span>
@@ -82,7 +82,7 @@
 
                     <!-- ldap_dn -->
                     <div class="form-group {{ $errors->has('ldap_dn') ? 'has-error' : '' }}">
-                        {!! Form::label('ldap_dn', Lang::get('settings/model.ldap_dn'), array('class' => 'control-label')) !!}
+                        {!! Form::label('ldap_dn', trans('settings/model.ldap_dn'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::text('ldap_dn', Registry::get('ldap_dn'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('ldap_dn', ':message') }}</span>
@@ -95,9 +95,9 @@
 
                     <!-- mixed_mode -->
                     <div class="form-group {{ $errors->has('mixed_mode') ? 'has-error' : '' }}">
-                        {!! Form::label('mixed_mode', Lang::get('settings/model.mixed_mode'), array('class' => 'control-label')) !!}
+                        {!! Form::label('mixed_mode', trans('settings/model.mixed_mode'), array('class' => 'control-label')) !!}
                         <div class="controls">
-                            {!! Form::select('mixed_mode', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), Registry::get('mixed_mode'), array('class' => 'form-control')) !!}
+                            {!! Form::select('mixed_mode', array('1' => trans('general.yes'), '0' => trans('general.no')), Registry::get('mixed_mode'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('mixed_mode', ':message') }}</span>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
 
                     <!-- authorized_keys -->
                     <div class="form-group {{ $errors->has('authorized_keys') ? 'has-error' : '' }}">
-                        {!! Form::label('authorized_keys', Lang::get('settings/model.authorized_keys'), array('class' => 'control-label')) !!}
+                        {!! Form::label('authorized_keys', trans('settings/model.authorized_keys'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::text('authorized_keys', Registry::get('authorized_keys'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('authorized_keys', ':message') }}</span>
@@ -115,7 +115,7 @@
 
                     <!-- ssham_file -->
                     <div class="form-group {{ $errors->has('ssham_file') ? 'has-error' : '' }}">
-                        {!! Form::label('ssham_file', Lang::get('settings/model.ssham_file'), array('class' => 'control-label')) !!}
+                        {!! Form::label('ssham_file', trans('settings/model.ssham_file'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::text('ssham_file', Registry::get('ssham_file'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('ssham_file', ':message') }}</span>
@@ -125,7 +125,7 @@
 
                     <!-- non_ssham_file -->
                     <div class="form-group {{ $errors->has('non_ssham_file') ? 'has-error' : '' }}">
-                        {!! Form::label('non_ssham_file', Lang::get('settings/model.non_ssham_file'), array('class' => 'control-label')) !!}
+                        {!! Form::label('non_ssham_file', trans('settings/model.non_ssham_file'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::text('non_ssham_file', Registry::get('non_ssham_file'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('non_ssham_file', ':message') }}</span>
@@ -135,7 +135,7 @@
 
                     <!-- cmd_remote_updater -->
                     <div class="form-group {{ $errors->has('cmd_remote_updater') ? 'has-error' : '' }}">
-                        {!! Form::label('cmd_remote_updater', Lang::get('settings/model.cmd_remote_updater'), array('class' => 'control-label')) !!}
+                        {!! Form::label('cmd_remote_updater', trans('settings/model.cmd_remote_updater'), array('class' => 'control-label')) !!}
                         <div class="controls">
                             {!! Form::text('cmd_remote_updater', Registry::get('cmd_remote_updater'), array('class' => 'form-control')) !!}
                             <span class="help-block">{{ $errors->first('cmd_remote_updater', ':message') }}</span>
@@ -153,7 +153,7 @@
                 <!-- Form Actions -->
                 <div class="form-group">
                     <div class="controls">
-                        {!! Form::button(Lang::get('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                        {!! Form::button(trans('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
                     </div>
                 </div>
                 <!-- ./ form actions -->

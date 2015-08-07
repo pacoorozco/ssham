@@ -6,7 +6,7 @@
         @if (isset($host))
             <!-- hostname -->
             <div class="form-group">
-                {!! Form::label('hostname', Lang::get('host/model.full_hostname'), array('class' => 'control-label')) !!}
+                {!! Form::label('hostname', trans('host/model.full_hostname'), array('class' => 'control-label')) !!}
                 <div class="controls">
                     {!! Form::text('hostname', $host->getFullHostname(), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
                 </div>
@@ -15,7 +15,7 @@
         @else
             <!-- hostname -->
             <div class="form-group {{ $errors->has('hostname') ? 'has-error' : '' }}">
-                {!! Form::label('hostname', Lang::get('host/model.hostname'), array('class' => 'control-label')) !!}
+                {!! Form::label('hostname', trans('host/model.hostname'), array('class' => 'control-label')) !!}
                 <div class="controls">
                     {!! Form::text('hostname', null, array('class' => 'form-control')) !!}
                     <span class="help-block">{{ $errors->first('hostname', ':message') }}</span>
@@ -25,7 +25,7 @@
 
             <!-- username -->
             <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
-                {!! Form::label('username', Lang::get('host/model.username'), array('class' => 'control-label')) !!}
+                {!! Form::label('username', trans('host/model.username'), array('class' => 'control-label')) !!}
                 <div class="controls">
                     {!! Form::text('username', 'root', array('class' => 'form-control')) !!}
                     <span class="help-block">{{ $errors->first('username', ':message') }}</span>
@@ -39,7 +39,7 @@
 
         <!-- host groups -->
         <div class="form-group {{ $errors->has('groups[]') ? 'has-error' : '' }}">
-            {!! Form::label('groups[]', Lang::get('host/model.groups'), array('class' => 'control-label')) !!}
+            {!! Form::label('groups[]', trans('host/model.groups'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($host))
                     {!! Form::select('groups[]', $groups, $host->hostgroups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
@@ -53,9 +53,9 @@
 
         <!-- enabled -->
         <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
-            {!! Form::label('enabled', Lang::get('host/model.enabled'), array('class' => 'control-label')) !!}
+            {!! Form::label('enabled', trans('host/model.enabled'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('enabled', array('1' => Lang::get('general.yes'), '0' => Lang::get('general.no')), null, array('class' => 'form-control')) !!}
+                {!! Form::select('enabled', array('1' => trans('general.yes'), '0' => trans('general.no')), null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('enabled', ':message') }}</span>
             </div>
         </div>
@@ -70,7 +70,7 @@
         <!-- Form Actions -->
         <div class="form-group">
             <div class="controls">
-                {!! Form::button(Lang::get('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                {!! Form::button(trans('button.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             </div>
         </div>
         <!-- ./ form actions -->
@@ -88,9 +88,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{!! Lang::get('host/messages.groups_help') !!}",
+            placeholder: "{!! trans('host/messages.groups_help') !!}",
             allowClear: true,
-            language: "{!! Lang::get('site.language_short') !!}"
+            language: "{!! trans('site.language_short') !!}"
         });
     </script>
 @stop

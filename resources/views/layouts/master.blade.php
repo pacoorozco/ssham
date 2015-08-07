@@ -6,7 +6,7 @@
 <!--<![endif]-->
     <!-- start: HEAD -->
     <head>
-        <title>@yield('title', 'Dashboard') :: {!! Lang::get('site.title') !!}</title>
+        <title>@yield('title', 'Dashboard') :: {!! trans('site.title') !!}</title>
         <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}" />        
         <!-- start: META -->
         <meta charset="utf-8" />
@@ -49,7 +49,7 @@
                     <!-- end: RESPONSIVE MENU TOGGLER -->
                     <!-- start: LOGO -->
                     <a class="navbar-brand" href="{!! route('home') !!}">
-                        {!! Lang::get('site.title') !!}
+                        {!! trans('site.title') !!}
                     </a>
                     <!-- end: LOGO -->
                 </div>
@@ -58,7 +58,7 @@
                     <ul class="nav navbar-right">
                         <!-- start: USER DROPDOWN -->
                         @if (Auth::guest())
-                        <li><a href="{!! route('login') !!}">{!! Lang::get('auth.login') !!}</a></li>
+                        <li><a href="{!! route('login') !!}">{!! trans('auth.login') !!}</a></li>
                         @else
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
@@ -70,7 +70,7 @@
                                 <li>
                                     <a href="{!! route('logout') !!}">
                                         <i class="clip-exit"></i>
-                                        &nbsp;{!! Lang::get('auth.logout') !!}
+                                        &nbsp;{!! trans('auth.logout') !!}
                                     </a>
                                 </li>
                             </ul>
@@ -119,7 +119,7 @@
         <!-- start: FOOTER -->
         <div class="footer clearfix">
             <div class="footer-inner">
-                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', Lang::get('site.title'), array('rel' => 'nofollow')) !!}
+                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', trans('site.title'), array('rel' => 'nofollow')) !!}
             </div>
             <div class="footer-items">
                 <span class="go-top"><i class="clip-chevron-up"></i></span>
