@@ -86,7 +86,7 @@
 {{-- Styles --}}
 @section('styles')
     {!! HTML::style(asset('plugins/select2/select2.css')) !!}
-@stop
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -98,4 +98,5 @@
             language: "@lang('site.language_short')"
         });
     </script>
-@stop
+@endsection
+

@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('rule/title.create_a_new_rule')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('rule/title.create_a_new_rule') !!} <small>{!! trans('rule/title.create_a_new_rule_subtitle')</small>
+    @lang('rule/title.create_a_new_rule') <small>@lang('rule/title.create_a_new_rule_subtitle')</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('rule/title.create_a_new_rule')
 </li>
-@stop
+@endsection
 
 
 {{-- Content --}}
@@ -35,4 +35,5 @@
 {!! Form::open(['route' => 'rules.store', 'method' => 'post']) !!}
 @include('rule._form')
 {!! Form::close() !!}
-@stop
+@endsection
+

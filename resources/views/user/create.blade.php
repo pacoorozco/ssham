@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('user/title.create_a_new_user')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('user/title.create_a_new_user') }} <small>{{ trans('user/title.create_a_new_user_subtitle')</small>
+    @lang('user/title.create_a_new_user') <small>@lang('user/title.create_a_new_user_subtitle')</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('user/title.create_a_new_user')
 </li>
-@stop
+@endsection
 
 
 {{-- Content --}}
@@ -35,4 +35,5 @@
 {!! Form::open(['route' => 'users.store', 'method' => 'post']) !!}
 @include('user._form')
 {!! Form::close() !!}
-@stop
+@endsection
+

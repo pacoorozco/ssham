@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('host/title.host_update')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('host/title.host_update') }} <small>{{ $host->getFullHostname()</small>
+    @lang('host/title.host_update') <small>{{ $host->getFullHostname() }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('host/title.host_update')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -36,4 +36,4 @@
 @include('host._form')
 {!! Form::close() !!}
 
-@stop
+@endsection

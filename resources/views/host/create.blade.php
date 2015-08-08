@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('host/title.create_a_new_host')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('host/title.create_a_new_host') <small>@lang('host/title.create_a_new_host_subtitle')</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('host/title.create_a_new_host')
 </li>
-@stop
+@endsection
 
 
 {{-- Content --}}
@@ -37,4 +37,4 @@
 @include('host._form')
 {!! Form::close() !!}
 
-@stop
+@endsection

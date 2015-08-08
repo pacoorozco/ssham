@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
     @lang('site.settings')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1>
         @lang('site.settings') <small>configure SSHAM</small>
     </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
     <li class="active">
         @lang('user/title.user_management')
     </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -39,4 +39,4 @@
             {!! Form::close() !!}
         </div>
     </div>
-@stop
+@endsection

@@ -3,19 +3,19 @@
 {{-- Styles --}}
 @section('styles')
     {!! HTML::style('//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css') !!}
-@stop
+@endsection
 
 {{-- Web site Title --}}
 @section('title')
     @lang('hostgroup/title.host_group_management')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1> 
         @lang('hostgroup/title.host_group_management') <small>@lang('hostgroup/title.host_group_management_subtitle')</small>
     </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -28,7 +28,7 @@
 <li class="active">
     @lang('hostgroup/title.host_group_management')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -62,7 +62,7 @@
     </div>
 </div>
 
-@stop
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -84,4 +84,4 @@ $(document).ready(function() {
     });
 });
 </script>
-@stop
+@endsection

@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('user/title.user_show')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('user/title.user_show') <small>{{ $user->username }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('user/title.user_show')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -34,4 +34,4 @@
 
 @include('user._details', ['action' => 'show'])
 
-@stop
+@endsection

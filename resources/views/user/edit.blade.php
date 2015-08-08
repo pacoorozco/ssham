@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('user/title.user_update')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('user/title.user_update') <small>{{ $user->username }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('user/title.user_update')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -36,4 +36,4 @@
 @include('user._form')
 {!! Form::close() !!}
 
-@stop
+@endsection

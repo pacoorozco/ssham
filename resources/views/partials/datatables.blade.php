@@ -41,5 +41,6 @@
         // modify table per page dropdown
         $('#{{ $id }}_wrapper .dataTables_length select').select2();
         // initialzie select2 dropdown
-    } );
+    });
 </script>
+

@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('user/title.user_delete')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('user/title.user_delete') <small>{{ $user->username }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('user/title.user_delete')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -37,4 +37,4 @@
 @include('user._details', ['action' => 'delete'])
 {!! Form::close() !!}
 
-@stop
+@endsection

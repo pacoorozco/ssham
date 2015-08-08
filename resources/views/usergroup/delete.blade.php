@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('usergroup/title.user_group_delete')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('usergroup/title.user_group_delete') <small>{{ $usergroup->name }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('usergroup/title.user_group_delete')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -37,4 +37,4 @@
 @include('usergroup._details', ['action' => 'delete'])
 {!! Form::close() !!}
 
-@stop
+@endsection

@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('host/title.host_show')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('host/title.host_show') }} <small>{{ $host->getFullHostname()</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('host/title.host_show')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -34,4 +34,4 @@
 
 @include('host._details', ['action' => 'show'])
 
-@stop
+@endsection

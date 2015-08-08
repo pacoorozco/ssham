@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('hostgroup/title.host_group_show')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('hostgroup/title.host_group_show') <small>{{ $hostgroup->name }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('hostgroup/title.host_group_show')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -34,4 +34,4 @@
 
 @include('hostgroup._details', ['action' => 'show'])
 
-@stop
+@endsection

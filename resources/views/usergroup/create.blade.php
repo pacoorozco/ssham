@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('usergroup/title.create_a_new_user_group')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('usergroup/title.create_a_new_user_group') !!} <small>{!! trans('usergroup/title.create_a_new_user_group_subtitle')</small>
+    @lang('usergroup/title.create_a_new_user_group') <small>@lang('usergroup/title.create_a_new_user_group_subtitle')</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('usergroup/title.create_a_new_user_group')
 </li>
-@stop
+@endsection
 
 
 {{-- Content --}}
@@ -37,4 +37,5 @@
 @include('usergroup._form')
 {!! Form::close() !!}
 
-@stop
+@endsection
+

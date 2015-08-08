@@ -3,14 +3,14 @@
 {{-- Web site Title --}}
 @section('title')
 	@lang('hostgroup/title.host_group_delete')
-@stop
+@endsection
 
 {{-- Content Header --}}
 @section('header')
 <h1>
     @lang('hostgroup/title.host_group_delete') <small>{{ $hostgroup->name }}</small>
 </h1>
-@stop
+@endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
@@ -23,7 +23,7 @@
 <li class="active">
     @lang('hostgroup/title.host_group_delete')
 </li>
-@stop
+@endsection
 
 {{-- Content --}}
 @section('content')
@@ -37,4 +37,4 @@
 @include('hostgroup._details', ['action' => 'delete'])
 {!! Form::close() !!}
 
-@stop
+@endsection

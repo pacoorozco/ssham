@@ -5,3 +5,4 @@
        data-original-title="@lang('general.delete')"
        rel="nofollow"><i class="fa fa-trash-o"></i></a>
 </div>
+
