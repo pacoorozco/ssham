@@ -2,7 +2,9 @@
 
 namespace SSHAM\Providers;
 
+use Validator;
 use Illuminate\Support\ServiceProvider;
+use Crypt_RSA;
 
 class RSAKeyValidatorServiceProvider extends ServiceProvider
 {
@@ -14,12 +16,12 @@ class RSAKeyValidatorServiceProvider extends ServiceProvider
     public function boot()
     {
         // Registering the validator extension with the validator factory
-        \Validator::extend('rsa_key', function ($attribute, $value, $parameters) {
+        Validator::extend('rsa_key', function ($attribute, $value, $parameters) {
 
             // first item equals key type (public or private)
             $keyType = array_shift($parameters);
 
-            $rsa = new \Crypt_RSA();
+            $rsa = new Crypt_RSA();
             $rsa->loadKey($value);
 
             // Convert $value in a RSA Key and compares with input
@@ -45,3 +47,4 @@ class RSAKeyValidatorServiceProvider extends ServiceProvider
     }
 
 }
+

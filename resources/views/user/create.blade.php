@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{ trans('user/title.create_a_new_user') !!} <small>{!! trans('user/title.create_a_new_user_subtitle') }}</small>
+    {{ trans('user/title.create_a_new_user') }} <small>{{ trans('user/title.create_a_new_user_subtitle') }}</small>
 </h1>
 @stop
 
