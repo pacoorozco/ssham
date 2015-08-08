@@ -32,7 +32,7 @@ class AuthController extends Controller
      * Log the user in and redirect to the submitted page
      *
      * @param LoginRequest $request
-     * @return Response
+     * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function postLogin(LoginRequest $request)
     {
@@ -40,14 +40,15 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => $request->password,
             'enabled' => 1
-        ], $request->has('remember'))) {
+        ], $request->has('remember'))
+        ) {
             return redirect()->intended();
         }
 
         flash()->error(trans('auth.invalid_credentials'));
 
         return redirect()->back()
-                ->withInput($request->only('username', 'remember'));
+            ->withInput($request->only('username', 'remember'));
     }
 
     /**
