@@ -151,8 +151,8 @@ class HostController extends Controller
         $sshKeys = array();
         $hostID = $host->id;
 
-        $users = User::whereHas('usergroups.hostgroups.hosts', function($q) use ($hostID){
-            $q->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
+        $users = User::whereHas('usergroups.hostgroups.hosts', function(Host $host) use ($hostID){
+            $host->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
         })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
 
         foreach($users as $user)
