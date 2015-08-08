@@ -7,9 +7,7 @@ use SSHAM\Http\Requests\HostCreateRequest;
 use SSHAM\Http\Requests\HostUpdateRequest;
 use SSHAM\Host;
 use SSHAM\Hostgroup;
-use SSHAM\Rule;
 use SSHAM\User;
-use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 
 class HostController extends Controller
