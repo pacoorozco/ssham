@@ -84,8 +84,6 @@ Route::resource('hostgroups', 'HostgroupController');
  */
 // Datatables Ajax route.
 Route::get('rules/data', ['as' => 'rules.data', 'uses' => 'RuleController@data']);
-// Delete confirmation route - uses the show/details view.
-//Route::get('hostgroups/{hostgroups}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('rules', 'RuleController');
