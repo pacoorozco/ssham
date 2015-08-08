@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('host/title.create_a_new_host') !!} <small>{!! trans('host/title.create_a_new_host_subtitle')</small>
+    @lang('host/title.create_a_new_host') <small>@lang('host/title.create_a_new_host_subtitle')</small>
 </h1>
 @stop
 
