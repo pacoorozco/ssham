@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{ trans('user/title.create_a_new_user') }}
+	@lang('user/title.create_a_new_user')
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{ trans('user/title.create_a_new_user') }} <small>{{ trans('user/title.create_a_new_user_subtitle') }}</small>
+    @lang('user/title.create_a_new_user') }} <small>{{ trans('user/title.create_a_new_user_subtitle')</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        {{ trans('site.users') }}
+        @lang('site.users')
     </a>
 </li>
 <li class="active">
-    {{ trans('user/title.create_a_new_user') }}
+    @lang('user/title.create_a_new_user')
 </li>
 @stop
 

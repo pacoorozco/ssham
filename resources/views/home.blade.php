@@ -2,14 +2,14 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {{ trans('dashboard/messages.title') }}
+    @lang('dashboard/messages.title')
 @endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1>
-        {{ trans('dashboard/messages.title') }}
-        <small>{{ trans('dashboard/messages.subtitle') }}</small>
+        @lang('dashboard/messages.title')
+        <small>@lang('dashboard/messages.subtitle')</small>
     </h1>
 @endsection
 
@@ -18,11 +18,11 @@
     <li>
         <i class="clip-home-3"></i>
         <a href="{!! route('home') !!}">
-            {{ trans('site.home') }}
+            @lang('site.home')
         </a>
     </li>
     <li class="active">
-        {{ trans('dashboard/messages.title') }}
+        @lang('dashboard/messages.title')
     </li>
 @endsection
 
@@ -33,13 +33,13 @@
                 <div class="heading">
                     <i class="clip-user-4 circle-icon circle-green"></i>
 
-                    <h2>{{ trans('dashboard/messages.manage_users') }}</h2>
+                    <h2>@lang('dashboard/messages.manage_users')</h2>
                 </div>
                 <div class="content">
-                    {{ trans('dashboard/messages.manage_users_description') }}
+                    @lang('dashboard/messages.manage_users_description')
                 </div>
                 <a class="view-more" href="{!! route('users.index') !!}">
-                    {{ trans('general.view_more') }}  <i class="clip-arrow-right-2"></i>
+                    @lang('general.view_more')  <i class="clip-arrow-right-2"></i>
                 </a>
             </div>
         </div>
@@ -48,13 +48,13 @@
                 <div class="heading">
                     <i class="fa fa-tasks circle-icon circle-teal"></i>
 
-                    <h2>{{ trans('dashboard/messages.manage_hosts') }}</h2>
+                    <h2>@lang('dashboard/messages.manage_hosts')</h2>
                 </div>
                 <div class="content">
-                    {{ trans('dashboard/messages.manage_hosts_description') }}
+                    @lang('dashboard/messages.manage_hosts_description')
                 </div>
                 <a class="view-more" href="{!! route('hosts.index') !!}">
-                    {{ trans('general.view_more') }}  <i class="clip-arrow-right-2"></i>
+                    @lang('general.view_more')  <i class="clip-arrow-right-2"></i>
                 </a>
             </div>
         </div>
@@ -63,17 +63,18 @@
                 <div class="heading">
                     <i class="clip-database circle-icon circle-bricky"></i>
 
-                    <h2>{{ trans('dashboard/messages.manage_accesses') }}</h2>
+                    <h2>@lang('dashboard/messages.manage_accesses')</h2>
                 </div>
                 <div class="content">
-                    {{ trans('dashboard/messages.manage_accesses_description') }}
+                    @lang('dashboard/messages.manage_accesses_description')
                 </div>
                 <a class="view-more" href="{!! route('rules.index') !!}">
-                    {{ trans('general.view_more') }}  <i class="clip-arrow-right-2"></i>
+                    @lang('general.view_more')  <i class="clip-arrow-right-2"></i>
                 </a>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="panel-body">
             Hosts status

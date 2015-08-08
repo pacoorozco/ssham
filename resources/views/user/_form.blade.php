@@ -26,19 +26,19 @@
                 @if (isset($user))
                     <label class="radio-inline">
                         {!! Form::radio('create_rsa_key', '1', false, array('id' => 'create_rsa_key_true')) !!}
-                        {{ trans('user/messages.create_rsa_key') }}
+                        @lang('user/messages.create_rsa_key')
                     </label>
                     <div id="create_rsa_key" style="display: none">
-                        <span class="help-block">{{ trans('user/messages.create_rsa_key_help') }}</span>
-                        <span class="help-block">{{ trans('user/messages.create_rsa_key_help_notice') }}</span>
+                        <span class="help-block">@lang('user/messages.create_rsa_key_help')</span>
+                        <span class="help-block">@lang('user/messages.create_rsa_key_help_notice')</span>
                     </div>
                 @else
                     <label class="radio-inline">
                         {!! Form::radio('create_rsa_key', '1', true, array('id' => 'create_rsa_key_true')) !!}
-                        {{ trans('user/messages.create_rsa_key') }}
+                        @lang('user/messages.create_rsa_key')
                     </label>
                     <div id="create_rsa_key">
-                        <span class="help-block">{{ trans('user/messages.create_rsa_key_help') }}</span>
+                        <span class="help-block">@lang('user/messages.create_rsa_key_help')</span>
                     </div>
                 @endif
                 <!-- ./ create RSA key -->
@@ -48,19 +48,19 @@
                 @if (isset($user))
                     <label class="radio-inline">
                         {!! Form::radio('create_rsa_key', '0', true, array('id' => 'create_rsa_key_false')) !!}
-                        {{ trans('user/messages.import_rsa_key') }}
+                        @lang('user/messages.import_rsa_key')
                     </label>
                     <div id="import_rsa_key">
-                        <span class="help-block">{{ trans('user/messages.import_rsa_key_help') }}</span>
+                        <span class="help-block">@lang('user/messages.import_rsa_key_help')</span>
                         {!! Form::textarea('public_key', null, array('class' => 'form-control', 'id' => 'public_key_input')) !!}
                     </div>
                 @else
                     <label class="radio-inline">
                         {!! Form::radio('create_rsa_key', '0', false, array('id' => 'create_rsa_key_false')) !!}
-                        {{ trans('user/messages.import_rsa_key') }}
+                        @lang('user/messages.import_rsa_key')
                     </label>
                     <div id="import_rsa_key" style="display: none">
-                        <span class="help-block">{{ trans('user/messages.import_rsa_key_help') }}</span>
+                        <span class="help-block">@lang('user/messages.import_rsa_key_help')</span>
                         {!! Form::textarea('public_key', null, array('class' => 'form-control', 'id' => 'public_key_input', 'disabled' => 'disabled')) !!}
                     </div>
                 @endif
@@ -140,9 +140,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{{ trans('user/messages.groups_help') }}",
+            placeholder: "@lang('user/messages.groups_help')",
             allowClear: true,
-            language: "{{ trans('site.language_short') }}"
+            language: "@lang('site.language_short')"
         });
 
         $("#create_rsa_key_false").click(function(){

@@ -66,9 +66,9 @@
     {!! HTML::script(asset('plugins/select2/select2.min.js')) !!}
     <script>
         $(".search-select").select2({
-            placeholder: "{{ trans('usergroup/messages.users_placeholder') }}",
+            placeholder: "@lang('usergroup/messages.users_placeholder')",
             allowClear: true,
-            language: "{{ trans('site.language_short') }}"
+            language: "@lang('site.language_short')"
         });
     </script>
 @stop

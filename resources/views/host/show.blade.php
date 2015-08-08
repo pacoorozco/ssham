@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{ trans('host/title.host_show') }}
+	@lang('host/title.host_show')
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{ trans('host/title.host_show') }} <small>{{ $host->getFullHostname() }}</small>
+    @lang('host/title.host_show') }} <small>{{ $host->getFullHostname()</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-screen"></i>
     <a href="{!! route('hosts.index') !!}">
-        {{ trans('site.hosts') }}
+        @lang('site.hosts')
     </a>
 </li>
 <li class="active">
-    {{ trans('host/title.host_show') }}
+    @lang('host/title.host_show')
 </li>
 @stop
 

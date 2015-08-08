@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{ trans('user/title.user_update') }}
+	@lang('user/title.user_update')
 @stop
 
 {{-- Content Header --}}
 @section('header')
 <h1>
-    {{ trans('user/title.user_update') }} <small>{{ $user->username }}</small>
+    @lang('user/title.user_update') <small>{{ $user->username }}</small>
 </h1>
 @stop
 
@@ -17,11 +17,11 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        {{ trans('site.users') }}
+        @lang('site.users')
     </a>
 </li>
 <li class="active">
-    {{ trans('user/title.user_update') }}
+    @lang('user/title.user_update')
 </li>
 @stop
 

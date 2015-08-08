@@ -6,7 +6,7 @@
 <!--<![endif]-->
     <!-- start: HEAD -->
     <head>
-        <title>@yield('title', 'Dashboard') :: {{ trans('site.title') }}</title>
+        <title>@yield('title', 'Dashboard') :: @lang('site.title')</title>
         <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}" />        
         <!-- start: META -->
         <meta charset="utf-8" />
@@ -49,7 +49,7 @@
                     <!-- end: RESPONSIVE MENU TOGGLER -->
                     <!-- start: LOGO -->
                     <a class="navbar-brand" href="{!! route('home') !!}">
-                        {{ trans('site.title') }}
+                        @lang('site.title')
                     </a>
                     <!-- end: LOGO -->
                 </div>
@@ -58,7 +58,7 @@
                     <ul class="nav navbar-right">
                         <!-- start: USER DROPDOWN -->
                         @if (Auth::guest())
-                        <li><a href="{!! route('login') !!}">{{ trans('auth.login') }}</a></li>
+                        <li><a href="{!! route('login') !!}">@lang('auth.login')</a></li>
                         @else
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
@@ -70,7 +70,7 @@
                                 <li>
                                     <a href="{!! route('logout') !!}">
                                         <i class="clip-exit"></i>
-                                        &nbsp;{{ trans('auth.logout') }}
+                                        &nbsp;@lang('auth.logout')
                                     </a>
                                 </li>
                             </ul>

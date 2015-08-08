@@ -103,6 +103,10 @@ return [
 	|
 	*/
 
-	'attributes' => [],
+	'attributes' => [
+		'username' => trans('user/model.username'),
+		'create_rsa_key' => trans('user/messages.create_rsa_key'),
+		'public_key' => trans('user/model.public_key'),
+	],
 
 ];
