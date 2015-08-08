@@ -4,7 +4,7 @@ namespace SSHAM\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class OpenSSHKeyValidatorServiceProvider extends ServiceProvider
+class RSAKeyValidatorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
