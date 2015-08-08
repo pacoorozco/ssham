@@ -135,8 +135,8 @@ class UserController extends Controller
 
         $user->save();
 
-        if($request->create_rsa_key == '1') {
-            flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
+        if($request->create_rsa_key == '1' && !is_null($private_key)) {
+            flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
         } else {
             flash()->overlay(trans('user/messages.edit.success'));
         }
