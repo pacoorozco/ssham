@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('host/title.host_show') }} <small>{{ $host->getFullHostname()</small>
+    @lang('host/title.host_show') <small>{{ $host->getFullHostname() }}</small>
 </h1>
 @endsection
 
