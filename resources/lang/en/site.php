@@ -9,7 +9,7 @@ return [
       |
      */
 
-    'title' => 'SSHAM v0.2.0',
+    'title' => 'SSHAM v2',
     'home' => 'Home',
     'dashboard' => 'Dashboard',
     'users' => 'Users',
