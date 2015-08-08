@@ -20,7 +20,7 @@ class SettingsTableSeeder extends Seeder
              * Internal APP information, couldn't be setted
              */
             'app_name' => 'SSHAM',
-            'app_version' => '2.0',
+            'app_version' => '0.2.0',
 
             /*
              * Where I will put authorized keys on remote hosts?
