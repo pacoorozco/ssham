@@ -112,6 +112,7 @@ class UserController extends Controller
      */
     public function update(User $user, UserUpdateRequest $request)
     {
+        $private_key = null;
         $user->update($request->all());
 
         // Test if we need to create a new RSA key
