@@ -1,8 +1,9 @@
 # SSH Access Manager Web Interface
 
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/803ad655-408a-469f-8389-8e5fe0338cec.svg)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
 [![GitHub license](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
+[![GitHub release](https://img.shields.io/github/tag/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
 
 ## Description
 
