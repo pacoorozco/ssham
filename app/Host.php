@@ -1,9 +1,9 @@
 <?php namespace SSHAM;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Host extends Model
-{
+class Host extends Model {
 
     /**
      * The database table used by the model.
@@ -26,7 +26,7 @@ class Host extends Model
     /**
      * A Host belongs to many Hostgroups (many-to-many)
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function hostgroups()
     {
@@ -88,12 +88,11 @@ class Host extends Model
         $sshKeys = array();
         $hostID = $this->id;
 
-        $users = User::whereHas('usergroups.hostgroups.hosts', function($q) use ($hostID){
-            $q->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
+        $users = User::whereHas('usergroups.hostgroups.hosts', function (Host $host) use ($hostID) {
+            $host->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
         })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
 
-        foreach($users as $user)
-        {
+        foreach ($users as $user) {
             $content = explode(' ', $user->public_key, 3);
             $content[2] = $user->username . '@ssham';
 
