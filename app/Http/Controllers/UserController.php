@@ -2,15 +2,16 @@
 
 namespace SSHAM\Http\Controllers;
 
-use SSHAM\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Request;
 use SSHAM\Http\Requests\UserCreateRequest;
 use SSHAM\Http\Requests\UserUpdateRequest;
 use SSHAM\User;
 use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
 
     /**
      * Create a new controller instance.
@@ -24,7 +25,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
     public function index()
     {
@@ -34,12 +35,13 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
     public function create()
     {
         // Get all existing user groups
         $groups = Usergroup::lists('name', 'id')->all();
+
         return view('user.create', compact('groups'));
     }
 
@@ -47,14 +49,14 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param UserCreateRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(UserCreateRequest $request)
     {
         $user = new User($request->all());
 
         // Test if we need to create a new RSA key
-        if($request->create_rsa_key == '1') {
+        if ($request->create_rsa_key == '1') {
             list($request->public_key, $private_key) = $user->createRSAKeyPair();
         }
 
@@ -70,7 +72,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        if($request->create_rsa_key == '1') {
+        if ($request->create_rsa_key == '1') {
             flash()->overlay(trans('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
         } else {
             flash()->overlay(trans('user/messages.create.success'));
@@ -83,7 +85,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
-     * @return Response
+     * @return View
      */
     public function show(User $user)
     {
@@ -94,12 +96,13 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  User $user
-     * @return Response
+     * @return View
      */
     public function edit(User $user)
     {
         // Get all existing user groups
         $groups = Usergroup::lists('name', 'id')->all();
+
         return view('user.edit', compact('user', 'groups'));
     }
 
@@ -108,7 +111,7 @@ class UserController extends Controller
      *
      * @param  User $user
      * @param UserUpdateRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function update(User $user, UserUpdateRequest $request)
     {
@@ -116,7 +119,7 @@ class UserController extends Controller
         $user->update($request->all());
 
         // Test if we need to create a new RSA key
-        if($request->create_rsa_key == '1') {
+        if ($request->create_rsa_key == '1') {
             list($request->public_key, $private_key) = $user->createRSAKeyPair();
         }
 
@@ -135,7 +138,7 @@ class UserController extends Controller
 
         $user->save();
 
-        if($request->create_rsa_key == '1' && !is_null($private_key)) {
+        if ($request->create_rsa_key == '1' && ! is_null($private_key)) {
             flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
         } else {
             flash()->overlay(trans('user/messages.edit.success'));
@@ -148,7 +151,7 @@ class UserController extends Controller
      * Remove user.
      *
      * @param User $user
-     * @return Response
+     * @return View
      */
     public function delete(User $user)
     {
@@ -159,7 +162,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  User $user
-     * @return Response
+     * @return RedirectResponse
      */
     public function destroy(User $user)
     {
@@ -178,8 +181,8 @@ class UserController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        if (! \Request::ajax()) {
-            \App::abort(403);
+        if ( ! Request::ajax()) {
+            abort(403);
         }
 
         $users = User::select(array(
@@ -187,16 +190,16 @@ class UserController extends Controller
         ))->orderBy('username', 'ASC');
 
         return $datatable->usingEloquent($users)
-            ->editColumn('username', function ($model) {
-                return ($model->enabled) ? $model->username : $model->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') .'</span>';
+            ->editColumn('username', function (User $user) {
+                return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
             })
-            ->addColumn('groups', function ($model) {
-                return count($model->usergroups->lists('id')->all());
+            ->addColumn('groups', function (User $user) {
+                return count($user->usergroups->lists('id')->all());
             })
-            ->addColumn('actions', function ($model) {
+            ->addColumn('actions', function (User $user) {
                 return view('partials.actions_dd', array(
                     'model' => 'users',
-                    'id' => $model->id
+                    'id'    => $user->id
                 ))->render();
             })
             ->removeColumn('id')

@@ -2,15 +2,17 @@
 
 namespace SSHAM\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Request;
 use SSHAM\Host;
-use SSHAM\Http\Controllers\Controller;
+use SSHAM\Hostgroup;
 use SSHAM\Http\Requests\HostgroupCreateRequest;
 use SSHAM\Http\Requests\HostgroupUpdateRequest;
-use SSHAM\Hostgroup;
 use yajra\Datatables\Datatables;
 
-class HostgroupController extends Controller
-{
+class HostgroupController extends Controller {
 
     /**
      * Create a new controller instance.
@@ -24,7 +26,7 @@ class HostgroupController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
     public function index()
     {
@@ -34,12 +36,13 @@ class HostgroupController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
     public function create()
     {
         // Get all existing hosts
         $hosts = Host::lists('hostname', 'id')->all();
+
         return view('hostgroup.create', compact('hosts'));
     }
 
@@ -47,7 +50,7 @@ class HostgroupController extends Controller
      * Store a newly created resource in storage.
      *
      * @param HostgroupCreateRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(HostgroupCreateRequest $request)
     {
@@ -69,7 +72,7 @@ class HostgroupController extends Controller
      * Display the specified resource.
      *
      * @param Hostgroup $hostgroup
-     * @return Response
+     * @return View
      */
     public function show(Hostgroup $hostgroup)
     {
@@ -81,12 +84,13 @@ class HostgroupController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  Hostgroup $hostgroup
-     * @return Response
+     * @return View
      */
     public function edit(Hostgroup $hostgroup)
     {
         // Get all existing hosts
         $hosts = Host::lists('hostname', 'id')->all();
+
         return view('hostgroup.edit', compact('hostgroup', 'hosts'));
     }
 
@@ -95,7 +99,7 @@ class HostgroupController extends Controller
      *
      * @param  Hostgroup $hostgroup
      * @param HostgroupUpdateRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request)
     {
@@ -118,7 +122,7 @@ class HostgroupController extends Controller
      * Remove hostgroup.
      *
      * @param Hostgroup $hostgroup
-     * @return Response
+     * @return View
      */
     public function delete(Hostgroup $hostgroup)
     {
@@ -129,7 +133,7 @@ class HostgroupController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Hostgroup $hostgroup
-     * @return Response
+     * @return RedirectResponse
      */
     public function destroy(Hostgroup $hostgroup)
     {
@@ -144,12 +148,12 @@ class HostgroupController extends Controller
      * Return all Hostgroups in order to be used as Datatables
      *
      * @param Datatables $datatable
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function data(Datatables $datatable)
     {
-        if (! \Request::ajax()) {
-            \App::abort(403);
+        if ( ! Request::ajax()) {
+            abort(403);
         }
 
         $hostgroups = Hostgroup::select(array(
@@ -157,13 +161,13 @@ class HostgroupController extends Controller
         ))->orderBy('name', 'ASC');
 
         return $datatable->usingEloquent($hostgroups)
-            ->addColumn('hosts', function ($model) {
-                return count($model->hosts->lists('id')->all());;
+            ->addColumn('hosts', function (Hostgroup $hostgroup) {
+                return count($hostgroup->hosts->lists('id')->all());;
             })
-            ->addColumn('actions', function ($model) {
+            ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.actions_dd', array(
                     'model' => 'hostgroups',
-                    'id' => $model->id
+                    'id'    => $hostgroup->id
                 ))->render();
             })
             ->removeColumn('id')

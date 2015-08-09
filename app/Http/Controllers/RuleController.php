@@ -2,16 +2,19 @@
 
 namespace SSHAM\Http\Controllers;
 
-use SSHAM\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Request;
+use SSHAM\Hostgroup;
 use SSHAM\Http\Requests;
+use SSHAM\Http\Requests\RuleRequest;
 use SSHAM\Rule;
 use SSHAM\Usergroup;
-use SSHAM\Hostgroup;
 use yajra\Datatables\Datatables;
-use SSHAM\Http\Requests\RuleRequest;
 
-class RuleController extends Controller
-{
+class RuleController extends Controller {
+
     /**
      * Create a new controller instance.
      *
@@ -24,7 +27,7 @@ class RuleController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
     public function index()
     {
@@ -34,13 +37,14 @@ class RuleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
     public function create()
     {
         // Get all existing user and hosts groups
         $usergroups = Usergroup::lists('name', 'id')->all();
         $hostgroups = Hostgroup::lists('name', 'id')->all();
+
         return view('rule.create', compact('usergroups', 'hostgroups'));
     }
 
@@ -48,7 +52,7 @@ class RuleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param RuleRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(RuleRequest $request)
     {
@@ -61,43 +65,10 @@ class RuleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  Rule $rule
-     * @return Response
+     * @return RedirectResponse
      */
     public function destroy(Rule $rule)
     {
@@ -112,12 +83,12 @@ class RuleController extends Controller
      * Return all Users in order to be used as Datatables
      *
      * @param Datatables $datatable
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function data(Datatables $datatable)
     {
-        if (! \Request::ajax()) {
-            \App::abort(403);
+        if ( ! Request::ajax()) {
+            abort(403);
         }
 
         $rules = Rule::select(array(
@@ -125,23 +96,23 @@ class RuleController extends Controller
         ));
 
         return $datatable->usingEloquent($rules)
-            ->addColumn('usergroup', function ($model) {
-                return Usergroup::findOrFail($model->usergroup_id)->name;
+            ->addColumn('usergroup', function (Rule $rule) {
+                return Usergroup::findOrFail($rule->usergroup_id)->name;
             })
-            ->addColumn('hostgroup', function ($model) {
-                return Hostgroup::findOrFail($model->hostgroup_id)->name;
+            ->addColumn('hostgroup', function (Rule $rule) {
+                return Hostgroup::findOrFail($rule->hostgroup_id)->name;
             })
-            ->editColumn('action', function($model) {
-                return ($model->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i> Allowed</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> Denied</span>';
+            ->editColumn('action', function (Rule $rule) {
+                return ($rule->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i> Allowed</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> Denied</span>';
             })
-            ->editColumn('enabled', function($model) {
-                return ($model->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
+            ->editColumn('enabled', function (Rule $rule) {
+                return ($rule->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
                     : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
             })
-            ->addColumn('actions', function ($model) {
+            ->addColumn('actions', function (Rule $rule) {
                 return view('partials.rules_dd', array(
                     'model' => 'rules',
-                    'id' => $model->id
+                    'id'    => $rule->id
                 ))->render();
             })
             ->removeColumn('id')

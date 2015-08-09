@@ -2,23 +2,22 @@
 
 namespace SSHAM\Http\Controllers;
 
-use SSHAM\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use SSHAM\FileEntry;
 
-class FileEntryController extends Controller
-{
+class FileEntryController extends Controller {
+
     /**
      * Gets a file to download
-     * 
-     * @param type $filename
-     * @return type
+     *
+     * @param $filename
+     * @return Response
      */
     public function get($filename)
     {
         // If file doesn't exists sends an 404 error
-        if (! Storage::disk('local')->exists($filename)) {
+        if ( ! Storage::disk('local')->exists($filename)) {
             abort(404);
         }
 
@@ -36,7 +35,7 @@ class FileEntryController extends Controller
         return response()->download(
             $filename_path,
             $original_filename
-            )->deleteFileAfterSend(true);
+        )->deleteFileAfterSend(true);
     }
 
 }
