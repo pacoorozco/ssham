@@ -10,7 +10,7 @@
   "require": {
     "laravel/framework": "5.1.*",
     "yajra/laravel-datatables-oracle": "~5.0",
-    "zizaco/entrust": "dev-laravel-5",
+    "zizaco/entrust": "~1.4",
     "laravelcollective/html": "5.1.*",
     "torann/registry": "0.2.*@dev",
     "laracasts/flash": "~1.3",
