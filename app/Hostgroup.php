@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Hostgroup extends Model
-{
+class Hostgroup extends Model {
 
     /**
      * The database table used by the model.

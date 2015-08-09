@@ -2,13 +2,13 @@
 
 namespace SSHAM\Http\Controllers;
 
-use SSHAM\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use SSHAM\Http\Requests\SettingsRequest;
 use Torann\Registry\Facades\Registry;
 
 
-class SettingsController extends Controller
-{
+class SettingsController extends Controller {
 
     /**
      * Create a new controller instance.
@@ -22,14 +22,19 @@ class SettingsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
     public function index()
     {
         $settings = Registry::all();
+
         return view('settings.index', compact('settings'));
     }
 
+    /**
+     * @param SettingsRequest $request
+     * @return RedirectResponse
+     */
     public function update(SettingsRequest $request)
     {
         Registry::store($request->except('_token', '_method'));

@@ -3,11 +3,12 @@
 namespace SSHAM\Http\Controllers\Auth;
 
 use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use SSHAM\Http\Controllers\Controller;
 use SSHAM\Http\Requests\Auth\LoginRequest;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
 
     /**
      * Create a new authentication controller instance.
@@ -21,7 +22,7 @@ class AuthController extends Controller
     /**
      * Show the application login form.
      *
-     * @return Response
+     * @return View
      */
     public function getLogin()
     {
@@ -32,14 +33,14 @@ class AuthController extends Controller
      * Log the user in and redirect to the submitted page
      *
      * @param LoginRequest $request
-     * @return $this|\Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function postLogin(LoginRequest $request)
     {
         if (Auth::attempt([
             'username' => $request->username,
             'password' => $request->password,
-            'enabled' => 1
+            'enabled'  => 1
         ], $request->has('remember'))
         ) {
             return redirect()->intended();
@@ -54,7 +55,7 @@ class AuthController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @return Response
+     * @return RedirectResponse
      */
     public function getLogout()
     {
