@@ -129,7 +129,7 @@ return [
         Collective\Html\HtmlServiceProvider::class, // HTML & Forms L5
         'Torann\Registry\RegistryServiceProvider', // Settings Management
         'Laracasts\Flash\FlashServiceProvider', // Flash Messages
-        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class, // Laravel IDE helper
         'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider', // unique_with Validator Rule
         Collective\Remote\RemoteServiceProvider::class, // SSH L5
 
