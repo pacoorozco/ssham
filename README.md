@@ -13,10 +13,37 @@ It enables a team of system administrators to centrally manage and deploy SSH ke
 
 SSH Access Manager allows you to maintain user public keys. You can organise these keys with group of keys called keyring. Then SSH Access Manager will deploy the keys and/or keyrings to specified unix accounts / groups / servers.
 
-## Requirements
 
-	PHP >= 5.4.0
-	MCrypt PHP Extension
+## How to test ProBIND
+
+This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needings. A web server, a database server and a Redis server.
+
+Prior this installation, you **need to have installed** this software:
+
+* [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+
+1. Clone the repository locally
+
+    ```bash
+    $ git clone https://github.com/pacoorozco/ssham.git ssham
+    ```
+2. Start all containers with [Docker Compose](https://docs.docker.com/compose/)
+
+    ```bash
+    $ cd ssham/docker
+    $ docker-compose build
+    $ docker-compose up -d
+    ```
+3. Seed database in order to play with some data
+
+
+    ```bash
+    $ docker exec docker_web_1 /setup.sh 
+    ```
+4. Point your browser to `http://localhost`. Your credential will be `admin/admin` or `user/user`.
+
+Enjoy!
 
 ## How to install
 ### Step 1: Get the code
