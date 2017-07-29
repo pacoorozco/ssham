@@ -4,6 +4,7 @@
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/803ad655-408a-469f-8389-8e5fe0338cec.svg)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
 [![GitHub license](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/tag/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
+[![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
 
 ## Description
 
@@ -106,7 +107,7 @@ $ php artisan serve --port=4000`
 
 ## License
 
-This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) and it's released as free software under the [MIT License](https://github.com/pacoorozco/ssham/blob/master/LICENSE).
+This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) and it's released as free software under is released as free software under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html).
 
 ## Additional information
 Please consult additional interfaces on [Sourceforge](http://sourceforge.net/projects/ssham/).
