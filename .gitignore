@@ -1,6 +1,22 @@
-/vendor
-/node_modules
+vendor/
+node_modules/
+
+# Laravel 5 & Lumen specific
+.env.*.php
+.env.php
 .env
-.idea/
+
+# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
+.rocketeer/
+
+# Homestead deployment. https://laravel.com/docs/master/homestead
+Homestead.yaml
+Homestead.json
+
+# Vagrant
 .vagrant/
+
+# Developement & editor stuff
+.idea/
 _ide_helper.php
+.phpstorm.meta.php
