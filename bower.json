@@ -1,0 +1,34 @@
+{
+  "name": "ssham",
+  "description": "SSH Access Manager - a web SSH access manager",
+  "main": "",
+  "license": "GPL-3.0",
+  "keywords": [
+    "ssh",
+    "ssh-key",
+    "unix-accounts",
+    "security",
+    "keyrings",
+    "access-management"
+  ],
+  "homepage": "https://github.com/pacoorozco/ssham",
+  "authors": [
+    {
+      "name": "Paco Orozco",
+      "email": "paco@pacorozco.info",
+      "homepage": "https://pacoorozco.info",
+      "role": "Developer"
+    }
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "AdminLTE": "admin-lte#^2.3.6"
+  }
+}

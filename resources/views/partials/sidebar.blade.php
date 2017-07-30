@@ -1,56 +1,43 @@
-<div class="main-navigation navbar-collapse collapse">
-    <!-- start: MAIN MENU TOGGLER BUTTON -->
-    <div class="navigation-toggler">
-        <i class="clip-chevron-left"></i>
-        <i class="clip-chevron-right"></i>
-    </div>
-    <!-- end: MAIN MENU TOGGLER BUTTON -->
-    <!-- start: MAIN NAVIGATION MENU -->
-    <ul class="main-navigation-menu">
-        <li {!! Request::is('home') ? ' class="active"' : '' !!}>
-            <a href="{!! route('home') !!}"><i class="clip-home-3"></i>
-                <span class="title"> @lang('site.home') </span>
-                {!! Request::is('home') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li {!! Request::is('users*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('users.index') !!}"><i class="clip-user"></i>
-                <span class="title"> @lang('site.users') </span>
-                {!! Request::is('users*') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li {!! Request::is('usergroups*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('usergroups.index') !!}"><i class="clip-users"></i>
-                <span class="title"> @lang('site.user_groups') </span>
-                {!! Request::is('usergroups*') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li {!! Request::is('hosts*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('hosts.index') !!}"><i class="clip-screen"></i>
-                <span class="title"> @lang('site.hosts') </span>
-                {!! Request::is('hosts*') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li {!! Request::is('hostgroups*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('hostgroups.index') !!}"><i class="fa fa-tasks"></i>
-                <span class="title"> @lang('site.host_groups') </span>
-                {!! Request::is('hostgroups*') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li {!! Request::is('rules*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('rules.index') !!}"><i class="clip-database"></i>
-                <span class="title"> @lang('site.rules') </span>
-                {!! Request::is('rules*') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li {!! Request::is('settings*') ? ' class="active"' : '' !!}>
-            <a href="{!! route('settings.index') !!}"><i class="clip-settings"></i>
-                <span class="title"> @lang('site.settings') </span>
-                {!! Request::is('settings*') ? '<span class="selected"></span>' : '' !!}
-            </a>
-        </li>
-        <li></li>
-    </ul>
-    <!-- end: MAIN NAVIGATION MENU -->
-</div>
+<!-- start: MAIN NAVIGATION MENU -->
+<ul class="sidebar-menu">
+    <li class="header">{{ trans('site.navigation') }}</li>
 
+    <li {!! (Request::is('home') ? ' class="active"' : '') !!}>
+        <a href="{{ route('home') }}">
+            <i class="fa fa-dashboard"></i><span>{{ trans('site.dashboard') }}</span>
+        </a>
+    </li>
+
+    <li {!! (Request::is('users*') ? ' class="active"' : '') !!}>
+        <a href="{{ route('users.index') }}">
+            <i class="fa fa-user"></i><span>{{ trans('site.users') }}</span>
+        </a>
+    </li>
+
+    <li {!! Request::is('usergroups*') ? ' class="active"' : '' !!}>
+        <a href="{{ route('usergroups.index') }}">
+            <i class="fa fa-users"></i><span>{{ trans('site.user_groups') }}</span>
+        </a>
+    </li>
+    <li {!! Request::is('hosts*') ? ' class="active"' : '' !!}>
+        <a href="{{ route('hosts.index') }}">
+            <i class="fa fa-server"></i><span>{{ trans('site.hosts') }}</span>
+        </a>
+    </li>
+    <li {!! Request::is('hostgroups*') ? ' class="active"' : '' !!}>
+        <a href="{{ route('hostgroups.index') }}">
+            <i class="fa fa-tasks"></i><span>{{ trans('site.host_groups') }}</span>
+        </a>
+    </li>
+    <li {!! Request::is('rules*') ? ' class="active"' : '' !!}>
+        <a href="{{ route('rules.index') }}">
+            <i class="fa fa-database"></i><span>{{ trans('site.rules') }}</span>
+        </a>
+    </li>
+    <li {!! Request::is('settings*') ? ' class="active"' : '' !!}>
+        <a href="{{ route('settings.index') }}">
+            <i class="fa fa-gears"></i><span>{{ trans('site.settings') }}</span>
+        </a>
+    </li>
+</ul>
+<!-- end: MAIN NAVIGATION MENU -->

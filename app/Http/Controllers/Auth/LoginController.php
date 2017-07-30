@@ -44,6 +44,12 @@ class LoginController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * Which field will be used as a username. (Default is email).
+     *
+     */
+    protected $username = 'username';
+
+    /**
      * Create a new controller instance.
      */
     public function __construct()
@@ -56,10 +62,10 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function username(): string
+    /*public function username(): string
     {
         return 'username';
-    }
+    }*/
 
 
 }

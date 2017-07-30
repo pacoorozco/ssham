@@ -1,21 +1,20 @@
 <?php
+/**
+ * SSHAM - SSH Access Manager Web Interface.
+ *
+ * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ *
+ * This file is part of some open source application.
+ *
+ * Licensed under GNU General Public License 3.0.
+ * Some rights reserved. See LICENSE, AUTHORS.
+ *
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
+ */
 
 return [
 
-    /*
-      |--------------------------------------------------------------------------
-      | Site Language Lines
-      |--------------------------------------------------------------------------
-      |
-     */
-
-    'title' => 'Dashboard',
-    'subtitle' => 'overview & stats',
-    'manage_users' => 'Manage Users',
-    'manage_users_description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-    'manage_hosts' => 'Manage Hosts',
-    'manage_hosts_description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-    'manage_accesses' => 'Manage Accesses',
-    'manage_accesses_description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-    
 ];

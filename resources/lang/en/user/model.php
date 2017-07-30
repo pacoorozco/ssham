@@ -1,4 +1,19 @@
 <?php
+/**
+ * SSHAM - SSH Access Manager Web Interface.
+ *
+ * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ *
+ * This file is part of some open source application.
+ *
+ * Licensed under GNU General Public License 3.0.
+ * Some rights reserved. See LICENSE, AUTHORS.
+ *
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
+ */
 
 return [
     /*
@@ -9,14 +24,14 @@ return [
     */
 
     'username' => 'Username',
+    'name' => 'Name',
     'email' => 'E-mail address',
-    'auth_type' => 'Auth type',
     'password' => 'Password',
     'password_confirmation' => 'Password Confirmation',
     'public_key' => 'SSH public key',
     'fingerprint' => 'Key fingerprint',
-    'enabled' => 'Enabled',
+    'active' => 'Enabled',
     'roles' => 'Roles',
-    'groups' => 'Group memberships',
+    'groups' => 'Team memberships',
     'is_admin' => 'Has this user administrative role?',
 ];

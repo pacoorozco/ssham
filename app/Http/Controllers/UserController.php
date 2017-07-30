@@ -19,14 +19,16 @@ namespace SSHAM\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Request;
-use SSHAM\Http\Requests\UserCreateRequest;
-use SSHAM\Http\Requests\UserUpdateRequest;
+use Yajra\Datatables\Datatables;
+
 use SSHAM\User;
 use SSHAM\Usergroup;
-use yajra\Datatables\Datatables;
+use SSHAM\Helpers\Helper;
+use SSHAM\Http\Requests\UserCreateRequest;
+use SSHAM\Http\Requests\UserUpdateRequest;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -64,6 +66,7 @@ class UserController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param UserCreateRequest $request
+     *
      * @return RedirectResponse
      */
     public function store(UserCreateRequest $request)
@@ -88,7 +91,8 @@ class UserController extends Controller {
         }
 
         if ($request->create_rsa_key == '1') {
-            flash()->overlay(trans('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
+            flash()->overlay(trans('user/messages.create.success_private',
+                array('url' => link_to(route('file.download', $private_key), 'this link'))));
         } else {
             flash()->overlay(trans('user/messages.create.success'));
         }
@@ -100,6 +104,7 @@ class UserController extends Controller {
      * Display the specified resource.
      *
      * @param User $user
+     *
      * @return View
      */
     public function show(User $user)
@@ -111,6 +116,7 @@ class UserController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  User $user
+     *
      * @return View
      */
     public function edit(User $user)
@@ -124,8 +130,9 @@ class UserController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  User $user
+     * @param  User             $user
      * @param UserUpdateRequest $request
+     *
      * @return RedirectResponse
      */
     public function update(User $user, UserUpdateRequest $request)
@@ -153,8 +160,9 @@ class UserController extends Controller {
 
         $user->save();
 
-        if ($request->create_rsa_key == '1' && ! is_null($private_key)) {
-            flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
+        if ($request->create_rsa_key == '1' && !is_null($private_key)) {
+            flash()->overlay(trans('user/messages.edit.success_private',
+                array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
         } else {
             flash()->overlay(trans('user/messages.edit.success'));
         }
@@ -166,6 +174,7 @@ class UserController extends Controller {
      * Remove user.
      *
      * @param User $user
+     *
      * @return View
      */
     public function delete(User $user)
@@ -177,6 +186,7 @@ class UserController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  User $user
+     *
      * @return RedirectResponse
      */
     public function destroy(User $user)
@@ -189,36 +199,34 @@ class UserController extends Controller {
     }
 
     /**
-     * Return all Users in order to be used as Datatables
+     * Show a list of all the users formatted for DataTables.
      *
-     * @param Datatables $datatable
-     * @return \Illuminate\Http\JsonResponse
+     * @param Datatables $dataTable
+     *
+     * @return Datatables JsonResponse
      */
-    public function data(Datatables $datatable)
+    public function data(Datatables $dataTable)
     {
-        if ( ! Request::ajax()) {
-            abort(403);
-        }
+        $users = User::get([
+            'id',
+            'username',
+            'name',
+            'fingerprint',
+            'active',
+        ]);
 
-        $users = User::select(array(
-            'id', 'username', 'fingerprint', 'enabled'
-        ))->orderBy('username', 'ASC');
-
-        return $datatable->usingEloquent($users)
+        return $dataTable::of($users)
             ->editColumn('username', function (User $user) {
-                return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
-            })
-            ->addColumn('groups', function (User $user) {
-                return count($user->usergroups->pluck('id')->all());
+                return Helper::addStatusLabel($user->active, $user->username);
             })
             ->addColumn('actions', function (User $user) {
-                return view('partials.actions_dd', array(
-                    'model' => 'users',
-                    'id'    => $user->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'users')
+                    ->with('id', $user->id)
+                    ->render();
             })
             ->removeColumn('id')
-            ->removeColumn('enabled')
+            ->removeColumn('active')
             ->make(true);
     }
 

@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * SSHAM - SSH Access Manager Web Interface.
  *
  * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
@@ -15,9 +14,7 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-return [
-    'name' => 'Name',
-    'description' => 'Description',
-    'hosts' => 'Hosts',
-    'actions' => 'Actions',
-];
+var SSHAM = {
+    init: function () {
+    }
+};
