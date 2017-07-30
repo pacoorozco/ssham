@@ -28,17 +28,18 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function(Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('username')->unique();
-            $table->string('email')->nullable();
-            $table->enum('auth_type', ['local', 'external']);
-            $table->string('password', 60);
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->rememberToken();
+            $table->timestamps();
+
             $table->text('public_key')->nullable();
             $table->string('fingerprint')->nullable();
-            $table->boolean('enabled')->default('1');
-            $table->timestamps();
+            $table->boolean('active')->default(true);
         });
     }
 

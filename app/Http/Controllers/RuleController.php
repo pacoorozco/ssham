@@ -57,8 +57,8 @@ class RuleController extends Controller {
     public function create()
     {
         // Get all existing user and hosts groups
-        $usergroups = Usergroup::lists('name', 'id')->all();
-        $hostgroups = Hostgroup::lists('name', 'id')->all();
+        $usergroups = Usergroup::pluck('name', 'id')->all();
+        $hostgroups = Hostgroup::pluck('name', 'id')->all();
 
         return view('rule.create', compact('usergroups', 'hostgroups'));
     }

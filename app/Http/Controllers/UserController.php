@@ -55,7 +55,7 @@ class UserController extends Controller {
     public function create()
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id')->all();
+        $groups = Usergroup::pluck('name', 'id')->all();
 
         return view('user.create', compact('groups'));
     }
@@ -116,7 +116,7 @@ class UserController extends Controller {
     public function edit(User $user)
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id')->all();
+        $groups = Usergroup::pluck('name', 'id')->all();
 
         return view('user.edit', compact('user', 'groups'));
     }
@@ -209,7 +209,7 @@ class UserController extends Controller {
                 return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
             })
             ->addColumn('groups', function (User $user) {
-                return count($user->usergroups->lists('id')->all());
+                return count($user->usergroups->pluck('id')->all());
             })
             ->addColumn('actions', function (User $user) {
                 return view('partials.actions_dd', array(

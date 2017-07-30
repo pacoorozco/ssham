@@ -56,7 +56,7 @@ class HostController extends Controller {
     public function create()
     {
         // Get all existing user groups
-        $groups = Hostgroup::lists('name', 'id')->all();
+        $groups = Hostgroup::pluck('name', 'id')->all();
 
         return view('host.create', compact('groups'));
     }
@@ -103,7 +103,7 @@ class HostController extends Controller {
     public function edit(Host $host)
     {
         // Get all existing user groups
-        $groups = Hostgroup::lists('name', 'id')->all();
+        $groups = Hostgroup::pluck('name', 'id')->all();
 
         return view('host.edit', compact('host', 'groups'));
     }
@@ -180,7 +180,7 @@ class HostController extends Controller {
                     : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
             })
             ->addColumn('groups', function (Host $host) {
-                return count($host->hostgroups->lists('id')->all());
+                return count($host->hostgroups->pluck('id')->all());
             })
             ->addColumn('actions', function (Host $host) {
                 return view('partials.actions_dd', array(

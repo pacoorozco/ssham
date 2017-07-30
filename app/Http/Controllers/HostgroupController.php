@@ -56,7 +56,7 @@ class HostgroupController extends Controller {
     public function create()
     {
         // Get all existing hosts
-        $hosts = Host::lists('hostname', 'id')->all();
+        $hosts = Host::pluck('hostname', 'id')->all();
 
         return view('hostgroup.create', compact('hosts'));
     }
@@ -104,7 +104,7 @@ class HostgroupController extends Controller {
     public function edit(Hostgroup $hostgroup)
     {
         // Get all existing hosts
-        $hosts = Host::lists('hostname', 'id')->all();
+        $hosts = Host::pluck('hostname', 'id')->all();
 
         return view('hostgroup.edit', compact('hostgroup', 'hosts'));
     }
@@ -177,7 +177,7 @@ class HostgroupController extends Controller {
 
         return $datatable->usingEloquent($hostgroups)
             ->addColumn('hosts', function (Hostgroup $hostgroup) {
-                return count($hostgroup->hosts->lists('id')->all());;
+                return count($hostgroup->hosts->pluck('id')->all());;
             })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.actions_dd', array(

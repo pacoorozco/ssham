@@ -27,11 +27,21 @@
 */
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+/*  ------------------------------------------
+ *  Authentication
+ *  ------------------------------------------
+ */
+// Authentication Routes...
+Route::get('auth/login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
+Route::post('auth/login', ['as' => 'login', 'uses' => 'Auth\AuthController@postLogin']);
+Route::get('auth/logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
 
-Route::controller('auth', 'Auth\AuthController', [
-    'getLogin' => 'login',
-    'getLogout' => 'logout',
-]);
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 /**
  * ------------------------------------------

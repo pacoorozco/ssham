@@ -56,7 +56,7 @@ class UsergroupController extends Controller {
     public function create()
     {
         // Get all existing users
-        $users = User::lists('username', 'id')->all();
+        $users = User::pluck('username', 'id')->all();
 
         return view('usergroup.create', compact('users'));
     }
@@ -103,7 +103,7 @@ class UsergroupController extends Controller {
     public function edit(Usergroup $usergroup)
     {
         // Get all existing users
-        $users = User::lists('username', 'id')->all();
+        $users = User::pluck('username', 'id')->all();
 
         return view('usergroup.edit', compact('usergroup', 'users'));
     }
@@ -176,7 +176,7 @@ class UsergroupController extends Controller {
 
         return $datatable->usingEloquent($usergroups)
             ->addColumn('users', function (Usergroup $usergroup) {
-                return count($usergroup->users->lists('id')->all());
+                return count($usergroup->users->pluck('id')->all());
             })
             ->addColumn('actions', function (Usergroup $usergroup) {
                 return view('partials.actions_dd', array(
