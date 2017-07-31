@@ -20,6 +20,7 @@ namespace SSHAM\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Yajra\Datatables\Datatables;
+use Gate;
 
 use SSHAM\User;
 use SSHAM\Usergroup;
@@ -59,7 +60,8 @@ class UserController extends Controller
         // Get all existing user groups
         $groups = Usergroup::pluck('name', 'id')->all();
 
-        return view('user.create', compact('groups'));
+        return view('user.create')
+            ->with('groups', $groups);
     }
 
     /**
@@ -91,13 +93,13 @@ class UserController extends Controller
         }
 
         if ($request->create_rsa_key == '1') {
-            flash()->overlay(trans('user/messages.create.success_private',
-                array('url' => link_to(route('file.download', $private_key), 'this link'))));
-        } else {
-            flash()->overlay(trans('user/messages.create.success'));
+            return redirect()->route('users.index')
+                ->with('success', trans('user/messages.create.success_private',
+                    ['url' => link_to(route('file.download', $private_key), 'this link')]));
         }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->with('success', trans('user/messages.create.success'));
     }
 
     /**
@@ -109,7 +111,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('user.show', compact('user'));
+        return view('user.show')
+            ->with('user', $user);
     }
 
     /**
@@ -124,7 +127,9 @@ class UserController extends Controller
         // Get all existing user groups
         $groups = Usergroup::pluck('name', 'id')->all();
 
-        return view('user.edit', compact('user', 'groups'));
+        return view('user.edit')
+            ->with('user', $user)
+            ->with('groups', $groups);
     }
 
     /**
@@ -161,13 +166,13 @@ class UserController extends Controller
         $user->save();
 
         if ($request->create_rsa_key == '1' && !is_null($private_key)) {
-            flash()->overlay(trans('user/messages.edit.success_private',
-                array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
-        } else {
-            flash()->overlay(trans('user/messages.edit.success'));
+            return redirect()->route('users.index')
+                ->with('success', trans('user/messages.edit.success_private',
+                    ['url' => link_to(route('file.download', ['filename' => $private_key]), 'this link')]));
         }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->with('success', trans('user/messages.edit.success'));
     }
 
     /**
@@ -179,7 +184,8 @@ class UserController extends Controller
      */
     public function delete(User $user)
     {
-        return view('user.delete', compact('user'));
+        return view('user.delete')
+            ->with('user', $user);
     }
 
     /**
@@ -191,11 +197,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        if (Gate::allows('delete-user', $user)) {
+            $user->delete();
 
-        flash()->success(trans('user/messages.delete.success'));
+            return redirect()->route('users.index')
+                ->with('success', trans('user/messages.delete.success'));
+        }
 
-        return redirect()->route('users.index');
+        // Trying to delete myself.
+        return redirect()->route('users.index')
+            ->with('error', trans('user/messages.delete.invalid'));
     }
 
     /**

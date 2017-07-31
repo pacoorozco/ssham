@@ -42,9 +42,12 @@ class User extends Model implements AuthenticatableContract
      */
     protected $fillable = [
         'username',
+        'name',
+        'email',
+        'role',
         'public_key',
         'fingerprint',
-        'enabled'
+        'active'
     ];
 
     /**
@@ -54,10 +57,17 @@ class User extends Model implements AuthenticatableContract
      */
     protected $hidden = [
         'email',
-        'auth_type',
+        'role',
         'password',
         'remember_token'
     ];
+
+    /**
+     * These are the available roles that an user can perform.
+     *
+     * @var array
+     */
+    protected static $roles = ['user', 'admin'];
 
     public function createRSAKeyPair()
     {

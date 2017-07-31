@@ -37,6 +37,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
+            $table->enum('role', ['user', 'admin'])->default('user');
             $table->text('public_key')->nullable();
             $table->string('fingerprint')->nullable();
             $table->boolean('active')->default(true);

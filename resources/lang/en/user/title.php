@@ -23,4 +23,9 @@ return [
     'create_new_subtitle'      => 'create a new user',
     'user_edit'                => 'Edit User',
     'user_delete'              => 'Delete User',
+
+    'details_field_set'         => 'Details',
+    'ssh_field_set'             => 'SSH Credentials',
+    'team_membership_field_set' => 'Team Membership',
+    'roles_field_set'           => 'Roles',
 ];

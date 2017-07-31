@@ -27,6 +27,7 @@ return [
     'add'      => 'Add',
     'remove'   => 'Remove',
     'back'     => 'Back',
+    'cancel'   => 'Cancel',
     'close'    => 'Close',
     'search'   => 'Search',
     'actions'  => 'Actions',

@@ -17,11 +17,8 @@
 
 namespace SSHAM\Http\Requests;
 
-use SSHAM\Http\Requests\Request;
-
 class UserUpdateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -30,16 +27,6 @@ class UserUpdateRequest extends Request
     public function authorize()
     {
         return true;
-    }
-
-    /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance() {
-        $this->sanitize();
-        return parent::getValidatorInstance();
     }
 
     /**
@@ -52,11 +39,24 @@ class UserUpdateRequest extends Request
         $user = $this->route('users');
 
         return [
-            'username'  => 'sometimes|max:255|unique:users,username,' . $user->id,
+            'name'           => 'required|string',
+            'email'          => 'required|email|unique:users,email,' . $user->id,
+            'password'       => 'sometimes|alpha_num|min:6|confirmed',
             'create_rsa_key' => 'required|boolean',
-            'public_key' => 'required_if:create_rsa_key,0|rsa_key:public',
-            'enabled'   => 'required|boolean',
+            'public_key'     => 'required_if:create_rsa_key,0|rsa_key:public',
+            'active'         => 'required|boolean',
         ];
+    }
+
+    /**
+     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
+     *
+     * @return mixed
+     */
+    protected function getValidatorInstance()
+    {
+        $this->sanitize();
+        return parent::getValidatorInstance();
     }
 
     /**
@@ -73,5 +73,4 @@ class UserUpdateRequest extends Request
 
         $this->replace($input);
     }
-
 }

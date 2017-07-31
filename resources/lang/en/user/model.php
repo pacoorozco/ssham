@@ -23,15 +23,23 @@ return [
     |
     */
 
-    'username' => 'Username',
-    'name' => 'Name',
-    'email' => 'E-mail address',
-    'password' => 'Password',
+    'username'              => 'Username',
+    'username_ph'           => 'john.doe',
+    'name'                  => 'Name',
+    'name_ph'               => 'John Doe',
+    'email'                 => 'E-mail address',
+    'email_ph'              => 'john@domain.com',
+    'password'              => 'Password',
     'password_confirmation' => 'Password Confirmation',
-    'public_key' => 'SSH public key',
-    'fingerprint' => 'Key fingerprint',
-    'active' => 'Enabled',
-    'roles' => 'Roles',
-    'groups' => 'Team memberships',
-    'is_admin' => 'Has this user administrative role?',
+    'public_key'            => 'SSH public key',
+    'fingerprint'           => 'Key fingerprint',
+    'active'                => 'Enabled',
+    'roles'                 => 'Roles',
+    'groups'                => 'Team memberships',
+    'is_admin'              => 'Has this user administrative role?',
+
+    'roles' => [
+        'user'  => 'Normal user',
+        'admin' => 'Administrator',
+    ],
 ];

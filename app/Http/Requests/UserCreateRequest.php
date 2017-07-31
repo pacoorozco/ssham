@@ -17,8 +17,6 @@
 
 namespace SSHAM\Http\Requests;
 
-use SSHAM\Http\Requests\Request;
-
 class UserCreateRequest extends Request
 {
 
@@ -33,16 +31,6 @@ class UserCreateRequest extends Request
     }
 
     /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance() {
-        $this->sanitize();
-        return parent::getValidatorInstance();
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -50,10 +38,24 @@ class UserCreateRequest extends Request
     public function rules()
     {
         return [
-            'username' => 'required|max:255|unique:users',
+            'username'       => 'required|string|unique:users',
+            'name'           => 'required|string',
+            'email'          => 'required|email|unique:users',
+            'password'       => 'required|alpha_num|min:6|confirmed',
             'create_rsa_key' => 'required|boolean',
-            'public_key' => 'required_if:create_rsa_key,0|rsa_key:public',
+            'public_key'     => 'required_if:create_rsa_key,0|rsa_key:public',
         ];
+    }
+
+    /**
+     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
+     *
+     * @return mixed
+     */
+    protected function getValidatorInstance()
+    {
+        $this->sanitize();
+        return parent::getValidatorInstance();
     }
 
     /**
@@ -70,5 +72,4 @@ class UserCreateRequest extends Request
 
         $this->replace($input);
     }
-
 }
