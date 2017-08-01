@@ -36,9 +36,8 @@ return [
     'active'                => 'Enabled',
     'roles'                 => 'Roles',
     'groups'                => 'Team memberships',
-    'is_admin'              => 'Has this user administrative role?',
 
-    'roles' => [
+    'available_roles' => [
         'user'  => 'Normal user',
         'admin' => 'Administrator',
     ],

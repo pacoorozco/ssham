@@ -62,13 +62,6 @@ class User extends Model implements AuthenticatableContract
         'remember_token'
     ];
 
-    /**
-     * These are the available roles that an user can perform.
-     *
-     * @var array
-     */
-    protected static $roles = ['user', 'admin'];
-
     public function createRSAKeyPair()
     {
         // create a new RSA key pair

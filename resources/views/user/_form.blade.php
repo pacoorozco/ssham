@@ -9,7 +9,7 @@
     <div class="box-body">
 
         <div class="callout callout-info">
-            <p>Fields with an asterisk (*) are mandatory.</p>
+            <p>@lang('general.mandatory_fields')</p>
         </div>
         <div class="row">
             <div class="col-sm-6">
@@ -70,6 +70,7 @@
                         </div>
                     </div>
                     <!-- ./ password_confirmation -->
+
                 </fieldset>
 
                 @if (isset($user))
@@ -78,13 +79,13 @@
 
                         <!-- role -->
                         <div class="form-group {{ $errors->has('role') ? 'has-error' : '' }}">
-                            {!! Form::label('role', trans('user/model.role'), array('class' => 'control-label')) !!}
+                            {!! Form::label('role', trans('user/model.roles'), array('class' => 'control-label')) !!}
                             <div class="controls">
-                                {!! Form::select('role', array('user' => 'Normal user', 'admin' => 'Administrator'), $user->role('admin'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                                {!! Form::select('role', array('user' => trans('user/model.available_roles.user'), 'admin' => trans('user/model.available_roles.admin')), $user->role, array('class' => 'form-control')) !!}
                                 <span class="help-block">{{ $errors->first('role', ':message') }}</span>
                             </div>
                         </div>
-                        <!-- ./ administrator role -->
+                        <!-- ./ role -->
 
                         <!-- enabled -->
                         <div class="form-group {{ $errors->has('active') ? 'has-error' : '' }}">
