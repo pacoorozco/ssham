@@ -161,13 +161,9 @@ return [
          * Vendor Service Providers...
          */
         Yajra\Datatables\DatatablesServiceProvider::class, // Datatables
-        Zizaco\Entrust\EntrustServiceProvider::class, // Roles
         Collective\Html\HtmlServiceProvider::class, // HTML & Forms L5
         Torann\Registry\RegistryServiceProvider::class, // Settings Management
-        Laracasts\Flash\FlashServiceProvider::class, // Flash Messages
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class, // Laravel IDE helper
         Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class, // unique_with Validator Rule
-        Collective\Remote\RemoteServiceProvider::class, // SSH L5
         /*
          * Application Service Providers...
          */
@@ -223,11 +219,8 @@ return [
          * Vendor Aliases
          */
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
-        'Entrust'    => 'Zizaco\Entrust\EntrustFacade',
         'Form'       => Collective\Html\FormFacade::class,
         'HTML'       => Collective\Html\HtmlFacade::class,
-        'Registry'   => 'Torann\Registry\Facades\Registry',
-        'Flash'      => 'Laracasts\Flash\Flash',
-        'SSH'        => 'Collective\Remote\RemoteFacade',
+        'Registry'   => Torann\Registry\Facades\Registry::class,
     ],
 ];

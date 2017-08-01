@@ -42,9 +42,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => 'SSHAM\Http\Middleware\Authenticate',
+        'auth'       => 'SSHAM\Http\Middleware\Authenticate',
         'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'guest' => 'SSHAM\Http\Middleware\RedirectIfAuthenticated',
+        'guest'      => 'SSHAM\Http\Middleware\RedirectIfAuthenticated',
     ];
 
 }

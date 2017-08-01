@@ -17,7 +17,6 @@
 
 namespace SSHAM\Http\Controllers;
 
-
 use SSHAM\Host;
 use SSHAM\Hostgroup;
 use SSHAM\User;

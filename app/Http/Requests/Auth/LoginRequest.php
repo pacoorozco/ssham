@@ -40,7 +40,7 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'username' => 'required|max:255',
+            'username' => 'required',
             'password' => 'required',
         ];
     }

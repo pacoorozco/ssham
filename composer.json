@@ -29,10 +29,7 @@
     "laravelcollective/remote": "5.2.*",
     "phpseclib/phpseclib": "^2.0",
     "yajra/laravel-datatables-oracle": "~6.0",
-    "zizaco/entrust": "~1.4",
     "torann/registry": "0.2.*@dev",
-    "laracasts/flash": "~1.3",
-    "barryvdh/laravel-ide-helper": "^2.0",
     "felixkiss/uniquewith-validator": "2.*"
   },
   "require-dev": {

@@ -46,6 +46,7 @@ class LoginController extends Controller
     /**
      * Which field will be used as a username. (Default is email).
      *
+     * @var string
      */
     protected $username = 'username';
 
@@ -56,16 +57,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
-
-    /**
-     * Which field will be used as a username. (Default is email).
-     *
-     * @return string
-     */
-    /*public function username(): string
-    {
-        return 'username';
-    }*/
-
-
 }

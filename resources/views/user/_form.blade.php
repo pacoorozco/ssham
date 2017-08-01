@@ -190,7 +190,7 @@
         <div class="form-group">
             <div class="controls">
                 {!! Form::button('<i class="fa fa-floppy-o"></i> ' . trans('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
-                <a href="{{ route('users.index') }}" class="btn btn-link" role="button">@lang('general.cancel')</a>
+                <a href="{{ route('users.index') }}" class="btn btn-link">@lang('general.cancel')</a>
             </div>
         </div>
         <!-- ./ form actions -->

@@ -20,13 +20,11 @@ namespace SSHAM;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract
 {
 
-    use Authenticatable,
-        EntrustUserTrait;
+    use Authenticatable;
 
     /**
      * The database table used by the model.
@@ -62,6 +60,11 @@ class User extends Model implements AuthenticatableContract
         'remember_token'
     ];
 
+    /**
+     * This method creates a RSA public / private key pair for the user.
+     *
+     * @return array
+     */
     public function createRSAKeyPair()
     {
         // create a new RSA key pair
