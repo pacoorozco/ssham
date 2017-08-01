@@ -20,6 +20,7 @@ namespace SSHAM;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use phpseclib\Crypt\RSA;
 
 class User extends Model implements AuthenticatableContract
 {
@@ -68,8 +69,8 @@ class User extends Model implements AuthenticatableContract
     public function createRSAKeyPair()
     {
         // create a new RSA key pair
-        $rsa = new \Crypt_RSA();
-        $rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
+        $rsa = new RSA();
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
         $keyPair = $rsa->createKey();
 
         // save RSA public key
