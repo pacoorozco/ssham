@@ -6,25 +6,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {{ trans('auth.login') }}
-@endsection
-
-{{-- Content Header --}}
-@section('header')
-    {{ trans('site.dashboard') }}
-@endsection
-
-{{-- Breadcrumbs --}}
-@section('breadcrumbs')
-    <li class="active">
-        <i class="fa fa-dashboard"></i> {{ trans('site.dashboard') }}
-    </li>
+    @lang('auth.login')
 @endsection
 
 {{-- Content --}}
 @section('content')
     <!-- start: LOGIN BOX -->
-    <p class="login-box-msg">{{ trans('auth.sign_title') }}</p>
+    <p class="login-box-msg">@lang('auth.sign_title')</p>
 
     {!! Form::open(array('url' => '/login')) !!}
     <div class="form-group has-feedback">
@@ -49,7 +37,7 @@
             <div class="checkbox icheck">
                 <label>
                     {!! Form::checkbox('remember', '1', false) !!}
-                    {{ trans('auth.remember_me') }}
+                    @lang('auth.remember_me')
                 </label>
             </div>
         </div>
