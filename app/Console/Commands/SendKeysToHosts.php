@@ -89,7 +89,7 @@ class SendKeysToHosts extends Command
             Log::debug('Connected successfully to ' . $host->getFullHostname());
 
             // Send remote_updater script to remote Host
-            $fileContents = File::get('ssham-remote-updater.sh');
+            $fileContents = File::get('util/ssham-remote-updater.sh');
             $sftp->put(Registry::get('cmd_remote_updater'), $fileContents);
             $sftp->chmod(0700, Registry::get('cmd_remote_updater'));
 
