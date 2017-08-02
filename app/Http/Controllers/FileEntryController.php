@@ -21,7 +21,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use SSHAM\FileEntry;
 
-class FileEntryController extends Controller {
+class FileEntryController extends Controller
+{
 
     /**
      * Gets a file to download
@@ -32,7 +33,7 @@ class FileEntryController extends Controller {
     public function get($filename)
     {
         // If file doesn't exists sends an 404 error
-        if ( ! Storage::disk('local')->exists($filename)) {
+        if (!Storage::disk('local')->exists($filename)) {
             abort(404);
         }
 

@@ -17,8 +17,9 @@
 
 namespace SSHAM\Events;
 
-abstract class Event {
+abstract class Event
+{
 
-	//
+    //
 
 }

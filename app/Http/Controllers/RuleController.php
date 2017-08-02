@@ -28,7 +28,8 @@ use SSHAM\Rule;
 use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 
-class RuleController extends Controller {
+class RuleController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -102,7 +103,7 @@ class RuleController extends Controller {
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
+        if (!Request::ajax()) {
             abort(403);
         }
 

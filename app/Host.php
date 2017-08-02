@@ -20,7 +20,8 @@ namespace SSHAM;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Host extends Model {
+class Host extends Model
+{
 
     /**
      * The database table used by the model.

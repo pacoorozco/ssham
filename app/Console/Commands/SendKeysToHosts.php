@@ -69,7 +69,7 @@ class SendKeysToHosts extends Command
             $sftp = new Net_SFTP($host->hostname, Registry::get('ssh_port'), Registry::get('ssh_timeout'));
 
             try {
-                if(! $sftp->login($host->username, $key)) {
+                if (!$sftp->login($host->username, $key)) {
 
                     // Set last_error field on Host
                     // Set last_update on error status on Host
@@ -101,10 +101,10 @@ class SendKeysToHosts extends Command
 
             // Execute remote_updater script on remote Host
             $sftp->enableQuietMode();
-            $command = Registry::get('cmd_remote_updater') .' update '
+            $command = Registry::get('cmd_remote_updater') . ' update '
                 . ((Registry::get('mixed_mode') == '1') ? 'true ' : 'false ')
                 . Registry::get('authorized_keys') . ' '
-                . Registry::get('non_ssham_file') .' '
+                . Registry::get('non_ssham_file') . ' '
                 . Registry::get('ssham_file');
 
             Log::debug('Updated SSH authorized keys on ' . $host->getFullHostname());

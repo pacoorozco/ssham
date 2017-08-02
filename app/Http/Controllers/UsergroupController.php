@@ -27,7 +27,8 @@ use SSHAM\User;
 use SSHAM\Usergroup;
 use yajra\Datatables\Datatables;
 
-class UsergroupController extends Controller {
+class UsergroupController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -166,7 +167,7 @@ class UsergroupController extends Controller {
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
+        if (!Request::ajax()) {
             abort(403);
         }
 

@@ -36,7 +36,8 @@ class SettingsRequest extends Request
      *
      * @return mixed
      */
-    protected function getValidatorInstance() {
+    protected function getValidatorInstance()
+    {
         $this->sanitize();
         return parent::getValidatorInstance();
     }

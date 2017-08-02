@@ -23,7 +23,8 @@ use SSHAM\Http\Requests\SettingsRequest;
 use Torann\Registry\Facades\Registry;
 
 
-class SettingsController extends Controller {
+class SettingsController extends Controller
+{
 
     /**
      * Create a new controller instance.

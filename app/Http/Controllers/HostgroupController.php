@@ -27,7 +27,8 @@ use SSHAM\Http\Requests\HostgroupCreateRequest;
 use SSHAM\Http\Requests\HostgroupUpdateRequest;
 use yajra\Datatables\Datatables;
 
-class HostgroupController extends Controller {
+class HostgroupController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -167,7 +168,7 @@ class HostgroupController extends Controller {
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
+        if (!Request::ajax()) {
             abort(403);
         }
 
@@ -177,7 +178,7 @@ class HostgroupController extends Controller {
 
         return $datatable->usingEloquent($hostgroups)
             ->addColumn('hosts', function (Hostgroup $hostgroup) {
-                return count($hostgroup->hosts->pluck('id')->all());;
+                return count($hostgroup->hosts->pluck('id')->all()); ;
             })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.actions_dd', array(

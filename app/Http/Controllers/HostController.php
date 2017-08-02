@@ -27,7 +27,8 @@ use SSHAM\Host;
 use SSHAM\Hostgroup;
 use yajra\Datatables\Datatables;
 
-class HostController extends Controller {
+class HostController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -65,7 +66,7 @@ class HostController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param HostCreateRequest $request
-     * @return View
+     * @return RedirectResponse
      */
     public function store(HostCreateRequest $request)
     {
@@ -166,7 +167,7 @@ class HostController extends Controller {
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
+        if (!Request::ajax()) {
             abort(403);
         }
 

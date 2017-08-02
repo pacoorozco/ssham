@@ -58,7 +58,7 @@ class Rule extends Model
      * Set Rule action
      *     Values could be 'allow' or 'deny'
      *
-     * @param $action
+     * @param string $action
      */
     public function setAction($action)
     {
