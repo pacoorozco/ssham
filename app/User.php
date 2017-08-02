@@ -22,6 +22,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use phpseclib\Crypt\RSA;
 
+/**
+ * User model, represents a SSHAM user.
+ *
+ * @property int    $id                      The object unique id.
+ * @property string $username                The username that represents this user.
+ * @property string $name                    The name of this user.
+ * @property string $email                   The email address of this user.
+ * @property string $password                Encrypted password of this user.
+ * @property string $role                    The role of this user. Could be 'normal' or 'admin'.
+ * @property string $public_key              The RSA public key of this user.
+ * @property string $fingerprint             The fingerprint of $this->public_key.
+ * @property bool   $active                  The status of this user.
+ *
+ */
 class User extends Model implements AuthenticatableContract
 {
 

@@ -33,7 +33,6 @@ Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
  */
 // Authentication Routes...
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
-#Route::post('login', ['as' => 'login', 'uses' => 'Auth\AuthController@postLogin']);
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
