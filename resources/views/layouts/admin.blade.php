@@ -12,7 +12,7 @@
     @yield('meta')
     <!-- end: META -->
     <!-- start: GLOBAL CSS -->
-    {!! HTML::style('vendor/AdminLTE/bootstrap/css/bootstrap.min.css') !!}
+    {!! HTML::style('themes/AdminLTE/bootstrap/css/bootstrap.min.css') !!}
     {!! HTML::style('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') !!}
     {!! HTML::style('//cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css') !!}
     <!-- end: GLOBAL CSS -->
@@ -20,8 +20,8 @@
     @stack('styles')
     <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
     <!-- start: MAIN CSS -->
-    {!! HTML::style('vendor/AdminLTE/dist/css/AdminLTE.min.css') !!}
-    {!! HTML::style('vendor/AdminLTE/dist/css/skins/skin-black.min.css') !!}
+    {!! HTML::style('themes/AdminLTE/dist/css/AdminLTE.min.css') !!}
+    {!! HTML::style('themes/AdminLTE/dist/css/skins/skin-black.min.css') !!}
     {!! HTML::style('css/ssham.css') !!}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -79,14 +79,14 @@
 </div>
 <!-- end: MAIN CONTAINER -->
 <!-- start: GLOBAL JAVASCRIPT -->
-{!! HTML::script('vendor/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js') !!}
-{!! HTML::script('vendor/AdminLTE/bootstrap/js/bootstrap.min.js') !!}
+{!! HTML::script('themes/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js') !!}
+{!! HTML::script('themes/AdminLTE/bootstrap/js/bootstrap.min.js') !!}
 <!-- end: GLOBAL JAVASCRIPT -->
 <!-- start: JAVASCRIPT REQUIRED FOR THIS PAGE ONLY -->
 @stack('scripts')
 <!-- end: JAVASCRIPT REQUIRED FOR THIS PAGE ONLY -->
 <!-- start: MAIN JAVASCRIPT -->
-{!! HTML::script('vendor/AdminLTE/dist/js/app.min.js') !!}
+{!! HTML::script('themes/AdminLTE/dist/js/app.min.js') !!}
 {!! HTML::script('js/ssham.js') !!}
 <script>
     (function () {

@@ -201,12 +201,12 @@
 
 {{-- Styles --}}
 @push('styles')
-{!! HTML::style('vendor/AdminLTE/plugins/select2/select2.min.css') !!}
+{!! HTML::style('themes/AdminLTE/plugins/select2/select2.min.css') !!}
 @endpush
 
 {{-- Scripts --}}
 @push('scripts')
-{!! HTML::script('vendor/AdminLTE/plugins/select2/select2.min.js') !!}
+{!! HTML::script('themes/AdminLTE/plugins/select2/select2.min.js') !!}
 <script>
     $(".search-select").select2({
         placeholder: "@lang('user/messages.groups_help')",

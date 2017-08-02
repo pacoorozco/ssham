@@ -1,6 +1,6 @@
 {{-- Styles --}}
 @push('styles')
-{!! HTML::style('vendor/AdminLTE/plugins/datatables/dataTables.bootstrap.css') !!}
+{!! HTML::style('themes/AdminLTE/plugins/datatables/dataTables.bootstrap.css') !!}
 @endpush
 
 <table id="users-table" class="table table-striped table-bordered">
@@ -24,8 +24,8 @@
 
 {{-- Scripts --}}
 @push('scripts')
-{!! HTML::script('vendor/AdminLTE/plugins/datatables/jquery.dataTables.min.js') !!}
-{!! HTML::script('vendor/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') !!}
+{!! HTML::script('themes/AdminLTE/plugins/datatables/jquery.dataTables.min.js') !!}
+{!! HTML::script('themes/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') !!}
 
 <script>
     $(function () {
