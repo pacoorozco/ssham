@@ -46,7 +46,7 @@ class User extends Model implements AuthenticatableContract
         'role',
         'public_key',
         'fingerprint',
-        'active'
+        'active',
     ];
 
     /**
@@ -58,7 +58,7 @@ class User extends Model implements AuthenticatableContract
         'email',
         'role',
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
@@ -99,5 +99,25 @@ class User extends Model implements AuthenticatableContract
     public function usergroups()
     {
         return $this->belongsToMany('SSHAM\Usergroup');
+    }
+
+    /**
+     * Method to check if user has administrator role.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Set the username User attribute to lowercase.
+     *
+     * @param  string $value
+     */
+    public function setUsernameAttribute(string $value)
+    {
+        $this->username = strtolower($value);
     }
 }
