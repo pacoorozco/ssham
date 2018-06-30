@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
                 'username' => 'admin',
                 'email' => 'admin@example.org',
                 'auth_type' => 'local',
-                'password' => bcrypt('admin'),
+                'password' => bcrypt('secret'),
                 'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDG8SY2RVR5i2Ur1uHzuKQ6MDNWPdQWMKCEdmA4IUvc2Ne0SccpXDjScfzfDKeJALdeUu+xnw2Y7JkRetyJ40AbQhXJTzwNq6Var+MXEV0wi2qJfyeQ39V4f4Vil0OFfgismcrMGNrHZa8KygglsOC7KzRfw4V3lmRtXQsGQFhChkJonphuXmJuuezxrszOENg9Fj2MQRVaT0nyp/KC77U9e75UCBo+M+IBOfCWSFYwLPvbp6Gtqb2M9b1zI48/E1v5fEek4x7ohoBnAOEWx1icE0Wz2bKfbBxRkvg+RKFzW6syTDXNihYfCoYUb+Y2E1gqp0burWRec9zqoY9szet admin@ssham',
                 'fingerprint' => '49:97:ee:68:89:7e:cc:ce:60:e7:c9:c8:fe:1d:c0:d3',
                 'enabled' => true,

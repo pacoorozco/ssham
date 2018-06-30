@@ -16,96 +16,104 @@ It enables a team of system administrators to centrally manage and deploy SSH ke
 
 SSH Access Manager allows you to maintain user public keys. You can organise these keys with group of keys called keyring. Then SSH Access Manager will deploy the keys and/or key rings to specified unix accounts / groups / servers.
 
+## Changelog
+
+See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are implemented in every version.
 
 ## How to test SSH Access Manager
 
-This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needings. A web server, a database server and a Redis server.
+This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needings. A web server and a database server.
 
 Prior this installation, you **need to have installed** this software:
 
 * [Docker](https://www.docker.com/)
-* [Docker Compose](https://docs.docker.com/compose/)
 
 1. Clone the repository locally
 
     ```bash
     $ git clone https://github.com/pacoorozco/ssham.git ssham
+    $ cd ssham
     ```
-2. Start all containers with [Docker Compose](https://docs.docker.com/compose/)
+1. Install PHP dependencies with:
+
+    > **NOTE**: You don't need to install neither _PHP_ nor _Composer_, we are going to use a [Composer image](https://hub.docker.com/_/composer/) instead.
+
+    ```bash
+    $ docker run --rm --interactive --tty \
+          --volume $PWD:/app \
+          --user $(id -u):$(id -g) \
+          composer install
+    ```
+
+1. Copy [`.env.example`](.env.example) to `.env`.
+
+    > **NOTE**: You don't need to touch anything from this file. It works with default settings.
+
+1. Start all containers with [Docker Compose](https://docs.docker.com/compose/)
 
     ```bash
     $ cd ssham/docker
     $ docker-compose build
     $ docker-compose up -d
     ```
-3. Seed database in order to play with some data
-
+1. Seed database in order to play with some data
 
     ```bash
-    $ docker exec docker_web_1 /setup.sh 
+    $ docker-compose exec app php artisan key:generate 
+    $ docker-compose exec app php artisan migrate --seed
     ```
-4. Point your browser to `http://localhost`. Your credential will be `admin/admin` or `user/user`.
+    
+1. Point your browser to `http://localhost` and test **SSH Access Manager**. Enjoy!
 
-Enjoy!
+    > **NOTE**: Default credentials are `admin/secret`.
 
-## How to install
-### Step 1: Get the code
+## How to install SSH Access Manager
 
-```bash
-$ git clone https://github.com/pacoorozco/ssham.git ssham
-```
+1. Clone the repository locally
 
-### Step 2: Use Composer to install dependencies
+    ```bash
+    $ git clone https://github.com/pacoorozco/ssham.git ssham
+    $ cd ssham
+    ```
 
-```bash
-$ cd ssham
-$ curl -s http://getcomposer.org/installer | php
-$ php composer.phar install
-```
+1. Install PHP dependencies with [composer](http://getcomposer.org)
 
-### Step 3: Configure Environments
+    ```bash
+    $ curl -s http://getcomposer.org/installer | php
+    $ php composer.phar install
+    ```
 
-You need to create a configuration file called ***.env*** on the root folder, where ***composer.json*** is placed:
+1. Copy [`.env.example`](.env.example) to `.env`.  
 
-```bash
-$ cp .env.example .env
-```
-You need to modify the content of this file in order to put your information, something like that:
+1. Modify the content of the `.env` file to put your settings, something like that:
 
-```php
-DB_HOST='Your database host'
-DB_DATABASE='Your database name'
-DB_USERNAME='Your database user'
-DB_PASSWORD='Your database password'
-```
-You need to generate a secure APP_KEY doing this:
+    ```php
+    DB_HOST='Your database host'
+    DB_DATABASE='Your database name'
+    DB_USERNAME='Your database user'
+    DB_PASSWORD='Your database password'
+    ```
+1. Seed database in order to play with some data
 
-```bash
-$ php artisan key:generate
-Application key [mMNylItCyQHB7UBXzffnkgYlrc1d73La] set successfully.
-```
-### Step 4: Populate Database
-Run these commands to create and populate tables:
+    ```bash
+    $ php artisan key:generate 
+    $ php artisan migrate --seed
+    ```
+1. Make sure `storage/app` folder is writable by your web server. You can do it this way:
 
-```bash
-$ php artisan migrate
-$ php artisan db:seed
-```
-Once the migrations are run and you've seeded the database -  admin:admin account will be created as well as default permissions.
+    ```bash
+    $ chmod -R 777 storage/app
+    ```
 
-### Step 5: Make sure app/storage is writable by your web server.
+1. You can use the local PHP server to run the application.
 
-You can do it this way:
+    ```bash
+    $ php artisan serve --port=4000`
+    ```
 
-```bash
-$ chmod -R 777 app/storage
-```
+1. Your SSH Access Manager is not listening at `http://localhost:4000`. Enjoy!
 
-You can use the local PHP server to run the application.
-
-```bash
-$ php artisan serve --port=4000`
-```
+    > **NOTE**: Default credentials are `admin/secret`.
 
 ## Reporting issues
 
