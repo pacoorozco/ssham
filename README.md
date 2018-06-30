@@ -1,21 +1,23 @@
 # SSH Access Manager Web Interface
 
+[![Build Status](https://travis-ci.org/pacoorozco/ssham.svg)](https://travis-ci.org/pacoorozco/ssham)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/803ad655-408a-469f-8389-8e5fe0338cec.svg)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
-[![GitHub license](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/tag/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
+[![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec/mini.png)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
 [![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
+[![Laravel Version](https://img.shields.io/badge/Laravel-5.1-orange.svg)](https://laravel.com/docs)
+[![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
 
-## Description
+## Presentation
 
 [SSH Access Manager](http://sourceforge.net/projects/ssham/) is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
 
-It enables a team of system administrators to centrally manage and deploy SSH keys. This app is intended to be used in rather large environnements where access to unix accounts are handled with SSH keys.
+It enables a team of system administrators to centrally manage and deploy SSH keys. This app is intended to be used in rather large environment where access to unix accounts are handled with SSH keys.
 
-SSH Access Manager allows you to maintain user public keys. You can organise these keys with group of keys called keyring. Then SSH Access Manager will deploy the keys and/or keyrings to specified unix accounts / groups / servers.
+SSH Access Manager allows you to maintain user public keys. You can organise these keys with group of keys called keyring. Then SSH Access Manager will deploy the keys and/or key rings to specified unix accounts / groups / servers.
 
 
-## How to test ProBIND
+## How to test SSH Access Manager
 
 This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needings. A web server, a database server and a Redis server.
 
@@ -105,10 +107,21 @@ You can use the local PHP server to run the application.
 $ php artisan serve --port=4000`
 ```
 
+## Reporting issues
+
+If you have issues with **SSH Access Manager**, you can report them with the [GitHub issues module](https://github.com/pacoorozco/ssham/issues).
+
+## Contributing
+
+Please see [CONTRIBUTING](https://github.com/pacoorozco/ssham/blob/master/CONTRIBUTING.md) for details.
+
 ## License
 
-This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) and it's released as free software under is released as free software under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html).
+**SSH Access Manager** is released as free software under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
+
+## Authors
+
+This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) 
 
 ## Additional information
 Please consult additional interfaces on [Sourceforge](http://sourceforge.net/projects/ssham/).
-
