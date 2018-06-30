@@ -52,7 +52,6 @@ Prior this installation, you **need to have installed** this software:
 1. Start all containers with [Docker Compose](https://docs.docker.com/compose/)
 
     ```bash
-    $ cd ssham/docker
     $ docker-compose build
     $ docker-compose up -d
     ```
@@ -99,10 +98,10 @@ Prior this installation, you **need to have installed** this software:
     $ php artisan key:generate 
     $ php artisan migrate --seed
     ```
-1. Make sure `storage/app` folder is writable by your web server. You can do it this way:
+1. Make sure `storage/` and `bootstrap/cache/` folders are writable by your web server. You can do it this way:
 
     ```bash
-    $ chmod -R 777 storage/app
+    $ chmod -R 777 storage/ bootstrap/cache/
     ```
 
 1. You can use the local PHP server to run the application.
