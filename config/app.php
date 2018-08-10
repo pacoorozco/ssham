@@ -3,6 +3,42 @@
 return [
 
     /*
+    |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    |
+    */
+    'name' => 'SSH Access Manager',
+
+    /*
+    |--------------------------------------------------------------------------
+    | App Version
+    |--------------------------------------------------------------------------
+    |
+    | This is the application version
+    |
+    */
+
+    'version' => '0.5.0',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'env' => env('APP_ENV', 'production'),
+
+    /*
       |--------------------------------------------------------------------------
       | Application Debug Mode
       |--------------------------------------------------------------------------
@@ -14,17 +50,20 @@ return [
      */
 
     'debug' => env('APP_DEBUG', false),
+
     /*
-      |--------------------------------------------------------------------------
-      | Application URL
-      |--------------------------------------------------------------------------
-      |
-      | This URL is used by the console to properly generate URLs when using
-      | the Artisan command line tool. You should set this to the root of
-      | your application so that it is used when running Artisan tasks.
-      |
-     */
-    'url' => 'http://localhost',
+    |--------------------------------------------------------------------------
+    | Application URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the console to properly generate URLs when using
+    | the Artisan command line tool. You should set this to the root of
+    | your application so that it is used when running Artisan tasks.
+    |
+    */
+
+    'url' => env('APP_URL', 'http://localhost'),
+
     /*
       |--------------------------------------------------------------------------
       | Application Timezone
@@ -35,7 +74,9 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
+
     'timezone' => 'UTC',
+
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
@@ -46,7 +87,9 @@ return [
       | to any of the locales which will be supported by the application.
       |
      */
+
     'locale' => env('APP_LOCALE', 'en'),
+
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
@@ -57,7 +100,9 @@ return [
       | the language folders that are provided through your application.
       |
      */
+
     'fallback_locale' => 'en',
+
     /*
       |--------------------------------------------------------------------------
       | Encryption Key
@@ -68,8 +113,10 @@ return [
       | will not be safe. Please do this before deploying an application!
       |
      */
-    'key' => env('APP_KEY', 'SomeRandomString'),
+
+    'key' => env('APP_KEY'),
     'cipher' => 'AES-256-CBC',
+
     /*
       |--------------------------------------------------------------------------
       | Logging Configuration
@@ -82,7 +129,9 @@ return [
       | Available Settings: "single", "daily", "syslog", "errorlog"
       |
      */
+
     'log' => 'single',
+
     /*
       |--------------------------------------------------------------------------
       | Autoloaded Service Providers
@@ -93,6 +142,7 @@ return [
       | this array to grant expanded functionality to your applications.
       |
      */
+
     'providers' => [
 
         /*
@@ -141,6 +191,7 @@ return [
         SSHAM\Providers\RouteServiceProvider::class,
         SSHAM\Providers\RSAKeyValidatorServiceProvider::class,
     ],
+
     /*
       |--------------------------------------------------------------------------
       | Class Aliases
@@ -151,6 +202,7 @@ return [
       | the aliases are "lazy" loaded so they don't hinder performance.
       |
      */
+
     'aliases' => [
 
         'App' => 'Illuminate\Support\Facades\App',
