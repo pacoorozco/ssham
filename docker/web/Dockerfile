@@ -7,7 +7,7 @@ COPY ./docker/web/nginx.conf /etc/nginx/
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache bash \
-    && adduser -D -H -u 1000 -s /bin/bash www-data
+    && adduser -S www-data -G www-data -u 1000
 
 ARG PHP_UPSTREAM_CONTAINER=app
 ARG PHP_UPSTREAM_PORT=9000
