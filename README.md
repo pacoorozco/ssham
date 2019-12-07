@@ -1,6 +1,6 @@
 # SSH Access Manager Web Interface
 
-[![Build Status](https://travis-ci.org/pacoorozco/ssham.svg)](https://travis-ci.org/pacoorozco/ssham)
+[![Build Status](https://travis-ci.com/pacoorozco/ssham.svg)](https://travis-ci.com/pacoorozco/ssham)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec/mini.png)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
