@@ -1,3 +1,16 @@
 build:
-  environment:
-    php: 7.2
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+          - phpcs-run
+
+filter:
+  paths: ["app/*"]
+
+tools:
+  external_code_coverage:
+    timeout: 600
+
+
