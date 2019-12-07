@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+> **Note**: This application is now using [Laravel 6](https://laravel.com/docs).
+
+### Changed
+- **Important**: This application has been upgraded to [Laravel 6](https://laravel.com/docs).
+
 ### Fixed
 - Fix `web` docker configuration in order to allow `docker-compose` run. ([#18][i18])
 

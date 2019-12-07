@@ -5,12 +5,12 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec/mini.png)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
 [![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
-[![Laravel Version](https://img.shields.io/badge/Laravel-5.1-orange.svg)](https://laravel.com/docs)
+[![Laravel Version](https://img.shields.io/badge/Laravel-6.x-brightgreen)](https://laravel.com/docs)
 [![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
 
 ## Presentation
 
-[SSH Access Manager](http://sourceforge.net/projects/ssham/) is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
+SSH Access Manager is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
 
 It enables a team of system administrators to centrally manage and deploy SSH keys. This app is intended to be used in rather large environment where access to unix accounts are handled with SSH keys.
 
@@ -22,7 +22,7 @@ See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are impleme
 
 ## How to test SSH Access Manager
 
-This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needings. A web server and a database server.
+This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needs. A web server and a database server.
 
 Prior this installation, you **need to have installed** this software:
 
@@ -120,7 +120,7 @@ If you have issues with **SSH Access Manager**, you can report them with the [Gi
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/pacoorozco/ssham/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
@@ -131,4 +131,4 @@ Please see [CONTRIBUTING](https://github.com/pacoorozco/ssham/blob/master/CONTRI
 This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) 
 
 ## Additional information
-Please consult additional interfaces on [Sourceforge](http://sourceforge.net/projects/ssham/).
+This application was born with a different interface on [Sourceforge](http://sourceforge.net/projects/ssham/).

@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="SSH Access Manager - SSH keys management solution.&#10;&#10;Copyright (c) &amp;#36;today.year by Paco Orozco &lt;paco@pacoorozco.info&gt;&#10;&#10; This file is part of some open source application.&#10; &#10; Licensed under GNU General Public License 3.0.&#10; Some rights reserved. See LICENSE, AUTHORS.&#10; &#10; @author      Paco Orozco &lt;paco@pacoorozco.info&gt;&#10; @copyright   &amp;#36;today.year Paco Orozco&#10; @license     GPL-3.0 &lt;http://spdx.org/licenses/GPL-3.0&gt;&#10; @link        https://github.com/pacoorozco/ssham" />
+    <option name="myName" value="ssham - GPL3" />
+  </copyright>
+</component>

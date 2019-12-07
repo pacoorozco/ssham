@@ -1,29 +1,28 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
- *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
- *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  This file is part of some open source application.
+ *  
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
+ *  
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2019 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Controllers;
+namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-abstract class Controller extends BaseController
+class Controller extends BaseController
 {
-
-    use DispatchesJobs,
-        ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

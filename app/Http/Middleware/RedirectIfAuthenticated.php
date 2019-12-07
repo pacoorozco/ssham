@@ -1,61 +1,41 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
- *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
- *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  This file is part of some open source application.
+ *  
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
+ *  
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2019 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated {
-
-	/**
-	 * The Guard implementation.
-	 *
-	 * @var Guard
-	 */
-	protected $auth;
-
-
-	/**
-	 * Create a new filter instance.
-	 *
-	 * @param Guard $auth
+class RedirectIfAuthenticated
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string|null  $guard
+     * @return mixed
      */
-	public function __construct(Guard $auth)
-	{
-		$this->auth = $auth;
-	}
+    public function handle($request, Closure $next, $guard = null)
+    {
+        if (Auth::guard($guard)->check()) {
+            return redirect('/home');
+        }
 
-	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle($request, Closure $next)
-	{
-		if ($this->auth->check())
-		{
-			return new RedirectResponse(route('home'));
-		}
-
-		return $next($request);
-	}
-
+        return $next($request);
+    }
 }

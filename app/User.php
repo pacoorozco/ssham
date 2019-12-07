@@ -1,39 +1,29 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2019 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM;
+namespace App;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model implements AuthenticatableContract
+class User extends Authenticatable
 {
-
-    use Authenticatable,
-        EntrustUserTrait;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'users';
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -41,56 +31,24 @@ class User extends Model implements AuthenticatableContract
      * @var array
      */
     protected $fillable = [
-        'username',
-        'public_key',
-        'fingerprint',
-        'enabled'
+        'name', 'email', 'password',
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'email',
-        'auth_type',
-        'password',
-        'remember_token'
+        'password', 'remember_token',
     ];
 
-    public function createRSAKeyPair()
-    {
-        // create a new RSA key pair
-        $rsa = new \Crypt_RSA();
-        $rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
-        $keyPair = $rsa->createKey();
-
-        // save RSA public key
-        $this->public_key = $keyPair['publickey'];
-
-        // create a random name for RSA private key file
-        $privateKey = str_random(32);
-        \Storage::disk('local')->put($privateKey, $keyPair['privatekey']);
-
-        // create a downloadable file, with a random name
-        $fileEntry = new FileEntry();
-        $fileEntry->filename = $privateKey;
-        $fileEntry->mime = 'application/octet-stream';
-        $fileEntry->original_filename = $this->username . '.rsa';
-
-        $fileEntry->save();
-
-        return array($keyPair['publickey'], $privateKey);
-    }
-
     /**
-     * An User belongs to many Usergroups (many-to-many)
+     * The attributes that should be cast to native types.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @var array
      */
-    public function usergroups()
-    {
-        return $this->belongsToMany('SSHAM\Usergroup');
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }

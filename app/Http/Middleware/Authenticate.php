@@ -1,67 +1,36 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
- *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
- *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  This file is part of some open source application.
+ *  
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
+ *  
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2019 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Middleware;
+namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class Authenticate {
-
-	/**
-	 * The Guard implementation.
-	 *
-	 * @var Guard
-	 */
-	protected $auth;
-
-	/**
-	 * Create a new filter instance.
-	 *
-	 * @param  Guard  $auth
-	 */
-	public function __construct(Guard $auth)
-	{
-		$this->auth = $auth;
-	}
-
-	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle(Request $request, Closure $next)
-	{
-		if ($this->auth->guest())
-		{
-			if ($request->ajax())
-			{
-				return response('Unauthorized.', 401);
-			}
-			else
-			{
-				return redirect()->guest(route('login'));
-			}
-		}
-
-		return $next($request);
-	}
-
+class Authenticate extends Middleware
+{
+    /**
+     * Get the path the user should be redirected to when they are not authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string
+     */
+    protected function redirectTo($request)
+    {
+        if (! $request->expectsJson()) {
+            return route('login');
+        }
+    }
 }
