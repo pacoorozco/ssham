@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - Copyright under [GPLv3 license](http://www.gnu.org/licenses/gpl-3.0.html) has been added to source code.
 ### Changed
+- `symfony/translation` has been downgraded to version 4.3.8 due to a bug in latest releases, [see it here](https://github.com/laravel/framework/issues/30655).
 - **Important**: This application has been upgraded to [Laravel 6](https://laravel.com/docs).
 
 ### Fixed
