@@ -1,19 +1,4 @@
 <?php
-/**
- * SSH Access Manager - SSH keys management solution.
- *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
- *
- *  This file is part of some open source application.
- *
- *  Licensed under GNU General Public License 3.0.
- *  Some rights reserved. See LICENSE, AUTHORS.
- *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2019 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
- */
 
 return [
 
@@ -46,7 +31,7 @@ return [
     */
 
     'logo' => '<b>SSH</b>AM',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'images/SSHAM-logo-128x128.png',
     'logo_img_class' => 'brand-image-xl',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -155,7 +140,7 @@ return [
 
     'login_url' => 'login',
 
-    'register_url' => 'register',
+    'register_url' => false,
 
     'password_reset_url' => 'password/reset',
 
