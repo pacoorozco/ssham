@@ -7,7 +7,7 @@
     <!-- start: HEAD -->
     <head>
         <title>@yield('title', 'Dashboard') :: @lang('site.title')</title>
-        <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}" />        
+        <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}" />
         <!-- start: META -->
         <meta charset="utf-8" />
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
@@ -90,7 +90,7 @@
                 <!-- start: SIDEBAR -->
                 @include('partials.sidebar')
                 <!-- end: SIDEBAR -->
-            </div>      
+            </div>
             <!-- start: PAGE -->
             <div class="main-content">
                 <div class="container">
@@ -119,7 +119,7 @@
         <!-- start: FOOTER -->
         <div class="footer clearfix">
             <div class="footer-inner">
-                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', trans('site.title'), array('rel' => 'nofollow')) !!}
+                {!! date("Y") !!} &copy; {!! HTML::link('http://pacoorozco.info', 'Paco Orozco', array('rel' => 'nofollow')) !!} - Powered by {!! HTML::link('https://github.com/pacoorozco/ssham', __('site.title'), array('rel' => 'nofollow')) !!}
             </div>
             <div class="footer-items">
                 <span class="go-top"><i class="clip-chevron-up"></i></span>

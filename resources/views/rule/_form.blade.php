@@ -5,7 +5,7 @@
 
         <!-- description -->
         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-            {!! Form::label('description', trans('rule/model.description'), array('class' => 'control-label')) !!}
+            {!! Form::label('description', __('rule/model.description'), array('class' => 'control-label')) !!}
             <div class="controls">
                 {!! Form::textarea('description', null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('description', ':message') }}</span>
@@ -18,7 +18,7 @@
 
         <!-- usergroup -->
         <div class="form-group {{ $errors->has('usergroup_id') ? 'has-error' : '' }}">
-            {!! Form::label('usergroup_id', trans('rule/model.user_group'), array('class' => 'control-label')) !!}
+            {!! Form::label('usergroup_id', __('rule/model.user_group'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($rule))
                     {!! Form::select('usergroup_id', $usergroups, $rule->usergroup_id, array('class' => 'form-control search-select')) !!}
@@ -32,9 +32,9 @@
 
         <!-- action -->
         <div class="form-group {{ $errors->has('action') ? 'has-error' : '' }}">
-            {!! Form::label('action', trans('rule/model.action'), array('class' => 'control-label')) !!}
+            {!! Form::label('action', __('rule/model.action'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('action', array('allow' => trans('rule/model.action_allow'), 'deny' => trans('rule/model.action_deny')), null, array('class' => 'form-control')) !!}
+                {!! Form::select('action', array('allow' => __('rule/model.action_allow'), 'deny' => __('rule/model.action_deny')), null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('action', ':message') }}</span>
             </div>
         </div>
@@ -42,7 +42,7 @@
 
         <!-- hostgroup -->
         <div class="form-group {{ $errors->has('hostgroup_id') ? 'has-error' : '' }}">
-            {!! Form::label('hostgroup_id', trans('rule/model.host_group'), array('class' => 'control-label')) !!}
+            {!! Form::label('hostgroup_id', __('rule/model.host_group'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($rule))
                     {!! Form::select('hostgroup_id', $hostgroups, $rule->hostgroup_id, array('class' => 'form-control search-select')) !!}
@@ -57,9 +57,9 @@
         @if (isset($rule))
         <!-- enabled -->
         <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
-            {!! Form::label('enabled', trans('rule/model.enabled'), array('class' => 'control-label')) !!}
+            {!! Form::label('enabled', __('rule/model.enabled'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('enabled', array('1' => trans('general.yes'), '0' => trans('general.no')), null, array('class' => 'form-control')) !!}
+                {!! Form::select('enabled', array('1' => __('general.yes'), '0' => __('general.no')), null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('enabled', ':message') }}</span>
             </div>
         </div>
@@ -75,7 +75,7 @@
         <!-- Form Actions -->
         <div class="form-group">
             <div class="controls">
-                {!! Form::button('<i class="fa fa-floppy-o"></i> ' . trans('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                {!! Form::button('<i class="fa fa-floppy-o"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             </div>
         </div>
         <!-- ./ form actions -->

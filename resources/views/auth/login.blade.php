@@ -20,7 +20,7 @@
             <span class="input-icon">
                 {!! Form::text('username', null, array(
                             'class' => 'form-control',
-                            'placeholder' => trans('auth.username'),
+                            'placeholder' => __('auth.username'),
                             'autofocus' => 'autofocus'
                             )) !!}
                 <i class="fa fa-user"></i> </span>
@@ -29,7 +29,7 @@
             <span class="input-icon">
                 {!! Form::password('password', array(
                             'class' => 'form-control password',
-                            'placeholder' => trans('auth.password')
+                            'placeholder' => __('auth.password')
                             )) !!}
                 <i class="fa fa-lock"></i> </span>
         </div>

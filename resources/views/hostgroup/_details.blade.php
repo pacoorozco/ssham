@@ -17,7 +17,7 @@
             @endforeach
         </pre>
         <!-- ./ groups -->
-        
+
     </div>
 </div>
 
@@ -30,7 +30,7 @@
                 @if ($action == 'show')
                 <a href="{!! route('hostgroups.edit', $hostgroup->id) !!}" class="btn btn-primary"><i class="fa fa-pencil"></i> @lang('general.edit')</a>
                 @else
-                {!! Form::button('<i class="fa fa-trash-o"></i> ' . trans('general.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
+                {!! Form::button('<i class="fa fa-trash-o"></i> ' . __('general.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif
             </div>
         </div>

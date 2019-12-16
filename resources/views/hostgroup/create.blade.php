@@ -8,7 +8,7 @@
 {{-- Content Header --}}
 @section('header')
 <h1>
-    @lang('hostgroup/title.create_a_new_host_group') !!} <small>{!! trans('hostgroup/title.create_a_new_host_group_subtitle')</small>
+    @lang('hostgroup/title.create_a_new_host_group') !!} <small>{!! __('hostgroup/title.create_a_new_host_group_subtitle')</small>
 </h1>
 @endsection
 

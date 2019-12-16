@@ -15,7 +15,7 @@
 
         <!-- enabled -->
         <strong>@lang('host/model.enabled')</strong>
-        <pre>{{ ($host->enabled) ? trans('general.yes') : trans('general.no') }}</pre>
+        <pre>{{ ($host->enabled) ? __('general.yes') : __('general.no') }}</pre>
         <!-- ./ enabled -->
 
     </div>
@@ -30,7 +30,7 @@
                 @if ($action == 'show')
                 <a href="{!! route('hosts.edit', $host->id) !!}" class="btn btn-primary"><i class="fa fa-pencil"></i> @lang('general.edit')</a>
                 @else
-                {!! Form::button('<i class="fa fa-trash-o"></i> ' . trans('general.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
+                {!! Form::button('<i class="fa fa-trash-o"></i> ' . __('general.delete'), array('type' => 'submit', 'class' => 'btn btn-danger')) !!}
                 @endif
             </div>
         </div>

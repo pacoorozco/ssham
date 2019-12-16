@@ -5,7 +5,7 @@
 
         <!-- username -->
         <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
-            {!! Form::label('username', trans('user/model.username'), array('class' => 'control-label')) !!}
+            {!! Form::label('username', __('user/model.username'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($user))
                     {!! Form::text('username', null, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
@@ -19,7 +19,7 @@
 
         <!-- SSH public key -->
         <div class="form-group {{ $errors->has('public_key') ? 'has-error' : '' }}">
-            {!! Form::label('public_key', trans('user/model.public_key'), array('class' => 'control-label')) !!}
+            {!! Form::label('public_key', __('user/model.public_key'), array('class' => 'control-label')) !!}
             <div class="controls">
 
                 <!-- create RSA key -->
@@ -76,7 +76,7 @@
 
         <!-- user's groups -->
         <div class="form-group {{ $errors->has('groups[]') ? 'has-error' : '' }}">
-            {!! Form::label('groups[]', trans('user/model.groups'), array('class' => 'control-label')) !!}
+            {!! Form::label('groups[]', __('user/model.groups'), array('class' => 'control-label')) !!}
             <div class="controls">
                 @if (isset($user))
                     {!! Form::select('groups[]', $groups, $user->usergroups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
@@ -91,9 +91,9 @@
         @if (isset($user))
                 <!-- administrator role -->
         <div class="form-group {{ $errors->has('is_admin') ? 'has-error' : '' }}">
-            {!! Form::label('is_admin', trans('user/model.is_admin'), array('class' => 'control-label')) !!}
+            {!! Form::label('is_admin', __('user/model.is_admin'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('is_admin', array('1' => trans('general.yes'), '0' => trans('general.no')), ($user->hasRole('admin') ? '1' : '0'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                {!! Form::select('is_admin', array('1' => __('general.yes'), '0' => __('general.no')), ($user->hasRole('admin') ? '1' : '0'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
                 <span class="help-block">{{ $errors->first('is_admin', ':message') }}</span>
             </div>
         </div>
@@ -103,9 +103,9 @@
         @if (isset($user))
                 <!-- enabled -->
         <div class="form-group {{ $errors->has('enabled') ? 'has-error' : '' }}">
-            {!! Form::label('enabled', trans('user/model.enabled'), array('class' => 'control-label')) !!}
+            {!! Form::label('enabled', __('user/model.enabled'), array('class' => 'control-label')) !!}
             <div class="controls">
-                {!! Form::select('enabled', array('1' => trans('general.yes'), '0' => trans('general.no')),
+                {!! Form::select('enabled', array('1' => __('general.yes'), '0' => __('general.no')),
                 null, array('class' => 'form-control')) !!}
                 <span class="help-block">{{ $errors->first('enabled', ':message') }}</span>
             </div>
@@ -122,7 +122,7 @@
         <!-- Form Actions -->
         <div class="form-group">
             <div class="controls">
-                {!! Form::button('<i class="fa fa-floppy-o"></i> ' . trans('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                {!! Form::button('<i class="fa fa-floppy-o"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             </div>
         </div>
         <!-- ./ form actions -->
