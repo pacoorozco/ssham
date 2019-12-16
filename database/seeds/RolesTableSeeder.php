@@ -44,16 +44,18 @@ class RolesTableSeeder extends Seeder
         );
 
         foreach ($roles as $roleData) {
-            $role = new Role;
-            $role->name = $roleData['name'];
-            $role->description = $roleData['description'];
-            $role->save();
+            $role = Role::create([
+                'name' => $roleData['name'],
+                'description' => $roleData['description']
+            ]);
 
             // Adds abilities
+            $permissions = array();
             foreach ($roleData['abilities'] as $ability) {
-                $permission = Permission::where('name', $ability)->get()->first();
-                $role->attachPermission($permission);
+                $permission = Permission::where('name', $ability)->firstOrFail();
+                array_push($permissions, $permission);
             }
+            $role->attachPermissions($permissions);
         }
     }
 }

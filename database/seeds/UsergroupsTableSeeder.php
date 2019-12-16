@@ -15,26 +15,36 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Usergroup;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class UsergroupsTableSeeder extends Seeder
 {
+
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        //Model::unguard();
-        //$this->call('SettingsTableSeeder');
+        DB::table('usergroups')->delete();
 
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
-        $this->call(UsergroupsTableSeeder::class);
-        $this->call(HostsTableSeeder::class);
-        $this->call(HostgroupsTableSeeder::class);
-        $this->call(HostgroupUsergroupPermissionsTableSeeder::class);
+        $usergroups = array(
+            array(
+                'name' => 'developers',
+                'description' => 'Group of awesome developers'
+            ),
+            array(
+                'name' => 'operators',
+                'description' => 'Group of incredible operators'
+            )
+        );
+
+        foreach ($usergroups as $group) {
+            Usergroup::create($group);
+        }
     }
+
 }

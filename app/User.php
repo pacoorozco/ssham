@@ -94,4 +94,13 @@ class User extends Authenticatable
         return array($keyPair['publickey'], $privateKeyFileName);
     }
 
+    /**
+     * An User belongs to many Usergroups (many-to-many)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function usergroups()
+    {
+        return $this->belongsToMany('App\Usergroup');
+    }
 }

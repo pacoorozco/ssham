@@ -15,10 +15,10 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Permission;
+use App\Host;
 use Illuminate\Database\Seeder;
 
-class PermissionsTableSeeder extends Seeder
+class HostsTableSeeder extends Seeder
 {
 
     /**
@@ -28,31 +28,27 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = array(
+        $hosts = array(
             array(
-                'name' => 'manage-users',
-                'display_name' => 'Manage SSH Users',
+                'hostname' => 'server_1',
+                'username' => 'root',
+                'type' => 'linux',
             ),
             array(
-                'name' => 'manage-hosts',
-                'display_name' => 'Manage Hosts',
+                'hostname' => 'server_2',
+                'username' => 'root',
+                'type' => 'linux',
             ),
             array(
-                'name' => 'manage-permissions',
-                'display_name' => 'Manage Permissions',
+                'hostname' => 'server_3',
+                'username' => 'root',
+                'type' => 'linux',
             ),
-            array(
-                'name' => 'manage-admins',
-                'display_name' => 'Manage Administrators',
-            ),
-            array(
-                'name' => 'login-ui',
-                'display_name' => 'Login to the UI'
-            )
         );
 
-        foreach ($permissions as $permissionData) {
-            Permission::create($permissionData);
+        foreach ($hosts as $host) {
+            Host::create($host);
         }
     }
+
 }

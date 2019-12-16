@@ -15,26 +15,33 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Hostgroup;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class HostgroupsTableSeeder extends Seeder
 {
+
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        //Model::unguard();
-        //$this->call('SettingsTableSeeder');
+        $hostgroups = array(
+            array(
+                'name' => 'PRO_servers',
+                'description' => 'Production Servers'
+            ),
+            array(
+                'name' => 'DEV_servers',
+                'description' => 'Development Servers'
+            )
+        );
 
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
-        $this->call(UsergroupsTableSeeder::class);
-        $this->call(HostsTableSeeder::class);
-        $this->call(HostgroupsTableSeeder::class);
-        $this->call(HostgroupUsergroupPermissionsTableSeeder::class);
+        foreach ($hostgroups as $group) {
+            Hostgroup::create($group);
+        }
     }
+
 }

@@ -19,7 +19,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateHostgroupUsergroupPermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,18 +28,17 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->enum('auth_type', ['local', 'external']);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->text('public_key')->nullable();
-            $table->string('fingerprint')->nullable();
+        Schema::create('hostgroup_usergroup_permissions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('usergroup_id')->unsigned();
+            $table->foreign('usergroup_id')->references('id')->on('usergroups')->onDelete('cascade');
+            $table->integer('hostgroup_id')->unsigned();
+            $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
+            $table->enum('action', ['allow', 'deny'])->default('allow');
+            $table->string('name')->nullable();
             $table->boolean('enabled')->default('1');
-            $table->rememberToken();
             $table->timestamps();
+            $table->unique(array('usergroup_id', 'hostgroup_id'));
         });
     }
 
@@ -50,6 +49,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::drop('hostgroup_usergroup_permissions');
     }
 }

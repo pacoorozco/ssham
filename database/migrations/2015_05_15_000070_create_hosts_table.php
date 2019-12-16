@@ -19,8 +19,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateHostsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -28,18 +29,16 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->enum('auth_type', ['local', 'external']);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->text('public_key')->nullable();
-            $table->string('fingerprint')->nullable();
+        Schema::create('hosts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('hostname');
+            $table->string('username');
+            $table->enum('type', ['linux'])->default('linux');
+            $table->string('key_hash')->nullable();
+            $table->boolean('synced')->default('0');
             $table->boolean('enabled')->default('1');
-            $table->rememberToken();
             $table->timestamps();
+            $table->index(['hostname', 'username']);
         });
     }
 
@@ -50,6 +49,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::drop('hosts');
     }
+
 }
