@@ -22,8 +22,7 @@ use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostgroupCreateRequest;
 use App\Http\Requests\HostgroupUpdateRequest;
-
-//use yajra\Datatables\Datatables;
+use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
 {
@@ -154,6 +153,7 @@ class HostgroupController extends Controller
      * @param Hostgroup $hostgroup
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Hostgroup $hostgroup)
     {
@@ -165,9 +165,7 @@ class HostgroupController extends Controller
     }
 
     /**
-     * Return all Hostgroups in order to be used as Datatables
-     *
-     * TODO: Review it
+     * Return all Hostgroups in order to be used as DataTables
      *
      * @param Datatables $datatable
      *
@@ -175,9 +173,9 @@ class HostgroupController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        if (!Request::ajax()) {
+        /*if (!Request::ajax()) {
             abort(403);
-        }
+        }*/
 
         $hostgroups = Hostgroup::select(array(
             'id', 'name', 'description'

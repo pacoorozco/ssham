@@ -21,8 +21,7 @@ use App\Http\Requests\UsergroupCreateRequest;
 use App\Http\Requests\UsergroupUpdateRequest;
 use App\User;
 use App\Usergroup;
-
-//use yajra\Datatables\Datatables;
+use yajra\Datatables\Datatables;
 
 class UsergroupController extends Controller
 {
@@ -152,6 +151,7 @@ class UsergroupController extends Controller
      * @param Usergroup $usergroup
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Usergroup $usergroup)
     {
@@ -173,9 +173,9 @@ class UsergroupController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        if (!Request::ajax()) {
+        /*if (!Request::ajax()) {
             abort(403);
-        }
+        }*/
 
         $usergroups = Usergroup::select(array(
             'id', 'name', 'description'

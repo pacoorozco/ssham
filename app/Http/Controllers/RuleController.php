@@ -22,8 +22,7 @@ use App\Hostgroup;
 use App\Http\Requests\RuleRequest;
 use App\Rule;
 use App\Usergroup;
-
-//use yajra\Datatables\Datatables;
+use yajra\Datatables\Datatables;
 
 class RuleController extends Controller
 {
@@ -84,12 +83,13 @@ class RuleController extends Controller
      * @param Rule $rule
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Rule $rule)
     {
         $rule->delete();
 
-        flash()->success(trans('rule/messages.delete.success'));
+        //flash()->success(trans('rule/messages.delete.success'));
 
         return redirect()->route('rules.index');
     }
@@ -97,17 +97,15 @@ class RuleController extends Controller
     /**
      * Return all Users in order to be used as Datatables
      *
-     * TODO: Review it
-     *
      * @param Datatables $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function data(Datatables $datatable)
     {
-        if (!Request::ajax()) {
+        /*if (!Request::ajax()) {
             abort(403);
-        }
+        }*/
 
         $rules = Rule::select(array(
             'id', 'usergroup_id', 'hostgroup_id', 'action', 'enabled'
@@ -121,7 +119,7 @@ class RuleController extends Controller
                 return Hostgroup::findOrFail($rule->hostgroup_id)->name;
             })
             ->editColumn('action', function (Rule $rule) {
-                return ($rule->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i> Allowed</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> Denied</span>';
+                return ($rule->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i>' . trans('rule/table.allowed') . '</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> ' . trans('rule/table.denied') . '</span>';
             })
             ->editColumn('enabled', function (Rule $rule) {
                 return ($rule->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'

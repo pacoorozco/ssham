@@ -21,8 +21,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
 use App\Usergroup;
-
-//use yajra\Datatables\Datatables;
+use yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
@@ -204,9 +203,9 @@ class UserController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        if (!Request::ajax()) {
+        /*if (!Request::ajax()) {
             abort(403);
-        }
+        }*/
 
         $users = User::select(array(
             'id', 'username', 'fingerprint', 'enabled'
