@@ -30,7 +30,7 @@ class CreateHostsTable extends Migration
     public function up()
     {
         Schema::create('hosts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('hostname');
             $table->string('username');
             $table->enum('type', ['linux'])->default('linux');

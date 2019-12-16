@@ -29,10 +29,10 @@ class CreateHostHostgroupsTable extends Migration
     public function up()
     {
         Schema::create('host_hostgroup', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('host_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('host_id')->unsigned();
             $table->foreign('host_id')->references('id')->on('hosts')->onDelete('cascade');
-            $table->integer('hostgroup_id')->unsigned();
+            $table->unsignedBigInteger('hostgroup_id')->unsigned();
             $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
             $table->unique(array('host_id', 'hostgroup_id'));
         });

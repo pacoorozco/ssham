@@ -30,7 +30,7 @@ class CreateFileentriesTable extends Migration
     public function up()
     {
         Schema::create('fileentries', function(Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('filename');
             $table->string('mime');
             $table->string('original_filename');

@@ -29,10 +29,10 @@ class CreateHostgroupUsergroupPermissionsTable extends Migration
     public function up()
     {
         Schema::create('hostgroup_usergroup_permissions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('usergroup_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('usergroup_id')->unsigned();
             $table->foreign('usergroup_id')->references('id')->on('usergroups')->onDelete('cascade');
-            $table->integer('hostgroup_id')->unsigned();
+            $table->unsignedBigInteger('hostgroup_id')->unsigned();
             $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
             $table->enum('action', ['allow', 'deny'])->default('allow');
             $table->string('name')->nullable();
