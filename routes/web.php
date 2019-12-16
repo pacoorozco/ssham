@@ -52,7 +52,7 @@ Route::get('file/{filename}', ['as' => 'file.download', 'uses' => 'FileEntryCont
 // Datatables Ajax route.
 Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
 // Delete confirmation route - uses the show/details view.
-Route::get('users/{users}/delete', ['as' => 'users.delete', 'uses' => 'UserController@delete']);
+Route::get('users/{user}/delete', ['as' => 'users.delete', 'uses' => 'UserController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('users', 'UserController');
@@ -65,7 +65,7 @@ Route::resource('users', 'UserController');
 // Datatables Ajax route.
 Route::get('hosts/data', ['as' => 'hosts.data', 'uses' => 'HostController@data']);
 // Delete confirmation route - uses the show/details view.
-Route::get('hosts/{hosts}/delete', ['as' => 'hosts.delete', 'uses' => 'HostController@delete']);
+Route::get('hosts/{host}/delete', ['as' => 'hosts.delete', 'uses' => 'HostController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('hosts', 'HostController');
@@ -78,7 +78,7 @@ Route::resource('hosts', 'HostController');
 // Datatables Ajax route.
 Route::get('usergroups/data', ['as' => 'usergroups.data', 'uses' => 'UsergroupController@data']);
 // Delete confirmation route - uses the show/details view.
-Route::get('usergroups/{usergroups}/delete', ['as' => 'usergroups.delete', 'uses' => 'UsergroupController@delete']);
+Route::get('usergroups/{usergroup}/delete', ['as' => 'usergroups.delete', 'uses' => 'UsergroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('usergroups', 'UsergroupController');
@@ -91,7 +91,7 @@ Route::resource('usergroups', 'UsergroupController');
 // Datatables Ajax route.
 Route::get('hostgroups/data', ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data']);
 // Delete confirmation route - uses the show/details view.
-Route::get('hostgroups/{hostgroups}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
+Route::get('hostgroups/{hostgroup}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('hostgroups', 'HostgroupController');

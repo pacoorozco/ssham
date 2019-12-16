@@ -9,11 +9,14 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2019 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2019 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
+
+use Zizaco\Entrust\EntrustFacade;
+use Zizaco\Entrust\EntrustServiceProvider;
 
 return [
 
@@ -28,7 +31,18 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'SSH Access Manager'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | App Version
+    |--------------------------------------------------------------------------
+    |
+    | This is the application version
+    |
+    */
+
+    'version' => '0.5.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +194,7 @@ return [
         /*
          * Package Service Providers...
          */
+        EntrustServiceProvider::class, // Roles
 
         /*
          * Application Service Providers...
@@ -240,6 +255,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        /*
+         * Vendor Aliases
+         */
+        'Entrust' => EntrustFacade::class,
 
     ],
 
