@@ -76,7 +76,7 @@ class UsergroupController extends Controller
             $usergroup->save();
         }
 
-        //flash()->success(trans('usergroup/messages.create.success'));
+        //flash()->success(__('usergroup/messages.create.success'));
 
         return redirect()->route('usergroups.index');
     }
@@ -128,7 +128,7 @@ class UsergroupController extends Controller
         }
         $usergroup->save();
 
-        //flash()->success(trans('usergroup/messages.edit.success'));
+        //flash()->success(__('usergroup/messages.edit.success'));
 
         return redirect()->route('usergroups.index');
     }
@@ -157,7 +157,7 @@ class UsergroupController extends Controller
     {
         $usergroup->delete();
 
-        //flash()->success(trans('usergroup/messages.delete.success'));
+        //flash()->success(__('usergroup/messages.delete.success'));
 
         return redirect()->route('usergroups.index');
     }

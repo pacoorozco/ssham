@@ -72,7 +72,7 @@ class RuleController extends Controller
         $rule = new Rule($request->all());
         $rule->save();
 
-        //flash()->success(trans('rule/messages.create.success'));
+        //flash()->success(__('rule/messages.create.success'));
 
         return redirect()->route('rules.index');
     }
@@ -89,7 +89,7 @@ class RuleController extends Controller
     {
         $rule->delete();
 
-        //flash()->success(trans('rule/messages.delete.success'));
+        //flash()->success(__('rule/messages.delete.success'));
 
         return redirect()->route('rules.index');
     }
@@ -119,11 +119,12 @@ class RuleController extends Controller
                 return Hostgroup::findOrFail($rule->hostgroup_id)->name;
             })
             ->editColumn('action', function (Rule $rule) {
-                return ($rule->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i>' . trans('rule/table.allowed') . '</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> ' . trans('rule/table.denied') . '</span>';
+                return ($rule->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i>' . __('rule/table.allowed') . '</span>'
+                    : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i>' . __('rule/table.denied') . '</span>';
             })
             ->editColumn('enabled', function (Rule $rule) {
-                return ($rule->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
-                    : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
+                return ($rule->enabled) ? '<span class="label label-sm label-success">' . __('general.enabled') . '</span>'
+                    : '<span class="label label-sm label-danger">' . __('general.disabled') . '</span>';
             })
             ->addColumn('actions', function (Rule $rule) {
                 return view('partials.rules_dd', array(

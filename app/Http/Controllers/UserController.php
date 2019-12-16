@@ -87,9 +87,9 @@ class UserController extends Controller
         }
 
         if ($request->create_rsa_key == '1') {
-            //flash()->overlay(trans('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
+            //flash()->overlay(__('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
         } else {
-            //flash()->overlay(trans('user/messages.create.success'));
+            //flash()->overlay(__('user/messages.create.success'));
         }
 
         return redirect()->route('users.index');
@@ -156,9 +156,9 @@ class UserController extends Controller
         $user->save();
 
         if ($request->create_rsa_key == '1' && !is_null($private_key)) {
-            //flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
+            //flash()->overlay(__('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
         } else {
-            //flash()->overlay(trans('user/messages.edit.success'));
+            //flash()->overlay(__('user/messages.edit.success'));
         }
 
         return redirect()->route('users.index');
@@ -187,7 +187,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        //flash()->success(trans('user/messages.delete.success'));
+        //flash()->success(__('user/messages.delete.success'));
 
         return redirect()->route('users.index');
     }
@@ -213,7 +213,7 @@ class UserController extends Controller
 
         return $datatable->usingEloquent($users)
             ->editColumn('username', function (User $user) {
-                return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
+                return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . __('general.disabled') . '</span>';
             })
             ->addColumn('groups', function (User $user) {
                 return count($user->usergroups->lists('id')->all());
