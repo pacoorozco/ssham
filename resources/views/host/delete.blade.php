@@ -17,7 +17,7 @@
 <li>
     <i class="clip-screen"></i>
     <a href="{!! route('hosts.index') !!}">
-        @lang('site.hosts')
+        {{ __('site.hosts') }}
     </a>
 </li>
 <li class="active">
@@ -31,7 +31,7 @@
 <!-- Notifications -->
 @include('partials.notifications')
 <!-- ./ notifications -->
-        
+
 {{-- Delete User Form --}}
 {!! Form::open(array('route' => array('hosts.destroy', $host->id), 'method' => 'delete', )) !!}
 @include('host._details', ['action' => 'delete'])

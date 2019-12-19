@@ -17,7 +17,7 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        @lang('site.users')
+        {{ __('site.users') }}
     </a>
 </li>
 <li class="active">
@@ -31,7 +31,7 @@
 <!-- Notifications -->
 @include('partials.notifications')
 <!-- ./ notifications -->
-        
+
 {{-- Delete User Form --}}
 {!! Form::open(array('route' => array('users.destroy', $user->id), 'method' => 'delete', )) !!}
 @include('user._details', ['action' => 'delete'])

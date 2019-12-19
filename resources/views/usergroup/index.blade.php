@@ -12,7 +12,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    <h1> 
+    <h1>
         @lang('usergroup/title.user_group_management') <small>@lang('usergroup/title.user_group_management_subtitle')</small>
     </h1>
 @endsection
@@ -52,10 +52,10 @@
         <table id="usergroups" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">@lang('usergroup/table.name')</th>
-                <th class="col-md-5">@lang('usergroup/table.description')</th>
-                <th class="col-md-1">@lang('usergroup/table.users')</th>
-                <th class="col-md-2">@lang('usergroup/table.actions')</th>
+                <th class="col-md-4">{{ __('usergroup/table.name') }}</th>
+                <th class="col-md-5">{{ __('usergroup/table.description') }}</th>
+                <th class="col-md-1">{{ __('usergroup/table.users') }}</th>
+                <th class="col-md-2">{{ __('usergroup/table.actions') }}</th>
             </tr>
         </thead>
         </table>

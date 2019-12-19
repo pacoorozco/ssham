@@ -17,7 +17,7 @@
 <li>
     <i class="clip-screen"></i>
     <a href="{!! route('hosts.index') !!}">
-        @lang('site.hosts')
+        {{ __('site.hosts') }}
     </a>
 </li>
 <li class="active">

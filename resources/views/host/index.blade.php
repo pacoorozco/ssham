@@ -12,7 +12,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    <h1> 
+    <h1>
         @lang('host/title.host_management') <small>@lang('host/title.host_management_subtitle')</small>
     </h1>
 @endsection
@@ -22,7 +22,7 @@
 <li>
     <i class="clip-screen"></i>
     <a href="{!! route('hosts.index') !!}">
-        @lang('site.hosts')
+        {{ __('site.hosts') }}
     </a>
 </li>
 <li class="active">
@@ -55,12 +55,12 @@
         <table id="hosts" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">@lang('host/table.hostname')</th>
-                <th class="col-md-3">@lang('host/table.username')</th>
-                <th class="col-md-1">@lang('host/table.type')</th>
-                <th class="col-md-1">@lang('host/table.groups')</th>
-                <th class="col-md-1">@lang('host/table.enabled')</th>
-                <th class="col-md-2">@lang('host/table.actions')</th>
+                <th class="col-md-4">{{ __('host/table.hostname') }}</th>
+                <th class="col-md-3">{{ __('host/table.username') }}</th>
+                <th class="col-md-1">{{ __('host/table.type') }}</th>
+                <th class="col-md-1">{{ __('host/table.groups') }}</th>
+                <th class="col-md-1">{{ __('host/table.enabled') }}</th>
+                <th class="col-md-2">{{ __('host/table.actions') }}</th>
             </tr>
         </thead>
         </table>

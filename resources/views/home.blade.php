@@ -1,15 +1,13 @@
 @extends('layouts.master')
 
 {{-- Web site Title --}}
-@section('title')
-    @lang('dashboard/messages.title')
-@endsection
+@section('title',  __('dashboard/messages.title'))
 
 {{-- Content Header --}}
 @section('header')
     <h1>
-        @lang('dashboard/messages.title')
-        <small>@lang('dashboard/messages.subtitle')</small>
+        {{ __('dashboard/messages.title') }}
+        <small>{{ __('dashboard/messages.subtitle') }}</small>
     </h1>
 @endsection
 
@@ -18,11 +16,11 @@
     <li>
         <i class="clip-home-3"></i>
         <a href="{!! route('home') !!}">
-            @lang('site.home')
+            {{ __('site.home') }}
         </a>
     </li>
     <li class="active">
-        @lang('dashboard/messages.title')
+        {{ __('dashboard/messages.title') }}
     </li>
 @endsection
 
@@ -87,33 +85,5 @@
     </div>
 @endsection
 
-{{-- Scripts --}}
-@section('scripts')
-    {!! HTML::script(asset('plugins/flot/jquery.flot.min.js')) !!}
-    {!! HTML::script(asset('plugins/flot/jquery.flot.pie.min.js')) !!}
 
-    <script>
-        $(function() {
-
-            var data = [
-                { label: "Synced",  data: {{ $synced }} },
-                { label: "Unsynced",  data: {{ $unsynced }} }
-            ];
-
-
-                $.plot("#placeholder", data, {
-                    series: {
-                        pie: {
-                            show: true,
-                        }
-                    },
-                    legend: {
-                        show: false
-                    }
-                });
-
-        });
-
-    </script>
-@endsection
 

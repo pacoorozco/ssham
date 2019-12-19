@@ -12,7 +12,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    <h1> 
+    <h1>
         @lang('user/title.user_management') <small>@lang('user/title.user_management_subtitle')</small>
     </h1>
 @endsection
@@ -22,7 +22,7 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        @lang('site.users')
+        {{ __('site.users') }}
     </a>
 </li>
 <li class="active">
@@ -55,10 +55,10 @@
         <table id="users" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">@lang('user/table.username')</th>
-                <th class="col-md-5">@lang('user/table.fingerprint')</th>
-                <th class="col-md-1">@lang('user/table.groups')</th>
-                <th class="col-md-2">@lang('user/table.actions')</th>
+                <th class="col-md-4">{{ __('user/table.username') }}</th>
+                <th class="col-md-5">{{ __('user/table.fingerprint') }}</th>
+                <th class="col-md-1">{{ __('user/table.groups') }}</th>
+                <th class="col-md-2">{{ __('user/table.actions') }}</th>
             </tr>
         </thead>
         </table>
@@ -75,7 +75,7 @@
 $(document).ready(function() {
     oTable = $('#users').DataTable({
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/@lang('site.language').json"
+            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{{ __('site.language') }}.json"
         },
         "ajax": "{!! route('users.data') !!}",
         "columns": [

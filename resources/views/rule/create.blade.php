@@ -17,7 +17,7 @@
 <li>
     <i class="clip-database"></i>
     <a href="{!! route('rules.index') !!}">
-        @lang('site.rules')
+        {{ __('site.rules') }}
     </a>
 </li>
 <li class="active">

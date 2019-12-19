@@ -17,7 +17,7 @@
 <li>
     <i class="clip-bubbles-3"></i>
     <a href="{!! route('hosts.index') !!}">
-        @lang('site.hosts')
+        {{ __('site.hosts') }}
     </a>
 </li>
 <li class="active">

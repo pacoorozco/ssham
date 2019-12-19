@@ -26,7 +26,7 @@ return [
 
     'title' => 'SSHAM',
     'home' => 'Home',
-    'dashboard' => 'Dashboard',
+
     'users' => 'Users',
     'hosts' => 'Hosts',
     'user_groups' => 'User Groups',
