@@ -31,7 +31,7 @@ return [
     'hosts' => 'Hosts',
     'user_groups' => 'User Groups',
     'host_groups' => 'Host Groups',
-    'rules' => 'Policy',
+    'rules' => 'Policies',
     'settings' => 'Settings',
 
     'language' => 'English',    // Used for jQuery Datatables

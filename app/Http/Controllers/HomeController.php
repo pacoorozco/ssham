@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Host;
+use App\Rule;
+use App\User;
+
 class HomeController extends Controller
 {
 
@@ -17,6 +21,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user_count = User::all()->count();
+        $host_count = Host::all()->count();
+        $rule_count = Rule::all()->count();
+
+        return view('home')
+            ->with(compact('user_count'))
+            ->with(compact('host_count'))
+            ->with(compact('rule_count'));
     }
 }

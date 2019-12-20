@@ -13,74 +13,64 @@
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-    <li>
-        <i class="clip-home-3"></i>
-        <a href="{!! route('home') !!}">
-            {{ __('site.home') }}
-        </a>
-    </li>
-    <li class="active">
+    <li class="breadcrumb-item active">
         {{ __('dashboard/messages.title') }}
     </li>
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="core-box">
-                <div class="heading">
-                    <i class="clip-user-4 circle-icon circle-green"></i>
+    <div class="container-fluid">
 
-                    <h2>@lang('dashboard/messages.manage_users')</h2>
+        <!-- start: STATUS BOXES -->
+        <div class="row">
+
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ $user_count }}</h3>
+                        <p>{{ __('site.users') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-md-contacts"></i>
+                    </div>
+                    <a class="small-box-footer" href="{{ route('users.index') }}">
+                        {{ __('user/title.user_management') }} <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
-                <div class="content">
-                    @lang('dashboard/messages.manage_users_description')
-                </div>
-                <a class="view-more" href="{!! route('users.index') !!}">
-                    @lang('general.view_more')  <i class="clip-arrow-right-2"></i>
-                </a>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="core-box">
-                <div class="heading">
-                    <i class="fa fa-tasks circle-icon circle-teal"></i>
 
-                    <h2>@lang('dashboard/messages.manage_hosts')</h2>
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ $host_count }}</h3>
+                        <p>{{ __('site.hosts') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-md-desktop"></i>
+                    </div>
+                    <a class="small-box-footer" href="{{ route('hosts.index') }}">
+                        {{ __('host/title.host_management') }} <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
-                <div class="content">
-                    @lang('dashboard/messages.manage_hosts_description')
-                </div>
-                <a class="view-more" href="{!! route('hosts.index') !!}">
-                    @lang('general.view_more')  <i class="clip-arrow-right-2"></i>
-                </a>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="core-box">
-                <div class="heading">
-                    <i class="clip-database circle-icon circle-bricky"></i>
 
-                    <h2>@lang('dashboard/messages.manage_accesses')</h2>
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ $rule_count }}</h3>
+                        <p>{{ __('site.rules') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-md-lock"></i>
+                    </div>
+                    <a class="small-box-footer" href="{{ route('rules.index') }}">
+                        {{ __('rule/title.rule_management') }} <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
-                <div class="content">
-                    @lang('dashboard/messages.manage_accesses_description')
-                </div>
-                <a class="view-more" href="{!! route('rules.index') !!}">
-                    @lang('general.view_more')  <i class="clip-arrow-right-2"></i>
-                </a>
             </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="panel-body">
-            Hosts status
-            <div class="flot-small-container">
-                <div id="placeholder" class="flot-placeholder"></div>
-            </div>
         </div>
-
+        <!-- end: STATUS BOXES -->
 
     </div>
 @endsection

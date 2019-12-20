@@ -13,8 +13,10 @@
     @yield('meta')
     <!-- end: META -->
     <!-- start: GLOBAL CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('vendor/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('//unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css') }}">
     <!-- end: GLOBAL CSS -->
     <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
     @stack('styles')
@@ -45,29 +47,37 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{ route('home') }}" class="brand-link">
-            <img src="{{ asset('images/SSHAM-logo-128x128.png') }}" alt="SSHAM Logo" class="brand-image img-circle elevation-3"
+            <img src="{{ asset('images/SSHAM-logo-128x128.png') }}" alt="SSHAM Logo"
+                 class="brand-image img-circle elevation-3"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">SSHAM</span>
         </a>
 
-        @include('partials.sidebar')--}}
+        @include('partials.sidebar')
     </aside>
     <!-- end: SIDEBAR -->
 
-    {{--
     <!-- start: PAGE -->
     <div class="content-wrapper">
         <!-- start: PAGE HEADER -->
-        <section class="content-header">
+        <div class="content-header">
             <!-- start: PAGE TITLE & BREADCRUMB -->
-            <h1>
-                @yield('header', 'Title <small>page description</small>')
-            </h1>
-            <ol class="breadcrumb">
-                @yield('breadcrumbs')
-            </ol>
-            <!-- end: PAGE TITLE & BREADCRUMB -->
-        </section>
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="text-dark">
+                            @yield('header', 'Title')
+                        </h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            @yield('breadcrumbs')
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+                <!-- end: PAGE TITLE & BREADCRUMB -->
+            </div><!-- /.container-fluid -->
+        </div>
         <!-- end: PAGE HEADER -->
 
         <!-- start: PAGE CONTENT -->
@@ -82,7 +92,6 @@
     @include('partials.footer')
     <!-- end: FOOTER -->
 
-    --}}
 </div>
 <!-- end: MAIN CONTAINER -->
 <!-- start: GLOBAL JAVASCRIPT -->
