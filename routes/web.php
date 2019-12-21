@@ -50,10 +50,13 @@ Route::get('file/{filename}', ['as' => 'file.download', 'uses' => 'FileEntryCont
  * Users
  * ------------------------------------------
  */
-// Datatables Ajax route.
-Route::get('users/data', ['as' => 'users.data', 'uses' => 'UserController@data']);
+// DataTables Ajax route.
+Route::get('users/data',
+    ['as' => 'users.data', 'uses' => 'UserController@data'])
+    ->middleware('ajax');
 // Delete confirmation route - uses the show/details view.
-Route::get('users/{user}/delete', ['as' => 'users.delete', 'uses' => 'UserController@delete']);
+Route::get('users/{user}/delete',
+    ['as' => 'users.delete', 'uses' => 'UserController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('users', 'UserController');

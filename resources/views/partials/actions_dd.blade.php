@@ -1,8 +1,11 @@
 <div class="visible-md visible-lg hidden-sm hidden-xs">
-    <a href="{!! route($model . '.show', $id) !!}" class="btn btn-xs btn-teal tooltips"
-       data-placement="top" data-original-title="{{ __('general.show') }}"><i class="fa fa-eye"></i></a>
-    <a href="{!! route($model . '.edit', $id) !!}" class="btn btn-xs btn-green tooltips"
-       data-placement="top" data-original-title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
-    <a href="{!! route($model . '.delete', $id) !!}" class="btn btn-xs btn-bricky tooltips"
-       data-placement="top" data-original-title="{{ __('general.delete') }}"><i class="fa fa-trash-o"></i></a>
+    <a class="btn btn-sm btn-info" href="{{ route($model . '.show', $id) }}">
+        <i class="fa fa-eye"></i> {{ __('general.show') }}
+    </a>
+    <a class="btn btn-sm btn-primary" href="{{ route($model . '.edit', $id) }}">
+        <i class="fa fa-edit"></i> {{ __('general.edit') }}
+    </a>
+    <a class="btn btn-sm btn-danger" href="{{ route($model . '.delete', $id) }}">
+        <i class="fa fa-trash"></i> {{ __('general.delete') }}
+    </a>
 </div>

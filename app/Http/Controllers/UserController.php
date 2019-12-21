@@ -17,6 +17,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
+use App\Http\Requests\Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
@@ -193,40 +195,38 @@ class UserController extends Controller
     }
 
     /**
-     * Return all Users in order to be used as Datatables
-     *
-     * TODO: Review it
+     * Return all Users in order to be used with DataTables
      *
      * @param Datatables $datatable
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        /*if (!Request::ajax()) {
-            abort(403);
-        }*/
+        $users = User::select([
+            'id',
+            'username',
+            'fingerprint',
+            'enabled'
+        ])
+            ->withCount('usergroups as groups') // count number of usergroups without loading the models
+            ->orderBy('username', 'asc');
 
-        $users = User::select(array(
-            'id', 'username', 'fingerprint', 'enabled'
-        ))->orderBy('username', 'ASC');
-
-        return $datatable->usingEloquent($users)
+        return $datatable->eloquent($users)
             ->editColumn('username', function (User $user) {
-                return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . __('general.disabled') . '</span>';
-            })
-            ->addColumn('groups', function (User $user) {
-                return count($user->usergroups->lists('id')->all());
+                return Helper::addStatusLabel($user->enabled, $user->username);
             })
             ->addColumn('actions', function (User $user) {
-                return view('partials.actions_dd', array(
-                    'model' => 'users',
-                    'id' => $user->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'users')
+                    ->with('id', $user->id)
+                    ->render();
             })
+            ->rawColumns(['username', 'actions'])
             ->removeColumn('id')
             ->removeColumn('enabled')
-            ->make(true);
+            ->toJson();
     }
 
 }
