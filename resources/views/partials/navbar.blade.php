@@ -32,7 +32,7 @@
         <li class="nav-item dropdown">
             <a href="#" class="nav-link" data-toggle="dropdown">
                 <i class="fa fa-user"></i>
-                <strong>{{ auth()->user()->name }}</strong>
+                <strong>{{ auth()->user()->username }}</strong>
                 <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -46,7 +46,7 @@
                                 </p>
                             </div>
                             <div class="col-lg-8">
-                                <p class="text-left"><strong>{{ auth()->user()->name }}</strong></p>
+                                <p class="text-left"><strong>{{ auth()->user()->username }}</strong></p>
                                 <p class="text-left small">{{ auth()->user()->email }}</p>
                             </div>
                         </div>

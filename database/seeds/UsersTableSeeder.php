@@ -36,7 +36,6 @@ class UsersTableSeeder extends Seeder
         $users = array(
             array(
                 'username' => 'admin',
-                'name' => 'Administrator',
                 'email' => 'admin@example.org',
                 'auth_type' => 'local',
                 'password' => bcrypt('secret'),
@@ -47,7 +46,6 @@ class UsersTableSeeder extends Seeder
             ),
             array(
                 'username' => 'user',
-                'name' => 'User',
                 'email' => 'user@example.org',
                 'auth_type' => 'local',
                 'password' => bcrypt('user'),
