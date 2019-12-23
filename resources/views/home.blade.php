@@ -5,16 +5,14 @@
 
 {{-- Content Header --}}
 @section('header')
-    <h1>
-        {{ __('dashboard/messages.title') }}
-        <small>{{ __('dashboard/messages.subtitle') }}</small>
-    </h1>
+    @lang('dashboard/messages.title')
+    <small>@lang('dashboard/messages.subtitle')</small>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
     <li class="breadcrumb-item active">
-        {{ __('dashboard/messages.title') }}
+        @lang('dashboard/messages.title')
     </li>
 @endsection
 
@@ -28,7 +26,7 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $user_count }}</h3>
-                        <p>{{ __('site.users') }}</p>
+                        <p>@lang('site.users')</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-md-contacts"></i>
@@ -43,7 +41,7 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>{{ $host_count }}</h3>
-                        <p>{{ __('site.hosts') }}</p>
+                        <p>@lang('site.hosts')</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-md-desktop"></i>
@@ -58,7 +56,7 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>{{ $rule_count }}</h3>
-                        <p>{{ __('site.rules') }}</p>
+                        <p>@lang('site.rules')</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-md-lock"></i>

@@ -55,7 +55,7 @@ class UserController extends Controller
     public function create()
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id')->all();
+        $groups = Usergroup::select('name', 'id')->get();
 
         return view('user.create', compact('groups'));
     }

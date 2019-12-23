@@ -2,13 +2,13 @@
 
 {{-- Web site Title --}}
 @section('title')
-    {{ __('site.settings') }}
+    @lang('site.settings')
 @endsection
 
 {{-- Content Header --}}
 @section('header')
     <h1>
-        {{ __('site.settings') }} <small>configure SSHAM</small>
+        @lang('site.settings') <small>configure SSHAM</small>
     </h1>
 @endsection
 
@@ -17,7 +17,7 @@
     <li>
         <i class="clip-settings"></i>
         <a href="{!! route('settings.index') !!}">
-            {{ __('site.settings') }}
+            @lang('site.settings')
         </a>
     </li>
     <li class="active">

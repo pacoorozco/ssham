@@ -17,7 +17,7 @@
 <li>
     <i class="clip-user"></i>
     <a href="{!! route('users.index') !!}">
-        {{ __('site.users') }}
+        @lang('site.users')
     </a>
 </li>
 <li class="active">

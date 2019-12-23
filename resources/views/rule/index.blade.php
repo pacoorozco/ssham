@@ -27,7 +27,7 @@
 <li>
     <i class="clip-database"></i>
     <a href="{!! route('rules.index') !!}">
-        {{ __('site.rules') }}
+        @lang('site.rules')
     </a>
 </li>
 <li class="active">
@@ -59,9 +59,9 @@
             <tr>
                 <th class="col-md-4">@lang('rule/table.user_group')</th>
                 <th class="col-md-4">@lang('rule/table.host_group')</th>
-                <th class="col-md-2">{{ __('rule/table.action') }}</th>
-                <th class="col-md-2">{{ __('rule/table.enabled') }}</th>
-                <th class="col-md-2">{{ __('rule/table.actions') }}</th>
+                <th class="col-md-2">@lang('rule/table.action')</th>
+                <th class="col-md-2">@lang('rule/table.enabled')</th>
+                <th class="col-md-2">@lang('rule/table.actions')</th>
             </tr>
         </thead>
         </table>
@@ -79,7 +79,7 @@
 $(document).ready(function() {
     oTable = $('#rules').DataTable({
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/{{ __('site.language') }}.json"
+            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/@lang('site.language').json"
         },
         "ajax": "{!! route('rules.data') !!}",
         "columns": [

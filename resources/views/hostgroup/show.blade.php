@@ -17,7 +17,7 @@
 <li>
     <i class="fa fa-tasks"></i>
     <a href="{!! route('hostgroups.index') !!}">
-        {{ __('site.hostgroups') }}
+        @lang('site.hostgroups')
     </a>
 </li>
 <li class="active">

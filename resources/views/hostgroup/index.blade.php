@@ -52,10 +52,10 @@
         <table id="hostgroups" class="table table-striped table-bordered table-hover table-full-width">
         <thead>
             <tr>
-                <th class="col-md-4">{{ __('hostgroup/table.name') }}</th>
-                <th class="col-md-5">{{ __('hostgroup/table.description') }}</th>
-                <th class="col-md-1">{{ __('hostgroup/table.hosts') }}</th>
-                <th class="col-md-2">{{ __('hostgroup/table.actions') }}</th>
+                <th class="col-md-4">@lang('hostgroup/table.name')</th>
+                <th class="col-md-5">@lang('hostgroup/table.description')</th>
+                <th class="col-md-1">@lang('hostgroup/table.hosts')</th>
+                <th class="col-md-2">@lang('hostgroup/table.actions')</th>
             </tr>
         </thead>
         </table>

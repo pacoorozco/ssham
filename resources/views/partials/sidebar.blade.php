@@ -5,13 +5,13 @@
             <li class="nav-item">
                 <a class="nav-link @activeIfInRouteGroup(home)" href="{{ route('home') }}">
                     <i class="nav-icon fa fa-home"></i>
-                    <p>{{ __('site.home') }}</p>
+                    <p>@lang('site.home')</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link @activeIfInRouteGroup(users)" href="{{ route('users.index') }}">
                     <i class="nav-icon fa fa-user"></i>
-                    <p>{{ __('site.users') }}</p>
+                    <p>@lang('site.users')</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -23,7 +23,7 @@
             <li class="nav-item">
                 <a class="nav-link @activeIfInRouteGroup(hosts)" href="{{ route('hosts.index') }}">
                     <i class="nav-icon fa fa-laptop"></i>
-                    <p>{{ __('site.hosts') }}</p>
+                    <p>@lang('site.hosts')</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -35,12 +35,12 @@
             <li class="nav-item">
                 <a class="nav-link @activeIfInRouteGroup(rules)" href="{{ route('rules.index') }}">
                     <i class="nav-icon fa fa-database"></i>
-                    <p>{{ __('site.rules') }}</p>
+                    <p>@lang('site.rules')</p>
                 </a>
             </li>
             {{-- <li {!! Request::is('settings*') ? ' class="active"' : '' !!}>
                 <a href="{!! route('settings.index') !!}"><i class="clip-settings"></i>
-                    <span class="title"> {{ __('site.settings') }} </span>
+                    <span class="title"> @lang('site.settings') </span>
                     {!! Request::is('settings*') ? '<span class="selected"></span>' : '' !!}
                 </a>
             </li>

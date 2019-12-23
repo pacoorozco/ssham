@@ -6,7 +6,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('home') }}" class="nav-link">{{ __('site.home') }}</a>
+            <a href="{{ route('home') }}" class="nav-link">@lang('site.home')</a>
         </li>
     </ul>
 
@@ -56,9 +56,10 @@
                 <!-- Menu Footer-->
                 <li class="dropdown-footer">
                     <div class="pull-right">
-                        {!! Form::open(['url' => '/logout']) !!}
-                        {!! Form::button(__('auth.logout'), ['type' => 'submit', 'class' => 'btn btn-block btn-outline-danger']) !!}
-                        {!! Form::close() !!}
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-block btn-outline-danger">@lang('auth.logout')</button>
+                        </form>
                     </div>
                 </li>
             </ul>

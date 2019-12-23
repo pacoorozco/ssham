@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title', 'Dashboard') :: {{ __('site.title') }}</title>
+    <title>@yield('title', 'Dashboard') :: @lang('site.title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- start: META -->
@@ -81,9 +81,9 @@
         <!-- end: PAGE HEADER -->
 
         <!-- start: PAGE CONTENT -->
-        <section class="content">
+        <div class="content">
             @yield('content')
-        </section>
+        </div>
         <!-- end: PAGE CONTENT-->
     </div>
     <!-- end: PAGE -->

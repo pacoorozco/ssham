@@ -5,10 +5,8 @@
 
 {{-- Content Header --}}
 @section('header')
-    <h1>
-        {{ __('user/title.user_management') }}
-        <small>{{ __('user/title.user_management_subtitle') }}</small>
-    </h1>
+    {{ __('user/title.user_management') }}
+    <small>{{ __('user/title.user_management_subtitle') }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}

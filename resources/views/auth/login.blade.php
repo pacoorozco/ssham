@@ -1,59 +1,59 @@
 @extends('layouts.login')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 @endpush
 
 {{-- Content --}}
 @section('content')
     <p class="login-box-msg">{{ __('auth.sign_instructions') }}</p>
 
-    {!! Form::open(['route' => 'login', 'class' => 'form-login']) !!}
-
-    <fieldset>
-        <div class="input-group mb-3">
-            {!! Form::text('username', null, array(
-                     'class' => 'form-control',
-                     'placeholder' => __('auth.username'),
-                     'autofocus' => 'autofocus'
-                     )) !!}
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-user"></span>
+    <form class="form-login" action="{{ route('login') }}" method="post">
+        @csrf
+        <fieldset>
+            <div class="input-group mb-3">
+                <input type="text" name="username" value="{{ old('username') }}"
+                       class="form-control @error('username') is-invalid @enderror" placeholder="@lang('auth.username')"
+                       required autofocus>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
                 </div>
+                @error('username')
+                <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
             </div>
-        </div>
 
-        <div class="input-group mb-3">
-            {!! Form::password('password', array(
-                        'class' => 'form-control',
-                        'placeholder' => __('auth.password')
-                        )) !!}
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-lock"></span>
+            <div class="input-group mb-3">
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                       placeholder="@lang('auth.password')" required>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
                 </div>
+                @error('password')
+                <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-8">
-                <div class="icheck-primary">
-                    {!! Form::checkbox('remember', '1', false, array('id' => 'remember')) !!}
-                    <label for="remember">
-                        {{ __('auth.remember_me') }}
-                    </label>
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                        <input id="remember" name="remember" type="checkbox" value="1">
+                        <label for="remember">@lang('auth.remember_me')</label>
+                    </div>
                 </div>
+                <!-- /.col -->
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block">@lang('general.submit')</button>
+                </div>
+                <!-- /.col -->
             </div>
-            <!-- /.col -->
-            <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">{{ __('general.submit') }}</button>
-            </div>
-            <!-- /.col -->
-        </div>
-    </fieldset>
-
-    {!! Form::close() !!}
+        </fieldset>
+    </form>
 
     <p class="mb-1">
         <a href="{{ route('password.request') }}">{{ __('auth.forgot_password') }}</a>
