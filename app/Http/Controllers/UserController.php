@@ -18,11 +18,11 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
-use App\Http\Requests\Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
 use App\Usergroup;
+use Illuminate\Support\Facades\URL;
 use yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function create()
     {
         // Get all existing user groups
-        $groups = Usergroup::select('name', 'id')->get();
+        $groups = Usergroup::select('name', 'id')->orderBy('name')->get();
 
         return view('user.create', compact('groups'));
     }
@@ -69,7 +69,11 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        $user = new User($request->all());
+        $user = User::create([
+            'username' => $request->username,
+            'password' => $request->password,
+            'email' => $request->email,
+        ]);
 
         // Test if we need to create a new RSA key
         if ($request->create_rsa_key == '1') {
@@ -80,21 +84,22 @@ class UserController extends Controller
         $content = explode(' ', $request->public_key, 3);
         $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
 
-        $user->save();
-
         // Associate User's Groups if has been submitted
         if ($request->groups) {
             $user->usergroups()->attach($request->groups);
-            $user->save();
+
         }
+
+        $user->save();
 
         if ($request->create_rsa_key == '1') {
-            //flash()->overlay(__('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
-        } else {
-            //flash()->overlay(__('user/messages.create.success'));
+            $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
+            return redirect()->route('users.index')
+                ->withSuccess(__('user/messages.create.success_private', ['url' => $signed_URL]));
         }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->withSuccess(__('user/messages.create.success'));
     }
 
     /**

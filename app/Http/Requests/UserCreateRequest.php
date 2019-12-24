@@ -50,8 +50,10 @@ class UserCreateRequest extends Request
     {
         return [
             'username' => 'required|max:255|unique:users',
+            'email' => 'required|email:rfc|unique:users',
+            'password' => 'sometimes|string|min:6|confirmed',
             'create_rsa_key' => 'required|boolean',
-            'public_key' => 'required_if:create_rsa_key,0|rsa_key:public',
+            'public_key_input' => 'required_if:create_rsa_key,0|rsa_key:public',
         ];
     }
 

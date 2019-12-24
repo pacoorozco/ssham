@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2019 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2019 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App;
@@ -21,8 +21,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
 use phpseclib\Crypt\RSA;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
@@ -67,6 +67,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'username' => 'string',
+        'email' => 'string',
+        'password' => 'string',
+        'public_key' => 'string',
+        'fingerprint' => 'string',
+        'auth_type' => 'string',
+        'enabled' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
 
@@ -102,5 +109,25 @@ class User extends Authenticatable
     public function usergroups()
     {
         return $this->belongsToMany('App\Usergroup');
+    }
+
+    /**
+     * Set the username User attribute to lowercase.
+     *
+     * @param string $value
+     */
+    public function setUsernameAttribute(string $value)
+    {
+        $this->attributes['username'] = strtolower($value);
+    }
+
+    /**
+     * Set a random password in case it has not been supplied.
+     *
+     * @param string $value
+     */
+    public function setpasswordAttribute(string $value)
+    {
+        $this->attributes['password'] = bcrypt($value ?: Str::random(32));
     }
 }
