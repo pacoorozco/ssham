@@ -19,4 +19,5 @@ return [
     'roles' => 'Roles',
     'groups' => 'Group memberships',
     'is_admin' => 'Has this user administrative role?',
+    'no_groups' => 'User has not group membership',
 ];

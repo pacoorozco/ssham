@@ -1,37 +1,32 @@
 @extends('layouts.master')
 
 {{-- Web site Title --}}
-@section('title')
-	@lang('user/title.user_show')
-@endsection
+@section('title', __('user/title.user_show'))
 
 {{-- Content Header --}}
 @section('header')
-<h1>
     @lang('user/title.user_show') <small>{{ $user->username }}</small>
-</h1>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-<li>
-    <i class="clip-user"></i>
-    <a href="{!! route('users.index') !!}">
-        @lang('site.users')
-    </a>
-</li>
-<li class="active">
-    @lang('user/title.user_show')
-</li>
+    <li class="breadcrumb-item">
+        <a href="{{ route('users.index') }}">
+            @lang('site.users')
+        </a>
+    </li>
+    <li class="breadcrumb-item active"><
+        @lang('user/title.user_show')
+    </li>
 @endsection
 
 {{-- Content --}}
 @section('content')
 
-<!-- Notifications -->
-@include('partials.notifications')
-<!-- ./ notifications -->
+    <!-- Notifications -->
+    @include('partials.notifications')
+    <!-- ./ notifications -->
 
-@include('user._details', ['action' => 'show'])
+    @include('user._details', ['action' => 'show'])
 
 @endsection

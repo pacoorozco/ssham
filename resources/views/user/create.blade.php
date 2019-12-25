@@ -5,8 +5,8 @@
 
 {{-- Content Header --}}
 @section('header')
-    {{ __('user/title.create_a_new_user') }}
-    <small>{{ __('user/title.create_a_new_user_subtitle') }}</small>
+    @lang('user/title.create_a_new_user')
+    <small>@lang('user/title.create_a_new_user_subtitle')</small>
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -17,7 +17,7 @@
         </a>
     </li>
     <li class="breadcrumb-item active">
-        {{ __('user/title.create_a_new_user') }}
+        @lang('user/title.create_a_new_user')
     </li>
 @endsection
 
