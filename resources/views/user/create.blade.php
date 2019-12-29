@@ -32,11 +32,9 @@
 
         <!-- Card -->
         <div class="card">
-            <form method="post" action="{{ route('users.store') }}">
-                @csrf
-
-                @include('user._form')
-            </form>
+            {!! Form::open(['route' => 'users.store']) !!}
+            @include('user._form')
+            {!! Form::close() !!}
         </div>
         <!-- ./ card -->
     </div>

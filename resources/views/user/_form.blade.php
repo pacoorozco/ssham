@@ -5,64 +5,55 @@
         <!-- left column -->
         <div class="col-md-6">
 
-            <!-- username -->
-            <div class="form-group">
-                <label for="username">@lang('user/model.username')</label>
-                @if (isset($user))
-                    <input id="username" name="username" type="text" class="form-control"
-                           value="{{ old('username', $user->username) }}" disabled>
-                @else
-                    <input id="username" name="username" type="text"
-                           class="form-control @error('username') is-invalid @enderror"
-                           value="{{ old('username') }}" required autofocus>
-                @endif
-                @error('username')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <!-- ./ username -->
+            <fieldset>
+                <legend>@lang('user/model.personal_information')</legend>
+                <!-- username -->
+                <div class="form-group">
+                    {!! Form::label('username', __('user/model.username')) !!}
+                    @if (isset($user))
+                        {!! Form::text('username', null, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                    @else
+                        {!! Form::text('username', null, array('class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
+                    @endif
+                    @error('username')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <!-- ./ username -->
 
-            <!-- email -->
-            <div class="form-group">
-                <label for="email">@lang('user/model.email')</label>
-                @if (isset($user))
-                    <input id="email" name="email" type="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           value="{{ old('email', $user->email) }}" required>
-                @else
-                    <input id="email" name="email" type="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           value="{{ old('email') }}" required>
-                @endif
-                @error('email')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <!-- ./ email -->
+                <!-- email -->
+                <div class="form-group">
+                    {!! Form::label('email', __('user/model.email')) !!}
+                    {!! Form::email('email', null, array('class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                    @error('email')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <!-- ./ email -->
+            </fieldset>
 
-            <!-- password -->
-            <div class="form-group">
-                <label for="password">@lang('user/model.password')</label>
-                <input id="password" name="password" type="password"
-                       class="form-control @error('password') is-invalid @enderror"
-                       value="">
-                @error('password')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <!-- ./ password -->
+            <fieldset>
+                <legend>@lang('user/model.credentials')</legend>
+                <!-- password -->
+                <div class="form-group">
+                    {!! Form::label('password', __('user/model.password')) !!}
+                    {!! Form::password('password', array('class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''))) !!}
+                    @error('password')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <!-- ./ password -->
 
-            <!-- password_confirmation -->
-            <div class="form-group">
-                <label for="password_confirmation">@lang('user/model.password_confirmation')</label>
-                <input id="password_confirmation" name="password_confirmation" type="password"
-                       class="form-control @error('password_confirmation') is-invalid @enderror"
-                       value="">
-                @error('password_confirmation')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <!-- ./ password_confirmation -->
+                <!-- password_confirmation -->
+                <div class="form-group">
+                    {!! Form::label('password_confirmation', __('user/model.password_confirmation')) !!}
+                    {!! Form::password('password_confirmation', array('class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''))) !!}
+                    @error('password_confirmation')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <!-- ./ password_confirmation -->
+            </fieldset>
 
         </div>
         <!-- ./ left column -->
@@ -71,92 +62,69 @@
         <div class="col-md-6">
 
             <!-- user's groups -->
-            <div class="form-group">
-                <label>@lang('user/model.groups')</label>
-                <div class="controls">
-                    @if (isset($user))
-                        <select class="form-control search-select" name="groups[]" multiple="multiple">
-                            @foreach($groups as $group)
-                                <option>{{ $group }}</option>
-                            @endforeach
-                        </select>
-                        {!! Form::select('groups[]', $groups, $user->usergroups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
-                    @else
-                        <select class="form-control search-select" name="groups[]" multiple="multiple">
-                            @foreach($groups as $group)
-                                <option value="{{ $group->id }}">{{ $group->name }}</option>
-                            @endforeach
-                        </select>
-                    @endif
-                    @error('groups[]'))
-                    <span class="invalid-feedback">{{ $message }}</span>
-                    @enderror
+            <fieldset>
+                <legend>@lang('user/model.membership')</legend>
+                <div class="form-group">
+                    {!! Form::label('groups[]', __('user/model.groups')) !!}
+                    <div class="controls">
+                        @if (isset($user))
+                            {!! Form::select('groups[]', $groups, $user->usergroups->lists('id')->all(), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                        @else
+                            {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                        @endif
+                        @error('groups[]'))
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
-            </div>
-            <!-- ./ user's groups -->
+                <!-- ./ user's groups -->
+            </fieldset>
 
-            <!-- SSH public key -->
-            <div class="form-group">
-                <label for="create_rsa_key">@lang('user/model.public_key')</label>
-                <!-- create RSA key -->
-                <div class="form-check">
-                    @if (isset($user))
-                        <input id="create_rsa_key" class="form-check-input" type="radio" name="create_rsa_key"
-                               value="1">
-                        <label class="form-check-label">@lang('user/messages.create_rsa_key')</label>
-                        <span class="form-text text-muted">@lang('user/messages.create_rsa_key_help')</span>
-                        <span class="form-text text-muted">@lang('user/messages.create_rsa_key_help_notice')</span>
-                    @else
-                        <input id="create_rsa_key" name="create_rsa_key" type="radio" class="form-check-input" value="1"
-                               checked>
-                        <label class="form-check-label">@lang('user/messages.create_rsa_key')</label>
-                        <div id="create_rsa_key_form">
+            <fieldset>
+                <legend>@lang('user/model.public_key')'</legend>
+                <!-- SSH public key -->
+                <div class="form-group">
+                    <!-- create RSA key -->
+                    <div class="form-check">
+                        @if (isset($user))
+                            {!! Form::radio('create_rsa_key', '1', false, array('class' => 'form-check-input', 'id' => 'create_rsa_key')) !!}
+                            {!! Form::label('create_rsa_key', __('user/messages.public_key'), array('class' => 'form-check-label')) !!}
                             <span class="form-text text-muted">@lang('user/messages.create_rsa_key_help')</span>
-                        </div>
-                    @endif
-                </div>
-                <!-- ./ create RSA key -->
+                            <span class="form-text text-muted">@lang('user/messages.create_rsa_key_help_notice')</span>
+                        @else
+                            {!! Form::radio('public_key', 'create', true, array('class' => 'form-check-input', 'id' => 'create_public_key')) !!}
+                            {!! Form::label('create_public_key', __('user/messages.create_public_key'), array('class' => 'form-check-label')) !!}
+                            <div id="create_public_key_form">
+                                <span class="form-text text-muted">@lang('user/messages.create_public_key_help')</span>
+                            </div>
+                        @endif
+                    </div>
+                    <!-- ./ create RSA key -->
 
-                <!-- import / edit public_key -->
-                <div class="form-check">
-                    @if (isset($user))
-                        <input id="create_rsa_key_false" class="form-check-input" type="radio" name="create_rsa_key"
-                               value="0">
-                        <label class="form-check-label">@lang('user/messages.import_rsa_key')</label>
-                        <div id="import_rsa_key_form" class="d-none">
-                            <span class="form-text text-muted">@lang('user/messages.import_rsa_key_help')</span>
-                            <textarea id="public_key_input"
-                                      class="form-control @error('public_key') is-invalid @enderror"
-                                      name="public_key"></textarea>
+                    <!-- import / edit public_key -->
+                    <div class="form-check">
+                        {!! Form::radio('public_key', 'import', false, array('class' => 'form-check-input', 'id' => 'import_public_key')) !!}
+                        {!! Form::label('import_public_key', __('user/messages.import_public_key'), array('class' => 'form-check-label')) !!}
+                        <div id="import_public_key_form">
+                            {!! Form::textarea('public_key_input', null, array('class' => 'form-control' . ($errors->has('public_key_input') ? ' is-invalid' : ''), 'id' => 'public_key_input', 'rows' => '5')) !!}
+                            <span class="form-text text-muted">@lang('user/messages.import_public_key_help')</span>
                         </div>
-                    @else
-                        <input id="import_rsa_key" name="create_rsa_key" type="radio" class="form-check-input"
-                               value="0">
-                        <label class="form-check-label">@lang('user/messages.import_rsa_key')</label>
-                        <div id="import_rsa_key_form" class="d-none">
-                            <span class="form-text text-muted">@lang('user/messages.import_rsa_key_help')</span>
-                            <textarea id="public_key_input" name="public_key" rows="5"
-                                      class="form-control @error('public_key') is-invalid @enderror"
-                                      disabled></textarea>
-                        </div>
-                    @endif
-                    @error('public_key'))
-                    <span class="invalid-feedback">{{ $message }}</span>
-                    @enderror
+                        @error('public_key_input'))
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <!-- ./ import / edit public_key -->
                 </div>
-                <!-- ./ import / edit public_key -->
-            </div>
-            <!-- ./ SSH public key -->
+                <!-- ./ SSH public key -->
+            </fieldset>
 
 
         @if (isset($user))
             <!-- administrator role -->
                 <div class="form-group">
-                    <label for="is_admin">@lang('user/model.is_admin')</label>
-                    <select class="form-control" name="is_admin" disabled="disabled">
-                        <option value="1" {{ $user->hasRole('admin') ? 'selected' : '' }}>@lang('general.yes')</option>
-                        <option value="0">@lang('general.no')</option>
-                    </select>
+                    {!! Form::label('is_admin', __('user/model.is_admin')) !!}
+                    {!! Form::select('is_admin', array('1' => __('general.yes'), '0' => __('general.no')), ($user->hasRole('admin') ? '1' : '0'), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+
                     @error('is_admin'))
                     <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
@@ -167,11 +135,8 @@
         @if (isset($user))
             <!-- enabled -->
                 <div class="form-group">
-                    <label for="enabled">@lang('user/model.enabled')</label>
-                    <select class="form-control" name="enabled">
-                        <option value="1">@lang('general.yes')</option>
-                        <option value="0">@lang('general.no')</option>
-                    </select>
+                    {!! Form::label('enabled', __('user/model.enabled')) !!}
+                    {!! Form::select('enabled', array('1' => __('general.yes'), '0' => __('general.no')), null, array('class' => 'form-control')) !!}
                     @error('enabled'))
                     <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
@@ -187,7 +152,7 @@
 <div class="card-footer">
     <!-- Form Actions -->
     <div class="form-group">
-        <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> @lang('general.save')</button>
+        {!! Form::button('<i class="fa fa-floppy-o"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
     </div>
     <!-- ./ form actions -->
 </div>
@@ -207,17 +172,34 @@
             language: "@lang('site.language_short')"
         });
 
-        $("#create_rsa_key").click(function () {
-            $("#create_rsa_key_form").removeClass("d-none");
-            $("#import_rsa_key_form").addClass("d-none");
-            $("#public_key_input").attr("disabled");
+
+        $(function () {
+            disablePublicKeyImport()
+            var $radios = $('input:radio[id=import_public_key]');
+            if ($radios.is(':checked') === true) {
+                enablePublicKeyImport()
+            }
         });
 
-        $("#import_rsa_key").click(function () {
-            $("#import_rsa_key_form").removeClass("d-none");
-            $("#create_rsa_key_form").addClass("d-none");
-            $("#public_key_input").removeAttr("disabled");
+        $("#create_public_key").click(function () {
+            disablePublicKeyImport()
         });
+
+        $("#import_public_key").click(function () {
+            enablePublicKeyImport()
+        });
+
+        function disablePublicKeyImport(){
+            $("#create_public_key_form").removeClass("d-none");
+            $("#import_public_key_form").addClass("d-none");
+            $("#public_public_input").attr("disabled");
+        }
+
+        function enablePublicKeyImport(){
+            $("#import_public_key_form").removeClass("d-none");
+            $("#create_public_key_form").addClass("d-none");
+            $("#public_public_input").removeAttr("disabled");
+        }
     </script>
 @endpush
 

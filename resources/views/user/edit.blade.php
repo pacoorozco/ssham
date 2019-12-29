@@ -1,39 +1,42 @@
 @extends('layouts.master')
 
 {{-- Web site Title --}}
-@section('title')
-	@lang('user/title.user_update')
-@endsection
+@section('title', __('user/title.user_update'))
 
 {{-- Content Header --}}
 @section('header')
-<h1>
     @lang('user/title.user_update') <small>{{ $user->username }}</small>
-</h1>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-<li>
-    <i class="clip-user"></i>
-    <a href="{!! route('users.index') !!}">
-        @lang('site.users')
-    </a>
-</li>
-<li class="active">
-    @lang('user/title.user_update')
-</li>
+    <li class="breadcrumb-item">
+        <a href="{{ route('users.index') }}">
+            @lang('site.users')
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
+        @lang('user/title.user_update')
+    </li>
 @endsection
 
 {{-- Content --}}
 @section('content')
+    <div class="container-fluid">
 
-<!-- Notifications -->
-@include('partials.notifications')
-<!-- ./ notifications -->
+        <!-- Notifications -->
+        @include('partials.notifications')
+        <!-- ./ notifications -->
 
-{!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) !!}
-@include('user._form')
-{!! Form::close() !!}
+        <!-- Card -->
+        <div class="card">
+            <form method="post" action="{{ route('users.update', $user->id) }}">
+                @method('put')
+                @csrf
 
+                @include('user._form')
+            </form>
+        </div>
+        <!-- ./ card -->
+    </div>
 @endsection

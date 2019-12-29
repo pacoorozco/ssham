@@ -15,7 +15,7 @@
             @lang('site.users')
         </a>
     </li>
-    <li class="breadcrumb-item active"><
+    <li class="breadcrumb-item active">
         @lang('user/title.user_show')
     </li>
 @endsection

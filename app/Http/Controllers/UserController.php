@@ -55,7 +55,7 @@ class UserController extends Controller
     public function create()
     {
         // Get all existing user groups
-        $groups = Usergroup::select('name', 'id')->orderBy('name')->get();
+        $groups = Usergroup::orderBy('name')->pluck('name', 'id');
 
         return view('user.create', compact('groups'));
     }
@@ -124,7 +124,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id')->all();
+        $groups = Usergroup::select('name', 'id')->orderBy('name')->get();
 
         return view('user.edit', compact('user', 'groups'));
     }
