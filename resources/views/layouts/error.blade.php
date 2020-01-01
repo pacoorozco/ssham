@@ -7,11 +7,6 @@
     <title>@yield('title', 'Error 404') :: @lang('site.title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- start: META -->
-    <meta content="SSH Access Manager - Administration" name="description">
-    <meta content="Paco Orozco" name="author">
-    @yield('meta')
-    <!-- end: META -->
     <!-- start: GLOBAL CSS -->
     <link rel="stylesheet" type="text/css"
           href="{{ asset('vendor/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
@@ -19,8 +14,8 @@
           href="{{ asset('//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
     <!-- end: GLOBAL CSS -->
     <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
-    @stack('styles')
-    <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+@stack('styles')
+<!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
     <!-- start: MAIN CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/AdminLTE/css/adminlte.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
@@ -31,34 +26,31 @@
     <link rel="stylesheet" href="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
     <![endif]-->
     <!-- end: MAIN CSS -->
-    <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}"/>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <!-- end: HEAD -->
 <!-- start: BODY -->
-<body class="hold-transition sidebar-mini layout-fixed">
-<!-- start: PAGE -->
-<div class="wrapper">
-    <div class="content-wrapper">
-        <!-- Main content -->
-        <section class="content">
-            <div class="error-page">
-                @yield('content')
-            </div>
-            <!-- /.error-page -->
-        </section>
-        <!-- /.content -->
+<body class="hold-transition lockscreen">
+<!-- automatic element centering -->
+<div class="lockscreen-wrapper">
+    <div class="lockscreen-logo">
+        <a href="{{ route('home') }}"><b>SSHAM</b></a>
     </div>
-
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.0
-        </div>
-        <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-        reserved.
-    </footer>
+    <!-- error-page -->
+    <div class="help-block text-center">
+        @yield('content')
+    </div>
+    <!-- ./ error-page -->
 </div>
-<!-- end: PAGE -->
+<!-- ./ automatic element centering -->
+
+<footer class="lockscreen-footer text-center mt-5">
+    Powered by <a href="https://github.com/pacoorozco/ssham" rel="nofollow">SSH Access Manager</a>
+    v{{ Config::get('app.version') }}<br>
+    <strong>Copyright &copy; 2013-{{ date('Y') }} <a href="http://pacoorozco.info" rel="nofollow">Paco
+            Orozco</a></strong>
+</footer>
+
 </body>
 <!-- end: BODY -->
 </html>
