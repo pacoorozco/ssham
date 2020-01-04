@@ -17,7 +17,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidRSAKey;
 use App\Rules\ValidRSAPublicKey;
 
 class UserCreateRequest extends Request
