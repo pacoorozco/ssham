@@ -235,7 +235,7 @@ class UserController extends Controller
 
         return $datatable->eloquent($users)
             ->editColumn('username', function (User $user) {
-                return Helper::addStatusLabel($user->enabled, $user->username);
+                return Helper::addDisabledStatusLabel($user->enabled, $user->username);
             })
             ->addColumn('actions', function (User $user) {
                 return view('partials.actions_dd')
