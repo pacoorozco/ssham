@@ -103,14 +103,7 @@
                             <!-- user's groups -->
                             <div class="form-group">
                                 {!! Form::label('groups[]', __('user/model.groups')) !!}
-                                <div class="controls">
-
-                                    {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
-
-                                    @error('groups[]'))
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                             </div>
                             <!-- ./ user's groups -->
                         </fieldset>
@@ -158,7 +151,7 @@
                 <a href="{{ route('users.index') }}" class="btn btn-primary" role="button">
                     <i class="fa fa-arrow-left"></i> {{ __('general.back') }}
                 </a>
-                {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             <!-- ./ form actions -->
             </div>
 

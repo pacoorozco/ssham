@@ -17,6 +17,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
+
 class HostCreateRequest extends Request
 {
 
@@ -38,9 +40,8 @@ class HostCreateRequest extends Request
     public function rules()
     {
         return [
-            'hostname' => 'required|min:5|max:255|unique_with:hosts,username',
-            'username' => 'required|max:255',
-            'enabled' => 'required|boolean',
+            'hostname' => ['required', 'min:5', 'max:255', Rule::unique('hosts', 'username')],
+            'username' => ['required', 'max:255'],
         ];
     }
 

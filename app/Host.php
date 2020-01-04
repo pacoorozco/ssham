@@ -38,7 +38,20 @@ class Host extends Model
     protected $fillable = [
         'hostname',
         'username',
-        'type'
+        'enabled',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'hostname' => 'string',
+        'username' => 'string',
+        'enabled' => 'boolean',
+        'synced' => 'boolean',
+        'key_hash' => 'string',
     ];
 
     /**
@@ -66,9 +79,9 @@ class Host extends Model
      *    0 = Host is not sync, it needs to transfer SSH Key file
      *    1 = Host is sync
      *
-     * @param int $synced
+     * @param bool $synced
      */
-    public function setSynced($synced = 0)
+    public function setSynced(bool $synced = false)
     {
         $this->synced = $synced;
     }
@@ -76,24 +89,11 @@ class Host extends Model
     /**
      * Set Host Keys Files Hash. It keeps a hash of last transferred SSH Key File
      *
-     * @param $keyHash
+     * @param string $keyHash
      */
-    public function setKeyHash($keyHash)
+    public function setKeyHash(string $keyHash)
     {
         $this->key_hash = $keyHash;
-    }
-
-    /**
-     * Set Host enabled status
-     *     1, enabled, true = Host is enabled
-     *     0, disabled, false = Host is disabled
-     *
-     * @param $status
-     */
-    public function setStatus($status)
-    {
-        $status = ($status === 1 || $status == 'enabled' || $status === true) ? 1 : 0;
-        $this->enabled = $status;
     }
 
     /**

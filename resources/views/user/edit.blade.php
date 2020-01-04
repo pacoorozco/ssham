@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <!-- ./ enbled -->
+                        <!-- ./ enabled -->
 
                         <!-- about the user -->
                         <fieldset>

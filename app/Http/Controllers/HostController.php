@@ -17,7 +17,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Helpers\Helper;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostCreateRequest;
@@ -53,8 +53,8 @@ class HostController extends Controller
      */
     public function create()
     {
-        // Get all existing user groups
-        $groups = Hostgroup::lists('name', 'id')->all();
+        // Get all existing host groups
+        $groups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
         return view('host.create', compact('groups'));
     }
@@ -68,18 +68,18 @@ class HostController extends Controller
      */
     public function store(HostCreateRequest $request)
     {
-        $host = new Host($request->all());
-        $host->save();
+        $host = Host::create([
+            'hostname' => $request->hostname,
+            'username' => $request->username,
+        ]);
 
         // Associate Host's Groups
         if ($request->groups) {
             $host->hostgroups()->sync($request->groups);
-            $host->save();
         }
 
-        //flash()->success(__('host/messages.create.success'));
-
-        return redirect()->route('hosts.index');
+        return redirect()->route('hosts.index')
+            ->withSuccess(__('host/messages.create.success'));
     }
 
     /**
@@ -103,8 +103,8 @@ class HostController extends Controller
      */
     public function edit(Host $host)
     {
-        // Get all existing user groups
-        $groups = Hostgroup::lists('name', 'id')->all();
+        // Get all existing host groups
+        $groups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
         return view('host.edit', compact('host', 'groups'));
     }
@@ -119,7 +119,9 @@ class HostController extends Controller
      */
     public function update(Host $host, HostUpdateRequest $request)
     {
-        $host->update($request->all());
+        $host->update([
+            'enabled' => $request->enabled,
+        ]);
 
         // Associate Host's Groups
         if ($request->groups) {
@@ -127,11 +129,9 @@ class HostController extends Controller
         } else {
             $host->hostgroups()->detach();
         }
-        $host->save();
 
-        flash()->success(__('host/messages.edit.success'));
-
-        return redirect()->route('hosts.edit', [$host->id]);
+        return redirect()->route('hosts.edit', [$host->id])
+            ->withSuccess(__('host/messages.edit.success'));
     }
 
     /**
@@ -158,9 +158,8 @@ class HostController extends Controller
     {
         $host->delete();
 
-        //flash()->success(__('host/messages.delete.success'));
-
-        return redirect()->route('hosts.index');
+        return redirect()->route('hosts.index')
+            ->withSuccess(__('host/messages.delete.success'));
     }
 
     /**
@@ -169,33 +168,32 @@ class HostController extends Controller
      * @param Datatables $datatable
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        /*if (!Request::ajax()) {
-            abort(403);
-        }*/
+        $hosts = Host::select([
+            'id',
+            'hostname',
+            'username',
+            'type',
+            'enabled'
+        ])
+            ->withCount('hostgroups as groups') // count number of hostgroups without loading the models
+            ->orderBy('hostname', 'asc');
 
-        $hosts = Host::select(array(
-            'id', 'hostname', 'username', 'type', 'enabled'
-        ))->orderBy('hostname', 'ASC');
-
-        return $datatable->usingEloquent($hosts)
+        return $datatable->eloquent($hosts)
             ->editColumn('enabled', function (Host $host) {
-                return ($host->enabled) ? '<span class="label label-sm label-success">' . __('general.enabled') . '</span>'
-                    : '<span class="label label-sm label-danger">' . __('general.disabled') . '</span>';
-            })
-            ->addColumn('groups', function (Host $host) {
-                return count($host->hostgroups->lists('id')->all());
+                return Helper::addStatusLabel($host->enabled);
             })
             ->addColumn('actions', function (Host $host) {
-                return view('partials.actions_dd', array(
-                    'model' => 'hosts',
-                    'id' => $host->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'hosts')
+                    ->with('id', $host->id)
+                    ->render();
             })
+            ->rawColumns(['hostname', 'enabled', 'actions'])
             ->removeColumn('id')
-            ->make(true);
+            ->toJson();
     }
-
 }

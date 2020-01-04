@@ -67,7 +67,9 @@ Route::resource('users', 'UserController');
  * ------------------------------------------
  */
 // Datatables Ajax route.
-Route::get('hosts/data', ['as' => 'hosts.data', 'uses' => 'HostController@data']);
+Route::get('hosts/data',
+    ['as' => 'hosts.data', 'uses' => 'HostController@data']);
+    //->middleware('ajax');
 // Delete confirmation route - uses the show/details view.
 Route::get('hosts/{host}/delete', ['as' => 'hosts.delete', 'uses' => 'HostController@delete']);
 // Pre-baked resource controller actions for index, create, store,
