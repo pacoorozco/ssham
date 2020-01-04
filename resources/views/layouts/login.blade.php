@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
     <![endif]-->
     <!-- end: MAIN CSS -->
-    <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}"/>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 </head>
     <!-- start: BODY -->
 <body class="hold-transition login-page">

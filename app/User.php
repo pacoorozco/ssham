@@ -120,14 +120,4 @@ class User extends Authenticatable
     {
         $this->attributes['username'] = strtolower($value);
     }
-
-    /**
-     * Set a random password in case it has not been supplied.
-     *
-     * @param string $value
-     */
-    public function setpasswordAttribute(string $value)
-    {
-        $this->attributes['password'] = bcrypt($value ?: Str::random(32));
-    }
 }

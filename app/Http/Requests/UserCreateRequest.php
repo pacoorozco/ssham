@@ -17,6 +17,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidRSAKey;
+use App\Rules\ValidRSAPublicKey;
+
 class UserCreateRequest extends Request
 {
 
@@ -49,24 +52,24 @@ class UserCreateRequest extends Request
     public function rules()
     {
         return [
-            'username' => 'required|max:255|unique:users',
-            'email' => 'required|email:rfc|unique:users',
-            'password' => 'sometimes|string|min:6|confirmed',
-            'create_rsa_key' => 'required|boolean',
-            'public_key_input' => 'required_if:create_rsa_key,0|rsa_key:public',
+            'username' => ['required', 'max:255', 'unique:users'],
+            'email' => ['required', 'email:rfc', 'unique:users'],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'public_key' => ['required', 'in:create,import'],
+            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKey()],
         ];
     }
 
     /**
-     * Sanitizes user input. In special 'public_key' to remove carriage returns
+     * Sanitizes user input. In special 'public_key_input' to remove carriage returns
      */
     protected function sanitize()
     {
         $input = $this->all();
 
         // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key'])) {
-            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        if (isset($input['public_key_input'])) {
+            $input['public_key_input'] = str_replace(["\n", "\t", "\r"], '', $input['public_key_input']);
         }
 
         $this->replace($input);

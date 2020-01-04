@@ -23,6 +23,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\User;
 use App\Usergroup;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -69,6 +70,11 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
+        // in cas of blank password, we assign one randomly.
+        if (is_null($request->password)) {
+            $request->password = bcrypt(Str::random(32));
+        }
+
         $user = User::create([
             'username' => $request->username,
             'password' => $request->password,
@@ -76,12 +82,15 @@ class UserController extends Controller
         ]);
 
         // Test if we need to create a new RSA key
-        if ($request->create_rsa_key == '1') {
-            list($request->public_key, $private_key) = $user->createRSAKeyPair();
+        if ($request->public_key == 'create') {
+            list($public_key, $private_key) = $user->createRSAKeyPair();
+        } else {
+            $public_key = $request->public_key_input;
+
         }
 
         // Calculates fingerprint of a SSH public key
-        $content = explode(' ', $request->public_key, 3);
+        $content = explode(' ', $public_key, 3);
         $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
 
         // Associate User's Groups if has been submitted
@@ -92,7 +101,7 @@ class UserController extends Controller
 
         $user->save();
 
-        if ($request->create_rsa_key == '1') {
+        if ($request->public_key == 'create') {
             $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
             return redirect()->route('users.index')
                 ->withSuccess(__('user/messages.create.success_private', ['url' => $signed_URL]));
@@ -124,7 +133,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         // Get all existing user groups
-        $groups = Usergroup::select('name', 'id')->orderBy('name')->get();
+        $groups = Usergroup::orderBy('name')->pluck('name', 'id');
 
         return view('user.edit', compact('user', 'groups'));
     }
@@ -139,19 +148,10 @@ class UserController extends Controller
      */
     public function update(User $user, UserUpdateRequest $request)
     {
-        $private_key = null;
-        $user->update($request->all());
-
-        // Test if we need to create a new RSA key
-        if ($request->create_rsa_key == '1') {
-            list($request->public_key, $private_key) = $user->createRSAKeyPair();
-        }
-
-        // Calculates fingerprint of a SSH public key
-        $content = explode(' ', $request->public_key, 3);
-        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
-
-        $user->save();
+        $user->update([
+            'email' => $request->email,
+            'enabled' => $request->enabled,
+        ]);
 
         // Associate User's Groups
         if ($request->groups) {
@@ -160,15 +160,30 @@ class UserController extends Controller
             $user->usergroups()->detach();
         }
 
-        $user->save();
-
-        if ($request->create_rsa_key == '1' && !is_null($private_key)) {
-            //flash()->overlay(__('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
-        } else {
-            //flash()->overlay(__('user/messages.edit.success'));
+        // Test if we need to create a new RSA key
+        switch ($request->public_key) {
+            case 'create':
+                list($user->public_key, $private_key) = $user->createRSAKeyPair();
+                break;
+            case 'import':
+                $user->public_key = $request->public_key_input;
+                break;
         }
 
-        return redirect()->route('users.index');
+        // Calculates fingerprint of a SSH public key
+        $content = explode(' ', $user->public_key, 3);
+        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
+
+        $user->save();
+
+        if ($request->public_key == 'create') {
+            $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
+            return redirect()->route('users.index')
+                ->withSuccess(__('user/messages.edit.success_private', ['url' => $signed_URL]));
+        }
+
+        return redirect()->route('users.index')
+            ->withSuccess(__('user/messages.edit.success'));
     }
 
     /**
@@ -194,9 +209,8 @@ class UserController extends Controller
     {
         $user->delete();
 
-        //flash()->success(__('user/messages.delete.success'));
-
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->withSuccess(__('user/messages.delete.success'));
     }
 
     /**
@@ -212,6 +226,7 @@ class UserController extends Controller
         $users = User::select([
             'id',
             'username',
+            'email',
             'fingerprint',
             'enabled'
         ])
@@ -233,5 +248,4 @@ class UserController extends Controller
             ->removeColumn('enabled')
             ->toJson();
     }
-
 }
