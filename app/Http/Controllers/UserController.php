@@ -86,7 +86,7 @@ class UserController extends Controller
             list($public_key, $private_key) = $user->createRSAKeyPair();
         } else {
             $public_key = $request->public_key_input;
-
+            $private_key = null;
         }
 
         // Calculates fingerprint of a SSH public key
