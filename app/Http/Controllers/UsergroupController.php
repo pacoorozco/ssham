@@ -53,7 +53,7 @@ class UsergroupController extends Controller
     public function create()
     {
         // Get all existing users
-        $users = User::lists('username', 'id')->all();
+        $users = User::orderBy('username')->pluck('username', 'id');
 
         return view('usergroup.create', compact('users'));
     }
@@ -67,18 +67,18 @@ class UsergroupController extends Controller
      */
     public function store(UsergroupCreateRequest $request)
     {
-        $usergroup = new Usergroup($request->all());
-        $usergroup->save();
+        $usergroup = Usergroup::create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
 
         // Associate Users to User's group
         if ($request->users) {
             $usergroup->users()->sync($request->users);
-            $usergroup->save();
         }
 
-        //flash()->success(__('usergroup/messages.create.success'));
-
-        return redirect()->route('usergroups.index');
+        return redirect()->route('usergroups.index')
+            ->withSuccess(__('usergroup/messages.create.success'));
     }
 
     /**
@@ -103,7 +103,7 @@ class UsergroupController extends Controller
     public function edit(Usergroup $usergroup)
     {
         // Get all existing users
-        $users = User::lists('username', 'id')->all();
+        $users = User::orderBy('username')->pluck('username', 'id');
 
         return view('usergroup.edit', compact('usergroup', 'users'));
     }
@@ -118,7 +118,10 @@ class UsergroupController extends Controller
      */
     public function update(Usergroup $usergroup, UsergroupUpdateRequest $request)
     {
-        $usergroup->update($request->all());
+        $usergroup->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
 
         // Associate Users to User's group
         if ($request->users) {
@@ -126,11 +129,9 @@ class UsergroupController extends Controller
         } else {
             $usergroup->users()->detach();
         }
-        $usergroup->save();
 
-        //flash()->success(__('usergroup/messages.edit.success'));
-
-        return redirect()->route('usergroups.index');
+        return redirect()->route('usergroups.index')
+            ->withSuccess(__('usergroup/messages.edit.success'));
     }
 
     /**
@@ -157,42 +158,37 @@ class UsergroupController extends Controller
     {
         $usergroup->delete();
 
-        //flash()->success(__('usergroup/messages.delete.success'));
-
-        return redirect()->route('usergroups.index');
+        return redirect()->route('usergroups.index')
+            ->withSuccess(__('usergroup/messages.delete.success'));
     }
 
     /**
      * Return all Usergroups in order to be used as Datatables
      *
-     * TODO: Review it
-     *
      * @param Datatables $datatable
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        /*if (!Request::ajax()) {
-            abort(403);
-        }*/
+        $usergroups = Usergroup::select([
+            'id',
+            'name',
+            'description',
+        ])
+            ->withCount('users as users') // count number of users in usergroups without loading the models
+            ->orderBy('name', 'asc');
 
-        $usergroups = Usergroup::select(array(
-            'id', 'name', 'description'
-        ))->orderBy('name', 'ASC');
-
-        return $datatable->usingEloquent($usergroups)
-            ->addColumn('users', function (Usergroup $usergroup) {
-                return count($usergroup->users->lists('id')->all());
-            })
+        return $datatable->eloquent($usergroups)
             ->addColumn('actions', function (Usergroup $usergroup) {
-                return view('partials.actions_dd', array(
-                    'model' => 'usergroups',
-                    'id' => $usergroup->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'usergroups')
+                    ->with('id', $usergroup->id)
+                    ->render();
             })
+            ->rawColumns(['actions'])
             ->removeColumn('id')
-            ->make(true);
+            ->toJson();
     }
-
 }

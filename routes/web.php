@@ -68,8 +68,8 @@ Route::resource('users', 'UserController');
  */
 // Datatables Ajax route.
 Route::get('hosts/data',
-    ['as' => 'hosts.data', 'uses' => 'HostController@data']);
-    //->middleware('ajax');
+    ['as' => 'hosts.data', 'uses' => 'HostController@data'])
+    ->middleware('ajax');
 // Delete confirmation route - uses the show/details view.
 Route::get('hosts/{host}/delete', ['as' => 'hosts.delete', 'uses' => 'HostController@delete']);
 // Pre-baked resource controller actions for index, create, store,
@@ -82,7 +82,9 @@ Route::resource('hosts', 'HostController');
  * ------------------------------------------
  */
 // Datatables Ajax route.
-Route::get('usergroups/data', ['as' => 'usergroups.data', 'uses' => 'UsergroupController@data']);
+Route::get('usergroups/data',
+    ['as' => 'usergroups.data', 'uses' => 'UsergroupController@data'])
+    ->middleware('ajax');
 // Delete confirmation route - uses the show/details view.
 Route::get('usergroups/{usergroup}/delete', ['as' => 'usergroups.delete', 'uses' => 'UsergroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
@@ -95,7 +97,9 @@ Route::resource('usergroups', 'UsergroupController');
  * ------------------------------------------
  */
 // Datatables Ajax route.
-Route::get('hostgroups/data', ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data']);
+Route::get('hostgroups/data',
+    ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data'])
+    ->middleware('ajax');
 // Delete confirmation route - uses the show/details view.
 Route::get('hostgroups/{hostgroup}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
@@ -108,7 +112,9 @@ Route::resource('hostgroups', 'HostgroupController');
  * ------------------------------------------
  */
 // Datatables Ajax route.
-Route::get('rules/data', ['as' => 'rules.data', 'uses' => 'RuleController@data']);
+Route::get('rules/data',
+    ['as' => 'rules.data', 'uses' => 'RuleController@data'])
+    ->middleware('ajax');
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('rules', 'RuleController');

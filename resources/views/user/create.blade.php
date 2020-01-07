@@ -44,9 +44,7 @@
                             <!-- username -->
                             <div class="form-group">
                                 {!! Form::label('username', __('user/model.username')) !!}
-
                                 {!! Form::text('username', null, array('class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-
                                 <span class="form-text text-muted">@lang('user/messages.username_help')</span>
                                 @error('username')
                                 <span class="invalid-feedback">{{ $message }}</span>
