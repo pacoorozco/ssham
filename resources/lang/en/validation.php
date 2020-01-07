@@ -133,6 +133,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'hostname' => [
+            'unique' => 'The combination of username@hostname has already been taken.',
+        ]
     ],
 
     /*

@@ -39,8 +39,16 @@ class HostCreateRequest extends Request
      */
     public function rules()
     {
+        $hostname = $this->hostname;
+        $username = $this->username;
+
         return [
-            'hostname' => ['required', 'min:5', 'max:255', Rule::unique('hosts', 'username')],
+            'hostname' => ['required', 'min:5', 'max:255',
+                // 'hostname' and 'username' combination must be unique
+                Rule::unique('hosts')->where(function ($query) use ($hostname, $username) {
+                    return $query->where('hostname', $hostname)
+                        ->where('username', $username);
+                })],
             'username' => ['required', 'max:255'],
         ];
     }
