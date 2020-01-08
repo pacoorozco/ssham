@@ -20,7 +20,6 @@ namespace App\Http\Controllers;
 
 use App\Hostgroup;
 use App\Http\Requests\RuleCreateRequest;
-use App\Http\Requests\RuleRequest;
 use App\Http\Requests\RuleUpdateRequest;
 use App\Rule;
 use App\Usergroup;
@@ -85,7 +84,7 @@ class RuleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Rule $rule
+     * @param Rule              $rule
      * @param RuleUpdateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -145,12 +144,8 @@ class RuleController extends Controller
                 return Hostgroup::findOrFail($rule->hostgroup_id)->name;
             })
             ->editColumn('action', function (Rule $rule) {
-                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i>' . __('rule/table.allowed')
-                    : '<i class="fa fa-lock"></i>' . __('rule/table.denied');
-            })
-            ->editColumn('enabled', function (Rule $rule) {
-                return ($rule->enabled) ? '<span class="badge badge-success">' . __('general.enabled') . '</span>'
-                    : '<span class="badge badge-danger">' . __('general.disabled') . '</span>';
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.denied');
             })
             ->addColumn('actions', function (Rule $rule) {
                 return view('rule._table_actions')
