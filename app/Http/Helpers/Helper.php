@@ -19,8 +19,8 @@ class Helper
     {
         if (is_null($mapStatusToLabel)) {
             $mapStatusToLabel = [
-                '0' => '<span class="badge badge-secondary">' . __('general.disabled') . '</span>',
-                '1' => '<span class="badge badge-success">' . __('general.enabled') . '</span>',
+                '0' => '<span class="badge badge-secondary">' . /** @scrutinizer ignore-type */ __('general.disabled') . '</span>',
+                '1' => '<span class="badge badge-success">' . /** @scrutinizer ignore-type */ __('general.enabled') . '</span>',
             ];
         }
         $concatenationSpace = empty($text) ? '' : ' ';
@@ -38,7 +38,7 @@ class Helper
     public static function addDisabledStatusLabel(bool $condition, string $text = null): string
     {
         $mapStatusToLabel = [
-            '0' => '<span class="badge badge-secondary">' . __('general.disabled') . '</span>',
+            '0' => '<span class="badge badge-secondary">' . /** @scrutinizer ignore-type */ __('general.disabled') . '</span>',
             '1' => '',
         ];
 

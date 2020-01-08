@@ -28,7 +28,7 @@ class FileEntryController extends Controller
      *
      * @param $filename
      *
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function get($filename)
     {
