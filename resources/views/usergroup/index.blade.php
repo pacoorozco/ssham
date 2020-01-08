@@ -28,7 +28,7 @@
             <div class="card-header">
                 <!-- actions -->
                 <a class="btn btn-success" href="{{ route('usergroups.create') }}" role="button">
-                    <i class="fa fa-plus"></i> @lang('user/title.create_a_new_user')
+                    <i class="fa fa-plus"></i> @lang('usergroup/title.create_a_new_user_group')
                 </a>
                 <!-- /.actions -->
             </div>

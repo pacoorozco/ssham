@@ -1,37 +1,33 @@
 @extends('layouts.master')
 
 {{-- Web site Title --}}
-@section('title')
-	@lang('hostgroup/title.host_group_show')
-@endsection
+@section('title', __('hostgroup/title.host_group_show'))
 
 {{-- Content Header --}}
 @section('header')
-<h1>
-    @lang('hostgroup/title.host_group_show') <small>{{ $hostgroup->name }}</small>
-</h1>
+    @lang('hostgroup/title.host_group_show')
+    <small class="text-muted">{{ $hostgroup->name }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-<li>
-    <i class="fa fa-tasks"></i>
-    <a href="{!! route('hostgroups.index') !!}">
-        @lang('site.hostgroups')
-    </a>
-</li>
-<li class="active">
-    @lang('hostgroup/title.host_group_show')
-</li>
+    <li class="breadcrumb-item">
+        <a href="{{ route('hostgroups.index') }}">
+            @lang('site.host_groups')
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
+        @lang('hostgroup/title.host_group_show')
+    </li>
 @endsection
 
 {{-- Content --}}
 @section('content')
 
-<!-- Notifications -->
-@include('partials.notifications')
-<!-- ./ notifications -->
+    <!-- Notifications -->
+    @include('partials.notifications')
+    <!-- ./ notifications -->
 
-@include('hostgroup._details', ['action' => 'show'])
+    @include('hostgroup._details', ['action' => 'show'])
 
 @endsection

@@ -54,7 +54,7 @@ class HostgroupController extends Controller
     public function create()
     {
         // Get all existing hosts
-        $hosts = Host::lists('hostname', 'id')->all();
+        $hosts = Host::orderBy('hostname')->pluck('hostname', 'id');
 
         return view('hostgroup.create', compact('hosts'));
     }
@@ -68,18 +68,18 @@ class HostgroupController extends Controller
      */
     public function store(HostgroupCreateRequest $request)
     {
-        $hostgroup = new Hostgroup($request->all());
-        $hostgroup->save();
+        $hostgroup = Hostgroup::create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
 
         // Associate Host's Groups
         if ($request->hosts) {
             $hostgroup->hosts()->sync($request->hosts);
-            $hostgroup->save();
         }
 
-        //flash()->success(__('hostgroup/messages.create.success'));
-
-        return redirect()->route('hostgroups.index');
+        return redirect()->route('hostgroups.index')
+            ->withSuccess(__('hostgroup/messages.create.success'));
     }
 
     /**
@@ -105,7 +105,7 @@ class HostgroupController extends Controller
     public function edit(Hostgroup $hostgroup)
     {
         // Get all existing hosts
-        $hosts = Host::lists('hostname', 'id')->all();
+        $hosts = Host::orderBy('hostname')->pluck('hostname', 'id');
 
         return view('hostgroup.edit', compact('hostgroup', 'hosts'));
     }
@@ -120,7 +120,10 @@ class HostgroupController extends Controller
      */
     public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request)
     {
-        $hostgroup->update($request->all());
+        $hostgroup->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
 
         // Associate User's Groups
         if ($request->hosts) {
@@ -128,11 +131,9 @@ class HostgroupController extends Controller
         } else {
             $hostgroup->hosts()->detach();
         }
-        $hostgroup->save();
 
-        //flash()->success(__('hostgroup/messages.edit.success'));
-
-        return redirect()->route('hostgroups.edit', [$hostgroup->id]);
+        return redirect()->route('hostgroups.edit', [$hostgroup->id])
+            ->withSuccess(__('hostgroup/messages.edit.success'));
     }
 
     /**
@@ -159,9 +160,8 @@ class HostgroupController extends Controller
     {
         $hostgroup->delete();
 
-        //flash()->success(__('hostgroup/messages.delete.success'));
-
-        return redirect()->route('hostgroups.index');
+        return redirect()->route('hostgroups.index')
+            ->withSuccess(__('hostgroup/messages.delete.success'));
     }
 
     /**
@@ -170,29 +170,27 @@ class HostgroupController extends Controller
      * @param Datatables $datatable
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        /*if (!Request::ajax()) {
-            abort(403);
-        }*/
+        $hostgroups = Hostgroup::select([
+            'id',
+            'name',
+            'description',
+        ])
+            ->withCount('hosts as hosts') // count number of hosts in hostgroups without loading the models
+            ->orderBy('name', 'asc');
 
-        $hostgroups = Hostgroup::select(array(
-            'id', 'name', 'description'
-        ))->orderBy('name', 'ASC');
-
-        return $datatable->usingEloquent($hostgroups)
-            ->addColumn('hosts', function (Hostgroup $hostgroup) {
-                return count($hostgroup->hosts->lists('id')->all());;
-            })
+        return $datatable->eloquent($hostgroups)
             ->addColumn('actions', function (Hostgroup $hostgroup) {
-                return view('partials.actions_dd', array(
-                    'model' => 'hostgroups',
-                    'id' => $hostgroup->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'hostgroups')
+                    ->with('id', $hostgroup->id)
+                    ->render();
             })
+            ->rawColumns(['actions'])
             ->removeColumn('id')
-            ->make(true);
+            ->toJson();
     }
-
 }

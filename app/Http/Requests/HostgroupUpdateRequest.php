@@ -38,7 +38,7 @@ class HostgroupUpdateRequest extends Request
      */
     public function rules()
     {
-        $group = $this->route('hostgroups');
+        $group = $this->hostgroup;
 
         return [
             'name' => 'required|min:5|max:255|unique:hostgroups,name,' . $group->id,

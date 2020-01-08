@@ -40,7 +40,7 @@
                         <!-- name -->
                         <div class="form-group">
                             {!! Form::label('name', __('usergroup/model.name')) !!}
-                            {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
+                            {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
                             @error('name')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror

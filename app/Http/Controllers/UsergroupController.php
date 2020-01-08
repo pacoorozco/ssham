@@ -130,7 +130,7 @@ class UsergroupController extends Controller
             $usergroup->users()->detach();
         }
 
-        return redirect()->route('usergroups.index')
+        return redirect()->route('usergroups.edit', [$usergroup->id])
             ->withSuccess(__('usergroup/messages.edit.success'));
     }
 
