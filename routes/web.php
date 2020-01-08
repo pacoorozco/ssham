@@ -27,14 +27,10 @@
 */
 
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
-
-/*Route::controller('auth', 'Auth\AuthController', [
-    'getLogin' => 'login',
-    'getLogout' => 'logout',
-]);*/
 
 Auth::routes(['register' => false]);
 
@@ -113,8 +109,8 @@ Route::resource('hostgroups', 'HostgroupController');
  */
 // Datatables Ajax route.
 Route::get('rules/data',
-    ['as' => 'rules.data', 'uses' => 'RuleController@data']);
-    //->middleware('ajax');
+    ['as' => 'rules.data', 'uses' => 'RuleController@data'])
+    ->middleware('ajax');
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('rules', 'RuleController');
