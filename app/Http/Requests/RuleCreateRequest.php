@@ -17,10 +17,9 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Validation\Rule;
 
-class HostgroupUpdateRequest extends Request
+class RuleCreateRequest extends Request
 {
 
     /**
@@ -40,11 +39,19 @@ class HostgroupUpdateRequest extends Request
      */
     public function rules()
     {
-        $group = $this->hostgroup;
+        $usergroup = $this->usergroup;
+        $hostgroup = $this->hostgroup;
 
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('usergroups')->ignore($group->id)],
-            'description' => ['max:255'],
+            'usergroup' => ['required', 'exists:App\Usergroup,id',
+                // 'usergroup' and 'hostgroup' combination must be unique
+                Rule::unique('hostgroup_usergroup_permissions', 'usergroup_id')->where(function ($query) use ($usergroup, $hostgroup) {
+                    return $query->where('usergroup_id', $usergroup)
+                        ->where('hostgroup_id', $hostgroup);
+                })],
+            'hostgroup' => ['required', 'exists:App\Hostgroup,id'],
+            'action' => ['required', Rule::in(['allow', 'deny'])],
+            'name' => ['nullable', 'string'],
         ];
     }
 

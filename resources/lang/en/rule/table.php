@@ -18,6 +18,7 @@
 return [
     'user_group' => 'User group',
     'host_group' => 'Host group',
+    'description' => 'Name / Description',
     'action' => 'Action',
     'enabled' => 'Enabled',
     'actions' => 'Actions',

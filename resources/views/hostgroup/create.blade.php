@@ -68,7 +68,7 @@
                             {!! Form::label('hosts[]', __('hostgroup/model.hosts')) !!}
                             {!! Form::select('hosts[]', $hosts, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                         </div>
-                        <!-- ./ user's groups -->
+                        <!-- ./ host's groups -->
                     </div>
                     <!-- ./right column -->
                 </div>

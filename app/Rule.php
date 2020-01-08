@@ -38,7 +38,8 @@ class Rule extends Model
         'usergroup_id',
         'hostgroup_id',
         'action',
-        'name'
+        'name',
+        'enabled',
     ];
 
     /**
