@@ -56,28 +56,34 @@
                         <fieldset>
                             <legend>@lang('settings/title.ssh_credentials_section')</legend>
 
-                            <!-- private_key -->
-                            <div class="form-group">
-                                {!! Form::label('private_key', __('settings/model.private_key')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.private_key_help')</span>
-                                {!! Form::textarea('private_key', $settings['private_key'], array('class' => 'form-control' . ($errors->has('private_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                @error('private_key'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <!-- private_key -->
+                                    <div class="form-group">
+                                        {!! Form::label('private_key', __('settings/model.private_key')) !!}
+                                        {!! Form::textarea('private_key', $settings['private_key'], array('class' => 'form-control' . ($errors->has('private_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                        <span
+                                            class="form-text text-muted">@lang('settings/model.private_key_help')</span>
+                                        @error('private_key'))
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- ./ private_key -->
+                                </div>
+                                <div class="col-6">
+                                    <!-- public_key -->
+                                    <div class="form-group">
+                                        {!! Form::label('public_key', __('settings/model.public_key')) !!}
+                                        {!! Form::textarea('public_key', $settings['public_key'], array('class' => 'form-control' . ($errors->has('public_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                        <span
+                                            class="form-text text-muted">@lang('settings/model.public_key_help')</span>
+                                        @error('public_key'))
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- ./ public_key -->
+                                </div>
                             </div>
-                            <!-- ./ private_key -->
-
-                            <!-- public_key -->
-                            <div class="form-group">
-                                {!! Form::label('public_key', __('settings/model.public_key')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.public_key_help')</span>
-                                {!! Form::textarea('public_key', $settings['public_key'], array('class' => 'form-control' . ($errors->has('public_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                @error('public_key'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ public_key -->
-
                         </fieldset>
 
                         <fieldset>
@@ -86,8 +92,8 @@
                             <!-- SSH port -->
                             <div class="form-group">
                                 {!! Form::label('ssh_port', __('settings/model.ssh_port')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.ssh_port_help')</span>
                                 {!! Form::number('ssh_port', $settings['ssh_port'], array('class' => 'form-control' . ($errors->has('ssh_port') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                <span class="form-text text-muted">@lang('settings/model.ssh_port_help')</span>
                                 @error('ssh_port'))
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -97,8 +103,8 @@
                             <!-- SSH connect timeout -->
                             <div class="form-group">
                                 {!! Form::label('ssh_timeout', __('settings/model.ssh_timeout')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.ssh_timeout_help')</span>
                                 {!! Form::number('ssh_timeout', $settings['ssh_timeout'], array('class' => 'form-control' . ($errors->has('ssh_timeout') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                <span class="form-text text-muted">@lang('settings/model.ssh_timeout_help')</span>
                                 @error('ssh_timeout'))
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -120,9 +126,9 @@
                             <!-- cmd_remote_updater -->
                             <div class="form-group">
                                 {!! Form::label('cmd_remote_updater', __('settings/model.cmd_remote_updater')) !!}
+                                {!! Form::text('cmd_remote_updater', $settings['cmd_remote_updater'], array('class' => 'form-control' . ($errors->has('cmd_remote_updater') ? ' is-invalid' : ''), 'required' => 'required')) !!}
                                 <span
                                     class="form-text text-muted">@lang('settings/model.cmd_remote_updater_help')</span>
-                                {!! Form::text('cmd_remote_updater', $settings['cmd_remote_updater'], array('class' => 'form-control' . ($errors->has('cmd_remote_updater') ? ' is-invalid' : ''), 'required' => 'required')) !!}
                                 @error('cmd_remote_updater'))
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -132,8 +138,8 @@
                             <!-- authorized_keys -->
                             <div class="form-group">
                                 {!! Form::label('authorized_keys', __('settings/model.authorized_keys')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.authorized_keys_help')</span>
                                 {!! Form::text('authorized_keys', $settings['authorized_keys'], array('class' => 'form-control' . ($errors->has('authorized_keys') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                <span class="form-text text-muted">@lang('settings/model.authorized_keys_help')</span>
                                 @error('authorized_keys'))
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -147,8 +153,8 @@
                             <!-- mixed_mode -->
                             <div class="form-group">
                                 {!! Form::label('mixed_mode', __('settings/model.mixed_mode')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.mixed_mode_help')</span>
                                 {!! Form::select('mixed_mode', array('1' => __('general.yes'), '0' => __('general.no')), $settings['mixed_mode'], array('class' => 'form-control' . ($errors->has('mixed_mode') ? ' is-invalid' : ''), 'required' => 'required', 'id' => 'mixed_mode_select')) !!}
+                                <span class="form-text text-muted">@lang('settings/model.mixed_mode_help')</span>
                                 @error('mixed_mode'))
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -160,8 +166,8 @@
                                 <!-- ssham_file -->
                                 <div class="form-group">
                                     {!! Form::label('ssham_file', __('settings/model.ssham_file')) !!}
-                                    <span class="form-text text-muted">@lang('settings/model.ssham_file_help')</span>
                                     {!! Form::text('ssham_file', $settings['ssham_file'], array('class' => 'form-control'. ($errors->has('ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                    <span class="form-text text-muted">@lang('settings/model.ssham_file_help')</span>
                                     @error('ssham_file'))
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
@@ -171,9 +177,9 @@
                                 <!-- non_ssham_file -->
                                 <div class="form-group">
                                     {!! Form::label('non_ssham_file', __('settings/model.non_ssham_file')) !!}
+                                    {!! Form::text('non_ssham_file', $settings['non_ssham_file'], array('class' => 'form-control' . ($errors->has('non_ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
                                     <span
                                         class="form-text text-muted">@lang('settings/model.non_ssham_file_help')</span>
-                                    {!! Form::text('non_ssham_file', $settings['non_ssham_file'], array('class' => 'form-control' . ($errors->has('non_ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
                                     @error('non_ssham_file'))
                                     <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
