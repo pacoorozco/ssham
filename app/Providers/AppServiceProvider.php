@@ -17,9 +17,6 @@
 
 namespace App\Providers;
 
-use App\Http\Requests\Request;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,20 +38,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Returns the `active` class when the current route is the active one
-        Blade::directive('activeIfInRouteGroup', function (string $expression) {
-            if (Route::currentRouteNamed($expression)) {
-                return "<?php echo 'active' ?>";
-            }
-            return "<?php echo '' ?>";
-        });
-
-        // Returns the `menu-open` class when the current route is the active one
-        Blade::directive('activeMenuIfInRouteGroup', function (string $expression) {
-            if (Route::currentRouteNamed($expression)) {
-                return "<?php echo 'menu-open' ?>";
-            }
-            return "<?php echo '' ?>";
-        });
+        //
     }
 }

@@ -120,8 +120,6 @@ Route::resource('rules', 'RuleController');
  * Settings
  * ------------------------------------------
  */
-// Pre-baked resource controller actions for index, create, store,
-// show, edit, update, destroy
-//Route::get('settings', ['as' => 'settings.index', 'uses' => 'SettingsController@index']);
-//Route::put('settings', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);
+Route::get('settings', ['as' => 'settings.index', 'uses' => 'SettingsController@index']);
+Route::put('settings', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);
 

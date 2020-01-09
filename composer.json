@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "akaunting/setting": "^1.1",
         "fideloper/proxy": "^4.0",
         "gghughunishvili/entrust": "^2.0",
         "laravel/framework": "^6.2",
