@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link{{ request()->is('hosts*') ? 'active' : '' }}" href="{{ route('hosts.index') }}">
+                <a class="nav-link {{ request()->is('hosts*') ? 'active' : '' }}" href="{{ route('hosts.index') }}">
                     <i class="nav-icon fa fa-laptop"></i>
                     <p>@lang('site.hosts')</p>
                 </a>
