@@ -97,11 +97,25 @@ class Host extends Model
     }
 
     /**
+     * Scope a query to only include hosts that are not in sync.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotInSync($query)
+    {
+        return $query->where('synced', '=', false);
+    }
+
+    /**
      * Gets all SSH User Keys for Host
+     *
+     * @param string $bastionSSHPublicKey
      *
      * @return array
      */
-    public function getSSHKeysForHost()
+    public function getSSHKeysForHost(string $bastionSSHPublicKey = null)
     {
         $sshKeys = array();
         $hostID = $this->id;
@@ -115,6 +129,11 @@ class Host extends Model
             $content[2] = $user->username . '@ssham';
 
             $sshKeys[] = join(' ', $content);
+        }
+
+        // Add Bastion host SSH public key
+        if (!is_null($bastionSSHPublicKey)) {
+            $sshKeys[] = $bastionSSHPublicKey;
         }
 
         return $sshKeys;
