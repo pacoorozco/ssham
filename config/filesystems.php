@@ -70,6 +70,12 @@ return [
             'visibility' => 'public',
         ],
 
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('private'),
+            'visibility' => 'private',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

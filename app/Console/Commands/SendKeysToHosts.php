@@ -20,6 +20,7 @@ namespace App\Console\Commands;
 use App\Host;
 use ErrorException;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use phpseclib\Crypt\RSA;
@@ -59,7 +60,7 @@ class SendKeysToHosts extends Command
     public function handle()
     {
         $hosts = Host::all();
-        Log::info('-----[ Hosts to be updated: ' . $hosts->count() . ' ]-----');
+        Log::info('Hosts to be updated: ' . $hosts->count());
         $this->info('Hosts to be updated: ' . $hosts->count());
 
         // Get SSHAM private key in order to connect to Hosts.
@@ -82,8 +83,8 @@ class SendKeysToHosts extends Command
                 }
             } catch (ErrorException $e) {
 
-                // Set last_error field on Host
-                // Set last_update on error status on Host
+                // TODO - Set last_error field on Host
+                // TODO - Set last_update on error status on Host
 
                 Log::warning('Error connecting to ' . $host->getFullHostname());
                 $this->error('Can not connect to ' . $host->getFullHostname() . ': ' . $e->getMessage());
@@ -91,9 +92,14 @@ class SendKeysToHosts extends Command
             }
 
             // Send remote_updater script to remote Host.
-            $fileContents = File::get('ssham-remote-updater.sh');
-            $sftp->put(setting('cmd_remote_updater'), $fileContents);
-            $sftp->chmod(0700, setting('cmd_remote_updater'));
+            try {
+                $fileContents = Storage::disk('private')->get('ssham-remote-updater.sh');
+                $sftp->put(setting('cmd_remote_updater'), $fileContents);
+                $sftp->chmod(0700, setting('cmd_remote_updater'));
+            } catch (FileNotFoundException $e) {
+                Log::error('SSHAM Remote Updater can not be accessible: ' . $e->getMessage());
+                $this->error('SSHAM Remote Updater can not be accessible: ' . $e->getMessage());
+            }
 
             // Send SSHAM authorized file to remote Host.
             $sshKeys = $host->getSSHKeysForHost();
