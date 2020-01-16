@@ -1,23 +1,21 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Requests;
-
-use SSHAM\Http\Requests\Request;
+namespace App\Http\Requests;
 
 class HostUpdateRequest extends Request
 {
@@ -39,12 +37,8 @@ class HostUpdateRequest extends Request
      */
     public function rules()
     {
-        $host = $this->route('hosts');
-
         return [
-            'hostname'  => 'sometimes|min:5|max:255|unique_with:hosts,username,' . $host->id,
-            'username'  => 'sometimes|max:255',
-            'enabled'   => 'required|boolean',
+            'enabled' => ['required', 'boolean'],
         ];
     }
 

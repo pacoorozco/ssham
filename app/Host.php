@@ -1,26 +1,27 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Host extends Model {
+class Host extends Model
+{
 
     /**
      * The database table used by the model.
@@ -37,7 +38,20 @@ class Host extends Model {
     protected $fillable = [
         'hostname',
         'username',
-        'type'
+        'enabled',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'hostname' => 'string',
+        'username' => 'string',
+        'enabled' => 'boolean',
+        'synced' => 'boolean',
+        'key_hash' => 'string',
     ];
 
     /**
@@ -47,11 +61,11 @@ class Host extends Model {
      */
     public function hostgroups()
     {
-        return $this->belongsToMany('SSHAM\Hostgroup');
+        return $this->belongsToMany('App\Hostgroup');
     }
 
     /**
-     * This method return full hostname string, composed by username@hostname
+     * This method return full hostname string, composed by `username@hostname`
      *
      * @return string
      */
@@ -65,42 +79,43 @@ class Host extends Model {
      *    0 = Host is not sync, it needs to transfer SSH Key file
      *    1 = Host is sync
      *
-     * @param int $synced
+     * @param bool $synced
      */
-    public function setSynced($synced = 0)
+    public function setSynced(bool $synced = false)
     {
         $this->synced = $synced;
     }
 
     /**
-     * Set Host Keys Files Hash. It keeps a hash of last transfered SSH Key File
+     * Set Host Keys Files Hash. It keeps a hash of last transferred SSH Key File
      *
-     * @param $keyHash
+     * @param string $keyHash
      */
-    public function setKeyHash($keyHash)
+    public function setKeyHash(string $keyHash)
     {
-        $this->keyhash = $keyHash;
+        $this->key_hash = $keyHash;
     }
 
     /**
-     * Set Host enabled status
-     *     1, enabled, true = Host is enabled
-     *     0, disabled, false = Host is disabled
+     * Scope a query to only include hosts that are not in sync.
      *
-     * @param $status
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function setStatus($status)
+    public function scopeNotInSync($query)
     {
-        $status = ($status === 1 || $status == 'enabled' || $status === true) ? 1 : 0;
-        $this->enabled = $status;
+        return $query->where('synced', '=', false);
     }
 
     /**
      * Gets all SSH User Keys for Host
      *
+     * @param string $bastionSSHPublicKey
+     *
      * @return array
      */
-    public function getSSHKeysForHost()
+    public function getSSHKeysForHost(string $bastionSSHPublicKey = null)
     {
         $sshKeys = array();
         $hostID = $this->id;
@@ -114,6 +129,11 @@ class Host extends Model {
             $content[2] = $user->username . '@ssham';
 
             $sshKeys[] = join(' ', $content);
+        }
+
+        // Add Bastion host SSH public key
+        if (!is_null($bastionSSHPublicKey)) {
+            $sshKeys[] = $bastionSSHPublicKey;
         }
 
         return $sshKeys;

@@ -1,22 +1,22 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Permission;
 use Illuminate\Database\Seeder;
-use SSHAM\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -28,38 +28,31 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permission_role')->delete();
-        DB::table('permissions')->delete();
-
         $permissions = array(
             array(
-                'name' => 'manage_users',
+                'name' => 'manage-users',
                 'display_name' => 'Manage SSH Users',
             ),
             array(
-                'name' => 'manage_hosts',
+                'name' => 'manage-hosts',
                 'display_name' => 'Manage Hosts',
             ),
             array(
-                'name' => 'manage_permissions',
+                'name' => 'manage-permissions',
                 'display_name' => 'Manage Permissions',
             ),
             array(
-                'name' => 'manage_admins',
+                'name' => 'manage-admins',
                 'display_name' => 'Manage Administrators',
             ),
             array(
-                'name' => 'can_access',
-                'display_name' => 'Can Access to UI'
+                'name' => 'login-ui',
+                'display_name' => 'Login to the UI'
             )
         );
 
         foreach ($permissions as $permissionData) {
-            $permission = new Permission;
-            $permission->name = $permissionData['name'];
-            $permission->display_name = $permissionData['display_name'];
-            $permission->save();
+            Permission::create($permissionData);
         }
     }
-
 }

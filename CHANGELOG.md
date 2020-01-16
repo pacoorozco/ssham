@@ -1,10 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+> **Note**: This application is now using [Laravel 6](https://laravel.com/docs).
+
+### Added
+- Copyright under [GPLv3 license](http://www.gnu.org/licenses/gpl-3.0.html) has been added to source code.
+### Changed
+- Updated configuration for Travis-ci.com, Scrutinizer and Symfony Insight (setting PHP version to 7.2)
+- **Important**: This application has been upgraded to [Laravel 6](https://laravel.com/docs).
+
 ### Fixed
+- Fix PHPUnit configuration.
+- Fix CI configuration. Now it's using [travis-ci.com](https://travis-ci.com/pacoorozco/ssham).
 - Fix `web` docker configuration in order to allow `docker-compose` run. ([#18][i18])
 
 [i18]: https://github.com/pacoorozco/ssham/issues/18

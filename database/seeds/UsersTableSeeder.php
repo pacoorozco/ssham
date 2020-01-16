@@ -1,23 +1,25 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Role;
+use App\User;
 use Illuminate\Database\Seeder;
-use SSHAM\Role;
-use SSHAM\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
@@ -55,10 +57,9 @@ class UsersTableSeeder extends Seeder
         );
 
         foreach ($users as $userData) {
-            $user = User::create(array_except($userData, array('role')));
-            $role = Role::where('name', $userData['role'])->get()->first();
+            $user = User::create(Arr::except($userData, array('role')));
+            $role = Role::where('name', $userData['role'])->firstOrFail();
             $user->attachRole($role);
-            Log::info('Created user ' . $user->username);
         }
     }
 

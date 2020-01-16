@@ -5,19 +5,9 @@
 
 {{-- Content --}}
 @section('content')
-<!-- start: 403 -->
-<div class="col-sm-12 page-error">
-    <div class="error-number teal">
-        403
-    </div>
-    <div class="error-details col-sm-6 col-sm-offset-3">
-        <h3>Oops, you are not authorized to view this page. Forbidden!</h3>
-        <p>
-            <a href="{!! route('home') !!}" class="btn btn-teal btn-return">
-                Return home
-            </a>
-        </p>
-    </div>
-</div>
-<!-- end: 403 -->
+    <h1 class="error">403 Error</h1>
+    <h4>Oops, you are not authorized to view this page. Forbidden!</h4>
+    <p>We are sorry, but you do not have access to this page or resource.</p>
+    <a href="{{ route('home') }}" class="btn btn-primary">Go to homepage</a>
 @endsection
+

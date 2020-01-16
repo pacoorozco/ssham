@@ -1,21 +1,18 @@
-FROM php:7.0-fpm
+FROM php:7.2-fpm
 
 MAINTAINER Paco Orozco <paco@pacoorozco.info>
 
-# Install "libmcrypt-dev, "zlib1g-dev".
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
-        libmcrypt-dev \
         zlib1g-dev
 
 # Install the PHP needed extentions
 RUN docker-php-ext-install \
     mbstring \
-    mcrypt \
     pdo_mysql \
     zip
 
-COPY ./docker/app/laravel.ini /usr/local/etc/php/conf.d
+COPY ./docker/app/php/local.ini /usr/local/etc/php/conf.d
 
 USER root
 

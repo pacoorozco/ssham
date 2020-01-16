@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'confirm_delete_title' => 'Deleting rule #',
     'confirm_delete' => 'Are you sure you want to delete this rule?',
     'create' => [
         'error' => 'Rule was not created, please try again.',

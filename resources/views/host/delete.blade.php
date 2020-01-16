@@ -1,26 +1,22 @@
 @extends('layouts.master')
 
 {{-- Web site Title --}}
-@section('title')
-	@lang('host/title.host_delete')
-@endsection
+@section('title', __('host/title.host_delete'))
 
 {{-- Content Header --}}
 @section('header')
-<h1>
-    @lang('host/title.host_delete') <small>{{ $host->getFullHostname() }}</small>
-</h1>
+    @lang('host/title.host_delete')
+    <small class="text-muted">{{ $host->getFullHostname() }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-<li>
-    <i class="clip-screen"></i>
-    <a href="{!! route('hosts.index') !!}">
-        @lang('site.hosts')
-    </a>
-</li>
-<li class="active">
+    <li class="breadcrumb-item">
+        <a href="{{ route('hosts.index') }}">
+            @lang('site.hosts')
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
     @lang('host/title.host_delete')
 </li>
 @endsection
@@ -31,9 +27,9 @@
 <!-- Notifications -->
 @include('partials.notifications')
 <!-- ./ notifications -->
-        
+
 {{-- Delete User Form --}}
-{!! Form::open(array('route' => array('hosts.destroy', $host->id), 'method' => 'delete', )) !!}
+{!! Form::open(['route' => ['hosts.destroy', $host->id], 'method' => 'delete', ]) !!}
 @include('host._details', ['action' => 'delete'])
 {!! Form::close() !!}
 

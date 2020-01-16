@@ -1,30 +1,27 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2020 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use SSHAM\Http\Requests\SettingsRequest;
-use Torann\Registry\Facades\Registry;
+use App\Http\Requests\SettingsRequest;
+use Illuminate\Support\Collection;
 
-
-class SettingsController extends Controller {
-
+class SettingsController extends Controller
+{
     /**
      * Create a new controller instance.
      *
@@ -37,26 +34,39 @@ class SettingsController extends Controller {
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        $settings = Registry::all();
+        $settings = setting()->all();
 
         return view('settings.index', compact('settings'));
     }
 
     /**
      * @param SettingsRequest $request
-     * @return RedirectResponse
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(SettingsRequest $request)
     {
-        Registry::store($request->except('_token', '_method'));
+        setting()->set([
+            'authorized_keys' => $request->authorized_keys,
+            'private_key' => $request->private_key,
+            'public_key' => $request->public_key,
+            'temp_dir' => $request->temp_dir,
+            'ssh_timeout' => $request->ssh_timeout,
+            'ssh_port' => $request->ssh_port,
+            'mixed_mode' => $request->mixed_mode,
+            'ssham_file' => $request->ssham_file,
+            'non_ssham_file' => $request->non_ssham_file,
+            'cmd_remote_updater' => $request->cmd_remote_updater,
+        ]);
 
-        flash()->success(trans('settings/messages.save.success'));
+        setting()->save();
 
-        return redirect()->route('settings.index');
+        return redirect()->route('settings.index')
+            ->withSuccess(__('settings/messages.save.success'));
     }
 
 }

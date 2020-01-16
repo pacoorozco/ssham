@@ -1,22 +1,21 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2020 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
 use Illuminate\Database\Seeder;
-use Torann\Registry\Facades\Registry;
 
 class SettingsTableSeeder extends Seeder
 {
@@ -28,15 +27,7 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        Registry::flush();
-
-        $settings = array(
-            /*
-             * Internal APP information, couldn't be setted
-             */
-            'app_name' => 'SSHAM',
-            'app_version' => '0.2.0',
-
+        $settings = [
             /*
              * Where I will put authorized keys on remote hosts?
              */
@@ -105,7 +96,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
              * with keys managed by SSHAM. It allows to put non SSHAM keys that
              * will not be removed by SSHAM.
              */
-            'mixed_mode' => '1',
+            'mixed_mode' => true,
 
             /*
              * This is the file that SSHAM will generate on remote hosts, this
@@ -120,25 +111,17 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'non_ssham_file' => '.ssh/authorized_keys-non-ssham',
 
             /*
-             * Authentication Type
-             *  - auth_type = local - For database builtin authentication
-             *  - auth_type = ldap  - For LDAP authentication
-             */
-            'auth_type' => 'local',
-
-            /*
-             * LDAP Settings
-             */
-            'ldap_host' => 'ldaps://hostname',
-            'ldap_dn' => 'cn=%s,ou=users,dc=upc,dc=edu',
-
-            /*
-             * Tools to use to deply SSH
+             * Tools to use to deploy SSH
              */
             'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
-        );
+        ];
 
-        Registry::store($settings);
+        // Set new settings
+        foreach ($settings as $key => $value) {
+            setting()->set($key, $value);
+        }
+
+        // Save settings in the DB
+        setting()->save();
     }
-
 }

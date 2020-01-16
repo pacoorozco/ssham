@@ -1,33 +1,31 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Request;
-use SSHAM\Http\Requests\HostCreateRequest;
-use SSHAM\Http\Requests\HostUpdateRequest;
-use SSHAM\Host;
-use SSHAM\Hostgroup;
+use App\Helpers\Helper;
+use App\Host;
+use App\Hostgroup;
+use App\Http\Requests\HostCreateRequest;
+use App\Http\Requests\HostUpdateRequest;
 use yajra\Datatables\Datatables;
 
-class HostController extends Controller {
+class HostController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -41,7 +39,7 @@ class HostController extends Controller {
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -51,12 +49,12 @@ class HostController extends Controller {
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        // Get all existing user groups
-        $groups = Hostgroup::lists('name', 'id')->all();
+        // Get all existing host groups
+        $groups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
         return view('host.create', compact('groups'));
     }
@@ -65,29 +63,31 @@ class HostController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param HostCreateRequest $request
-     * @return View
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(HostCreateRequest $request)
     {
-        $host = new Host($request->all());
-        $host->save();
+        $host = Host::create([
+            'hostname' => $request->hostname,
+            'username' => $request->username,
+        ]);
 
         // Associate Host's Groups
         if ($request->groups) {
             $host->hostgroups()->sync($request->groups);
-            $host->save();
         }
 
-        flash()->success(trans('host/messages.create.success'));
-
-        return redirect()->route('hosts.index');
+        return redirect()->route('hosts.index')
+            ->withSuccess(__('host/messages.create.success'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param Host $host
-     * @return View
+     *
+     * @return \Illuminate\View\View
      */
     public function show(Host $host)
     {
@@ -98,12 +98,13 @@ class HostController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param Host $host
-     * @return View
+     *
+     * @return \Illuminate\View\View
      */
     public function edit(Host $host)
     {
-        // Get all existing user groups
-        $groups = Hostgroup::lists('name', 'id')->all();
+        // Get all existing host groups
+        $groups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
         return view('host.edit', compact('host', 'groups'));
     }
@@ -111,13 +112,16 @@ class HostController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param Host $host
+     * @param Host              $host
      * @param HostUpdateRequest $request
-     * @return RedirectResponse
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Host $host, HostUpdateRequest $request)
     {
-        $host->update($request->all());
+        $host->update([
+            'enabled' => $request->enabled,
+        ]);
 
         // Associate Host's Groups
         if ($request->groups) {
@@ -125,18 +129,17 @@ class HostController extends Controller {
         } else {
             $host->hostgroups()->detach();
         }
-        $host->save();
 
-        flash()->success(trans('host/messages.edit.success'));
-
-        return redirect()->route('hosts.edit', [$host->id]);
+        return redirect()->route('hosts.edit', [$host->id])
+            ->withSuccess(__('host/messages.edit.success'));
     }
 
     /**
      * Remove host.
      *
      * @param Host $host
-     * @return View
+     *
+     * @return \Illuminate\View\View
      */
     public function delete(Host $host)
     {
@@ -146,50 +149,51 @@ class HostController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Host $host
-     * @return RedirectResponse
+     * @param Host $host
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Host $host)
     {
         $host->delete();
 
-        flash()->success(trans('host/messages.delete.success'));
-
-        return redirect()->route('hosts.index');
+        return redirect()->route('hosts.index')
+            ->withSuccess(__('host/messages.delete.success'));
     }
 
     /**
-     * Return all Hosts in order to be used as Datatables
+     * Return all Hosts in order to be used as DataTables
      *
      * @param Datatables $datatable
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
-            abort(403);
-        }
+        $hosts = Host::select([
+            'id',
+            'hostname',
+            'username',
+            'type',
+            'enabled'
+        ])
+            ->withCount('hostgroups as groups') // count number of hostgroups without loading the models
+            ->orderBy('hostname', 'asc');
 
-        $hosts = Host::select(array(
-            'id', 'hostname', 'username', 'type', 'enabled'
-        ))->orderBy('hostname', 'ASC');
-
-        return $datatable->usingEloquent($hosts)
+        return $datatable->eloquent($hosts)
             ->editColumn('enabled', function (Host $host) {
-                return ($host->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
-                    : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
-            })
-            ->addColumn('groups', function (Host $host) {
-                return count($host->hostgroups->lists('id')->all());
+                return Helper::addStatusLabel($host->enabled);
             })
             ->addColumn('actions', function (Host $host) {
-                return view('partials.actions_dd', array(
-                    'model' => 'hosts',
-                    'id'    => $host->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'hosts')
+                    ->with('id', $host->id)
+                    ->render();
             })
+            ->rawColumns(['hostname', 'enabled', 'actions'])
             ->removeColumn('id')
-            ->make(true);
+            ->toJson();
     }
-
 }

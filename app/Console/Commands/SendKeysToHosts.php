@@ -15,16 +15,16 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Console\Commands;
+namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use App\Host;
 use ErrorException;
-use Log;
-use Crypt_RSA;
-use Net_SFTP;
-use File;
-use Registry;
-use SSHAM\Host;
+use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use phpseclib\Crypt\RSA;
+use phpseclib\Net\SFTP;
 
 class SendKeysToHosts extends Command
 {
@@ -40,10 +40,12 @@ class SendKeysToHosts extends Command
      *
      * @var string
      */
-    protected $description = 'Send SSH keys to hosts.';
+    protected $description = 'Send SSH keys to managed hosts.';
 
     /**
      * Create a new command instance.
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -57,63 +59,67 @@ class SendKeysToHosts extends Command
      */
     public function handle()
     {
-        $hosts = Host::where('synced', 0)->get();
+        $hosts = Host::all();
+        Log::info('Hosts to be updated: ' . $hosts->count());
+        $this->info('Hosts to be updated: ' . $hosts->count());
 
         // Get SSHAM private key in order to connect to Hosts.
-        $key = new Crypt_RSA();
-        $key->loadKey(Registry::get('private_key'));
+        $key = new RSA();
+        $key->loadKey(setting('private_key'));
 
         foreach ($hosts as $host) {
 
-            Log::debug('Trying to connect to ' . $host->getFullHostname());
-            $sftp = new Net_SFTP($host->hostname, Registry::get('ssh_port'), Registry::get('ssh_timeout'));
+            Log::debug('Connecting to ' . $host->getFullHostname());
+            $sftp = new SFTP($host->hostname, setting('ssh_port'), setting('ssh_timeout'));
 
             try {
-                if(! $sftp->login($host->username, $key)) {
+                if (!$sftp->login($host->username, $key)) {
 
-                    // Set last_error field on Host
-                    // Set last_update on error status on Host
+                    // TODO - Set last_error field on Host
+                    // TODO - Set last_update on error status on Host
 
-                    Log::warning('Can\'t auth on ' . $host->getFullHostname());
+                    $this->error('ERRROR Can\'t auth on ' . $host->getFullHostname());
                     continue;
                 }
             } catch (ErrorException $e) {
 
-                // Set last_error field on Host
-                // Set last_update on error status on Host
+                // TODO - Set last_error field on Host
+                // TODO - Set last_update on error status on Host
 
-                Log::warning('Can\'t connect to ' . $host->getFullHostname() . ': ' . $e->getMessage());
+                Log::warning('Error connecting to ' . $host->getFullHostname());
+                $this->error('Can not connect to ' . $host->getFullHostname() . ': ' . $e->getMessage());
                 continue;
             }
 
-            Log::debug('Connected successfully to ' . $host->getFullHostname());
+            // Send remote_updater script to remote Host.
+            try {
+                $fileContents = Storage::disk('private')->get('ssham-remote-updater.sh');
+                $sftp->put(setting('cmd_remote_updater'), $fileContents);
+                $sftp->chmod(0700, setting('cmd_remote_updater'));
+            } catch (FileNotFoundException $e) {
+                Log::error('SSHAM Remote Updater can not be accessible: ' . $e->getMessage());
+                $this->error('SSHAM Remote Updater can not be accessible: ' . $e->getMessage());
+            }
 
-            // Send remote_updater script to remote Host
-            $fileContents = File::get('ssham-remote-updater.sh');
-            $sftp->put(Registry::get('cmd_remote_updater'), $fileContents);
-            $sftp->chmod(0700, Registry::get('cmd_remote_updater'));
-
+            // Send SSHAM authorized file to remote Host.
             $sshKeys = $host->getSSHKeysForHost();
-            $sshKeys[] = Registry::get('public_key');
+            $sftp->put(setting('ssham_file'), join(PHP_EOL, $sshKeys));
+            $sftp->chmod(0600, setting('ssham_file'));
 
-            $sftp->put(Registry::get('ssham_file'), join(PHP_EOL, $sshKeys));
-            $sftp->chmod(0600, Registry::get('ssham_file'));
+            // Execute remote_updater script on remote Host.
+            $command = setting('cmd_remote_updater') . ' update '
+                . ((setting('mixed_mode') == '1') ? 'true ' : 'false ')
+                . setting('authorized_keys') . ' '
+                . setting('non_ssham_file') . ' '
+                . setting('ssham_file');
 
-            // Execute remote_updater script on remote Host
+            Log::info('SSH authorized keys file updated successfully on ' . $host->getFullHostname());
             $sftp->enableQuietMode();
-            $command = Registry::get('cmd_remote_updater') .' update '
-                . ((Registry::get('mixed_mode') == '1') ? 'true ' : 'false ')
-                . Registry::get('authorized_keys') . ' '
-                . Registry::get('non_ssham_file') .' '
-                . Registry::get('ssham_file');
-
-            Log::debug('Updated SSH authorized keys on ' . $host->getFullHostname());
             echo $sftp->exec($command);
-
             $sftp->disconnect();
 
-            // Set synced status
+            // Mark host in sync.
+            $host->setSynced(true);
         }
-
     }
 }

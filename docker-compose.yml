@@ -19,6 +19,8 @@ services:
         DB_DATABASE: homestead
         DB_USERNAME: homestead
         DB_PASSWORD: secret
+      restart: unless-stopped
+      tty: true
       ports:
         - "9000:9000"
       depends_on:
@@ -35,6 +37,8 @@ services:
       volumes:
         - ./docker/web/sites:/etc/nginx/sites-available:ro
         - ./:/var/www:ro
+      restart: unless-stopped
+      tty: true
       ports:
         - "80:80"
         - "443:443"
@@ -51,6 +55,8 @@ services:
         MYSQL_DATABASE: homestead
         MYSQL_USER: homestead
         MYSQL_PASSWORD: secret
+      restart: unless-stopped
+      tty: true
       ports:
         - "3306:3306"
 

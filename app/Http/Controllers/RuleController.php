@@ -1,34 +1,32 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Request;
-use SSHAM\Hostgroup;
-use SSHAM\Http\Requests;
-use SSHAM\Http\Requests\RuleRequest;
-use SSHAM\Rule;
-use SSHAM\Usergroup;
+
+use App\Hostgroup;
+use App\Http\Requests\RuleCreateRequest;
+use App\Http\Requests\RuleUpdateRequest;
+use App\Rule;
+use App\Usergroup;
 use yajra\Datatables\Datatables;
 
-class RuleController extends Controller {
+class RuleController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -42,7 +40,7 @@ class RuleController extends Controller {
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -52,13 +50,13 @@ class RuleController extends Controller {
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function create()
     {
         // Get all existing user and hosts groups
-        $usergroups = Usergroup::lists('name', 'id')->all();
-        $hostgroups = Hostgroup::lists('name', 'id')->all();
+        $usergroups = Usergroup::orderBy('name')->pluck('name', 'id');
+        $hostgroups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
         return view('rule.create', compact('usergroups', 'hostgroups'));
     }
@@ -66,51 +64,79 @@ class RuleController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param RuleRequest $request
-     * @return RedirectResponse
+     * @param RuleCreateRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(RuleRequest $request)
+    public function store(RuleCreateRequest $request)
     {
-        $rule = new Rule($request->all());
-        $rule->save();
+        Rule::create([
+            'name' => $request->name,
+            'usergroup_id' => $request->usergroup,
+            'hostgroup_id' => $request->hostgroup,
+            'action' => $request->action,
+        ]);
 
-        flash()->success(trans('rule/messages.create.success'));
+        return redirect()->route('rules.index')
+            ->withSuccess(__('rule/messages.create.success'));
+    }
 
-        return redirect()->route('rules.index');
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Rule              $rule
+     * @param RuleUpdateRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Rule $rule, RuleUpdateRequest $request)
+    {
+        $rule->update([
+            'enabled' => $request->enabled,
+        ]);
+
+        return redirect()->route('rules.index')
+            ->withSuccess(__('rule/messages.edit.success'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Rule $rule
-     * @return RedirectResponse
+     * @param Rule $rule
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Rule $rule)
     {
         $rule->delete();
 
-        flash()->success(trans('rule/messages.delete.success'));
-
-        return redirect()->route('rules.index');
+        return redirect()->route('rules.index')
+            ->withSuccess(__('rule/messages.delete.success'));
     }
 
     /**
      * Return all Users in order to be used as Datatables
      *
      * @param Datatables $datatable
-     * @return JsonResponse
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
-            abort(403);
-        }
 
-        $rules = Rule::select(array(
-            'id', 'usergroup_id', 'hostgroup_id', 'action', 'enabled'
-        ));
+        $rules = Rule::select([
+            'id',
+            'name',
+            'usergroup_id',
+            'hostgroup_id',
+            'action',
+            'enabled',
+        ])
+            ->orderBy('id', 'asc');
 
-        return $datatable->usingEloquent($rules)
+        return $datatable->eloquent($rules)
             ->addColumn('usergroup', function (Rule $rule) {
                 return Usergroup::findOrFail($rule->usergroup_id)->name;
             })
@@ -118,21 +144,16 @@ class RuleController extends Controller {
                 return Hostgroup::findOrFail($rule->hostgroup_id)->name;
             })
             ->editColumn('action', function (Rule $rule) {
-                return ($rule->action == 'allow') ? '<span class="btn btn-sm btn-green"><i class="clip-unlocked"></i> Allowed</span>' : '<span class="btn btn-sm btn-bricky"><i class="clip-locked"></i> Denied</span>';
-            })
-            ->editColumn('enabled', function (Rule $rule) {
-                return ($rule->enabled) ? '<span class="label label-sm label-success">' . trans('general.enabled') . '</span>'
-                    : '<span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.denied');
             })
             ->addColumn('actions', function (Rule $rule) {
-                return view('partials.rules_dd', array(
-                    'model' => 'rules',
-                    'id'    => $rule->id
-                ))->render();
+                return view('rule._table_actions')
+                    ->with('rule', $rule)
+                    ->render();
             })
-            ->removeColumn('id')
-            ->removeColumn('usergroup_id')
-            ->removeColumn('hostgroup_id')
-            ->make(true);
+            ->rawColumns(['action', 'enabled', 'actions'])
+            ->removeColumn(['usergroup_id', 'hostgroup_id', 'enabled'])
+            ->toJson();
     }
 }

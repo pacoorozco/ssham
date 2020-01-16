@@ -3,8 +3,13 @@
 return [
     'yes' => 'Yes',
     'no' => 'No',
+    'all' => 'All',
+
     'enabled' => 'enabled',
     'disabled' => 'disabled',
+
+    'active' => 'Active',
+    'blocked' => 'Blocked',
 
     'show' => 'Show',
     'edit' => 'Edit',

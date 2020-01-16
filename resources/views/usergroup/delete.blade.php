@@ -14,13 +14,12 @@
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
-<li>
-    <i class="clip-users"></i>
-    <a href="{!! route('usergroups.index') !!}">
-        @lang('site.user_groups')
-    </a>
-</li>
-<li class="active">
+    <li class="breadcrumb-item">
+        <a href="{{ route('usergroups.index') }}">
+            @lang('site.user_groups')
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
     @lang('usergroup/title.user_group_delete')
 </li>
 @endsection
@@ -31,7 +30,7 @@
 <!-- Notifications -->
 @include('partials.notifications')
 <!-- ./ notifications -->
-        
+
 {{-- Delete User Form --}}
 {!! Form::open(array('route' => array('usergroups.destroy', $usergroup->id), 'method' => 'delete', )) !!}
 @include('usergroup._details', ['action' => 'delete'])

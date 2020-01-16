@@ -1,32 +1,33 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Request;
-use SSHAM\Http\Requests\UserCreateRequest;
-use SSHAM\Http\Requests\UserUpdateRequest;
-use SSHAM\User;
-use SSHAM\Usergroup;
+use App\Helpers\Helper;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\User;
+use App\Usergroup;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use yajra\Datatables\Datatables;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     /**
      * Create a new controller instance.
@@ -40,7 +41,7 @@ class UserController extends Controller {
     /**
      * Display a listing of the resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -50,12 +51,12 @@ class UserController extends Controller {
     /**
      * Show the form for creating a new resource.
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function create()
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id')->all();
+        $groups = Usergroup::orderBy('name')->pluck('name', 'id');
 
         return view('user.create', compact('groups'));
     }
@@ -64,43 +65,58 @@ class UserController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param UserCreateRequest $request
-     * @return RedirectResponse
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserCreateRequest $request)
     {
-        $user = new User($request->all());
+        // in cas of blank password, we assign one randomly.
+        if (is_null($request->password)) {
+            $request->password = bcrypt(Str::random(32));
+        }
+
+        $user = User::create([
+            'username' => $request->username,
+            'password' => $request->password,
+            'email' => $request->email,
+        ]);
 
         // Test if we need to create a new RSA key
-        if ($request->create_rsa_key == '1') {
-            list($request->public_key, $private_key) = $user->createRSAKeyPair();
+        if ($request->public_key == 'create') {
+            list($public_key, $private_key) = $user->createRSAKeyPair();
+        } else {
+            $public_key = $request->public_key_input;
+            $private_key = null;
         }
 
         // Calculates fingerprint of a SSH public key
-        $content = explode(' ', $request->public_key, 3);
+        $content = explode(' ', $public_key, 3);
         $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
-
-        $user->save();
 
         // Associate User's Groups if has been submitted
         if ($request->groups) {
             $user->usergroups()->attach($request->groups);
-            $user->save();
+
         }
 
-        if ($request->create_rsa_key == '1') {
-            flash()->overlay(trans('user/messages.create.success_private', array('url' => link_to(route('file.download', $private_key), 'this link'))));
-        } else {
-            flash()->overlay(trans('user/messages.create.success'));
+        $user->save();
+
+        if ($request->public_key == 'create') {
+            $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
+            return redirect()->route('users.index')
+                ->withSuccess(__('user/messages.create.success_private', ['url' => $signed_URL]));
         }
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->withSuccess(__('user/messages.create.success'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param User $user
-     * @return View
+     *
+     * @return \Illuminate\View\View
      */
     public function show(User $user)
     {
@@ -110,13 +126,14 @@ class UserController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  User $user
-     * @return View
+     * @param User $user
+     *
+     * @return \Illuminate\View\View
      */
     public function edit(User $user)
     {
         // Get all existing user groups
-        $groups = Usergroup::lists('name', 'id')->all();
+        $groups = Usergroup::orderBy('name')->pluck('name', 'id');
 
         return view('user.edit', compact('user', 'groups'));
     }
@@ -124,25 +141,17 @@ class UserController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  User $user
+     * @param User              $user
      * @param UserUpdateRequest $request
-     * @return RedirectResponse
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(User $user, UserUpdateRequest $request)
     {
-        $private_key = null;
-        $user->update($request->all());
-
-        // Test if we need to create a new RSA key
-        if ($request->create_rsa_key == '1') {
-            list($request->public_key, $private_key) = $user->createRSAKeyPair();
-        }
-
-        // Calculates fingerprint of a SSH public key
-        $content = explode(' ', $request->public_key, 3);
-        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
-
-        $user->save();
+        $user->update([
+            'email' => $request->email,
+            'enabled' => $request->enabled,
+        ]);
 
         // Associate User's Groups
         if ($request->groups) {
@@ -151,22 +160,38 @@ class UserController extends Controller {
             $user->usergroups()->detach();
         }
 
-        $user->save();
-
-        if ($request->create_rsa_key == '1' && ! is_null($private_key)) {
-            flash()->overlay(trans('user/messages.edit.success_private', array('url' => link_to(route('file.download', ['filename' => $private_key]), 'this link'))));
-        } else {
-            flash()->overlay(trans('user/messages.edit.success'));
+        // Test if we need to create a new RSA key
+        switch ($request->public_key) {
+            case 'create':
+                list($user->public_key, $private_key) = $user->createRSAKeyPair();
+                break;
+            case 'import':
+                $user->public_key = $request->public_key_input;
+                break;
         }
 
-        return redirect()->route('users.index');
+        // Calculates fingerprint of a SSH public key
+        $content = explode(' ', $user->public_key, 3);
+        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
+
+        $user->save();
+
+        if ($request->public_key == 'create') {
+            $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
+            return redirect()->route('users.index')
+                ->withSuccess(__('user/messages.edit.success_private', ['url' => $signed_URL]));
+        }
+
+        return redirect()->route('users.index')
+            ->withSuccess(__('user/messages.edit.success'));
     }
 
     /**
      * Remove user.
      *
      * @param User $user
-     * @return View
+     *
+     * @return \Illuminate\View\View
      */
     public function delete(User $user)
     {
@@ -176,50 +201,51 @@ class UserController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  User $user
-     * @return RedirectResponse
+     * @param User $user
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
     {
         $user->delete();
 
-        flash()->success(trans('user/messages.delete.success'));
-
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')
+            ->withSuccess(__('user/messages.delete.success'));
     }
 
     /**
-     * Return all Users in order to be used as Datatables
+     * Return all Users in order to be used with DataTables
      *
      * @param Datatables $datatable
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function data(Datatables $datatable)
     {
-        if ( ! Request::ajax()) {
-            abort(403);
-        }
+        $users = User::select([
+            'id',
+            'username',
+            'email',
+            'fingerprint',
+            'enabled'
+        ])
+            ->withCount('usergroups as groups') // count number of usergroups without loading the models
+            ->orderBy('username', 'asc');
 
-        $users = User::select(array(
-            'id', 'username', 'fingerprint', 'enabled'
-        ))->orderBy('username', 'ASC');
-
-        return $datatable->usingEloquent($users)
+        return $datatable->eloquent($users)
             ->editColumn('username', function (User $user) {
-                return ($user->enabled) ? $user->username : $user->username . ' <span class="label label-sm label-danger">' . trans('general.disabled') . '</span>';
-            })
-            ->addColumn('groups', function (User $user) {
-                return count($user->usergroups->lists('id')->all());
+                return Helper::addDisabledStatusLabel($user->enabled, $user->username);
             })
             ->addColumn('actions', function (User $user) {
-                return view('partials.actions_dd', array(
-                    'model' => 'users',
-                    'id'    => $user->id
-                ))->render();
+                return view('partials.actions_dd')
+                    ->with('model', 'users')
+                    ->with('id', $user->id)
+                    ->render();
             })
+            ->rawColumns(['username', 'actions'])
             ->removeColumn('id')
             ->removeColumn('enabled')
-            ->make(true);
+            ->toJson();
     }
-
 }

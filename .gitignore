@@ -1,30 +1,12 @@
-vendor/
-node_modules/
-public/assets/
-
-# NPM & Yarn
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
 npm-debug.log
 yarn-error.log
-package-lock.json
-
-# Laravel 5 & Lumen specific
-.env.*.php
-.env.php
-.env
-
-# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
-.rocketeer/
-
-# Homestead deployment. https://laravel.com/docs/master/homestead
-Homestead.yaml
-Homestead.json
-
-# Vagrant
-.vagrant/
-
-# Developement & editor stuff
-.idea/
-.vscode/
-_ide_helper.php
-.phpstorm.meta.php
-

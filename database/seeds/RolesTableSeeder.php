@@ -1,27 +1,26 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Permission;
+use App\Role;
 use Illuminate\Database\Seeder;
-use SSHAM\Permission;
-use SSHAM\Role;
 
 class RolesTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -29,14 +28,12 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->delete();
-
         $roles = array(
             array(
                 'name' => 'admin',
                 'description' => 'Administrative user',
                 'abilities' => array(
-                    'manage_users', 'manage_hosts', 'manage_permissions', 'manage_admins', 'can_access'
+                    'manage-users', 'manage-hosts', 'manage-permissions', 'manage-admins', 'login-ui'
                 ),
             ),
             array(
@@ -47,17 +44,18 @@ class RolesTableSeeder extends Seeder
         );
 
         foreach ($roles as $roleData) {
-            $role = new Role;
-            $role->name = $roleData['name'];
-            $role->description = $roleData['description'];
-            $role->save();
+            $role = Role::create([
+                'name' => $roleData['name'],
+                'description' => $roleData['description']
+            ]);
 
-            // Adds accesses
+            // Adds abilities
+            $permissions = array();
             foreach ($roleData['abilities'] as $ability) {
-                $permission = Permission::where('name', $ability)->get()->first();
-                $role->attachPermission($permission);
+                $permission = Permission::where('name', $ability)->firstOrFail();
+                array_push($permissions, $permission);
             }
+            $role->attachPermissions($permissions);
         }
     }
-
 }

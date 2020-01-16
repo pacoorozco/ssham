@@ -1,23 +1,23 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Requests;
+namespace App\Http\Requests;
 
-use SSHAM\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 
 class UsergroupUpdateRequest extends Request
 {
@@ -39,11 +39,11 @@ class UsergroupUpdateRequest extends Request
      */
     public function rules()
     {
-        $group = $this->route('usergroups');
+        $group = $this->usergroup;
 
         return [
-            'name'  => 'required|min:5|max:255|unique:usergroups,name,' . $group->id,
-            'description'  => 'max:255',
+            'name' => ['required', 'min:5', 'max:255', Rule::unique('usergroups')->ignore($group->id)],
+            'description' => ['max:255'],
         ];
     }
 

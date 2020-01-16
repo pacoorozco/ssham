@@ -1,38 +1,39 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
+use App\FileEntry;
 use Illuminate\Support\Facades\Storage;
-use SSHAM\FileEntry;
 
-class FileEntryController extends Controller {
+class FileEntryController extends Controller
+{
 
     /**
      * Gets a file to download
      *
      * @param $filename
-     * @return Response
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function get($filename)
     {
         // If file doesn't exists sends an 404 error
-        if ( ! Storage::disk('local')->exists($filename)) {
+        if (!Storage::disk('local')->exists($filename)) {
             abort(404);
         }
 

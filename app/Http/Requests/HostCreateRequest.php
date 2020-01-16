@@ -1,23 +1,23 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Requests;
+namespace App\Http\Requests;
 
-use SSHAM\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 
 class HostCreateRequest extends Request
 {
@@ -39,10 +39,17 @@ class HostCreateRequest extends Request
      */
     public function rules()
     {
+        $hostname = $this->hostname;
+        $username = $this->username;
+
         return [
-            'hostname'  => 'required|min:5|max:255|unique_with:hosts,username',
-            'username'  => 'required|max:255',
-            'enabled'   => 'required|boolean',
+            'hostname' => ['required', 'min:5', 'max:255',
+                // 'hostname' and 'username' combination must be unique
+                Rule::unique('hosts')->where(function ($query) use ($hostname, $username) {
+                    return $query->where('hostname', $hostname)
+                        ->where('username', $username);
+                })],
+            'username' => ['required', 'max:255'],
         ];
     }
 

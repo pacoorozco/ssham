@@ -1,23 +1,23 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
+ * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace SSHAM\Http\Requests;
+namespace App\Http\Requests;
 
-use SSHAM\Http\Requests\Request;
+use App\Rules\ValidRSAPublicKey;
 
 class UserCreateRequest extends Request
 {
@@ -37,7 +37,8 @@ class UserCreateRequest extends Request
      *
      * @return mixed
      */
-    protected function getValidatorInstance() {
+    protected function getValidatorInstance()
+    {
         $this->sanitize();
         return parent::getValidatorInstance();
     }
@@ -50,22 +51,24 @@ class UserCreateRequest extends Request
     public function rules()
     {
         return [
-            'username' => 'required|max:255|unique:users',
-            'create_rsa_key' => 'required|boolean',
-            'public_key' => 'required_if:create_rsa_key,0|rsa_key:public',
+            'username' => ['required', 'max:255', 'unique:users'],
+            'email' => ['required', 'email:rfc', 'unique:users'],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'public_key' => ['required', 'in:create,import'],
+            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKey()],
         ];
     }
 
     /**
-     * Sanitizes user input. In special 'public_key' to remove carriage returns
+     * Sanitizes user input. In special 'public_key_input' to remove carriage returns
      */
     protected function sanitize()
     {
         $input = $this->all();
 
         // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key'])) {
-            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        if (isset($input['public_key_input'])) {
+            $input['public_key_input'] = str_replace(["\n", "\t", "\r"], '', $input['public_key_input']);
         }
 
         $this->replace($input);
