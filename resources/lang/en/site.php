@@ -26,6 +26,7 @@ return [
 
     'title' => 'SSHAM',
     'home' => 'Home',
+    'search' => 'Search',
 
     'users' => 'Users',
     'hosts' => 'Hosts',

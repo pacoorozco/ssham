@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Host;
+use App\Hostgroup;
+use App\Http\Requests\SearchRequest;
 use App\Rule;
 use App\User;
+use App\Usergroup;
+use Spatie\Searchable\ModelSearchAspect;
+use Spatie\Searchable\Search;
 
 class HomeController extends Controller
 {
@@ -25,9 +30,27 @@ class HomeController extends Controller
         $host_count = Host::all()->count();
         $rule_count = Rule::all()->count();
 
-        return view('home')
-            ->with(compact('user_count'))
-            ->with(compact('host_count'))
-            ->with(compact('rule_count'));
+        return view('home', compact('user_count', 'host_count', 'rule_count'));
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $query = $request->input('query');
+
+        $searchResults = (new Search())
+            ->registerModel(User::class, function (ModelSearchAspect $modelSearchAspect) {
+                $modelSearchAspect
+                    ->addSearchableAttribute('username') // return results for partial matches on usernames
+                    ->addExactSearchableAttribute('email') // only return results that exactly match the e-mail address
+                    ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
+            })
+            ->registerModel(Usergroup::class, 'name', 'description')
+            ->registerModel(Host::class, 'hostname')
+            ->registerModel(Hostgroup::class, 'name', 'description')
+            ->perform($request->input('query'));
+
+        $count = $searchResults->count();
+
+        return view('search', compact('count', 'query', 'searchResults'));
     }
 }
