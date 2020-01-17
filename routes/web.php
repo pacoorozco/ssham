@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
+Route::post('/search', ['as' => 'search', 'uses' => 'HomeController@search']);
 
 Auth::routes(['register' => false]);
 

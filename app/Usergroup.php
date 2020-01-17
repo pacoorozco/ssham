@@ -18,8 +18,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Usergroup extends Model
+class Usergroup extends Model implements Searchable
 {
 
     /**
@@ -57,5 +59,16 @@ class Usergroup extends Model
     public function hostgroups()
     {
         return $this->belongsToMany('App\Hostgroup', 'hostgroup_usergroup_permissions');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('usergroups.show', $this->id);
+
+        return new SearchResult(
+            $this,
+            $this->name,
+            $url
+        );
     }
 }

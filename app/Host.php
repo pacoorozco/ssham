@@ -19,8 +19,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Host extends Model
+class Host extends Model implements Searchable
 {
 
     /**
@@ -137,5 +139,16 @@ class Host extends Model
         }
 
         return $sshKeys;
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('hosts.show', $this->id);
+
+        return new SearchResult(
+            $this,
+            $this->hostname,
+            $url
+        );
     }
 }

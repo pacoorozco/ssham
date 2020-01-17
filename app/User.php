@@ -22,9 +22,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use phpseclib\Crypt\RSA;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Searchable
 {
     use Notifiable;
     use EntrustUserTrait;
@@ -119,5 +121,16 @@ class User extends Authenticatable
     public function setUsernameAttribute(string $value)
     {
         $this->attributes['username'] = strtolower($value);
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('users.show', $this->id);
+
+        return new SearchResult(
+            $this,
+            $this->username,
+            $url
+        );
     }
 }
