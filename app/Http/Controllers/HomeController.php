@@ -8,6 +8,7 @@ use App\Http\Requests\SearchRequest;
 use App\Rule;
 use App\User;
 use App\Usergroup;
+use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
 
 class HomeController extends Controller
@@ -37,7 +38,12 @@ class HomeController extends Controller
         $query = $request->input('query');
 
         $searchResults = (new Search())
-            ->registerModel(User::class, 'username', 'email', 'fingerprint')
+            ->registerModel(User::class, function (ModelSearchAspect $modelSearchAspect) {
+                $modelSearchAspect
+                    ->addSearchableAttribute('username') // return results for partial matches on usernames
+                    ->addExactSearchableAttribute('email') // only return results that exactly match the e-mail address
+                    ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
+            })
             ->registerModel(Usergroup::class, 'name', 'description')
             ->registerModel(Host::class, 'hostname')
             ->registerModel(Hostgroup::class, 'name', 'description')
@@ -47,5 +53,4 @@ class HomeController extends Controller
 
         return view('search', compact('count', 'query', 'searchResults'));
     }
-
 }
