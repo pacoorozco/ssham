@@ -92,6 +92,23 @@ return [
         // ],
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login Throttling
+    |--------------------------------------------------------------------------
+    |
+    | If there are more than 'max_attempts' request in 60 seconds, then the
+    | user should wait for 'decay_minutes' time before trying again.
+    |
+     */
+    'login' => [
+        // Maximum number of attempts to allow.
+        'max_attempts' => '5',
+        // Number of minutes to throttle for.
+        'decay_minutes' => '1',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
