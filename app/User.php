@@ -17,7 +17,6 @@
 
 namespace App;
 
-use App\Libs\RsaSshKey\InvalidInputException;
 use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,6 +25,20 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
+/**
+ * Class User
+ *
+ * @package App
+ *
+ * @property string  $username
+ * @property string  $name
+ * @property string  $email
+ * @property string  $password
+ * @property boolean $enabled
+ * @property string  $auth_type
+ * @property string  $public_key
+ * @property string  $fingerprint
+ */
 class User extends Authenticatable implements Searchable
 {
     use Notifiable;

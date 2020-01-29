@@ -21,6 +21,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+/**
+ * Class Hostgroup
+ *
+ * @package App
+ *
+ * @property string $name
+ * @property string $description
+ */
 class Hostgroup extends Model implements Searchable
 {
 

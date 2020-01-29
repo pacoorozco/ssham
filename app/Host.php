@@ -22,6 +22,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+/**
+ * Class Host
+ *
+ * @package App
+ *
+ * @property string  $hostname
+ * @property string  $username
+ * @property boolean $enabled
+ * @property boolean $synced
+ * @property string  $key_hash
+ */
 class Host extends Model implements Searchable
 {
 
@@ -86,16 +97,6 @@ class Host extends Model implements Searchable
     public function setSynced(bool $synced = false)
     {
         $this->synced = $synced;
-    }
-
-    /**
-     * Set Host Keys Files Hash. It keeps a hash of last transferred SSH Key File
-     *
-     * @param string $keyHash
-     */
-    public function setKeyHash(string $keyHash)
-    {
-        $this->key_hash = $keyHash;
     }
 
     /**

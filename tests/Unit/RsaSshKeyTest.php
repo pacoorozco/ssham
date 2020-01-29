@@ -104,4 +104,10 @@ class RsaSshKeyTest extends TestCase
             RsaSshKey::getPublicFingerprint(self::VALID_PUBLIC_KEY)
         );
     }
+
+    public function testGetPublicFingerprintWithInvalidInput()
+    {
+        $this->expectException(InvalidInputException::class);
+        RsaSshKey::getPublicFingerprint(self::INVALID_PUBLIC_KEY);
+    }
 }

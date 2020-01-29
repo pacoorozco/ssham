@@ -21,6 +21,14 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+/**
+ * Class Usergroup
+ *
+ * @package App
+ *
+ * @property string $name
+ * @property string $description
+ */
 class Usergroup extends Model implements Searchable
 {
 

@@ -18,7 +18,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SettingsRequest;
-use Illuminate\Support\Collection;
 
 class SettingsController extends Controller
 {

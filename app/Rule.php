@@ -19,6 +19,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Rule
+ *
+ * @package App
+ *
+ * @property string  $action
+ * @property string  $name
+ * @property boolean $enabled
+ */
 class Rule extends Model
 {
 

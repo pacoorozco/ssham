@@ -54,7 +54,6 @@ class RsaSshKey
         $rsa = new RSA();
         $rsa->setPrivateKeyFormat(self::PRIVATE_KEY_FORMAT);
         $rsa->setPublicKeyFormat(self::PUBLIC_KEY_FORMAT);
-        $keys = $rsa->createKey(self::PRIVATE_KEY_LENGTH);
         return Arr::only($rsa->createKey(self::PRIVATE_KEY_LENGTH), ['privatekey', 'publickey']);
     }
 
@@ -69,7 +68,7 @@ class RsaSshKey
     public static function getPublicKey(string $key): string
     {
         $rsa = new RSA();
-        if (!$rsa->loadKey($key, self::PUBLIC_KEY_FORMAT)) {
+        if ($rsa->loadKey($key, self::PUBLIC_KEY_FORMAT) === false) {
             throw new InvalidInputException('The provided key is malformed.');
         }
 
@@ -93,7 +92,7 @@ class RsaSshKey
     {
 
         $rsa = new RSA();
-        if (!$rsa->loadKey($key, self::PRIVATE_KEY_FORMAT)) {
+        if ($rsa->loadKey($key, self::PRIVATE_KEY_FORMAT) === false) {
             throw new InvalidInputException('The provided key is malformed.');
         }
 
@@ -118,11 +117,16 @@ class RsaSshKey
     public static function getPublicFingerprint(string $key, string $hashAlgorithm = 'md5'): string
     {
         $rsa = new RSA();
-        if (!$rsa->loadKey($key, self::PUBLIC_KEY_FORMAT)) {
-            throw new InvalidInputException('The provided key is malformed.');
+        if ($rsa->loadKey($key, self::PUBLIC_KEY_FORMAT) === false) {
+            throw new InvalidInputException('The provided public key is malformed.');
         }
 
-        return $rsa->getPublicKeyFingerprint($hashAlgorithm);
+        $fingerprint = $rsa->getPublicKeyFingerprint($hashAlgorithm);
+        if ($fingerprint === false) {
+            throw new InvalidInputException('The provided public key is invalid.');
+        }
+
+        return $fingerprint;
     }
 
     /**
