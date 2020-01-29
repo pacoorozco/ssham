@@ -17,11 +17,11 @@
 
 namespace App;
 
+use App\Libs\RsaSshKey\InvalidInputException;
+use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use phpseclib\Crypt\RSA;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
@@ -47,8 +47,6 @@ class User extends Authenticatable implements Searchable
         'username',
         'email',
         'password',
-        'public_key',
-        'fingerprint',
         'enabled'
     ];
 
@@ -79,28 +77,30 @@ class User extends Authenticatable implements Searchable
         'email_verified_at' => 'datetime',
     ];
 
-    public function createRSAKeyPair()
+    /**
+     * Attach the provided key as 'public_key' attribute.
+     *
+     * It calculated the 'fingerprint' attribute also.
+     *
+     * @param string $key - Provided public key
+     *
+     * @return bool
+     */
+    public function attachPublicKey(string $key): bool
     {
-        // create a new RSA key pair
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-        $keyPair = $rsa->createKey();
+        try {
+            $this->public_key = RsaSshKey::getPublicKey($key);
+            $this->fingerprint = RsaSshKey::getPublicFingerprint($key);
+        } catch (\Exception $exception) {
+            return false;
+        }
 
-        // save RSA public key
-        $this->public_key = $keyPair['publickey'];
+        return $this->save();
+    }
 
-        // create a random name for RSA private key file
-        $privateKeyFileName = Str::random(32);
-        Storage::disk('local')->put($privateKeyFileName, $keyPair['privatekey']);
-
-        // create a downloadable file, with a random name
-        $fileEntry = new FileEntry();
-        $fileEntry->filename = $privateKeyFileName;
-        $fileEntry->mime = 'application/octet-stream';
-        $fileEntry->original_filename = $this->username . '.rsa';
-        $fileEntry->save();
-
-        return array($keyPair['publickey'], $privateKeyFileName);
+    public static function createRandomPassword(): string
+    {
+        return Str::random(32);
     }
 
     /**

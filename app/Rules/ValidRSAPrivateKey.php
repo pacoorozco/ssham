@@ -9,16 +9,17 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Rules;
 
+use App\Libs\RsaSshKey\InvalidInputException;
+use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Contracts\Validation\Rule;
-use phpseclib\Crypt\RSA;
 
 class ValidRSAPrivateKey implements Rule
 {
@@ -42,11 +43,12 @@ class ValidRSAPrivateKey implements Rule
      */
     public function passes($attribute, $value)
     {
-        $rsa = new RSA();
-        $rsa->loadKey($value);
-        $convertedKey = $rsa->getPrivateKey();
-
-        return ($value === $convertedKey);
+        try {
+            $key = RsaSshKey::getPrivateKey($value);
+        } catch (InvalidInputException $exception) {
+            return false;
+        }
+        return ($value === $key);
     }
 
     /**

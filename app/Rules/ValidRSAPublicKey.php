@@ -2,8 +2,9 @@
 
 namespace App\Rules;
 
+use App\Libs\RsaSshKey\InvalidInputException;
+use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Contracts\Validation\Rule;
-use phpseclib\Crypt\RSA;
 
 class ValidRSAPublicKey implements Rule
 {
@@ -27,12 +28,13 @@ class ValidRSAPublicKey implements Rule
      */
     public function passes($attribute, $value)
     {
-        $rsa = new RSA();
-        $rsa->loadKey($value);
-        $rsa->setPublicKey();
-        $convertedKey = $rsa->getPublicKey(RSA::PUBLIC_FORMAT_OPENSSH);
+        try {
+            $key = RsaSshKey::getPublicKey($value);
+        } catch (InvalidInputException $exception) {
+            return false;
+        }
 
-        return ($value === $convertedKey);
+        return ($value === $key);
     }
 
     /**
