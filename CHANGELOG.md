@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+### Added
+- Refactor code to add more tests to improve code coverage.
+
 ## 0.6.0
 > **Note**: This application is now using [Laravel 6](https://laravel.com/docs).
 
