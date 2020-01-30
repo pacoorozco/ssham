@@ -17,7 +17,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidRSAPublicKey;
+use App\Rules\ValidRSAPublicKeyRule;
 
 class UserCreateRequest extends Request
 {
@@ -55,7 +55,7 @@ class UserCreateRequest extends Request
             'email' => ['required', 'email:rfc', 'unique:users'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'public_key' => ['required', 'in:create,import'],
-            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKey()],
+            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule()],
         ];
     }
 

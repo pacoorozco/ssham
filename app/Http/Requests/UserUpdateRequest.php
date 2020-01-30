@@ -17,7 +17,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidRSAPublicKey;
+use App\Rules\ValidRSAPublicKeyRule;
 
 class UserUpdateRequest extends Request
 {
@@ -56,7 +56,7 @@ class UserUpdateRequest extends Request
             'email' => ['required', 'email:rfc', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'public_key' => ['required', 'in:create,import,maintain'],
-            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKey],
+            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule],
             'enabled' => ['required', 'boolean'],
         ];
     }

@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Libs\RsaSshKey;
 
 use App\Libs\RsaSshKey\InvalidInputException;
 use App\Libs\RsaSshKey\RsaSshKey;
+use App\Rules\ValidRSAPrivateKeyRule;
 use PHPUnit\Framework\TestCase;
 
 
@@ -33,21 +34,6 @@ class RsaSshKeyTest extends TestCase
     const INVALID_PRIVATE_KEY = 'ssh-rsa-invalid-private-key';
 
     /**
-     * Remove carrier return and spaces characters from a RSA key.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    private function cleanRSAKey(string $key): string
-    {
-        if (empty($key)) {
-            return $key;
-        }
-        return str_replace(["\n", "\t", "\r", " "], '', $key);
-    }
-
-    /**
      * Asserts that two RSA keys are equal.
      *
      * @param string $expected
@@ -56,10 +42,10 @@ class RsaSshKeyTest extends TestCase
      */
     private function assertEqualRsaKeys(string $expected, string $actual, string $message = ''): void
     {
-        $this->assertEquals($this->cleanRSAKey($expected), $this->cleanRSAKey($actual), $message);
+        $this->assertTrue(RsaSshKey::compareKeys($expected, $actual), $message);
     }
 
-    public function testCreate()
+    public function test_create_returns_public_and_private_keys()
     {
         $key = RsaSshKey::create();
         $this->assertArrayHasKey('privatekey', $key, 'Array has not "privatekey" key.');
@@ -69,7 +55,7 @@ class RsaSshKeyTest extends TestCase
         $this->assertNotEmpty($key['publickey']);
     }
 
-    public function testGetPublicKeyWithValidInput()
+    public function test_getPublicKey_returns_public_key()
     {
         $this->assertEqualRsaKeys(
             self::VALID_PUBLIC_KEY,
@@ -77,13 +63,13 @@ class RsaSshKeyTest extends TestCase
         );
     }
 
-    public function testGetPublicKeyWithInvalidInput()
+    public function test_getPublicKey_throws_exception_with_invalid_input()
     {
         $this->expectException(InvalidInputException::class);
         RsaSshKey::getPublicKey(self::INVALID_PUBLIC_KEY);
     }
 
-    public function testGetPrivateKeyWithValidInput()
+    public function test_getPrivateKey_returns_private_key()
     {
         $this->assertEqualRsaKeys(
             self::VALID_PRIVATE_KEY,
@@ -91,13 +77,13 @@ class RsaSshKeyTest extends TestCase
         );
     }
 
-    public function testGetPrivateKeyWithInvalidInput()
+    public function test_getPrivateKey_throws_exception_with_invalid_input()
     {
         $this->expectException(InvalidInputException::class);
         RsaSshKey::getPrivateKey(self::INVALID_PRIVATE_KEY);
     }
 
-    public function testGetPublicFingerprintWithValidInput()
+    public function test_getPublicFingerprint_returns_fingerprint()
     {
         $this->assertEquals(
             self::FINGERPRINT_VALID_PUBLIC_KEY,
@@ -105,7 +91,7 @@ class RsaSshKeyTest extends TestCase
         );
     }
 
-    public function testGetPublicFingerprintWithInvalidInput()
+    public function test_getPublicFingerprint_throws_exception_with_invalid_input()
     {
         $this->expectException(InvalidInputException::class);
         RsaSshKey::getPublicFingerprint(self::INVALID_PUBLIC_KEY);

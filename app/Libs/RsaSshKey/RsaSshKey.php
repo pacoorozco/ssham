@@ -90,7 +90,6 @@ class RsaSshKey
      */
     public static function getPrivateKey(string $key): string
     {
-
         $rsa = new RSA();
         if ($rsa->loadKey($key, self::PRIVATE_KEY_FORMAT) === false) {
             throw new InvalidInputException('The provided key is malformed.');
@@ -152,5 +151,33 @@ class RsaSshKey
         $fileEntry->save();
 
         return $filename;
+    }
+
+    /**
+     * Remove carrier return and spaces characters from a RSA key.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    private static function cleanRSAKey(string $key): string
+    {
+        if (empty($key)) {
+            return $key;
+        }
+        return str_replace(["\n", "\t", "\r", " "], '', $key);
+    }
+
+    /**
+     * Returns true if two RSA keys are equal.
+     *
+     * @param string $key1
+     * @param string $key2
+     *
+     * @return bool
+     */
+    public static function compareKeys(string $key1, string $key2): bool
+    {
+        return (self::cleanRSAKey($key1) === self::cleanRSAKey($key2));
     }
 }

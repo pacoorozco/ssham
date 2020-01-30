@@ -21,7 +21,7 @@ use App\Libs\RsaSshKey\InvalidInputException;
 use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidRSAPrivateKey implements Rule
+class ValidRSAPrivateKeyRule implements Rule
 {
     /**
      * Create a new rule instance.
@@ -45,10 +45,10 @@ class ValidRSAPrivateKey implements Rule
     {
         try {
             $key = RsaSshKey::getPrivateKey($value);
-        } catch (InvalidInputException $exception) {
+        } catch (\Exception $exception) {
             return false;
         }
-        return ($value === $key);
+        return RsaSshKey::compareKeys($value, $key);
     }
 
     /**
