@@ -95,11 +95,12 @@ class User extends Authenticatable implements Searchable
      *
      * It calculated the 'fingerprint' attribute also.
      *
-     * @param string $key - Provided public key
+     * @param string $key       - Provided public key
+     * @param bool   $skip_save - if true, the model is not saved (for testing)
      *
      * @return bool
      */
-    public function attachPublicKey(string $key): bool
+    public function attachPublicKey(string $key, bool $skip_save = false): bool
     {
         try {
             $this->public_key = RsaSshKey::getPublicKey($key);
@@ -108,7 +109,7 @@ class User extends Authenticatable implements Searchable
             return false;
         }
 
-        return $this->save();
+        return $skip_save ?: $this->save();
     }
 
     public static function createRandomPassword(): string
