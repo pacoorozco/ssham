@@ -1,18 +1,18 @@
 <?php
 /**
- * SSHAM - SSH Access Manager Web Interface.
+ * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
- * This file is part of some open source application.
+ *  This file is part of some open source application.
  *
- * Licensed under GNU General Public License 3.0.
- * Some rights reserved. See LICENSE, AUTHORS.
+ *  Licensed under GNU General Public License 3.0.
+ *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2020 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Console\Commands;
@@ -69,7 +69,7 @@ class SendKeysToHosts extends Command
 
         foreach ($hosts as $host) {
 
-            Log::debug('Connecting to ' . $host->getFullHostname());
+            Log::debug('Connecting to ' . $host->full_hostname);
             $sftp = new SFTP($host->hostname, setting('ssh_port'), setting('ssh_timeout'));
 
             try {
@@ -78,7 +78,7 @@ class SendKeysToHosts extends Command
                     // TODO - Set last_error field on Host
                     // TODO - Set last_update on error status on Host
 
-                    $this->error('ERRROR Can\'t auth on ' . $host->getFullHostname());
+                    $this->error('ERRROR Can\'t auth on ' . $host->full_hostname);
                     continue;
                 }
             } catch (ErrorException $e) {
@@ -86,8 +86,8 @@ class SendKeysToHosts extends Command
                 // TODO - Set last_error field on Host
                 // TODO - Set last_update on error status on Host
 
-                Log::warning('Error connecting to ' . $host->getFullHostname());
-                $this->error('Can not connect to ' . $host->getFullHostname() . ': ' . $e->getMessage());
+                Log::warning('Error connecting to ' . $host->full_hostname);
+                $this->error('Can not connect to ' . $host->full_hostname . ': ' . $e->getMessage());
                 continue;
             }
 
@@ -113,7 +113,7 @@ class SendKeysToHosts extends Command
                 . setting('non_ssham_file') . ' '
                 . setting('ssham_file');
 
-            Log::info('SSH authorized keys file updated successfully on ' . $host->getFullHostname());
+            Log::info('SSH authorized keys file updated successfully on ' . $host->full_hostname);
             $sftp->enableQuietMode();
             echo $sftp->exec($command);
             $sftp->disconnect();

@@ -9,16 +9,16 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2020 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2020 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidRSAPrivateKey;
-use App\Rules\ValidRSAPublicKey;
+use App\Rules\ValidRSAPrivateKeyRule;
+use App\Rules\ValidRSAPublicKeyRule;
 
 class SettingsRequest extends Request
 {
@@ -51,8 +51,8 @@ class SettingsRequest extends Request
     public function rules()
     {
         return [
-            'private_key' => ['required', new ValidRSAPrivateKey()],
-            'public_key' => ['required', new ValidRSAPublicKey()],
+            'private_key' => ['required', new ValidRSAPrivateKeyRule()],
+            'public_key' => ['required', new ValidRSAPublicKeyRule()],
             'ssh_port' => ['required', 'numeric'],
             'ssh_timeout' => ['required', 'numeric', 'min:5', 'max:15'],
         ];

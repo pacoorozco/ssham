@@ -10,8 +10,7 @@ class HomeControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function index_returns_a_view()
+    public function test_index_returns_a_view()
     {
         $user = factory(User::class)->create();
 
@@ -20,8 +19,7 @@ class HomeControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
-    public function index_without_auth_returns_login_form()
+    public function test_index_without_auth_returns_login_form()
     {
         $response = $this->get(route('home'));
 

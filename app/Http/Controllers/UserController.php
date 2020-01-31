@@ -2,17 +2,17 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2020 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers;
@@ -20,10 +20,11 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Libs\RsaSshKey\RsaSshKey;
 use App\User;
 use App\Usergroup;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 use yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -70,41 +71,48 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        // in cas of blank password, we assign one randomly.
-        if (is_null($request->password)) {
-            $request->password = bcrypt(Str::random(32));
-        }
-
-        $user = User::create([
-            'username' => $request->username,
-            'password' => $request->password,
-            'email' => $request->email,
-        ]);
+        // Use transaction to ensure that the user is created with all the required data.
+        DB::beginTransaction();
 
         // Test if we need to create a new RSA key
-        if ($request->public_key == 'create') {
-            list($public_key, $private_key) = $user->createRSAKeyPair();
+        $private_key_filename = null;
+        if ($request->input('public_key') == 'create') {
+            $keys = RsaSshKey::create();
+            $public_key = $keys['publickey'];
+            $private_key_filename = RsaSshKey::createDownloadableFile($keys['privatekey'], $request->input('username') . '.rsa');
         } else {
-            $public_key = $request->public_key_input;
-            $private_key = null;
+            $public_key = $request->input('public_key_input');
         }
 
-        // Calculates fingerprint of a SSH public key
-        $content = explode(' ', $public_key, 3);
-        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
+        // in case of blank password, we assign one randomly.
+        $user = User::create([
+            'username' => $request->input('username'),
+            'password' => ($request->filled('password')
+                ? $request->input('password')
+                : User::createRandomPassword()
+            ),
+            'email' => $request->input('email'),
+        ]);
 
         // Associate User's Groups if has been submitted
-        if ($request->groups) {
-            $user->usergroups()->attach($request->groups);
+        $user->usergroups()->attach($request->input('groups'));
 
+        // Attach the RSA SSH public key to the created use (includes a save() method).
+        if (!$user->attachPublicKey($public_key)) {
+            DB::rollBack(); // RollBack in case of error.
+            return redirect()->route('users.create')
+                ->withInput()
+                ->withErrors(__('user/messages.create.error'));
         }
 
-        $user->save();
+        // Everything went fine, we can commit the transaction.
+        DB::commit();
 
-        if ($request->public_key == 'create') {
-            $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
+        if (!is_null($private_key_filename)) {
             return redirect()->route('users.index')
-                ->withSuccess(__('user/messages.create.success_private', ['url' => $signed_URL]));
+                ->withSuccess(__('user/messages.create.success_private', [
+                    'url' => URL::signedRoute('file.download', ['filename' => $private_key_filename])
+                ]));
         }
 
         return redirect()->route('users.index')
@@ -148,9 +156,12 @@ class UserController extends Controller
      */
     public function update(User $user, UserUpdateRequest $request)
     {
+        // Use transaction to ensure that the user is updated with all the required data.
+        DB::beginTransaction();
+
         $user->update([
-            'email' => $request->email,
-            'enabled' => $request->enabled,
+            'email' => $request->input('email'),
+            'enabled' => $request->input('enabled'),
         ]);
 
         // Associate User's Groups
@@ -161,25 +172,38 @@ class UserController extends Controller
         }
 
         // Test if we need to create a new RSA key
-        switch ($request->public_key) {
+        $private_key_filename = null;
+        switch ($request->input('public_key')) {
             case 'create':
-                list($user->public_key, $private_key) = $user->createRSAKeyPair();
+                $keys = RsaSshKey::create();
+                $public_key = $keys['publickey'];
+                $private_key_filename = RsaSshKey::createDownloadableFile($keys['privatekey'], $user->username . '.rsa');
                 break;
             case 'import':
-                $user->public_key = $request->public_key_input;
+                $public_key = $request->input('public_key_input');
+                break;
+            case 'maintain':
+            default:
+                $public_key = null;
                 break;
         }
 
-        // Calculates fingerprint of a SSH public key
-        $content = explode(' ', $user->public_key, 3);
-        $user->fingerprint = join(':', str_split(md5(base64_decode($content[1])), 2));
+        // Attach the RSA SSH public key to the created use (includes a save() method).
+        if (!$user->attachPublicKey($public_key)) {
+            DB::rollBack(); // RollBack in case of error.
+            redirect()->route('users.edit')
+                ->withInput()
+                ->withErrors(__('user/messages.edit.error'));
+        }
 
-        $user->save();
+        // Everything went fine, we can commit the transaction.
+        DB::commit();
 
-        if ($request->public_key == 'create') {
-            $signed_URL = URL::signedRoute('file.download', ['filename' => $private_key]);
+        if (!is_null($private_key_filename)) {
             return redirect()->route('users.index')
-                ->withSuccess(__('user/messages.edit.success_private', ['url' => $signed_URL]));
+                ->withSuccess(__('user/messages.edit.success_private', [
+                    'url' => URL::signedRoute('file.download', ['filename' => $private_key_filename])
+                ]));
         }
 
         return redirect()->route('users.index')

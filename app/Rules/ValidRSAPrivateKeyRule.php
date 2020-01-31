@@ -17,10 +17,11 @@
 
 namespace App\Rules;
 
+use App\Libs\RsaSshKey\InvalidInputException;
+use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Contracts\Validation\Rule;
-use phpseclib\Crypt\RSA;
 
-class ValidRSAPrivateKey implements Rule
+class ValidRSAPrivateKeyRule implements Rule
 {
     /**
      * Create a new rule instance.
@@ -42,11 +43,12 @@ class ValidRSAPrivateKey implements Rule
      */
     public function passes($attribute, $value)
     {
-        $rsa = new RSA();
-        $rsa->loadKey($value);
-        $convertedKey = $rsa->getPrivateKey();
-
-        return ($value === $convertedKey);
+        try {
+            $key = RsaSshKey::getPrivateKey($value);
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return RsaSshKey::compareKeys($value, $key);
     }
 
     /**

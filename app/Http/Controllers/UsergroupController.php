@@ -2,7 +2,7 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
@@ -10,7 +10,7 @@
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
+ * @copyright   2017 - 2020 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
@@ -21,6 +21,7 @@ use App\Http\Requests\UsergroupCreateRequest;
 use App\Http\Requests\UsergroupUpdateRequest;
 use App\User;
 use App\Usergroup;
+use Illuminate\Database\QueryException;
 use yajra\Datatables\Datatables;
 
 class UsergroupController extends Controller
@@ -67,15 +68,21 @@ class UsergroupController extends Controller
      */
     public function store(UsergroupCreateRequest $request)
     {
-        $usergroup = Usergroup::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        try {
+            $usergroup = Usergroup::create([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
 
-        // Associate Users to User's group
-        if ($request->users) {
-            $usergroup->users()->sync($request->users);
+            // Associate Users to User's group
+            if ($request->users) {
+                $usergroup->users()->sync($request->users);
+            }
+        } catch (QueryException $e) {
+            return redirect()->back()->withInput()
+                ->withErrors(__('usergroup/messages.create.error'));
         }
+
 
         return redirect()->route('usergroups.index')
             ->withSuccess(__('usergroup/messages.create.success'));

@@ -2,17 +2,17 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2020 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App;
@@ -22,6 +22,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+/**
+ * Class Host
+ *
+ * @package App
+ *
+ * @property string  $hostname
+ * @property string  $username
+ * @property boolean $enabled
+ * @property boolean $synced
+ * @property string  $key_hash
+ */
 class Host extends Model implements Searchable
 {
 
@@ -67,11 +78,31 @@ class Host extends Model implements Searchable
     }
 
     /**
+     * Set the username Host attribute to lowercase.
+     *
+     * @param string $value
+     */
+    public function setUsernameAttribute(string $value)
+    {
+        $this->attributes['username'] = strtolower($value);
+    }
+
+    /**
+     * Set the hostname Host attribute to lowercase.
+     *
+     * @param string $value
+     */
+    public function setHostnameAttribute(string $value)
+    {
+        $this->attributes['hostname'] = strtolower($value);
+    }
+
+    /**
      * This method return full hostname string, composed by `username@hostname`
      *
      * @return string
      */
-    public function getFullHostname()
+    public function getFullHostnameAttribute()
     {
         return $this->username . '@' . $this->hostname;
     }
@@ -82,20 +113,15 @@ class Host extends Model implements Searchable
      *    1 = Host is sync
      *
      * @param bool $synced
+     * @param bool $skip_save - if true, skip saving the model (for testing)
      */
-    public function setSynced(bool $synced = false)
+    public function setSynced(bool $synced = false, bool $skip_save = false)
     {
         $this->synced = $synced;
-    }
 
-    /**
-     * Set Host Keys Files Hash. It keeps a hash of last transferred SSH Key File
-     *
-     * @param string $keyHash
-     */
-    public function setKeyHash(string $keyHash)
-    {
-        $this->key_hash = $keyHash;
+        if (!$skip_save) {
+            $this->save();
+        }
     }
 
     /**

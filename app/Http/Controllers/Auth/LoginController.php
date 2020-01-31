@@ -2,17 +2,17 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2020 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers\Auth;
@@ -36,6 +36,20 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * Maximum number of attempts to allow.
+     *
+     * @var int
+     */
+    public $maxAttempts = 5;
+
+    /**
+     * Number of minutes to throttle for.
+     *
+     * @var int
+     */
+    protected $decayMinutes = 1;
+
+    /**
      * Where to redirect users after login.
      *
      * @var string
@@ -50,6 +64,8 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->maxAttempts = config('auth.login.max_attempts', 5);
+        $this->decayMinutes = config('auth.login.decay_minutes', 1);
     }
 
     /**

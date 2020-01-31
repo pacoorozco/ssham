@@ -2,30 +2,43 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2020 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App;
 
+use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use phpseclib\Crypt\RSA;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
+/**
+ * Class User
+ *
+ * @package App
+ *
+ * @property string  $username
+ * @property string  $name
+ * @property string  $email
+ * @property string  $password
+ * @property boolean $enabled
+ * @property string  $auth_type
+ * @property string  $public_key
+ * @property string  $fingerprint
+ */
 class User extends Authenticatable implements Searchable
 {
     use Notifiable;
@@ -47,8 +60,6 @@ class User extends Authenticatable implements Searchable
         'username',
         'email',
         'password',
-        'public_key',
-        'fingerprint',
         'enabled'
     ];
 
@@ -79,28 +90,31 @@ class User extends Authenticatable implements Searchable
         'email_verified_at' => 'datetime',
     ];
 
-    public function createRSAKeyPair()
+    /**
+     * Attach the provided key as 'public_key' attribute.
+     *
+     * It calculated the 'fingerprint' attribute also.
+     *
+     * @param string $key       - Provided public key
+     * @param bool   $skip_save - if true, the model is not saved (for testing)
+     *
+     * @return bool
+     */
+    public function attachPublicKey(string $key, bool $skip_save = false): bool
     {
-        // create a new RSA key pair
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);
-        $keyPair = $rsa->createKey();
+        try {
+            $this->public_key = RsaSshKey::getPublicKey($key);
+            $this->fingerprint = RsaSshKey::getPublicFingerprint($key);
+        } catch (\Exception $exception) {
+            return false;
+        }
 
-        // save RSA public key
-        $this->public_key = $keyPair['publickey'];
+        return $skip_save ?: $this->save();
+    }
 
-        // create a random name for RSA private key file
-        $privateKeyFileName = Str::random(32);
-        Storage::disk('local')->put($privateKeyFileName, $keyPair['privatekey']);
-
-        // create a downloadable file, with a random name
-        $fileEntry = new FileEntry();
-        $fileEntry->filename = $privateKeyFileName;
-        $fileEntry->mime = 'application/octet-stream';
-        $fileEntry->original_filename = $this->username . '.rsa';
-        $fileEntry->save();
-
-        return array($keyPair['publickey'], $privateKeyFileName);
+    public static function createRandomPassword(): string
+    {
+        return Str::random(32);
     }
 
     /**
