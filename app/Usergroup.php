@@ -50,6 +50,16 @@ class Usergroup extends Model implements Searchable
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'string',
+        'description' => 'string',
+    ];
+
+    /**
      * An Usergroup is composed by many User (many-to-many)
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
