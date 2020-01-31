@@ -3,10 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.6.1
 ### Added
-- Refactor code to add more tests to improve code coverage.
-- Add two values to `config/auth.php` to configure Login throttling: 'auth.login.max_attempts' and 'auth.login.decay_minutes'.
+- Refactor code to add Unit tests to improve code coverage.
+- Add two values to `config/auth.php` to configure Login throttling: `auth.login.max_attempts` and `auth.login.decay_minutes`.
 
 ## 0.6.0
 > **Note**: This application is now using [Laravel 6](https://laravel.com/docs).
