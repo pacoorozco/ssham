@@ -69,7 +69,7 @@ class SendKeysToHosts extends Command
 
         foreach ($hosts as $host) {
 
-            Log::debug('Connecting to ' . $host->getFullHostname());
+            Log::debug('Connecting to ' . $host->full_hostname);
             $sftp = new SFTP($host->hostname, setting('ssh_port'), setting('ssh_timeout'));
 
             try {
@@ -78,7 +78,7 @@ class SendKeysToHosts extends Command
                     // TODO - Set last_error field on Host
                     // TODO - Set last_update on error status on Host
 
-                    $this->error('ERRROR Can\'t auth on ' . $host->getFullHostname());
+                    $this->error('ERRROR Can\'t auth on ' . $host->full_hostname);
                     continue;
                 }
             } catch (ErrorException $e) {
@@ -86,8 +86,8 @@ class SendKeysToHosts extends Command
                 // TODO - Set last_error field on Host
                 // TODO - Set last_update on error status on Host
 
-                Log::warning('Error connecting to ' . $host->getFullHostname());
-                $this->error('Can not connect to ' . $host->getFullHostname() . ': ' . $e->getMessage());
+                Log::warning('Error connecting to ' . $host->full_hostname);
+                $this->error('Can not connect to ' . $host->full_hostname . ': ' . $e->getMessage());
                 continue;
             }
 
@@ -113,7 +113,7 @@ class SendKeysToHosts extends Command
                 . setting('non_ssham_file') . ' '
                 . setting('ssham_file');
 
-            Log::info('SSH authorized keys file updated successfully on ' . $host->getFullHostname());
+            Log::info('SSH authorized keys file updated successfully on ' . $host->full_hostname);
             $sftp->enableQuietMode();
             echo $sftp->exec($command);
             $sftp->disconnect();

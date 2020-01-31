@@ -78,11 +78,31 @@ class Host extends Model implements Searchable
     }
 
     /**
+     * Set the username Host attribute to lowercase.
+     *
+     * @param string $value
+     */
+    public function setUsernameAttribute(string $value)
+    {
+        $this->attributes['username'] = strtolower($value);
+    }
+
+    /**
+     * Set the hostname Host attribute to lowercase.
+     *
+     * @param string $value
+     */
+    public function setHostnameAttribute(string $value)
+    {
+        $this->attributes['hostname'] = strtolower($value);
+    }
+
+    /**
      * This method return full hostname string, composed by `username@hostname`
      *
      * @return string
      */
-    public function getFullHostname()
+    public function getFullHostnameAttribute()
     {
         return $this->username . '@' . $this->hostname;
     }
@@ -93,10 +113,15 @@ class Host extends Model implements Searchable
      *    1 = Host is sync
      *
      * @param bool $synced
+     * @param bool $skip_save - if true, skip saving the model (for testing)
      */
-    public function setSynced(bool $synced = false)
+    public function setSynced(bool $synced = false, bool $skip_save = false)
     {
         $this->synced = $synced;
+
+        if (!$skip_save) {
+            $this->save();
+        }
     }
 
     /**
