@@ -70,7 +70,7 @@ class Usergroup extends Model implements Searchable
     }
 
     /**
-     * TODO: Document it
+     * This is the relation between Hostgroups and Usergroups
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

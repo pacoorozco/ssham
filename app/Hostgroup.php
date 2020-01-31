@@ -50,6 +50,16 @@ class Hostgroup extends Model implements Searchable
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'string',
+        'description' => 'string',
+    ];
+
+    /**
      * A Hostgroup is composed by Host (many-to-many)
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -60,7 +70,7 @@ class Hostgroup extends Model implements Searchable
     }
 
     /**
-     * TODO: Document it
+     * This is the relation between Hostgroups and Usergroups
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
