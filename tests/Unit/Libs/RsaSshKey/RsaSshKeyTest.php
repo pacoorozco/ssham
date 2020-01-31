@@ -4,8 +4,7 @@ namespace Tests\Unit\Libs\RsaSshKey;
 
 use App\Libs\RsaSshKey\InvalidInputException;
 use App\Libs\RsaSshKey\RsaSshKey;
-use App\Rules\ValidRSAPrivateKeyRule;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 
 class RsaSshKeyTest extends TestCase

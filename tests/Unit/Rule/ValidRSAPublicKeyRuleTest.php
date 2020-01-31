@@ -3,7 +3,7 @@
 namespace Tests\Unit\Rule;
 
 use App\Rules\ValidRSAPublicKeyRule;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ValidRSAPublicKeyRuleTest extends TestCase
 {

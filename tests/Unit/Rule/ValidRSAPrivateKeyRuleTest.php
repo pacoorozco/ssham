@@ -18,8 +18,7 @@
 namespace Tests\Unit\Rule;
 
 use App\Rules\ValidRSAPrivateKeyRule;
-use phpseclib\Crypt\RSA;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ValidRSAPrivateKeyRuleTest extends TestCase
 {
