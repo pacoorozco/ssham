@@ -30,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Rule extends Model
 {
-
     /**
      * The database table used by the model.
      *
@@ -50,38 +49,4 @@ class Rule extends Model
         'name',
         'enabled',
     ];
-
-    /**
-     * Set Rule status
-     *     1, enabled, true = Rule is enabled
-     *     0, disabled, false = Rule is disabled
-     *
-     * @param $status
-     */
-    public function setStatus($status)
-    {
-        $status = ($status === 1 || $status == 'enabled' || $status === true) ? 1 : 0;
-        $this->enabled = $status;
-    }
-
-    /**
-     * Set Rule action
-     *     Values could be 'allow' or 'deny'
-     *
-     * @param $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * Toggle Rule action field. If is 'allow', set 'deny', and otherwise
-     */
-    public function toggleAction()
-    {
-        $action = ($this->action == 'allow') ? 'deny' : 'allow';
-        $this->setAction($action);
-    }
-
 }
