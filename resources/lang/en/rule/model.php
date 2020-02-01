@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'item' => 'Rules',
     'user_group' => 'Source',
     'host_group' => 'Target',
     'action' => 'Action',

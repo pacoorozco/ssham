@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'item' => 'Hosts',
     'full_hostname' => 'username@hostname',
     'hostname' => 'Hostname',
     'username' => 'Username',

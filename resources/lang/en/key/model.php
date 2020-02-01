@@ -22,6 +22,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
+    'item' => 'SSH Keys',
     'name' => 'Name',
     'public_key' => 'SSH public key',
     'fingerprint' => 'Key fingerprint',
