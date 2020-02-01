@@ -1,27 +1,16 @@
 <div class="card">
     <div class="card-header">
-        <h2>{{ $user->username }} @if(!$user->enabled)<span class="badge badge-secondary">{{ __('general.disabled') }}</span>@endif </h2>
+        <h2>{{ $key->name }} @if(!$key->enabled)<span class="badge badge-secondary">{{ __('general.disabled') }}</span>@endif </h2>
     </div>
     <div class="card-body">
-
-        <!-- email -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('user/model.email')</strong>
-            </div>
-            <div class="col-10">
-                {{ $user->email }}
-            </div>
-        </div>
-        <!-- ./email -->
 
         <!-- fingerprint -->
         <div class="row">
             <div class="col-2">
-                <strong>@lang('user/model.fingerprint')</strong>
+                <strong>@lang('key/model.fingerprint')</strong>
             </div>
             <div class="col-10">
-                {{ $user->fingerprint }}
+                {{ $key->fingerprint }}
                 <a data-toggle="collapse" href="#collapsePublicKey" aria-expanded="false"
                    aria-controls="collapsePublicKey">
                     <i class="fa fa-caret-down"></i>
@@ -33,10 +22,10 @@
         <!-- public key -->
         <div class="row collapse" id="collapsePublicKey">
             <div class="col-2">
-                <strong>@lang('user/model.public_key')</strong>
+                <strong>@lang('key/model.public_key')</strong>
             </div>
             <div class="col-10">
-                <pre class="key-code">{{ $user->public_key }}</pre>
+                <pre class="key-code">{{ $key->public_key }}</pre>
             </div>
         </div>
         <!-- ./ public key -->
@@ -44,47 +33,36 @@
         <!-- groups -->
         <div class="row">
             <div class="col-2">
-                <strong>@lang('user/model.groups')</strong>
+                <strong>@lang('key/model.groups')</strong>
             </div>
             <div class="col-10">
-                @forelse($user->keygroups as $group)
+                @forelse($key->keygroups as $group)
                     <span class="badge badge-primary">{{ $group->name }}</span>
                 @empty
-                    @lang('user/model.no_groups')
+                    @lang('key/model.no_groups')
                 @endforelse
             </div>
         </div>
         <!-- ./ groups -->
 
-        <!-- administrator role -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('user/model.is_admin')</strong>
-            </div>
-            <div class="col-10">
-                {{ ($user->hasRole('admin') ? __('general.yes') : __('general.no')) }}
-            </div>
-        </div>
-        <!-- ./ administrator role -->
-
         <!-- enabled -->
         <div class="row">
             <div class="col-2">
-                <strong>@lang('user/model.enabled')</strong>
+                <strong>@lang('key/model.enabled')</strong>
             </div>
             <div class="col-10">
-                {{ ($user->enabled) ? __('general.yes') : __('general.no') }}
+                {{ ($key->enabled) ? __('general.yes') : __('general.no') }}
             </div>
         </div>
         <!-- ./ enabled -->
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('users.index') }}" class="btn btn-primary" role="button">
+        <a href="{{ route('keys.index') }}" class="btn btn-primary" role="button">
             <i class="fa fa-arrow-left"></i> @lang('general.back')
         </a>
         @if ($action == 'show')
-            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary" role="button">
+            <a href="{{ route('keys.edit', $key->id) }}" class="btn btn-primary" role="button">
                 <i class="fa fa-pen"></i> @lang('general.edit')
             </a>
         @else

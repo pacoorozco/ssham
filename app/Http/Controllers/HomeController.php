@@ -22,7 +22,7 @@ use App\Hostgroup;
 use App\Http\Requests\SearchRequest;
 use App\Rule;
 use App\User;
-use App\Usergroup;
+use App\Keygroup;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
 
@@ -59,7 +59,7 @@ class HomeController extends Controller
                     ->addExactSearchableAttribute('email') // only return results that exactly match the e-mail address
                     ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
             })
-            ->registerModel(Usergroup::class, 'name', 'description')
+            ->registerModel(Keygroup::class, 'name', 'description')
             ->registerModel(Host::class, 'hostname')
             ->registerModel(Hostgroup::class, 'name', 'description')
             ->perform($request->input('query'));

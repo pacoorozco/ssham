@@ -19,7 +19,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserUsergroupsTable extends Migration
+class CreateKeyKeygroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,13 +28,13 @@ class CreateUserUsergroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_usergroup', function (Blueprint $table) {
+        Schema::create('key_keygroup', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('usergroup_id')->unsigned();
-            $table->foreign('usergroup_id')->references('id')->on('usergroups')->onDelete('cascade');
-            $table->unique(array('user_id', 'usergroup_id'));
+            $table->unsignedBigInteger('key_id')->unsigned();
+            $table->foreign('key_id')->references('id')->on('keys')->onDelete('cascade');
+            $table->unsignedBigInteger('keygroup_id')->unsigned();
+            $table->foreign('keygroup_id')->references('id')->on('keygroups')->onDelete('cascade');
+            $table->unique(array('key_id', 'keygroup_id'));
         });
     }
 
@@ -45,6 +45,6 @@ class CreateUserUsergroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_usergroup');
+        Schema::drop('key_keygroup');
     }
 }

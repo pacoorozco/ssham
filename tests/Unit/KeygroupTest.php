@@ -2,15 +2,15 @@
 
 namespace Tests\Unit;
 
-use App\Usergroup;
+use App\Keygroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\ModelTestCase;
 
-class UsergroupTest extends ModelTestCase
+class KeygroupTest extends ModelTestCase
 {
     public function test_contains_valid_fillable_properties()
     {
-        $m = new Usergroup();
+        $m = new Keygroup();
         $this->assertEquals([
             'name',
             'description',
@@ -19,7 +19,7 @@ class UsergroupTest extends ModelTestCase
 
     public function test_contains_valid_casts_properties()
     {
-        $m = new Usergroup();
+        $m = new Keygroup();
         $this->assertEquals([
             'id' => 'int',
             'name' => 'string',
@@ -29,16 +29,8 @@ class UsergroupTest extends ModelTestCase
 
     public function test_users_relation()
     {
-        $m = new Usergroup();
-        $r = $m->users();
+        $m = new Keygroup();
+        $r = $m->keys();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
-
-    public function test_hostgroups_relation()
-    {
-        $m = new Usergroup();
-        $r = $m->hostgroups();
-        $this->assertInstanceOf(BelongsToMany::class, $r);
-    }
-
 }

@@ -11,7 +11,7 @@ class RuleTest extends ModelTestCase
     {
         $m = new Rule();
         $this->assertEquals([
-            'usergroup_id',
+            'keygroup_id',
             'hostgroup_id',
             'action',
             'name',

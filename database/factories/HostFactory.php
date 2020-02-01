@@ -2,7 +2,7 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
@@ -10,16 +10,15 @@
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
+ * @copyright   2017 - 2020 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use App\Host;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,14 +31,13 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Host::class, function (Faker $faker) {
     return [
         'username' => $faker->userName,
-        'email' => $faker->unique()->safeEmail,
-        'auth_type' => 'local',
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'hostname' => $faker->domainWord . $faker->domainName,
         'enabled' => true,
-        'remember_token' => Str::random(10),
+        'synced' => true,
+        'key_hash' => null,
+        'last_rotation' => null,
     ];
 });

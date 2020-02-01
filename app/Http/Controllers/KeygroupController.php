@@ -17,14 +17,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UsergroupCreateRequest;
-use App\Http\Requests\UsergroupUpdateRequest;
+use App\Http\Requests\KeygroupCreateRequest;
+use App\Http\Requests\KeygroupUpdateRequest;
 use App\User;
-use App\Usergroup;
+use App\Keygroup;
 use Illuminate\Database\QueryException;
 use yajra\Datatables\Datatables;
 
-class UsergroupController extends Controller
+class KeygroupController extends Controller
 {
 
     /**
@@ -43,7 +43,7 @@ class UsergroupController extends Controller
      */
     public function index()
     {
-        return view('usergroup.index');
+        return view('keygroup.index');
     }
 
     /**
@@ -53,124 +53,124 @@ class UsergroupController extends Controller
      */
     public function create()
     {
-        // Get all existing users
-        $users = User::orderBy('username')->pluck('username', 'id');
+        // Get all existing keys
+        $keys = Key::orderBy('name')->pluck('name', 'id');
 
-        return view('usergroup.create', compact('users'));
+        return view('keygroup.create', compact('keys'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param UsergroupCreateRequest $request
+     * @param KeygroupCreateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(UsergroupCreateRequest $request)
+    public function store(KeygroupCreateRequest $request)
     {
         try {
-            $usergroup = Usergroup::create([
+            $keygroup = Keygroup::create([
                 'name' => $request->name,
                 'description' => $request->description,
             ]);
 
-            // Associate Users to User's group
-            if ($request->users) {
-                $usergroup->users()->sync($request->users);
+            // Associate Keys to Key groups
+            if ($request->keys) {
+                $keygroup->keys()->sync($request->keys);
             }
         } catch (QueryException $e) {
             return redirect()->back()->withInput()
-                ->withErrors(__('usergroup/messages.create.error'));
+                ->withErrors(__('keygroup/messages.create.error'));
         }
 
 
-        return redirect()->route('usergroups.index')
-            ->withSuccess(__('usergroup/messages.create.success'));
+        return redirect()->route('keygroups.index')
+            ->withSuccess(__('keygroup/messages.create.success'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Usergroup $usergroup
+     * @param Keygroup $keygroup
      *
      * @return \Illuminate\View\View
      */
-    public function show(Usergroup $usergroup)
+    public function show(Keygroup $keygroup)
     {
-        return view('usergroup.show', compact('usergroup'));
+        return view('keygroup.show', compact('keygroup'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Usergroup $usergroup
+     * @param Keygroup $keygroup
      *
      * @return \Illuminate\View\View
      */
-    public function edit(Usergroup $usergroup)
+    public function edit(Keygroup $keygroup)
     {
-        // Get all existing users
-        $users = User::orderBy('username')->pluck('username', 'id');
+        // Get all existing keys
+        $keys = User::orderBy('keyname')->pluck('keyname', 'id');
 
-        return view('usergroup.edit', compact('usergroup', 'users'));
+        return view('keygroup.edit', compact('keygroup', 'keys'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Usergroup              $usergroup
-     * @param UsergroupUpdateRequest $request
+     * @param Keygroup              $keygroup
+     * @param KeygroupUpdateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Usergroup $usergroup, UsergroupUpdateRequest $request)
+    public function update(Keygroup $keygroup, KeygroupUpdateRequest $request)
     {
-        $usergroup->update([
+        $keygroup->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
 
         // Associate Users to User's group
-        if ($request->users) {
-            $usergroup->users()->sync($request->users);
+        if ($request->keys) {
+            $keygroup->keys()->sync($request->keys);
         } else {
-            $usergroup->users()->detach();
+            $keygroup->keys()->detach();
         }
 
-        return redirect()->route('usergroups.edit', [$usergroup->id])
-            ->withSuccess(__('usergroup/messages.edit.success'));
+        return redirect()->route('keygroups.edit', [$keygroup->id])
+            ->withSuccess(__('keygroup/messages.edit.success'));
     }
 
     /**
-     * Remove usergroup.
+     * Remove keygroup.
      *
-     * @param Usergroup $usergroup
+     * @param Keygroup $keygroup
      *
      * @return \Illuminate\View\View
      */
-    public function delete(Usergroup $usergroup)
+    public function delete(Keygroup $keygroup)
     {
-        return view('usergroup.delete', compact('usergroup'));
+        return view('keygroup.delete', compact('keygroup'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Usergroup $usergroup
+     * @param Keygroup $keygroup
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Usergroup $usergroup)
+    public function destroy(Keygroup $keygroup)
     {
-        $usergroup->delete();
+        $keygroup->delete();
 
-        return redirect()->route('usergroups.index')
-            ->withSuccess(__('usergroup/messages.delete.success'));
+        return redirect()->route('keygroups.index')
+            ->withSuccess(__('keygroup/messages.delete.success'));
     }
 
     /**
-     * Return all Usergroups in order to be used as Datatables
+     * Return all keygroups in order to be used as Datatables
      *
      * @param Datatables $datatable
      *
@@ -179,19 +179,19 @@ class UsergroupController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        $usergroups = Usergroup::select([
+        $keygroups = Keygroup::select([
             'id',
             'name',
             'description',
         ])
-            ->withCount('users as users') // count number of users in usergroups without loading the models
+            ->withCount('keys as keys') // count number of keys in keygroups without loading the models
             ->orderBy('name', 'asc');
 
-        return $datatable->eloquent($usergroups)
-            ->addColumn('actions', function (Usergroup $usergroup) {
+        return $datatable->eloquent($keygroups)
+            ->addColumn('actions', function (Keygroup $keygroup) {
                 return view('partials.actions_dd')
-                    ->with('model', 'usergroups')
-                    ->with('id', $usergroup->id)
+                    ->with('model', 'keygroups')
+                    ->with('id', $keygroup->id)
                     ->render();
             })
             ->rawColumns(['actions'])

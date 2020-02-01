@@ -60,6 +60,22 @@ Route::resource('users', 'UserController');
 
 /**
  * ------------------------------------------
+ * Keys
+ * ------------------------------------------
+ */
+// DataTables Ajax route.
+Route::get('keys/data',
+    ['as' => 'keys.data', 'uses' => 'KeyController@data'])
+    ->middleware('ajax');
+// Delete confirmation route - uses the show/details view.
+Route::get('keys/{key}/delete',
+    ['as' => 'keys.delete', 'uses' => 'KeyController@delete']);
+// Pre-baked resource controller actions for index, create, store,
+// show, edit, update, destroy
+Route::resource('keys', 'KeyController');
+
+/**
+ * ------------------------------------------
  * Hosts
  * ------------------------------------------
  */
@@ -75,18 +91,18 @@ Route::resource('hosts', 'HostController');
 
 /**
  * ------------------------------------------
- * Usergroups
+ * Keygroups
  * ------------------------------------------
  */
 // Datatables Ajax route.
-Route::get('usergroups/data',
-    ['as' => 'usergroups.data', 'uses' => 'UsergroupController@data'])
+Route::get('keygroups/data',
+    ['as' => 'keygroups.data', 'uses' => 'KeygroupController@data'])
     ->middleware('ajax');
 // Delete confirmation route - uses the show/details view.
-Route::get('usergroups/{usergroup}/delete', ['as' => 'usergroups.delete', 'uses' => 'UsergroupController@delete']);
+Route::get('keygroups/{keygroup}/delete', ['as' => 'keygroups.delete', 'uses' => 'KeygroupController@delete']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('usergroups', 'UsergroupController');
+Route::resource('keygroups', 'KeygroupController');
 
 /**
  * ------------------------------------------

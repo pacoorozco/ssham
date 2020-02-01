@@ -15,11 +15,11 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Usergroup;
+use App\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UsergroupsTableSeeder extends Seeder
+class KeygroupsTableSeeder extends Seeder
 {
 
     /**
@@ -29,9 +29,9 @@ class UsergroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('usergroups')->delete();
+        DB::table('keygroups')->delete();
 
-        $usergroups = array(
+        $keygroups = array(
             array(
                 'name' => 'developers',
                 'description' => 'Group of awesome developers'
@@ -42,8 +42,8 @@ class UsergroupsTableSeeder extends Seeder
             )
         );
 
-        foreach ($usergroups as $group) {
-            Usergroup::create($group);
+        foreach ($keygroups as $group) {
+            Keygroup::create($group);
         }
     }
 

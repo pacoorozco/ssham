@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App;
@@ -65,6 +65,7 @@ class Host extends Model implements Searchable
         'enabled' => 'boolean',
         'synced' => 'boolean',
         'key_hash' => 'string',
+        'last_rotation' => 'datetime',
     ];
 
     /**
@@ -72,7 +73,7 @@ class Host extends Model implements Searchable
      *
      * @return BelongsToMany
      */
-    public function hostgroups()
+    public function groups()
     {
         return $this->belongsToMany('App\Hostgroup');
     }
@@ -148,8 +149,8 @@ class Host extends Model implements Searchable
         $sshKeys = array();
         $hostID = $this->id;
 
-        $users = User::whereHas('usergroups.hostgroups.hosts', function (Host $host) use ($hostID) {
-            $host->where('hosts.id', $hostID)->where('usergroup_hostgroup_permissions.action', 'allow');
+        $users = User::whereHas('keygroups.hostgroups.hosts', function (Host $host) use ($hostID) {
+            $host->where('hosts.id', $hostID)->where('keygroup_hostgroup_permissions.action', 'allow');
         })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
 
         foreach ($users as $user) {

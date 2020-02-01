@@ -28,13 +28,14 @@ class HostTest extends ModelTestCase
             'enabled' => 'boolean',
             'synced' => 'boolean',
             'key_hash' => 'string',
+            'last_rotation' => 'datetime',
         ], $m->getCasts());
     }
 
     public function test_hostgroups_relation()
     {
         $m = new Host();
-        $r = $m->hostgroups();
+        $r = $m->groups();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 

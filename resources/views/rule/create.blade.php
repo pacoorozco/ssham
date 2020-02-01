@@ -54,15 +54,15 @@
                     <!-- right column -->
                     <div class="col-md-6">
 
-                        <!-- usergroup -->
+                        <!-- keygroup -->
                         <div class="form-group">
-                            {!! Form::label('usergroup', __('rule/model.user_group')) !!}
-                            {!! Form::select('usergroup', $usergroups, null, array('class' => 'form-control search-select' . ($errors->has('usergroup') ? ' is-invalid' : ''))) !!}
-                            @error('usergroup')
+                            {!! Form::label('keygroup', __('rule/model.user_group')) !!}
+                            {!! Form::select('keygroup', $keygroups, null, array('class' => 'form-control search-select' . ($errors->has('keygroup') ? ' is-invalid' : ''))) !!}
+                            @error('keygroup')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
-                        <!-- ./ usergroup -->
+                        <!-- ./ keygroup -->
 
                         <!-- action -->
                         <div class="form-group">

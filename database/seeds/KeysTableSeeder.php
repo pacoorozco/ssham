@@ -2,7 +2,7 @@
 /**
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2019 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
@@ -10,15 +10,15 @@
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
  * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2019 Paco Orozco
+ * @copyright   2017 - 2020 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Host;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class HostsTableSeeder extends Seeder
+class KeysTableSeeder extends Seeder
 {
 
     /**
@@ -28,7 +28,9 @@ class HostsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Host::class, 5)->create();
+        DB::table('keys')->delete();
+
+        factory(App\Key::class, 3)->create();
     }
 
 }

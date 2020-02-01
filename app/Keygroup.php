@@ -22,14 +22,14 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 /**
- * Class Usergroup
+ * Class Keygroup
  *
  * @package App
  *
  * @property string $name
  * @property string $description
  */
-class Usergroup extends Model implements Searchable
+class Keygroup extends Model implements Searchable
 {
 
     /**
@@ -37,7 +37,7 @@ class Usergroup extends Model implements Searchable
      *
      * @var string
      */
-    protected $table = 'usergroups';
+    protected $table = 'keygroups';
 
     /**
      * The attributes that are mass assignable.
@@ -60,28 +60,18 @@ class Usergroup extends Model implements Searchable
     ];
 
     /**
-     * An Usergroup is composed by many User (many-to-many)
+     * An Keygroup is composed by many Keys (many-to-many)
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
+    public function keys()
     {
-        return $this->belongsToMany('App\User');
-    }
-
-    /**
-     * This is the relation between Hostgroups and Usergroups
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function hostgroups()
-    {
-        return $this->belongsToMany('App\Hostgroup', 'hostgroup_usergroup_permissions');
+        return $this->belongsToMany('App\Key');
     }
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('usergroups.show', $this->id);
+        $url = route('keygroups.show', $this->id);
 
         return new SearchResult(
             $this,

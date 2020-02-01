@@ -39,14 +39,14 @@ class RuleCreateRequest extends Request
      */
     public function rules()
     {
-        $usergroup = $this->usergroup;
+        $keygroup = $this->keygroup;
         $hostgroup = $this->hostgroup;
 
         return [
-            'usergroup' => ['required', 'exists:App\Usergroup,id',
-                // 'usergroup' and 'hostgroup' combination must be unique
-                Rule::unique('hostgroup_usergroup_permissions', 'usergroup_id')->where(function ($query) use ($usergroup, $hostgroup) {
-                    return $query->where('usergroup_id', $usergroup)
+            'keygroup' => ['required', 'exists:App\keygroup,id',
+                // 'keygroup' and 'hostgroup' combination must be unique
+                Rule::unique('hostgroup_keygroup_permissions', 'keygroup_id')->where(function ($query) use ($keygroup, $hostgroup) {
+                    return $query->where('keygroup_id', $keygroup)
                         ->where('hostgroup_id', $hostgroup);
                 })],
             'hostgroup' => ['required', 'exists:App\Hostgroup,id'],

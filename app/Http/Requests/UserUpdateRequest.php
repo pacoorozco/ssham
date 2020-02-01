@@ -9,15 +9,13 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Requests;
-
-use App\Rules\ValidRSAPublicKeyRule;
 
 class UserUpdateRequest extends Request
 {
@@ -33,17 +31,6 @@ class UserUpdateRequest extends Request
     }
 
     /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance()
-    {
-        $this->sanitize();
-        return parent::getValidatorInstance();
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -55,25 +42,7 @@ class UserUpdateRequest extends Request
         return [
             'email' => ['required', 'email:rfc', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
-            'public_key' => ['required', 'in:create,import,maintain'],
-            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule],
             'enabled' => ['required', 'boolean'],
         ];
     }
-
-    /**
-     * Sanitizes user input. In special 'public_key_input' to remove carriage returns
-     */
-    public function sanitize()
-    {
-        $input = $this->all();
-
-        // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key_input'])) {
-            $input['public_key_input'] = str_replace(["\n", "\t", "\r"], '', $input['public_key_input']);
-        }
-
-        $this->replace($input);
-    }
-
 }

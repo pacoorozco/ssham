@@ -1,23 +1,23 @@
 @extends('layouts.master')
 
 {{-- Web site Title --}}
-@section('title', __('usergroup/title.user_group_show'))
+@section('title', __('keygroup/title.key_group_show'))
 
 {{-- Content Header --}}
 @section('header')
-    @lang('usergroup/title.user_group_show')
-    <small class="text-muted">{{ $usergroup->name }}</small>
+    @lang('keygroup/title.key_group_show')
+    <small class="text-muted">{{ $keygroup->name }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
     <li class="breadcrumb-item">
-        <a href="{{ route('usergroups.index') }}">
-            @lang('site.user_groups')
+        <a href="{{ route('keygroups.index') }}">
+            @lang('site.key_groups')
         </a>
     </li>
     <li class="breadcrumb-item active">
-        @lang('usergroup/title.user_group_show')
+        @lang('keygroup/title.key_group_show')
     </li>
 @endsection
 
@@ -28,6 +28,6 @@
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-    @include('usergroup._details', ['action' => 'show'])
+    @include('keygroup._details', ['action' => 'show'])
 
 @endsection

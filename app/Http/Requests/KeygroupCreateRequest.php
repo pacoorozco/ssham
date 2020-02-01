@@ -19,7 +19,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
-class UsergroupUpdateRequest extends Request
+class KeygroupCreateRequest extends Request
 {
 
     /**
@@ -39,10 +39,8 @@ class UsergroupUpdateRequest extends Request
      */
     public function rules()
     {
-        $group = $this->usergroup;
-
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('usergroups')->ignore($group->id)],
+            'name' => ['required', 'min:5', 'max:255', Rule::unique('keygroups')],
             'description' => ['max:255'],
         ];
     }

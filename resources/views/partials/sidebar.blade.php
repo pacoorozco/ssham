@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('usergroups*') ? 'active' : '' }}" href="{{ route('usergroups.index') }}">
+                <a class="nav-link {{ request()->is('keygroups*') ? 'active' : '' }}" href="{{ route('keygroups.index') }}">
                     <i class="nav-icon fa fa-users"></i>
                     <p>{{ __('site.user_groups') }}</p>
                 </a>

@@ -37,6 +37,7 @@ class CreateHostsTable extends Migration
             $table->string('key_hash')->nullable();
             $table->boolean('synced')->default('0');
             $table->boolean('enabled')->default('1');
+            $table->timestamp('last_rotation')->nullable();
             $table->timestamps();
             $table->index(['hostname', 'username']);
         });

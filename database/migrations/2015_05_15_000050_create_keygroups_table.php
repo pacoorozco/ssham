@@ -19,8 +19,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHostgroupUsergroupPermissionsTable extends Migration
+class CreateKeygroupsTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -28,17 +29,11 @@ class CreateHostgroupUsergroupPermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('hostgroup_usergroup_permissions', function (Blueprint $table) {
+        Schema::create('keygroups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('usergroup_id')->unsigned();
-            $table->foreign('usergroup_id')->references('id')->on('usergroups')->onDelete('cascade');
-            $table->unsignedBigInteger('hostgroup_id')->unsigned();
-            $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
-            $table->enum('action', ['allow', 'deny'])->default('allow');
-            $table->string('name')->nullable();
-            $table->boolean('enabled')->default('1');
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
             $table->timestamps();
-            $table->unique(array('usergroup_id', 'hostgroup_id'));
         });
     }
 
@@ -49,6 +44,7 @@ class CreateHostgroupUsergroupPermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('hostgroup_usergroup_permissions');
+        Schema::drop('keygroups');
     }
+
 }

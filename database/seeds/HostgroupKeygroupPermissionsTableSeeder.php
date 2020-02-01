@@ -17,11 +17,11 @@
 
 use App\Hostgroup;
 use App\Rule;
-use App\Usergroup;
+use App\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class HostgroupUsergroupPermissionsTableSeeder extends Seeder
+class HostgroupKeygroupPermissionsTableSeeder extends Seeder
 {
 
     /**
@@ -31,17 +31,17 @@ class HostgroupUsergroupPermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('hostgroup_usergroup_permissions')->delete();
+        DB::table('hostgroup_keygroup_permissions')->delete();
 
         $permissions = array(
             array(
-                'usergroup' => 'developers',
+                'keygroup' => 'developers',
                 'hostgroup' => 'DEV_servers',
                 'action' => 'allow',
                 'description' => 'Developers can develop on development hosts',
             ),
             array(
-                'usergroup' => 'operators',
+                'keygroup' => 'operators',
                 'hostgroup' => 'PRO_servers',
                 'action' => 'deny',
                 'description' => 'Operators can make its magic on production hosts',
@@ -49,11 +49,11 @@ class HostgroupUsergroupPermissionsTableSeeder extends Seeder
         );
 
         foreach ($permissions as $permission) {
-            $usergroup = Usergroup::where('name', $permission['usergroup'])->firstOrFail();
+            $keygroup = Keygroup::where('name', $permission['keygroup'])->firstOrFail();
             $hostgroup = Hostgroup::where('name', $permission['hostgroup'])->firstOrFail();
 
             Rule::create([
-                'usergroup_id' => $usergroup->id,
+                'keygroup_id' => $keygroup->id,
                 'hostgroup_id' => $hostgroup->id,
                 'action' => $permission['action'],
                 'name' => $permission['description']

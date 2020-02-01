@@ -75,7 +75,7 @@ class HostController extends Controller
 
         // Associate Host's Groups
         if ($request->groups) {
-            $host->hostgroups()->sync($request->groups);
+            $host->groups()->sync($request->groups);
         }
 
         return redirect()->route('hosts.index')
@@ -125,9 +125,9 @@ class HostController extends Controller
 
         // Associate Host's Groups
         if ($request->groups) {
-            $host->hostgroups()->sync($request->groups);
+            $host->groups()->sync($request->groups);
         } else {
-            $host->hostgroups()->detach();
+            $host->groups()->detach();
         }
 
         return redirect()->route('hosts.edit', [$host->id])
@@ -179,7 +179,7 @@ class HostController extends Controller
             'type',
             'enabled'
         ])
-            ->withCount('hostgroups as groups') // count number of hostgroups without loading the models
+            ->withCount('groups as groups') // count number of groups without loading the models
             ->orderBy('hostname', 'asc');
 
         return $datatable->eloquent($hosts)

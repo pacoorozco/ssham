@@ -22,7 +22,7 @@ use App\Hostgroup;
 use App\Http\Requests\RuleCreateRequest;
 use App\Http\Requests\RuleUpdateRequest;
 use App\Rule;
-use App\Usergroup;
+use App\Keygroup;
 use yajra\Datatables\Datatables;
 
 class RuleController extends Controller
@@ -55,10 +55,10 @@ class RuleController extends Controller
     public function create()
     {
         // Get all existing user and hosts groups
-        $usergroups = Usergroup::orderBy('name')->pluck('name', 'id');
-        $hostgroups = Hostgroup::orderBy('name')->pluck('name', 'id');
+        $sources = Keygroup::orderBy('name')->pluck('name', 'id');
+        $targets = Hostgroup::orderBy('name')->pluck('name', 'id');
 
-        return view('rule.create', compact('usergroups', 'hostgroups'));
+        return view('rule.create', compact('sources', 'targets'));
     }
 
     /**
@@ -72,7 +72,7 @@ class RuleController extends Controller
     {
         Rule::create([
             'name' => $request->name,
-            'usergroup_id' => $request->usergroup,
+            'keygroup_id' => $request->keygroup,
             'hostgroup_id' => $request->hostgroup,
             'action' => $request->action,
         ]);
@@ -129,7 +129,7 @@ class RuleController extends Controller
         $rules = Rule::select([
             'id',
             'name',
-            'usergroup_id',
+            'keygroup_id',
             'hostgroup_id',
             'action',
             'enabled',
@@ -137,8 +137,8 @@ class RuleController extends Controller
             ->orderBy('id', 'asc');
 
         return $datatable->eloquent($rules)
-            ->addColumn('usergroup', function (Rule $rule) {
-                return Usergroup::findOrFail($rule->usergroup_id)->name;
+            ->addColumn('keygroup', function (Rule $rule) {
+                return Keygroup::findOrFail($rule->keygroup_id)->name;
             })
             ->addColumn('hostgroup', function (Rule $rule) {
                 return Hostgroup::findOrFail($rule->hostgroup_id)->name;
@@ -153,7 +153,7 @@ class RuleController extends Controller
                     ->render();
             })
             ->rawColumns(['action', 'enabled', 'actions'])
-            ->removeColumn(['usergroup_id', 'hostgroup_id', 'enabled'])
+            ->removeColumn(['keygroup_id', 'hostgroup_id', 'enabled'])
             ->toJson();
     }
 }

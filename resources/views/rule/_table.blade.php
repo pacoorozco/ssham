@@ -59,7 +59,7 @@
                 "ajax": "{{ route('rules.data') }}",
                 "columns": [
                     {data: "id", "orderable": false},
-                    {data: "usergroup"},
+                    {data: "keygroup"},
                     {data: "hostgroup"},
                     {data: "action"},
                     {data: "name"},
