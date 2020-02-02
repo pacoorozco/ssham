@@ -27,10 +27,12 @@ use Spatie\Searchable\SearchResult;
  *
  * @package App
  *
- * @property string  $name
+ * @property int     $id
+ * @property string  $username
  * @property boolean $enabled
  * @property string  $type
  * @property string  $public
+ * @property string  $private
  * @property string  $fingerprint
  */
 class Key extends Model implements Searchable
@@ -66,25 +68,41 @@ class Key extends Model implements Searchable
     ];
 
     /**
-     * Attach the provided key as 'public_key' attribute.
+     * Attach the provided keys to the model and save it.
      *
      * It calculated the 'fingerprint' attribute also.
      *
-     * @param string $key       - Provided public key
-     * @param bool   $skip_save - if true, the model is not saved (for testing)
+     * @param string $public_key  - Provided public key
+     * @param string $private_key - Provided private key (nullable)
      *
-     * @return bool
+     * @throws \Throwable
      */
-    public function attachPublicKey(string $key, bool $skip_save = false): bool
+    public function attachKeyAndSave(string $public_key, string $private_key = null): void
     {
-        try {
-            $this->public = RsaSshKey::getPublicKey($key);
-            $this->fingerprint = RsaSshKey::getPublicFingerprint($key);
-        } catch (\Exception $exception) {
-            return false;
+        $this->attachKey($public_key, $private_key);
+        $this->saveOrFail();
+    }
+
+    /**
+     * Attach the provided keys to the model.
+     *
+     * It calculated the 'fingerprint' attribute also.
+     *
+     * @param string $public_key  - Provided public key
+     * @param string $private_key - Provided private key (nullable)
+     *
+     * @throws \App\Libs\RsaSshKey\InvalidInputException
+     */
+    public function attachKey(string $public_key, string $private_key = null): void
+    {
+        // In case of empty public_key, do nothing.
+        if (empty($public_key)) {
+            return;
         }
 
-        return $skip_save ?: $this->save();
+        $this->private = $private_key;
+        $this->public = RsaSshKey::getPublicKey($public_key);
+        $this->fingerprint = RsaSshKey::getPublicFingerprint($public_key);
     }
 
     /**
@@ -92,7 +110,8 @@ class Key extends Model implements Searchable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups()
+    public
+    function groups()
     {
         return $this->belongsToMany('App\Keygroup');
     }
@@ -102,18 +121,20 @@ class Key extends Model implements Searchable
      *
      * @param string $value
      */
-    public function setUsernameAttribute(string $value)
+    public
+    function setUsernameAttribute(string $value)
     {
         $this->attributes['username'] = strtolower($value);
     }
 
-    public function getSearchResult(): SearchResult
+    public
+    function getSearchResult(): SearchResult
     {
         $url = route('keys.show', $this->id);
 
         return new SearchResult(
             $this,
-            $this->name,
+            $this->username,
             $url
         );
     }

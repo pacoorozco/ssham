@@ -24,7 +24,6 @@ use App\Key;
 use App\Keygroup;
 use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
@@ -74,28 +73,29 @@ class KeyController extends Controller
         // Use transaction to ensure that the key is created with all the required data.
         DB::beginTransaction();
 
+        $public_key = $request->public_key_input;
+        $private_key = null;
+
         // Test if we need to create a new RSA key
-        $private_key_filename = null;
         if ($request->public_key == 'create') {
             $keys = RsaSshKey::create();
             $public_key = $keys['publickey'];
-            $private_key_filename = RsaSshKey::createDownloadableFile($keys['privatekey'], $request->name . '.rsa');
-        } else {
-            $public_key = $request->input('public_key_input');
+            $private_key = $keys['privatekey'];
         }
 
-        // in case of blank password, we assign one randomly.
-        $key = Key::create([
-            'username' => $request->username,
-        ]);
+        try {
+            $key = Key::create([
+                'username' => $request->username,
+            ]);
 
-        // Associate User's Groups if has been submitted
-        $key->groups()->attach($request->groups);
+            // Associate User's Groups if has been submitted
+            $key->groups()->attach($request->groups);
 
-        // Attach the RSA SSH public key to the created use (includes a save() method).
-        if (!$key->attachPublicKey($public_key)) {
+            // Attach the RSA SSH public key to the created use (includes a save() method).
+            $key->attachKey($public_key, $private_key);
+        } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
-            return redirect()->route('key.create')
+            return redirect()->back()
                 ->withInput()
                 ->withErrors(__('key/messages.create.error'));
         }
@@ -103,15 +103,8 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        if (!is_null($private_key_filename)) {
-            return redirect()->route('key.index')
-                ->withSuccess(__('key/messages.create.success_private', [
-                    'url' => URL::signedRoute('file.download', ['filename' => $private_key_filename])
-                ]));
-        }
-
-        return redirect()->route('key.index')
-            ->withSuccess(__('key/messages.create.success'));
+        return redirect()->route('keys.index')
+            ->withSuccess(__('key/messages.create.success', ['username' => $key->username]));
     }
 
     /**
@@ -154,38 +147,43 @@ class KeyController extends Controller
         // Use transaction to ensure that the key is updated with all the required data.
         DB::beginTransaction();
 
-        $key->update([
-            'enabled' => $request->input('enabled'),
-        ]);
+        try {
+            $key->update([
+                'enabled' => $request->enabled,
+            ]);
 
-        // Associate Key's Groups
-        if ($request->groups) {
-            $key->groups()->sync($request->groups);
-        } else {
-            $key->groups()->detach();
-        }
+            // Associate Key's Groups
+            if ($request->groups) {
+                $key->groups()->sync($request->groups);
+            } else {
+                $key->groups()->detach();
+            }
 
-        // Test if we need to create a new RSA key
-        $private_key_filename = null;
-        switch ($request->input('public_key')) {
-            case 'create':
-                $keys = RsaSshKey::create();
-                $public_key = $keys['publickey'];
-                $private_key_filename = RsaSshKey::createDownloadableFile($keys['privatekey'], $key->name . '.rsa');
-                break;
-            case 'import':
-                $public_key = $request->input('public_key_input');
-                break;
-            case 'maintain':
-            default:
-                $public_key = null;
-                break;
-        }
+            // Test if we need to create a new RSA key
+            $private_key = null;
+            switch ($request->public_key) {
+                case 'create':
+                    $keys = RsaSshKey::create();
+                    $public_key = $keys['publickey'];
+                    $private_key = $keys['privatekey'];
+                    break;
+                case 'import':
+                    $public_key = $request->public_key_input;
+                    break;
+                case 'maintain':
+                default:
+                    $public_key = null;
+                    break;
+            }
 
-        // Attach the RSA SSH public key to the created use (includes a save() method).
-        if (!$key->attachPublicKey($public_key)) {
+            // Attach the RSA SSH public key to the created use (includes a save() method).
+            if (!empty($public_key)) {
+                $key->attachKeyAndSave($public_key, $private_key);
+            }
+        } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
-            redirect()->route('keys.edit')
+            dd($exception->getMessage());
+            return redirect()->back()
                 ->withInput()
                 ->withErrors(__('key/messages.edit.error'));
         }
@@ -193,15 +191,8 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        if (!is_null($private_key_filename)) {
-            return redirect()->route('keys.index')
-                ->withSuccess(__('key/messages.edit.success_private', [
-                    'url' => URL::signedRoute('file.download', ['filename' => $private_key_filename])
-                ]));
-        }
-
         return redirect()->route('keys.index')
-            ->withSuccess(__('key/messages.edit.success'));
+            ->withSuccess(__('key/messages.edit.success', ['username' => $key->username]));
     }
 
     /**
@@ -225,10 +216,17 @@ class KeyController extends Controller
      */
     public function destroy(Key $key)
     {
-        $key->delete();
+        $username = $key->username;
+
+        try {
+            $key->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withErrors(__('key/messages.delete.error'));
+        }
 
         return redirect()->route('keys.index')
-            ->withSuccess(__('key/messages.delete.success'));
+            ->withSuccess(__('key/messages.delete.success', ['username' => $username]));
     }
 
     /**

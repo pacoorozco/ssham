@@ -7,7 +7,7 @@
 <table id="keys-table" class="table table-bordered table-hover">
     <thead>
     <tr>
-        <th>@lang('key/table.name')</th>
+        <th>@lang('key/table.username')</th>
         <th>@lang('key/table.fingerprint')</th>
         <th>@lang('key/table.groups')</th>
         <th>@lang('key/table.actions')</th>
@@ -15,7 +15,7 @@
     </thead>
     <tfoot>
     <tr>
-        <th>@lang('key/table.name')</th>
+        <th>@lang('key/table.username')</th>
         <th>@lang('key/table.fingerprint')</th>
         <th>@lang('key/table.groups')</th>
         <th>@lang('key/table.actions')</th>
@@ -32,7 +32,7 @@
             $('#keys-table').DataTable({
                 "ajax": "{{ route('keys.data') }}",
                 "columns": [
-                    {data: "name"},
+                    {data: "username"},
                     {data: "fingerprint", "orderable": false, "searchable": true},
                     {data: "groups", "orderable": false, "searchable": false},
                     {data: "actions", "orderable": false, "searchable": false}

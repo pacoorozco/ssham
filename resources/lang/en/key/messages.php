@@ -17,29 +17,27 @@
 
 return [
 
-    'username_help' => 'For security reasons, username cannot be changed once added.',
+    'username_help' => 'For security reasons, username <strong>cannot</strong> be changed once the key is created.',
 
-    'groups_help' => 'Please select the groups where this user belongs to',
+    'groups_help' => 'Please select the groups where this key belongs to',
     'create_public_key' => 'Create a new RSA private / public key',
     'create_public_key_help' => 'A new RSA key pair will be generated. The private key <strong>must be downloaded and delivered securely</strong> to the user.',
     'change_public_key_help_notice' => 'The current public key will be revoked. Please act with caution',
     'maintain_public_key' => 'Maintain current RSA public key',
     'import_public_key' => 'Import RSA public key',
-    'import_public_key_help' => 'Do not paste the private part of the SSH key. Paste the public part, which is usually beginning with `ssh-rsa`.',
+    'import_public_key_help' => 'Do not paste the private part of the SSH key. Paste only the public part, which is usually beginning with `ssh-rsa`.',
 
     'create' => [
         'error' => 'Key was not created, please try again.',
-        'success' => 'Key created successfully.',
-        'success_private' => 'Key created successfully. You must download RSA private key using <a href=":url">this link</a>.'
+        'success' => 'The key \':username\' was created successfully.',
     ],
     'edit' => [
         'error' => 'There was an issue editing the key. Please try again.',
-        'success' => 'The key was edited successfully.',
-        'success_private' => 'Key edited successfully. You must download RSA private key using <a href=":url">this link</a>.'
+        'success' => 'The key \':username\' was edited successfully.',
     ],
     'delete' => [
         'error' => 'There was an issue deleting the key. Please try again.',
-        'success' => 'The key was deleted successfully.'
+        'success' => 'The key \':username\' was deleted successfully.'
     ],
 
 ];

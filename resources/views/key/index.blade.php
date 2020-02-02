@@ -31,7 +31,7 @@
                     <i class="fa fa-plus"></i> @lang('key/title.create_a_new_key')
                 </a>
                 <a class="btn btn-primary" href="{{ route('keygroups.index') }}" role="button">
-                    <i class="fa fa-keys"></i> @lang('keygroup/title.key_group_management')
+                    <i class="fa fa-briefcase"></i> @lang('keygroup/title.key_group_management')
                 </a>
                 <!-- /.actions -->
             </div>

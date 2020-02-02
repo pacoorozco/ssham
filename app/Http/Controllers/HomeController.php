@@ -55,10 +55,9 @@ class HomeController extends Controller
         $query = $request->input('query');
 
         $searchResults = (new Search())
-            ->registerModel(User::class, function (ModelSearchAspect $modelSearchAspect) {
+            ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
                 $modelSearchAspect
                     ->addSearchableAttribute('username') // return results for partial matches on usernames
-                    ->addExactSearchableAttribute('email') // only return results that exactly match the e-mail address
                     ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
             })
             ->registerModel(Keygroup::class, 'name', 'description')

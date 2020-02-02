@@ -18,6 +18,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\ValidRSAPublicKeyRule;
+use Illuminate\Validation\Rule;
 
 class KeyUpdateRequest extends Request
 {
@@ -51,8 +52,8 @@ class KeyUpdateRequest extends Request
     public function rules()
     {
         return [
-            'public_key' => ['required', 'in:create,import,maintain'],
-            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule],
+            'public_key' => ['required', Rule::in(['create', 'import', 'maintain'])],
+            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule()],
             'enabled' => ['required', 'boolean'],
         ];
     }

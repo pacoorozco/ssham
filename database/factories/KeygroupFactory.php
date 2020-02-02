@@ -17,8 +17,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Key;
-use App\Libs\RsaSshKey\RsaSshKey;
+use App\Keygroup;
 use Faker\Generator as Faker;
 
 /*
@@ -32,13 +31,9 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Key::class, function (Faker $faker) {
-    $rsa = RsaSshKey::create();
+$factory->define(Keygroup::class, function (Faker $faker) {
     return [
-        'username' => $faker->userName,
-        'public' => RsaSshKey::getPublicKey($rsa['publickey']),
-        'private' => null,
-        'fingerprint' => RsaSshKey::getPublicFingerprint($rsa['publickey']),
-        'enabled' => $faker->boolean,
+        'name' => 'Group_' . $faker->colorName,
+        'description' => $faker->paragraph,
     ];
 });

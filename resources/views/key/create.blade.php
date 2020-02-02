@@ -40,17 +40,17 @@
                     <div class="col-md-6">
 
                         <fieldset>
-                            <legend>@lang('key/title.personal_information_section')</legend>
-                            <!-- name -->
+                            <legend>@lang('key/title.key_identification_section')</legend>
+                            <!-- username -->
                             <div class="form-group">
-                                {!! Form::label('name', __('key/model.name')) !!}
-                                {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                                <span class="form-text text-muted">@lang('key/messages.keyname_help')</span>
-                                @error('name')
+                                {!! Form::label('username', __('key/model.username')) !!}
+                                {!! Form::text('username', null, array('class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
+                                <span class="form-text text-muted">@lang('key/messages.username_help')</span>
+                                @error('username')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- ./ keyname -->
+                            <!-- ./ username -->
                         </fieldset>
 
                     </div>
@@ -69,6 +69,7 @@
                             </div>
                             <!-- ./ key's groups -->
                         </fieldset>
+
 
                         <fieldset>
                             <legend>@lang('key/title.public_key_section')</legend>

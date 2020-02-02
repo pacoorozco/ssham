@@ -6,7 +6,6 @@
 {{-- Content Header --}}
 @section('header')
     @lang('key/title.key_update')
-    <small class="text-muted">{{ $key->name }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -39,17 +38,17 @@
                     <div class="col-md-6">
 
                         <fieldset>
-                            <legend>@lang('key/title.personal_information_section')</legend>
-                            <!-- name -->
+                            <legend>@lang('key/title.key_identification_section')</legend>
+                            <!-- username -->
                             <div class="form-group">
-                                {!! Form::label('name', __('key/model.name')) !!}
-                                {!! Form::text('name', $key->name, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
-                                <span class="form-text text-muted">@lang('key/messages.name_help')</span>
-                                @error('name')
+                                {!! Form::label('username', __('key/model.username')) !!}
+                                {!! Form::text('username', $key->username, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                                <span class="form-text text-muted">@lang('key/messages.username_help')</span>
+                                @error('username')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- ./ name -->
+                            <!-- ./ username -->
                         </fieldset>
 
                         <!-- enabled -->
@@ -83,7 +82,7 @@
                             <div class="form-group">
                                 {!! Form::label('groups[]', __('key/model.groups')) !!}
                                 <div class="controls">
-                                    {!! Form::select('groups[]', $groups, $key->keygroups->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                                    {!! Form::select('groups[]', $groups, $key->groups->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
                                 </div>
                             </div>
                             <!-- ./ key's groups -->
@@ -107,7 +106,7 @@
                                             </a>
                                         </p>
                                         <div class="collapse" id="collapsePublicKey">
-                                            <pre class="key-code">{{ $key->public_key }}</pre>
+                                            <pre class="key-code">{{ $key->public }}</pre>
                                         </div>
                                     </div>
                                 </div>

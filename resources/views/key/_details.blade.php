@@ -1,8 +1,19 @@
 <div class="card">
-    <div class="card-header">
-        <h2>{{ $key->name }} @if(!$key->enabled)<span class="badge badge-secondary">{{ __('general.disabled') }}</span>@endif </h2>
+    <div class="card-header bg-cyan">
+       <h2 class="card-title">{{ $key->username }} @if(!$key->enabled)<span class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>@endif </h2>
     </div>
     <div class="card-body">
+
+        <!-- username -->
+        <div class="row">
+            <div class="col-2">
+                <strong>@lang('key/model.username')</strong>
+            </div>
+            <div class="col-10">
+                {{ $key->username }}
+            </div>
+        </div>
+        <!-- ./ username -->
 
         <!-- fingerprint -->
         <div class="row">
@@ -11,21 +22,17 @@
             </div>
             <div class="col-10">
                 {{ $key->fingerprint }}
-                <a data-toggle="collapse" href="#collapsePublicKey" aria-expanded="false"
-                   aria-controls="collapsePublicKey">
-                    <i class="fa fa-caret-down"></i>
-                </a>
             </div>
         </div>
         <!-- ./ fingerprint -->
 
         <!-- public key -->
-        <div class="row collapse" id="collapsePublicKey">
+        <div class="row">
             <div class="col-2">
                 <strong>@lang('key/model.public_key')</strong>
             </div>
             <div class="col-10">
-                <pre class="key-code">{{ $key->public_key }}</pre>
+                <pre class="key-code">{{ $key->public }}</pre>
             </div>
         </div>
         <!-- ./ public key -->
@@ -36,11 +43,13 @@
                 <strong>@lang('key/model.groups')</strong>
             </div>
             <div class="col-10">
-                @forelse($key->keygroups as $group)
-                    <span class="badge badge-primary">{{ $group->name }}</span>
+                <ul class="list-inline">
+                @forelse($key->groups as $group)
+                        <li class="list-inline-item"><a href="{{ route('keygroups.show', $group->id) }}">{{ $group->name }}</a></li>
                 @empty
-                    @lang('key/model.no_groups')
+                        <li class="list-inline-item">@lang('key/model.no_groups')</li>
                 @endforelse
+                </ul>
             </div>
         </div>
         <!-- ./ groups -->
@@ -51,7 +60,11 @@
                 <strong>@lang('key/model.enabled')</strong>
             </div>
             <div class="col-10">
-                {{ ($key->enabled) ? __('general.yes') : __('general.no') }}
+                @if ($key->enabled)
+                    <span class="badge badge-pill badge-success">{{ __('general.enabled') }}</span>
+                @else
+                    <span class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>
+                @endif
             </div>
         </div>
         <!-- ./ enabled -->

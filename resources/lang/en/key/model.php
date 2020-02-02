@@ -23,10 +23,10 @@ return [
     |
     */
     'item' => 'SSH Keys',
-    'name' => 'Name',
+    'username' => 'Username',
     'public_key' => 'SSH public key',
     'fingerprint' => 'Key fingerprint',
     'enabled' => 'Status',
-    'groups' => 'Group memberships',
-    'no_groups' => 'User has not group membership',
+    'groups' => 'Group membership',
+    'no_groups' => 'Key does not pertain to any group',
 ];

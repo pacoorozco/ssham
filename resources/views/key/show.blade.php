@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('key/title.key_show') <small>{{ $key->keyname }}</small>
+    @lang('key/title.key_show')
 @endsection
 
 {{-- Breadcrumbs --}}

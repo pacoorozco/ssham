@@ -16,13 +16,14 @@
  */
 
 return [
-    'key_management' => 'Key Management',
-    'key_management_subtitle' => 'create and edit keys',
-    'key_show' => 'Key Details',
-    'create_a_new_key' => 'Create a new Key',
-    'create_a_new_key_subtitle' => 'add a new key',
-    'key_update' => 'Update Key',
-    'key_delete' => 'Delete Key',
+    'key_management' => 'SSH Key Management',
+    'key_management_subtitle' => 'create and edit SSH keys',
+    'key_show' => 'SSH key Details',
+    'create_a_new_key' => 'Create a new SSH key',
+    'create_a_new_key_subtitle' => 'add a new SSH key',
+    'key_update' => 'Update SSH key',
+    'key_delete' => 'Delete SSH key',
+    'key_identification_section' => 'SSH Key identification',
     'membership_section' => 'Membership',
     'public_key_section' => 'SSH Key',
 ];

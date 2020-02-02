@@ -58,12 +58,27 @@ class KeyTest extends ModelTestCase
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 
+    public function test_public_key_is_set_when_public_key_is_attached()
+    {
+        $m = new Key();
+
+        try {
+            $m->attachKey(self::VALID_PUBLIC_KEY);
+        } catch (\Throwable $exception) {
+            $this->assertNull($exception);
+        }
+        $this->assertTrue(RsaSshKey::compareKeys(self::VALID_PUBLIC_KEY, $m->public));
+    }
+
     public function test_fingerprint_is_set_when_public_key_is_attached()
     {
         $m = new Key();
 
-        $this->assertTrue($m->attachPublicKey(self::VALID_PUBLIC_KEY, true));
-        $this->assertTrue(RsaSshKey::compareKeys(self::VALID_PUBLIC_KEY, $m->public));
+        try {
+            $m->attachKey(self::VALID_PUBLIC_KEY);
+        } catch (\Throwable $exception) {
+            $this->assertNull($exception);
+        }
         $this->assertEquals(self::FINGERPRINT_VALID_PUBLIC_KEY, $m->fingerprint);
     }
 
@@ -71,7 +86,9 @@ class KeyTest extends ModelTestCase
     {
         $m = new Key();
 
-        $this->assertFalse($m->attachPublicKey(self::INVALID_PUBLIC_KEY, true));
+        $this->expectException(\Exception::class);
+        $m->attachKey(self::INVALID_PUBLIC_KEY);
+
         $this->assertNull($m->public);
         $this->assertNull($m->fingerprint);
     }
