@@ -21,7 +21,6 @@ use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
 use App\Key;
 use App\Keygroup;
-use App\Rule;
 use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller

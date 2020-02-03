@@ -7,5 +7,7 @@ return [
     'username' => 'Username',
     'type' => 'Type',
     'groups' => 'Group memberships',
-    'enabled' => 'Enabled',
+    'enabled' => 'Status',
+    'synced' => 'Synced',
+    'last_rotation' => 'Last update on',
 ];

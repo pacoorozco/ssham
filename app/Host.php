@@ -27,8 +27,10 @@ use Spatie\Searchable\SearchResult;
  *
  * @package App
  *
+ * @property int     $id
  * @property string  $hostname
  * @property string  $username
+ * @property string  $full_hostname
  * @property boolean $enabled
  * @property boolean $synced
  * @property string  $key_hash

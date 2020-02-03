@@ -1,6 +1,6 @@
 <?php
 /**
- * SSH Access Manager - SSH keygroups management solution.
+ * SSH Access Manager - SSH keys management solution.
  *
  * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
@@ -17,14 +17,15 @@
 
 namespace Tests\Unit\Http\Controllers;
 
-use App\Key;
-use App\Keygroup;
+use App\Host;
+use App\Hostgroup;
+use App\keygroupgroup;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class KeygroupControllerTest extends TestCase
+class HostControllerTest extends TestCase
 {
     use RefreshDatabase;
     use DatabaseMigrations;
@@ -41,80 +42,80 @@ class KeygroupControllerTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.index'));
+            ->get(route('hosts.index'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('keygroup.index');
+        $response->assertViewIs('host.index');
     }
 
     public function test_create_method_returns_proper_view()
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.create'));
+            ->get(route('hosts.create'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('keygroup.create');
+        $response->assertViewIs('host.create');
     }
 
     public function test_create_method_returns_proper_data()
     {
-        $keys = factory(Key::class, 3)->create();
+        $groups = factory(Hostgroup::class, 3)->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.create'));
+            ->get(route('hosts.create'));
 
         $response->assertSuccessful();
-        $response->assertViewHas('keys', $keys->pluck('username', 'id'));
+        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
     public function test_edit_method_returns_proper_view()
     {
-        $group = factory(Keygroup::class)->create();
+        $host = factory(Host::class)->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.edit', $group->id));
+            ->get(route('hosts.edit', $host->id));
 
         $response->assertSuccessful();
-        $response->assertViewIs('keygroup.edit');
-        $response->assertViewHas('keygroup', $group);
+        $response->assertViewIs('host.edit');
+        $response->assertViewHas('host', $host);
     }
 
     public function test_edit_method_returns_proper_data()
     {
-        $group = factory(Keygroup::class)->create();
-        $keys = factory(Key::class, 3)->create();
+        $host = factory(Host::class)->create();
+        $groups = factory(Hostgroup::class, 3)->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.edit', $group->id));
+            ->get(route('hosts.edit', $host->id));
 
         $response->assertSuccessful();
-        $response->assertViewHas('keys', $keys->pluck('username', 'id'));
+        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
     public function test_delete_method_returns_proper_view()
     {
-        $group = factory(Keygroup::class)->create();
+        $host = factory(Host::class)->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.delete', $group->id));
+            ->get(route('hosts.delete', $host->id));
 
         $response->assertSuccessful();
-        $response->assertViewIs('keygroup.delete');
-        $response->assertViewHas('keygroup', $group);
+        $response->assertViewIs('host.delete');
+        $response->assertViewHas('host', $host);
     }
 
     public function test_destroy_method_returns_proper_success_message()
     {
-        $group = factory(Keygroup::class)->create();
+        $host = factory(Host::class)->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->delete(route('keygroups.destroy', $group->id));
+            ->delete(route('hosts.destroy', $host->id));
 
         $response->assertSessionHas('success');
     }
@@ -123,26 +124,26 @@ class KeygroupControllerTest extends TestCase
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->get(route('keygroups.data'));
+            ->get(route('hosts.data'));
 
         $response->assertForbidden();
     }
 
     public function test_data_method_returns_data()
     {
-        $groups = factory(Keygroup::class, 3)->create();
+        $hosts = factory(Host::class, 3)->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->ajaxGet(route('keygroups.data'));
+            ->ajaxGet(route('hosts.data'));
 
         $response->assertSuccessful();
-        foreach ($groups as $group) {
+        foreach ($hosts as $host) {
             $response->assertJsonFragment([
-                'name' => $group['name'],
-                'description' => $group['description'],
-                'keys' => '0',
-                'rules' => trans_choice('rule/model.items_count', 0, ['value' => 0]),
+                'hostname' => $host['hostname'],
+                'username' => $host['username'],
+                'type' => $host['type'],
+                'groups' => '0',
             ]);
         }
     }

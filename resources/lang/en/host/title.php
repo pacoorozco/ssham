@@ -8,4 +8,6 @@ return [
     'create_a_new_host_subtitle' => 'add a new host',
     'host_update' => 'Update Host',
     'host_delete' => 'Delete Host',
+    'host_information_section' => 'Host description',
+    'membership_section' => 'Group membership',
 ];

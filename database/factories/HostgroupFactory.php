@@ -17,7 +17,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Host;
+use App\Hostgroup;
 use Faker\Generator as Faker;
 
 /*
@@ -31,14 +31,9 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Host::class, function (Faker $faker) {
+$factory->define(Hostgroup::class, function (Faker $faker) {
     return [
-        'username' => $faker->userName,
-        'hostname' => $faker->domainWord . '.' . $faker->domainName,
-        'type' => 'linux',
-        'enabled' => true,
-        'synced' => true,
-        'key_hash' => null,
-        'last_rotation' => null,
+        'name' => 'Group_' . $faker->colorName,
+        'description' => $faker->paragraph,
     ];
 });

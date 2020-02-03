@@ -5,8 +5,8 @@ return [
     'no' => 'No',
     'all' => 'All',
 
-    'enabled' => 'enabled',
-    'disabled' => 'disabled',
+    'enabled' => 'Enabled',
+    'disabled' => 'Disabled',
 
     'active' => 'Active',
     'blocked' => 'Blocked',

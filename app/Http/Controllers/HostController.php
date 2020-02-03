@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers;
@@ -68,18 +68,24 @@ class HostController extends Controller
      */
     public function store(HostCreateRequest $request)
     {
-        $host = Host::create([
-            'hostname' => $request->hostname,
-            'username' => $request->username,
-        ]);
+        try {
+            $host = Host::create([
+                'hostname' => $request->hostname,
+                'username' => $request->username,
+            ]);
 
-        // Associate Host's Groups
-        if ($request->groups) {
-            $host->groups()->sync($request->groups);
+            // Associate Host's Groups
+            if ($request->groups) {
+                $host->groups()->sync($request->groups);
+            }
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('host/messages.create.error'));
         }
 
         return redirect()->route('hosts.index')
-            ->withSuccess(__('host/messages.create.success'));
+            ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
     }
 
     /**
@@ -119,19 +125,25 @@ class HostController extends Controller
      */
     public function update(Host $host, HostUpdateRequest $request)
     {
-        $host->update([
-            'enabled' => $request->enabled,
-        ]);
+        try {
+            $host->update([
+                'enabled' => $request->enabled,
+            ]);
 
-        // Associate Host's Groups
-        if ($request->groups) {
-            $host->groups()->sync($request->groups);
-        } else {
-            $host->groups()->detach();
+            // Associate Host's Groups
+            if ($request->groups) {
+                $host->groups()->sync($request->groups);
+            } else {
+                $host->groups()->detach();
+            }
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('host/messages.edit.error'));
         }
 
         return redirect()->route('hosts.edit', [$host->id])
-            ->withSuccess(__('host/messages.edit.success'));
+            ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
     }
 
     /**
@@ -156,10 +168,17 @@ class HostController extends Controller
      */
     public function destroy(Host $host)
     {
-        $host->delete();
+        $hostname = $host->full_hostname;
+
+        try {
+            $host->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withErrors(__('host/messages.delete.error'));
+        }
 
         return redirect()->route('hosts.index')
-            ->withSuccess(__('host/messages.delete.success'));
+            ->withSuccess(__('host/messages.delete.success', ['hostname' => $host->full_hostname]));
     }
 
     /**
