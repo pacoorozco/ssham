@@ -178,7 +178,7 @@ class HostController extends Controller
         }
 
         return redirect()->route('hosts.index')
-            ->withSuccess(__('host/messages.delete.success', ['hostname' => $host->full_hostname]));
+            ->withSuccess(__('host/messages.delete.success', ['hostname' => $hostname]));
     }
 
     /**
