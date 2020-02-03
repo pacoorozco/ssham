@@ -110,8 +110,7 @@ class Key extends Model implements Searchable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public
-    function groups()
+    public function groups()
     {
         return $this->belongsToMany('App\Keygroup');
     }
@@ -121,14 +120,12 @@ class Key extends Model implements Searchable
      *
      * @param string $value
      */
-    public
-    function setUsernameAttribute(string $value)
+    public function setUsernameAttribute(string $value)
     {
         $this->attributes['username'] = strtolower($value);
     }
 
-    public
-    function getSearchResult(): SearchResult
+    public function getSearchResult(): SearchResult
     {
         $url = route('keys.show', $this->id);
 

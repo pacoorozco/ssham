@@ -92,7 +92,7 @@ class KeyController extends Controller
             $key->groups()->attach($request->groups);
 
             // Attach the RSA SSH public key to the created use (includes a save() method).
-            $key->attachKey($public_key, $private_key);
+            $key->attachKeyAndSave($public_key, $private_key);
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
             return redirect()->back()

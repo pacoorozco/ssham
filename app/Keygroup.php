@@ -18,6 +18,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -67,6 +68,16 @@ class Keygroup extends Model implements Searchable
     public function keys()
     {
         return $this->belongsToMany('App\Key');
+    }
+
+    /**
+     * An Keygroup could be present un many Rules (one-to-many)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rules()
+    {
+        return $this->hasMany('App\Rule');
     }
 
     public function getSearchResult(): SearchResult

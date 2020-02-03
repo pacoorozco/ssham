@@ -6,7 +6,6 @@
 {{-- Content Header --}}
 @section('header')
     @lang('keygroup/title.key_group_show')
-    <small class="text-muted">{{ $keygroup->name }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}

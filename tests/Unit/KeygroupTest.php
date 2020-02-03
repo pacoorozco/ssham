@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Keygroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\ModelTestCase;
 
 class KeygroupTest extends ModelTestCase
@@ -32,5 +33,12 @@ class KeygroupTest extends ModelTestCase
         $m = new Keygroup();
         $r = $m->keys();
         $this->assertInstanceOf(BelongsToMany::class, $r);
+    }
+
+    public function test_rules_relation()
+    {
+        $m = new Keygroup();
+        $r = $m->rules();
+        $this->assertInstanceOf(HasMany::class, $r);
     }
 }

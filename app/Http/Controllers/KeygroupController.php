@@ -19,9 +19,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
-use App\User;
+use App\Key;
 use App\Keygroup;
-use Illuminate\Database\QueryException;
+use App\Rule;
 use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
@@ -54,7 +54,7 @@ class KeygroupController extends Controller
     public function create()
     {
         // Get all existing keys
-        $keys = Key::orderBy('name')->pluck('name', 'id');
+        $keys = Key::orderBy('username')->pluck('username', 'id');
 
         return view('keygroup.create', compact('keys'));
     }
@@ -69,23 +69,23 @@ class KeygroupController extends Controller
     public function store(KeygroupCreateRequest $request)
     {
         try {
-            $keygroup = Keygroup::create([
+            $group = Keygroup::create([
                 'name' => $request->name,
                 'description' => $request->description,
             ]);
 
             // Associate Keys to Key groups
             if ($request->keys) {
-                $keygroup->keys()->sync($request->keys);
+                $group->keys()->sync($request->keys);
             }
-        } catch (QueryException $e) {
-            return redirect()->back()->withInput()
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
                 ->withErrors(__('keygroup/messages.create.error'));
         }
 
-
         return redirect()->route('keygroups.index')
-            ->withSuccess(__('keygroup/messages.create.success'));
+            ->withSuccess(__('keygroup/messages.create.success', ['name' => $group->name]));
     }
 
     /**
@@ -110,7 +110,7 @@ class KeygroupController extends Controller
     public function edit(Keygroup $keygroup)
     {
         // Get all existing keys
-        $keys = User::orderBy('keyname')->pluck('keyname', 'id');
+        $keys = Key::orderBy('username')->pluck('username', 'id');
 
         return view('keygroup.edit', compact('keygroup', 'keys'));
     }
@@ -118,27 +118,33 @@ class KeygroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Keygroup              $keygroup
+     * @param Keygroup              $group
      * @param KeygroupUpdateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Keygroup $keygroup, KeygroupUpdateRequest $request)
+    public function update(Keygroup $group, KeygroupUpdateRequest $request)
     {
-        $keygroup->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        try {
+            $group->update([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
 
-        // Associate Users to User's group
-        if ($request->keys) {
-            $keygroup->keys()->sync($request->keys);
-        } else {
-            $keygroup->keys()->detach();
+            // Associate Users to User's group
+            if ($request->keys) {
+                $group->keys()->sync($request->keys);
+            } else {
+                $group->keys()->detach();
+            }
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('keygroup/messages.edit.error'));
         }
 
-        return redirect()->route('keygroups.edit', [$keygroup->id])
-            ->withSuccess(__('keygroup/messages.edit.success'));
+        return redirect()->route('keygroups.edit', $group->id)
+            ->withSuccess(__('keygroup/messages.edit.success', ['name' => $group->name]));
     }
 
     /**
@@ -156,17 +162,24 @@ class KeygroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Keygroup $keygroup
+     * @param Keygroup $group
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Keygroup $keygroup)
+    public function destroy(Keygroup $group)
     {
-        $keygroup->delete();
+        $name = $group->name;
+
+        try {
+            $group->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withErrors(__('keygroup/messages.delete.error'));
+        }
 
         return redirect()->route('keygroups.index')
-            ->withSuccess(__('keygroup/messages.delete.success'));
+            ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));
     }
 
     /**
@@ -179,15 +192,19 @@ class KeygroupController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        $keygroups = Keygroup::select([
+        $groups = Keygroup::select([
             'id',
             'name',
             'description',
         ])
             ->withCount('keys as keys') // count number of keys in keygroups without loading the models
+            ->withCount('rules as rules') // count number of keys in rules without loading the models
             ->orderBy('name', 'asc');
 
-        return $datatable->eloquent($keygroups)
+        return $datatable->eloquent($groups)
+            ->editColumn('rules', function (Keygroup $group) {
+                return trans_choice('rule/model.items_count', $group->rules, ['value' => $group->rules]);
+            })
             ->addColumn('actions', function (Keygroup $keygroup) {
                 return view('partials.actions_dd')
                     ->with('model', 'keygroups')

@@ -10,6 +10,7 @@
         <th>@lang('keygroup/table.name')</th>
         <th>@lang('keygroup/table.description')</th>
         <th>@lang('keygroup/table.keys')</th>
+        <th>@lang('keygroup/table.rules')</th>
         <th>@lang('keygroup/table.actions')</th>
     </tr>
     </thead>
@@ -18,6 +19,7 @@
         <th>@lang('keygroup/table.name')</th>
         <th>@lang('keygroup/table.description')</th>
         <th>@lang('keygroup/table.keys')</th>
+        <th>@lang('keygroup/table.rules')</th>
         <th>@lang('keygroup/table.actions')</th>
     </tr>
     </tfoot>
@@ -35,6 +37,7 @@
                     {data: "name"},
                     {data: "description"},
                     {data: "keys", "searchable": false},
+                    {data: "rules", "searchable": false},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [
