@@ -118,24 +118,24 @@ class KeygroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Keygroup              $group
+     * @param Keygroup              $keygroup
      * @param KeygroupUpdateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Keygroup $group, KeygroupUpdateRequest $request)
+    public function update(Keygroup $keygroup, KeygroupUpdateRequest $request)
     {
         try {
-            $group->update([
+            $keygroup->update([
                 'name' => $request->name,
                 'description' => $request->description,
             ]);
 
             // Associate Users to User's group
             if ($request->keys) {
-                $group->keys()->sync($request->keys);
+                $keygroup->keys()->sync($request->keys);
             } else {
-                $group->keys()->detach();
+                $keygroup->keys()->detach();
             }
         } catch (\Exception $exception) {
             return redirect()->back()
@@ -143,8 +143,8 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.edit.error'));
         }
 
-        return redirect()->route('keygroups.edit', $group->id)
-            ->withSuccess(__('keygroup/messages.edit.success', ['name' => $group->name]));
+        return redirect()->route('keygroups.edit', $keygroup->id)
+            ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
     }
 
     /**

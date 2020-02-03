@@ -33,11 +33,9 @@
             <div class="col-10">
                 <p>{{ $keygroup->keys->count() }} @lang('key/model.item')</p>
                 <ul class="list-inline">
-                    @forelse($keygroup->keys as $key)
+                    @foreach($keygroup->keys as $key)
                         <li class="list-inline-item"><a href="{{ route('keys.show', $key->id) }}">{{ $key->username }}</a></li>
-                    @empty
-                        <li class="list-inline-item">@lang('keygroup/model.no_keys')</li>
-                    @endforelse
+                    @endforeach
                 </ul>
             </div>
         </div>
