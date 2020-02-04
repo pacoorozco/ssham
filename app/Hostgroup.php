@@ -26,6 +26,7 @@ use Spatie\Searchable\SearchResult;
  *
  * @package App
  *
+ * @property int    $id
  * @property string $name
  * @property string $description
  */
@@ -67,6 +68,16 @@ class Hostgroup extends Model implements Searchable
     public function hosts()
     {
         return $this->belongsToMany('App\Host');
+    }
+
+    /**
+     * An Keygroup could be present un many Rules (one-to-many)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rules()
+    {
+        return $this->hasMany('App\Rule');
     }
 
     public function getSearchResult(): SearchResult

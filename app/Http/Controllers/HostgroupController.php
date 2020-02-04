@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers;
@@ -68,18 +68,24 @@ class HostgroupController extends Controller
      */
     public function store(HostgroupCreateRequest $request)
     {
-        $hostgroup = Hostgroup::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        try {
+            $hostgroup = Hostgroup::create([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
 
-        // Associate Host's Groups
-        if ($request->hosts) {
-            $hostgroup->hosts()->sync($request->hosts);
+            // Associate Host's Groups
+            if ($request->hosts) {
+                $hostgroup->hosts()->sync($request->hosts);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('hostgroup/messages.create.error'));
         }
 
         return redirect()->route('hostgroups.index')
-            ->withSuccess(__('hostgroup/messages.create.success'));
+            ->withSuccess(__('hostgroup/messages.create.success', ['name' => $hostgroup->name]));
     }
 
     /**
@@ -120,20 +126,26 @@ class HostgroupController extends Controller
      */
     public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request)
     {
-        $hostgroup->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        try {
+            $hostgroup->update([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
 
-        // Associate User's Groups
-        if ($request->hosts) {
-            $hostgroup->hosts()->sync($request->hosts);
-        } else {
-            $hostgroup->hosts()->detach();
+            // Associate User's Groups
+            if ($request->hosts) {
+                $hostgroup->hosts()->sync($request->hosts);
+            } else {
+                $hostgroup->hosts()->detach();
+            }
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('hostgroup/messages.edit.error'));
         }
 
         return redirect()->route('hostgroups.edit', [$hostgroup->id])
-            ->withSuccess(__('hostgroup/messages.edit.success'));
+            ->withSuccess(__('hostgroup/messages.edit.success', ['name' => $hostgroup->name]));
     }
 
     /**
@@ -158,10 +170,17 @@ class HostgroupController extends Controller
      */
     public function destroy(Hostgroup $hostgroup)
     {
-        $hostgroup->delete();
+        $name = $hostgroup->name;
+
+        try {
+            $hostgroup->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withErrors(__('hostgroup/messages.delete.error'));
+        }
 
         return redirect()->route('hostgroups.index')
-            ->withSuccess(__('hostgroup/messages.delete.success'));
+            ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $name]));
     }
 
     /**
@@ -180,9 +199,13 @@ class HostgroupController extends Controller
             'description',
         ])
             ->withCount('hosts as hosts') // count number of hosts in hostgroups without loading the models
+            ->withCount('rules as rules') // count number of keys in rules without loading the models
             ->orderBy('name', 'asc');
 
         return $datatable->eloquent($hostgroups)
+            ->editColumn('rules', function (Hostgroup $group) {
+                return trans_choice('rule/model.items_count', $group->rules, ['value' => $group->rules]);
+            })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.actions_dd')
                     ->with('model', 'hostgroups')

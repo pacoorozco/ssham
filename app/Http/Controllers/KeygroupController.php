@@ -68,14 +68,14 @@ class KeygroupController extends Controller
     public function store(KeygroupCreateRequest $request)
     {
         try {
-            $group = Keygroup::create([
+            $keygroup = Keygroup::create([
                 'name' => $request->name,
                 'description' => $request->description,
             ]);
 
             // Associate Keys to Key groups
             if ($request->keys) {
-                $group->keys()->sync($request->keys);
+                $keygroup->keys()->sync($request->keys);
             }
         } catch (\Exception $e) {
             return redirect()->back()
@@ -84,7 +84,7 @@ class KeygroupController extends Controller
         }
 
         return redirect()->route('keygroups.index')
-            ->withSuccess(__('keygroup/messages.create.success', ['name' => $group->name]));
+            ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
     }
 
     /**
@@ -161,17 +161,17 @@ class KeygroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Keygroup $group
+     * @param Keygroup $keygroup
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Keygroup $group)
+    public function destroy(Keygroup $keygroup)
     {
-        $name = $group->name;
+        $name = $keygroup->name;
 
         try {
-            $group->delete();
+            $keygroup->delete();
         } catch (\Exception $exception) {
             return redirect()->back()
                 ->withErrors(__('keygroup/messages.delete.error'));
@@ -191,7 +191,7 @@ class KeygroupController extends Controller
      */
     public function data(Datatables $datatable)
     {
-        $groups = Keygroup::select([
+        $keygroups = Keygroup::select([
             'id',
             'name',
             'description',
@@ -200,7 +200,7 @@ class KeygroupController extends Controller
             ->withCount('rules as rules') // count number of keys in rules without loading the models
             ->orderBy('name', 'asc');
 
-        return $datatable->eloquent($groups)
+        return $datatable->eloquent($keygroups)
             ->editColumn('rules', function (Keygroup $group) {
                 return trans_choice('rule/model.items_count', $group->rules, ['value' => $group->rules]);
             })

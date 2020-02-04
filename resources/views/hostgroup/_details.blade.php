@@ -1,8 +1,19 @@
 <div class="card">
-    <div class="card-header">
-        <h2>{{ $hostgroup->name }}</h2>
+    <div class="card-header bg-cyan">
+        <h3 class="card-title">{{ $hostgroup->name }}</h3>
     </div>
     <div class="card-body">
+        <!-- name -->
+        <div class="row">
+            <div class="col-2">
+                <strong>@lang('hostgroup/model.name')</strong>
+            </div>
+            <div class="col-10">
+                {{ $hostgroup->name }}
+            </div>
+        </div>
+        <!-- ./ name -->
+
         <!-- description -->
         <div class="row">
             <div class="col-2">
@@ -14,22 +25,21 @@
         </div>
         <!-- ./ description -->
 
-        <!-- groups -->
+        <!-- hosts -->
         <div class="row">
             <div class="col-2">
                 <strong>@lang('hostgroup/model.hosts')</strong>
             </div>
             <div class="col-10">
-                <ul>
-                    @forelse($hostgroup->hosts as $host)
-                        <li>{{ $host->hostname }}</li>
-                    @empty
-                        <li>@lang('hostgroup/model.no_hosts')</li>
-                    @endforelse
+                <p>{{ $hostgroup->hosts->count() }} @lang('host/model.item')</p>
+                <ul class="list-inline">
+                    @foreach($hostgroup->hosts as $host)
+                        <li class="list-inline-item"><a href="{{ route('hosts.show', $host->id) }}">{{ $host->hostname }}</a></li>
+                    @endforeach
                 </ul>
             </div>
         </div>
-        <!-- ./ groups -->
+        <!-- ./ hosts -->
 
     </div>
 </div>
