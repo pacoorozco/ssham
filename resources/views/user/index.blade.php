@@ -30,9 +30,6 @@
                 <a class="btn btn-success" href="{{ route('users.create') }}" role="button">
                     <i class="fa fa-plus"></i> @lang('user/title.create_a_new_user')
                 </a>
-                <a class="btn btn-primary" href="{{ route('keygroups.index') }}" role="button">
-                    <i class="fa fa-users"></i> @lang('keygroup/title.user_group_management')
-                </a>
                 <!-- /.actions -->
             </div>
             <div class="card-body">

@@ -64,18 +64,24 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        // in case of blank password, we assign one randomly.
-        $user = User::create([
-            'username' => $request->input('username'),
-            'password' => ($request->filled('password')
-                ? $request->input('password')
-                : User::createRandomPassword()
-            ),
-            'email' => $request->input('email'),
-        ]);
+        try {
+            // in case of blank password, we assign one randomly.
+            $user = User::create([
+                'username' => $request->input('username'),
+                'password' => ($request->filled('password')
+                    ? $request->input('password')
+                    : User::createRandomPassword()
+                ),
+                'email' => $request->input('email'),
+            ]);
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('user/messages.create.error'));
+        }
 
         return redirect()->route('users.index')
-            ->withSuccess(__('user/messages.create.success', ['username' => $user->username]));
+            ->withSuccess(__('user/messages.create.success', ['name' => $user->username]));
     }
 
     /**
@@ -112,13 +118,19 @@ class UserController extends Controller
      */
     public function update(User $user, UserUpdateRequest $request)
     {
-        $user->update([
-            'email' => $request->input('email'),
-            'enabled' => $request->input('enabled'),
-        ]);
+        try {
+            $user->update([
+                'email' => $request->input('email'),
+                'enabled' => $request->input('enabled'),
+            ]);
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('user/messages.edit.error'));
+        }
 
         return redirect()->route('users.index')
-            ->withSuccess(__('user/messages.edit.success'));
+            ->withSuccess(__('user/messages.edit.success', ['user' => $user->username]));
     }
 
     /**
@@ -142,10 +154,17 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        $username = $user->username;
+
+        try {
+            $user->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withSuccess(__('user/messages.delete.error'));
+        }
 
         return redirect()->route('users.index')
-            ->withSuccess(__('user/messages.delete.success'));
+            ->withSuccess(__('user/messages.delete.success', ['name' => $username]));
     }
 
     /**

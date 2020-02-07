@@ -131,7 +131,7 @@ class KeygroupController extends Controller
             ]);
 
             // Associate Users to User's group
-            if ($request->keys) {
+            if ($request->filled('keys')) {
                 $keygroup->keys()->sync($request->keys);
             } else {
                 $keygroup->keys()->detach();

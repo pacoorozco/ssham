@@ -30,24 +30,24 @@ class PermissionsTableSeeder extends Seeder
     {
         $permissions = array(
             array(
-                'name' => 'manage-users',
-                'display_name' => 'Manage SSH Users',
+                'name' => 'manage-keys',
+                'display_name' => 'Manage SSH Keys',
             ),
             array(
                 'name' => 'manage-hosts',
                 'display_name' => 'Manage Hosts',
             ),
             array(
-                'name' => 'manage-permissions',
-                'display_name' => 'Manage Permissions',
+                'name' => 'manage-groups',
+                'display_name' => 'Manage Groups',
+            ),
+            array(
+                'name' => 'manage-control-rules',
+                'display_name' => 'Manage Control Rules',
             ),
             array(
                 'name' => 'manage-admins',
                 'display_name' => 'Manage Administrators',
-            ),
-            array(
-                'name' => 'login-ui',
-                'display_name' => 'Login to the UI'
             )
         );
 

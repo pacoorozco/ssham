@@ -133,7 +133,7 @@ class HostgroupController extends Controller
             ]);
 
             // Associate User's Groups
-            if ($request->hosts) {
+            if ($request->filled('hosts')) {
                 $hostgroup->hosts()->sync($request->hosts);
             } else {
                 $hostgroup->hosts()->detach();
