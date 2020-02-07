@@ -15,8 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Hostgroup;
 use App\ControlRule;
+use App\Hostgroup;
 use App\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -53,8 +53,8 @@ class HostgroupKeygroupPermissionsTableSeeder extends Seeder
             $hostgroup = Hostgroup::where('name', $permission['hostgroup'])->firstOrFail();
 
             ControlRule::create([
-                'keygroup_id' => $keygroup->id,
-                'hostgroup_id' => $hostgroup->id,
+                'source_id' => $keygroup->id,
+                'target_id' => $hostgroup->id,
                 'action' => $permission['action'],
                 'name' => $permission['description']
             ]);
