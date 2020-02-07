@@ -11,6 +11,7 @@
         <th>@lang('hostgroup/table.name')</th>
         <th>@lang('hostgroup/table.description')</th>
         <th>@lang('hostgroup/table.hosts')</th>
+        <th>@lang('hostgroup/table.rules')</th>
         <th>@lang('hostgroup/table.actions')</th>
     </tr>
     </thead>
@@ -19,6 +20,7 @@
         <th>@lang('hostgroup/table.name')</th>
         <th>@lang('hostgroup/table.description')</th>
         <th>@lang('hostgroup/table.hosts')</th>
+        <th>@lang('hostgroup/table.rules')</th>
         <th>@lang('hostgroup/table.actions')</th>
     </tr>
     </tfoot>
@@ -36,6 +38,7 @@
                     {data: "name"},
                     {data: "description"},
                     {data: "hosts", "searchable": false},
+                    {data: "rules", "searchable": false},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [

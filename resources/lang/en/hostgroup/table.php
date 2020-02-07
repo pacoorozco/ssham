@@ -5,4 +5,5 @@ return [
     'description' => 'Description',
     'hosts' => 'Hosts',
     'actions' => 'Actions',
+    'rules' => 'Present in',
 ];
