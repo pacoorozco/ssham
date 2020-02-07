@@ -74,7 +74,7 @@ class KeygroupController extends Controller
             ]);
 
             // Associate Keys to Key groups
-            if ($request->keys) {
+            if ($request->filled('keys')) {
                 $keygroup->keys()->sync($request->keys);
             }
         } catch (\Exception $e) {

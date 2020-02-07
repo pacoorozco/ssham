@@ -75,7 +75,7 @@ class HostgroupController extends Controller
             ]);
 
             // Associate Host's Groups
-            if ($request->hosts) {
+            if ($request->filled('hosts')) {
                 $hostgroup->hosts()->sync($request->hosts);
             }
         } catch (\Exception $e) {
