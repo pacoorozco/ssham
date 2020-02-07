@@ -8,20 +8,20 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>@lang('rule/table.user_group')</th>
-        <th>@lang('rule/table.host_group')</th>
+        <th>@lang('rule/table.source')</th>
+        <th>@lang('rule/table.target')</th>
         <th>@lang('rule/table.action')</th>
-        <th>@lang('rule/table.description')</th>
+        <th>@lang('rule/table.name')</th>
         <th>@lang('rule/table.actions')</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
         <th>#</th>
-        <th>@lang('rule/table.user_group')</th>
-        <th>@lang('rule/table.host_group')</th>
+        <th>@lang('rule/table.source')</th>
+        <th>@lang('rule/table.target')</th>
         <th>@lang('rule/table.action')</th>
-        <th>@lang('rule/table.description')</th>
+        <th>@lang('rule/table.name')</th>
         <th>@lang('rule/table.actions')</th>
     </tr>
     </tfoot>
@@ -59,8 +59,8 @@
                 "ajax": "{{ route('rules.data') }}",
                 "columns": [
                     {data: "id", "orderable": false},
-                    {data: "keygroup"},
-                    {data: "hostgroup"},
+                    {data: "source"},
+                    {data: "target"},
                     {data: "action"},
                     {data: "name"},
                     {data: "actions", "orderable": false, "searchable": false}

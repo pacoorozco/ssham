@@ -47,7 +47,7 @@
                 <strong>@lang('keygroup/model.rules')</strong>
             </div>
             <div class="col-10">
-                {{ trans_choice('keygroup/messages.present_in', $keygroup->rules->count(), ['value' => $keygroup->rules->count()]) }}
+                {{ trans_choice('keygroup/messages.present_in', $keygroup->getNumberOfRelatedRules(), ['value' => $keygroup->getNumberOfRelatedRules()]) }}
             </div>
         </div>
         <!-- ./ rules -->

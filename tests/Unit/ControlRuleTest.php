@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
-use App\Rule;
+use App\ControlRule;
 use Tests\ModelTestCase;
 
-class RuleTest extends ModelTestCase
+class ControlRuleTest extends ModelTestCase
 {
     public function test_contains_valid_fillable_properties()
     {
-        $m = new Rule();
+        $m = new ControlRule();
         $this->assertEquals([
-            'keygroup_id',
-            'hostgroup_id',
+            'source_id',
+            'target_id',
             'action',
             'name',
             'enabled',

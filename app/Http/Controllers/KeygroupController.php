@@ -197,12 +197,11 @@ class KeygroupController extends Controller
             'description',
         ])
             ->withCount('keys as keys') // count number of keys in keygroups without loading the models
-            ->withCount('rules as rules') // count number of keys in rules without loading the models
             ->orderBy('name', 'asc');
 
         return $datatable->eloquent($keygroups)
-            ->editColumn('rules', function (Keygroup $group) {
-                return trans_choice('rule/model.items_count', $group->rules, ['value' => $group->rules]);
+            ->addColumn('rules', function (Keygroup $group) {
+                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(), ['value' => $group->getNumberOfRelatedRules()]);
             })
             ->addColumn('actions', function (Keygroup $keygroup) {
                 return view('partials.actions_dd')

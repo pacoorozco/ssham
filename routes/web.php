@@ -121,16 +121,16 @@ Route::resource('hostgroups', 'HostgroupController');
 
 /**
  * ------------------------------------------
- * Rules
+ * Control Rules
  * ------------------------------------------
  */
 // Datatables Ajax route.
 Route::get('rules/data',
-    ['as' => 'rules.data', 'uses' => 'RuleController@data'])
+    ['as' => 'rules.data', 'uses' => 'ControlRuleController@data'])
     ->middleware('ajax');
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('rules', 'RuleController');
+Route::resource('rules', 'ControlRuleController');
 
 /**
  * ------------------------------------------

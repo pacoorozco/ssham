@@ -16,7 +16,7 @@
  */
 
 use App\Hostgroup;
-use App\Rule;
+use App\ControlRule;
 use App\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +52,7 @@ class HostgroupKeygroupPermissionsTableSeeder extends Seeder
             $keygroup = Keygroup::where('name', $permission['keygroup'])->firstOrFail();
             $hostgroup = Hostgroup::where('name', $permission['hostgroup'])->firstOrFail();
 
-            Rule::create([
+            ControlRule::create([
                 'keygroup_id' => $keygroup->id,
                 'hostgroup_id' => $hostgroup->id,
                 'action' => $permission['action'],

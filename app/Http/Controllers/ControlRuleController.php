@@ -9,23 +9,22 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers;
 
 
+use App\ControlRule;
 use App\Hostgroup;
-use App\Http\Requests\RuleCreateRequest;
-use App\Http\Requests\RuleUpdateRequest;
-use App\Rule;
+use App\Http\Requests\ControlRuleCreateRequest;
 use App\Keygroup;
 use yajra\Datatables\Datatables;
 
-class RuleController extends Controller
+class ControlRuleController extends Controller
 {
 
     /**
@@ -64,55 +63,50 @@ class RuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param RuleCreateRequest $request
+     * @param ControlRuleCreateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(RuleCreateRequest $request)
+    public function store(ControlRuleCreateRequest $request)
     {
-        Rule::create([
-            'name' => $request->name,
-            'keygroup_id' => $request->keygroup,
-            'hostgroup_id' => $request->hostgroup,
-            'action' => $request->action,
-        ]);
+        try {
+            $rule = ControlRule::create([
+                'name' => $request->name,
+                'source_id' => $request->source,
+                'target_id' => $request->target,
+                'action' => $request->action,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(__('rule/messages.create.error'));
+        }
 
         return redirect()->route('rules.index')
-            ->withSuccess(__('rule/messages.create.success'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Rule              $rule
-     * @param RuleUpdateRequest $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Rule $rule, RuleUpdateRequest $request)
-    {
-        $rule->update([
-            'enabled' => $request->enabled,
-        ]);
-
-        return redirect()->route('rules.index')
-            ->withSuccess(__('rule/messages.edit.success'));
+            ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Rule $rule
+     * @param ControlRule $rule
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy(Rule $rule)
+    public function destroy(ControlRule $rule)
     {
-        $rule->delete();
+        $id = $rule->id;
+
+        try {
+            $rule->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()
+                ->withErrors(__('rule/messages.delete.error'));
+        }
 
         return redirect()->route('rules.index')
-            ->withSuccess(__('rule/messages.delete.success'));
+            ->withSuccess(__('rule/messages.delete.success', ['rule' => $id]));
     }
 
     /**
@@ -126,34 +120,33 @@ class RuleController extends Controller
     public function data(Datatables $datatable)
     {
 
-        $rules = Rule::select([
+        $rules = ControlRule::select([
             'id',
             'name',
-            'keygroup_id',
-            'hostgroup_id',
+            'source_id',
+            'target_id',
             'action',
-            'enabled',
         ])
             ->orderBy('id', 'asc');
 
         return $datatable->eloquent($rules)
-            ->addColumn('keygroup', function (Rule $rule) {
-                return Keygroup::findOrFail($rule->keygroup_id)->name;
+            ->addColumn('source', function (ControlRule $rule) {
+                return $rule->source;
             })
-            ->addColumn('hostgroup', function (Rule $rule) {
-                return Hostgroup::findOrFail($rule->hostgroup_id)->name;
+            ->addColumn('target', function (ControlRule $rule) {
+                return $rule->target;
             })
-            ->editColumn('action', function (Rule $rule) {
+            ->editColumn('action', function (ControlRule $rule) {
                 return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.allowed')
                     : '<i class="fa fa-lock"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.denied');
             })
-            ->addColumn('actions', function (Rule $rule) {
+            ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')
                     ->with('rule', $rule)
                     ->render();
             })
-            ->rawColumns(['action', 'enabled', 'actions'])
-            ->removeColumn(['keygroup_id', 'hostgroup_id', 'enabled'])
+            ->rawColumns(['action', 'actions'])
+            ->removeColumn(['source_id', 'target_id'])
             ->toJson();
     }
 }

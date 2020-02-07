@@ -20,15 +20,16 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 /**
- * Class KeygroupCreateRequest
+ * Class RuleCreateRequest
  *
  * @package App\Http\Requests
  *
+ * @property int    $source
+ * @property int    $target
  * @property string $name
- * @property string $description
- * @property array  $keys
+ * @property string $action
  */
-class KeygroupCreateRequest extends Request
+class ControlRuleCreateRequest extends Request
 {
 
     /**
@@ -48,9 +49,19 @@ class KeygroupCreateRequest extends Request
      */
     public function rules()
     {
+        $source = $this->source;
+        $target = $this->target;
+
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('keygroups')],
-            'description' => ['max:255'],
+            'source' => ['required', 'exists:App\Keygroup,id',
+                // 'keygroup' and 'hostgroup' combination must be unique
+                Rule::unique('hostgroup_keygroup_permissions', 'source_id')->where(function ($query) use ($source, $target) {
+                    return $query->where('source_id', $source)
+                        ->where('target_id', $target);
+                })],
+            'target' => ['required', 'exists:App\Hostgroup,id'],
+            'action' => ['required', Rule::in(['allow', 'deny'])],
+            'name' => ['required', 'string'],
         ];
     }
 

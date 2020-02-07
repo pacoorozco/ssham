@@ -199,12 +199,11 @@ class HostgroupController extends Controller
             'description',
         ])
             ->withCount('hosts as hosts') // count number of hosts in hostgroups without loading the models
-            ->withCount('rules as rules') // count number of keys in rules without loading the models
             ->orderBy('name', 'asc');
 
         return $datatable->eloquent($hostgroups)
-            ->editColumn('rules', function (Hostgroup $group) {
-                return trans_choice('rule/model.items_count', $group->rules, ['value' => $group->rules]);
+            ->addColumn('rules', function (Hostgroup $group) {
+                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(), ['value' => $group->getNumberOfRelatedRules()]);
             })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.actions_dd')

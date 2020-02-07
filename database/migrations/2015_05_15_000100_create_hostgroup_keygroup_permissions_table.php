@@ -30,15 +30,15 @@ class CreateHostgroupKeygroupPermissionsTable extends Migration
     {
         Schema::create('hostgroup_keygroup_permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('keygroup_id')->unsigned();
-            $table->foreign('keygroup_id')->references('id')->on('keygroups')->onDelete('cascade');
-            $table->unsignedBigInteger('hostgroup_id')->unsigned();
-            $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
+            $table->unsignedBigInteger('source_id')->unsigned();
+            $table->foreign('source_id')->references('id')->on('keygroups')->onDelete('cascade');
+            $table->unsignedBigInteger('target_id')->unsigned();
+            $table->foreign('target_id')->references('id')->on('hostgroups')->onDelete('cascade');
             $table->enum('action', ['allow', 'deny'])->default('allow');
             $table->string('name')->nullable();
             $table->boolean('enabled')->default('1');
             $table->timestamps();
-            $table->unique(array('keygroup_id', 'hostgroup_id'));
+            $table->unique(array('source_id', 'target_id'));
         });
     }
 

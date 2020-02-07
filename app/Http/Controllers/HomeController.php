@@ -22,7 +22,7 @@ use App\Hostgroup;
 use App\Http\Requests\SearchRequest;
 use App\Key;
 use App\Keygroup;
-use App\Rule;
+use App\ControlRule;
 use App\User;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
@@ -44,7 +44,7 @@ class HomeController extends Controller
     {
         $key_count = Key::all()->count();
         $host_count = Host::all()->count();
-        $rule_count = Rule::all()->count();
+        $rule_count = ControlRule::all()->count();
         $user_count = User::all()->count();
 
         return view('home', compact('key_count', 'host_count', 'rule_count', 'user_count'));

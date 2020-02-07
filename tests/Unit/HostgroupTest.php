@@ -34,11 +34,4 @@ class HostgroupTest extends ModelTestCase
         $r = $m->hosts();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
-
-    public function test_rules_relation()
-    {
-        $m = new Hostgroup();
-        $r = $m->rules();
-        $this->assertInstanceOf(HasMany::class, $r);
-    }
 }

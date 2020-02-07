@@ -41,6 +41,17 @@
         </div>
         <!-- ./ hosts -->
 
+        <!-- rules -->
+        <div class="row">
+            <div class="col-2">
+                <strong>@lang('hostgroup/model.rules')</strong>
+            </div>
+            <div class="col-10">
+                {{ trans_choice('hostgroup/messages.present_in', $hostgroup->getNumberOfRelatedRules(), ['value' => $hostgroup->getNumberOfRelatedRules()]) }}
+            </div>
+        </div>
+        <!-- ./ rules -->
+
     </div>
 </div>
 

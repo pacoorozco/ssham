@@ -40,9 +40,9 @@
 
                         <!-- description -->
                         <div class="form-group">
-                            {!! Form::label('description', __('rule/model.description')) !!}
-                            {!! Form::textarea('description', null, array('class' => 'form-control' . ($errors->has('description') ? ' is-invalid' : ''))) !!}
-                            @error('description'))
+                            {!! Form::label('name', __('rule/model.name')) !!}
+                            {!! Form::textarea('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                            @error('name')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
@@ -54,15 +54,15 @@
                     <!-- right column -->
                     <div class="col-md-6">
 
-                        <!-- keygroup -->
+                        <!-- source -->
                         <div class="form-group">
-                            {!! Form::label('keygroup', __('rule/model.user_group')) !!}
-                            {!! Form::select('keygroup', $keygroups, null, array('class' => 'form-control search-select' . ($errors->has('keygroup') ? ' is-invalid' : ''))) !!}
-                            @error('keygroup')
+                            {!! Form::label('source', __('rule/model.source')) !!}
+                            {!! Form::select('source', $sources, null, array('class' => 'form-control search-select' . ($errors->has('source') ? ' is-invalid' : ''))) !!}
+                            @error('source')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
-                        <!-- ./ keygroup -->
+                        <!-- ./ source -->
 
                         <!-- action -->
                         <div class="form-group">
@@ -74,15 +74,15 @@
                         </div>
                         <!-- ./ action -->
 
-                        <!-- hostgroup -->
+                        <!-- target -->
                         <div class="form-group">
-                            {!! Form::label('hostgroup', __('rule/model.host_group')) !!}
-                            {!! Form::select('hostgroup', $hostgroups, null, array('class' => 'form-control search-select' . ($errors->has('hostgroup') ? ' is-invalid' : ''))) !!}
-                            @error('hostgroup')
+                            {!! Form::label('target', __('rule/model.target')) !!}
+                            {!! Form::select('target', $targets, null, array('class' => 'form-control search-select' . ($errors->has('target') ? ' is-invalid' : ''))) !!}
+                            @error('target')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
-                        <!-- ./ hostgroup -->
+                        <!-- ./ target -->
 
                     </div>
                     <!-- ./ right column -->

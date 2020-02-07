@@ -34,11 +34,4 @@ class KeygroupTest extends ModelTestCase
         $r = $m->keys();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
-
-    public function test_rules_relation()
-    {
-        $m = new Keygroup();
-        $r = $m->rules();
-        $this->assertInstanceOf(HasMany::class, $r);
-    }
 }

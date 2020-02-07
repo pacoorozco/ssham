@@ -136,7 +136,7 @@ return [
         'hostname' => [
             'unique' => 'The combination of username@hostname has already been taken.',
         ],
-        'usergroup' => [
+        'source' => [
             'unique' => 'A rule with this source and this target already exists.',
         ]
     ],

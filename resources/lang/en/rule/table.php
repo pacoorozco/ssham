@@ -16,9 +16,9 @@
  */
 
 return [
-    'user_group' => 'User group',
-    'host_group' => 'Host group',
-    'description' => 'Name / Description',
+    'source' => 'Source (SSH Key Group)',
+    'target' => 'Target (Host Group)',
+    'name' => 'Description',
     'action' => 'Action',
     'enabled' => 'Enabled',
     'actions' => 'Actions',

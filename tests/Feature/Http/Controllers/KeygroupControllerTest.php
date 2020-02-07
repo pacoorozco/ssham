@@ -139,8 +139,8 @@ class KeygroupControllerTest extends TestCase
         $response->assertSuccessful();
         foreach ($groups as $group) {
             $response->assertJsonFragment([
-                'name' => $group['name'],
-                'description' => $group['description'],
+                'name' => $group->name,
+                'description' => $group->description,
                 'keys' => '0',
                 'rules' => trans_choice('rule/model.items_count', 0, ['value' => 0]),
             ]);

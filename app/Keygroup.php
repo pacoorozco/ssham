@@ -71,14 +71,25 @@ class Keygroup extends Model implements Searchable
     }
 
     /**
-     * An Keygroup could be present un many Rules (one-to-many)
+     * Returns the number of Rules where this Keygroup is present.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return int
      */
-    public function rules()
+    public function getNumberOfRelatedRules(): int
     {
-        return $this->hasMany('App\Rule');
+        return $this->getRelatedRules()->count();
     }
+
+    /**
+     * Returns a Collection of Rules where this Keygroup is present.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function getRelatedRules()
+    {
+        return ControlRule::findBySource($this->id);
+    }
+
 
     public function getSearchResult(): SearchResult
     {
