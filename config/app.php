@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'version' => '0.6.0',
+    'version' => '0.7.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +194,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Yajra\DataTables\DataTablesServiceProvider::class, // DataTables
 
         /*
          * Application Service Providers...
@@ -258,9 +257,6 @@ return [
         /*
          * Vendor Aliases
          */
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class, // DataTables
-
-
     ],
 
 ];

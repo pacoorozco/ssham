@@ -4,9 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## 0.7.0
-> **NOTE**: This version includes **major changes**, thatare **not backwards** compatible.
+> **NOTE**: This version includes **major changes**, that are **not backwards** compatible. If you were using a previous version, please set-up a new database.
 ### Changed
 - A new `Key` mode has been added. `User` model will be used to manage SSHAM administrators, while `Key` will host the SSH Keys being pushed to the `Host`.
+### Removed
+- `Roles` were partially implemented. It has been removed to simplify the application.
 
 ## 0.6.1
 ### Added
