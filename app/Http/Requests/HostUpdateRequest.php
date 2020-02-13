@@ -23,6 +23,7 @@ namespace App\Http\Requests;
  * @package App\Http\Requests
  *
  * @property boolean $enabled
+ * @property array   $groups
  */
 class HostUpdateRequest extends Request
 {

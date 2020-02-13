@@ -75,7 +75,7 @@ class HostController extends Controller
             ]);
 
             // Associate Host's Groups
-            if ($request->groups) {
+            if (!empty($request->groups)) {
                 $host->groups()->sync($request->groups);
             }
         } catch (\Exception $exception) {
@@ -131,10 +131,10 @@ class HostController extends Controller
             ]);
 
             // Associate Host's Groups
-            if ($request->groups) {
-                $host->groups()->sync($request->groups);
-            } else {
+            if (empty($request->groups)) {
                 $host->groups()->detach();
+            } else {
+                $host->groups()->sync($request->groups);
             }
         } catch (\Exception $exception) {
             return redirect()->back()
