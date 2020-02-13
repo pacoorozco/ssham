@@ -56,7 +56,6 @@ class UserUpdateRequest extends Request
         return [
             'email' => ['required', 'email:rfc', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
-            'current_password' => ['required_with:password'],
             'enabled' => ['required', 'boolean'],
         ];
     }
@@ -73,10 +72,10 @@ class UserUpdateRequest extends Request
         // checks user current password
         // before making changes
         $validator->after(function ($validator) {
-            if (Auth::id() !== $this->user()->id) {
+            if (Auth::id() !== $this->user->id) {
                 return;
             }
-            if ($this->filled('password') && !Hash::check($this->current_password, $this->user()->password)) {
+            if ($this->filled('password') && !Hash::check($this->current_password, $this->user->password)) {
                 $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
             }
             if (!$this->enabled) {
