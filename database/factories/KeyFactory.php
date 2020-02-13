@@ -35,7 +35,7 @@ use Faker\Generator as Faker;
 $factory->define(Key::class, function (Faker $faker) {
     $rsa = RsaSshKey::create();
     return [
-        'username' => $faker->userName,
+        'username' => $faker->unique()->userName,
         'public' => RsaSshKey::getPublicKey($rsa['publickey']),
         'private' => null,
         'fingerprint' => RsaSshKey::getPublicFingerprint($rsa['publickey']),

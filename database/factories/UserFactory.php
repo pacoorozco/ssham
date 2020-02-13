@@ -34,7 +34,7 @@ use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'username' => $faker->userName,
+        'username' => $faker->unique()->userName,
         'email' => $faker->unique()->safeEmail,
         'auth_type' => 'local',
         'email_verified_at' => now(),

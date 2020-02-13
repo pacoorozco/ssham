@@ -34,7 +34,7 @@ use Faker\Generator as Faker;
 $factory->define(Host::class, function (Faker $faker) {
     return [
         'username' => $faker->userName,
-        'hostname' => $faker->domainWord . '.' . $faker->domainName,
+        'hostname' => $faker->unique()->domainWord . '.' . $faker->domainName,
         'type' => 'linux',
         'enabled' => true,
         'synced' => true,
