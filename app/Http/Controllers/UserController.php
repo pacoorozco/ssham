@@ -22,7 +22,6 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use yajra\Datatables\Datatables;
 
 class UserController extends Controller

@@ -20,7 +20,6 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 /**
  * Class User
@@ -38,7 +37,6 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends Authenticatable
 {
     use Notifiable;
-    use EntrustUserTrait;
 
     /**
      * The database table used by the model.

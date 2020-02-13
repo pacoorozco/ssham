@@ -15,10 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
@@ -40,7 +38,6 @@ class UsersTableSeeder extends Seeder
                 'auth_type' => 'local',
                 'password' => bcrypt('secret'),
                 'enabled' => true,
-                'role' => 'admin',
             ),
             array(
                 'username' => 'user',
@@ -48,14 +45,11 @@ class UsersTableSeeder extends Seeder
                 'auth_type' => 'local',
                 'password' => bcrypt('user'),
                 'enabled' => false,
-                'role' => 'user',
             )
         );
 
         foreach ($users as $userData) {
-            $user = User::create(Arr::except($userData, array('role')));
-            $role = Role::where('name', $userData['role'])->firstOrFail();
-            $user->attachRole($role);
+            User::create($userData);
         }
     }
 
