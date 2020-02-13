@@ -12,11 +12,8 @@ return [
     'email' => 'E-mail address',
     'auth_type' => 'Auth type',
     'credentials' => 'Credentials',
+    'current_password' => 'Current password',
     'password' => 'Password',
     'password_confirmation' => 'Password Confirmation',
     'enabled' => 'Status',
-    'roles' => 'Roles',
-
-    'is_admin' => 'Has this user administrative role?',
-    'no_groups' => 'User has not group membership',
 ];

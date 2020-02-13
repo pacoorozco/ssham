@@ -71,7 +71,7 @@
                             <!-- password -->
                             <div class="form-group">
                                 {!! Form::label('password', __('user/model.password')) !!}
-                                {!! Form::password('password', array('class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''))) !!}
+                                {!! Form::password('password', array('class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''), 'required' => 'required')) !!}
                                 @error('password')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -81,7 +81,7 @@
                             <!-- password_confirmation -->
                             <div class="form-group">
                                 {!! Form::label('password_confirmation', __('user/model.password_confirmation')) !!}
-                                {!! Form::password('password_confirmation', array('class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''))) !!}
+                                {!! Form::password('password_confirmation', array('class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''), 'required' => 'required')) !!}
                                 @error('password_confirmation')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror

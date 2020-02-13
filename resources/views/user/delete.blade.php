@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('user/title.user_delete') <small>{{ $user->username }}</small>
+    @lang('user/title.user_delete')
 @endsection
 
 {{-- Breadcrumbs --}}

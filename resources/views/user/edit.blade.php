@@ -6,7 +6,6 @@
 {{-- Content Header --}}
 @section('header')
     @lang('user/title.user_update')
-    <small class="text-muted">{{ $user->username }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -63,10 +62,17 @@
                         </fieldset>
 
                         <!-- enabled -->
-                        <fieldset class="form-group">
+                        @if (Auth::id() === $user->id)
+                            {!! Form::hidden('enabled', ($user->enabled) ? 1 : 0) !!}
+                        @endif
+                        <fieldset class="form-group" @if (Auth::id() === $user->id) disabled="disabled" @endif>
                             <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0"><strong>@lang('user/model.enabled')</strong></legend>
+                                <legend class="col-form-label col-sm-2 pt-0">
+                                    <strong>@lang('user/model.enabled')</strong></legend>
                                 <div class="col-sm-10">
+                                    @if (Auth::id() === $user->id)
+                                        <p class="text-muted">@lang('user/messages.edit_your_status_help')</p>
+                                    @endif
                                     <div class="form-check">
                                         {!! Form::radio('enabled', 0, null, array('class' => 'form-check-input')) !!}
                                         {!! Form::label('enabled', __('general.blocked'), array('class' => 'form-check-label')) !!}
@@ -89,7 +95,20 @@
                         <fieldset>
                             <legend>@lang('user/title.about_the_user_section')</legend>
                             <p>@lang('user/messages.edit_password_help')</p>
-                            <!-- password -->
+
+                        @if (Auth::id() === $user->id)
+                            <!-- current password -->
+                                <div class="form-group">
+                                    {!! Form::label('current_password', __('user/model.current_password')) !!}
+                                    {!! Form::password('current_password', array('class' => 'form-control' . ($errors->has('current_password') ? ' is-invalid' : ''))) !!}
+                                    @error('current_password')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <!-- ./ current_password -->
+                        @endif
+
+                        <!-- password -->
                             <div class="form-group">
                                 {!! Form::label('password', __('user/model.password')) !!}
                                 {!! Form::password('password', array('class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''))) !!}
@@ -120,7 +139,7 @@
                 <a href="{{ route('users.index') }}" class="btn btn-primary" role="button">
                     <i class="fa fa-arrow-left"></i> {{ __('general.back') }}
                 </a>
-                {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
             <!-- ./ form actions -->
             </div>
 

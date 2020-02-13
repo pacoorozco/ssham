@@ -17,6 +17,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 /**
  * Class UserUpdateRequest
  *
@@ -25,6 +28,7 @@ namespace App\Http\Requests;
  * @property \App\User $user
  * @property string    $email
  * @property string    $password
+ * @property string    $current_password
  * @property boolean   $enabled
  */
 class UserUpdateRequest extends Request
@@ -52,7 +56,33 @@ class UserUpdateRequest extends Request
         return [
             'email' => ['required', 'email:rfc', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'current_password' => ['required_with:password'],
             'enabled' => ['required', 'boolean'],
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param \Illuminate\Validation\Validator $validator
+     *
+     * @return void
+     */
+    public function withValidator($validator): void
+    {
+        // checks user current password
+        // before making changes
+        $validator->after(function ($validator) {
+            if (Auth::id() !== $this->user()->id) {
+                return;
+            }
+            if ($this->filled('password') && !Hash::check($this->current_password, $this->user()->password)) {
+                $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
+            }
+            if (!$this->enabled) {
+                $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
+            }
+        });
+        return;
     }
 }

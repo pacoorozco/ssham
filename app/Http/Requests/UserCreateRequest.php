@@ -49,7 +49,7 @@ class UserCreateRequest extends Request
         return [
             'username' => ['required', 'max:255', 'unique:users'],
             'email' => ['required', 'email:rfc', 'unique:users'],
-            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ];
     }
 }

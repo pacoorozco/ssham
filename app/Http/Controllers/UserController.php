@@ -21,6 +21,8 @@ use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -67,7 +69,7 @@ class UserController extends Controller
         try {
             $user = User::create([
                 'username' => $request->username,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'email' => $request->email,
             ]);
         } catch (\Exception $exception) {
@@ -156,6 +158,12 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $username = $user->username;
+
+        // you can not delete yourself
+        if ($user->id === Auth::id()) {
+            return redirect()->back()
+                ->withErrors(__('user/messages.delete.impossible'));
+        }
 
         try {
             $user->delete();
