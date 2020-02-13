@@ -65,14 +65,10 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
         try {
-            // in case of blank password, we assign one randomly.
             $user = User::create([
-                'username' => $request->input('username'),
-                'password' => ($request->filled('password')
-                    ? $request->input('password')
-                    : User::createRandomPassword()
-                ),
-                'email' => $request->input('email'),
+                'username' => $request->username,
+                'password' => $request->password,
+                'email' => $request->email,
             ]);
         } catch (\Exception $exception) {
             return redirect()->back()
@@ -120,9 +116,14 @@ class UserController extends Controller
     {
         try {
             $user->update([
-                'email' => $request->input('email'),
-                'enabled' => $request->input('enabled'),
+                'email' => $request->email,
+                'enabled' => $request->enabled,
             ]);
+
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password);
+                $user->save();
+            }
         } catch (\Exception $exception) {
             return redirect()->back()
                 ->withInput()
@@ -130,7 +131,7 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.index')
-            ->withSuccess(__('user/messages.edit.success', ['user' => $user->username]));
+            ->withSuccess(__('user/messages.edit.success', ['name' => $user->username]));
     }
 
     /**

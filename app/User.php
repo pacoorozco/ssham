@@ -27,6 +27,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  *
  * @package App
  *
+ * @property int     $id
  * @property string  $username
  * @property string  $name
  * @property string  $email

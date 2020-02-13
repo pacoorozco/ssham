@@ -17,6 +17,16 @@
 
 namespace App\Http\Requests;
 
+/**
+ * Class UserUpdateRequest
+ *
+ * @package App\Http\Requests
+ *
+ * @property \App\User $user
+ * @property string    $email
+ * @property string    $password
+ * @property boolean   $enabled
+ */
 class UserUpdateRequest extends Request
 {
 

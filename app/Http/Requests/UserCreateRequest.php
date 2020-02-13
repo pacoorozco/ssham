@@ -17,6 +17,15 @@
 
 namespace App\Http\Requests;
 
+/**
+ * Class UserCreateRequest
+ *
+ * @package App\Http\Requests
+ *
+ * @property string $username
+ * @property string $email
+ * @property string $password
+ */
 class UserCreateRequest extends Request
 {
 
