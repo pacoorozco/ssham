@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App
  *
+ * @property int     $id
  * @property string  $source
  * @property string  $target
  * @property int     $source_id
