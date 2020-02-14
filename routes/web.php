@@ -38,13 +38,6 @@ Auth::routes(['register' => false]);
 
 /**
  * ------------------------------------------
- * File Downloader
- * ------------------------------------------
- */
-Route::get('file/{filename}', ['as' => 'file.download', 'uses' => 'FileEntryController@get']);
-
-/**
- * ------------------------------------------
  * Users
  * ------------------------------------------
  */
@@ -71,6 +64,9 @@ Route::get('keys/data',
 // Delete confirmation route - uses the show/details view.
 Route::get('keys/{key}/delete',
     ['as' => 'keys.delete', 'uses' => 'KeyController@delete']);
+// Download a private key.
+Route::get('keys/{key}/download',
+    ['as' => 'keys.download', 'uses' => 'KeyController@downloadPrivateKey']);
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
 Route::resource('keys', 'KeyController');
@@ -80,7 +76,7 @@ Route::resource('keys', 'KeyController');
  * Hosts
  * ------------------------------------------
  */
-// Datatables Ajax route.
+// DataTables Ajax route.
 Route::get('hosts/data',
     ['as' => 'hosts.data', 'uses' => 'HostController@data'])
     ->middleware('ajax');
@@ -92,10 +88,10 @@ Route::resource('hosts', 'HostController');
 
 /**
  * ------------------------------------------
- * Keygroups
+ * Key Groups
  * ------------------------------------------
  */
-// Datatables Ajax route.
+// DataTables Ajax route.
 Route::get('keygroups/data',
     ['as' => 'keygroups.data', 'uses' => 'KeygroupController@data'])
     ->middleware('ajax');
@@ -107,10 +103,10 @@ Route::resource('keygroups', 'KeygroupController');
 
 /**
  * ------------------------------------------
- * Hostgroups
+ * Host Groups
  * ------------------------------------------
  */
-// Datatables Ajax route.
+// DataTables Ajax route.
 Route::get('hostgroups/data',
     ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data'])
     ->middleware('ajax');

@@ -24,6 +24,7 @@ use App\Key;
 use App\Keygroup;
 use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response as ResponseCode;
 use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
@@ -182,7 +183,6 @@ class KeyController extends Controller
             }
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
-            dd($exception->getMessage());
             return redirect()->back()
                 ->withInput()
                 ->withErrors(__('key/messages.edit.error'));
@@ -262,5 +262,33 @@ class KeyController extends Controller
             ->removeColumn('id')
             ->removeColumn('enabled')
             ->toJson();
+    }
+
+    /**
+     * Returns a downloadable file with the private key content. This private key can not be
+     * downloaded more than once, so after the first try, the key will be deleted.
+     *
+     * @param Key $key
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadPrivateKey(Key $key)
+    {
+        if (empty($key->private)) {
+            abort(ResponseCode::HTTP_NOT_FOUND);
+        }
+
+        try {
+            // Private key can not be downloaded more than once. After first try, it will be deleted.
+            $content = $key->private;
+            $key->private = null;
+            $key->save();
+        } catch (\Throwable $exception) {
+            return redirect()->back()
+                ->withErrors(__('key/messages.unexpected_error'));
+        }
+
+        // Starts downloading the key.
+        return response()->attachment($content, $key->username . '.key');
     }
 }

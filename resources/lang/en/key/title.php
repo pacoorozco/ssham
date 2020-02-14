@@ -26,4 +26,5 @@ return [
     'key_identification_section' => 'SSH Key identification',
     'membership_section' => 'Membership',
     'public_key_section' => 'SSH Key',
+    'download_private_key' => 'Download private key',
 ];

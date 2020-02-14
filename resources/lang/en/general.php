@@ -19,4 +19,5 @@ return [
     'back' => 'Back',
     'submit' => 'Submit',
     'view_more' => 'View More',
+    'close' => 'Close',
 ];
