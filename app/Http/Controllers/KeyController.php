@@ -284,8 +284,7 @@ class KeyController extends Controller
             $key->private = null;
             $key->save();
         } catch (\Throwable $exception) {
-            return redirect()->back()
-                ->withErrors(__('key/messages.unexpected_error'));
+            abort(ResponseCode::HTTP_SERVICE_UNAVAILABLE, __('key/messages.unexpected_error'));
         }
 
         // Starts downloading the key.

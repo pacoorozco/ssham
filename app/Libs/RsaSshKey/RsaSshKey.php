@@ -127,32 +127,7 @@ class RsaSshKey
 
         return $fingerprint;
     }
-
-    /**
-     * Create a downloadable file containing the specified key as content. A random name will be generated to
-     * avoid malicious users to find the name of the file.
-     *
-     * @param string $content           - The key that will be the file content.
-     * @param string $original_filename - The filename that the user will see once the file is downloaded.
-     *
-     * @return string - The random name of the created file.
-     */
-    public static function createDownloadableFile(string $content, string $original_filename = null): string
-    {
-        // create a random name for RSA private key file
-        $filename = Str::random(32);
-        Storage::disk('local')->put($filename, $content);
-
-        // create a downloadable file, with a random name
-        $fileEntry = new FileEntry();
-        $fileEntry->filename = $filename;
-        $fileEntry->mime = 'application/octet-stream';
-        $fileEntry->original_filename = $original_filename ?: $filename;
-        $fileEntry->save();
-
-        return $filename;
-    }
-
+    
     /**
      * Remove carrier return and spaces characters from a RSA key.
      *
