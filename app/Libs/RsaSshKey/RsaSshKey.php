@@ -127,7 +127,7 @@ class RsaSshKey
 
         return $fingerprint;
     }
-    
+
     /**
      * Remove carrier return and spaces characters from a RSA key.
      *

@@ -44,6 +44,4 @@ return [
         'success' => 'The key \':username\' was deleted successfully.'
     ],
 
-    'unexpected_error' => 'Unexpected error. Can not download the private key.',
-
 ];

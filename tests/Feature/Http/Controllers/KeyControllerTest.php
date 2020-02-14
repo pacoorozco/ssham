@@ -143,4 +143,28 @@ class KeyControllerTest extends TestCase
             ]);
         }
     }
+
+    public function test_downloadPrivateKey_method_returns_downloadable_file()
+    {
+        $key = factory(Key::class)->create(['private' => 'blah blah blah']);
+
+        $response = $this
+            ->actingAs($this->user_to_act_as)
+            ->ajaxGet(route('keys.download', $key->id));
+
+        $response->assertSuccessful();
+        $response->assertHeader('Content-Type', 'application/pkcs8');
+        $response->assertHeader('Content-Disposition', 'attachment; filename="' . $key->username . '.key"');
+    }
+
+    public function test_downloadPrivateKey_method_returns_error_when_private_key_is_not_present()
+    {
+        $key = factory(Key::class)->create(['private' => null]);
+
+        $response = $this
+            ->actingAs($this->user_to_act_as)
+            ->ajaxGet(route('keys.download', $key->id));
+
+        $response->assertNotFound();
+    }
 }
