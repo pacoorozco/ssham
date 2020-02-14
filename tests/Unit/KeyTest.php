@@ -42,7 +42,7 @@ class KeyTest extends ModelTestCase
     {
         $m = new Key();
         $this->assertEquals([
-            'id' => 'int',
+            'id' => 'string',
             'username' => 'string',
             'public' => 'string',
             'private' => 'string',

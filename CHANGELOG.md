@@ -7,8 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 > **NOTE**: This version includes **major changes**, that are **not backwards** compatible. If you were using a previous version, please set-up a new database.
 ### Changed
 - A new `Key` mode has been added. `User` model will be used to manage SSHAM administrators, while `Key` will host the SSH Keys being pushed to the `Host`.
+- Change `id` type to UUID to implement more security in regards keys. UUID is more difficult to guess.
 ### Removed
 - `Roles` were partially implemented. It has been removed to simplify the application.
+- `FileEntry` has been removed. Private key could be downloaded **only once** from `key` show option.
 
 ## 0.6.1
 ### Added

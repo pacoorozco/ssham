@@ -29,7 +29,7 @@ class CreateKeysTable extends Migration
     public function up()
     {
         Schema::create('keys', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->string('username')->unique();
             $table->text('type')->nullable();
             $table->text('length')->nullable();

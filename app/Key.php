@@ -18,6 +18,7 @@
 namespace App;
 
 use App\Libs\RsaSshKey\RsaSshKey;
+use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
@@ -27,7 +28,7 @@ use Spatie\Searchable\SearchResult;
  *
  * @package App
  *
- * @property int     $id
+ * @property string  $id
  * @property string  $username
  * @property boolean $enabled
  * @property string  $type
@@ -37,6 +38,8 @@ use Spatie\Searchable\SearchResult;
  */
 class Key extends Model implements Searchable
 {
+    use UsesUuid;
+
     /**
      * The database table used by the model.
      *
@@ -60,6 +63,7 @@ class Key extends Model implements Searchable
      * @var array
      */
     protected $casts = [
+        'id' => 'string',
         'username' => 'string',
         'public' => 'string',
         'private' => 'string',
