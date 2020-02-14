@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App;
@@ -26,6 +26,7 @@ use Spatie\Searchable\SearchResult;
  *
  * @package App
  *
+ * @property int    $id
  * @property string $name
  * @property string $description
  */
@@ -70,13 +71,23 @@ class Hostgroup extends Model implements Searchable
     }
 
     /**
-     * This is the relation between Hostgroups and Usergroups
+     *  Returns the number of Rules where this Hostgroup is present.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return int
      */
-    public function usergroups()
+    public function getNumberOfRelatedRules(): int
     {
-        return $this->belongsToMany('App\Usergroup', 'hostgroup_usergroup_permissions');
+        return $this->getRelatedRules()->count();
+    }
+
+    /**
+     * Returns a Collection of Rules where this Hostgroup is present.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function getRelatedRules()
+    {
+        return ControlRule::findByTarget($this->id);
     }
 
     public function getSearchResult(): SearchResult

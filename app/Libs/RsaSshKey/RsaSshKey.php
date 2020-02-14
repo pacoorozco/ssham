@@ -9,18 +9,15 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Libs\RsaSshKey;
 
-use App\FileEntry;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use phpseclib\Crypt\RSA;
 
 class RsaSshKey
@@ -126,31 +123,6 @@ class RsaSshKey
         }
 
         return $fingerprint;
-    }
-
-    /**
-     * Create a downloadable file containing the specified key as content. A random name will be generated to
-     * avoid malicious users to find the name of the file.
-     *
-     * @param string $content           - The key that will be the file content.
-     * @param string $original_filename - The filename that the user will see once the file is downloaded.
-     *
-     * @return string - The random name of the created file.
-     */
-    public static function createDownloadableFile(string $content, string $original_filename = null): string
-    {
-        // create a random name for RSA private key file
-        $filename = Str::random(32);
-        Storage::disk('local')->put($filename, $content);
-
-        // create a downloadable file, with a random name
-        $fileEntry = new FileEntry();
-        $fileEntry->filename = $filename;
-        $fileEntry->mime = 'application/octet-stream';
-        $fileEntry->original_filename = $original_filename ?: $filename;
-        $fileEntry->save();
-
-        return $filename;
     }
 
     /**

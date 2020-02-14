@@ -76,7 +76,7 @@ class SendKeysToHosts extends Command
                 if (!$sftp->login($host->username, $key)) {
 
                     // TODO - Set last_error field on Host
-                    // TODO - Set last_update on error status on Host
+                    $host->last_rotation = now()->timestamp;
 
                     $this->error('ERRROR Can\'t auth on ' . $host->full_hostname);
                     continue;
@@ -84,7 +84,7 @@ class SendKeysToHosts extends Command
             } catch (ErrorException $e) {
 
                 // TODO - Set last_error field on Host
-                // TODO - Set last_update on error status on Host
+               $host->last_rotation = now()->timestamp;
 
                 Log::warning('Error connecting to ' . $host->full_hostname);
                 $this->error('Can not connect to ' . $host->full_hostname . ': ' . $e->getMessage());

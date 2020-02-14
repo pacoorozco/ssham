@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'version' => '0.6.0',
+    'version' => '0.7.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -194,8 +194,6 @@ return [
         /*
          * Package Service Providers...
          */
-        EntrustServiceProvider::class, // Roles
-        Yajra\DataTables\DataTablesServiceProvider::class, // DataTables
 
         /*
          * Application Service Providers...
@@ -259,10 +257,6 @@ return [
         /*
          * Vendor Aliases
          */
-        'Entrust' => EntrustFacade::class, // Roles
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class, // DataTables
-
-
     ],
 
 ];

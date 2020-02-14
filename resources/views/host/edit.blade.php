@@ -6,7 +6,6 @@
 {{-- Content Header --}}
 @section('header')
     @lang('host/title.host_update')
-    <small class="text-muted">{{ $host->getFullHostname() }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -38,17 +37,36 @@
                 <div class="form-row">
                     <!-- left column -->
                     <div class="col-md-6">
-                        <!-- hostname -->
-                        <div class="form-group">
-                            {!! Form::label('hostname', __('host/model.full_hostname')) !!}
-                            {!! Form::text('hostname', $host->getFullHostname(), array('class' => 'form-control', 'disabled' => 'disabled')) !!}
-                        </div>
-                        <!-- ./ hostname -->
+
+                        <fieldset>
+                            <legend>@lang('host/title.host_information_section')</legend>
+                            <!-- hostname -->
+                            <div class="form-group">
+                                {!! Form::label('hostname', __('host/model.hostname')) !!}
+                                {!! Form::text('hostname', $host->hostname, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                            </div>
+                            <!-- ./ hostname -->
+
+                            <!-- username -->
+                            <div class="form-group">
+                                {!! Form::label('username', __('host/model.username')) !!}
+                                {!! Form::text('username', $host->username, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                            </div>
+                            <!-- ./ username -->
+
+                            <!-- type -->
+                            <div class="form-group">
+                                {!! Form::label('type', __('host/model.type')) !!}
+                                {!! Form::text('type', $host->type, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                            </div>
+                            <!-- ./ type -->
+                        </fieldset>
 
                         <!-- enabled -->
                         <fieldset class="form-group">
                             <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0"><strong>@lang('host/model.enabled')</strong>
+                                <legend class="col-form-label col-sm-2 pt-0">
+                                    <strong>@lang('host/model.enabled')</strong>
                                 </legend>
                                 <div class="col-sm-10">
                                     <div class="form-check">
@@ -68,12 +86,17 @@
 
                     <!-- right column -->
                     <div class="col-md-6">
-                        <!-- host groups -->
-                        <div class="form-group">
-                            {!! Form::label('groups[]', __('host/model.groups')) !!}
-                            {!! Form::select('groups[]', $groups, $host->hostgroups->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
-                        </div>
-                        <!-- ./ host groups -->
+
+                        <fieldset>
+                            <legend>@lang('host/title.membership_section')</legend>
+
+                            <!-- host groups -->
+                            <div class="form-group">
+                                {!! Form::label('groups[]', __('host/model.groups')) !!}
+                                {!! Form::select('groups[]', $groups, $host->groups->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                            </div>
+                            <!-- ./ host groups -->
+                        </fieldset>
                     </div>
                     <!-- ./ right column -->
                 </div>

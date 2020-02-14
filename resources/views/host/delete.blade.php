@@ -6,7 +6,6 @@
 {{-- Content Header --}}
 @section('header')
     @lang('host/title.host_delete')
-    <small class="text-muted">{{ $host->getFullHostname() }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}

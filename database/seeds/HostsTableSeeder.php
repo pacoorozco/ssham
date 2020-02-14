@@ -28,27 +28,7 @@ class HostsTableSeeder extends Seeder
      */
     public function run()
     {
-        $hosts = array(
-            array(
-                'hostname' => 'server_1',
-                'username' => 'root',
-                'type' => 'linux',
-            ),
-            array(
-                'hostname' => 'server_2',
-                'username' => 'root',
-                'type' => 'linux',
-            ),
-            array(
-                'hostname' => 'server_3',
-                'username' => 'root',
-                'type' => 'linux',
-            ),
-        );
-
-        foreach ($hosts as $host) {
-            Host::create($host);
-        }
+        factory(App\Host::class, 5)->create();
     }
 
 }

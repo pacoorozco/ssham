@@ -18,6 +18,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
 class OnlyAjax
 {
@@ -32,7 +33,7 @@ class OnlyAjax
     public function handle($request, Closure $next)
     {
         if (!$request->ajax()) {
-            return response(view('errors.403'), 403);
+            return response(view('errors.403'), ResponseCode::HTTP_FORBIDDEN);
         }
 
         return $next($request);

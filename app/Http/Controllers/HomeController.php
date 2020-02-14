@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers;
@@ -20,9 +20,10 @@ namespace App\Http\Controllers;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\SearchRequest;
-use App\Rule;
+use App\Key;
+use App\Keygroup;
+use App\ControlRule;
 use App\User;
-use App\Usergroup;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
 
@@ -41,11 +42,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user_count = User::all()->count();
+        $key_count = Key::all()->count();
         $host_count = Host::all()->count();
-        $rule_count = Rule::all()->count();
+        $rule_count = ControlRule::all()->count();
+        $user_count = User::all()->count();
 
-        return view('home', compact('user_count', 'host_count', 'rule_count'));
+        return view('home', compact('key_count', 'host_count', 'rule_count', 'user_count'));
     }
 
     public function search(SearchRequest $request)
@@ -53,13 +55,12 @@ class HomeController extends Controller
         $query = $request->input('query');
 
         $searchResults = (new Search())
-            ->registerModel(User::class, function (ModelSearchAspect $modelSearchAspect) {
+            ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
                 $modelSearchAspect
                     ->addSearchableAttribute('username') // return results for partial matches on usernames
-                    ->addExactSearchableAttribute('email') // only return results that exactly match the e-mail address
                     ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
             })
-            ->registerModel(Usergroup::class, 'name', 'description')
+            ->registerModel(Keygroup::class, 'name', 'description')
             ->registerModel(Host::class, 'hostname')
             ->registerModel(Hostgroup::class, 'name', 'description')
             ->perform($request->input('query'));

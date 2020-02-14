@@ -35,8 +35,6 @@ class CreateUsersTable extends Migration
             $table->enum('auth_type', ['local', 'external']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->text('public_key')->nullable();
-            $table->string('fingerprint')->nullable();
             $table->boolean('enabled')->default('1');
             $table->rememberToken();
             $table->timestamps();

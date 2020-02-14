@@ -20,6 +20,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
+
 class HostgroupCreateRequest extends Request
 {
 
@@ -41,7 +42,7 @@ class HostgroupCreateRequest extends Request
     public function rules()
     {
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('usergroups')],
+            'name' => ['required', 'min:5', 'max:255', Rule::unique('keygroups')],
             'description' => ['max:255'],
         ];
     }

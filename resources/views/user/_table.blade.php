@@ -9,8 +9,6 @@
     <tr>
         <th>@lang('user/table.username')</th>
         <th>@lang('user/table.email')</th>
-        <th>@lang('user/table.fingerprint')</th>
-        <th>@lang('user/table.groups')</th>
         <th>@lang('user/table.actions')</th>
     </tr>
     </thead>
@@ -18,8 +16,6 @@
     <tr>
         <th>@lang('user/table.username')</th>
         <th>@lang('user/table.email')</th>
-        <th>@lang('user/table.fingerprint')</th>
-        <th>@lang('user/table.groups')</th>
         <th>@lang('user/table.actions')</th>
     </tr>
     </tfoot>
@@ -36,8 +32,6 @@
                 "columns": [
                     {data: "username"},
                     {data: "email"},
-                    {data: "fingerprint", "orderable": false, "searchable": true},
-                    {data: "groups", "orderable": false, "searchable": false},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [

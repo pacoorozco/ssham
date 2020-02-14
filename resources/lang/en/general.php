@@ -5,8 +5,8 @@ return [
     'no' => 'No',
     'all' => 'All',
 
-    'enabled' => 'enabled',
-    'disabled' => 'disabled',
+    'enabled' => 'Enabled',
+    'disabled' => 'Disabled',
 
     'active' => 'Active',
     'blocked' => 'Blocked',
@@ -19,4 +19,5 @@ return [
     'back' => 'Back',
     'submit' => 'Submit',
     'view_more' => 'View More',
+    'close' => 'Close',
 ];
