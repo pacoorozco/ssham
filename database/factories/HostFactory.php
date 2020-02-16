@@ -35,9 +35,12 @@ $factory->define(Host::class, function (Faker $faker) {
     return [
         'username' => $faker->userName,
         'hostname' => $faker->unique()->domainWord . '.' . $faker->domainName,
+        'port' => 22,
+        'authorized_keys_file' => '~/.ssh/authorized_keys',
         'type' => 'linux',
         'enabled' => true,
-        'synced' => true,
+        'synced' => false,
+        'status_code' => Host::INITIAL_STATUS,
         'key_hash' => null,
         'last_rotation' => null,
     ];
