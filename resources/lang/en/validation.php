@@ -134,7 +134,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'hostname' => [
-            'unique' => 'The combination of username@hostname has already been taken.',
+            'unique' => 'The combination of username@hostname already exists.',
         ],
         'source' => [
             'unique' => 'A rule with this source and this target already exists.',

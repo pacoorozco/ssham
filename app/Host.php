@@ -101,6 +101,17 @@ class Host extends Model implements Searchable
     }
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'synced' => false,
+        'status_code' => self::INITIAL_STATUS,
+        'enabled' => true,
+    ];
+
+    /**
      * Set the username Host attribute to lowercase.
      *
      * @param string $value

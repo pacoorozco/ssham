@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('host/title.host_delete')
+    <i class="fa fa-laptop"></i> @lang('host/title.host_delete')
 @endsection
 
 {{-- Breadcrumbs --}}

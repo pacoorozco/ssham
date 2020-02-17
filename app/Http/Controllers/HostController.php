@@ -72,6 +72,8 @@ class HostController extends Controller
             $host = Host::create([
                 'hostname' => $request->hostname,
                 'username' => $request->username,
+                'port' => $request->port,
+                'authorized_keys_file' => $request->authorized_keys_file,
             ]);
 
             // Associate Host's Groups
@@ -81,7 +83,7 @@ class HostController extends Controller
         } catch (\Exception $exception) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(__('host/messages.create.error'));
+                ->withError(__('host/messages.create.error'));
         }
 
         return redirect()->route('hosts.index')
@@ -127,6 +129,8 @@ class HostController extends Controller
     {
         try {
             $host->update([
+                'port' => $request->port,
+                'authorized_keys_file' => $request->authorized_keys_file,
                 'enabled' => $request->enabled,
             ]);
 
@@ -139,7 +143,7 @@ class HostController extends Controller
         } catch (\Exception $exception) {
             return redirect()->back()
                 ->withInput()
-                ->withErrors(__('host/messages.edit.error'));
+                ->withError(__('host/messages.edit.error'));
         }
 
         return redirect()->route('hosts.edit', [$host->id])
@@ -174,7 +178,7 @@ class HostController extends Controller
             $host->delete();
         } catch (\Exception $exception) {
             return redirect()->back()
-                ->withErrors(__('host/messages.delete.error'));
+                ->withError(__('host/messages.delete.error'));
         }
 
         return redirect()->route('hosts.index')

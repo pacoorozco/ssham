@@ -6,7 +6,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('host/title.host_management')
+    <i class="fa fa-laptop"></i> @lang('host/title.host_management')
     <small>@lang('host/title.host_management_subtitle')</small>
 @endsection
 
