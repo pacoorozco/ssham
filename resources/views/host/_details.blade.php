@@ -95,6 +95,7 @@
                     </div>
                 </div>
                 <!-- ./ enabled -->
+
                 <!-- synced -->
                 <div class="row">
                     <div class="col-2">
@@ -110,16 +111,28 @@
                 </div>
                 <!-- ./ synced -->
 
+                <!-- created at -->
+                <div class="row">
+                    <div class="col-2">
+                        <strong>@lang('host/model.created_at')</strong>
+                    </div>
+                    <div class="col-10">
+                        {{ $host->created_at }}
+                    </div>
+                </div>
+                <!-- ./ created at -->
+
                 <!-- last_rotation -->
                 <div class="row">
                     <div class="col-2">
                         <strong>@lang('host/model.last_rotation')</strong>
                     </div>
                     <div class="col-10">
+                        {{ $host->status_code }}
                         @if (is_null($host->last_rotation))
-                            @lang('host/messages.never_rotated')
+                            ({{ $host->created_at }})
                         @else
-                            {{ $host->last_rotation }}
+                            ({{ $host->last_rotation }})
                         @endif
                     </div>
                 </div>

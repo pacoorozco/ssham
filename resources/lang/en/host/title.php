@@ -12,4 +12,5 @@ return [
     'advanced_config_section' => 'Advanced settings',
     'status_section' => 'Host status',
     'membership_section' => 'Group membership',
+
 ];
