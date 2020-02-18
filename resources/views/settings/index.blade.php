@@ -37,12 +37,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="#panel-defaults" id="panel-defaults-tab" class="nav-link"
+                           data-toggle="tab" role="tab" aria-controls="panel-defaults"
+                           aria-selected="false">
+                            @lang('settings/title.defaults')
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#panel-advanced-settings" id="panel-advanced-settings-tab" class="nav-link"
                            data-toggle="tab" role="tab" aria-controls="panel-advanced-settings"
                            aria-selected="false">
                             @lang('settings/title.advanced_settings')
                         </a>
                     </li>
+
                 </ul>
             </div>
 
@@ -89,17 +97,6 @@
                         <fieldset>
                             <legend>@lang('settings/title.ssh_options_section')</legend>
 
-                            <!-- SSH port -->
-                            <div class="form-group">
-                                {!! Form::label('ssh_port', __('settings/model.ssh_port')) !!}
-                                {!! Form::number('ssh_port', $settings['ssh_port'], array('class' => 'form-control' . ($errors->has('ssh_port') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.ssh_port_help')</span>
-                                @error('ssh_port'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ SSH port -->
-
                             <!-- SSH connect timeout -->
                             <div class="form-group">
                                 {!! Form::label('ssh_timeout', __('settings/model.ssh_timeout')) !!}
@@ -135,16 +132,6 @@
                             </div>
                             <!-- ./ cmd_remote_updater -->
 
-                            <!-- authorized_keys -->
-                            <div class="form-group">
-                                {!! Form::label('authorized_keys', __('settings/model.authorized_keys')) !!}
-                                {!! Form::text('authorized_keys', $settings['authorized_keys'], array('class' => 'form-control' . ($errors->has('authorized_keys') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.authorized_keys_help')</span>
-                                @error('authorized_keys'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ authorized_keys -->
                         </fieldset>
 
                         <fieldset>
@@ -190,6 +177,40 @@
                         </fieldset>
 
                     </div>
+
+                    <!-- panel-defaults -->
+                    <div class="tab-pane fade" id="panel-defaults" role="tabpanel"
+                         aria-labelledby="panel-defaults-tab">
+
+                        <fieldset>
+                            <legend>@lang('settings/title.defaults_section')</legend>
+
+                            <!-- authorized_keys -->
+                            <div class="form-group">
+                                {!! Form::label('authorized_keys', __('settings/model.authorized_keys')) !!}
+                                {!! Form::text('authorized_keys', $settings['authorized_keys'], array('class' => 'form-control' . ($errors->has('authorized_keys') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                <span class="form-text text-muted">@lang('settings/model.authorized_keys_help')</span>
+                                @error('authorized_keys'))
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- ./ authorized_keys -->
+
+                            <!-- SSH port -->
+                            <div class="form-group">
+                                {!! Form::label('ssh_port', __('settings/model.ssh_port')) !!}
+                                {!! Form::number('ssh_port', $settings['ssh_port'], array('class' => 'form-control' . ($errors->has('ssh_port') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                <span class="form-text text-muted">@lang('settings/model.ssh_port_help')</span>
+                                @error('ssh_port'))
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- ./ SSH port -->
+
+                        </fieldset>
+                    </div>
+
+
                 </div>
             </div>
             <div class="card-footer">
