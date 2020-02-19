@@ -26,4 +26,7 @@ return [
 
     'ssh_credentials_section' => 'Bastion host SSH credentials',
     'ssh_options_section' => 'SSH options',
+
+    'defaults' => 'Application defaults',
+    'defaults_section' => 'Application defaults',
 ];

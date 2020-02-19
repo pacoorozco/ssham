@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+
 /**
  * Class Host
  *
@@ -31,12 +32,25 @@ use Spatie\Searchable\SearchResult;
  * @property string  $hostname
  * @property string  $username
  * @property string  $full_hostname
+ * @property int     $port
+ * @property string  $authorized_keys_file
  * @property boolean $enabled
  * @property boolean $synced
+ * @property string  $status_code
  * @property string  $key_hash
  */
 class Host extends Model implements Searchable
 {
+
+    /**
+     * Host statuses
+     */
+    const INITIAL_STATUS = 'INITIAL';
+    const AUTH_FAIL_STATUS = 'AUTHFAIL';
+    const PUBLIC_KEY_FAIL_STATUS = 'KEYAUTHFAIL';
+    const GENERIC_FAIL_STATUS = 'GENERICFAIL';
+    const SUCCESS_STATUS = 'SUCCESS';
+    const HOST_FAIL_STATUS = 'HOSTFAIL';
 
     /**
      * The database table used by the model.
@@ -53,6 +67,8 @@ class Host extends Model implements Searchable
     protected $fillable = [
         'hostname',
         'username',
+        'port',
+        'authorized_keys_file',
         'enabled',
     ];
 
@@ -62,9 +78,13 @@ class Host extends Model implements Searchable
      * @var array
      */
     protected $casts = [
+        'id' => 'int',
         'hostname' => 'string',
         'username' => 'string',
+        'port' => 'int',
+        'authorized_keys_file' => 'string',
         'enabled' => 'boolean',
+        'status_code' => 'string',
         'synced' => 'boolean',
         'key_hash' => 'string',
         'last_rotation' => 'datetime',
@@ -79,6 +99,17 @@ class Host extends Model implements Searchable
     {
         return $this->belongsToMany('App\Hostgroup');
     }
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'synced' => false,
+        'status_code' => self::INITIAL_STATUS,
+        'enabled' => true,
+    ];
 
     /**
      * Set the username Host attribute to lowercase.
@@ -101,13 +132,13 @@ class Host extends Model implements Searchable
     }
 
     /**
-     * This method return full hostname string, composed by `username@hostname`
+     * This method return full hostname string, composed by `username@hostname:port`
      *
      * @return string
      */
     public function getFullHostnameAttribute()
     {
-        return $this->username . '@' . $this->hostname;
+        return $this->username . '@' . $this->hostname . ':' . $this->port;
     }
 
     /**
@@ -140,6 +171,18 @@ class Host extends Model implements Searchable
     }
 
     /**
+     * Scope a query to only include hosts that are enabled.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', '=', true);
+    }
+
+    /**
      * Gets all SSH User Keys for Host
      *
      * @param string $bastionSSHPublicKey
@@ -151,6 +194,7 @@ class Host extends Model implements Searchable
         $sshKeys = array();
         $hostID = $this->id;
 
+        // TODO - I think it's not taking in count `deny` rules.
         $users = User::whereHas('keygroups.hostgroups.hosts', function (Host $host) use ($hostID) {
             $host->where('hosts.id', $hostID)->where('keygroup_hostgroup_permissions.action', 'allow');
         })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
@@ -170,6 +214,13 @@ class Host extends Model implements Searchable
         return $sshKeys;
     }
 
+    /**
+     * Used to implement search in this model.
+     *
+     * Define which fields could be searched and which URL will be returned.
+     *
+     * @return \Spatie\Searchable\SearchResult
+     */
     public function getSearchResult(): SearchResult
     {
         $url = route('hosts.show', $this->id);

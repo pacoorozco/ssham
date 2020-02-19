@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('host/title.host_update')
+    <i class="fa fa-laptop"></i> @lang('host/title.host_update')
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -53,13 +53,6 @@
                                 {!! Form::text('username', $host->username, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
                             </div>
                             <!-- ./ username -->
-
-                            <!-- type -->
-                            <div class="form-group">
-                                {!! Form::label('type', __('host/model.type')) !!}
-                                {!! Form::text('type', $host->type, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
-                            </div>
-                            <!-- ./ type -->
                         </fieldset>
 
                         <!-- enabled -->
@@ -81,6 +74,29 @@
                             </div>
                         </fieldset>
                         <!-- ./ enabled -->
+
+                        <fieldset>
+                            <legend>@lang('host/title.advanced_config_section')</legend>
+                            <!-- port -->
+                            <div class="form-group">
+                                {!! Form::label('port', __('host/model.port')) !!}
+                                {!! Form::number('port', $host->port, array('class' => 'form-control' . ($errors->has('port') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                @error('port')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- ./ port -->
+
+                            <!-- authorized_keys_file -->
+                            <div class="form-group">
+                                {!! Form::label('authorized_keys_file', __('host/model.authorized_keys_file')) !!}
+                                {!! Form::text('authorized_keys_file', $host->authorized_keys_file, array('class' => 'form-control' . ($errors->has('authorized_keys_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                                @error('authorized_keys_file')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- ./ authorized_keys_file -->
+                        </fieldset>
                     </div>
                     <!-- ./ left column -->
 
@@ -89,7 +105,6 @@
 
                         <fieldset>
                             <legend>@lang('host/title.membership_section')</legend>
-
                             <!-- host groups -->
                             <div class="form-group">
                                 {!! Form::label('groups[]', __('host/model.groups')) !!}

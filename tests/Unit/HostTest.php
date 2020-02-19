@@ -14,6 +14,8 @@ class HostTest extends ModelTestCase
         $this->assertEquals([
             'hostname',
             'username',
+            'port',
+            'authorized_keys_file',
             'enabled',
         ], $m->getFillable());
     }
@@ -25,7 +27,10 @@ class HostTest extends ModelTestCase
             'id' => 'int',
             'hostname' => 'string',
             'username' => 'string',
+            'port' => 'int',
+            'authorized_keys_file' => 'string',
             'enabled' => 'boolean',
+            'status_code' => 'string',
             'synced' => 'boolean',
             'key_hash' => 'string',
             'last_rotation' => 'datetime',
@@ -79,11 +84,13 @@ class HostTest extends ModelTestCase
         $input = [
             'username' => 'root',
             'hostname' => 'server1.domain.local',
+            'port' => '12345',
         ];
-        $want = 'root@server1.domain.local';
+        $want = 'root@server1.domain.local:12345';
 
         $m->username = $input['username'];
         $m->hostname = $input['hostname'];
+        $m->port = $input['port'];
 
         $this->assertEquals($want, $m->getAttribute('full_hostname'));
     }
@@ -120,6 +127,5 @@ class HostTest extends ModelTestCase
             $m->setSynced($case['input'], true);
             $this->assertEquals($case['want'], $m->synced);
         }
-
     }
 }

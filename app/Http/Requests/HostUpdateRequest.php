@@ -22,6 +22,8 @@ namespace App\Http\Requests;
  *
  * @package App\Http\Requests
  *
+ * @property int     $port
+ * @property string  $authorized_keys_file
  * @property boolean $enabled
  * @property array   $groups
  */
@@ -46,6 +48,8 @@ class HostUpdateRequest extends Request
     public function rules()
     {
         return [
+            'port' => ['required', 'integer', 'min:1', 'max:65535'],
+            'authorized_keys_file' => ['required', 'string', 'max:255'],
             'enabled' => ['required', 'boolean'],
         ];
     }

@@ -33,10 +33,13 @@ class CreateHostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('hostname');
             $table->string('username');
+            $table->integer('port')->unsigned();
+            $table->string('authorized_keys_file');
             $table->enum('type', ['linux'])->default('linux');
             $table->string('key_hash')->nullable();
-            $table->boolean('synced')->default('0');
-            $table->boolean('enabled')->default('1');
+            $table->boolean('enabled')->default(true);
+            $table->boolean('synced')->default(false);
+            $table->string('status_code');
             $table->timestamp('last_rotation')->nullable();
             $table->timestamps();
             $table->index(['hostname', 'username']);
