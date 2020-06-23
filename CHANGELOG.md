@@ -4,8 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+
+## 0.7.1 - 2020-06-23
+
 ### Added
 - Port and Authorized keys file path could be configured at `Host` level. On settings section you can set the default values for them.
+- Script to release versions: `bumpversion.sh`.
+### Changed
+- Minimum supported version is PHP 7.4.
+### Removed
+- Some unused code and routes.
+
 ## 0.7.0
 > **NOTE**: This version includes **major changes**, that are **not backwards** compatible. If you were using a previous version, please set-up a new database.
 ### Changed
