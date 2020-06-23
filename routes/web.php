@@ -43,7 +43,6 @@ Route::post('/search', ['as' => 'search', 'uses' => 'HomeController@search']);
 Auth::routes([
     'register' => false,  // User registration
     'verify' => false, // E-mail verification
-    'reset' => false, // Reset password
 ]);
 
 /**
