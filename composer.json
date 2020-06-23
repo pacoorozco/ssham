@@ -1,12 +1,28 @@
 {
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The Laravel Framework.",
+    "name": "pacoorozco/ssham",
+    "description": "SSH Access Manager Web Interface.",
     "keywords": [
-        "framework",
+        "ssh-key",
+        "ssh",
+        "ssh key manager",
+        "keyring",
+        "access management",
         "laravel"
     ],
-    "license": "MIT",
+    "homepage": "https://github.com/pacoorozco/ssham",
+    "license": "GPL-3.0-or-later",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Paco Orozco",
+            "email": "paco@pacorozco.info",
+            "homepage": "https://pacoorozco.info",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pacoorozco/ssham/issues"
+    },
     "require": {
         "php": "^7.2",
         "akaunting/setting": "^1.1",
@@ -61,6 +77,22 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "test": [
+            "vendor/bin/phpunit"
+        ],
+        "test-coverage": [
+            "vendor/bin/phpunit --coverage-html test-coverage"
+        ],
+        "build": [
+            "@composer archive --format=zip --dir=dist"
+        ]
+    },
+    "archive": {
+        "exclude": [
+            "/utils",
+            "/.*",
+            "!/.env.example"
         ]
     }
 }
