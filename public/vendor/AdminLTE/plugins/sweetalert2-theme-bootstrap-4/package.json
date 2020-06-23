@@ -1,38 +1,34 @@
 {
-  "_args": [
-    [
-      "@sweetalert2/theme-bootstrap-4@2.2.1",
-      "/home/public/web/ssham"
-    ]
-  ],
-  "_development": true,
-  "_from": "@sweetalert2/theme-bootstrap-4@2.2.1",
-  "_id": "@sweetalert2/theme-bootstrap-4@2.2.1",
+  "_from": "@sweetalert2/theme-bootstrap-4@^3.1.4",
+  "_id": "@sweetalert2/theme-bootstrap-4@3.2.0",
   "_inBundle": false,
-  "_integrity": "sha512-EzAc/HFO16wuZCmawdv0mxRknXtQ5XYmms8gHCcRBqVJsolwl0xKanH8wC2tf4O6dFLou6ZndNqii8ArQO66pA==",
+  "_integrity": "sha512-hNt+KMN84FLeL+AomgiCnsuBViFnVamq8ABwn2Y/EvLBQKPRvRQuYtoX+Ub6B6R3brdh6ylPpDwnUGC1xyhi9A==",
   "_location": "/@sweetalert2/theme-bootstrap-4",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "@sweetalert2/theme-bootstrap-4@2.2.1",
+    "raw": "@sweetalert2/theme-bootstrap-4@^3.1.4",
     "name": "@sweetalert2/theme-bootstrap-4",
     "escapedName": "@sweetalert2%2ftheme-bootstrap-4",
     "scope": "@sweetalert2",
-    "rawSpec": "2.2.1",
+    "rawSpec": "^3.1.4",
     "saveSpec": null,
-    "fetchSpec": "2.2.1"
+    "fetchSpec": "^3.1.4"
   },
   "_requiredBy": [
     "/admin-lte"
   ],
-  "_resolved": "https://registry.npmjs.org/@sweetalert2/theme-bootstrap-4/-/theme-bootstrap-4-2.2.1.tgz",
-  "_spec": "2.2.1",
-  "_where": "/home/public/web/ssham",
+  "_resolved": "https://registry.npmjs.org/@sweetalert2/theme-bootstrap-4/-/theme-bootstrap-4-3.2.0.tgz",
+  "_shasum": "9580fcefd7c624863e5a7cd35cb6b253e0ac8592",
+  "_spec": "@sweetalert2/theme-bootstrap-4@^3.1.4",
+  "_where": "/home/public/web/ssham/node_modules/admin-lte",
   "author": "",
   "bugs": {
     "url": "https://github.com/sweetalert2/sweetalert2-themes/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "Bootstrap 4 theme for SweetAlert2",
   "files": [
     "*.css",
@@ -54,5 +50,5 @@
     "type": "git",
     "url": "git+https://github.com/sweetalert2/sweetalert2-themes.git"
   },
-  "version": "2.2.1"
+  "version": "3.2.0"
 }
