@@ -15,6 +15,10 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,15 +30,21 @@
 |
 */
 
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 Route::post('/search', ['as' => 'search', 'uses' => 'HomeController@search']);
 
-Auth::routes(['register' => false]);
+/* ------------------------------------------
+ * Authentication routes
+ *
+ * Routes to be authenticated
+ *  ------------------------------------------
+ */
+Auth::routes([
+    'register' => false,  // User registration
+    'verify' => false, // E-mail verification
+    'reset' => false, // Reset password
+]);
 
 /**
  * ------------------------------------------
