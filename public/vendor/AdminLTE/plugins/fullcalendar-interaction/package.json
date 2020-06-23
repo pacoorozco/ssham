@@ -1,34 +1,28 @@
 {
-  "_args": [
-    [
-      "@fullcalendar/interaction@4.3.0",
-      "/home/public/web/ssham"
-    ]
-  ],
-  "_development": true,
-  "_from": "@fullcalendar/interaction@4.3.0",
-  "_id": "@fullcalendar/interaction@4.3.0",
+  "_from": "@fullcalendar/interaction@^4.4.0",
+  "_id": "@fullcalendar/interaction@4.4.2",
   "_inBundle": false,
-  "_integrity": "sha512-kaKV+tdgH/oIrwTSMGYFec989L5r+KMYJ9ybwLc8G3LbMVcebo8fAlN9VizmGQAuopKfyvOw8yzJdjfmVCCRYQ==",
+  "_integrity": "sha512-3ItpGFnxcYQT4NClqhq93QTQwOI8x3mlMf5M4DgK5avVaSzpv9g8p+opqeotK2yzpFeINps06cuQyB1h7vcv1Q==",
   "_location": "/@fullcalendar/interaction",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "@fullcalendar/interaction@4.3.0",
+    "raw": "@fullcalendar/interaction@^4.4.0",
     "name": "@fullcalendar/interaction",
     "escapedName": "@fullcalendar%2finteraction",
     "scope": "@fullcalendar",
-    "rawSpec": "4.3.0",
+    "rawSpec": "^4.4.0",
     "saveSpec": null,
-    "fetchSpec": "4.3.0"
+    "fetchSpec": "^4.4.0"
   },
   "_requiredBy": [
     "/admin-lte"
   ],
-  "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.3.0.tgz",
-  "_spec": "4.3.0",
-  "_where": "/home/public/web/ssham",
+  "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.2.tgz",
+  "_shasum": "0a6be06538f843b6f0f4e9b4de87a5e3ec3629fb",
+  "_spec": "@fullcalendar/interaction@^4.4.0",
+  "_where": "/home/public/web/ssham/node_modules/admin-lte",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -37,7 +31,9 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
+  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
+  "deprecated": false,
   "description": "Provides functionality for event drag-n-drop, resizing, dateClick, and selectable actions",
   "docs": "https://fullcalendar.io/docs/editable",
   "homepage": "https://fullcalendar.io/",
@@ -51,7 +47,7 @@
   "module": "main.esm.js",
   "name": "@fullcalendar/interaction",
   "peerDependencies": {
-    "@fullcalendar/core": "~4.3.0"
+    "@fullcalendar/core": "~4.4.0"
   },
   "repository": {
     "type": "git",
@@ -61,5 +57,5 @@
   "title": "FullCalendar Interaction Plugin",
   "types": "main.d.ts",
   "unpkg": "main.min.js",
-  "version": "4.3.0"
+  "version": "4.4.2"
 }
