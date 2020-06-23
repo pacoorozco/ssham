@@ -1,25 +1,20 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 MAINTAINER Paco Orozco <paco@pacoorozco.info>
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends --no-install-suggests \
-        zlib1g-dev
+# Install "docker-php-extension-installer" to install PHP extensions.
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 
-# Install the PHP needed extentions
-RUN docker-php-ext-install \
-    mbstring \
-    pdo_mysql \
-    zip
-
-COPY ./docker/app/php/local.ini /usr/local/etc/php/conf.d
-
-USER root
+# Install the PHP needed extensions
+RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions pdo_mysql zip
 
 # Clean up
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && rm /var/log/lastlog /var/log/faillog
+
+COPY ./docker/app/laravel.ini /usr/local/etc/php/conf.d
 
 RUN usermod -u 1000 www-data
 
