@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## Unreleased
 ### Added
 - Configuration for putting this application behind a Load Balancer. See `config/trustedproxy.php` for more details.
+### Fixed
+- Update vulnerable packages: `dot-prop` and `serialize-javascript`.
 
 ## 0.7.1 - 2020-06-23
 
