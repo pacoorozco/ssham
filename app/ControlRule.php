@@ -20,9 +20,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ControlRule
+ * Class ControlRule.
  *
- * @package App
  *
  * @property int     $id
  * @property string  $source
@@ -31,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int     $target_id
  * @property string  $action
  * @property string  $name
- * @property boolean $enabled
+ * @property bool $enabled
  */
 class ControlRule extends Model
 {

@@ -138,7 +138,7 @@ return [
         ],
         'source' => [
             'unique' => 'A rule with this source and this target already exists.',
-        ]
+        ],
     ],
 
     /*

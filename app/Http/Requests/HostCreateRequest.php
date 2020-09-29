@@ -20,9 +20,8 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 /**
- * Class HostCreateRequest
+ * Class HostCreateRequest.
  *
- * @package App\Http\Requests
  *
  * @property string $hostname
  * @property string $username
@@ -32,7 +31,6 @@ use Illuminate\Validation\Rule;
  */
 class HostCreateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -59,11 +57,10 @@ class HostCreateRequest extends Request
                 Rule::unique('hosts')->where(function ($query) use ($hostname, $username) {
                     return $query->where('hostname', $hostname)
                         ->where('username', $username);
-                })],
+                }), ],
             'username' => ['required', 'max:255'],
             'port' => ['required', 'integer', 'min:1', 'max:65535'],
             'authorized_keys_file' => ['required', 'string', 'max:255'],
         ];
     }
-
 }

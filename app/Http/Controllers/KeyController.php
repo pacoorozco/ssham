@@ -29,10 +29,8 @@ use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -96,6 +94,7 @@ class KeyController extends Controller
             $key->attachKeyAndSave($public_key, $private_key);
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
+
             return redirect()->back()
                 ->withInput()
                 ->withErrors(__('key/messages.create.error'));
@@ -178,11 +177,12 @@ class KeyController extends Controller
             }
 
             // Attach the RSA SSH public key to the created use (includes a save() method).
-            if (!empty($public_key)) {
+            if (! empty($public_key)) {
                 $key->attachKeyAndSave($public_key, $private_key);
             }
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
+
             return redirect()->back()
                 ->withInput()
                 ->withErrors(__('key/messages.edit.error'));
@@ -230,7 +230,7 @@ class KeyController extends Controller
     }
 
     /**
-     * Return all Key in order to be used with DataTables
+     * Return all Key in order to be used with DataTables.
      *
      * @param Datatables $datatable
      *
@@ -288,6 +288,6 @@ class KeyController extends Controller
         }
 
         // Starts downloading the key.
-        return response()->attachment($content, $key->username . '.key');
+        return response()->attachment($content, $key->username.'.key');
     }
 }

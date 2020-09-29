@@ -48,6 +48,7 @@ class ValidRSAPrivateKeyRule implements Rule
         } catch (\Exception $exception) {
             return false;
         }
+
         return RsaSshKey::compareKeys($value, $key);
     }
 

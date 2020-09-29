@@ -34,7 +34,7 @@ use Faker\Generator as Faker;
 $factory->define(Host::class, function (Faker $faker) {
     return [
         'username' => $faker->userName,
-        'hostname' => $faker->unique()->domainWord . '.' . $faker->domainName,
+        'hostname' => $faker->unique()->domainWord.'.'.$faker->domainName,
         'port' => 22,
         'authorized_keys_file' => '~/.ssh/authorized_keys',
         'type' => 'linux',

@@ -17,5 +17,5 @@
 
 return [
     'title' => 'Search results',
-    'header' => ':count results found for ":query"'
+    'header' => ':count results found for ":query"',
 ];

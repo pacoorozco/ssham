@@ -34,7 +34,7 @@ class CreateHostHostgroupsTable extends Migration
             $table->foreign('host_id')->references('id')->on('hosts')->onDelete('cascade');
             $table->unsignedBigInteger('hostgroup_id')->unsigned();
             $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
-            $table->unique(array('host_id', 'hostgroup_id'));
+            $table->unique(['host_id', 'hostgroup_id']);
         });
     }
 

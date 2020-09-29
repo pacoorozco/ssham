@@ -24,13 +24,12 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 /**
- * Class Key
+ * Class Key.
  *
- * @package App
  *
  * @property string  $id
  * @property string  $username
- * @property boolean $enabled
+ * @property bool $enabled
  * @property string  $type
  * @property string  $public
  * @property string  $private
@@ -54,7 +53,7 @@ class Key extends Model implements Searchable
      */
     protected $fillable = [
         'username',
-        'enabled'
+        'enabled',
     ];
 
     /**
@@ -110,7 +109,7 @@ class Key extends Model implements Searchable
     }
 
     /**
-     * An Key belongs to many Keygroups (many-to-many)
+     * An Key belongs to many Keygroups (many-to-many).
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         Response::macro('attachment', function (string $content, string $filename = 'private.key') {
             $headers = [
                 'Content-Type' => 'application/pkcs8',
-                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+                'Content-Disposition' => 'attachment; filename="'.$filename.'"',
             ];
 
             return Response::make($content, ResponseCode::HTTP_OK, $headers);

@@ -38,7 +38,7 @@ class CreateHostgroupKeygroupPermissionsTable extends Migration
             $table->string('name')->nullable();
             $table->boolean('enabled')->default('1');
             $table->timestamps();
-            $table->unique(array('source_id', 'target_id'));
+            $table->unique(['source_id', 'target_id']);
         });
     }
 

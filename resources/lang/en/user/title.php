@@ -9,7 +9,6 @@ return [
     'user_update' => 'Update User',
     'user_delete' => 'Delete User',
 
-
     'personal_information_section' => 'Personal Information',
     'about_the_user_section' => 'About the user',
     'membership_section' => 'Membership',

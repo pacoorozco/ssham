@@ -34,7 +34,7 @@ class CreateKeyKeygroupsTable extends Migration
             $table->foreign('key_id')->references('id')->on('keys')->onDelete('cascade');
             $table->unsignedBigInteger('keygroup_id')->unsigned();
             $table->foreign('keygroup_id')->references('id')->on('keygroups')->onDelete('cascade');
-            $table->unique(array('key_id', 'keygroup_id'));
+            $table->unique(['key_id', 'keygroup_id']);
         });
     }
 

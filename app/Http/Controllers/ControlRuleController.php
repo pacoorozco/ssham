@@ -17,7 +17,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\ControlRule;
 use App\Hostgroup;
 use App\Http\Requests\ControlRuleCreateRequest;
@@ -26,10 +25,8 @@ use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -110,7 +107,7 @@ class ControlRuleController extends Controller
     }
 
     /**
-     * Return all Users in order to be used as Datatables
+     * Return all Users in order to be used as Datatables.
      *
      * @param Datatables $datatable
      *
@@ -119,7 +116,6 @@ class ControlRuleController extends Controller
      */
     public function data(Datatables $datatable)
     {
-
         $rules = ControlRule::select([
             'id',
             'name',
@@ -137,8 +133,8 @@ class ControlRuleController extends Controller
                 return $rule->target;
             })
             ->editColumn('action', function (ControlRule $rule) {
-                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.allowed')
-                    : '<i class="fa fa-lock"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.denied');
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> '. /** @scrutinizer ignore-type */ __('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> '. /** @scrutinizer ignore-type */ __('rule/table.denied');
             })
             ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')

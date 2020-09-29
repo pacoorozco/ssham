@@ -17,13 +17,11 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Validation\Rule;
 
 /**
- * Class HostgroupUpdateRequest
+ * Class HostgroupUpdateRequest.
  *
- * @package App\Http\Requests
  *
  * @property \App\Hostgroup $hostgroup
  * @property string         $name
@@ -32,7 +30,6 @@ use Illuminate\Validation\Rule;
  */
 class HostgroupUpdateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -57,5 +54,4 @@ class HostgroupUpdateRequest extends Request
             'description' => ['max:255'],
         ];
     }
-
 }

@@ -20,7 +20,7 @@ return [
     'delete' => [
         'impossible' => 'You cannot delete yourself.',
         'error' => 'There was an issue deleting the user. Please try again.',
-        'success' => 'The user \':name\' was deleted successfully.'
+        'success' => 'The user \':name\' was deleted successfully.',
     ],
 
 ];

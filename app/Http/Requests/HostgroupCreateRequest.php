@@ -17,13 +17,10 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Validation\Rule;
-
 
 class HostgroupCreateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -46,5 +43,4 @@ class HostgroupCreateRequest extends Request
             'description' => ['max:255'],
         ];
     }
-
 }

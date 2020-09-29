@@ -33,7 +33,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Keygroup::class, function (Faker $faker) {
     return [
-        'name' => 'Group_' . $faker->unique()->colorName,
+        'name' => 'Group_'.$faker->unique()->colorName,
         'description' => $faker->paragraph,
     ];
 });

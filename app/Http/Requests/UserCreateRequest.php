@@ -18,9 +18,8 @@
 namespace App\Http\Requests;
 
 /**
- * Class UserCreateRequest
+ * Class UserCreateRequest.
  *
- * @package App\Http\Requests
  *
  * @property string $username
  * @property string $email
@@ -28,7 +27,6 @@ namespace App\Http\Requests;
  */
 class UserCreateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

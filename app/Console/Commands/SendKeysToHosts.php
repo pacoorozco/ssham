@@ -60,34 +60,33 @@ class SendKeysToHosts extends Command
     public function handle()
     {
         $hosts = Host::all();
-        Log::info('Hosts to be updated: ' . $hosts->count());
-        $this->info('Hosts to be updated: ' . $hosts->count());
+        Log::info('Hosts to be updated: '.$hosts->count());
+        $this->info('Hosts to be updated: '.$hosts->count());
 
         // Get SSHAM private key in order to connect to Hosts.
         $key = new RSA();
         $key->loadKey(setting('private_key'));
 
         foreach ($hosts as $host) {
-
-            Log::debug('Connecting to ' . $host->full_hostname);
+            Log::debug('Connecting to '.$host->full_hostname);
             $sftp = new SFTP($host->hostname, setting('ssh_port'), setting('ssh_timeout'));
 
             try {
-                if (!$sftp->login($host->username, $key)) {
+                if (! $sftp->login($host->username, $key)) {
 
                     // TODO - Set last_error field on Host
                     $host->last_rotation = now()->timestamp;
 
-                    $this->error('ERRROR Can\'t auth on ' . $host->full_hostname);
+                    $this->error('ERRROR Can\'t auth on '.$host->full_hostname);
                     continue;
                 }
             } catch (ErrorException $e) {
 
                 // TODO - Set last_error field on Host
-               $host->last_rotation = now()->timestamp;
+                $host->last_rotation = now()->timestamp;
 
-                Log::warning('Error connecting to ' . $host->full_hostname);
-                $this->error('Can not connect to ' . $host->full_hostname . ': ' . $e->getMessage());
+                Log::warning('Error connecting to '.$host->full_hostname);
+                $this->error('Can not connect to '.$host->full_hostname.': '.$e->getMessage());
                 continue;
             }
 
@@ -97,8 +96,8 @@ class SendKeysToHosts extends Command
                 $sftp->put(setting('cmd_remote_updater'), $fileContents);
                 $sftp->chmod(0700, setting('cmd_remote_updater'));
             } catch (FileNotFoundException $e) {
-                Log::error('SSHAM Remote Updater can not be accessible: ' . $e->getMessage());
-                $this->error('SSHAM Remote Updater can not be accessible: ' . $e->getMessage());
+                Log::error('SSHAM Remote Updater can not be accessible: '.$e->getMessage());
+                $this->error('SSHAM Remote Updater can not be accessible: '.$e->getMessage());
             }
 
             // Send SSHAM authorized file to remote Host.
@@ -107,13 +106,13 @@ class SendKeysToHosts extends Command
             $sftp->chmod(0600, setting('ssham_file'));
 
             // Execute remote_updater script on remote Host.
-            $command = setting('cmd_remote_updater') . ' update '
-                . ((setting('mixed_mode') == '1') ? 'true ' : 'false ')
-                . setting('authorized_keys') . ' '
-                . setting('non_ssham_file') . ' '
-                . setting('ssham_file');
+            $command = setting('cmd_remote_updater').' update '
+                .((setting('mixed_mode') == '1') ? 'true ' : 'false ')
+                .setting('authorized_keys').' '
+                .setting('non_ssham_file').' '
+                .setting('ssham_file');
 
-            Log::info('SSH authorized keys file updated successfully on ' . $host->full_hostname);
+            Log::info('SSH authorized keys file updated successfully on '.$host->full_hostname);
             $sftp->enableQuietMode();
             echo $sftp->exec($command);
             $sftp->disconnect();
