@@ -16,7 +16,7 @@
  */
 
 return [
-    'title' => "Settings",
+    'title' => 'Settings',
     'subtitle' => 'configure SSHAM',
     'ssh_settings' => 'SSH settings',
     'advanced_settings' => 'Advanced settings',

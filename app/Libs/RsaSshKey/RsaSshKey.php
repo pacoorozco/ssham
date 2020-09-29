@@ -23,17 +23,17 @@ use phpseclib\Crypt\RSA;
 class RsaSshKey
 {
     /**
-     * Private Key Format
+     * Private Key Format.
      */
     const PRIVATE_KEY_FORMAT = RSA::PRIVATE_FORMAT_PKCS1;
 
     /**
-     * Private Key Bits Length
+     * Private Key Bits Length.
      */
     const PRIVATE_KEY_LENGTH = 1024;
 
     /**
-     * Public Key Format
+     * Public Key Format.
      */
     const PUBLIC_KEY_FORMAT = RSA::PUBLIC_FORMAT_OPENSSH;
 
@@ -51,11 +51,12 @@ class RsaSshKey
         $rsa = new RSA();
         $rsa->setPrivateKeyFormat(self::PRIVATE_KEY_FORMAT);
         $rsa->setPublicKeyFormat(self::PUBLIC_KEY_FORMAT);
+
         return Arr::only($rsa->createKey(self::PRIVATE_KEY_LENGTH), ['privatekey', 'publickey']);
     }
 
     /**
-     * Return the public key
+     * Return the public key.
      *
      * @param string $key
      *
@@ -78,7 +79,7 @@ class RsaSshKey
     }
 
     /**
-     * Return the private key
+     * Return the private key.
      *
      * @param string $key
      *
@@ -137,7 +138,8 @@ class RsaSshKey
         if (empty($key)) {
             return $key;
         }
-        return str_replace(["\n", "\t", "\r", " "], '', $key);
+
+        return str_replace(["\n", "\t", "\r", ' '], '', $key);
     }
 
     /**
@@ -150,6 +152,6 @@ class RsaSshKey
      */
     public static function compareKeys(string $key1, string $key2): bool
     {
-        return (self::cleanRSAKey($key1) === self::cleanRSAKey($key2));
+        return self::cleanRSAKey($key1) === self::cleanRSAKey($key2);
     }
 }

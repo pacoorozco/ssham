@@ -20,7 +20,6 @@ use Illuminate\Database\Seeder;
 
 class HostsTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -30,5 +29,4 @@ class HostsTableSeeder extends Seeder
     {
         factory(App\Host::class, 5)->create();
     }
-
 }

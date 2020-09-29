@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateHostgroupsTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -46,5 +45,4 @@ class CreateHostgroupsTable extends Migration
     {
         Schema::drop('hostgroups');
     }
-
 }

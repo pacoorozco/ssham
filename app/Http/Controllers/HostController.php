@@ -26,10 +26,8 @@ use yajra\Datatables\Datatables;
 
 class HostController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -77,7 +75,7 @@ class HostController extends Controller
             ]);
 
             // Associate Host's Groups
-            if (!empty($request->groups)) {
+            if (! empty($request->groups)) {
                 $host->groups()->sync($request->groups);
             }
         } catch (\Exception $exception) {
@@ -186,7 +184,7 @@ class HostController extends Controller
     }
 
     /**
-     * Return all Hosts in order to be used as DataTables
+     * Return all Hosts in order to be used as DataTables.
      *
      * @param Datatables $datatable
      *
@@ -200,7 +198,7 @@ class HostController extends Controller
             'hostname',
             'username',
             'type',
-            'enabled'
+            'enabled',
         ])
             ->withCount('groups as groups') // count number of groups without loading the models
             ->orderBy('hostname', 'asc');

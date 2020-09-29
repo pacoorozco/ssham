@@ -15,7 +15,6 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +47,7 @@ Auth::routes([
 /**
  * ------------------------------------------
  * Users
- * ------------------------------------------
+ * ------------------------------------------.
  */
 // DataTables Ajax route.
 Route::get('users/data',
@@ -64,7 +63,7 @@ Route::resource('users', 'UserController');
 /**
  * ------------------------------------------
  * Keys
- * ------------------------------------------
+ * ------------------------------------------.
  */
 // DataTables Ajax route.
 Route::get('keys/data',
@@ -83,7 +82,7 @@ Route::resource('keys', 'KeyController');
 /**
  * ------------------------------------------
  * Hosts
- * ------------------------------------------
+ * ------------------------------------------.
  */
 // DataTables Ajax route.
 Route::get('hosts/data',
@@ -98,7 +97,7 @@ Route::resource('hosts', 'HostController');
 /**
  * ------------------------------------------
  * Key Groups
- * ------------------------------------------
+ * ------------------------------------------.
  */
 // DataTables Ajax route.
 Route::get('keygroups/data',
@@ -113,7 +112,7 @@ Route::resource('keygroups', 'KeygroupController');
 /**
  * ------------------------------------------
  * Host Groups
- * ------------------------------------------
+ * ------------------------------------------.
  */
 // DataTables Ajax route.
 Route::get('hostgroups/data',
@@ -128,7 +127,7 @@ Route::resource('hostgroups', 'HostgroupController');
 /**
  * ------------------------------------------
  * Control Rules
- * ------------------------------------------
+ * ------------------------------------------.
  */
 // Datatables Ajax route.
 Route::get('rules/data',
@@ -141,8 +140,7 @@ Route::resource('rules', 'ControlRuleController');
 /**
  * ------------------------------------------
  * Settings
- * ------------------------------------------
+ * ------------------------------------------.
  */
 Route::get('settings', ['as' => 'settings.index', 'uses' => 'SettingsController@index']);
 Route::put('settings', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);
-

@@ -25,10 +25,8 @@ use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -182,7 +180,7 @@ class KeygroupController extends Controller
     }
 
     /**
-     * Return all keygroups in order to be used as Datatables
+     * Return all keygroups in order to be used as Datatables.
      *
      * @param Datatables $datatable
      *

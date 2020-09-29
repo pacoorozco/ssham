@@ -10,7 +10,7 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     /**
-     * Make ajax GET request
+     * Make ajax GET request.
      *
      * @param string $uri
      *

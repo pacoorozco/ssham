@@ -17,7 +17,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostgroupCreateRequest;
@@ -26,10 +25,8 @@ use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -97,7 +94,6 @@ class HostgroupController extends Controller
      */
     public function show(Hostgroup $hostgroup)
     {
-
         return view('hostgroup.show', compact('hostgroup'));
     }
 
@@ -184,7 +180,7 @@ class HostgroupController extends Controller
     }
 
     /**
-     * Return all Hostgroups in order to be used as DataTables
+     * Return all Hostgroups in order to be used as DataTables.
      *
      * @param Datatables $datatable
      *

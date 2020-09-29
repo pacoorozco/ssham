@@ -20,7 +20,6 @@ use Illuminate\Database\Seeder;
 
 class HostgroupsTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -28,20 +27,19 @@ class HostgroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        $hostgroups = array(
-            array(
+        $hostgroups = [
+            [
                 'name' => 'PRO_servers',
-                'description' => 'Production Servers'
-            ),
-            array(
+                'description' => 'Production Servers',
+            ],
+            [
                 'name' => 'DEV_servers',
-                'description' => 'Development Servers'
-            )
-        );
+                'description' => 'Development Servers',
+            ],
+        ];
 
         foreach ($hostgroups as $group) {
             Hostgroup::create($group);
         }
     }
-
 }

@@ -20,9 +20,8 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 /**
- * Class KeygroupUpdateRequest
+ * Class KeygroupUpdateRequest.
  *
- * @package App\Http\Requests
  *
  * @property \App\Keygroup $keygroup
  * @property string        $name
@@ -31,7 +30,6 @@ use Illuminate\Validation\Rule;
  */
 class KeygroupUpdateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -56,5 +54,4 @@ class KeygroupUpdateRequest extends Request
             'description' => ['max:255'],
         ];
     }
-
 }

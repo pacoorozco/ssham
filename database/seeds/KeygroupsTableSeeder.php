@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\DB;
 
 class KeygroupsTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -31,20 +30,19 @@ class KeygroupsTableSeeder extends Seeder
     {
         DB::table('keygroups')->delete();
 
-        $keygroups = array(
-            array(
+        $keygroups = [
+            [
                 'name' => 'developers',
-                'description' => 'Group of awesome developers'
-            ),
-            array(
+                'description' => 'Group of awesome developers',
+            ],
+            [
                 'name' => 'operators',
-                'description' => 'Group of incredible operators'
-            )
-        );
+                'description' => 'Group of incredible operators',
+            ],
+        ];
 
         foreach ($keygroups as $group) {
             Keygroup::create($group);
         }
     }
-
 }

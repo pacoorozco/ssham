@@ -22,7 +22,6 @@ use Illuminate\Validation\Rule;
 
 class KeyUpdateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -34,13 +33,14 @@ class KeyUpdateRequest extends Request
     }
 
     /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation
+     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
      *
      * @return mixed
      */
     protected function getValidatorInstance()
     {
         $this->sanitize();
+
         return parent::getValidatorInstance();
     }
 
@@ -59,7 +59,7 @@ class KeyUpdateRequest extends Request
     }
 
     /**
-     * Sanitizes user input. In special 'public_key_input' to remove carriage returns
+     * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
      */
     public function sanitize()
     {
@@ -72,5 +72,4 @@ class KeyUpdateRequest extends Request
 
         $this->replace($input);
     }
-
 }

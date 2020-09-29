@@ -20,9 +20,8 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 /**
- * Class KeygroupCreateRequest
+ * Class KeygroupCreateRequest.
  *
- * @package App\Http\Requests
  *
  * @property string $name
  * @property string $description
@@ -30,7 +29,6 @@ use Illuminate\Validation\Rule;
  */
 class KeygroupCreateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -53,5 +51,4 @@ class KeygroupCreateRequest extends Request
             'description' => ['max:255'],
         ];
     }
-
 }
