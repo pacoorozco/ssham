@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Changed
+- Update dependencies to the latest versions.
+### Fixed
+- Namespaces for Feature tests has been fixed to `namespace Tests\Feature\...`.
 
 ## 0.8.0 - 2020-09-01
 ### Added
