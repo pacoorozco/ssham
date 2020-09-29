@@ -23,5 +23,5 @@ return [
     'enabled' => 'Enabled',
     'actions' => 'Actions',
     'allowed' => 'Allowed',
-    'denied' => 'Denied'
+    'denied' => 'Denied',
 ];

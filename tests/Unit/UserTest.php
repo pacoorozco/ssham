@@ -2,9 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Libs\RsaSshKey\RsaSshKey;
 use App\User;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\ModelTestCase;
 
 class UserTest extends ModelTestCase

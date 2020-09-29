@@ -17,7 +17,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\ControlRule;
 use App\Hostgroup;
 use App\Http\Requests\ControlRuleCreateRequest;
@@ -26,10 +25,8 @@ use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -110,7 +107,7 @@ class ControlRuleController extends Controller
     }
 
     /**
-     * Return all Users in order to be used as Datatables
+     * Return all Users in order to be used as Datatables.
      *
      * @param Datatables $datatable
      *
@@ -119,7 +116,6 @@ class ControlRuleController extends Controller
      */
     public function data(Datatables $datatable)
     {
-
         $rules = ControlRule::select([
             'id',
             'name',

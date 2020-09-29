@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Hostgroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\ModelTestCase;
 
 class HostgroupTest extends ModelTestCase

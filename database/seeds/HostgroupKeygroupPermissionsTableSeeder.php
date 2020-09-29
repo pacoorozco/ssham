@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\DB;
 
 class HostgroupKeygroupPermissionsTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -33,20 +32,20 @@ class HostgroupKeygroupPermissionsTableSeeder extends Seeder
     {
         DB::table('hostgroup_keygroup_permissions')->delete();
 
-        $permissions = array(
-            array(
+        $permissions = [
+            [
                 'keygroup' => 'developers',
                 'hostgroup' => 'DEV_servers',
                 'action' => 'allow',
                 'description' => 'Developers can develop on development hosts',
-            ),
-            array(
+            ],
+            [
                 'keygroup' => 'operators',
                 'hostgroup' => 'PRO_servers',
                 'action' => 'deny',
                 'description' => 'Operators can make its magic on production hosts',
-            )
-        );
+            ],
+        ];
 
         foreach ($permissions as $permission) {
             $keygroup = Keygroup::where('name', $permission['keygroup'])->firstOrFail();
@@ -56,9 +55,8 @@ class HostgroupKeygroupPermissionsTableSeeder extends Seeder
                 'source_id' => $keygroup->id,
                 'target_id' => $hostgroup->id,
                 'action' => $permission['action'],
-                'name' => $permission['description']
+                'name' => $permission['description'],
             ]);
         }
     }
-
 }

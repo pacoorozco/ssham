@@ -18,18 +18,16 @@
 namespace App\Http\Requests;
 
 /**
- * Class HostUpdateRequest
+ * Class HostUpdateRequest.
  *
- * @package App\Http\Requests
  *
  * @property int     $port
  * @property string  $authorized_keys_file
- * @property boolean $enabled
+ * @property bool $enabled
  * @property array   $groups
  */
 class HostUpdateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -53,5 +51,4 @@ class HostUpdateRequest extends Request
             'enabled' => ['required', 'boolean'],
         ];
     }
-
 }

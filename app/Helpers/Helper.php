@@ -17,10 +17,8 @@
 
 namespace App\Helpers;
 
-
 class Helper
 {
-
     /**
      * Helper to transform a bool to a label active / inactive.
      *
@@ -41,6 +39,7 @@ class Helper
             ];
         }
         $concatenationSpace = empty($text) ? '' : ' ';
+
         return trim($text . $concatenationSpace . $mapStatusToLabel[$condition], ' ');
     }
 

@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateKeygroupsTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -46,5 +45,4 @@ class CreateKeygroupsTable extends Migration
     {
         Schema::drop('keygroups');
     }
-
 }

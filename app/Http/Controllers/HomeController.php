@@ -17,19 +17,18 @@
 
 namespace App\Http\Controllers;
 
+use App\ControlRule;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\SearchRequest;
 use App\Key;
 use App\Keygroup;
-use App\ControlRule;
 use App\User;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
 
 class HomeController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');

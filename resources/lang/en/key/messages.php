@@ -41,7 +41,7 @@ return [
     ],
     'delete' => [
         'error' => 'There was an issue deleting the key. Please try again.',
-        'success' => 'The key \':username\' was deleted successfully.'
+        'success' => 'The key \':username\' was deleted successfully.',
     ],
 
 ];

@@ -17,7 +17,6 @@
 
 namespace App\Rules;
 
-use App\Libs\RsaSshKey\InvalidInputException;
 use App\Libs\RsaSshKey\RsaSshKey;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -48,6 +47,7 @@ class ValidRSAPrivateKeyRule implements Rule
         } catch (\Exception $exception) {
             return false;
         }
+
         return RsaSshKey::compareKeys($value, $key);
     }
 

@@ -17,9 +17,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\ControlRule;
 use App\Hostgroup;
 use App\Keygroup;
-use App\ControlRule;
 use Faker\Generator as Faker;
 
 /*

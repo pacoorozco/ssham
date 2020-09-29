@@ -24,6 +24,5 @@ class HomeControllerTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertRedirect(route('login'));
-
     }
 }

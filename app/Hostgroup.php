@@ -22,9 +22,8 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 /**
- * Class Hostgroup
+ * Class Hostgroup.
  *
- * @package App
  *
  * @property int    $id
  * @property string $name
@@ -32,7 +31,6 @@ use Spatie\Searchable\SearchResult;
  */
 class Hostgroup extends Model implements Searchable
 {
-
     /**
      * The database table used by the model.
      *
@@ -47,7 +45,7 @@ class Hostgroup extends Model implements Searchable
      */
     protected $fillable = [
         'name',
-        'description'
+        'description',
     ];
 
     /**
@@ -61,7 +59,7 @@ class Hostgroup extends Model implements Searchable
     ];
 
     /**
-     * A Hostgroup is composed by Host (many-to-many)
+     * A Hostgroup is composed by Host (many-to-many).
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

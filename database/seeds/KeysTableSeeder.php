@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\DB;
 
 class KeysTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -32,5 +31,4 @@ class KeysTableSeeder extends Seeder
 
         factory(App\Key::class, 3)->create();
     }
-
 }

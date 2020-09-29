@@ -22,16 +22,15 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 /**
- * Class User
+ * Class User.
  *
- * @package App
  *
  * @property int     $id
  * @property string  $username
  * @property string  $name
  * @property string  $email
  * @property string  $password
- * @property boolean $enabled
+ * @property bool $enabled
  * @property string  $auth_type
  */
 class User extends Authenticatable
@@ -54,7 +53,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'enabled'
+        'enabled',
     ];
 
     /**
@@ -65,7 +64,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'auth_type'
+        'auth_type',
     ];
 
     /**

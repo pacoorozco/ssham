@@ -17,4 +17,6 @@
 
 namespace App\Libs\RsaSshKey;
 
-class InvalidInputException extends \Exception {}
+class InvalidInputException extends \Exception
+{
+}

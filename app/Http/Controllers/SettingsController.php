@@ -23,7 +23,6 @@ class SettingsController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -67,5 +66,4 @@ class SettingsController extends Controller
         return redirect()->route('settings.index')
             ->withSuccess(__('settings/messages.save.success'));
     }
-
 }

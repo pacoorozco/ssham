@@ -26,10 +26,8 @@ use yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
-
     /**
      * Create a new controller instance.
-     *
      */
     public function __construct()
     {
@@ -176,7 +174,7 @@ class UserController extends Controller
     }
 
     /**
-     * Return all Users in order to be used with DataTables
+     * Return all Users in order to be used with DataTables.
      *
      * @param Datatables $datatable
      *
@@ -189,7 +187,7 @@ class UserController extends Controller
             'id',
             'username',
             'email',
-            'enabled'
+            'enabled',
         ])
             ->orderBy('username', 'asc');
 

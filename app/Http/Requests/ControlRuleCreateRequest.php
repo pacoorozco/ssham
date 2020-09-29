@@ -20,9 +20,8 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 /**
- * Class RuleCreateRequest
+ * Class RuleCreateRequest.
  *
- * @package App\Http\Requests
  *
  * @property int    $source
  * @property int    $target
@@ -31,7 +30,6 @@ use Illuminate\Validation\Rule;
  */
 class ControlRuleCreateRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -58,11 +56,10 @@ class ControlRuleCreateRequest extends Request
                 Rule::unique('hostgroup_keygroup_permissions', 'source_id')->where(function ($query) use ($source, $target) {
                     return $query->where('source_id', $source)
                         ->where('target_id', $target);
-                })],
+                }), ],
             'target' => ['required', 'exists:App\Hostgroup,id'],
             'action' => ['required', Rule::in(['allow', 'deny'])],
             'name' => ['required', 'string'],
         ];
     }
-
 }

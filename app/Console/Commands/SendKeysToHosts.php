@@ -68,12 +68,11 @@ class SendKeysToHosts extends Command
         $key->loadKey(setting('private_key'));
 
         foreach ($hosts as $host) {
-
             Log::debug('Connecting to ' . $host->full_hostname);
             $sftp = new SFTP($host->hostname, setting('ssh_port'), setting('ssh_timeout'));
 
             try {
-                if (!$sftp->login($host->username, $key)) {
+                if (! $sftp->login($host->username, $key)) {
 
                     // TODO - Set last_error field on Host
                     $host->last_rotation = now()->timestamp;
@@ -84,7 +83,7 @@ class SendKeysToHosts extends Command
             } catch (ErrorException $e) {
 
                 // TODO - Set last_error field on Host
-               $host->last_rotation = now()->timestamp;
+                $host->last_rotation = now()->timestamp;
 
                 Log::warning('Error connecting to ' . $host->full_hostname);
                 $this->error('Can not connect to ' . $host->full_hostname . ': ' . $e->getMessage());

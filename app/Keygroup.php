@@ -22,9 +22,8 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 /**
- * Class Keygroup
+ * Class Keygroup.
  *
- * @package App
  *
  * @property int    $id
  * @property string $name
@@ -32,7 +31,6 @@ use Spatie\Searchable\SearchResult;
  */
 class Keygroup extends Model implements Searchable
 {
-
     /**
      * The database table used by the model.
      *
@@ -47,7 +45,7 @@ class Keygroup extends Model implements Searchable
      */
     protected $fillable = [
         'name',
-        'description'
+        'description',
     ];
 
     /**
@@ -61,7 +59,7 @@ class Keygroup extends Model implements Searchable
     ];
 
     /**
-     * An Keygroup is composed by many Keys (many-to-many)
+     * An Keygroup is composed by many Keys (many-to-many).
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -89,7 +87,6 @@ class Keygroup extends Model implements Searchable
     {
         return ControlRule::findBySource($this->id);
     }
-
 
     public function getSearchResult(): SearchResult
     {

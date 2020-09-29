@@ -22,11 +22,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-
 /**
- * Class Host
+ * Class Host.
  *
- * @package App
  *
  * @property int     $id
  * @property string  $hostname
@@ -34,16 +32,15 @@ use Spatie\Searchable\SearchResult;
  * @property string  $full_hostname
  * @property int     $port
  * @property string  $authorized_keys_file
- * @property boolean $enabled
- * @property boolean $synced
+ * @property bool $enabled
+ * @property bool $synced
  * @property string  $status_code
  * @property string  $key_hash
  */
 class Host extends Model implements Searchable
 {
-
     /**
-     * Host statuses
+     * Host statuses.
      */
     const INITIAL_STATUS = 'INITIAL';
     const AUTH_FAIL_STATUS = 'AUTHFAIL';
@@ -91,7 +88,7 @@ class Host extends Model implements Searchable
     ];
 
     /**
-     * A Host belongs to many Hostgroups (many-to-many)
+     * A Host belongs to many Hostgroups (many-to-many).
      *
      * @return BelongsToMany
      */
@@ -132,7 +129,7 @@ class Host extends Model implements Searchable
     }
 
     /**
-     * This method return full hostname string, composed by `username@hostname:port`
+     * This method return full hostname string, composed by `username@hostname:port`.
      *
      * @return string
      */
@@ -144,7 +141,7 @@ class Host extends Model implements Searchable
     /**
      * Set Host sync status
      *    0 = Host is not sync, it needs to transfer SSH Key file
-     *    1 = Host is sync
+     *    1 = Host is sync.
      *
      * @param bool $synced
      * @param bool $skip_save - if true, skip saving the model (for testing)
@@ -153,7 +150,7 @@ class Host extends Model implements Searchable
     {
         $this->synced = $synced;
 
-        if (!$skip_save) {
+        if (! $skip_save) {
             $this->save();
         }
     }
@@ -183,7 +180,7 @@ class Host extends Model implements Searchable
     }
 
     /**
-     * Gets all SSH User Keys for Host
+     * Gets all SSH User Keys for Host.
      *
      * @param string $bastionSSHPublicKey
      *
@@ -191,7 +188,7 @@ class Host extends Model implements Searchable
      */
     public function getSSHKeysForHost(string $bastionSSHPublicKey = null)
     {
-        $sshKeys = array();
+        $sshKeys = [];
         $hostID = $this->id;
 
         // TODO - I think it's not taking in count `deny` rules.
@@ -207,7 +204,7 @@ class Host extends Model implements Searchable
         }
 
         // Add Bastion host SSH public key
-        if (!is_null($bastionSSHPublicKey)) {
+        if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 

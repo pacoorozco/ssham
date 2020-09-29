@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -31,26 +30,25 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->delete();
 
-        $users = array(
-            array(
+        $users = [
+            [
                 'username' => 'admin',
                 'email' => 'admin@example.org',
                 'auth_type' => 'local',
                 'password' => bcrypt('secret'),
                 'enabled' => true,
-            ),
-            array(
+            ],
+            [
                 'username' => 'user',
                 'email' => 'user@example.org',
                 'auth_type' => 'local',
                 'password' => bcrypt('user'),
                 'enabled' => false,
-            )
-        );
+            ],
+        ];
 
         foreach ($users as $userData) {
             User::create($userData);
         }
     }
-
 }
