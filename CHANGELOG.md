@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Update dependencies to the latest versions.
 ### Fixed
 - Namespaces for Feature tests has been fixed to `namespace Tests\Feature\...`.
+- Namespace for Helper has been set to `App\Helpers`.
+- Trait `UsesUUID` was not PSR-4 compliant.
 
 ## 0.8.0 - 2020-09-01
 ### Added
