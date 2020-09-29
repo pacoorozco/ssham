@@ -18,7 +18,7 @@
 namespace App;
 
 use App\Libs\RsaSshKey\RsaSshKey;
-use App\Traits\UsesUuid;
+use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
@@ -38,7 +38,7 @@ use Spatie\Searchable\SearchResult;
  */
 class Key extends Model implements Searchable
 {
-    use UsesUuid;
+    use UsesUUID;
 
     /**
      * The database table used by the model.

@@ -243,7 +243,7 @@ class KeyController extends Controller
             'id',
             'username',
             'fingerprint',
-            'enabled'
+            'enabled',
         ])
             ->withCount('groups as groups') // count number of groups without loading the models
             ->orderBy('username', 'asc');
