@@ -15,7 +15,7 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace Tests\Unit\Http\Controllers;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Key;
 use App\Keygroup;

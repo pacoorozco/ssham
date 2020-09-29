@@ -15,11 +15,10 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace Tests\Unit\Http\Controllers;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Host;
 use App\Hostgroup;
-use App\keygroupgroup;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
