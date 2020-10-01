@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'docs/**'
+      - '.github/workflows/*.yml'
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -17,3 +18,4 @@ jobs:
           TARGET_BRANCH: gh-pages
           BUILD_SCRIPT: npm ci && npm run docs:build
           BUILD_DIR: docs/.vuepress/dist/
+          CNAME: ssham.pacoorozco.info
