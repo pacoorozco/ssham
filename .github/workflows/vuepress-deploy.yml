@@ -1,0 +1,17 @@
+name: Build and Deploy
+on: [push]
+jobs:
+  publish-documentation:
+    name: Publish documentation site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses:  actions/checkout@v2
+      - name: vuepress-deploy
+        uses: jenkey2011/vuepress-deploy@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          TARGET_REPO: pacoorozco/ssham
+          TARGET_BRANCH: gh-pages
+          BUILD_SCRIPT: npm ci && npm docs:build
+          BUILD_DIR: docs/.vuepress/dist/

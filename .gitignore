@@ -25,6 +25,9 @@ Homestead.json
 # Vagrant
 .vagrant/
 
+# Vuepress
+docs/.vuepress/dist
+
 # Development & editor stuff
 .idea/
 .vscode/
