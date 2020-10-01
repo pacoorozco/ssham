@@ -1,8 +1,10 @@
-name: Build and Deploy
-on: [push]
+name: Publish documentation site
+on:
+  push:
+    paths:
+      - 'docs/**'
 jobs:
-  publish-documentation:
-    name: Publish documentation site
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
