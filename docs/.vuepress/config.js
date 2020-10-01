@@ -17,5 +17,4 @@
 module.exports = {
     title: "ssham",
     description: "Secure Shell Access Manager",
-    base: '/ssham/',
 };
