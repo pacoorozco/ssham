@@ -1,6 +1,8 @@
 name: Publish documentation site
 on:
   push:
+    branches:
+      - master
     paths:
       - 'docs/**'
       - '.github/workflows/*.yml'
