@@ -87,6 +87,9 @@ Prior this installation, you **need to have installed** this software:
 1. Modify the content of the `.env` file to put your settings, something like that:
 
     ```php
+    APP_ENV=production
+    APP_DEBUG=false
+    APP_URL=https://my.domain.com
     DB_HOST='Your database host'
     DB_DATABASE='Your database name'
     DB_USERNAME='Your database user'
