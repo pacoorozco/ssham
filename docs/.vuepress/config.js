@@ -17,4 +17,22 @@
 module.exports = {
     title: "ssham",
     description: "Secure Shell Access Manager",
+    themeConfig: {
+        logo: '/ssham-logo.png',
+        nav: [
+            { text: 'Guide', link: '/guide/' },
+            { text: 'GitHub', link: 'https://github.com/pacoorozco/ssham' }
+        ],
+        sidebar: [
+            {
+                title: 'Guide',
+                collapsable: false,
+                children: [
+                    '/guide/',
+                    '/guide/getting-started',
+                    '/guide/configuration'
+                ]
+            }
+        ]
+    }
 };
