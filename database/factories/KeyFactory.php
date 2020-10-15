@@ -40,6 +40,6 @@ $factory->define(Key::class, function (Faker $faker) {
         'public' => RsaSshKey::getPublicKey($rsa['publickey']),
         'private' => null,
         'fingerprint' => RsaSshKey::getPublicFingerprint($rsa['publickey']),
-        'enabled' => 'true',
+        'enabled' => true,
     ];
 });
