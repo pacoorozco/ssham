@@ -26,16 +26,16 @@ use Spatie\Searchable\SearchResult;
  * Class Host.
  *
  *
- * @property int     $id
- * @property string  $hostname
- * @property string  $username
- * @property string  $full_hostname
- * @property int     $port
- * @property string  $authorized_keys_file
+ * @property int $id
+ * @property string $hostname
+ * @property string $username
+ * @property string $full_hostname
+ * @property int $port
+ * @property string $authorized_keys_file
  * @property bool $enabled
  * @property bool $synced
- * @property string  $status_code
- * @property string  $key_hash
+ * @property string $status_code
+ * @property string $key_hash
  */
 class Host extends Model implements Searchable
 {
@@ -111,7 +111,7 @@ class Host extends Model implements Searchable
     /**
      * Set the username Host attribute to lowercase.
      *
-     * @param string $value
+     * @param  string  $value
      */
     public function setUsernameAttribute(string $value)
     {
@@ -121,7 +121,7 @@ class Host extends Model implements Searchable
     /**
      * Set the hostname Host attribute to lowercase.
      *
-     * @param string $value
+     * @param  string  $value
      */
     public function setHostnameAttribute(string $value)
     {
@@ -143,8 +143,8 @@ class Host extends Model implements Searchable
      *    0 = Host is not sync, it needs to transfer SSH Key file
      *    1 = Host is sync.
      *
-     * @param bool $synced
-     * @param bool $skip_save - if true, skip saving the model (for testing)
+     * @param  bool  $synced
+     * @param  bool  $skip_save  - if true, skip saving the model (for testing)
      */
     public function setSynced(bool $synced = false, bool $skip_save = false)
     {
@@ -158,7 +158,7 @@ class Host extends Model implements Searchable
     /**
      * Scope a query to only include hosts that are not in sync.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -170,7 +170,7 @@ class Host extends Model implements Searchable
     /**
      * Scope a query to only include hosts that are enabled.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -182,28 +182,35 @@ class Host extends Model implements Searchable
     /**
      * Gets all SSH User Keys for Host.
      *
-     * @param string $bastionSSHPublicKey
+     * @param  string  $bastionSSHPublicKey
      *
      * @return array
      */
     public function getSSHKeysForHost(string $bastionSSHPublicKey = null)
     {
         $sshKeys = [];
-        $hostID = $this->id;
-
-        // TODO - I think it's not taking in count `deny` rules.
-        $users = User::whereHas('keygroups.hostgroups.hosts', function (Host $host) use ($hostID) {
-            $host->where('hosts.id', $hostID)->where('keygroup_hostgroup_permissions.action', 'allow');
-        })->select('username', 'public_key')->where('enabled', 1)->orderBy('username')->get();
-
-        foreach ($users as $user) {
-            $content = explode(' ', $user->public_key, 3);
-            $content[2] = $user->username.'@ssham';
-
-            $sshKeys[] = join(' ', $content);
+        $hostGroups = $this->groups;
+        foreach ($hostGroups as $hostGroup) {
+            $rules = $hostGroup->getRelatedRules();
+            foreach ($rules as $rule) {
+                $keygroup = $rule->getSourceObject();
+                $keys = $keygroup->keys()->where('enabled', true)->get();
+                foreach ($keys as $key) {
+                    switch ($rule->action) {
+                        case 'deny':
+                            unset($sshKeys[$key->username]);
+                            break;
+                        case 'allow':
+                            $content = explode(' ', $key->public, 3);
+                            $content[2] = $key->username.'@ssham';
+                            $sshKeys[$key->username] = join(' ', $content);
+                            break;
+                        default:
+                            // There is no more cases, but just in case (NOOP).
+                    }
+                }
+            }
         }
-
-        // Add Bastion host SSH public key
         if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
