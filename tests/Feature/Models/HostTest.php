@@ -77,7 +77,6 @@ class HostTest extends TestCase
     /** @test */
     public function it_returns_the_expected_number_of_keys_for_a_given_host()
     {
-
         $host = factory(Host::class)->create();
 
         $hostGroup = factory(Hostgroup::class)->create();
