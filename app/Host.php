@@ -42,12 +42,12 @@ class Host extends Model implements Searchable
     /**
      * Host statuses.
      */
-    const INITIAL_STATUS         = 'INITIAL';
-    const AUTH_FAIL_STATUS       = 'AUTHFAIL';
+    const INITIAL_STATUS = 'INITIAL';
+    const AUTH_FAIL_STATUS = 'AUTHFAIL';
     const PUBLIC_KEY_FAIL_STATUS = 'KEYAUTHFAIL';
-    const GENERIC_FAIL_STATUS    = 'GENERICFAIL';
-    const SUCCESS_STATUS         = 'SUCCESS';
-    const HOST_FAIL_STATUS       = 'HOSTFAIL';
+    const GENERIC_FAIL_STATUS = 'GENERICFAIL';
+    const SUCCESS_STATUS = 'SUCCESS';
+    const HOST_FAIL_STATUS = 'HOSTFAIL';
 
     /**
      * The database table used by the model.
@@ -135,7 +135,7 @@ class Host extends Model implements Searchable
      */
     public function getFullHostnameAttribute()
     {
-        return $this->username . '@' . $this->hostname . ':' . $this->port;
+        return $this->username.'@'.$this->hostname.':'.$this->port;
     }
 
     /**
@@ -150,7 +150,7 @@ class Host extends Model implements Searchable
     {
         $this->synced = $synced;
 
-        if (!$skip_save) {
+        if (! $skip_save) {
             $this->save();
         }
     }
@@ -197,12 +197,12 @@ class Host extends Model implements Searchable
                 $keys = $keygroup->keys;
                 foreach ($keys as $key) {
                     switch ($rule->action) {
-                        case "deny":
+                        case 'deny':
                             unset($sshKeys[$key->username]);
                             break;
-                        case "allow":
+                        case 'allow':
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username . '@ssham';
+                            $content[2] = $key->username.'@ssham';
                             $sshKeys[$key->username] = join(' ', $content);
                             break;
                         default:
