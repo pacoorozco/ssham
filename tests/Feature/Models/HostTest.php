@@ -116,4 +116,89 @@ class HostTest extends TestCase
         $this->assertArrayHasKey($key2->username, $got);
         $this->assertArrayNotHasKey($key3->username, $got);
     }
+
+    /** @test */
+    public function it_returns_empty_array_when_key_is_allowed_and_denied_for_a_given_host()
+    {
+        $host = factory(Host::class)->create();
+
+        $hostGroup = factory(Hostgroup::class)->create();
+        $hostGroup->hosts()->save($host);
+
+        $key1 = factory(Key::class)->create(['username' => 'key1']);
+        $allowedKeyGroup = factory(Keygroup::class)->create();
+        $allowedKeyGroup->keys()->save($key1);
+
+        factory(ControlRule::class)->create([
+            'source_id' => $allowedKeyGroup->id,
+            'target_id' => $hostGroup->id,
+            'action' => 'allow',
+        ]);
+
+        $deniedKeyGroup = factory(Keygroup::class)->create();
+        $deniedKeyGroup->keys()->save($key1);
+
+        factory(ControlRule::class)->create([
+            'source_id' => $deniedKeyGroup->id,
+            'target_id' => $hostGroup->id,
+            'action' => 'deny',
+        ]);
+
+        $got = $host->getSSHKeysForHost();
+        $this->assertCount(0, $got);
+    }
+
+    /** @test */
+    public function it_returns_the_expected_number_of_keys_when_key_is_disabled()
+    {
+        $host = factory(Host::class)->create();
+
+        $hostGroup = factory(Hostgroup::class)->create();
+        $hostGroup->hosts()->save($host);
+
+        // This key should appear on the getSSHKeysForHost() list.
+        $key1 = factory(Key::class)->create(['username' => 'key1']);
+        // This key should NOT appear, because is disabled, on the getSSHKeysForHost() list.
+        $key2 = factory(Key::class)->create(['username' => 'key2', 'enabled' => false]);
+        $allowedKeyGroup = factory(Keygroup::class)->create();
+        $allowedKeyGroup->keys()->saveMany([
+            $key1,
+            $key2,
+        ]);
+
+        factory(ControlRule::class)->create([
+            'source_id' => $allowedKeyGroup->id,
+            'target_id' => $hostGroup->id,
+            'action' => 'allow',
+        ]);
+
+        $got = $host->getSSHKeysForHost();
+        $this->assertCount(1, $got);
+        $this->assertArrayHasKey($key1->username, $got);
+        $this->assertArrayNotHasKey($key2->username, $got);
+    }
+
+    /** @test */
+    public function it_returns_the_provided_key_inside_results()
+    {
+        $host = factory(Host::class)->create();
+
+        $hostGroup = factory(Hostgroup::class)->create();
+        $hostGroup->hosts()->save($host);
+
+        $key1 = factory(Key::class)->create(['username' => 'key1']);
+        $allowedKeyGroup = factory(Keygroup::class)->create();
+        $allowedKeyGroup->keys()->save($key1);
+
+        factory(ControlRule::class)->create([
+            'source_id' => $allowedKeyGroup->id,
+            'target_id' => $hostGroup->id,
+            'action' => 'allow',
+        ]);
+
+        $bastionHostKey = factory(Key::class)->create();
+
+        $got = $host->getSSHKeysForHost($bastionHostKey->public);
+        $this->assertCount(2, $got);
+    }
 }

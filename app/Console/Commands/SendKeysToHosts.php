@@ -101,7 +101,7 @@ class SendKeysToHosts extends Command
             }
 
             // Send SSHAM authorized file to remote Host.
-            $sshKeys = $host->getSSHKeysForHost();
+            $sshKeys = $host->getSSHKeysForHost(setting('public_key'));
             $sftp->put(setting('ssham_file'), join(PHP_EOL, $sshKeys));
             $sftp->chmod(0600, setting('ssham_file'));
 
