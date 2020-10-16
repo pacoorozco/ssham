@@ -59,7 +59,7 @@ Prior this installation, you **need to have installed** this software:
 
     ```bash
     $ docker-compose exec app php artisan key:generate 
-    $ docker-compose exec app php artisan migrate --seed
+    $ docker-compose exec app php artisan migrate:fresh --seed
     ```
     
 1. Point your browser to `http://localhost` and test **SSH Access Manager**. Enjoy!
@@ -99,7 +99,7 @@ Prior this installation, you **need to have installed** this software:
 
     ```bash
     $ php artisan key:generate 
-    $ php artisan migrate --seed
+    $ php artisan migrate:fresh --seed
     ```
 1. Make sure `storage/` and `bootstrap/cache/` folders are writable by your web server. You can do it this way:
 
