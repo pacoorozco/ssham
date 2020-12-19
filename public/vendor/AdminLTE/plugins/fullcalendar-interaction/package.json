@@ -1,28 +1,34 @@
 {
-  "_from": "@fullcalendar/interaction@^4.4.0",
+  "_args": [
+    [
+      "@fullcalendar/interaction@4.4.2",
+      "/home/public/web/ssham"
+    ]
+  ],
+  "_development": true,
+  "_from": "@fullcalendar/interaction@4.4.2",
   "_id": "@fullcalendar/interaction@4.4.2",
   "_inBundle": false,
   "_integrity": "sha512-3ItpGFnxcYQT4NClqhq93QTQwOI8x3mlMf5M4DgK5avVaSzpv9g8p+opqeotK2yzpFeINps06cuQyB1h7vcv1Q==",
   "_location": "/@fullcalendar/interaction",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@fullcalendar/interaction@^4.4.0",
+    "raw": "@fullcalendar/interaction@4.4.2",
     "name": "@fullcalendar/interaction",
     "escapedName": "@fullcalendar%2finteraction",
     "scope": "@fullcalendar",
-    "rawSpec": "^4.4.0",
+    "rawSpec": "4.4.2",
     "saveSpec": null,
-    "fetchSpec": "^4.4.0"
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
     "/admin-lte"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.4.2.tgz",
-  "_shasum": "0a6be06538f843b6f0f4e9b4de87a5e3ec3629fb",
-  "_spec": "@fullcalendar/interaction@^4.4.0",
-  "_where": "/home/public/web/ssham/node_modules/admin-lte",
+  "_spec": "4.4.2",
+  "_where": "/home/public/web/ssham",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -31,9 +37,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Provides functionality for event drag-n-drop, resizing, dateClick, and selectable actions",
   "docs": "https://fullcalendar.io/docs/editable",
   "homepage": "https://fullcalendar.io/",

@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.9.0 - 2020-12-19
+
+### Changed
+- Docker creation has been changed to embed `composer` inside the docker.
+- Updated `npm` dependencies.
+
 ## 0.8.1 - 2020-10-16
 
 ### Added

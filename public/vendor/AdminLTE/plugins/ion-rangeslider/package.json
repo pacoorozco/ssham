@@ -1,27 +1,33 @@
 {
-  "_from": "ion-rangeslider@^2.3.1",
+  "_args": [
+    [
+      "ion-rangeslider@2.3.1",
+      "/home/public/web/ssham"
+    ]
+  ],
+  "_development": true,
+  "_from": "ion-rangeslider@2.3.1",
   "_id": "ion-rangeslider@2.3.1",
   "_inBundle": false,
   "_integrity": "sha512-6V+24FD13/feliI485gnRHZYD9Ev64M5NAFTxnVib516ATHa9PlXQrC+nOiPngouRYTCLPJyokAJEi3e1Umi5g==",
   "_location": "/ion-rangeslider",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "ion-rangeslider@^2.3.1",
+    "raw": "ion-rangeslider@2.3.1",
     "name": "ion-rangeslider",
     "escapedName": "ion-rangeslider",
-    "rawSpec": "^2.3.1",
+    "rawSpec": "2.3.1",
     "saveSpec": null,
-    "fetchSpec": "^2.3.1"
+    "fetchSpec": "2.3.1"
   },
   "_requiredBy": [
     "/admin-lte"
   ],
   "_resolved": "https://registry.npmjs.org/ion-rangeslider/-/ion-rangeslider-2.3.1.tgz",
-  "_shasum": "92ade52cb56fc30b9162d0483ff02b6f9ed237c2",
-  "_spec": "ion-rangeslider@^2.3.1",
-  "_where": "/home/public/web/ssham/node_modules/admin-lte",
+  "_spec": "2.3.1",
+  "_where": "/home/public/web/ssham",
   "author": {
     "name": "Denis Ineshin",
     "email": "ionden.tech@gmail.com",
@@ -30,8 +36,6 @@
   "bugs": {
     "url": "https://github.com/IonDen/ion.rangeSlider/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "Cool, comfortable and easily customizable range slider with many options and skin support",
   "directories": {
     "lib": "js"

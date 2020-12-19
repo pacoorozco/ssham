@@ -1,25 +1,34 @@
 FROM php:7.4-fpm
 
-MAINTAINER Paco Orozco <paco@pacoorozco.info>
+LABEL maintainer="paco@pacoorozco.info"
+
+# Arguments defined in docker-compose.yml
+ARG DOCKER_SSHAM_UID
+
+# User to run Composer and Artisand Commands
+ENV USER="ssham"
 
 # Install "docker-php-extension-installer" to install PHP extensions.
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 
 # Install the PHP needed extensions
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
-    install-php-extensions pdo_mysql zip
+    install-php-extensions gd gmp pdo_mysql zip
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Clean up
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && rm /var/log/lastlog /var/log/faillog
 
+# Copy PHP configuration for Laravel
 COPY ./docker/app/laravel.ini /usr/local/etc/php/conf.d
 
-RUN usermod -u 1000 www-data
+# Create system user to run Composer and Artisan Commands
+RUN useradd --groups www-data,root --uid $DOCKER_SSHAM_UID --create-home $USER
 
 WORKDIR /var/www
 
-CMD ["php-fpm"]
-
-EXPOSE 9000
+USER $USER
