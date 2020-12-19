@@ -20,6 +20,12 @@ SSH Access Manager allows you to maintain user public keys. You can organise the
 
 See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are implemented in every version.
 
+## Requirements
+
+* PHP 7.4+.
+* A [supported relational database](http://laravel.com/docs) and corresponding PHP extension.
+* [Composer](https://getcomposer.org/download/).
+
 ## How to test SSH Access Manager
 
 This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needs. A web server and a database server.
@@ -34,26 +40,24 @@ Prior this installation, you **need to have installed** this software:
     $ git clone https://github.com/pacoorozco/ssham.git ssham
     $ cd ssham
     ```
-1. Install PHP dependencies with:
-
-    > **NOTE**: You don't need to install neither _PHP_ nor _Composer_, we are going to use a [Composer image](https://hub.docker.com/_/composer/) instead.
-
-    ```bash
-    $ docker run --rm --interactive --tty \
-          --volume $PWD:/app \
-          --user $(id -u):$(id -g) \
-          composer install
-    ```
-
-1. Copy [`.env.example`](.env.example) to `.env`.
+1. Copy [`.env.example`](https://github.com/pacoorozco/probind/blob/master/.env.example) to `.env`.
 
     > **NOTE**: You don't need to touch anything from this file. It works with default settings.
 
 1. Start all containers with [Docker Compose](https://docs.docker.com/compose/)
 
+    > **NOTE**: You **must** export the `DOCKER_SSHAM_UID` variable if your user ID is different from `1000`. This will allow the docker to get permissions over your files.
+
     ```bash
+    $ export DOCKER_SSHAM_UID="$(id -u)"
     $ docker-compose build
     $ docker-compose up -d
+    ```
+   
+1. Install dependencies with:
+
+    ```bash
+    $ docker-compose exec app composer install
     ```
 1. Seed database in order to play with some data
 
