@@ -31,6 +31,7 @@
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.0",
         "phpseclib/phpseclib": "^2.0",
+        "spatie/laravel-activitylog": "^3.16",
         "spatie/laravel-searchable": "^1.5",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
