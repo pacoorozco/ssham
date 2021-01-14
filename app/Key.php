@@ -138,4 +138,28 @@ class Key extends Model implements Searchable
             $url
         );
     }
+
+    /**
+     * Returns a formatted log line depending of the type.
+     *
+     * @param  string  $type
+     *
+     * @return string
+     */
+    public function getLogLineFor(string $type): string
+    {
+        switch ($type) {
+            case 'CREATE_OR_UPDATE':
+                return sprintf("Create or update key for '%s'",
+                    $this->username);
+
+            case "DELETE":
+                return sprintf("Delete key for '%s'",
+                    $this->username);
+
+            default:
+                return sprintf("Unknown event on key for '%s'",
+                    $this->username);
+        }
+    }
 }

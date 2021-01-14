@@ -21,6 +21,7 @@ use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
 use App\Key;
 use App\Keygroup;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
@@ -81,6 +82,11 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.create.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($keygroup)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
     }
@@ -140,6 +146,11 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.edit.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($keygroup)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('keygroups.edit', $keygroup->id)
             ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
     }
@@ -174,6 +185,11 @@ class KeygroupController extends Controller
             return redirect()->back()
                 ->withErrors(__('keygroup/messages.delete.error'));
         }
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($keygroup)
+            ->log('DELETE');
 
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));

@@ -98,4 +98,28 @@ class Keygroup extends Model implements Searchable
             $url
         );
     }
+
+    /**
+     * Returns a formatted log line depending of the type.
+     *
+     * @param  string  $type
+     *
+     * @return string
+     */
+    public function getLogLineFor(string $type): string
+    {
+        switch ($type) {
+            case 'CREATE_OR_UPDATE':
+                return sprintf("Create or update key group '%s'",
+                    $this->name);
+
+            case "DELETE":
+                return sprintf("Delete key group '%s'",
+                    $this->name);
+
+            default:
+                return sprintf("Unknown event on key group '%s'",
+                    $this->name);
+        }
+    }
 }

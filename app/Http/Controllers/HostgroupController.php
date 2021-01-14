@@ -21,6 +21,7 @@ use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostgroupCreateRequest;
 use App\Http\Requests\HostgroupUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
@@ -81,6 +82,11 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.create.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($hostgroup)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.create.success', ['name' => $hostgroup->name]));
     }
@@ -140,6 +146,11 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.edit.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($hostgroup)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('hostgroups.edit', [$hostgroup->id])
             ->withSuccess(__('hostgroup/messages.edit.success', ['name' => $hostgroup->name]));
     }
@@ -174,6 +185,11 @@ class HostgroupController extends Controller
             return redirect()->back()
                 ->withErrors(__('hostgroup/messages.delete.error'));
         }
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($hostgroup)
+            ->log('DELETE');
 
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $name]));

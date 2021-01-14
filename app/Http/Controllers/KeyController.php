@@ -23,6 +23,7 @@ use App\Http\Requests\KeyUpdateRequest;
 use App\Key;
 use App\Keygroup;
 use App\Libs\RsaSshKey\RsaSshKey;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseCode;
 use yajra\Datatables\Datatables;
@@ -102,6 +103,11 @@ class KeyController extends Controller
 
         // Everything went fine, we can commit the transaction.
         DB::commit();
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($key)
+            ->log('CREATE_OR_UPDATE');
 
         return redirect()->route('keys.index')
             ->withSuccess(__('key/messages.create.success', ['username' => $key->username]));
@@ -191,6 +197,11 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($key)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('keys.index')
             ->withSuccess(__('key/messages.edit.success', ['username' => $key->username]));
     }
@@ -224,6 +235,11 @@ class KeyController extends Controller
             return redirect()->back()
                 ->withErrors(__('key/messages.delete.error'));
         }
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($key)
+            ->log('DELETE');
 
         return redirect()->route('keys.index')
             ->withSuccess(__('key/messages.delete.success', ['username' => $username]));

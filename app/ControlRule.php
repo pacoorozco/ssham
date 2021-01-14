@@ -117,4 +117,28 @@ class ControlRule extends Model
     {
         return ControlRule::where('target_id', $target_id)->get();
     }
+
+    /**
+     * Returns a formatted log line depending of the type.
+     *
+     * @param  string  $type
+     *
+     * @return string
+     */
+    public function getLogLineFor(string $type): string
+    {
+        switch ($type) {
+            case 'CREATE_OR_UPDATE':
+                return sprintf("Create or update rule '%s'",
+                    $this->name);
+
+            case "DELETE":
+                return sprintf("Delete rule '%s'",
+                    $this->name);
+
+            default:
+                return sprintf("Unknown event on rule '%s'",
+                    $this->name);
+        }
+    }
 }

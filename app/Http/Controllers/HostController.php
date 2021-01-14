@@ -22,6 +22,7 @@ use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class HostController extends Controller
@@ -84,6 +85,11 @@ class HostController extends Controller
                 ->withError(__('host/messages.create.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($host)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
     }
@@ -144,6 +150,11 @@ class HostController extends Controller
                 ->withError(__('host/messages.edit.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($host)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('hosts.edit', [$host->id])
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
     }
@@ -178,6 +189,11 @@ class HostController extends Controller
             return redirect()->back()
                 ->withError(__('host/messages.delete.error'));
         }
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($host)
+            ->log('DELETE');
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.delete.success', ['hostname' => $hostname]));

@@ -75,6 +75,11 @@ class UserController extends Controller
                 ->withErrors(__('user/messages.create.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.create.success', ['name' => $user->username]));
     }
@@ -129,6 +134,11 @@ class UserController extends Controller
                 ->withErrors(__('user/messages.edit.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.edit.success', ['name' => $user->username]));
     }
@@ -168,6 +178,11 @@ class UserController extends Controller
             return redirect()->back()
                 ->withSuccess(__('user/messages.delete.error'));
         }
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($user)
+            ->log('DELETE');
 
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.delete.success', ['name' => $username]));

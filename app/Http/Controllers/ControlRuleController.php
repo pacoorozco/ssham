@@ -21,6 +21,7 @@ use App\ControlRule;
 use App\Hostgroup;
 use App\Http\Requests\ControlRuleCreateRequest;
 use App\Keygroup;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
@@ -79,6 +80,11 @@ class ControlRuleController extends Controller
                 ->withErrors(__('rule/messages.create.error'));
         }
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($rule)
+            ->log('CREATE_OR_UPDATE');
+
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
     }
@@ -101,6 +107,11 @@ class ControlRuleController extends Controller
             return redirect()->back()
                 ->withErrors(__('rule/messages.delete.error'));
         }
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($rule)
+            ->log('DELETE');
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.delete.success', ['rule' => $id]));

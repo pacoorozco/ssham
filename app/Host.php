@@ -42,12 +42,12 @@ class Host extends Model implements Searchable
     /**
      * Host statuses.
      */
-    const INITIAL_STATUS = 'INITIAL';
-    const AUTH_FAIL_STATUS = 'AUTHFAIL';
+    const INITIAL_STATUS         = 'INITIAL';
+    const AUTH_FAIL_STATUS       = 'AUTHFAIL';
     const PUBLIC_KEY_FAIL_STATUS = 'KEYAUTHFAIL';
-    const GENERIC_FAIL_STATUS = 'GENERICFAIL';
-    const SUCCESS_STATUS = 'SUCCESS';
-    const HOST_FAIL_STATUS = 'HOSTFAIL';
+    const GENERIC_FAIL_STATUS    = 'GENERICFAIL';
+    const SUCCESS_STATUS         = 'SUCCESS';
+    const HOST_FAIL_STATUS       = 'HOSTFAIL';
 
     /**
      * The database table used by the model.
@@ -135,7 +135,7 @@ class Host extends Model implements Searchable
      */
     public function getFullHostnameAttribute()
     {
-        return $this->username.'@'.$this->hostname.':'.$this->port;
+        return $this->username . '@' . $this->hostname . ':' . $this->port;
     }
 
     /**
@@ -150,7 +150,7 @@ class Host extends Model implements Searchable
     {
         $this->synced = $synced;
 
-        if (! $skip_save) {
+        if (!$skip_save) {
             $this->save();
         }
     }
@@ -180,59 +180,91 @@ class Host extends Model implements Searchable
     }
 
     /**
-     * Gets all SSH User Keys for Host.
+     * Returns a formatted log line depending of the type.
      *
-     * @param  string  $bastionSSHPublicKey
+     * @param  string  $type
      *
-     * @return array
+     * @return string
      */
-    public function getSSHKeysForHost(string $bastionSSHPublicKey = null)
+    public function getLogLineFor(string $type): string
     {
-        $sshKeys = [];
-        $hostGroups = $this->groups;
-        foreach ($hostGroups as $hostGroup) {
-            $rules = $hostGroup->getRelatedRules();
-            foreach ($rules as $rule) {
-                $keygroup = $rule->getSourceObject();
-                $keys = $keygroup->keys()->where('enabled', true)->get();
-                foreach ($keys as $key) {
-                    switch ($rule->action) {
-                        case 'deny':
-                            unset($sshKeys[$key->username]);
-                            break;
-                        case 'allow':
-                            $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username.'@ssham';
-                            $sshKeys[$key->username] = join(' ', $content);
-                            break;
-                        default:
-                            // There is no more cases, but just in case (NOOP).
+        switch ($type) {
+            case 'CREATE_OR_UPDATE':
+                return sprintf("Create or update host '%s@%s port %s'",
+                    $this->username,
+                    $this->hostname,
+                    $this->port);
+
+            case "DELETE":
+                return sprintf("Delete host '%s@%s port %s'",
+                    $this->username,
+                    $this->hostname,
+                    $this->port);
+
+            default:
+                return sprintf("Unknown event on host '%s@%s port %s'",
+                    $this->username,
+                    $this->hostname,
+                    $this->port);
+        }
+    }
+
+        /**
+         * Gets all SSH User Keys for Host.
+         *
+         * @param  string  $bastionSSHPublicKey
+         *
+         * @return array
+         */
+        public
+        function getSSHKeysForHost(string $bastionSSHPublicKey = null)
+        {
+            $sshKeys = [];
+            $hostGroups = $this->groups;
+            foreach ($hostGroups as $hostGroup) {
+                $rules = $hostGroup->getRelatedRules();
+                foreach ($rules as $rule) {
+                    $keygroup = $rule->getSourceObject();
+                    $keys = $keygroup->keys()->where('enabled', true)->get();
+                    foreach ($keys as $key) {
+                        switch ($rule->action) {
+                            case 'deny':
+                                unset($sshKeys[$key->username]);
+                                break;
+                            case 'allow':
+                                $content = explode(' ', $key->public, 3);
+                                $content[2] = $key->username . '@ssham';
+                                $sshKeys[$key->username] = join(' ', $content);
+                                break;
+                            default:
+                                // There is no more cases, but just in case (NOOP).
+                        }
                     }
                 }
             }
+            if (!is_null($bastionSSHPublicKey)) {
+                $sshKeys[] = $bastionSSHPublicKey;
+            }
+
+            return $sshKeys;
         }
-        if (! is_null($bastionSSHPublicKey)) {
-            $sshKeys[] = $bastionSSHPublicKey;
+
+        /**
+         * Used to implement search in this model.
+         *
+         * Define which fields could be searched and which URL will be returned.
+         *
+         * @return \Spatie\Searchable\SearchResult
+         */
+        public
+        function getSearchResult(): SearchResult
+        {
+            $url = route('hosts.show', $this->id);
+
+            return new SearchResult(
+                $this,
+                $this->hostname,
+                $url
+            );
         }
-
-        return $sshKeys;
     }
-
-    /**
-     * Used to implement search in this model.
-     *
-     * Define which fields could be searched and which URL will be returned.
-     *
-     * @return \Spatie\Searchable\SearchResult
-     */
-    public function getSearchResult(): SearchResult
-    {
-        $url = route('hosts.show', $this->id);
-
-        return new SearchResult(
-            $this,
-            $this->hostname,
-            $url
-        );
-    }
-}
