@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Added
+- Audit log: Actions are logged and shown on the Dashboard page.
 
 ## 0.9.0 - 2020-12-19
 

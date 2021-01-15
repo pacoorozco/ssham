@@ -17,11 +17,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Helpers\Helper;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class HostController extends Controller
@@ -84,6 +86,11 @@ class HostController extends Controller
                 ->withError(__('host/messages.create.error'));
         }
 
+        activity()
+            ->performedOn($host)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
+
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
     }
@@ -144,6 +151,11 @@ class HostController extends Controller
                 ->withError(__('host/messages.edit.error'));
         }
 
+        activity()
+            ->performedOn($host)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update host '%s@%s'.", $host->username, $host->hostname));
+
         return redirect()->route('hosts.edit', [$host->id])
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
     }
@@ -178,6 +190,10 @@ class HostController extends Controller
             return redirect()->back()
                 ->withError(__('host/messages.delete.error'));
         }
+
+        activity()
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete host '%s@%s'.", $host->username, $host->hostname));
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.delete.success', ['hostname' => $hostname]));

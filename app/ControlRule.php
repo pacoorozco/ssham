@@ -23,14 +23,16 @@ use Illuminate\Database\Eloquent\Model;
  * Class ControlRule.
  *
  *
- * @property int     $id
- * @property string  $source
- * @property string  $target
- * @property int     $source_id
- * @property int     $target_id
- * @property string  $action
- * @property string  $name
+ * @property int $id
+ * @property string $source
+ * @property string $target
+ * @property int $source_id
+ * @property int $target_id
+ * @property string $action
+ * @property string $name
  * @property bool $enabled
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class ControlRule extends Model
 {
@@ -97,7 +99,7 @@ class ControlRule extends Model
     /**
      * Returns a Collection of Rules with the specified 'source'.
      *
-     * @param int $source_id
+     * @param  int  $source_id
      *
      * @return \Illuminate\Support\Collection
      */
@@ -109,7 +111,7 @@ class ControlRule extends Model
     /**
      * Returns a Collection of Rules with the specified 'target'.
      *
-     * @param int $target_id
+     * @param  int  $target_id
      *
      * @return \Illuminate\Support\Collection
      */

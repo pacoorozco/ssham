@@ -17,6 +17,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Searchable\Searchable;
@@ -36,6 +37,7 @@ use Spatie\Searchable\SearchResult;
  * @property bool $synced
  * @property string $status_code
  * @property string $key_hash
+ * @property BelongsToMany $groups
  */
 class Host extends Model implements Searchable
 {
@@ -162,7 +164,7 @@ class Host extends Model implements Searchable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeNotInSync($query)
+    public function scopeNotInSync(Builder $query)
     {
         return $query->where('synced', '=', false);
     }
@@ -174,7 +176,7 @@ class Host extends Model implements Searchable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeEnabled($query)
+    public function scopeEnabled(Builder $query)
     {
         return $query->where('enabled', '=', true);
     }
@@ -182,7 +184,7 @@ class Host extends Model implements Searchable
     /**
      * Gets all SSH User Keys for Host.
      *
-     * @param  string  $bastionSSHPublicKey
+     * @param  string|null  $bastionSSHPublicKey
      *
      * @return array
      */

@@ -17,10 +17,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
 use App\Key;
 use App\Keygroup;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
@@ -81,6 +83,11 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.create.error'));
         }
 
+        activity()
+            ->performedOn($keygroup)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create key group '%s'.", $keygroup->name));
+
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
     }
@@ -140,6 +147,11 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.edit.error'));
         }
 
+        activity()
+            ->performedOn($keygroup)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update key group '%s'.", $keygroup->name));
+
         return redirect()->route('keygroups.edit', $keygroup->id)
             ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
     }
@@ -174,6 +186,10 @@ class KeygroupController extends Controller
             return redirect()->back()
                 ->withErrors(__('keygroup/messages.delete.error'));
         }
+
+        activity()
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete key group '%s'.", $keygroup->name));
 
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));

@@ -18,14 +18,17 @@
 namespace App\Http\Controllers;
 
 use App\ControlRule;
+use App\Helpers\Helper;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\SearchRequest;
 use App\Key;
 use App\Keygroup;
 use App\User;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
+use Yajra\DataTables\DataTables;
 
 class HomeController extends Controller
 {
@@ -46,7 +49,9 @@ class HomeController extends Controller
         $rule_count = ControlRule::all()->count();
         $user_count = User::all()->count();
 
-        return view('home', compact('key_count', 'host_count', 'rule_count', 'user_count'));
+        $activities = Activity::all()->sortByDesc('created_at')->take(15);
+
+        return view('dashboard.index', compact('key_count', 'host_count', 'rule_count', 'user_count', 'activities'));
     }
 
     public function search(SearchRequest $request)
@@ -66,6 +71,6 @@ class HomeController extends Controller
 
         $count = $searchResults->count();
 
-        return view('search', compact('count', 'query', 'searchResults'));
+        return view('search.results', compact('count', 'query', 'searchResults'));
     }
 }

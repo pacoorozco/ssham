@@ -15,6 +15,7 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Activity;
 use App\Hostgroup;
 use Illuminate\Database\Seeder;
 
@@ -38,8 +39,12 @@ class HostgroupsTableSeeder extends Seeder
             ],
         ];
 
-        foreach ($hostgroups as $group) {
-            Hostgroup::create($group);
+        foreach ($hostgroups as $groupData) {
+            $group = Hostgroup::create($groupData);
+            activity()
+                ->performedOn($group)
+                ->withProperties(['status' => Activity::STATUS_SUCCESS])
+                ->log(sprintf("Create host group '%s'.", $group->name));
         }
     }
 }
