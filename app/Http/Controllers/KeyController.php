@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Helpers\Helper;
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
@@ -105,9 +106,8 @@ class KeyController extends Controller
         DB::commit();
 
         activity()
-            ->causedBy(Auth::user())
-            ->performedOn($key)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create key '%s'.", $key->username));
 
         return redirect()->route('keys.index')
             ->withSuccess(__('key/messages.create.success', ['username' => $key->username]));
@@ -198,9 +198,8 @@ class KeyController extends Controller
         DB::commit();
 
         activity()
-            ->causedBy(Auth::user())
-            ->performedOn($key)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update key '%s'.", $key->username));
 
         return redirect()->route('keys.index')
             ->withSuccess(__('key/messages.edit.success', ['username' => $key->username]));
@@ -237,9 +236,8 @@ class KeyController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
-            ->performedOn($key)
-            ->log('DELETE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete key '%s'.", $key->username));
 
         return redirect()->route('keys.index')
             ->withSuccess(__('key/messages.delete.success', ['username' => $username]));

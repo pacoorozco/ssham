@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostgroupCreateRequest;
@@ -83,9 +84,9 @@ class HostgroupController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
             ->performedOn($hostgroup)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create host group '%s'.", $hostgroup->name));
 
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.create.success', ['name' => $hostgroup->name]));
@@ -147,9 +148,9 @@ class HostgroupController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
             ->performedOn($hostgroup)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update host group '%s'.", $hostgroup->name));
 
         return redirect()->route('hostgroups.edit', [$hostgroup->id])
             ->withSuccess(__('hostgroup/messages.edit.success', ['name' => $hostgroup->name]));
@@ -187,9 +188,8 @@ class HostgroupController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
-            ->performedOn($hostgroup)
-            ->log('DELETE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete host group '%s'.", $hostgroup->name));
 
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $name]));

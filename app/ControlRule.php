@@ -23,14 +23,16 @@ use Illuminate\Database\Eloquent\Model;
  * Class ControlRule.
  *
  *
- * @property int     $id
- * @property string  $source
- * @property string  $target
- * @property int     $source_id
- * @property int     $target_id
- * @property string  $action
- * @property string  $name
+ * @property int $id
+ * @property string $source
+ * @property string $target
+ * @property int $source_id
+ * @property int $target_id
+ * @property string $action
+ * @property string $name
  * @property bool $enabled
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class ControlRule extends Model
 {
@@ -97,7 +99,7 @@ class ControlRule extends Model
     /**
      * Returns a Collection of Rules with the specified 'source'.
      *
-     * @param int $source_id
+     * @param  int  $source_id
      *
      * @return \Illuminate\Support\Collection
      */
@@ -109,36 +111,12 @@ class ControlRule extends Model
     /**
      * Returns a Collection of Rules with the specified 'target'.
      *
-     * @param int $target_id
+     * @param  int  $target_id
      *
      * @return \Illuminate\Support\Collection
      */
     public static function findByTarget(int $target_id)
     {
         return ControlRule::where('target_id', $target_id)->get();
-    }
-
-    /**
-     * Returns a formatted log line depending of the type.
-     *
-     * @param  string  $type
-     *
-     * @return string
-     */
-    public function getLogLineFor(string $type): string
-    {
-        switch ($type) {
-            case 'CREATE_OR_UPDATE':
-                return sprintf("Create or update rule '%s'",
-                    $this->name);
-
-            case "DELETE":
-                return sprintf("Delete rule '%s'",
-                    $this->name);
-
-            default:
-                return sprintf("Unknown event on rule '%s'",
-                    $this->name);
-        }
     }
 }

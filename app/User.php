@@ -96,27 +96,4 @@ class User extends Authenticatable
         $this->attributes['username'] = strtolower($value);
     }
 
-    /**
-     * Returns a formatted log line depending of the type.
-     *
-     * @param  string  $type
-     *
-     * @return string
-     */
-    public function getLogLineFor(string $type): string
-    {
-        switch ($type) {
-            case 'CREATE_OR_UPDATE':
-                return sprintf("Create or update user '%s'",
-                    $this->username);
-
-            case "DELETE":
-                return sprintf("Delete user '%s'",
-                    $this->username);
-
-            default:
-                return sprintf("Unknown event on user '%s'",
-                    $this->username);
-        }
-    }
 }

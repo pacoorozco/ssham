@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\ControlRule;
 use App\Hostgroup;
 use App\Http\Requests\ControlRuleCreateRequest;
@@ -81,9 +82,8 @@ class ControlRuleController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
-            ->performedOn($rule)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create rule '%s'.", $rule->name));
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
@@ -109,9 +109,9 @@ class ControlRuleController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
             ->performedOn($rule)
-            ->log('DELETE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete rule '%s'.", $rule->name));
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.delete.success', ['rule' => $id]));

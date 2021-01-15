@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Helpers\Helper;
 use App\Host;
 use App\Hostgroup;
@@ -86,9 +87,9 @@ class HostController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
             ->performedOn($host)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
@@ -151,9 +152,9 @@ class HostController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
             ->performedOn($host)
-            ->log('CREATE_OR_UPDATE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update host '%s@%s'.", $host->username, $host->hostname));
 
         return redirect()->route('hosts.edit', [$host->id])
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
@@ -191,9 +192,8 @@ class HostController extends Controller
         }
 
         activity()
-            ->causedBy(Auth::user())
-            ->performedOn($host)
-            ->log('DELETE');
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete host '%s@%s'.", $host->username, $host->hostname));
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.delete.success', ['hostname' => $hostname]));

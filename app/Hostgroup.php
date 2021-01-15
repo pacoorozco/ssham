@@ -99,27 +99,4 @@ class Hostgroup extends Model implements Searchable
         );
     }
 
-    /**
-     * Returns a formatted log line depending of the type.
-     *
-     * @param  string  $type
-     *
-     * @return string
-     */
-    public function getLogLineFor(string $type): string
-    {
-        switch ($type) {
-            case 'CREATE_OR_UPDATE':
-                return sprintf("Create or update host group '%s'",
-                    $this->name);
-
-            case "DELETE":
-                return sprintf("Delete host group '%s'",
-                    $this->name);
-
-            default:
-                return sprintf("Unknown event on host group '%s'",
-                    $this->name);
-        }
-    }
 }
