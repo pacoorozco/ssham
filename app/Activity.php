@@ -17,10 +17,9 @@
 
 namespace App;
 
-
 class Activity
 {
     // Statuses
-    const STATUS_SUCCESS = "STATUS_SUCCESS";
-    const STATUS_FAIL    = "STATUS_FAIL";
+    const STATUS_SUCCESS = 'STATUS_SUCCESS';
+    const STATUS_FAIL = 'STATUS_FAIL';
 }

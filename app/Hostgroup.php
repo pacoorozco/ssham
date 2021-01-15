@@ -98,5 +98,4 @@ class Hostgroup extends Model implements Searchable
             $url
         );
     }
-
 }

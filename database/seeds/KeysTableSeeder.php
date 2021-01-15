@@ -35,6 +35,6 @@ class KeysTableSeeder extends Seeder
             activity()
                 ->withProperties(['status' => Activity::STATUS_SUCCESS])
                 ->log(sprintf("Create key '%s'.", $key->username));
-        });;
+        });
     }
 }

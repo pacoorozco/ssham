@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
 
         foreach ($users as $userData) {
             $user = User::create($userData);
-                activity()
+            activity()
                     ->performedOn($user)
                     ->withProperties(['status' => Activity::STATUS_SUCCESS])
                     ->log(sprintf("Create user '%s'.", $user->username));

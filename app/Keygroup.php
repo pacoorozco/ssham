@@ -98,5 +98,4 @@ class Keygroup extends Model implements Searchable
             $url
         );
     }
-
 }

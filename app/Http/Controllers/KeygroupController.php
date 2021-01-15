@@ -86,7 +86,7 @@ class KeygroupController extends Controller
         activity()
             ->performedOn($keygroup)
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create key group '%s'.",$keygroup->name));
+            ->log(sprintf("Create key group '%s'.", $keygroup->name));
 
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
@@ -150,7 +150,7 @@ class KeygroupController extends Controller
         activity()
             ->performedOn($keygroup)
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update key group '%s'.",$keygroup->name));
+            ->log(sprintf("Update key group '%s'.", $keygroup->name));
 
         return redirect()->route('keygroups.edit', $keygroup->id)
             ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
@@ -189,7 +189,7 @@ class KeygroupController extends Controller
 
         activity()
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete key group '%s'.",$keygroup->name));
+            ->log(sprintf("Delete key group '%s'.", $keygroup->name));
 
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));
