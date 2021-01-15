@@ -44,7 +44,7 @@ class KeygroupsTableSeeder extends Seeder
 
         foreach ($keygroups as $groupData) {
             $group = Keygroup::create($groupData);
-                activity()
+            activity()
                     ->performedOn($group)
                     ->withProperties(['status' => Activity::STATUS_SUCCESS])
                     ->log(sprintf("Create key group '%s'.", $group->name));

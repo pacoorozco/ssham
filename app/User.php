@@ -95,5 +95,4 @@ class User extends Authenticatable
     {
         $this->attributes['username'] = strtolower($value);
     }
-
 }
