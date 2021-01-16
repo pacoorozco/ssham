@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.com/pacoorozco/ssham.svg)](https://travis-ci.com/pacoorozco/ssham)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec/mini.png)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
-[![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](LICENSE)
 [![Laravel Version](https://img.shields.io/badge/Laravel-6.x-brightgreen)](https://laravel.com/docs)
 [![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
 
@@ -23,7 +22,7 @@ See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are impleme
 ## Requirements
 
 * PHP 7.4+.
-* A [supported relational database](http://laravel.com/docs) and corresponding PHP extension.
+* A [supported relational database](https://laravel.com/docs) and corresponding PHP extension.
 * [Composer](https://getcomposer.org/download/).
 
 ## How to test SSH Access Manager
@@ -40,7 +39,7 @@ Prior this installation, you **need to have installed** this software:
     $ git clone https://github.com/pacoorozco/ssham.git ssham
     $ cd ssham
     ```
-1. Copy [`.env.example`](https://github.com/pacoorozco/probind/blob/master/.env.example) to `.env`.
+1. Copy [`.env.example`](.env.example) to `.env`.
 
     > **NOTE**: You don't need to touch anything from this file. It works with default settings.
 
@@ -79,7 +78,7 @@ Prior this installation, you **need to have installed** this software:
     $ cd ssham
     ```
 
-1. Install PHP dependencies with [composer](http://getcomposer.org)
+1. Install PHP dependencies with [composer](https://getcomposer.org)
 
     ```bash
     $ curl -s http://getcomposer.org/installer | php
@@ -131,11 +130,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
-**SSH Access Manager** is released as free software under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
+**SSH Access Manager** is released as free software under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Authors
 
 This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) 
 
 ## Additional information
-This application was born with a different interface on [Sourceforge](http://sourceforge.net/projects/ssham/).
+This application was born with a different interface on [Sourceforge](https://sourceforge.net/projects/ssham/).
