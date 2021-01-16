@@ -1,29 +1,35 @@
 {
-  "_from": "@fullcalendar/daygrid@^4.4.0",
+  "_args": [
+    [
+      "@fullcalendar/daygrid@4.4.2",
+      "/home/public/web/ssham"
+    ]
+  ],
+  "_development": true,
+  "_from": "@fullcalendar/daygrid@4.4.2",
   "_id": "@fullcalendar/daygrid@4.4.2",
   "_inBundle": false,
   "_integrity": "sha512-axjfMhxEXHShV3r2TZjf+2niJ1C6LdAxkHKmg7mVq4jXtUQHOldU5XsjV0v2lUAt1urJBFi2zajfK8798ukL3Q==",
   "_location": "/@fullcalendar/daygrid",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@fullcalendar/daygrid@^4.4.0",
+    "raw": "@fullcalendar/daygrid@4.4.2",
     "name": "@fullcalendar/daygrid",
     "escapedName": "@fullcalendar%2fdaygrid",
     "scope": "@fullcalendar",
-    "rawSpec": "^4.4.0",
+    "rawSpec": "4.4.2",
     "saveSpec": null,
-    "fetchSpec": "^4.4.0"
+    "fetchSpec": "4.4.2"
   },
   "_requiredBy": [
     "/@fullcalendar/timegrid",
     "/admin-lte"
   ],
   "_resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz",
-  "_shasum": "568bfb3c7cc97f83b57cf3aef0fa3ed1bf6eda16",
-  "_spec": "@fullcalendar/daygrid@^4.4.0",
-  "_where": "/home/public/web/ssham/node_modules/admin-lte",
+  "_spec": "4.4.2",
+  "_where": "/home/public/web/ssham",
   "author": {
     "name": "Adam Shaw",
     "email": "arshaw@arshaw.com",
@@ -32,9 +38,7 @@
   "bugs": {
     "url": "https://fullcalendar.io/reporting-bugs"
   },
-  "bundleDependencies": false,
   "copyright": "2019 Adam Shaw",
-  "deprecated": false,
   "description": "Display events on Month view or DayGrid view",
   "docs": "https://fullcalendar.io/docs/month-view",
   "homepage": "https://fullcalendar.io/",

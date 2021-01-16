@@ -17,10 +17,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\ControlRule;
 use App\Hostgroup;
 use App\Http\Requests\ControlRuleCreateRequest;
 use App\Keygroup;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
@@ -79,6 +81,10 @@ class ControlRuleController extends Controller
                 ->withErrors(__('rule/messages.create.error'));
         }
 
+        activity()
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create rule '%s'.", $rule->name));
+
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
     }
@@ -101,6 +107,11 @@ class ControlRuleController extends Controller
             return redirect()->back()
                 ->withErrors(__('rule/messages.delete.error'));
         }
+
+        activity()
+            ->performedOn($rule)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete rule '%s'.", $rule->name));
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.delete.success', ['rule' => $id]));

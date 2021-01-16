@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -57,7 +58,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserCreateRequest $request
+     * @param  UserCreateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -75,6 +76,11 @@ class UserController extends Controller
                 ->withErrors(__('user/messages.create.error'));
         }
 
+        activity()
+            ->performedOn($user)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create user '%s'.", $user->username));
+
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.create.success', ['name' => $user->username]));
     }
@@ -82,7 +88,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param  User  $user
      *
      * @return \Illuminate\View\View
      */
@@ -94,7 +100,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
+     * @param  User  $user
      *
      * @return \Illuminate\View\View
      */
@@ -106,8 +112,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param User              $user
-     * @param UserUpdateRequest $request
+     * @param  User  $user
+     * @param  UserUpdateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -129,6 +135,11 @@ class UserController extends Controller
                 ->withErrors(__('user/messages.edit.error'));
         }
 
+        activity()
+            ->performedOn($user)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update user '%s'.", $user->username));
+
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.edit.success', ['name' => $user->username]));
     }
@@ -136,7 +147,7 @@ class UserController extends Controller
     /**
      * Remove user.
      *
-     * @param User $user
+     * @param  User  $user
      *
      * @return \Illuminate\View\View
      */
@@ -148,7 +159,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $user
+     * @param  User  $user
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -169,6 +180,10 @@ class UserController extends Controller
                 ->withSuccess(__('user/messages.delete.error'));
         }
 
+        activity()
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete user '%s'.", $user->username));
+
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.delete.success', ['name' => $username]));
     }
@@ -176,7 +191,7 @@ class UserController extends Controller
     /**
      * Return all Users in order to be used with DataTables.
      *
-     * @param Datatables $datatable
+     * @param  Datatables  $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception

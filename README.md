@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.com/pacoorozco/ssham.svg)](https://travis-ci.com/pacoorozco/ssham)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec/mini.png)](https://insight.sensiolabs.com/projects/803ad655-408a-469f-8389-8e5fe0338cec)
-[![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](https://github.com/pacoorozco/ssham/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](LICENSE)
 [![Laravel Version](https://img.shields.io/badge/Laravel-6.x-brightgreen)](https://laravel.com/docs)
 [![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
 
@@ -20,6 +19,12 @@ SSH Access Manager allows you to maintain user public keys. You can organise the
 
 See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are implemented in every version.
 
+## Requirements
+
+* PHP 7.4+.
+* A [supported relational database](https://laravel.com/docs) and corresponding PHP extension.
+* [Composer](https://getcomposer.org/download/).
+
 ## How to test SSH Access Manager
 
 This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needs. A web server and a database server.
@@ -34,32 +39,30 @@ Prior this installation, you **need to have installed** this software:
     $ git clone https://github.com/pacoorozco/ssham.git ssham
     $ cd ssham
     ```
-1. Install PHP dependencies with:
-
-    > **NOTE**: You don't need to install neither _PHP_ nor _Composer_, we are going to use a [Composer image](https://hub.docker.com/_/composer/) instead.
-
-    ```bash
-    $ docker run --rm --interactive --tty \
-          --volume $PWD:/app \
-          --user $(id -u):$(id -g) \
-          composer install
-    ```
-
 1. Copy [`.env.example`](.env.example) to `.env`.
 
     > **NOTE**: You don't need to touch anything from this file. It works with default settings.
 
 1. Start all containers with [Docker Compose](https://docs.docker.com/compose/)
 
+    > **NOTE**: You **must** export the `DOCKER_SSHAM_UID` variable if your user ID is different from `1000`. This will allow the docker to get permissions over your files.
+
     ```bash
+    $ export DOCKER_SSHAM_UID="$(id -u)"
     $ docker-compose build
     $ docker-compose up -d
+    ```
+   
+1. Install dependencies with:
+
+    ```bash
+    $ docker-compose exec app composer install
     ```
 1. Seed database in order to play with some data
 
     ```bash
     $ docker-compose exec app php artisan key:generate 
-    $ docker-compose exec app php artisan migrate --seed
+    $ docker-compose exec app php artisan migrate:fresh --seed
     ```
     
 1. Point your browser to `http://localhost` and test **SSH Access Manager**. Enjoy!
@@ -75,7 +78,7 @@ Prior this installation, you **need to have installed** this software:
     $ cd ssham
     ```
 
-1. Install PHP dependencies with [composer](http://getcomposer.org)
+1. Install PHP dependencies with [composer](https://getcomposer.org)
 
     ```bash
     $ curl -s http://getcomposer.org/installer | php
@@ -87,6 +90,9 @@ Prior this installation, you **need to have installed** this software:
 1. Modify the content of the `.env` file to put your settings, something like that:
 
     ```php
+    APP_ENV=production
+    APP_DEBUG=false
+    APP_URL=https://my.domain.com
     DB_HOST='Your database host'
     DB_DATABASE='Your database name'
     DB_USERNAME='Your database user'
@@ -96,7 +102,7 @@ Prior this installation, you **need to have installed** this software:
 
     ```bash
     $ php artisan key:generate 
-    $ php artisan migrate --seed
+    $ php artisan migrate:fresh --seed
     ```
 1. Make sure `storage/` and `bootstrap/cache/` folders are writable by your web server. You can do it this way:
 
@@ -124,11 +130,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
-**SSH Access Manager** is released as free software under [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
+**SSH Access Manager** is released as free software under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Authors
 
 This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) 
 
 ## Additional information
-This application was born with a different interface on [Sourceforge](http://sourceforge.net/projects/ssham/).
+This application was born with a different interface on [Sourceforge](https://sourceforge.net/projects/ssham/).

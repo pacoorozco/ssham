@@ -15,8 +15,10 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Activity;
 use App\Host;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 
 class HostsTableSeeder extends Seeder
 {
@@ -27,6 +29,11 @@ class HostsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Host::class, 5)->create();
+        factory(App\Host::class, 5)->create()->each(function (Host $host) {
+            activity()
+                ->performedOn($host)
+                ->withProperties(['status' => Activity::STATUS_SUCCESS])
+                ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
+        });
     }
 }

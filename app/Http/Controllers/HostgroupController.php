@@ -17,10 +17,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Host;
 use App\Hostgroup;
 use App\Http\Requests\HostgroupCreateRequest;
 use App\Http\Requests\HostgroupUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
@@ -81,6 +83,11 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.create.error'));
         }
 
+        activity()
+            ->performedOn($hostgroup)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create host group '%s'.", $hostgroup->name));
+
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.create.success', ['name' => $hostgroup->name]));
     }
@@ -140,6 +147,11 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.edit.error'));
         }
 
+        activity()
+            ->performedOn($hostgroup)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Update host group '%s'.", $hostgroup->name));
+
         return redirect()->route('hostgroups.edit', [$hostgroup->id])
             ->withSuccess(__('hostgroup/messages.edit.success', ['name' => $hostgroup->name]));
     }
@@ -174,6 +186,10 @@ class HostgroupController extends Controller
             return redirect()->back()
                 ->withErrors(__('hostgroup/messages.delete.error'));
         }
+
+        activity()
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Delete host group '%s'.", $hostgroup->name));
 
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $name]));

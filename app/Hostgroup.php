@@ -83,7 +83,7 @@ class Hostgroup extends Model implements Searchable
      *
      * @return \Illuminate\Support\Collection
      */
-    private function getRelatedRules()
+    public function getRelatedRules()
     {
         return ControlRule::findByTarget($this->id);
     }

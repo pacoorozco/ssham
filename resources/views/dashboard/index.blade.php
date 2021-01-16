@@ -85,8 +85,41 @@
         </div>
         <!-- end: STATUS BOXES -->
 
+        <!-- start: ACTIVITY LOG -->
+        <div class="card">
+            <div class="card-header">
+                Audit log: latest 15 actions
+            </div>
+            <div class="card-body">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Operation name</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                        <th>Timestamp</th>
+                        <th>Event initiated by</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @forelse($activities as $activity)
+                        <tr>
+                            <td>{{ $activity->description }}</td>
+                            <td>{{ $activity->getExtraProperty('status') }}</td>
+                            <td>{{ $activity->created_at->diffForHumans() }}</td>
+                            <td>{{ $activity->created_at }}</td>
+                            <td>{{ ($activity->causer != null) ? $activity->causer->username : 'system' }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">No activity yet</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end: ACTIVITY LOG -->
+
     </div>
 @endsection
-
-
-

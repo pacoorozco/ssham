@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 ### Added
+- Audit log: Actions are logged and shown on the Dashboard page.
+
+## 0.9.0 - 2020-12-19
+
+### Changed
+- Docker creation has been changed to embed `composer` inside the docker.
+- Updated `npm` dependencies.
+
+## 0.8.1 - 2020-10-16
+
+### Added
 - Documentation site available at [ssham.pacoorozco.info](https://ssham.pacoorozco.info).
 ### Changed
 - Update dependencies to the latest versions.
@@ -12,6 +23,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Namespaces for Feature tests has been fixed to `namespace Tests\Feature\...`.
 - Namespace for Helper has been set to `App\Helpers`.
 - Trait `UsesUUID` was not PSR-4 compliant.
+- Issue: Keygroups error when the artisan job is executed. ([#55][i55])
+
+[i55]: https://github.com/pacoorozco/ssham/issues/55
 
 ## 0.8.0 - 2020-09-01
 ### Added

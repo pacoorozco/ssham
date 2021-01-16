@@ -15,7 +15,7 @@
         "admin-lte": "^3.0.5",
         "cross-env": "^5.1",
         "dot-prop": "^5.3.0",
-        "laravel-mix": "^5.0.5",
+        "laravel-mix": "^5.0.9",
         "node-forge": ">=0.10.0",
         "serialize-javascript": "^5.0.1",
         "vuepress": "^1.8.0"
