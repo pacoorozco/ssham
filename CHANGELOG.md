@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## Unreleased
 ### Added
 - Audit log: Actions are logged and shown on the Dashboard page.
+### Changed
+- Updates `php` dependency to version `7.4`.
+- Updates `akaunting/setting` to `v1.2`.
+- Updates `laravel/framework` to `v6.20`.
+- Updates `spatie/laravel-searchable` to `v1.9`.
+- Updates `yajra/laravel-datatables-oracle` to `v9.15`.
+### Removed 
+- Removes `fideloper/proxy`, it was already included in Laravel 6.x.
+- Removes `laravel/tinker`, it was not used.
 
 ## 0.9.0 - 2020-12-19
 
