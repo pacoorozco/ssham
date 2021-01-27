@@ -18,7 +18,6 @@
 use App\Activity;
 use App\Host;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Auth;
 
 class HostsTableSeeder extends Seeder
 {
@@ -29,7 +28,20 @@ class HostsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Host::class, 5)->create()->each(function (Host $host) {
+        $host = Host::create([
+            'hostname' => 'ssh-server',
+            'username' => 'admin',
+            'port' => 22,
+            'authorized_keys_file' => '.ssh/authorized_keys'
+        ]);
+        activity()
+            ->performedOn($host)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
+
+        factory(App\Host::class, 3)->create([
+            'enabled' => false,
+        ])->each(function (Host $host) {
             activity()
                 ->performedOn($host)
                 ->withProperties(['status' => Activity::STATUS_SUCCESS])
