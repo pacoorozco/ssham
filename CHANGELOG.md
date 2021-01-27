@@ -14,10 +14,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Updates `spatie/laravel-searchable` to `v1.9`.
 - Updates `yajra/laravel-datatables-oracle` to `v9.15`.
 - Updates `fideloper/proxy` to `v4.4`.
+### Fixed
+- Warning when building docker images. ([#74][i74])
 ### Removed
 - Removes `laravel/tinker`, it was not used.
 
 [i73]: https://github.com/pacoorozco/ssham/issues/73
+[i74]: https://github.com/pacoorozco/ssham/issues/74
 
 ## 0.9.0 - 2020-12-19
 
