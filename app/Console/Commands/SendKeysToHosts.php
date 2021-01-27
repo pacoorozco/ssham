@@ -9,18 +9,16 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Console\Commands;
 
 use App\Host;
-use ErrorException;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use phpseclib\Crypt\RSA;
@@ -59,7 +57,7 @@ class SendKeysToHosts extends Command
      */
     public function handle()
     {
-        $hosts = Host::all();
+        $hosts = Host::enabled()->get();
         Log::info('Hosts to be updated: '.$hosts->count());
         $this->info('Hosts to be updated: '.$hosts->count());
 
@@ -67,43 +65,70 @@ class SendKeysToHosts extends Command
         $key = new RSA();
         $key->loadKey(setting('private_key'));
 
+        try {
+            $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
+        } catch (\Throwable $exception) {
+            Log::error('SSHAM Remote Updater can not be read from ');
+            $this->error('SSHAM Remote Updater can not be read from ');
+
+            return;
+        }
+
         foreach ($hosts as $host) {
             Log::debug('Connecting to '.$host->full_hostname);
+            $this->info('Connecting to '.$host->full_hostname);
             $sftp = new SFTP($host->hostname, setting('ssh_port'), setting('ssh_timeout'));
 
-            try {
-                if (! $sftp->login($host->username, $key)) {
-
-                    // TODO - Set last_error field on Host
-                    $host->last_rotation = now()->timestamp;
-
-                    $this->error('ERRROR Can\'t auth on '.$host->full_hostname);
-                    continue;
-                }
-            } catch (ErrorException $e) {
-
-                // TODO - Set last_error field on Host
+            if (false === $sftp->login($host->username, $key)) {
+                $host->status_code = Host::AUTH_FAIL_STATUS;
                 $host->last_rotation = now()->timestamp;
+                $host->save();
 
                 Log::warning('Error connecting to '.$host->full_hostname);
-                $this->error('Can not connect to '.$host->full_hostname.': '.$e->getMessage());
+                $this->error('ERROR Can\'t auth on '.$host->full_hostname);
                 continue;
             }
 
             // Send remote_updater script to remote Host.
-            try {
-                $fileContents = Storage::disk('private')->get('ssham-remote-updater.sh');
-                $sftp->put(setting('cmd_remote_updater'), $fileContents);
-                $sftp->chmod(0700, setting('cmd_remote_updater'));
-            } catch (FileNotFoundException $e) {
-                Log::error('SSHAM Remote Updater can not be accessible: '.$e->getMessage());
-                $this->error('SSHAM Remote Updater can not be accessible: '.$e->getMessage());
+            if (false === $sftp->put(setting('cmd_remote_updater'), $remoteUpdater)) {
+                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->last_rotation = now()->timestamp;
+                $host->save();
+
+                Log::error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
+                $this->error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
+                continue;
+            }
+            if (false === $sftp->chmod(0700, setting('cmd_remote_updater'))) {
+                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->last_rotation = now()->timestamp;
+                $host->save();
+
+                Log::error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
+                $this->error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
+                continue;
             }
 
             // Send SSHAM authorized file to remote Host.
             $sshKeys = $host->getSSHKeysForHost(setting('public_key'));
-            $sftp->put(setting('ssham_file'), join(PHP_EOL, $sshKeys));
-            $sftp->chmod(0600, setting('ssham_file'));
+            if (false === $sftp->put(setting('ssham_file'), join(PHP_EOL, $sshKeys))) {
+                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->last_rotation = now()->timestamp;
+                $host->save();
+
+                Log::error('SSHAM keys file can not be sent to '.$host->full_hostname);
+                $this->error('SSHAM keys file can not be sent to '.$host->full_hostname);
+                continue;
+            }
+            if (false === $sftp->chmod(0600, setting('ssham_file'))) {
+                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->last_rotation = now()->timestamp;
+                $host->save();
+
+                Log::error('SSHAM keys file can not be sent to '.$host->full_hostname);
+                $this->error('SSHAM keys file can not be sent to '.$host->full_hostname);
+                continue;
+            }
 
             // Execute remote_updater script on remote Host.
             $command = setting('cmd_remote_updater').' update '
@@ -118,6 +143,10 @@ class SendKeysToHosts extends Command
             $sftp->disconnect();
 
             // Mark host in sync.
+            $host->status_code = Host::SUCCESS_STATUS;
+            $host->last_rotation = now()->timestamp;
+            $host->save();
+
             $host->setSynced(true);
         }
     }
