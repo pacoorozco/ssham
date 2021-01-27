@@ -26,7 +26,7 @@
     "require": {
         "php": "^7.4",
         "akaunting/setting": "^1.2",
-        "laravel/framework": "^6.20",
+        "laravel/framework": "^6.20.14",
         "fideloper/proxy": "^4.4",
         "laravelcollective/html": "^6.0",
         "phpseclib/phpseclib": "^2.0",
