@@ -32,7 +32,7 @@ class HostsTableSeeder extends Seeder
             'hostname' => 'ssh-server',
             'username' => 'admin',
             'port' => 22,
-            'authorized_keys_file' => '.ssh/authorized_keys'
+            'authorized_keys_file' => '.ssh/authorized_keys',
         ]);
         activity()
             ->performedOn($host)
