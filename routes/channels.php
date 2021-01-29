@@ -15,6 +15,8 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
+use Illuminate\Support\Facades\Broadcast;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels

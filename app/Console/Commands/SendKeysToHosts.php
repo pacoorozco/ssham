@@ -55,9 +55,9 @@ class SendKeysToHosts extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $hosts = Host::all();
         Log::info('Hosts to be updated: '.$hosts->count());
@@ -120,5 +120,7 @@ class SendKeysToHosts extends Command
             // Mark host in sync.
             $host->setSynced(true);
         }
+
+        return 0;
     }
 }
