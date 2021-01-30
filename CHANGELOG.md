@@ -4,12 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
-### Added
-- Audit log: Actions are logged and shown on the Dashboard page.
 ### Fixed
 - Migrated to [Laravel 8.x](https://laravel.com/docs/8.x/releases) to take benefit of the new features. ([#81][i81])
 
 [i81]: https://github.com/pacoorozco/ssham/issues/81
+
+## 0.10.0 - 2021-01-27
+
+### Added
+- Audit log: Actions are logged and shown on the Dashboard page.
+- A docker with SFTP to test **ssham** locally. ([#73][i73])
+### Changed
+- Updates `php` dependency to version `7.4`.
+- Updates `akaunting/setting` to `v1.2`.
+- Updates `laravel/framework` to `v6.20.15`.
+- Updates `spatie/laravel-searchable` to `v1.9`.
+- Updates `yajra/laravel-datatables-oracle` to `v9.15`.
+- Updates `fideloper/proxy` to `v4.4`.
+### Fixed
+- Warning when building docker images. ([#74][i74])
+### Removed
+- Removes `laravel/tinker`, it was not used.
+
+[i73]: https://github.com/pacoorozco/ssham/issues/73
+[i74]: https://github.com/pacoorozco/ssham/issues/74
 
 ## 0.9.0 - 2020-12-19
 
