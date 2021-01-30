@@ -4,7 +4,7 @@
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](LICENSE)
-[![Laravel Version](https://img.shields.io/badge/Laravel-6.x-brightgreen)](https://laravel.com/docs)
+[![Laravel Version](https://img.shields.io/badge/Laravel-8.x-brightgreen)](https://laravel.com/docs)
 [![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
 
 ## Presentation

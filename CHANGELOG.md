@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## Unreleased
 ### Added
 - Audit log: Actions are logged and shown on the Dashboard page.
+### Fixed
+- Migrated to [Laravel 8.x](https://laravel.com/docs/8.x/releases) to take benefit of the new features. ([#81][i81])
+
+[i81]: https://github.com/pacoorozco/ssham/issues/81
 
 ## 0.9.0 - 2020-12-19
 
