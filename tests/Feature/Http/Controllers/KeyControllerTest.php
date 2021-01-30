@@ -164,8 +164,8 @@ class KeyControllerTest extends TestCase
     {
         $key = Key::factory()
             ->create([
-                    'private' => 'blah blah blah',
-                ]);
+                'private' => 'blah blah blah',
+            ]);
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -173,15 +173,15 @@ class KeyControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertHeader('Content-Type', 'application/pkcs8');
-        $response->assertHeader('Content-Disposition', 'attachment; filename="' . $key->username . '.key"');
+        $response->assertHeader('Content-Disposition', 'attachment; filename="'.$key->username.'.key"');
     }
 
     public function test_downloadPrivateKey_method_returns_error_when_private_key_is_not_present()
     {
         $key = Key::factory()
             ->create([
-                    'private' => null,
-                ]);
+                'private' => null,
+            ]);
 
         $response = $this
             ->actingAs($this->user_to_act_as)

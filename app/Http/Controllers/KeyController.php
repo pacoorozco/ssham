@@ -182,7 +182,7 @@ class KeyController extends Controller
             }
 
             // Attach the RSA SSH public key to the created use (includes a save() method).
-            if (!empty($public_key)) {
+            if (! empty($public_key)) {
                 $key->attachKeyAndSave($public_key, $private_key);
             }
         } catch (\Throwable $exception) {
@@ -301,6 +301,6 @@ class KeyController extends Controller
         }
 
         // Starts downloading the key.
-        return response()->attachment($content, $key->username . '.key');
+        return response()->attachment($content, $key->username.'.key');
     }
 }

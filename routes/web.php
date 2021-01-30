@@ -76,7 +76,6 @@ Route::get('users/{user}/delete',
 // show, edit, update, destroy
 Route::resource('users', UserController::class);
 
-
 /**
  * ------------------------------------------
  * Keys

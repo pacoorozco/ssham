@@ -143,8 +143,8 @@ class ControlRuleController extends Controller
                 return $rule->target;
             })
             ->editColumn('action', function (ControlRule $rule) {
-                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.allowed')
-                    : '<i class="fa fa-lock"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.denied');
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> '. /** @scrutinizer ignore-type */ __('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> '. /** @scrutinizer ignore-type */ __('rule/table.denied');
             })
             ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')
