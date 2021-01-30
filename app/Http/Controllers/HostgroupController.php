@@ -17,12 +17,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
-use App\Host;
-use App\Hostgroup;
 use App\Http\Requests\HostgroupCreateRequest;
 use App\Http\Requests\HostgroupUpdateRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
+use App\Models\Host;
+use App\Models\Hostgroup;
 use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
@@ -61,7 +60,7 @@ class HostgroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param HostgroupCreateRequest $request
+     * @param  HostgroupCreateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -95,7 +94,7 @@ class HostgroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Hostgroup $hostgroup
+     * @param  Hostgroup  $hostgroup
      *
      * @return \Illuminate\View\View
      */
@@ -107,7 +106,7 @@ class HostgroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Hostgroup $hostgroup
+     * @param  Hostgroup  $hostgroup
      *
      * @return \Illuminate\View\View
      */
@@ -122,8 +121,8 @@ class HostgroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Hostgroup              $hostgroup
-     * @param HostgroupUpdateRequest $request
+     * @param  Hostgroup  $hostgroup
+     * @param  HostgroupUpdateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -159,7 +158,7 @@ class HostgroupController extends Controller
     /**
      * Remove hostgroup.
      *
-     * @param Hostgroup $hostgroup
+     * @param  Hostgroup  $hostgroup
      *
      * @return \Illuminate\View\View
      */
@@ -171,7 +170,7 @@ class HostgroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Hostgroup $hostgroup
+     * @param  Hostgroup  $hostgroup
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -198,7 +197,7 @@ class HostgroupController extends Controller
     /**
      * Return all Hostgroups in order to be used as DataTables.
      *
-     * @param Datatables $datatable
+     * @param  Datatables  $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -215,7 +214,8 @@ class HostgroupController extends Controller
 
         return $datatable->eloquent($hostgroups)
             ->addColumn('rules', function (Hostgroup $group) {
-                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(), ['value' => $group->getNumberOfRelatedRules()]);
+                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(),
+                    ['value' => $group->getNumberOfRelatedRules()]);
             })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.actions_dd')

@@ -15,25 +15,30 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Keygroup;
-use Faker\Generator as Faker;
+use App\Models\Keygroup;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+class KeygroupFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Keygroup::class;
 
-$factory->define(Keygroup::class, function (Faker $faker) {
-    return [
-        'name' => 'Group_'.$faker->unique()->colorName,
-        'description' => $faker->paragraph,
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => 'Group_'.$this->faker->unique()->colorName,
+            'description' => $this->faker->paragraph,
+        ];
+    }
+}

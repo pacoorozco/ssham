@@ -15,8 +15,6 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-use Illuminate\Foundation\Inspiring;
-
 /*
 |--------------------------------------------------------------------------
 | Console Routes

@@ -15,11 +15,14 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Activity;
-use App\Host;
-use Illuminate\Database\Seeder;
+namespace Database\Seeders;
 
-class HostsTableSeeder extends Seeder
+use App\Models\Activity;
+use App\Models\Keygroup;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class KeygroupsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -28,24 +31,25 @@ class HostsTableSeeder extends Seeder
      */
     public function run()
     {
-        $host = Host::create([
-            'hostname' => 'ssh-server',
-            'username' => 'admin',
-            'port' => 22,
-            'authorized_keys_file' => '.ssh/authorized_keys',
-        ]);
-        activity()
-            ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
+        DB::table('keygroups')->delete();
 
-        factory(App\Host::class, 3)->create([
-            'enabled' => false,
-        ])->each(function (Host $host) {
+        $keygroups = [
+            [
+                'name' => 'developers',
+                'description' => 'Group of awesome developers',
+            ],
+            [
+                'name' => 'operators',
+                'description' => 'Group of incredible operators',
+            ],
+        ];
+
+        foreach ($keygroups as $groupData) {
+            $group = Keygroup::create($groupData);
             activity()
-                ->performedOn($host)
+                ->performedOn($group)
                 ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
-        });
+                ->log(sprintf("Create key group '%s'.", $group->name));
+        }
     }
 }

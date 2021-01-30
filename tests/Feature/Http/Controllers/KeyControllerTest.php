@@ -17,9 +17,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Key;
-use App\Keygroup;
-use App\User;
+use App\Models\Key;
+use App\Models\Keygroup;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,7 +32,8 @@ class KeyControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = factory(User::class)->create();
+        $this->user_to_act_as = User::factory()
+            ->create();
     }
 
     public function test_index_method_returns_proper_view()
@@ -57,7 +58,9 @@ class KeyControllerTest extends TestCase
 
     public function test_create_method_returns_proper_data()
     {
-        $groups = factory(Keygroup::class, 3)->create();
+        $groups = Keygroup::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -69,7 +72,8 @@ class KeyControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_view()
     {
-        $key = factory(Key::class)->create();
+        $key = Key::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -82,8 +86,12 @@ class KeyControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_data()
     {
-        $key = factory(Key::class)->create();
-        $groups = factory(Keygroup::class, 3)->create();
+        $key = Key::factory()
+            ->create();
+
+        $groups = Keygroup::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -95,7 +103,8 @@ class KeyControllerTest extends TestCase
 
     public function test_delete_method_returns_proper_view()
     {
-        $key = factory(Key::class)->create();
+        $key = Key::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -108,7 +117,8 @@ class KeyControllerTest extends TestCase
 
     public function test_destroy_method_returns_proper_success_message()
     {
-        $key = factory(Key::class)->create();
+        $key = Key::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -128,7 +138,13 @@ class KeyControllerTest extends TestCase
 
     public function test_data_method_returns_data()
     {
-        $keys = factory(Key::class, 3)->create(['enabled' => 'true']);
+        $keys = $key = Key::factory()
+            ->count(3)
+            ->create(
+                [
+                    'enabled' => 'true',
+                ]
+            );
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -146,7 +162,10 @@ class KeyControllerTest extends TestCase
 
     public function test_downloadPrivateKey_method_returns_downloadable_file()
     {
-        $key = factory(Key::class)->create(['private' => 'blah blah blah']);
+        $key = Key::factory()
+            ->create([
+                'private' => 'blah blah blah',
+            ]);
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -159,7 +178,10 @@ class KeyControllerTest extends TestCase
 
     public function test_downloadPrivateKey_method_returns_error_when_private_key_is_not_present()
     {
-        $key = factory(Key::class)->create(['private' => null]);
+        $key = Key::factory()
+            ->create([
+                'private' => null,
+            ]);
 
         $response = $this
             ->actingAs($this->user_to_act_as)

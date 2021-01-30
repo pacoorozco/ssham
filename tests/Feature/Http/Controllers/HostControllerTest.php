@@ -17,9 +17,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Host;
-use App\Hostgroup;
-use App\User;
+use App\Models\Host;
+use App\Models\Hostgroup;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -34,7 +34,7 @@ class HostControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = factory(User::class)->create();
+        $this->user_to_act_as = User::factory()->create();
     }
 
     public function test_index_method_returns_proper_view()
@@ -59,7 +59,9 @@ class HostControllerTest extends TestCase
 
     public function test_create_method_returns_proper_data()
     {
-        $groups = factory(Hostgroup::class, 3)->create();
+        $groups = Hostgroup::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -71,7 +73,8 @@ class HostControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_view()
     {
-        $host = factory(Host::class)->create();
+        $host = Host::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -84,8 +87,11 @@ class HostControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_data()
     {
-        $host = factory(Host::class)->create();
-        $groups = factory(Hostgroup::class, 3)->create();
+        $host = Host::factory()
+            ->create();
+        $groups = Hostgroup::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -97,7 +103,8 @@ class HostControllerTest extends TestCase
 
     public function test_delete_method_returns_proper_view()
     {
-        $host = factory(Host::class)->create();
+        $host = Host::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -110,7 +117,8 @@ class HostControllerTest extends TestCase
 
     public function test_destroy_method_returns_proper_success_message()
     {
-        $host = factory(Host::class)->create();
+        $host = Host::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -130,7 +138,9 @@ class HostControllerTest extends TestCase
 
     public function test_data_method_returns_data()
     {
-        $hosts = factory(Host::class, 3)->create();
+        $hosts = Host::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)

@@ -15,12 +15,13 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Activity;
-use App\Keygroup;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+namespace Database\Seeders;
 
-class KeygroupsTableSeeder extends Seeder
+use App\Models\Activity;
+use App\Models\Hostgroup;
+use Illuminate\Database\Seeder;
+
+class HostgroupsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,25 +30,23 @@ class KeygroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('keygroups')->delete();
-
-        $keygroups = [
+        $hostgroups = [
             [
-                'name' => 'developers',
-                'description' => 'Group of awesome developers',
+                'name' => 'PRO_servers',
+                'description' => 'Production Servers',
             ],
             [
-                'name' => 'operators',
-                'description' => 'Group of incredible operators',
+                'name' => 'DEV_servers',
+                'description' => 'Development Servers',
             ],
         ];
 
-        foreach ($keygroups as $groupData) {
-            $group = Keygroup::create($groupData);
+        foreach ($hostgroups as $groupData) {
+            $group = Hostgroup::create($groupData);
             activity()
-                    ->performedOn($group)
-                    ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                    ->log(sprintf("Create key group '%s'.", $group->name));
+                ->performedOn($group)
+                ->withProperties(['status' => Activity::STATUS_SUCCESS])
+                ->log(sprintf("Create host group '%s'.", $group->name));
         }
     }
 }

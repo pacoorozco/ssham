@@ -53,9 +53,9 @@ class SendKeysToHosts extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $hosts = Host::enabled()->get();
         Log::info('Hosts to be updated: '.$hosts->count());
@@ -71,7 +71,7 @@ class SendKeysToHosts extends Command
             Log::error('SSHAM Remote Updater can not be read from ');
             $this->error('SSHAM Remote Updater can not be read from ');
 
-            return;
+            return 1;
         }
 
         foreach ($hosts as $host) {
@@ -149,5 +149,7 @@ class SendKeysToHosts extends Command
 
             $host->setSynced(true);
         }
+
+        return 0;
     }
 }

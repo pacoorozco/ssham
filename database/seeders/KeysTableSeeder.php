@@ -15,8 +15,10 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Activity;
-use App\Key;
+namespace Database\Seeders;
+
+use App\Models\Activity;
+use App\Models\Key;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -31,10 +33,13 @@ class KeysTableSeeder extends Seeder
     {
         DB::table('keys')->delete();
 
-        factory(Key::class, 3)->create()->each(function (Key $key) {
-            activity()
-                ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                ->log(sprintf("Create key '%s'.", $key->username));
-        });
+        Key::factory()
+            ->count(3)
+            ->create()
+            ->each(function (Key $key) {
+                activity()
+                    ->withProperties(['status' => Activity::STATUS_SUCCESS])
+                    ->log(sprintf("Create key '%s'.", $key->username));
+            });
     }
 }

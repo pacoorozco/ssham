@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\ControlRule;
+use App\Models\ControlRule;
 use Tests\ModelTestCase;
 
 class ControlRuleTest extends ModelTestCase

@@ -17,7 +17,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -30,7 +30,8 @@ class UserControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = factory(User::class)->create();
+        $this->user_to_act_as = User::factory()
+            ->create();
     }
 
     public function test_index_method_returns_proper_view()
@@ -55,7 +56,8 @@ class UserControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_view()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -68,7 +70,8 @@ class UserControllerTest extends TestCase
 
     public function test_delete_method_returns_proper_view()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -81,7 +84,8 @@ class UserControllerTest extends TestCase
 
     public function test_destroy_method_returns_proper_success_message()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -112,7 +116,11 @@ class UserControllerTest extends TestCase
 
     public function test_data_method_returns_data()
     {
-        $users = factory(User::class, 3)->create(['enabled' => 'true']);
+        $users = User::factory()
+            ->count(3)
+            ->create([
+                'enabled' => 'true',
+            ]);
 
         $response = $this
             ->actingAs($this->user_to_act_as)

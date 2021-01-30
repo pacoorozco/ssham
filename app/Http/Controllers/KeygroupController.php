@@ -17,12 +17,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
 use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
-use App\Key;
-use App\Keygroup;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
+use App\Models\Key;
+use App\Models\Keygroup;
 use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
@@ -61,7 +60,7 @@ class KeygroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param KeygroupCreateRequest $request
+     * @param  KeygroupCreateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -95,7 +94,7 @@ class KeygroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Keygroup $keygroup
+     * @param  Keygroup  $keygroup
      *
      * @return \Illuminate\View\View
      */
@@ -107,7 +106,7 @@ class KeygroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Keygroup $keygroup
+     * @param  Keygroup  $keygroup
      *
      * @return \Illuminate\View\View
      */
@@ -122,8 +121,8 @@ class KeygroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Keygroup              $keygroup
-     * @param KeygroupUpdateRequest $request
+     * @param  Keygroup  $keygroup
+     * @param  KeygroupUpdateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -159,7 +158,7 @@ class KeygroupController extends Controller
     /**
      * Remove keygroup.
      *
-     * @param Keygroup $keygroup
+     * @param  Keygroup  $keygroup
      *
      * @return \Illuminate\View\View
      */
@@ -171,7 +170,7 @@ class KeygroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Keygroup $keygroup
+     * @param  Keygroup  $keygroup
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -198,7 +197,7 @@ class KeygroupController extends Controller
     /**
      * Return all keygroups in order to be used as Datatables.
      *
-     * @param Datatables $datatable
+     * @param  Datatables  $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -215,7 +214,8 @@ class KeygroupController extends Controller
 
         return $datatable->eloquent($keygroups)
             ->addColumn('rules', function (Keygroup $group) {
-                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(), ['value' => $group->getNumberOfRelatedRules()]);
+                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(),
+                    ['value' => $group->getNumberOfRelatedRules()]);
             })
             ->addColumn('actions', function (Keygroup $keygroup) {
                 return view('partials.actions_dd')

@@ -15,7 +15,7 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace App;
+namespace App\Models;
 
 class Activity
 {

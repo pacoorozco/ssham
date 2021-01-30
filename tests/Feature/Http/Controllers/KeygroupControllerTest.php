@@ -17,9 +17,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Key;
-use App\Keygroup;
-use App\User;
+use App\Models\Key;
+use App\Models\Keygroup;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -34,7 +34,8 @@ class KeygroupControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = factory(User::class)->create();
+        $this->user_to_act_as = User::factory()
+            ->create();
     }
 
     public function test_index_method_returns_proper_view()
@@ -59,7 +60,9 @@ class KeygroupControllerTest extends TestCase
 
     public function test_create_method_returns_proper_data()
     {
-        $keys = factory(Key::class, 3)->create();
+        $keys = Key::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -71,7 +74,8 @@ class KeygroupControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_view()
     {
-        $group = factory(Keygroup::class)->create();
+        $group = Keygroup::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -84,8 +88,11 @@ class KeygroupControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_data()
     {
-        $group = factory(Keygroup::class)->create();
-        $keys = factory(Key::class, 3)->create();
+        $group = Keygroup::factory()
+            ->create();
+        $keys = Key::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -97,7 +104,8 @@ class KeygroupControllerTest extends TestCase
 
     public function test_delete_method_returns_proper_view()
     {
-        $group = factory(Keygroup::class)->create();
+        $group = Keygroup::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -110,7 +118,8 @@ class KeygroupControllerTest extends TestCase
 
     public function test_destroy_method_returns_proper_success_message()
     {
-        $group = factory(Keygroup::class)->create();
+        $group = Keygroup::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -130,7 +139,9 @@ class KeygroupControllerTest extends TestCase
 
     public function test_data_method_returns_data()
     {
-        $groups = factory(Keygroup::class, 3)->create();
+        $groups = Keygroup::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
