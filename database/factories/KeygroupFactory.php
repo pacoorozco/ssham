@@ -37,9 +37,8 @@ class KeygroupFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Group_' . $this->faker->unique()->colorName,
+            'name' => 'Group_'.$this->faker->unique()->colorName,
             'description' => $this->faker->paragraph,
         ];
     }
 }
-

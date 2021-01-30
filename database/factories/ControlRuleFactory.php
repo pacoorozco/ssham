@@ -41,10 +41,12 @@ class ControlRuleFactory extends Factory
         return [
             'source_id' => function () {
                 $keygroup = Keygroup::factory()->create();
+
                 return $keygroup->id;
             },
             'target_id' => function () {
                 $hostgroup = Hostgroup::factory()->create();
+
                 return $hostgroup->id;
             },
             'action' => $this->faker->randomElement(['allow', 'deny']),
@@ -52,4 +54,3 @@ class ControlRuleFactory extends Factory
         ];
     }
 }
-

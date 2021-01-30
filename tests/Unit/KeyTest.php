@@ -17,8 +17,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Key;
 use App\Libs\RsaSshKey\RsaSshKey;
+use App\Models\Key;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\ModelTestCase;
 

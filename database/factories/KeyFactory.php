@@ -17,8 +17,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Key;
 use App\Libs\RsaSshKey\RsaSshKey;
+use App\Models\Key;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class KeyFactory extends Factory
@@ -48,4 +48,3 @@ class KeyFactory extends Factory
         ];
     }
 }
-

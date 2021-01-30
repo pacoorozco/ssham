@@ -15,7 +15,6 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-
 namespace Database\Factories;
 
 use App\Models\Host;
@@ -39,7 +38,7 @@ class HostFactory extends Factory
     {
         return [
             'username' => $this->faker->userName,
-            'hostname' => $this->faker->unique()->domainWord . '.' . $this->faker->domainName,
+            'hostname' => $this->faker->unique()->domainWord.'.'.$this->faker->domainName,
             'port' => 22,
             'authorized_keys_file' => '~/.ssh/authorized_keys',
             'type' => 'linux',
@@ -51,4 +50,3 @@ class HostFactory extends Factory
         ];
     }
 }
-

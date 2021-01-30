@@ -87,7 +87,7 @@ class HostControllerTest extends TestCase
 
     public function test_edit_method_returns_proper_data()
     {
-        $host =Host::factory()
+        $host = Host::factory()
             ->create();
         $groups = Hostgroup::factory()
             ->count(3)

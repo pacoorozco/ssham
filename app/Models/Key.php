@@ -19,10 +19,10 @@ namespace App\Models;
 
 use App\Libs\RsaSshKey\RsaSshKey;
 use App\Traits\UsesUUID;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Key.
