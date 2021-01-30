@@ -17,8 +17,8 @@
 
 namespace Database\Seeders;
 
-use App\Activity;
-use App\Hostgroup;
+use App\Models\Activity;
+use App\Models\Hostgroup;
 use Illuminate\Database\Seeder;
 
 class HostgroupsTableSeeder extends Seeder

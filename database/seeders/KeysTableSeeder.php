@@ -17,8 +17,8 @@
 
 namespace Database\Seeders;
 
-use App\Activity;
-use App\Key;
+use App\Models\Activity;
+use App\Models\Key;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

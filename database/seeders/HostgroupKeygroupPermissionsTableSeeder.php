@@ -17,9 +17,9 @@
 
 namespace Database\Seeders;
 
-use App\ControlRule;
-use App\Hostgroup;
-use App\Keygroup;
+use App\Models\ControlRule;
+use App\Models\Hostgroup;
+use App\Models\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

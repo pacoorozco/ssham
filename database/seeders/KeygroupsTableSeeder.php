@@ -17,8 +17,8 @@
 
 namespace Database\Seeders;
 
-use App\Activity;
-use App\Keygroup;
+use App\Models\Activity;
+use App\Models\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
