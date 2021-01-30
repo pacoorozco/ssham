@@ -74,10 +74,10 @@
             "@php artisan package:discover --ansi"
         ],
         "test": [
-            "vendor/bin/phpunit"
+            "@php artisan test"
         ],
         "test-coverage": [
-            "vendor/bin/phpunit --coverage-html test-coverage"
+            "@php artisan test --coverage-html test-coverage"
         ],
         "build": [
             "@composer archive --format=zip --dir=dist"
