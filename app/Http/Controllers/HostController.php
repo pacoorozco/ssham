@@ -17,13 +17,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
 use App\Helpers\Helper;
-use App\Host;
-use App\Hostgroup;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
+use App\Models\Host;
+use App\Models\Hostgroup;
 use yajra\Datatables\Datatables;
 
 class HostController extends Controller
@@ -62,7 +61,7 @@ class HostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param HostCreateRequest $request
+     * @param  HostCreateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -77,7 +76,7 @@ class HostController extends Controller
             ]);
 
             // Associate Host's Groups
-            if (! empty($request->groups)) {
+            if (!empty($request->groups)) {
                 $host->groups()->sync($request->groups);
             }
         } catch (\Exception $exception) {
@@ -98,7 +97,7 @@ class HostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Host $host
+     * @param  Host  $host
      *
      * @return \Illuminate\View\View
      */
@@ -110,7 +109,7 @@ class HostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Host $host
+     * @param  Host  $host
      *
      * @return \Illuminate\View\View
      */
@@ -125,8 +124,8 @@ class HostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Host              $host
-     * @param HostUpdateRequest $request
+     * @param  Host  $host
+     * @param  HostUpdateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -163,7 +162,7 @@ class HostController extends Controller
     /**
      * Remove host.
      *
-     * @param Host $host
+     * @param  Host  $host
      *
      * @return \Illuminate\View\View
      */
@@ -175,7 +174,7 @@ class HostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Host $host
+     * @param  Host  $host
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -202,7 +201,7 @@ class HostController extends Controller
     /**
      * Return all Hosts in order to be used as DataTables.
      *
-     * @param Datatables $datatable
+     * @param  Datatables  $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception

@@ -15,6 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class SettingsTableSeeder extends Seeder

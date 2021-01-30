@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -31,9 +31,12 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function login_authenticates_and_redirects_user()
     {
-        $user = factory(User::class)->create([
-            'password' => bcrypt($password = 'i-love-laravel'),
-        ]);
+        $user = User::factory()
+            ->create(
+                [
+                    'password' => bcrypt($password = 'i-love-laravel'),
+                ]
+            );
 
         $response = $this->post('/login', [
             'username' => $user->username,

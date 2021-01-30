@@ -17,14 +17,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
 use App\Helpers\Helper;
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
-use App\Key;
-use App\Keygroup;
 use App\Libs\RsaSshKey\RsaSshKey;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
+use App\Models\Key;
+use App\Models\Keygroup;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseCode;
 use yajra\Datatables\Datatables;
@@ -65,7 +64,7 @@ class KeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param KeyCreateRequest $request
+     * @param  KeyCreateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -116,7 +115,7 @@ class KeyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Key $key
+     * @param  Key  $key
      *
      * @return \Illuminate\View\View
      */
@@ -128,7 +127,7 @@ class KeyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Key $key
+     * @param  Key  $key
      *
      * @return \Illuminate\View\View
      */
@@ -143,8 +142,8 @@ class KeyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Key              $key
-     * @param KeyUpdateRequest $request
+     * @param  Key  $key
+     * @param  KeyUpdateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -183,7 +182,7 @@ class KeyController extends Controller
             }
 
             // Attach the RSA SSH public key to the created use (includes a save() method).
-            if (! empty($public_key)) {
+            if (!empty($public_key)) {
                 $key->attachKeyAndSave($public_key, $private_key);
             }
         } catch (\Throwable $exception) {
@@ -208,7 +207,7 @@ class KeyController extends Controller
     /**
      * Remove key.
      *
-     * @param Key $key
+     * @param  Key  $key
      *
      * @return \Illuminate\View\View
      */
@@ -220,7 +219,7 @@ class KeyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Key $key
+     * @param  Key  $key
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -246,7 +245,7 @@ class KeyController extends Controller
     /**
      * Return all Key in order to be used with DataTables.
      *
-     * @param Datatables $datatable
+     * @param  Datatables  $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -282,7 +281,7 @@ class KeyController extends Controller
      * Returns a downloadable file with the private key content. This private key can not be
      * downloaded more than once, so after the first try, the key will be deleted.
      *
-     * @param Key $key
+     * @param  Key  $key
      *
      * @return \Illuminate\Http\Response
      */
@@ -302,6 +301,6 @@ class KeyController extends Controller
         }
 
         // Starts downloading the key.
-        return response()->attachment($content, $key->username.'.key');
+        return response()->attachment($content, $key->username . '.key');
     }
 }

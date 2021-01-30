@@ -1,8 +1,8 @@
 <?php
-/**
+/*
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2021 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
@@ -10,7 +10,7 @@
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
  *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
+ *  @copyright   2017 - 2021 Paco Orozco
  *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
  *  @link        https://github.com/pacoorozco/ssham
  */
@@ -42,29 +42,14 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  \Throwable  $exception
      * @return void
-     *
-     * @throws \Throwable
      */
-    public function report(Throwable $exception)
+    public function register()
     {
-        parent::report($exception);
-    }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $exception)
-    {
-        return parent::render($request, $exception);
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }

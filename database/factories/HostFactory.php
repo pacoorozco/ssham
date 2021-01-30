@@ -15,33 +15,40 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Host;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+use App\Models\Host;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Host::class, function (Faker $faker) {
-    return [
-        'username' => $faker->userName,
-        'hostname' => $faker->unique()->domainWord.'.'.$faker->domainName,
-        'port' => 22,
-        'authorized_keys_file' => '~/.ssh/authorized_keys',
-        'type' => 'linux',
-        'enabled' => true,
-        'synced' => false,
-        'status_code' => Host::INITIAL_STATUS,
-        'key_hash' => null,
-        'last_rotation' => null,
-    ];
-});
+class HostFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Host::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'username' => $this->faker->userName,
+            'hostname' => $this->faker->unique()->domainWord . '.' . $this->faker->domainName,
+            'port' => 22,
+            'authorized_keys_file' => '~/.ssh/authorized_keys',
+            'type' => 'linux',
+            'enabled' => true,
+            'synced' => false,
+            'status_code' => Host::INITIAL_STATUS,
+            'key_hash' => null,
+            'last_rotation' => null,
+        ];
+    }
+}
+

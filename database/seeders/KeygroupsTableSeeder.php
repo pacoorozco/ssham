@@ -15,6 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+namespace Database\Seeders;
+
 use App\Activity;
 use App\Keygroup;
 use Illuminate\Database\Seeder;
@@ -45,9 +47,9 @@ class KeygroupsTableSeeder extends Seeder
         foreach ($keygroups as $groupData) {
             $group = Keygroup::create($groupData);
             activity()
-                    ->performedOn($group)
-                    ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                    ->log(sprintf("Create key group '%s'.", $group->name));
+                ->performedOn($group)
+                ->withProperties(['status' => Activity::STATUS_SUCCESS])
+                ->log(sprintf("Create key group '%s'.", $group->name));
         }
     }
 }

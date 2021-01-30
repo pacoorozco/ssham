@@ -1,27 +1,28 @@
 <?php
-/**
+/*
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2021 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2020 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2021 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace App;
+namespace App\Models;
 
 use App\Libs\RsaSshKey\RsaSshKey;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Key.
@@ -37,7 +38,7 @@ use Spatie\Searchable\SearchResult;
  */
 class Key extends Model implements Searchable
 {
-    use UsesUUID;
+    use HasFactory, UsesUUID;
 
     /**
      * The database table used by the model.
@@ -115,7 +116,7 @@ class Key extends Model implements Searchable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Keygroup');
+        return $this->belongsToMany(Keygroup::class);
     }
 
     /**

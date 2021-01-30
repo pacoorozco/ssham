@@ -17,7 +17,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -30,7 +30,8 @@ class SettingsControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = factory(User::class)->create();
+        $this->user_to_act_as = User::factory()
+            ->create();
     }
 
     const TEST_SETTINGS = [

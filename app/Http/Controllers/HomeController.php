@@ -17,18 +17,16 @@
 
 namespace App\Http\Controllers;
 
-use App\ControlRule;
-use App\Helpers\Helper;
-use App\Host;
-use App\Hostgroup;
 use App\Http\Requests\SearchRequest;
-use App\Key;
-use App\Keygroup;
-use App\User;
+use App\Models\ControlRule;
+use App\Models\Host;
+use App\Models\Hostgroup;
+use App\Models\Key;
+use App\Models\Keygroup;
+use App\Models\User;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
-use Yajra\DataTables\DataTables;
 
 class HomeController extends Controller
 {

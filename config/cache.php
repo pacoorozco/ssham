@@ -9,10 +9,10 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2019 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2019 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 use Illuminate\Support\Str;
@@ -28,9 +28,6 @@ return [
     | using this caching library. This connection is used when another is
     | not explicitly specified when executing a given caching function.
     |
-    | Supported: "apc", "array", "database", "file",
-    |            "memcached", "redis", "dynamodb"
-    |
     */
 
     'default' => env('CACHE_DRIVER', 'file'),
@@ -43,6 +40,9 @@ return [
     | Here you may define all of the cache "stores" for your application as
     | well as their drivers. You may even define multiple stores for the
     | same cache driver to group types of items stored in your caches.
+    |
+    | Supported drivers: "apc", "array", "database", "file",
+    |            "memcached", "redis", "dynamodb", "null"
     |
     */
 
@@ -61,6 +61,7 @@ return [
             'driver' => 'database',
             'table' => 'cache',
             'connection' => null,
+            'lock_connection' => null,
         ],
 
         'file' => [
@@ -90,6 +91,7 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'cache',
+            'lock_connection' => 'default',
         ],
 
         'dynamodb' => [
@@ -114,6 +116,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
+    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache'),
 
 ];

@@ -15,6 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+namespace Database\Seeders;
+
 use App\Activity;
 use App\Hostgroup;
 use Illuminate\Database\Seeder;

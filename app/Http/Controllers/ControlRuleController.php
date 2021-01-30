@@ -17,12 +17,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
-use App\ControlRule;
-use App\Hostgroup;
 use App\Http\Requests\ControlRuleCreateRequest;
-use App\Keygroup;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
+use App\Models\ControlRule;
+use App\Models\Hostgroup;
+use App\Models\Keygroup;
 use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
@@ -62,7 +61,7 @@ class ControlRuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ControlRuleCreateRequest $request
+     * @param  ControlRuleCreateRequest  $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -92,7 +91,7 @@ class ControlRuleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param ControlRule $rule
+     * @param  ControlRule  $rule
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
@@ -120,7 +119,7 @@ class ControlRuleController extends Controller
     /**
      * Return all Users in order to be used as Datatables.
      *
-     * @param Datatables $datatable
+     * @param  Datatables  $datatable
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -144,8 +143,8 @@ class ControlRuleController extends Controller
                 return $rule->target;
             })
             ->editColumn('action', function (ControlRule $rule) {
-                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> '. /** @scrutinizer ignore-type */ __('rule/table.allowed')
-                    : '<i class="fa fa-lock"></i> '. /** @scrutinizer ignore-type */ __('rule/table.denied');
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> ' . /** @scrutinizer ignore-type */ __('rule/table.denied');
             })
             ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')

@@ -15,6 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+namespace Database\Seeders;
+
 use App\ControlRule;
 use App\Hostgroup;
 use App\Keygroup;

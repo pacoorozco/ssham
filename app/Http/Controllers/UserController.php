@@ -17,11 +17,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Activity;
+use App\Models\Activity;
 use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use yajra\Datatables\Datatables;
 

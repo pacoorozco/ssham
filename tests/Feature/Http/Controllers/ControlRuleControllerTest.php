@@ -17,10 +17,10 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\ControlRule;
-use App\Hostgroup;
-use App\Keygroup;
-use App\User;
+use App\Models\ControlRule;
+use App\Models\Hostgroup;
+use App\Models\Keygroup;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -35,7 +35,7 @@ class ControlRuleControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = factory(User::class)->create();
+        $this->user_to_act_as = User::factory()->create();
     }
 
     public function test_index_method_returns_proper_view()
@@ -60,8 +60,12 @@ class ControlRuleControllerTest extends TestCase
 
     public function test_create_method_returns_proper_data()
     {
-        $sources = factory(Keygroup::class, 3)->create();
-        $targets = factory(Hostgroup::class, 3)->create();
+        $sources = Keygroup::factory()
+            ->count(3)
+            ->create();
+        $targets = Hostgroup::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -74,7 +78,8 @@ class ControlRuleControllerTest extends TestCase
 
     public function test_destroy_method_returns_proper_success_message()
     {
-        $rule = factory(ControlRule::class)->create();
+        $rule = ControlRule::factory()
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -94,7 +99,9 @@ class ControlRuleControllerTest extends TestCase
 
     public function test_data_method_returns_data()
     {
-        $rules = factory(ControlRule::class, 3)->create();
+        $rules = ControlRule::factory()
+            ->count(3)
+            ->create();
 
         $response = $this
             ->actingAs($this->user_to_act_as)

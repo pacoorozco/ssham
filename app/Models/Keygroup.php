@@ -1,42 +1,45 @@
 <?php
-/**
+/*
  * SSH Access Manager - SSH keys management solution.
  *
- * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
+ * Copyright (c) 2017 - 2021 by Paco Orozco <paco@pacoorozco.info>
  *
  *  This file is part of some open source application.
  *
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- * @author      Paco Orozco <paco@pacoorozco.info>
- * @copyright   2017 - 2020 Paco Orozco
- * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- * @link        https://github.com/pacoorozco/ssham
+ *  @author      Paco Orozco <paco@pacoorozco.info>
+ *  @copyright   2017 - 2021 Paco Orozco
+ *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Hostgroup.
+ * Class Keygroup.
  *
  *
  * @property int    $id
  * @property string $name
  * @property string $description
  */
-class Hostgroup extends Model implements Searchable
+class Keygroup extends Model implements Searchable
 {
+    use HasFactory;
+
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'hostgroups';
+    protected $table = 'keygroups';
 
     /**
      * The attributes that are mass assignable.
@@ -59,17 +62,17 @@ class Hostgroup extends Model implements Searchable
     ];
 
     /**
-     * A Hostgroup is composed by Host (many-to-many).
+     * An Keygroup is composed by many Keys (many-to-many).
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function hosts()
+    public function keys()
     {
-        return $this->belongsToMany('App\Host');
+        return $this->belongsToMany(Key::class);
     }
 
     /**
-     *  Returns the number of Rules where this Hostgroup is present.
+     * Returns the number of Rules where this Keygroup is present.
      *
      * @return int
      */
@@ -79,18 +82,18 @@ class Hostgroup extends Model implements Searchable
     }
 
     /**
-     * Returns a Collection of Rules where this Hostgroup is present.
+     * Returns a Collection of Rules where this Keygroup is present.
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getRelatedRules()
+    private function getRelatedRules()
     {
-        return ControlRule::findByTarget($this->id);
+        return ControlRule::findBySource($this->id);
     }
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('hostgroups.show', $this->id);
+        $url = route('keygroups.show', $this->id);
 
         return new SearchResult(
             $this,

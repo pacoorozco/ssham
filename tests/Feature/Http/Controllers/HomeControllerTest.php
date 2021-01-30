@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,7 +12,8 @@ class HomeControllerTest extends TestCase
 
     public function test_index_returns_a_view()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()
+            ->create();
 
         $response = $this->actingAs($user)->get(route('home'));
 

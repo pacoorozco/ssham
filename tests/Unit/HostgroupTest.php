@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Hostgroup;
+use App\Models\Hostgroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\ModelTestCase;

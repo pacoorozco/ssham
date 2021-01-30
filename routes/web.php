@@ -15,6 +15,14 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Http\Controllers\ControlRuleController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HostController;
+use App\Http\Controllers\HostgroupController;
+use App\Http\Controllers\KeyController;
+use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +37,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
-Route::post('/search', ['as' => 'search', 'uses' => 'HomeController@search']);
+Route::get('/',
+    [HomeController::class, 'index'])
+    ->name('home');
+
+Route::post('/search',
+    [HomeController::class, 'search'])
+    ->name('search');
 
 /* ------------------------------------------
  * Authentication routes
@@ -50,15 +62,20 @@ Auth::routes([
  * ------------------------------------------.
  */
 // DataTables Ajax route.
-Route::get('users/data',
-    ['as' => 'users.data', 'uses' => 'UserController@data'])
-    ->middleware('ajax');
+Route::middleware(['ajax'])
+    ->get('users/data',
+        [UserController::class, 'data'])
+    ->name('users.data');
+
 // Delete confirmation route - uses the show/details view.
 Route::get('users/{user}/delete',
-    ['as' => 'users.delete', 'uses' => 'UserController@delete']);
+    [UserController::class, 'delete'])
+    ->name('users.delete');
+
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('users', 'UserController');
+Route::resource('users', UserController::class);
+
 
 /**
  * ------------------------------------------
@@ -66,18 +83,24 @@ Route::resource('users', 'UserController');
  * ------------------------------------------.
  */
 // DataTables Ajax route.
-Route::get('keys/data',
-    ['as' => 'keys.data', 'uses' => 'KeyController@data'])
-    ->middleware('ajax');
+Route::middleware(['ajax'])
+    ->get('keys/data',
+        [KeyController::class, 'data'])
+    ->name('keys.data');
+
 // Delete confirmation route - uses the show/details view.
 Route::get('keys/{key}/delete',
-    ['as' => 'keys.delete', 'uses' => 'KeyController@delete']);
+    [KeyController::class, 'delete'])
+    ->name('keys.delete');
+
 // Download a private key.
 Route::get('keys/{key}/download',
-    ['as' => 'keys.download', 'uses' => 'KeyController@downloadPrivateKey']);
+    [KeyController::class, 'downloadPrivateKey'])
+    ->name('keys.download');
+
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('keys', 'KeyController');
+Route::resource('keys', KeyController::class);
 
 /**
  * ------------------------------------------
@@ -85,14 +108,19 @@ Route::resource('keys', 'KeyController');
  * ------------------------------------------.
  */
 // DataTables Ajax route.
-Route::get('hosts/data',
-    ['as' => 'hosts.data', 'uses' => 'HostController@data'])
-    ->middleware('ajax');
+Route::middleware(['ajax'])
+    ->get('hosts/data',
+        [HostController::class, 'data'])
+    ->name('hosts.data');
+
 // Delete confirmation route - uses the show/details view.
-Route::get('hosts/{host}/delete', ['as' => 'hosts.delete', 'uses' => 'HostController@delete']);
+Route::get('hosts/{host}/delete',
+    [HostController::class, 'delete'])
+    ->name('hosts.delete');
+
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('hosts', 'HostController');
+Route::resource('hosts', HostController::class);
 
 /**
  * ------------------------------------------
@@ -100,14 +128,19 @@ Route::resource('hosts', 'HostController');
  * ------------------------------------------.
  */
 // DataTables Ajax route.
-Route::get('keygroups/data',
-    ['as' => 'keygroups.data', 'uses' => 'KeygroupController@data'])
-    ->middleware('ajax');
+Route::middleware(['ajax'])
+    ->get('keygroups/data',
+        [KeygroupController::class, 'data'])
+    ->name('keygroups.data');
+
 // Delete confirmation route - uses the show/details view.
-Route::get('keygroups/{keygroup}/delete', ['as' => 'keygroups.delete', 'uses' => 'KeygroupController@delete']);
+Route::get('keygroups/{keygroup}/delete',
+    [KeygroupController::class, 'delete'])
+    ->name('keygroups.delete');
+
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('keygroups', 'KeygroupController');
+Route::resource('keygroups', KeygroupController::class);
 
 /**
  * ------------------------------------------
@@ -115,14 +148,19 @@ Route::resource('keygroups', 'KeygroupController');
  * ------------------------------------------.
  */
 // DataTables Ajax route.
-Route::get('hostgroups/data',
-    ['as' => 'hostgroups.data', 'uses' => 'HostgroupController@data'])
-    ->middleware('ajax');
+Route::middleware(['ajax'])
+    ->get('hostgroups/data',
+        [HostgroupController::class, 'data'])
+    ->name('hostgroups.data');
+
 // Delete confirmation route - uses the show/details view.
-Route::get('hostgroups/{hostgroup}/delete', ['as' => 'hostgroups.delete', 'uses' => 'HostgroupController@delete']);
+Route::get('hostgroups/{hostgroup}/delete',
+    [HostgroupController::class, 'delete'])
+    ->name('hostgroups.delete');
+
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('hostgroups', 'HostgroupController');
+Route::resource('hostgroups', HostgroupController::class);
 
 /**
  * ------------------------------------------
@@ -130,17 +168,24 @@ Route::resource('hostgroups', 'HostgroupController');
  * ------------------------------------------.
  */
 // Datatables Ajax route.
-Route::get('rules/data',
-    ['as' => 'rules.data', 'uses' => 'ControlRuleController@data'])
-    ->middleware('ajax');
+Route::middleware(['ajax'])
+    ->get('rules/data',
+        [ControlRuleController::class, 'data'])
+    ->name('rules.data');
+
 // Pre-baked resource controller actions for index, create, store,
 // show, edit, update, destroy
-Route::resource('rules', 'ControlRuleController');
+Route::resource('rules', ControlRuleController::class);
 
 /**
  * ------------------------------------------
  * Settings
  * ------------------------------------------.
  */
-Route::get('settings', ['as' => 'settings.index', 'uses' => 'SettingsController@index']);
-Route::put('settings', ['as' => 'settings.update', 'uses' => 'SettingsController@update']);
+Route::get('settings',
+    [SettingsController::class, 'index'])
+    ->name('settings.index');
+
+Route::put('settings',
+    [SettingsController::class, 'update'])
+    ->name('settings.update');

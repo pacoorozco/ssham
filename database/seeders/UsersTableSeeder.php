@@ -15,6 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+namespace Database\Seeders;
+
 use App\Activity;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -51,9 +53,9 @@ class UsersTableSeeder extends Seeder
         foreach ($users as $userData) {
             $user = User::create($userData);
             activity()
-                    ->performedOn($user)
-                    ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                    ->log(sprintf("Create user '%s'.", $user->username));
+                ->performedOn($user)
+                ->withProperties(['status' => Activity::STATUS_SUCCESS])
+                ->log(sprintf("Create user '%s'.", $user->username));
         }
     }
 }
