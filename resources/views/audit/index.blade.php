@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-
 {{-- Web site Title --}}
 @section('title',  __('site.audit'))
 
@@ -21,8 +20,8 @@
     <div class="container-fluid">
 
         <!-- Notifications -->
-        @include('partials.notifications')
-        <!-- ./ notifications -->
+    @include('partials.notifications')
+    <!-- ./ notifications -->
 
         <div class="card">
             <div class="card-body">
