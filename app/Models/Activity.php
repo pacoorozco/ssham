@@ -17,8 +17,20 @@
 
 namespace App\Models;
 
-class Activity
+use App\Presenters\ActivityPresenter;
+use Laracodes\Presenter\Traits\Presentable;
+
+class Activity extends \Spatie\Activitylog\Models\Activity
 {
+    use Presentable;
+
+    protected string $presenter = ActivityPresenter::class;
+
+    public function getStatusAttribute(): string
+    {
+        return $this->getExtraProperty('status');
+    }
+
     // Statuses
     const STATUS_SUCCESS = 'STATUS_SUCCESS';
     const STATUS_FAIL = 'STATUS_FAIL';

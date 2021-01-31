@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fcb1c0913aa800e6e347acfe1551238",
+    "content-hash": "363e43c5f3f46b6e8773594412e3a10b",
     "packages": [
         {
             "name": "akaunting/setting",
@@ -556,6 +556,57 @@
                 }
             ],
             "time": "2020-04-13T13:17:36+00:00"
+        },
+        {
+            "name": "guilhermegonzaga/presenter",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guilhermegonzaga/presenter.git",
+                "reference": "ca1c0d6b9dcbe854493afc0b9b566e940f69b524"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guilhermegonzaga/presenter/zipball/ca1c0d6b9dcbe854493afc0b9b566e940f69b524",
+                "reference": "ca1c0d6b9dcbe854493afc0b9b566e940f69b524",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laracodes\\Presenter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme de Oliveira Gonzaga",
+                    "email": "guilherme10gonzaga@gmail.com"
+                }
+            ],
+            "description": "Implementation for Laravel of the presenter design pattern.",
+            "keywords": [
+                "entity",
+                "laravel",
+                "presenter",
+                "view"
+            ],
+            "support": {
+                "issues": "https://github.com/guilhermegonzaga/presenter/issues",
+                "source": "https://github.com/guilhermegonzaga/presenter/tree/1.0.5"
+            },
+            "time": "2020-09-18T00:07:58+00:00"
         },
         {
             "name": "laravel/framework",

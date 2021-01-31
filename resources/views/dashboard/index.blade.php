@@ -5,14 +5,14 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('dashboard/messages.title')
-    <small>@lang('dashboard/messages.subtitle')</small>
+    {{ __('dashboard/messages.title') }}
+    <small>{{ __('dashboard/messages.subtitle') }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
 @section('breadcrumbs')
     <li class="breadcrumb-item active">
-        @lang('dashboard/messages.title')
+        {{ __('dashboard/messages.title') }}
     </li>
 @endsection
 
@@ -26,7 +26,7 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{ $key_count }}</h3>
-                        <p>@lang('key/model.item')</p>
+                        <p>{{ __('key/model.item') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-key"></i>
@@ -41,7 +41,7 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>{{ $host_count }}</h3>
-                        <p>@lang('host/model.item')</p>
+                        <p>{{ __('host/model.item') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-laptop"></i>
@@ -71,7 +71,7 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>{{ $user_count }}</h3>
-                        <p>@lang('user/model.item')</p>
+                        <p>{{ __('user/model.item') }}</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
@@ -86,39 +86,7 @@
         <!-- end: STATUS BOXES -->
 
         <!-- start: ACTIVITY LOG -->
-        <div class="card">
-            <div class="card-header">
-                Audit log: latest 15 actions
-            </div>
-            <div class="card-body">
-                <table class="table table-condensed">
-                    <thead>
-                    <tr>
-                        <th>Operation name</th>
-                        <th>Status</th>
-                        <th>Time</th>
-                        <th>Timestamp</th>
-                        <th>Event initiated by</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($activities as $activity)
-                        <tr>
-                            <td>{{ $activity->description }}</td>
-                            <td>{{ $activity->getExtraProperty('status') }}</td>
-                            <td>{{ $activity->created_at->diffForHumans() }}</td>
-                            <td>{{ $activity->created_at }}</td>
-                            <td>{{ ($activity->causer != null) ? $activity->causer->username : 'system' }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5">No activity yet</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        @include('dashboard._latest_events')
         <!-- end: ACTIVITY LOG -->
 
     </div>
