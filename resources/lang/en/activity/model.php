@@ -4,7 +4,7 @@ return [
     'statuses' => [
         'success' => 'Success',
         'failed' => 'Failed',
-        'unknown' => 'Unknown'
+        'unknown' => 'Unknown',
     ],
     'operation' => 'Operation',
     'status' => 'Status',
@@ -12,5 +12,5 @@ return [
     'timestamp' => 'Timestamp',
     'causer' => 'Initiated by',
     'audit_header' => 'Latest events',
-    'warning_no_activity' => 'Event log is empty'
+    'warning_no_activity' => 'Event log is empty',
 ];

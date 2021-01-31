@@ -21,7 +21,6 @@ use App\Models\Activity;
 use Illuminate\Support\HtmlString;
 use Laracodes\Presenter\Presenter;
 
-
 class ActivityPresenter extends Presenter
 {
     public function activityAge(): HtmlString
@@ -38,11 +37,12 @@ class ActivityPresenter extends Presenter
     {
         switch ($this->status) {
             case Activity::STATUS_SUCCESS:
-                return new HtmlString('<p class="text-success">' . __('activity/model.statuses.success') . '</p>');
+                return new HtmlString('<p class="text-success">'.__('activity/model.statuses.success').'</p>');
             case Activity::STATUS_FAIL:
                 return new HtmlString(__('activity/model.statuses.failed'));
 
         }
+
         return new HtmlString(__('activity/model.statuses.unknown'));
     }
 }
