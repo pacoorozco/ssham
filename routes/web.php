@@ -21,6 +21,7 @@ use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -37,13 +38,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',
-    [HomeController::class, 'index'])
-    ->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/',
+        [HomeController::class, 'index'])
+        ->name('home');
 
-Route::post('/search',
-    [HomeController::class, 'search'])
-    ->name('search');
+    Route::post('/search',
+        [SearchController::class, 'index'])
+        ->name('search');
+});
 
 /* ------------------------------------------
  * Authentication routes
