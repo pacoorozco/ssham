@@ -25,10 +25,11 @@
     },
     "require": {
         "php": "^7.4|^8.0",
+        "akaunting/setting": "^1.2.2",
         "fideloper/proxy": "^4.4",
+        "guilhermegonzaga/presenter": "^1.0",
         "laravel/framework": "^8.12",
         "laravel/ui": "^3.0",
-        "akaunting/setting": "^1.2.2",
         "laravelcollective/html": "^6.2.1",
         "phpseclib/phpseclib": "^2.0.30",
         "spatie/laravel-activitylog": "^3.16.1",
