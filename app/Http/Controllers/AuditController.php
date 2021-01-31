@@ -8,6 +8,6 @@ class LogController extends Controller
 {
     public function index()
     {
-        return "logs";
+        return view('log.index');
     }
 }
