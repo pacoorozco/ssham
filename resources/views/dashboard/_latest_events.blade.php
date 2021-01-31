@@ -2,7 +2,7 @@
     <div class="card-header">
         <h3 class="card-title">{{ __('activity/model.audit_header') }}</h3>
         <div class="card-tools">
-            <a class="btn btn-primary" role="button" href="#">{{ __('site.audit') }}</a>
+            <a class="btn btn-primary" role="button" href="{{ route('logs') }}">{{ __('site.audit') }}</a>
         </div>
     </div>
     <div class="card-body table-responsive p-0">

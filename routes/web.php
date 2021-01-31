@@ -21,6 +21,7 @@ use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
@@ -43,9 +44,13 @@ Route::group(['middleware' => 'auth'], function () {
         [HomeController::class, 'index'])
         ->name('home');
 
-    Route::post('/search',
+    Route::post('search',
         [SearchController::class, 'index'])
         ->name('search');
+
+    Route::get('logs',
+        [LogController::class, 'index'])
+        ->name('logs');
 });
 
 /* ------------------------------------------
