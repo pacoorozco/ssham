@@ -34,8 +34,6 @@ class HomeController extends Controller
 
         $activities = Activity::all()->sortByDesc('created_at')->take(15);
 
-        dd(Activity::all()->last());
-
         return view('dashboard.index', compact('key_count', 'host_count', 'rule_count', 'user_count', 'activities'));
     }
 }
