@@ -15,6 +15,7 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlRuleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
@@ -43,7 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
         [HomeController::class, 'index'])
         ->name('home');
 
-    Route::post('/search',
+    Route::post('search',
         [SearchController::class, 'index'])
         ->name('search');
 });
@@ -58,6 +59,23 @@ Auth::routes([
     'register' => false,  // User registration
     'verify' => false, // E-mail verification
 ]);
+
+/**
+ * ------------------------------------------
+ * Audit
+ * ------------------------------------------.
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('audit',
+        [AuditController::class, 'index'])
+        ->name('audit');
+
+    // DataTables Ajax route.
+    Route::middleware(['ajax'])
+        ->get('audit/data',
+            [AuditController::class, 'data'])
+        ->name('audit.data');
+});
 
 /**
  * ------------------------------------------

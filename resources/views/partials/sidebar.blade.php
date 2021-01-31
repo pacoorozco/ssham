@@ -5,13 +5,13 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('home*') ? 'active' : '' }}" href="{{ route('home') }}">
                     <i class="nav-icon fa fa-tachometer-alt"></i>
-                    <p>@lang('site.home')</p>
+                    <p>{{ __('site.home') }}</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('keys*') ? 'active' : '' }}" href="{{ route('keys.index') }}">
                     <i class="nav-icon fa fa-key"></i>
-                    <p>@lang('site.keys')</p>
+                    <p>{{ __('site.keys') }}</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -23,7 +23,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('hosts*') ? 'active' : '' }}" href="{{ route('hosts.index') }}">
                     <i class="nav-icon fa fa-laptop"></i>
-                    <p>@lang('site.hosts')</p>
+                    <p>{{ __('site.hosts') }}</p>
                 </a>
             </li>
             <li class="nav-item">
@@ -35,22 +35,28 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('rules*') ? 'active' : '' }}" href="{{ route('rules.index') }}">
                     <i class="nav-icon fa fa-dungeon"></i>
-                    <p>@lang('site.rules')</p>
+                    <p>{{ __('site.rules') }}</p>
                 </a>
             </li>
 
-            <li class="nav-header">@lang('site.admin_sidebar_header')</li>
+            <li class="nav-header">{{ __('site.admin_sidebar_header') }}</li>
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                     <i class="nav-icon fa fa-users"></i>
-                    <p>@lang('site.users')</p>
+                    <p>{{ __('site.users') }}</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('audit*') ? 'active' : '' }}" href="{{ route('audit') }}">
+                    <i class="nav-icon fa fa-binoculars"></i>
+                    <p>{{ __('site.audit') }}</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('settings*') ? 'active' : '' }}" href="{{ route('settings.index') }}">
                     <i class="nav-icon fa fa-cog"></i>
-                    <p>@lang('site.settings')</p>
+                    <p>{{ __('site.settings') }}</p>
                 </a>
             </li>
         </ul>
