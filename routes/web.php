@@ -71,8 +71,8 @@ Route::group(['middleware' => 'auth'], function () {
         ->name('audit');
 
     // DataTables Ajax route.
-    //Route::middleware(['ajax'])
-        Route::get('audit/data',
+    Route::middleware(['ajax'])
+        ->get('audit/data',
             [AuditController::class, 'data'])
         ->name('audit.data');
 });
