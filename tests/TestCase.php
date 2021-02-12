@@ -18,6 +18,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function ajaxGet(string $uri): TestResponse
     {
-        return $this->json('GET', $uri, [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
+        return $this->withHeader('HTTP_X-Requested-With', 'XMLHttpRequest')
+            ->get($uri);
     }
 }

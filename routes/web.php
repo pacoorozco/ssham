@@ -15,12 +15,14 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlRuleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -37,13 +39,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',
-    [HomeController::class, 'index'])
-    ->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/',
+        [HomeController::class, 'index'])
+        ->name('home');
 
-Route::post('/search',
-    [HomeController::class, 'search'])
-    ->name('search');
+    Route::post('search',
+        [SearchController::class, 'index'])
+        ->name('search');
+});
 
 /* ------------------------------------------
  * Authentication routes
@@ -55,6 +59,23 @@ Auth::routes([
     'register' => false,  // User registration
     'verify' => false, // E-mail verification
 ]);
+
+/**
+ * ------------------------------------------
+ * Audit
+ * ------------------------------------------.
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('audit',
+        [AuditController::class, 'index'])
+        ->name('audit');
+
+    // DataTables Ajax route.
+    Route::middleware(['ajax'])
+        ->get('audit/data',
+            [AuditController::class, 'data'])
+        ->name('audit.data');
+});
 
 /**
  * ------------------------------------------

@@ -51,13 +51,13 @@ class ControlRuleCreateRequest extends Request
         $target = $this->target;
 
         return [
-            'source' => ['required', 'exists:App\Keygroup,id',
+            'source' => ['required', 'exists:App\Models\Keygroup,id',
                 // 'keygroup' and 'hostgroup' combination must be unique
                 Rule::unique('hostgroup_keygroup_permissions', 'source_id')->where(function ($query) use ($source, $target) {
                     return $query->where('source_id', $source)
                         ->where('target_id', $target);
                 }), ],
-            'target' => ['required', 'exists:App\Hostgroup,id'],
+            'target' => ['required', 'exists:App\Models\Hostgroup,id'],
             'action' => ['required', Rule::in(['allow', 'deny'])],
             'name' => ['required', 'string'],
         ];

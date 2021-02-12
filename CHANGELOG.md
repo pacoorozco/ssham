@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.12.0 - 2021-02-12
+### Added
+- Log to audit all changes made in the application. ([#86][i86])
+
+### Changed
+- Dashboard appearance to make include audit log. ([#85][i85])
+
+### Fixed
+- Some cookies are misusing the recommended “SameSite“ attribute. ([#92][i92])
+- Error when creating a Control Rule. ([#89][i89])
+
+[i86]: https://github.com/pacoorozco/ssham/issues/86
+[i85]: https://github.com/pacoorozco/ssham/issues/85
+[i92]: https://github.com/pacoorozco/ssham/issues/92
+[i89]: https://github.com/pacoorozco/ssham/issues/89
+
 ## 0.11.0 - 2021-01-30
 
 ### Fixed

@@ -24,6 +24,7 @@ return [
     'hosts' => 'Hosts',
     'host_groups' => 'Host Groups',
     'rules' => 'Rules',
+    'audit' => 'Audit',
 
     'admin_sidebar_header' => 'ADMINISTRATION',
     'users' => 'User Management',

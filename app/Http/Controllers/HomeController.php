@@ -17,29 +17,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SearchRequest;
+use App\Models\Activity;
 use App\Models\ControlRule;
 use App\Models\Host;
-use App\Models\Hostgroup;
 use App\Models\Key;
-use App\Models\Keygroup;
 use App\Models\User;
-use Spatie\Activitylog\Models\Activity;
-use Spatie\Searchable\ModelSearchAspect;
-use Spatie\Searchable\Search;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
         $key_count = Key::all()->count();
@@ -50,25 +35,5 @@ class HomeController extends Controller
         $activities = Activity::all()->sortByDesc('created_at')->take(15);
 
         return view('dashboard.index', compact('key_count', 'host_count', 'rule_count', 'user_count', 'activities'));
-    }
-
-    public function search(SearchRequest $request)
-    {
-        $query = $request->input('query');
-
-        $searchResults = (new Search())
-            ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
-                $modelSearchAspect
-                    ->addSearchableAttribute('username') // return results for partial matches on usernames
-                    ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
-            })
-            ->registerModel(Keygroup::class, 'name', 'description')
-            ->registerModel(Host::class, 'hostname')
-            ->registerModel(Hostgroup::class, 'name', 'description')
-            ->perform($request->input('query'));
-
-        $count = $searchResults->count();
-
-        return view('search.results', compact('count', 'query', 'searchResults'));
     }
 }
