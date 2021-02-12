@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+### Fixed
+- Some cookies are misusing the recommended “SameSite“ attribute. ([#92][i92])
+
+[i92]: https://github.com/pacoorozco/ssham/issues/92
+
 ## 0.11.0 - 2021-01-30
 
 ### Fixed
