@@ -17,7 +17,7 @@
 
 namespace App\Console\Commands;
 
-use App\Host;
+use App\Models\Host;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
