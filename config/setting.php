@@ -4,98 +4,41 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Enable / Disable auto save
+    | Model
     |--------------------------------------------------------------------------
     |
-    | Auto-save every time the application shuts down
+    | This option allows you to configure the settings model.
     |
     */
-    'auto_save'         => false,
+
+    'model' => Larapacks\Setting\Models\Setting::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Encryption
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to enable / disable encryption.
+    |
+    | If enabled, **all** setting values are encrypted using
+    | your configured applications cipher and key.
+    |
+    | If you disable encryption after use, you will receive the raw encrypted
+    | string for settings that have previously been encrypted.
+    |
+    */
+
+    'encryption' => true,
 
     /*
     |--------------------------------------------------------------------------
     | Cache
     |--------------------------------------------------------------------------
     |
-    | Options for caching. Set whether to enable cache, its key, time to live
-    | in seconds and whether to auto clear after save.
+    | This option allows you to configure the cache time in minutes.
     |
     */
-    'cache' => [
-        'enabled'       => false,
-        'key'           => 'setting',
-        'ttl'           => 3600,
-        'auto_clear'    => true,
-    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Setting driver
-    |--------------------------------------------------------------------------
-    |
-    | Select where to store the settings.
-    |
-    | Supported: "database", "json", "memory"
-    |
-    */
-    'driver'            => 'database',
+    'cache' => 60,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Database driver
-    |--------------------------------------------------------------------------
-    |
-    | Options for database driver. Enter which connection to use, null means
-    | the default connection. Set the table and column names.
-    |
-    */
-    'database' => [
-        'connection'    => null,
-        'table'         => 'settings',
-        'key'           => 'key',
-        'value'         => 'value',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | JSON driver
-    |--------------------------------------------------------------------------
-    |
-    | Options for json driver. Enter the full path to the .json file.
-    |
-    */
-    'json' => [
-        'path'          => storage_path().'/settings.json',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Override application config values
-    |--------------------------------------------------------------------------
-    |
-    | If defined, settings package will override these config values.
-    |
-    | Sample:
-    |   "app.locale" => "settings.locale",
-    |
-    */
-    'override' => [
-
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Required Extra Columns
-    |--------------------------------------------------------------------------
-    |
-    | The list of columns required to be set up
-    |
-    | Sample:
-    |   "user_id",
-    |   "tenant_id",
-    |
-    */
-    'required_extra_columns' => [
-
-    ],
 ];

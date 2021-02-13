@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Changed
+- Setting package to `larapacks/setting`.
+
+### Fixed
+- Bug using `php artisan ssham:send` command.
+- Scrutinizer findings. 
 
 ## 0.12.0 - 2021-02-12
 ### Added

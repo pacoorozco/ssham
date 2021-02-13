@@ -61,8 +61,6 @@ class SettingsController extends Controller
             'cmd_remote_updater' => $request->cmd_remote_updater,
         ]);
 
-        setting()->save();
-
         return redirect()->route('settings.index')
             ->withSuccess(__('settings/messages.save.success'));
     }

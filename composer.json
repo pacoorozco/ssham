@@ -25,10 +25,10 @@
     },
     "require": {
         "php": "^7.4|^8.0",
-        "akaunting/setting": "^1.2.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guilhermegonzaga/presenter": "^1.0",
+        "larapacks/setting": "^3.0",
         "laravel/framework": "^8.12",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2.1",

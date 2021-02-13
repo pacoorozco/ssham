@@ -28,7 +28,7 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        $settings = [
+        setting()->set([
             /*
              * Where I will put authorized keys on remote hosts?
              */
@@ -115,14 +115,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
              * Tools to use to deploy SSH
              */
             'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
-        ];
-
-        // Set new settings
-        foreach ($settings as $key => $value) {
-            setting()->set($key, $value);
-        }
-
-        // Save settings in the DB
-        setting()->save();
+        ]);
     }
 }
