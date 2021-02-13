@@ -37,7 +37,6 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = setting()->all();
-
         return view('settings.index', compact('settings'));
     }
 
@@ -60,8 +59,6 @@ class SettingsController extends Controller
             'non_ssham_file' => $request->non_ssham_file,
             'cmd_remote_updater' => $request->cmd_remote_updater,
         ]);
-
-        setting()->save();
 
         return redirect()->route('settings.index')
             ->withSuccess(__('settings/messages.save.success'));

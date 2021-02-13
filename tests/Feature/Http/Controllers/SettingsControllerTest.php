@@ -76,12 +76,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
     private function createDefaultSettingsForTesting()
     {
         // Set settings
-        foreach (self::TEST_SETTINGS as $key => $value) {
-            setting()->set($key, $value);
-        }
-
-        // Save settings in the DB
-        setting()->save();
+        setting()->set(self::TEST_SETTINGS);
 
         return setting()->all();
     }
