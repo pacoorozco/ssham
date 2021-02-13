@@ -37,6 +37,7 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = setting()->all();
+
         return view('settings.index', compact('settings'));
     }
 
