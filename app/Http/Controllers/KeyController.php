@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\KeyAction;
 use App\Helpers\Helper;
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
@@ -33,7 +34,7 @@ class KeyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
      */
     public function index()
     {
@@ -43,14 +44,16 @@ class KeyController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
      */
     public function create()
     {
         // Get all existing key groups
         $groups = Keygroup::orderBy('name')->pluck('name', 'id');
 
-        return view('key.create', compact('groups'));
+        return view('key.create', [
+            'groups' => $groups,
+        ]);
     }
 
     /**
@@ -96,12 +99,10 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create key '%s'.", $key->username));
+        KeyAction::dispatch($key, 'create', Activity::STATUS_SUCCESS);
 
         return redirect()->route('keys.index')
-            ->withSuccess(__('key/messages.create.success', ['username' => $key->username]));
+            ->with('success', __('key/messages.create.success', ['username' => $key->username]));
     }
 
     /**
@@ -109,11 +110,13 @@ class KeyController extends Controller
      *
      * @param  Key  $key
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
      */
     public function show(Key $key)
     {
-        return view('key.show', compact('key'));
+        return view('key.show', [
+            'key' => $key,
+        ]);
     }
 
     /**
@@ -121,14 +124,17 @@ class KeyController extends Controller
      *
      * @param  Key  $key
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
      */
     public function edit(Key $key)
     {
         // Get all existing key groups
         $groups = Keygroup::orderBy('name')->pluck('name', 'id');
 
-        return view('key.edit', compact('key', 'groups'));
+        return view('key.edit', [
+            'key' => $key,
+            'groups' => $groups,
+        ]);
     }
 
     /**
@@ -188,12 +194,10 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update key '%s'.", $key->username));
+        KeyAction::dispatch($key, 'update', Activity::STATUS_SUCCESS);
 
         return redirect()->route('keys.index')
-            ->withSuccess(__('key/messages.edit.success', ['username' => $key->username]));
+            ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
     }
 
     /**
@@ -201,11 +205,13 @@ class KeyController extends Controller
      *
      * @param  Key  $key
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
      */
     public function delete(Key $key)
     {
-        return view('key.delete', compact('key'));
+        return view('key.delete', [
+            'key' => $key,
+        ]);
     }
 
     /**
@@ -226,12 +232,10 @@ class KeyController extends Controller
                 ->withErrors(__('key/messages.delete.error'));
         }
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete key '%s'.", $key->username));
+        KeyAction::dispatch($key, 'destroy', Activity::STATUS_SUCCESS);
 
         return redirect()->route('keys.index')
-            ->withSuccess(__('key/messages.delete.success', ['username' => $username]));
+            ->with('success', __('key/messages.delete.success', ['username' => $username]));
     }
 
     /**

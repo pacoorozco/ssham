@@ -17,6 +17,7 @@
 
 namespace Database\Seeders;
 
+use App\Events\KeyAction;
 use App\Models\Activity;
 use App\Models\Key;
 use Illuminate\Database\Seeder;
@@ -37,9 +38,7 @@ class KeysTableSeeder extends Seeder
             ->count(3)
             ->create()
             ->each(function (Key $key) {
-                activity()
-                    ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                    ->log(sprintf("Create key '%s'.", $key->username));
+                KeyAction::dispatch($key, 'create', Activity::STATUS_SUCCESS);
             });
     }
 }
