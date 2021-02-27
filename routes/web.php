@@ -50,7 +50,7 @@ Auth::routes([
     'verify' => false, // E-mail verification
 ]);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/',
         [HomeController::class, 'index'])
         ->name('home');
