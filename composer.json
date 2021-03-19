@@ -29,20 +29,20 @@
         "fruitcake/laravel-cors": "^2.0",
         "guilhermegonzaga/presenter": "^1.0",
         "larapacks/setting": "^3.0",
-        "laravel/framework": "^8.12",
-        "laravel/ui": "^3.0",
+        "laravel/framework": "^8.29",
+        "laravel/ui": "^3.2",
         "laravelcollective/html": "^6.2.1",
         "phpseclib/phpseclib": "^2.0.30",
         "spatie/laravel-activitylog": "^3.16.1",
         "spatie/laravel-searchable": "^1.9.1",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.15"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
-        "fzaninotto/faker": "^1.9.1",
+        "fakerphp/faker": "^1.13",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "nunomaduro/collision": "^5.3",
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "optimize-autoloader": true,
