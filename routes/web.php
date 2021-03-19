@@ -64,7 +64,6 @@ Route::middleware(['auth'])->group(function () {
      * Audit
      * ------------------------------------------.
      */
-
     Route::get('audit',
         [AuditController::class, 'index'])
         ->name('audit');
@@ -74,7 +73,6 @@ Route::middleware(['auth'])->group(function () {
         ->get('audit/data',
             [AuditController::class, 'data'])
         ->name('audit.data');
-
 
     /**
      * ------------------------------------------
