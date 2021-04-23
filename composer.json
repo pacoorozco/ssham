@@ -24,25 +24,25 @@
         "issues": "https://github.com/pacoorozco/ssham/issues"
     },
     "require": {
-        "php": "^7.4|^8.0",
-        "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^2.0",
-        "guilhermegonzaga/presenter": "^1.0",
+        "php": "^8.0",
+        "fideloper/proxy": "^4.4.1",
+        "fruitcake/laravel-cors": "^2.0.3",
+        "guilhermegonzaga/presenter": "^1.0.5",
         "larapacks/setting": "^3.0",
-        "laravel/framework": "^8.29",
+        "laravel/framework": "^8.38",
         "laravel/ui": "^3.2",
         "laravelcollective/html": "^6.2.1",
-        "phpseclib/phpseclib": "^2.0.30",
-        "spatie/laravel-activitylog": "^3.16.1",
+        "phpseclib/phpseclib": "^2.0.31",
+        "spatie/laravel-activitylog": "^3.17.0",
         "spatie/laravel-searchable": "^1.9.1",
-        "yajra/laravel-datatables-oracle": "~9.15"
+        "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.13",
-        "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.3",
-        "phpunit/phpunit": "^9.5"
+        "facade/ignition": "^2.8.3",
+        "fakerphp/faker": "^1.14.1",
+        "mockery/mockery": "^1.4.3",
+        "nunomaduro/collision": "^5.4",
+        "phpunit/phpunit": "^9.5.4"
     },
     "config": {
         "optimize-autoloader": true,
