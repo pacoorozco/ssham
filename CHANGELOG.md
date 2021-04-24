@@ -7,11 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Changed
 - Settings package to `larapacks/setting`.
 - Update dependencies to latest versions.
+- Bump `AdminLTE` from `v3.0.5` to `v3.1.0`. 
 ### Fixed
 - Bug using `php artisan ssham:send` command.
 - Scrutinizer findings. 
 ### Removed
 - PHP 7.4 support. This application will need PHP 8.0 or higher to run.
+- `AdminLTE` NPM installation. This theme will be updated manually wo/ using NPM.
 
 ## 0.12.0 - 2021-02-12
 ### Added
