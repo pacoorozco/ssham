@@ -21,7 +21,7 @@ See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are impleme
 
 ## Requirements
 
-* PHP 7.4+.
+* PHP 8.0+.
 * A [supported relational database](https://laravel.com/docs) and corresponding PHP extension.
 * [Composer](https://getcomposer.org/download/).
 
@@ -29,7 +29,7 @@ See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are impleme
 
 This will create several [Docker](https://www.docker.com/) containers to implement all SSHAM needs. A web server and a database server.
 
-Prior this installation, you **need to have installed** this software:
+Prior to this installation, you **need to have installed** this software:
 
 * [Docker](https://www.docker.com/)
 

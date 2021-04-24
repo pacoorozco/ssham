@@ -6,11 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ## Unreleased
 ### Changed
 - Settings package to `larapacks/setting`.
-- Update dependencies.
-
+- Update dependencies to latest versions.
 ### Fixed
 - Bug using `php artisan ssham:send` command.
 - Scrutinizer findings. 
+### Removed
+- PHP 7.4 support. This application will need PHP 8.0 or higher to run.
 
 ## 0.12.0 - 2021-02-12
 ### Added
