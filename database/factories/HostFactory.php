@@ -17,6 +17,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -44,7 +45,7 @@ class HostFactory extends Factory
             'type' => 'linux',
             'enabled' => true,
             'synced' => false,
-            'status_code' => Host::INITIAL_STATUS,
+            'status_code' => HostStatus::INITIAL_STATUS,
             'key_hash' => null,
             'last_rotation' => null,
         ];

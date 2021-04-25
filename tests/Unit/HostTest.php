@@ -8,7 +8,8 @@ use Tests\ModelTestCase;
 
 class HostTest extends ModelTestCase
 {
-    public function test_contains_valid_fillable_properties()
+    /** @test */
+    public function contains_valid_fillable_properties()
     {
         $m = new Host();
         $this->assertEquals([
@@ -20,31 +21,28 @@ class HostTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    public function test_contains_valid_casts_properties()
+    /** @test */
+    public function contains_valid_casts_properties()
     {
         $m = new Host();
         $this->assertEquals([
             'id' => 'int',
-            'hostname' => 'string',
-            'username' => 'string',
-            'port' => 'int',
-            'authorized_keys_file' => 'string',
             'enabled' => 'boolean',
-            'status_code' => 'string',
             'synced' => 'boolean',
-            'key_hash' => 'string',
             'last_rotation' => 'datetime',
         ], $m->getCasts());
     }
 
-    public function test_hostgroups_relation()
+    /** @test */
+    public function has_groups_relation()
     {
         $m = new Host();
         $r = $m->groups();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 
-    public function test_username_is_lowercase()
+    /** @test */
+    public function username_is_lowercase()
     {
         $m = new Host();
 
@@ -61,7 +59,8 @@ class HostTest extends ModelTestCase
         }
     }
 
-    public function test_hostname_is_lowercase()
+    /** @test */
+    public function hostname_is_lowercase()
     {
         $m = new Host();
 
@@ -78,7 +77,8 @@ class HostTest extends ModelTestCase
         }
     }
 
-    public function test_full_hostname_attribute()
+    /** @test */
+    public function has_full_hostname_attribute()
     {
         $m = new Host();
         $input = [
@@ -93,39 +93,5 @@ class HostTest extends ModelTestCase
         $m->port = $input['port'];
 
         $this->assertEquals($want, $m->getAttribute('full_hostname'));
-    }
-
-    public function test_setSynced()
-    {
-        $m = new Host();
-
-        $test_data = [
-            [
-                'given' => false,
-                'input' => true,
-                'want' => true,
-            ],
-            [
-                'given' => false,
-                'input' => false,
-                'want' => false,
-            ],
-            [
-                'given' => true,
-                'input' => false,
-                'want' => false,
-            ],
-            [
-                'given' => true,
-                'input' => true,
-                'want' => true,
-            ],
-        ];
-
-        foreach ($test_data as $case) {
-            $m->synced = $case['given'];
-            $m->setSynced($case['input'], true);
-            $this->assertEquals($case['want'], $m->synced);
-        }
     }
 }

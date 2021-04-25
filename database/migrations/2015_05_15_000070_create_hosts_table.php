@@ -15,6 +15,8 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Enums\HostStatus;
+use App\Models\Host;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -38,7 +40,7 @@ class CreateHostsTable extends Migration
             $table->string('key_hash')->nullable();
             $table->boolean('enabled')->default(true);
             $table->boolean('synced')->default(false);
-            $table->string('status_code');
+            $table->string('status_code')->default(HostStatus::INITIAL_STATUS);
             $table->timestamp('last_rotation')->nullable();
             $table->timestamps();
             $table->index(['hostname', 'username']);

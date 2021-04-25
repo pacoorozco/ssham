@@ -17,6 +17,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -80,7 +81,7 @@ class SendKeysToHosts extends Command
             $sftp = new SFTP($host->hostname, setting()->get('ssh_port'), setting()->get('ssh_timeout'));
 
             if (false === $sftp->login($host->username, $key)) {
-                $host->status_code = Host::AUTH_FAIL_STATUS;
+                $host->status_code = HostStatus::AUTH_FAIL_STATUS;
                 $host->last_rotation = now()->timestamp;
                 $host->save();
 
@@ -91,7 +92,7 @@ class SendKeysToHosts extends Command
 
             // Send remote_updater script to remote Host.
             if (false === $sftp->put(setting()->get('cmd_remote_updater'), $remoteUpdater)) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->status_code = HostStatus::GENERIC_FAIL_STATUS;
                 $host->last_rotation = now()->timestamp;
                 $host->save();
 
@@ -100,7 +101,7 @@ class SendKeysToHosts extends Command
                 continue;
             }
             if (false === $sftp->chmod(0700, setting()->get('cmd_remote_updater'))) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->status_code = HostStatus::GENERIC_FAIL_STATUS;
                 $host->last_rotation = now()->timestamp;
                 $host->save();
 
@@ -112,7 +113,7 @@ class SendKeysToHosts extends Command
             // Send SSHAM authorized file to remote Host.
             $sshKeys = $host->getSSHKeysForHost(setting('public_key'));
             if (false === $sftp->put(setting()->get('ssham_file'), join(PHP_EOL, $sshKeys))) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->status_code = HostStatus::GENERIC_FAIL_STATUS;
                 $host->last_rotation = now()->timestamp;
                 $host->save();
 
@@ -121,7 +122,7 @@ class SendKeysToHosts extends Command
                 continue;
             }
             if (false === $sftp->chmod(0600, setting()->get('ssham_file'))) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
+                $host->status_code = HostStatus::GENERIC_FAIL_STATUS;
                 $host->last_rotation = now()->timestamp;
                 $host->save();
 
@@ -143,11 +144,10 @@ class SendKeysToHosts extends Command
             $sftp->disconnect();
 
             // Mark host in sync.
-            $host->status_code = Host::SUCCESS_STATUS;
+            $host->status_code = HostStatus::SUCCESS_STATUS;
             $host->last_rotation = now()->timestamp;
-            $host->save();
-
             $host->setSynced(true);
+            $host->save();
         }
 
         return 0;
