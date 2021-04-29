@@ -78,11 +78,11 @@ class UpdateServer implements ShouldQueue
      */
     protected function execRemoteUpdater()
     {
-        $command = setting()->get('cmd_remote_updater') . ' update '
-            . ((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
-            . setting()->get('authorized_keys') . ' '
-            . setting()->get('non_ssham_file') . ' '
-            . setting()->get('ssham_file');
+        $command = setting()->get('cmd_remote_updater').' update '
+            .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
+            .setting()->get('authorized_keys').' '
+            .setting()->get('non_ssham_file').' '
+            .setting()->get('ssham_file');
 
         $this->pusher->exec($command);
     }
