@@ -26,30 +26,21 @@ use Illuminate\Support\Str;
  * Class User.
  *
  *
- * @property int     $id
- * @property string  $username
- * @property string  $name
- * @property string  $email
- * @property string  $password
+ * @property int $id
+ * @property string $username
+ * @property string $name
+ * @property string $email
+ * @property string $password
  * @property bool $enabled
- * @property string  $auth_type
+ * @property string $auth_type
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'username',
         'email',
@@ -57,27 +48,13 @@ class User extends Authenticatable
         'enabled',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
         'auth_type',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'username' => 'string',
-        'email' => 'string',
-        'password' => 'string',
-        'auth_type' => 'string',
         'enabled' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
@@ -87,12 +64,7 @@ class User extends Authenticatable
         return Str::random(32);
     }
 
-    /**
-     * Set the username User attribute to lowercase.
-     *
-     * @param string $value
-     */
-    public function setUsernameAttribute(string $value)
+    public function setUsernameAttribute(string $value): void
     {
         $this->attributes['username'] = strtolower($value);
     }
