@@ -17,6 +17,7 @@
 
 namespace App\Models;
 
+use App\Enums\HostStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -64,7 +65,12 @@ class Host extends Model implements Searchable
 
     public function getFullHostnameAttribute(): string
     {
-        return $this->username . '@' . $this->hostname . ':' . $this->port;
+        return "{$this->username}@{$this->hostname}:{$this->port}";
+    }
+
+    public function getPortAttribute(string $value): int
+    {
+        return $value ?? setting()->get('ssh_port');
     }
 
     public function scopeNotInSync(Builder $query): Builder
@@ -84,6 +90,16 @@ class Host extends Model implements Searchable
             $this->hostname,
             route('hosts.show', $this->id)
         );
+    }
+
+    public function setStatus(string $status): void
+    {
+        // TODO: validate status
+
+        $this->status_code = $status;
+        $this->last_rotation = now()->timestamp;
+        $this->synced = (HostStatus::SUCCESS_STATUS === $status);
+        $this->save();
     }
 
     // TODO: Needs a refactor to make code more readable.

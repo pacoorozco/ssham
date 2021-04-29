@@ -76,22 +76,4 @@ class HostTest extends ModelTestCase
             $this->assertEquals($want, $m->getAttribute('hostname'));
         }
     }
-
-    /** @test */
-    public function has_full_hostname_attribute()
-    {
-        $m = new Host();
-        $input = [
-            'username' => 'root',
-            'hostname' => 'server1.domain.local',
-            'port' => '12345',
-        ];
-        $want = 'root@server1.domain.local:12345';
-
-        $m->username = $input['username'];
-        $m->hostname = $input['hostname'];
-        $m->port = $input['port'];
-
-        $this->assertEquals($want, $m->getAttribute('full_hostname'));
-    }
 }

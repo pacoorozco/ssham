@@ -25,6 +25,7 @@
     },
     "require": {
         "php": "^8.0",
+        "bensampo/laravel-enum": "^3.3",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^2.0.3",
         "guilhermegonzaga/presenter": "^1.0.5",
