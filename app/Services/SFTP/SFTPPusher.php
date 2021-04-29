@@ -38,7 +38,7 @@ class SFTPPusher
     public function login(string $username, string $privateKey): void
     {
         if (false === $this->sftp->login($username, $privateKey)) {
-            throw new PusherException("Invalid credentials");
+            throw new PusherException('Invalid credentials');
         }
     }
 
@@ -66,11 +66,11 @@ class SFTPPusher
     public function pushDataTo(string $data, string $remotePath, int $permission = 0700): void
     {
         if (false === $this->sftp->put($remotePath, $data, SFTP::SOURCE_STRING)) {
-            throw new PusherException("Unable to put file");
+            throw new PusherException('Unable to put file');
         }
 
         if (false === $this->sftp->chmod($permission, $remotePath)) {
-            throw new PusherException("Unable to put file");
+            throw new PusherException('Unable to put file');
         }
     }
 
@@ -86,7 +86,7 @@ class SFTPPusher
         }
 
         if (false === $this->sftp->exec($command)) {
-            throw new PusherException("Unable to exec command");
+            throw new PusherException('Unable to exec command');
         }
 
         if ($quietMode) {
