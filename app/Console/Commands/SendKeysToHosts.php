@@ -17,12 +17,9 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\UpdateServer;
 use App\Models\Host;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SFTP;
 
 class SendKeysToHosts extends Command
 {
@@ -58,96 +55,11 @@ class SendKeysToHosts extends Command
     public function handle(): int
     {
         $hosts = Host::enabled()->get();
-        Log::info('Hosts to be updated: '.$hosts->count());
-        $this->info('Hosts to be updated: '.$hosts->count());
-
-        // Get SSHAM private key in order to connect to Hosts.
-        $key = new RSA();
-        $key->loadKey(setting()->get('private_key'));
-
-        try {
-            $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
-        } catch (\Throwable $exception) {
-            Log::error('SSHAM Remote Updater can not be read from ');
-            $this->error('SSHAM Remote Updater can not be read from ');
-
-            return 1;
-        }
+        $this->info("Hosts to be updated: {$hosts->count()}");
 
         foreach ($hosts as $host) {
-            Log::debug('Connecting to '.$host->full_hostname);
-            $this->info('Connecting to '.$host->full_hostname);
-            $sftp = new SFTP($host->hostname, setting()->get('ssh_port'), setting()->get('ssh_timeout'));
-
-            if (false === $sftp->login($host->username, $key)) {
-                $host->status_code = Host::AUTH_FAIL_STATUS;
-                $host->last_rotation = now()->timestamp;
-                $host->save();
-
-                Log::warning('Error connecting to '.$host->full_hostname);
-                $this->error('ERROR Can\'t auth on '.$host->full_hostname);
-                continue;
-            }
-
-            // Send remote_updater script to remote Host.
-            if (false === $sftp->put(setting()->get('cmd_remote_updater'), $remoteUpdater)) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
-                $host->last_rotation = now()->timestamp;
-                $host->save();
-
-                Log::error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
-                $this->error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
-                continue;
-            }
-            if (false === $sftp->chmod(0700, setting()->get('cmd_remote_updater'))) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
-                $host->last_rotation = now()->timestamp;
-                $host->save();
-
-                Log::error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
-                $this->error('SSHAM Remote Updater can not be sent to '.$host->full_hostname);
-                continue;
-            }
-
-            // Send SSHAM authorized file to remote Host.
-            $sshKeys = $host->getSSHKeysForHost(setting('public_key'));
-            if (false === $sftp->put(setting()->get('ssham_file'), join(PHP_EOL, $sshKeys))) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
-                $host->last_rotation = now()->timestamp;
-                $host->save();
-
-                Log::error('SSHAM keys file can not be sent to '.$host->full_hostname);
-                $this->error('SSHAM keys file can not be sent to '.$host->full_hostname);
-                continue;
-            }
-            if (false === $sftp->chmod(0600, setting()->get('ssham_file'))) {
-                $host->status_code = Host::GENERIC_FAIL_STATUS;
-                $host->last_rotation = now()->timestamp;
-                $host->save();
-
-                Log::error('SSHAM keys file can not be sent to '.$host->full_hostname);
-                $this->error('SSHAM keys file can not be sent to '.$host->full_hostname);
-                continue;
-            }
-
-            // Execute remote_updater script on remote Host.
-            $command = setting()->get('cmd_remote_updater').' update '
-                .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
-                .setting()->get('authorized_keys').' '
-                .setting()->get('non_ssham_file').' '
-                .setting()->get('ssham_file');
-
-            Log::info('SSH authorized keys file updated successfully on '.$host->full_hostname);
-            $sftp->enableQuietMode();
-            echo $sftp->exec($command);
-            $sftp->disconnect();
-
-            // Mark host in sync.
-            $host->status_code = Host::SUCCESS_STATUS;
-            $host->last_rotation = now()->timestamp;
-            $host->save();
-
-            $host->setSynced(true);
+            $this->info("Updating key for {$host->full_hostname}");
+            UpdateServer::dispatch($host);
         }
 
         return 0;
