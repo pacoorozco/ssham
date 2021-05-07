@@ -15,5 +15,5 @@ return [
     'name_input' => 'Name',
     'name_help' => 'What’s this token for?',
     'created' => 'Personal access token created',
-    'revoked' => 'Personal access token revoked'
+    'revoked' => 'Personal access token revoked',
 ];
