@@ -17,8 +17,10 @@
 
 namespace App\Providers;
 
+use App\Models\PersonalAccessToken;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,5 +50,7 @@ class AppServiceProvider extends ServiceProvider
 
             return Response::make($content, ResponseCode::HTTP_OK, $headers);
         });
+
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }

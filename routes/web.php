@@ -22,6 +22,7 @@ use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
@@ -93,6 +94,16 @@ Route::middleware(['auth'])->group(function () {
     // Pre-baked resource controller actions for index, create, store,
     // show, edit, update, destroy
     Route::resource('users', UserController::class);
+
+    /**
+     * ------------------------------------------
+     * Personal Access Tokens
+     * ------------------------------------------.
+     */
+
+    Route::resource('users.tokens', PersonalAccessTokenController::class)
+        ->shallow()
+        ->only(['index', 'create', 'store', 'destroy']);
 
     /**
      * ------------------------------------------
