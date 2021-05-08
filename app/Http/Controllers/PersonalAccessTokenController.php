@@ -30,6 +30,7 @@ class PersonalAccessTokenController extends Controller
     public function index(User $user): View
     {
         $tokens = $user->tokens()->latest()->get();
+
         return view('user.personal_access_tokens.show')
             ->with([
                 'user' => $user,
