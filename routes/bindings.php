@@ -15,8 +15,7 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-use Illuminate\Support\Facades\Route;
 use App\Models\PersonalAccessToken;
+use Illuminate\Support\Facades\Route;
 
 Route::model('token', PersonalAccessToken::class);
-

@@ -16,5 +16,5 @@ return [
     'name_help' => 'What’s this token for?',
     'created' => 'Personal access token created',
     'created_instructions' => 'Make sure to copy your new personal access token now. You won’t be able to see it again!',
-    'revoked' => 'Personal access token revoked'
+    'revoked' => 'Personal access token revoked',
 ];

@@ -100,7 +100,6 @@ Route::middleware(['auth'])->group(function () {
      * Personal Access Tokens
      * ------------------------------------------.
      */
-
     Route::resource('users.tokens', PersonalAccessTokenController::class)
         ->shallow()
         ->only(['index', 'create', 'store', 'destroy']);
