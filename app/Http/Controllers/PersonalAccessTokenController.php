@@ -29,22 +29,34 @@ class PersonalAccessTokenController extends Controller
 {
     public function index(User $user): View
     {
-        return view('user.personal_access_tokens.show', ['user' => $user]);
+        $tokens = $user->tokens()->latest()->get();
+        return view('user.personal_access_tokens.show')
+            ->with([
+                'user' => $user,
+                'tokens' => $tokens,
+            ]);
     }
 
     public function create(User $user): View
     {
-        return view('user.personal_access_tokens.create', ['user' => $user]);
+        return view('user.personal_access_tokens.create')
+            ->with([
+                'user' => $user,
+            ]);
     }
 
     public function store(PersonalAccessTokenRequest $request): RedirectResponse
     {
         $user = $request->requestedUser();
 
-        $this->dispatchNow(CreatePersonalAccessToken::fromRequest($request));
+        $plainTextToken = $this->dispatchNow(CreatePersonalAccessToken::fromRequest($request));
 
         return redirect()->route('users.tokens.index', $user)
-            ->withSuccess(__('user/personal_access_token.created'));
+            ->with([
+                'newTokenName' => $request->name(),
+                'newPlainTextToken' => $plainTextToken,
+                'success' => __('user/personal_access_token.created'),
+            ]);
     }
 
     public function destroy(PersonalAccessToken $token): RedirectResponse

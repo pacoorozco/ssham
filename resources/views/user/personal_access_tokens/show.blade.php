@@ -16,7 +16,9 @@
         </a>
     </li>
     <li class="breadcrumb-item">
-        @lang('user/title.user_update')
+        <a href="{{ route('users.edit', $user) }}">
+            @lang('user/title.user_update')
+        </a>
     </li>
     <li class="breadcrumb-item active">
         @lang('user/personal_access_token.title')
@@ -52,9 +54,16 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        @forelse($user->tokens as $token)
+                        @forelse($tokens as $token)
                         @if ($loop->first)
                             <p>@lang('user/personal_access_token.list_help')</p>
+
+                                @if(session()->has('newTokenName'))
+                                    <div class="alert alert-info" role="alert">
+                                        @lang('user/personal_access_token.created_instructions')
+                                    </div>
+                                @endif
+
                             <ul class="list-group">
                         @endif
 
@@ -62,19 +71,28 @@
                             </ul>
                         @endif
 
-                        <li class="list-group-item">
-                            <div class="float-right">
-                                <button class="btn btn-outline-danger btn-sm" data-toggle="modal"
+                        <li class="list-group-item @if(session('newTokenName') == $token->name) bg-light @endif">
+                            <div class="clearfix">
+                                <button class="btn btn-outline-danger btn-sm float-right ml-2" data-toggle="modal"
                                         data-target="#confirmationModal"
-                                        data-form-action="{{ route('tokens.destroy', $token->id) }}"
+                                        data-form-action="{{ route('tokens.destroy', $token) }}"
                                         data-token-name="{{ $token->name }}">
                                     @lang('user/personal_access_token.revoke_button')
                                 </button>
+
+                            @if(session('newTokenName') == $token->name)
+                                <i class="fas fa-check-circle text-success"></i>
+                                <code id="new-token">{{ session('newPlainTextToken') }}</code>
+                                <a class="btn-link" role="button" id="copyToClipboard" data-clipboard-target="#new-token">
+                                    <i class="far fa-clipboard"></i>
+                                </a>
+                            @else
+                                <small class="text-muted float-right">
+                                    {{ $token->getLastUsedDateString() }}
+                                </small>
+                                {{ $token->name }}
+                            @endif
                             </div>
-                            <small class="text-muted float-right">
-                                {{ $token->getLastUsedDateString() }}
-                            </small>
-                            {{ $token->name }}
                         </li>
                         @empty
                             <p>@lang('user/personal_access_token.empty_list_text', ['url' => route('users.tokens.create', $user)])</p>
@@ -124,6 +142,7 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('vendor/clipboard/clipboard.min.js') }}"></script>
     <script>
         $(function () {
             $('#confirmationModal').on('show.bs.modal', function (event) {
@@ -132,6 +151,11 @@
                 var modal = $(this)
                 modal.find('.modal-content #deleteForm').attr('action', form_action);
             });
+
+            @if(session()->has('newTokenName'))
+            var btn = document.getElementById('copyToClipboard');
+            new ClipboardJS(btn);
+            @endif
         });
     </script>
 @endpush
