@@ -1,10 +1,19 @@
 {
     "private": true,
     "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production",
         "docs:dev": "vuepress dev docs",
         "docs:build": "vuepress build docs"
     },
     "devDependencies": {
+        "clipboard": "^2.0.8",
+        "laravel-mix": "^6.0.6",
         "vuepress": "^1.8.2"
     }
 }
