@@ -219,5 +219,4 @@ class HostTest extends TestCase
         $got = $host->getSSHKeysForHost($bastionHostKey->public);
         $this->assertCount(2, $got);
     }
-
 }
