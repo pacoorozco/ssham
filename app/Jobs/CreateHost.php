@@ -2,16 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Enums\HostStatus;
 use App\Http\Requests\HostCreateRequest;
+use App\Models\Activity;
 use App\Models\Host;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
 final class CreateHost
 {
-    use Dispatchable, SerializesModels;
-
     private string $hostname;
 
     private string $username;
@@ -22,34 +18,30 @@ final class CreateHost
 
     private string $authorized_keys_file;
 
-    private HostStatus $status_code;
-
     /**
      * CreateHost constructor.
      *
      * @param  string  $hostname
      * @param  string  $username
-     * @param  int  $port
-     * @param  array  $options  - Optional parameters: 'authorized_keys_file', 'groups'
+     * @param  array  $options  - Optional parameters: 'authorized_keys_file', 'groups', 'port'
      */
-    public function __construct(string $hostname, string $username, int $port, array $options = [])
+    public function __construct(string $hostname, string $username, array $options = [])
     {
         $this->hostname = $hostname;
         $this->username = $username;
-        $this->port = $port;
 
-        $this->authorized_keys_file = (string) ($options['authorized_keys_file'] ?? setting('authorized_keys'));
+        $this->port = (int) $options['port'];
+        $this->authorized_keys_file = $options['authorized_keys_file'];
         $this->groups = $options['groups'] ?? [];
-        $this->status_code = new HostStatus(HostStatus::INITIAL_STATUS);
     }
 
     public static function fromRequest(HostCreateRequest $request): self
     {
-        return new static(
+        return new CreateHost(
             $request->hostname(),
             $request->username(),
-            $request->port(),
             [
+                'port' => $request->port(),
                 'authorized_keys_file' => $request->authorized_keys_file(),
                 'groups' => $request->groups(),
             ]
@@ -63,9 +55,13 @@ final class CreateHost
             'username' => $this->username,
             'port' => $this->port,
             'authorized_keys_file' => $this->authorized_keys_file,
-            'status_code' => $this->status_code,
         ]);
         $host->groups()->sync($this->groups);
+
+        activity()
+            ->performedOn($host)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf("Create host '%s'.", $host->full_hostname));
 
         return $host;
     }

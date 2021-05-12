@@ -37,8 +37,9 @@ class HostCreateRequest extends Request
                 }),
             ],
             'username' => ['required', 'max:255'],
-            'port' => ['required', 'integer', 'min:1', 'max:65535'],
-            'authorized_keys_file' => ['string', 'max:255'],
+
+            'port' => ['sometimes', 'required', 'integer', 'min:1', 'max:65535'],
+            'authorized_keys_file' => ['sometimes', 'required', 'string', 'max:255'],
         ];
     }
 
@@ -52,9 +53,9 @@ class HostCreateRequest extends Request
         return $this->input('username');
     }
 
-    public function port(): string
+    public function port(): ?int
     {
-        return $this->input('port');
+        return (int) $this->input('port');
     }
 
     public function authorized_keys_file(): ?string
