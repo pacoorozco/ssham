@@ -2,12 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\HostCreateRequest;
-use App\Models\Activity;
 use App\Models\Host;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-final class CreateHost
+class CreateHost
 {
+    use Dispatchable;
+
     private string $hostname;
 
     private string $username;
@@ -33,19 +34,6 @@ final class CreateHost
         $this->port = (int) $options['port'];
         $this->authorized_keys_file = $options['authorized_keys_file'];
         $this->groups = $options['groups'] ?? [];
-    }
-
-    public static function fromRequest(HostCreateRequest $request): self
-    {
-        return new CreateHost(
-            $request->hostname(),
-            $request->username(),
-            [
-                'port' => $request->port(),
-                'authorized_keys_file' => $request->authorized_keys_file(),
-                'groups' => $request->groups(),
-            ]
-        );
     }
 
     public function handle(): Host

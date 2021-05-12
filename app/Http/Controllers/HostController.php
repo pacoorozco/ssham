@@ -48,7 +48,14 @@ class HostController extends Controller
 
     public function store(HostCreateRequest $request): RedirectResponse
     {
-        $host = $this->dispatchNow(CreateHost::fromRequest($request));
+        $host = CreateHost::dispatchSync(
+            $request->hostname(),
+            $request->username(),
+            [
+                'port' => $request->port(),
+                'authorized_keys_file' => $request->authorized_keys_file(),
+                'groups' => $request->groups(),
+            ]);
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
@@ -72,7 +79,15 @@ class HostController extends Controller
 
     public function update(Host $host, HostUpdateRequest $request): RedirectResponse
     {
-        $this->dispatchNow(UpdateHost::fromRequest($host, $request));
+        UpdateHost::dispatchSync(
+            $host,
+            [
+                'enabled' => $request->enabled(),
+                'port' => $request->port(),
+                'authorized_keys_file' => $request->authorized_keys_file(),
+                'groups' => $request->groups(),
+            ]
+        );
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
@@ -86,7 +101,7 @@ class HostController extends Controller
 
     public function destroy(Host $host): RedirectResponse
     {
-        $this->dispatchNow(new DeleteHost($host));
+        DeleteHost::dispatchSync($host);
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.delete.success', ['hostname' => $host->hostname]));
