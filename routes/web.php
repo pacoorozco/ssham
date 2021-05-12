@@ -202,7 +202,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Pre-baked resource controller actions for index, create, store,
     // show, edit, update, destroy
-    Route::resource('rules', ControlRuleController::class);
+    Route::resource('rules', ControlRuleController::class)
+        ->only(['index', 'create', 'store', 'destroy']);
 
     /**
      * ------------------------------------------
