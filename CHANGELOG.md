@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Settings package to `larapacks/setting`.
 - Update dependencies to latest versions.
 - Bump `AdminLTE` from `v3.0.5` to `v3.1.0`. 
+- Bump `fruitcake/laravel-cors` to `v2.0.4`.
+- Bump `laravel/framework` to `v8.41`.
+- Bump `laravel/sanctum` to `v2.11`.
+
 ### Fixed
 - Bug using `php artisan ssham:send` command.
 - Scrutinizer findings. 
