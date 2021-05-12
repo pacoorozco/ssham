@@ -16,10 +16,6 @@ final class DeleteHost
 
     public function handle(): bool
     {
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete host '%s'.", $this->host->full_hostname));
-
         return $this->host->delete();
     }
 }

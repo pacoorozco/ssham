@@ -58,11 +58,6 @@ final class CreateHost
         ]);
         $host->groups()->sync($this->groups);
 
-        activity()
-            ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create host '%s'.", $host->full_hostname));
-
         return $host;
     }
 }

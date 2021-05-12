@@ -55,11 +55,6 @@ final class UpdateHost
         ]);
         $this->host->groups()->sync($this->groups, true);
 
-        activity()
-            ->performedOn($this->host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update host '%s'.", $this->host->full_hostname));
-
         return $this->host;
     }
 }

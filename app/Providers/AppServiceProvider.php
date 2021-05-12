@@ -17,7 +17,9 @@
 
 namespace App\Providers;
 
+use App\Models\Host;
 use App\Models\PersonalAccessToken;
+use App\Observers\HostObserver;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
@@ -42,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Host::observe(HostObserver::class);
+
         Response::macro('attachment', function (string $content, string $filename = 'private.key') {
             $headers = [
                 'Content-Type' => 'application/pkcs8',
