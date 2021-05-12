@@ -18,46 +18,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ControlRuleCreateRequest;
-use App\Models\Activity;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('rule.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         // Get all existing user and hosts groups
         $sources = Keygroup::orderBy('name')->pluck('name', 'id');
         $targets = Hostgroup::orderBy('name')->pluck('name', 'id');
 
-        return view('rule.create', compact('sources', 'targets'));
+        return view('rule.create')
+            ->with('sources', $sources)
+            ->with('targets', $targets);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  ControlRuleCreateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(ControlRuleCreateRequest $request)
+    public function store(ControlRuleCreateRequest $request): RedirectResponse
     {
         try {
             $rule = ControlRule::create([
@@ -72,23 +59,11 @@ class ControlRuleController extends Controller
                 ->withErrors(__('rule/messages.create.error'));
         }
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create rule '%s'.", $rule->name));
-
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  ControlRule  $rule
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy(ControlRule $rule)
+    public function destroy(ControlRule $rule): RedirectResponse
     {
         $id = $rule->id;
 
@@ -99,24 +74,11 @@ class ControlRuleController extends Controller
                 ->withErrors(__('rule/messages.delete.error'));
         }
 
-        activity()
-            ->performedOn($rule)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete rule '%s'.", $rule->name));
-
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.delete.success', ['rule' => $id]));
     }
 
-    /**
-     * Return all Users in order to be used as Datatables.
-     *
-     * @param  Datatables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function data(Datatables $datatable)
+    public function data(Datatables $datatable): JsonResponse
     {
         $rules = ControlRule::select([
             'id',
@@ -135,8 +97,8 @@ class ControlRuleController extends Controller
                 return $rule->target;
             })
             ->editColumn('action', function (ControlRule $rule) {
-                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> '. /** @scrutinizer ignore-type */ __('rule/table.allowed')
-                    : '<i class="fa fa-lock"></i> '. /** @scrutinizer ignore-type */ __('rule/table.denied');
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . __('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> ' . __('rule/table.denied');
             })
             ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')
