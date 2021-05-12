@@ -19,28 +19,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class AuditController extends Controller
 {
-    /**
-     * List all logged activities.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('audit.index');
     }
 
-    /**
-     * Return all logged activities as JSON object.
-     *
-     * @param  \Yajra\DataTables\DataTables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
     public function data(Datatables $datatable): JsonResponse
     {
         $activities = Activity::all();

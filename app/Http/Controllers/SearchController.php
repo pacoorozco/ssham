@@ -22,12 +22,13 @@ use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\Key;
 use App\Models\Keygroup;
+use Illuminate\View\View;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
 
 class SearchController extends Controller
 {
-    public function index(SearchRequest $request)
+    public function index(SearchRequest $request): View
     {
         $query = $request->input('query');
 
@@ -44,6 +45,9 @@ class SearchController extends Controller
 
         $count = $searchResults->count();
 
-        return view('search.results', compact('count', 'query', 'searchResults'));
+        return view('search.results')
+            ->with('count', $count)
+            ->with('query', $query)
+            ->with('searchResults', $searchResults);
     }
 }
