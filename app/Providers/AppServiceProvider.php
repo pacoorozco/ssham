@@ -17,9 +17,20 @@
 
 namespace App\Providers;
 
+use App\Models\ControlRule;
 use App\Models\Host;
+use App\Models\Hostgroup;
+use App\Models\Key;
+use App\Models\Keygroup;
 use App\Models\PersonalAccessToken;
+use App\Models\User;
+use App\Observers\ControlRuleObserver;
+use App\Observers\HostgroupObserver;
 use App\Observers\HostObserver;
+use App\Observers\KeygroupObserver;
+use App\Observers\KeyObserver;
+use App\Observers\PersonalAccessTokenObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
@@ -44,17 +55,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Observers
         Host::observe(HostObserver::class);
+        Hostgroup::observe(HostgroupObserver::class);
+        Key::observe(KeyObserver::class);
+        Keygroup::observe(KeygroupObserver::class);
+        User::observe(UserObserver::class);
+        PersonalAccessToken::observe(PersonalAccessTokenObserver::class);
+        ControlRule::observe(ControlRuleObserver::class);
 
-        Response::macro('attachment', function (string $content, string $filename = 'private.key') {
-            $headers = [
-                'Content-Type' => 'application/pkcs8',
-                'Content-Disposition' => 'attachment; filename="'.$filename.'"',
-            ];
-
-            return Response::make($content, ResponseCode::HTTP_OK, $headers);
-        });
-
+        // Use Sanctum with a custom model
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }
