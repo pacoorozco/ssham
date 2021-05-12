@@ -34,9 +34,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        KeyAction::class => [
-            KeyActionLog::class,
-        ],
     ];
 
     /**
