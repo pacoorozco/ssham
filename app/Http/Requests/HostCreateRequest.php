@@ -67,5 +67,4 @@ class HostCreateRequest extends Request
     {
         return $this->input('groups');
     }
-
 }
