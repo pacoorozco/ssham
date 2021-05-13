@@ -24,16 +24,18 @@ class KeyObserver
 {
     public function created(Key $key): void
     {
+        // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
-            ->performedOn($key)
+            //->performedOn($key)
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Create key '%s'.", $key->username));
     }
 
     public function updated(Key $key): void
     {
+        // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
-            ->performedOn($key)
+            //->performedOn($key)
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Update key '%s'.", $key->username));
     }

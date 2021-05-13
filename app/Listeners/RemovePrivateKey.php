@@ -29,8 +29,9 @@ class RemovePrivateKey
             'private' => null,
         ]);
 
+        // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
-            ->performedOn($key)
+            //->performedOn($key)
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Private key was removed from ky '%s'.", $key->username));
     }
