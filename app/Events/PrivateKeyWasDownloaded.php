@@ -35,5 +35,4 @@ class PrivateKeyWasDownloaded
     {
         $this->key = $key;
     }
-
 }
