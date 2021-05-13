@@ -16,7 +16,7 @@ class DownloadPrivateKeyController extends Controller
         // Private key content should be stored in a variable before dispatching
         // the event, which eventually will set null the value.
         $privateKeyContent = $key->private;
-        $privateKeyFilename = $key->username . '.key';
+        $privateKeyFilename = $key->username.'.key';
 
         PrivateKeyWasDownloaded::dispatch($key);
 
@@ -33,6 +33,5 @@ class DownloadPrivateKeyController extends Controller
                 'Content-Type' => 'application/pkcs8',
             ]
         );
-
     }
 }

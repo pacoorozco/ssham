@@ -97,8 +97,8 @@ class ControlRuleController extends Controller
                 return $rule->target;
             })
             ->editColumn('action', function (ControlRule $rule) {
-                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> ' . __('rule/table.allowed')
-                    : '<i class="fa fa-lock"></i> ' . __('rule/table.denied');
+                return ($rule->action == 'allow') ? '<i class="fa fa-lock-open"></i> '.__('rule/table.allowed')
+                    : '<i class="fa fa-lock"></i> '.__('rule/table.denied');
             })
             ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')
