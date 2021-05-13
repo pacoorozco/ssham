@@ -49,7 +49,7 @@ class DownloadPrivateKeyControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertHeader('Content-Type', 'application/pkcs8');
-        $response->assertHeader('Content-Disposition', 'attachment; filename='.$key->username.'.key');
+        $response->assertHeader('Content-Disposition', 'attachment; filename=id_rsa');
         $this->assertEquals($wantPrivateKeyContent, $response->streamedContent());
     }
 
