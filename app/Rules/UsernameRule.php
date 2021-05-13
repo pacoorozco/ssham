@@ -32,6 +32,6 @@ class UsernameRule implements Rule
 
     public function message(): string
     {
-        return 'The :attribute is not a valid username.';
+        return 'The :attribute is not a valid POSIX username.';
     }
 }

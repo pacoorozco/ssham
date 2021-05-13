@@ -17,42 +17,29 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UsernameRule;
 use App\Rules\ValidRSAPublicKeyRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 
 class KeyCreateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance()
+    protected function getValidatorInstance(): Validator
     {
         $this->sanitize();
 
         return parent::getValidatorInstance();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'username' => ['required', 'max:255', 'alpha_dash', 'unique:keys'],
+            'username' => ['required', 'max:255', new UsernameRule(), 'unique:keys'],
             'public_key' => ['required', Rule::in(['create', 'import'])],
             'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule()],
         ];
@@ -61,7 +48,7 @@ class KeyCreateRequest extends Request
     /**
      * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
      */
-    protected function sanitize()
+    protected function sanitize(): void
     {
         $input = $this->all();
 
