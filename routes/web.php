@@ -17,6 +17,7 @@
 
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlRuleController;
+use App\Http\Controllers\DownloadPrivateKeyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
@@ -121,8 +122,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('keys.delete');
 
     // Download a private key.
-    Route::get('keys/{key}/download',
-        [KeyController::class, 'downloadPrivateKey'])
+    Route::get('keys/{key}/download', DownloadPrivateKeyController::class)
         ->name('keys.download');
 
     // Pre-baked resource controller actions for index, create, store,

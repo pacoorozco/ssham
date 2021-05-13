@@ -31,10 +31,8 @@ use App\Observers\KeygroupObserver;
 use App\Observers\KeyObserver;
 use App\Observers\PersonalAccessTokenObserver;
 use App\Observers\UserObserver;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
-use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -27,7 +27,7 @@ class KeyControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user_to_act_as;
+    private User $user_to_act_as;
 
     public function setUp(): void
     {
@@ -36,7 +36,7 @@ class KeyControllerTest extends TestCase
             ->create();
     }
 
-    public function test_index_method_returns_proper_view()
+    public function test_index_method_returns_proper_view(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -46,7 +46,7 @@ class KeyControllerTest extends TestCase
         $response->assertViewIs('key.index');
     }
 
-    public function test_create_method_returns_proper_view()
+    public function test_create_method_returns_proper_view(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -56,7 +56,7 @@ class KeyControllerTest extends TestCase
         $response->assertViewIs('key.create');
     }
 
-    public function test_create_method_returns_proper_data()
+    public function test_create_method_returns_proper_data(): void
     {
         $groups = Keygroup::factory()
             ->count(3)
@@ -70,7 +70,7 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_edit_method_returns_proper_view()
+    public function test_edit_method_returns_proper_view(): void
     {
         $key = Key::factory()
             ->create();
@@ -84,7 +84,7 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('key', $key);
     }
 
-    public function test_edit_method_returns_proper_data()
+    public function test_edit_method_returns_proper_data(): void
     {
         $key = Key::factory()
             ->create();
@@ -101,7 +101,7 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_delete_method_returns_proper_view()
+    public function test_delete_method_returns_proper_view(): void
     {
         $key = Key::factory()
             ->create();
@@ -115,7 +115,7 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('key', $key);
     }
 
-    public function test_destroy_method_returns_proper_success_message()
+    public function test_destroy_method_returns_proper_success_message(): void
     {
         $key = Key::factory()
             ->create();
@@ -127,7 +127,7 @@ class KeyControllerTest extends TestCase
         $response->assertSessionHas('success');
     }
 
-    public function test_data_method_returns_error_when_not_ajax()
+    public function test_data_method_returns_error_when_not_ajax(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -136,7 +136,7 @@ class KeyControllerTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_data_method_returns_data()
+    public function test_data_method_returns_data(): void
     {
         $keys = $key = Key::factory()
             ->count(3)
@@ -158,35 +158,5 @@ class KeyControllerTest extends TestCase
                 'groups' => '0',
             ]);
         }
-    }
-
-    public function test_downloadPrivateKey_method_returns_downloadable_file()
-    {
-        $key = Key::factory()
-            ->create([
-                'private' => 'blah blah blah',
-            ]);
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->ajaxGet(route('keys.download', $key->id));
-
-        $response->assertSuccessful();
-        $response->assertHeader('Content-Type', 'application/pkcs8');
-        $response->assertHeader('Content-Disposition', 'attachment; filename="'.$key->username.'.key"');
-    }
-
-    public function test_downloadPrivateKey_method_returns_error_when_private_key_is_not_present()
-    {
-        $key = Key::factory()
-            ->create([
-                'private' => null,
-            ]);
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->ajaxGet(route('keys.download', $key->id));
-
-        $response->assertNotFound();
     }
 }

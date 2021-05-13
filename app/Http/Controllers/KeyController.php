@@ -25,11 +25,8 @@ use App\Models\Key;
 use App\Models\Keygroup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\Response as ResponseCode;
 use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
@@ -203,28 +200,5 @@ class KeyController extends Controller
             ->removeColumn('id')
             ->removeColumn('enabled')
             ->toJson();
-    }
-
-    /**
-     * Returns a downloadable file with the private key content. This private key can not be
-     * downloaded more than once, so after the first try, the key will be deleted.
-     */
-    public function downloadPrivateKey(Key $key): Response
-    {
-        if (empty($key->private)) {
-            abort(ResponseCode::HTTP_NOT_FOUND);
-        }
-
-        try {
-            // Private key can not be downloaded more than once. After first try, it will be deleted.
-            $content = $key->private;
-            $key->private = null;
-            $key->save();
-        } catch (\Throwable $exception) {
-            abort(ResponseCode::HTTP_SERVICE_UNAVAILABLE);
-        }
-
-        // Starts downloading the key.
-        return response()->attachment($content, $key->username . '.key');
     }
 }
