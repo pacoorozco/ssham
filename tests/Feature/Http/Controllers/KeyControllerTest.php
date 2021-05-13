@@ -36,7 +36,8 @@ class KeyControllerTest extends TestCase
             ->create();
     }
 
-    public function test_index_method_returns_proper_view(): void
+    /** @test */
+    public function index_method_should_return_proper_view(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -46,7 +47,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewIs('key.index');
     }
 
-    public function test_create_method_returns_proper_view(): void
+    /** @test */
+    public function create_method_should_return_proper_view(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -56,7 +58,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewIs('key.create');
     }
 
-    public function test_create_method_returns_proper_data(): void
+    /** @test  */
+    public function create_method_should_return_proper_data(): void
     {
         $groups = Keygroup::factory()
             ->count(3)
@@ -70,7 +73,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_edit_method_returns_proper_view(): void
+    /** @test */
+    public function edit_method_should_return_proper_view(): void
     {
         $key = Key::factory()
             ->create();
@@ -84,7 +88,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('key', $key);
     }
 
-    public function test_edit_method_returns_proper_data(): void
+    /** @test  */
+    public function edit_method_should_return_proper_data(): void
     {
         $key = Key::factory()
             ->create();
@@ -101,7 +106,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_delete_method_returns_proper_view(): void
+    /** @test */
+    public function delete_method_should_return_proper_view(): void
     {
         $key = Key::factory()
             ->create();
@@ -115,7 +121,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('key', $key);
     }
 
-    public function test_destroy_method_returns_proper_success_message(): void
+    /** @test */
+    public function destroy_method_should_return_proper_success_message(): void
     {
         $key = Key::factory()
             ->create();
@@ -127,7 +134,8 @@ class KeyControllerTest extends TestCase
         $response->assertSessionHas('success');
     }
 
-    public function test_data_method_returns_error_when_not_ajax(): void
+    /** @test */
+    public function data_method_should_return_error_when_not_ajax(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -136,7 +144,8 @@ class KeyControllerTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_data_method_returns_data(): void
+    /** @test */
+    public function data_method_should_return_data(): void
     {
         $keys = $key = Key::factory()
             ->count(3)
