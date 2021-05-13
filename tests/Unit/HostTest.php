@@ -9,7 +9,7 @@ use Tests\ModelTestCase;
 class HostTest extends ModelTestCase
 {
     /** @test */
-    public function contains_valid_fillable_properties()
+    public function contains_valid_fillable_properties(): void
     {
         $m = new Host();
         $this->assertEquals([
@@ -22,7 +22,7 @@ class HostTest extends ModelTestCase
     }
 
     /** @test */
-    public function contains_valid_casts_properties()
+    public function contains_valid_casts_properties(): void
     {
         $m = new Host();
         $this->assertEquals([
@@ -34,7 +34,7 @@ class HostTest extends ModelTestCase
     }
 
     /** @test */
-    public function has_groups_relation()
+    public function has_groups_relation(): void
     {
         $m = new Host();
         $r = $m->groups();
@@ -42,38 +42,54 @@ class HostTest extends ModelTestCase
     }
 
     /** @test */
-    public function username_is_lowercase()
+    public function username_is_lowercase(): void
     {
-        $m = new Host();
-
-        $test_data = [
+        $testCases = [
             'User' => 'user',
             'ADMIN' => 'admin',
             'user' => 'user',
             'admin' => 'admin',
         ];
 
-        foreach ($test_data as $input => $want) {
-            $m->username = $input;
-            $this->assertEquals($want, $m->getAttribute('username'));
+        foreach ($testCases as $input => $want) {
+            /** @var Host $host */
+            $host = Host::factory()->makeOne([
+                'username' => $input,
+            ]);
+            $this->assertEquals($want, $host->username);
         }
     }
 
     /** @test */
-    public function hostname_is_lowercase()
+    public function hostname_is_lowercase(): void
     {
-        $m = new Host();
-
-        $test_data = [
+        $testCases = [
             'server.domain.local' => 'server.domain.local',
             'Server.Domain.Local' => 'server.domain.local',
             'SERVER' => 'server',
             'SERVER.domain.LOCAL' => 'server.domain.local',
         ];
 
-        foreach ($test_data as $input => $want) {
-            $m->hostname = $input;
-            $this->assertEquals($want, $m->getAttribute('hostname'));
+        foreach ($testCases as $input => $want) {
+            /** @var Host $host */
+            $host = Host::factory()->makeOne([
+                'hostname' => $input,
+            ]);
+            $this->assertEquals($want, $host->hostname);
         }
+    }
+
+    /** @test */
+    public function getFullHostname_return_the_full_hostname(): void
+    {
+        /** @var Host $host */
+        $host = Host::factory()->makeOne([
+            'username' => 'root',
+            'hostname' => 'server1.domain.local',
+            'port' => 12345,
+        ]);
+        $want = 'root@server1.domain.local:12345';
+
+        $this->assertEquals($want, $host->full_hostname);
     }
 }

@@ -20,185 +20,79 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
-use App\Models\Activity;
+use App\Jobs\CreateHost;
+use App\Jobs\DeleteHost;
+use App\Jobs\UpdateHost;
 use App\Models\Host;
 use App\Models\Hostgroup;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
 class HostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('host.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         // Get all existing host groups
         $groups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
-        return view('host.create', compact('groups'));
+        return view('host.create')
+            ->with('groups', $groups);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  HostCreateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(HostCreateRequest $request)
+    public function store(HostCreateRequest $request): RedirectResponse
     {
-        try {
-            $host = Host::create([
-                'hostname' => $request->hostname,
-                'username' => $request->username,
-                'port' => $request->port,
-                'authorized_keys_file' => $request->authorized_keys_file,
-            ]);
-
-            // Associate Host's Groups
-            if (! empty($request->groups)) {
-                $host->groups()->sync($request->groups);
-            }
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withInput()
-                ->withError(__('host/messages.create.error'));
-        }
-
-        activity()
-            ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
+        $host = $this->dispatchNow(CreateHost::fromRequest($request));
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Host  $host
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show(Host $host)
+    public function show(Host $host): View
     {
-        return view('host.show', compact('host'));
+        return view('host.show')
+            ->with('host', $host);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Host  $host
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit(Host $host)
+    public function edit(Host $host): View
     {
         // Get all existing host groups
         $groups = Hostgroup::orderBy('name')->pluck('name', 'id');
 
-        return view('host.edit', compact('host', 'groups'));
+        return view('host.edit')
+            ->with('host', $host)
+            ->with('groups', $groups);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Host  $host
-     * @param  HostUpdateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Host $host, HostUpdateRequest $request)
+    public function update(Host $host, HostUpdateRequest $request): RedirectResponse
     {
-        try {
-            $host->update([
-                'port' => $request->port,
-                'authorized_keys_file' => $request->authorized_keys_file,
-                'enabled' => $request->enabled,
-            ]);
+        $this->dispatchNow(UpdateHost::fromRequest($host, $request));
 
-            // Associate Host's Groups
-            if (empty($request->groups)) {
-                $host->groups()->detach();
-            } else {
-                $host->groups()->sync($request->groups);
-            }
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withInput()
-                ->withError(__('host/messages.edit.error'));
-        }
-
-        activity()
-            ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update host '%s@%s'.", $host->username, $host->hostname));
-
-        return redirect()->route('hosts.edit', [$host->id])
+        return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
     }
 
-    /**
-     * Remove host.
-     *
-     * @param  Host  $host
-     *
-     * @return \Illuminate\View\View
-     */
-    public function delete(Host $host)
+    public function delete(Host $host): View
     {
-        return view('host.delete', compact('host'));
+        return view('host.delete')
+            ->with('host', $host);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Host  $host
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy(Host $host)
+    public function destroy(Host $host): RedirectResponse
     {
-        $hostname = $host->full_hostname;
-
-        try {
-            $host->delete();
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withError(__('host/messages.delete.error'));
-        }
-
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete host '%s@%s'.", $host->username, $host->hostname));
+        $this->dispatchNow(new DeleteHost($host));
 
         return redirect()->route('hosts.index')
-            ->withSuccess(__('host/messages.delete.success', ['hostname' => $hostname]));
+            ->withSuccess(__('host/messages.delete.success', ['hostname' => $host->hostname]));
     }
 
-    /**
-     * Return all Hosts in order to be used as DataTables.
-     *
-     * @param  Datatables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function data(Datatables $datatable)
+    public function data(Datatables $datatable): JsonResponse
     {
         $hosts = Host::select([
             'id',
@@ -220,7 +114,7 @@ class HostController extends Controller
                     ->with('id', $host->id)
                     ->render();
             })
-            ->rawColumns(['hostname', 'enabled', 'actions'])
+            ->rawColumns(['enabled', 'actions'])
             ->removeColumn('id')
             ->toJson();
     }

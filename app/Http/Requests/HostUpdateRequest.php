@@ -17,38 +17,40 @@
 
 namespace App\Http\Requests;
 
-/**
- * Class HostUpdateRequest.
- *
- *
- * @property int     $port
- * @property string  $authorized_keys_file
- * @property bool $enabled
- * @property array   $groups
- */
 class HostUpdateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'port' => ['required', 'integer', 'min:1', 'max:65535'],
-            'authorized_keys_file' => ['required', 'string', 'max:255'],
             'enabled' => ['required', 'boolean'],
+
+            'port' => ['sometimes', 'required', 'integer', 'min:1', 'max:65535'],
+            'authorized_keys_file' => ['sometimes', 'required', 'string', 'max:255'],
         ];
+    }
+
+    public function port(): ?int
+    {
+        return (int) $this->input('port');
+    }
+
+    public function authorized_keys_file(): ?string
+    {
+        return $this->input('authorized_keys_file');
+    }
+
+    public function groups(): ?array
+    {
+        return $this->input('groups');
+    }
+
+    public function enabled(): bool
+    {
+        return $this->input('enabled');
     }
 }

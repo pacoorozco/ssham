@@ -219,18 +219,4 @@ class HostTest extends TestCase
         $got = $host->getSSHKeysForHost($bastionHostKey->public);
         $this->assertCount(2, $got);
     }
-
-    /** @test */
-    public function has_full_hostname_attribute()
-    {
-        setting()->set('ssh_port', 22);
-        $host = Host::factory()->create([
-            'username' => 'root',
-            'hostname' => 'server1.domain.local',
-            'port' =>  12345,
-        ]);
-        $want = 'root@server1.domain.local:12345';
-
-        $this->assertEquals($want, $host->full_hostname);
-    }
 }

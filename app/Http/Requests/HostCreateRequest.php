@@ -19,48 +19,52 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
-/**
- * Class HostCreateRequest.
- *
- *
- * @property string $hostname
- * @property string $username
- * @property int    $port
- * @property string authorized_keys_file
- * @property array  $groups
- */
 class HostCreateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
-        $hostname = $this->hostname;
-        $username = $this->username;
-
         return [
-            'hostname' => ['required', 'max:255',
+            'hostname' => [
+                'required', 'max:255',
                 // 'hostname' and 'username' combination must be unique
-                Rule::unique('hosts')->where(function ($query) use ($hostname, $username) {
-                    return $query->where('hostname', $hostname)
-                        ->where('username', $username);
-                }), ],
+                Rule::unique('hosts')->where(function ($query) {
+                    return $query->where('username', $this->input('username'));
+                }),
+            ],
             'username' => ['required', 'max:255'],
-            'port' => ['required', 'integer', 'min:1', 'max:65535'],
-            'authorized_keys_file' => ['required', 'string', 'max:255'],
+
+            'port' => ['sometimes', 'required', 'integer', 'min:1', 'max:65535'],
+            'authorized_keys_file' => ['sometimes', 'required', 'string', 'max:255'],
         ];
+    }
+
+    public function hostname(): string
+    {
+        return $this->input('hostname');
+    }
+
+    public function username(): string
+    {
+        return $this->input('username');
+    }
+
+    public function port(): ?int
+    {
+        return (int) $this->input('port');
+    }
+
+    public function authorized_keys_file(): ?string
+    {
+        return $this->input('authorized_keys_file');
+    }
+
+    public function groups(): ?array
+    {
+        return $this->input('groups');
     }
 }
