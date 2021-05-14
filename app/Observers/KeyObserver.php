@@ -17,6 +17,7 @@
 
 namespace App\Observers;
 
+use App\Libs\RsaSshKey\RsaSshKey;
 use App\Models\Activity;
 use App\Models\Key;
 
@@ -55,5 +56,10 @@ class KeyObserver
     public function forceDeleted(Key $key): void
     {
         //
+    }
+
+    public function saving(Key $key): void
+    {
+        $key->fingerprint = RsaSshKey::getPublicFingerprint($key->public);
     }
 }

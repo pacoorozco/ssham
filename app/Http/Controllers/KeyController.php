@@ -65,7 +65,6 @@ class KeyController extends Controller
                 'username' => $request->username,
                 'public' => $public_key,
                 'private' => $private_key,
-                'fingerprint' => RsaSshKey::getPublicFingerprint($public_key),
             ]);
 
             $key->groups()->attach($request->groups());
@@ -123,7 +122,6 @@ class KeyController extends Controller
                 'enabled' => $request->enabled(),
                 'private' => $private_key,
                 'public' => $public_key,
-                'fingerprint' => RsaSshKey::getPublicFingerprint($public_key),
             ]);
 
             $key->groups()->sync($request->groups());

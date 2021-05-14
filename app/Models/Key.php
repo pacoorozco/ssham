@@ -48,7 +48,6 @@ class Key extends Model implements Searchable
         'username',
         'public',
         'private',
-        'fingerprint',
         'enabled',
     ];
 
