@@ -22,7 +22,6 @@ class KeyTest extends TestCase
         $wantFingerprint = RsaSshKey::getPublicFingerprint(self::VALID_PUBLIC_KEY);
 
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
-
     }
 
     /** @test */
