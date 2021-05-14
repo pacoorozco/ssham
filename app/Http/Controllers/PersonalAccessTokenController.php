@@ -50,7 +50,7 @@ class PersonalAccessTokenController extends Controller
     {
         $user = $request->requestedUser();
 
-        $plainTextToken = $this->dispatchNow(CreatePersonalAccessToken::fromRequest($request));
+        $plainTextToken = CreatePersonalAccessToken::dispatchSync($user, $request->name());
 
         return redirect()->route('users.tokens.index', $user)
             ->with([
@@ -64,7 +64,7 @@ class PersonalAccessTokenController extends Controller
     {
         $user = $token->relatedUser();
 
-        $this->dispatchNow(new RevokePersonalAccessToken($token));
+        RevokePersonalAccessToken::dispatchSync($token);
 
         return redirect()->route('users.tokens.index', $user)
             ->withSuccess(__('user/personal_access_token.revoked'));

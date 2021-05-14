@@ -22,10 +22,11 @@ use App\Models\ControlRule;
 use App\Models\Host;
 use App\Models\Key;
 use App\Models\User;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $key_count = Key::all()->count();
         $host_count = Host::all()->count();
@@ -34,6 +35,11 @@ class HomeController extends Controller
 
         $activities = Activity::all()->sortByDesc('created_at')->take(15);
 
-        return view('dashboard.index', compact('key_count', 'host_count', 'rule_count', 'user_count', 'activities'));
+        return view('dashboard.index')
+            ->with('key_count', $key_count)
+            ->with('host_count', $host_count)
+            ->with('rule_count', $rule_count)
+            ->with('user_count', $user_count)
+            ->with('activities', $activities);
     }
 }

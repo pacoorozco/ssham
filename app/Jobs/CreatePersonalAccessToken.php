@@ -2,11 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\PersonalAccessTokenRequest;
 use App\Models\User;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-final class CreatePersonalAccessToken
+class CreatePersonalAccessToken
 {
+    use Dispatchable;
+
     private User $user;
 
     private string $name;
@@ -18,14 +20,6 @@ final class CreatePersonalAccessToken
         $this->user = $user;
         $this->name = $name;
         $this->abilities = $abilities;
-    }
-
-    public static function fromRequest(PersonalAccessTokenRequest $request): self
-    {
-        return new CreatePersonalAccessToken(
-            $request->requestedUser(),
-            $request->name(),
-        );
     }
 
     public function handle(): string

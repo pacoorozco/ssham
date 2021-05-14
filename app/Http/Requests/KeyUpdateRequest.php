@@ -17,51 +17,52 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\KeyOperation;
 use App\Rules\ValidRSAPublicKeyRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class KeyUpdateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance()
+    protected function getValidatorInstance(): Validator
     {
         $this->sanitize();
 
         return parent::getValidatorInstance();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'public_key' => ['required', Rule::in(['create', 'import', 'maintain'])],
-            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule()],
-            'enabled' => ['required', 'boolean'],
+            'operation' => [
+                'required',
+                Rule::in([
+                    KeyOperation::CREATE_OPERATION,
+                    KeyOperation::IMPORT_OPERATION,
+                    KeyOperation::NOOP_OPERATION,
+                ]),
+            ],
+            'public_key' => [
+                new RequiredIf($this->wantsImportKey()),
+                new ValidRSAPublicKeyRule(),
+            ],
+            'enabled' => [
+                'required',
+                'boolean',
+            ],
         ];
     }
 
     /**
      * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
      */
-    public function sanitize()
+    public function sanitize(): void
     {
         $input = $this->all();
 
@@ -71,5 +72,30 @@ class KeyUpdateRequest extends Request
         }
 
         $this->replace($input);
+    }
+
+    public function publicKey(): ?string
+    {
+        return $this->input('public_key');
+    }
+
+    public function groups(): ?array
+    {
+        return $this->input('groups');
+    }
+
+    public function enabled(): bool
+    {
+        return $this->input('enabled');
+    }
+
+    public function wantsCreateKey(): bool
+    {
+        return $this->input('operation') === KeyOperation::CREATE_OPERATION;
+    }
+
+    public function wantsImportKey(): bool
+    {
+        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
 }

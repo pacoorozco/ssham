@@ -30,12 +30,7 @@ class KeyFactory extends Factory
      */
     protected $model = Key::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         $rsa = RsaSshKey::create();
 
@@ -43,7 +38,6 @@ class KeyFactory extends Factory
             'username' => $this->faker->unique()->userName,
             'public' => RsaSshKey::getPublicKey($rsa['publickey']),
             'private' => null,
-            'fingerprint' => RsaSshKey::getPublicFingerprint($rsa['publickey']),
             'enabled' => true,
         ];
     }

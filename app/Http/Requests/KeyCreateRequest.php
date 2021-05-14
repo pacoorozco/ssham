@@ -17,59 +17,87 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\KeyOperation;
+use App\Rules\UsernameRule;
 use App\Rules\ValidRSAPublicKeyRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class KeyCreateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance()
+    protected function getValidatorInstance(): Validator
     {
         $this->sanitize();
 
         return parent::getValidatorInstance();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'username' => ['required', 'max:255', 'alpha_dash', 'unique:keys'],
-            'public_key' => ['required', Rule::in(['create', 'import'])],
-            'public_key_input' => ['required_if:public_key,import', new ValidRSAPublicKeyRule()],
+            'username' => [
+                'required',
+                'max:255',
+                new UsernameRule(),
+                'unique:keys',
+            ],
+            'operation' => [
+                'required',
+                Rule::in([
+                    KeyOperation::CREATE_OPERATION,
+                    KeyOperation::IMPORT_OPERATION,
+                ]),
+            ],
+            'public_key' => [
+                new RequiredIf($this->wantsImportKey()),
+                new ValidRSAPublicKeyRule(),
+            ],
         ];
     }
 
     /**
      * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
      */
-    protected function sanitize()
+    protected function sanitize(): void
     {
         $input = $this->all();
 
         // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key_input'])) {
-            $input['public_key_input'] = str_replace(["\n", "\t", "\r"], '', $input['public_key_input']);
+        if (isset($input['public_key'])) {
+            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
         }
 
         $this->replace($input);
+    }
+
+    public function username(): string
+    {
+        return $this->input('username');
+    }
+
+    public function publicKey(): ?string
+    {
+        return $this->input('public_key');
+    }
+
+    public function groups(): ?array
+    {
+        return $this->input('groups');
+    }
+
+    public function wantsCreateKey(): bool
+    {
+        return $this->input('operation') === KeyOperation::CREATE_OPERATION;
+    }
+
+    public function wantsImportKey(): bool
+    {
+        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
 }

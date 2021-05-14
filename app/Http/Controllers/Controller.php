@@ -27,6 +27,5 @@ class Controller extends BaseController
 {
     use AuthorizesRequests;
     use DispatchesJobs;
-    use SendsAlerts;
     use ValidatesRequests;
 }

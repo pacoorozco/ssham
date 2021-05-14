@@ -2,12 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\HostCreateRequest;
-use App\Models\Activity;
 use App\Models\Host;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-final class CreateHost
+class CreateHost
 {
+    use Dispatchable;
+
     private string $hostname;
 
     private string $username;
@@ -35,19 +36,6 @@ final class CreateHost
         $this->groups = $options['groups'] ?? [];
     }
 
-    public static function fromRequest(HostCreateRequest $request): self
-    {
-        return new CreateHost(
-            $request->hostname(),
-            $request->username(),
-            [
-                'port' => $request->port(),
-                'authorized_keys_file' => $request->authorized_keys_file(),
-                'groups' => $request->groups(),
-            ]
-        );
-    }
-
     public function handle(): Host
     {
         $host = Host::create([
@@ -57,11 +45,6 @@ final class CreateHost
             'authorized_keys_file' => $this->authorized_keys_file,
         ]);
         $host->groups()->sync($this->groups);
-
-        activity()
-            ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create host '%s'.", $host->full_hostname));
 
         return $host;
     }

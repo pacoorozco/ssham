@@ -17,19 +17,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Activity;
 use App\Models\Keygroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class KeygroupsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         DB::table('keygroups')->delete();
 
@@ -45,11 +39,7 @@ class KeygroupsTableSeeder extends Seeder
         ];
 
         foreach ($keygroups as $groupData) {
-            $group = Keygroup::create($groupData);
-            activity()
-                ->performedOn($group)
-                ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                ->log(sprintf("Create key group '%s'.", $group->name));
+            Keygroup::create($groupData);
         }
     }
 }

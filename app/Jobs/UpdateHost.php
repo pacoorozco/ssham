@@ -2,12 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\HostUpdateRequest;
-use App\Models\Activity;
 use App\Models\Host;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-final class UpdateHost
+class UpdateHost
 {
+    use Dispatchable;
+
     private Host $host;
 
     private int $port;
@@ -33,19 +34,6 @@ final class UpdateHost
         $this->groups = $options['groups'] ?? [];
     }
 
-    public static function fromRequest(Host $host, HostUpdateRequest $request): self
-    {
-        return new UpdateHost(
-            $host,
-            [
-                'enabled' => $request->enabled(),
-                'port' => $request->port(),
-                'authorized_keys_file' => $request->authorized_keys_file(),
-                'groups' => $request->groups(),
-            ]
-        );
-    }
-
     public function handle(): Host
     {
         $this->host->update([
@@ -54,11 +42,6 @@ final class UpdateHost
             'enabled' => $this->enabled,
         ]);
         $this->host->groups()->sync($this->groups, true);
-
-        activity()
-            ->performedOn($this->host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update host '%s'.", $this->host->full_hostname));
 
         return $this->host;
     }

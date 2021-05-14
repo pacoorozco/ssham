@@ -17,19 +17,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         DB::table('users')->delete();
 
@@ -37,25 +31,18 @@ class UsersTableSeeder extends Seeder
             [
                 'username' => 'admin',
                 'email' => 'admin@example.org',
-                'auth_type' => 'local',
                 'password' => bcrypt('secret'),
-                'enabled' => true,
             ],
             [
                 'username' => 'user',
                 'email' => 'user@example.org',
-                'auth_type' => 'local',
                 'password' => bcrypt('user'),
                 'enabled' => false,
             ],
         ];
 
         foreach ($users as $userData) {
-            $user = User::create($userData);
-            activity()
-                ->performedOn($user)
-                ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                ->log(sprintf("Create user '%s'.", $user->username));
+            User::factory()->create($userData);
         }
     }
 }

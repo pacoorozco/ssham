@@ -40,10 +40,7 @@ class ValidRSAPrivateKeyRuleTest extends TestCase
 
     const INVALID_PRIVATE_KEY = 'ssh-rsa-invalid-private-key';
 
-    /**
-     * @var \App\Rules\ValidRSAPrivateKeyRule
-     */
-    protected $rule;
+    protected ValidRSAPrivateKeyRule $rule;
 
     public function setUp(): void
     {
@@ -52,12 +49,14 @@ class ValidRSAPrivateKeyRuleTest extends TestCase
         $this->rule = new ValidRSAPrivateKeyRule();
     }
 
-    public function test_valid_rsa_private_key_passes()
+    /** @test */
+    public function a_valid_rsa_private_key_should_pass(): void
     {
         $this->assertTrue($this->rule->passes('key', self::VALID_PRIVATE_KEY));
     }
 
-    public function test_invalid_rsa_private_key_not_passes()
+    /** @test */
+    public function an_invalid_rsa_private_key_should_fail(): void
     {
         $this->assertFalse($this->rule->passes('key', self::INVALID_PRIVATE_KEY));
     }

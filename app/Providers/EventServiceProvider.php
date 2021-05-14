@@ -18,7 +18,9 @@
 namespace App\Providers;
 
 use App\Events\KeyAction;
+use App\Events\PrivateKeyWasDownloaded;
 use App\Listeners\KeyActionLog;
+use App\Listeners\RemovePrivateKey;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -34,8 +36,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        KeyAction::class => [
-            KeyActionLog::class,
+        PrivateKeyWasDownloaded::class => [
+            RemovePrivateKey::class,
         ],
     ];
 

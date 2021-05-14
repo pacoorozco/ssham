@@ -20,41 +20,26 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\Activity;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('user.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         return view('user.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  UserCreateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(UserCreateRequest $request)
+    public function store(UserCreateRequest $request): RedirectResponse
     {
         try {
             $user = User::create([
@@ -68,48 +53,23 @@ class UserController extends Controller
                 ->withErrors(__('user/messages.create.error'));
         }
 
-        activity()
-            ->performedOn($user)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create user '%s'.", $user->username));
-
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.create.success', ['name' => $user->username]));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  User  $user
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show(User $user)
+    public function show(User $user): View
     {
-        return view('user.show', compact('user'));
+        return view('user.show')
+            ->with('user', $user);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  User  $user
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
-        return view('user.edit', compact('user'));
+        return view('user.edit')
+            ->with('user', $user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User  $user
-     * @param  UserUpdateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(User $user, UserUpdateRequest $request)
+    public function update(User $user, UserUpdateRequest $request): RedirectResponse
     {
         try {
             $user->update([
@@ -127,35 +87,17 @@ class UserController extends Controller
                 ->withErrors(__('user/messages.edit.error'));
         }
 
-        activity()
-            ->performedOn($user)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update user '%s'.", $user->username));
-
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.edit.success', ['name' => $user->username]));
     }
 
-    /**
-     * Remove user.
-     *
-     * @param  User  $user
-     *
-     * @return \Illuminate\View\View
-     */
-    public function delete(User $user)
+    public function delete(User $user): View
     {
-        return view('user.delete', compact('user'));
+        return view('user.delete')
+            ->with('user', $user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  User  $user
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $username = $user->username;
 
@@ -172,23 +114,11 @@ class UserController extends Controller
                 ->withSuccess(__('user/messages.delete.error'));
         }
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete user '%s'.", $user->username));
-
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.delete.success', ['name' => $username]));
     }
 
-    /**
-     * Return all Users in order to be used with DataTables.
-     *
-     * @param  Datatables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function data(Datatables $datatable)
+    public function data(Datatables $datatable): JsonResponse
     {
         $users = User::select([
             'id',

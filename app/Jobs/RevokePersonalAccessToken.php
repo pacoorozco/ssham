@@ -3,9 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\PersonalAccessToken;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-final class RevokePersonalAccessToken
+class RevokePersonalAccessToken
 {
+    use Dispatchable;
+
     private PersonalAccessToken $token;
 
     public function __construct(PersonalAccessToken $token)

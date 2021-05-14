@@ -15,22 +15,24 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace App\Helpers;
+namespace App\Events;
 
-trait SendsAlerts
+use App\Models\Key;
+use Illuminate\Foundation\Events\Dispatchable;
+
+class PrivateKeyWasDownloaded
 {
-    protected function success(string $id = null, $parameters = []): void
+    use Dispatchable;
+
+    private Key $key;
+
+    public function getKey(): Key
     {
-        $this->sendAlert('success', $id, $parameters);
+        return $this->key;
     }
 
-    protected function error(string $id = null, $parameters = []): void
+    public function __construct(Key $key)
     {
-        $this->sendAlert('error', $id, $parameters);
-    }
-
-    private function sendAlert(string $type, string $id = null, $parameters = []): void
-    {
-        session([$type => __($id, (array) $parameters)]);
+        $this->key = $key;
     }
 }
