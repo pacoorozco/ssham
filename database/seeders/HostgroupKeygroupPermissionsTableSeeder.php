@@ -25,12 +25,7 @@ use Illuminate\Support\Facades\DB;
 
 class HostgroupKeygroupPermissionsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         DB::table('hostgroup_keygroup_permissions')->delete();
 

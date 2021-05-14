@@ -17,28 +17,18 @@
 
 namespace Database\Seeders;
 
-use App\Events\KeyAction;
-use App\Models\Activity;
 use App\Models\Key;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class KeysTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         DB::table('keys')->delete();
 
         Key::factory()
             ->count(3)
-            ->create()
-            ->each(function (Key $key) {
-                KeyAction::dispatch($key, 'create', Activity::STATUS_SUCCESS);
-            });
+            ->create();
     }
 }

@@ -17,39 +17,24 @@
 
 namespace Database\Seeders;
 
-use App\Models\Activity;
 use App\Models\Host;
 use Illuminate\Database\Seeder;
 
 class HostsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        $host = Host::create([
+        Host::create([
             'hostname' => 'ssh-server',
             'username' => 'admin',
             'port' => 22,
             'authorized_keys_file' => '.ssh/authorized_keys',
         ]);
-        activity()
-            ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
 
         Host::factory()
             ->count(3)
             ->create([
                 'enabled' => false,
-            ])->each(function (Host $host) {
-                activity()
-                    ->performedOn($host)
-                    ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                    ->log(sprintf("Create host '%s@%s'.", $host->username, $host->hostname));
-            });
+            ]);
     }
 }
