@@ -30,7 +30,6 @@ class KeyTest extends ModelTestCase
             'username',
             'public',
             'private',
-            'fingerprint',
             'enabled',
         ], $m->getFillable());
     }
