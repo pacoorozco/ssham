@@ -8,5 +8,5 @@ final class KeyOperation extends Enum
 {
     const CREATE_OPERATION = 'create';
     const IMPORT_OPERATION = 'import';
-    const NOOP_OPERATION   = 'maintain';
+    const NOOP_OPERATION = 'maintain';
 }
