@@ -54,7 +54,8 @@
                         <!-- enabled -->
                         <fieldset class="form-group">
                             <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0"><strong>@lang('key/model.enabled')</strong>
+                                <legend class="col-form-label col-sm-2 pt-0">
+                                    <strong>@lang('key/model.enabled')</strong>
                                 </legend>
                                 <div class="col-sm-10">
                                     <div class="form-check">
@@ -95,14 +96,14 @@
                             <div class="form-group">
                                 <!-- maintain RSA key -->
                                 <div class="form-check">
-                                    {!! Form::radio('public_key', 'maintain', true, array('class' => 'form-check-input', 'id' => 'maintain_public_key', 'checked' => 'checked')) !!}
+                                    {!! Form::radio('operation', \App\Enums\KeyOperation::NOOP_OPERATION, true, array('class' => 'form-check-input', 'id' => 'maintain_public_key', 'checked' => 'checked')) !!}
                                     {!! Form::label('maintain_public_key', __('key/messages.maintain_public_key'), array('class' => 'form-check-label')) !!}
                                     <div id="maintain_public_key_form">
                                         <p>
                                             <b>@lang('key/model.fingerprint')</b>: {{ $key->fingerprint }}
                                             <a data-toggle="collapse" href="#collapsePublicKey" aria-expanded="false"
                                                aria-controls="collapsePublicKey">
-                                                <i class="fa fa-caret-down"></i>
+                                                <i class="fa fa-eye"></i>
                                             </a>
                                         </p>
                                         <div class="collapse" id="collapsePublicKey">
@@ -113,7 +114,7 @@
                                 <!-- ./ maintain RSA key -->
                                 <!-- create RSA key -->
                                 <div class="form-check">
-                                    {!! Form::radio('public_key', 'create', false, array('class' => 'form-check-input', 'id' => 'create_public_key')) !!}
+                                    {!! Form::radio('operation', \App\Enums\KeyOperation::CREATE_OPERATION, false, array('class' => 'form-check-input', 'id' => 'create_public_key')) !!}
                                     {!! Form::label('create_public_key', __('key/messages.create_public_key'), array('class' => 'form-check-label')) !!}
                                     <div id="create_public_key_form">
                                         <p class="form-text text-muted">@lang('key/messages.create_public_key_help') @lang('key/messages.change_public_key_help_notice')</p>
@@ -123,16 +124,17 @@
 
                                 <!-- import public_key -->
                                 <div class="form-check">
-                                    {!! Form::radio('public_key', 'import', false, array('class' => 'form-check-input', 'id' => 'import_public_key')) !!}
+                                    {!! Form::radio('operation', \App\Enums\KeyOperation::IMPORT_OPERATION, false, array('class' => 'form-check-input', 'id' => 'import_public_key')) !!}
                                     {!! Form::label('import_public_key', __('key/messages.import_public_key'), array('class' => 'form-check-label')) !!}
                                     <div id="import_public_key_form">
-                                        {!! Form::textarea('public_key_input', null, array('class' => 'form-control' . ($errors->has('public_key_input') ? ' is-invalid' : ''), 'id' => 'public_key_input', 'rows' => '5', 'placeholder' => __('key/messages.import_public_key_help'))) !!}
-                                        <span
-                                            class="form-text text-muted">@lang('key/messages.change_public_key_help_notice')</span>
+                                        {!! Form::textarea('public_key', null, array('class' => 'form-control' . ($errors->has('public_key') ? ' is-invalid' : ''), 'id' => 'public_key', 'rows' => '5', 'required' => 'required', 'placeholder' => __('key/messages.import_public_key_help'))) !!}
+                                        <span class="form-text text-muted">
+                                            @lang('key/messages.change_public_key_help_notice')
+                                        </span>
+                                        @error('public_key')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    @error('public_key_input')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
                                 </div>
                                 <!-- ./ import public_key -->
 
@@ -177,15 +179,15 @@
 
 
         $(function () {
-            var $radioValue = $('input:radio[name=public_key]:checked').val();
+            var $radioValue = $('input:radio[name=operation]:checked').val();
             switch ($radioValue) {
-                case 'create':
+                case '{{ \App\Enums\KeyOperation::CREATE_OPERATION }}':
                     enablePublicKeyCreation();
                     break;
-                case 'import':
+                case '{{ \App\Enums\KeyOperation::IMPORT_OPERATION }}':
                     enablePublicKeyImport();
                     break;
-                case 'maintain':
+                case '{{ \App\Enums\KeyOperation::NOOP_OPERATION }}':
                 default:
                     enablePublicKeyMaintain();
             }
@@ -207,21 +209,21 @@
             $("#maintain_public_key_form").removeClass("d-none");
             $("#create_public_key_form").addClass("d-none");
             $("#import_public_key_form").addClass("d-none");
-            $("#public_key_input").prop("disabled", true);
+            $("#public_key").prop("disabled", true);
         }
 
         function enablePublicKeyCreation() {
             $("#maintain_public_key_form").addClass("d-none");
             $("#create_public_key_form").removeClass("d-none");
             $("#import_public_key_form").addClass("d-none");
-            $("#public_key_input").prop("disabled", true);
+            $("#public_key").prop("disabled", true);
         }
 
         function enablePublicKeyImport() {
             $("#maintain_public_key_form").addClass("d-none");
             $("#import_public_key_form").removeClass("d-none");
             $("#create_public_key_form").addClass("d-none");
-            $("#public_key_input").prop("disabled", false);
+            $("#public_key").prop("disabled", false);
         }
     </script>
 @endpush

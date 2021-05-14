@@ -46,50 +46,15 @@ class Key extends Model implements Searchable
 
     protected $fillable = [
         'username',
+        'public',
+        'private',
+        'fingerprint',
         'enabled',
     ];
 
     protected $casts = [
         'enabled' => 'boolean',
     ];
-
-    /**
-     * Attach the provided keys to the model and save it.
-     *
-     * It calculated the 'fingerprint' attribute also.
-     *
-     * @param  string  $public_key  - Provided public key
-     * @param  ?string  $private_key  - Provided private key (nullable)
-     *
-     * @throws \Throwable
-     */
-    public function attachKeyAndSave(string $public_key, ?string $private_key = null): void
-    {
-        $this->attachKey($public_key, $private_key);
-        $this->saveOrFail();
-    }
-
-    /**
-     * Attach the provided keys to the model.
-     *
-     * It calculated the 'fingerprint' attribute also.
-     *
-     * @param  string  $public_key  - Provided public key
-     * @param  ?string  $private_key  - Provided private key (nullable)
-     *
-     * @throws \App\Libs\RsaSshKey\InvalidInputException
-     */
-    public function attachKey(string $public_key, ?string $private_key = null): void
-    {
-        // In case of empty public_key, do nothing.
-        if (empty($public_key)) {
-            return;
-        }
-
-        $this->private = $private_key;
-        $this->public = RsaSshKey::getPublicKey($public_key);
-        $this->fingerprint = RsaSshKey::getPublicFingerprint($public_key);
-    }
 
     /**
      * An Key belongs to many Keygroups (many-to-many).
@@ -117,6 +82,6 @@ class Key extends Model implements Searchable
 
     public function hasPrivateKey(): bool
     {
-        return ! empty($this->private);
+        return !empty($this->private);
     }
 }

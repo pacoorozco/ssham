@@ -26,6 +26,7 @@ use App\Models\Keygroup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
@@ -50,28 +51,28 @@ class KeyController extends Controller
         // Use transaction to ensure that the key is created with all the required data.
         DB::beginTransaction();
 
-        $public_key = $request->public_key_input;
-        $private_key = null;
-
-        // Test if we need to create a new RSA key
-        if ($request->public_key == 'create') {
-            $keys = RsaSshKey::create();
-            $public_key = $keys['publickey'];
-            $private_key = $keys['privatekey'];
-        }
-
         try {
+            if ($request->wantsCreateKey()) {
+                $keys = RsaSshKey::create();
+                $public_key = $keys['publickey'];
+                $private_key = $keys['privatekey'];
+            } else {
+                $public_key = $request->publicKey();
+                $private_key = null;
+            }
+
             $key = Key::create([
                 'username' => $request->username,
+                'public' => $public_key,
+                'private' => $private_key,
+                'fingerprint' => RsaSshKey::getPublicFingerprint($public_key),
             ]);
 
-            // Associate User's Groups if has been submitted
-            $key->groups()->attach($request->groups);
-
-            // Attach the RSA SSH public key to the created use (includes a save() method).
-            $key->attachKeyAndSave($public_key, $private_key);
+            $key->groups()->attach($request->groups());
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
+
+            Log::error("Key '{$request->username()}' was not created: {$exception->getMessage()}");
 
             return redirect()->back()
                 ->withInput()
@@ -81,7 +82,7 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        return redirect()->route('keys.index')
+        return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.create.success', ['username' => $key->username]));
     }
 
@@ -107,40 +108,29 @@ class KeyController extends Controller
         DB::beginTransaction();
 
         try {
+            $private_key = $key->private;
+            $public_key = $key->public;
+
+            if ($request->wantsCreateKey()) {
+                $keys = RsaSshKey::create();
+                $public_key = $keys['publickey'];
+                $private_key = $keys['privatekey'];
+            } elseif ($request->wantsImportKey()) {
+                $public_key = $request->publicKey();
+            }
+
             $key->update([
-                'enabled' => $request->enabled,
+                'enabled' => $request->enabled(),
+                'private' => $private_key,
+                'public' => $public_key,
+                'fingerprint' => RsaSshKey::getPublicFingerprint($public_key),
             ]);
 
-            // Associate Key's Groups
-            if ($request->groups) {
-                $key->groups()->sync($request->groups);
-            } else {
-                $key->groups()->detach();
-            }
-
-            // Test if we need to create a new RSA key
-            $private_key = null;
-            switch ($request->public_key) {
-                case 'create':
-                    $keys = RsaSshKey::create();
-                    $public_key = $keys['publickey'];
-                    $private_key = $keys['privatekey'];
-                    break;
-                case 'import':
-                    $public_key = $request->public_key_input;
-                    break;
-                case 'maintain':
-                default:
-                    $public_key = null;
-                    break;
-            }
-
-            // Attach the RSA SSH public key to the created use (includes a save() method).
-            if (! empty($public_key)) {
-                $key->attachKeyAndSave($public_key, $private_key);
-            }
+            $key->groups()->sync($request->groups());
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
+
+            Log::error("Key '{$key->username}' was not updated: {$exception->getMessage()}");
 
             return redirect()->back()
                 ->withInput()
@@ -150,7 +140,7 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        return redirect()->route('keys.index')
+        return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
     }
 
