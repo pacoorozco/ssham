@@ -100,5 +100,4 @@ class KeyCreateRequest extends Request
     {
         return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
-
 }
