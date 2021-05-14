@@ -47,8 +47,6 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(
-            \LaravelJsonApi\Exceptions\ExceptionParser::make()->renderable()
-        );
+        //
     }
 }
