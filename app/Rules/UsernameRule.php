@@ -23,7 +23,7 @@ class UsernameRule implements Rule
 {
     // Based on 'The Open Group Base Specifications Issue 7, 2018 edition'.
     // https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_437
-    const VALID_USERNAME_REGEXP = "/^[A-Za-z0-9][A-Za-z0-9._-]*\$/";
+    const VALID_USERNAME_REGEXP = '/^[A-Za-z0-9][A-Za-z0-9._-]*$/';
 
     public function passes($attribute, $value): bool
     {
