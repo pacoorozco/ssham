@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Added
+- Validation for `usernames` following POSIX definition, [The Open Group Base Specifications Issue 7, 2018 edition](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_437).
+- `KeyController` tests for CRUD operations.
+- Add **Personal Access Tokens** to users to implement API authentication based on [Bearer tokens](https://laravel.com/docs/8.x/http-client#bearer-tokens).
 ### Changed
 - Settings package to `larapacks/setting`.
 - Update dependencies to latest versions.
@@ -11,13 +15,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Bump `fruitcake/laravel-cors` to `v2.0.4`.
 - Bump `laravel/framework` to `v8.41`.
 - Bump `laravel/sanctum` to `v2.11`.
-
+- Code to honor PHP 8.0 best practices.
+- Refactor code to make it more readable (implementing Jobs and Observers).
 ### Fixed
 - Bug using `php artisan ssham:send` command.
-- Scrutinizer findings. 
+- Scrutinizer findings to improve code quality. 
 ### Removed
 - PHP 7.4 support. This application will need PHP 8.0 or higher to run.
-- `AdminLTE` NPM installation. This theme will be updated manually wo/ using NPM.
+- Remove unused `AdminLTE` plugins from `public/vendor/AdminLTE` to reduce vulnerability surface.
+- Remove unused `jquery-ujs` library.
 
 ## 0.12.0 - 2021-02-12
 ### Added

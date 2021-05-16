@@ -20,6 +20,9 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Jobs\ChangeUserPassword;
+use App\Jobs\CreateUser;
+use App\Jobs\UpdateUser;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -41,17 +44,11 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request): RedirectResponse
     {
-        try {
-            $user = User::create([
-                'username' => $request->username,
-                'password' => bcrypt($request->password),
-                'email' => $request->email,
-            ]);
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(__('user/messages.create.error'));
-        }
+        $user = CreateUser::dispatchSync(
+            $request->username(),
+            $request->password(),
+            $request->email()
+        );
 
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.create.success', ['name' => $user->username]));
@@ -71,20 +68,17 @@ class UserController extends Controller
 
     public function update(User $user, UserUpdateRequest $request): RedirectResponse
     {
-        try {
-            $user->update([
-                'email' => $request->email,
-                'enabled' => $request->enabled,
-            ]);
+        UpdateUser::dispatchSync(
+            $user,
+            $request->email(),
+            $request->enabled()
+        );
 
-            if ($request->filled('password')) {
-                $user->password = bcrypt($request->password);
-                $user->save();
-            }
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(__('user/messages.edit.error'));
+        if ($request->filled('password')) {
+            ChangeUserPassword::dispatchSync(
+                $user,
+                $request->password()
+            );
         }
 
         return redirect()->route('users.index')

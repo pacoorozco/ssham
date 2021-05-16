@@ -20,51 +20,36 @@ namespace App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-/**
- * Class UserUpdateRequest.
- *
- *
- * @property \App\User $user
- * @property string    $email
- * @property string    $password
- * @property string    $current_password
- * @property bool   $enabled
- */
 class UserUpdateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         $user = $this->user;
 
         return [
-            'email' => ['required', 'email:rfc', 'unique:users,email,'.$user->id],
-            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
-            'enabled' => ['required', 'boolean'],
+            'email' => [
+                'required',
+                'email:rfc',
+                'unique:users,email,' . $user->id,
+            ],
+            'password' => [
+                'nullable',
+                'string',
+                'min:6',
+                'confirmed',
+            ],
+            'enabled' => [
+                'required',
+                'boolean',
+            ],
         ];
     }
 
-    /**
-     * Configure the validator instance.
-     *
-     * @param \Illuminate\Validation\Validator $validator
-     *
-     * @return void
-     */
     public function withValidator($validator): void
     {
         // checks user current password
@@ -73,12 +58,27 @@ class UserUpdateRequest extends Request
             if (Auth::id() !== $this->user->id) {
                 return;
             }
-            if ($this->filled('password') && ! Hash::check($this->current_password, $this->user->password)) {
+            if ($this->password() && !Hash::check($this->current_password, $this->user->password)) {
                 $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
             }
-            if (! $this->enabled) {
+            if (!$this->enabled()) {
                 $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
             }
         });
+    }
+
+    public function email(): string
+    {
+        return $this->input('email');
+    }
+
+    public function password(): ?string
+    {
+        return $this->input('password');
+    }
+
+    public function enabled(): bool
+    {
+        return (bool) $this->input('enabled');
     }
 }
