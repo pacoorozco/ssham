@@ -27,4 +27,18 @@ const mix = require('laravel-mix');
  |
  */
 mix.copyDirectory('node_modules/clipboard/dist', 'public/vendor/clipboard');
+mix.copyDirectory('node_modules/admin-lte/dist', 'public/vendor/AdminLTE');
 
+const adminLTEPlugins = {
+    'node_modules/admin-lte/plugins/fontawesome-free': 'public/vendor/AdminLTE/plugins/fontawesome-free',
+    'node_modules/admin-lte/plugins/jquery': 'public/vendor/AdminLTE/plugins/jquery',
+    'node_modules/admin-lte/plugins/bootstrap': 'public/vendor/AdminLTE/plugins/bootstrap',
+    'node_modules/admin-lte/plugins/datatables-bs4': 'public/vendor/AdminLTE/plugins/datatables-bs4',
+    'node_modules/admin-lte/plugins/datatables': 'public/vendor/AdminLTE/plugins/datatables',
+    'node_modules/admin-lte/plugins/select2': 'public/vendor/AdminLTE/plugins/select2',
+    'node_modules/admin-lte/plugins/icheck-bootstrap': 'public/vendor/AdminLTE/plugins/icheck-bootstrap',
+};
+
+for (let directory in adminLTEPlugins) {
+    mix.copyDirectory(directory, adminLTEPlugins[directory]);
+}
