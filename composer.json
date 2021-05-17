@@ -30,6 +30,7 @@
         "fruitcake/laravel-cors": "^2.0.4",
         "guilhermegonzaga/presenter": "^1.0.5",
         "larapacks/setting": "^3.0",
+        "laravel-json-api/laravel": "^1.0@beta",
         "laravel/framework": "^8.41",
         "laravel/sanctum": "^2.11",
         "laravel/ui": "^3.2",
@@ -42,6 +43,7 @@
     "require-dev": {
         "facade/ignition": "^2.8.3",
         "fakerphp/faker": "^1.14.1",
+        "laravel-json-api/testing": "^1.0@beta",
         "mockery/mockery": "^1.4.3",
         "nunomaduro/collision": "^5.4",
         "phpunit/phpunit": "^9.5.4"
@@ -68,7 +70,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
