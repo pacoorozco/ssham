@@ -17,37 +17,50 @@
 
 namespace App\Http\Requests;
 
-/**
- * Class UserCreateRequest.
- *
- *
- * @property string $username
- * @property string $email
- * @property string $password
- */
+use App\Rules\UsernameRule;
+
 class UserCreateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'username' => ['required', 'max:255', 'unique:users'],
-            'email' => ['required', 'email:rfc', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'username' => [
+                'required',
+                'max:255',
+                new UsernameRule(),
+                'unique:users',
+            ],
+            'email' => [
+                'required',
+                'email:rfc',
+                'unique:users',
+            ],
+            'password' => [
+                'required',
+                'string',
+                'min:6',
+                'confirmed',
+            ],
         ];
+    }
+
+    public function username(): string
+    {
+        return $this->input('username');
+    }
+
+    public function email(): string
+    {
+        return $this->input('email');
+    }
+
+    public function password(): string
+    {
+        return $this->input('password');
     }
 }

@@ -17,79 +17,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\KeyAction;
 use App\Helpers\Helper;
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
 use App\Libs\RsaSshKey\RsaSshKey;
-use App\Models\Activity;
 use App\Models\Key;
 use App\Models\Keygroup;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response as ResponseCode;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('key.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         // Get all existing key groups
         $groups = Keygroup::orderBy('name')->pluck('name', 'id');
 
-        return view('key.create', [
-            'groups' => $groups,
-        ]);
+        return view('key.create')
+            ->with('groups', $groups);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  KeyCreateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(KeyCreateRequest $request)
+    public function store(KeyCreateRequest $request): RedirectResponse
     {
         // Use transaction to ensure that the key is created with all the required data.
         DB::beginTransaction();
 
-        $public_key = $request->public_key_input;
-        $private_key = null;
-
-        // Test if we need to create a new RSA key
-        if ($request->public_key == 'create') {
-            $keys = RsaSshKey::create();
-            $public_key = $keys['publickey'];
-            $private_key = $keys['privatekey'];
-        }
-
         try {
+            if ($request->wantsCreateKey()) {
+                $keys = RsaSshKey::create();
+                $public_key = $keys['publickey'];
+                $private_key = $keys['privatekey'];
+            } else {
+                $public_key = $request->publicKey();
+                $private_key = null;
+            }
+
             $key = Key::create([
                 'username' => $request->username,
+                'public' => $public_key,
+                'private' => $private_key,
             ]);
 
-            // Associate User's Groups if has been submitted
-            $key->groups()->attach($request->groups);
-
-            // Attach the RSA SSH public key to the created use (includes a save() method).
-            $key->attachKeyAndSave($public_key, $private_key);
+            $key->groups()->attach($request->groups());
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
+
+            Log::error("Key '{$request->username()}' was not created: {$exception->getMessage()}");
 
             return redirect()->back()
                 ->withInput()
@@ -99,92 +81,54 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        KeyAction::dispatch($key, 'create', Activity::STATUS_SUCCESS);
-
-        return redirect()->route('keys.index')
+        return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.create.success', ['username' => $key->username]));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Key  $key
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
-     */
-    public function show(Key $key)
+    public function show(Key $key): View
     {
-        return view('key.show', [
-            'key' => $key,
-        ]);
+        return view('key.show')
+            ->with('key', $key);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Key  $key
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
-     */
-    public function edit(Key $key)
+    public function edit(Key $key): View
     {
         // Get all existing key groups
         $groups = Keygroup::orderBy('name')->pluck('name', 'id');
 
-        return view('key.edit', [
-            'key' => $key,
-            'groups' => $groups,
-        ]);
+        return view('key.edit')
+            ->with('key', $key)
+            ->with('groups', $groups);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Key  $key
-     * @param  KeyUpdateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Key $key, KeyUpdateRequest $request)
+    public function update(Key $key, KeyUpdateRequest $request): RedirectResponse
     {
         // Use transaction to ensure that the key is updated with all the required data.
         DB::beginTransaction();
 
         try {
+            $private_key = $key->private;
+            $public_key = $key->public;
+
+            if ($request->wantsCreateKey()) {
+                $keys = RsaSshKey::create();
+                $public_key = $keys['publickey'];
+                $private_key = $keys['privatekey'];
+            } elseif ($request->wantsImportKey()) {
+                $public_key = $request->publicKey();
+            }
+
             $key->update([
-                'enabled' => $request->enabled,
+                'enabled' => $request->enabled(),
+                'private' => $private_key,
+                'public' => $public_key,
             ]);
 
-            // Associate Key's Groups
-            if ($request->groups) {
-                $key->groups()->sync($request->groups);
-            } else {
-                $key->groups()->detach();
-            }
-
-            // Test if we need to create a new RSA key
-            $private_key = null;
-            switch ($request->public_key) {
-                case 'create':
-                    $keys = RsaSshKey::create();
-                    $public_key = $keys['publickey'];
-                    $private_key = $keys['privatekey'];
-                    break;
-                case 'import':
-                    $public_key = $request->public_key_input;
-                    break;
-                case 'maintain':
-                default:
-                    $public_key = null;
-                    break;
-            }
-
-            // Attach the RSA SSH public key to the created use (includes a save() method).
-            if (! empty($public_key)) {
-                $key->attachKeyAndSave($public_key, $private_key);
-            }
+            $key->groups()->sync($request->groups());
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
+
+            Log::error("Key '{$key->username}' was not updated: {$exception->getMessage()}");
 
             return redirect()->back()
                 ->withInput()
@@ -194,34 +138,17 @@ class KeyController extends Controller
         // Everything went fine, we can commit the transaction.
         DB::commit();
 
-        KeyAction::dispatch($key, 'update', Activity::STATUS_SUCCESS);
-
-        return redirect()->route('keys.index')
+        return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
     }
 
-    /**
-     * Remove key.
-     *
-     * @param  Key  $key
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
-     */
-    public function delete(Key $key)
+    public function delete(Key $key): View
     {
-        return view('key.delete', [
-            'key' => $key,
-        ]);
+        return view('key.delete')
+            ->with('key', $key);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Key  $key
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Key $key)
+    public function destroy(Key $key): RedirectResponse
     {
         $username = $key->username;
 
@@ -232,21 +159,11 @@ class KeyController extends Controller
                 ->withErrors(__('key/messages.delete.error'));
         }
 
-        KeyAction::dispatch($key, 'destroy', Activity::STATUS_SUCCESS);
-
         return redirect()->route('keys.index')
             ->with('success', __('key/messages.delete.success', ['username' => $username]));
     }
 
-    /**
-     * Return all Key in order to be used with DataTables.
-     *
-     * @param  Datatables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function data(Datatables $datatable)
+    public function data(Datatables $datatable): JsonResponse
     {
         $keys = Key::select([
             'id',
@@ -271,32 +188,5 @@ class KeyController extends Controller
             ->removeColumn('id')
             ->removeColumn('enabled')
             ->toJson();
-    }
-
-    /**
-     * Returns a downloadable file with the private key content. This private key can not be
-     * downloaded more than once, so after the first try, the key will be deleted.
-     *
-     * @param  Key  $key
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function downloadPrivateKey(Key $key)
-    {
-        if (empty($key->private)) {
-            abort(ResponseCode::HTTP_NOT_FOUND);
-        }
-
-        try {
-            // Private key can not be downloaded more than once. After first try, it will be deleted.
-            $content = $key->private;
-            $key->private = null;
-            $key->save();
-        } catch (\Throwable $exception) {
-            abort(ResponseCode::HTTP_SERVICE_UNAVAILABLE);
-        }
-
-        // Starts downloading the key.
-        return response()->attachment($content, $key->username.'.key');
     }
 }

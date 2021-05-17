@@ -19,44 +19,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
-use App\Models\Activity;
 use App\Models\Key;
 use App\Models\Keygroup;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('keygroup.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         // Get all existing keys
         $keys = Key::orderBy('username')->pluck('username', 'id');
 
-        return view('keygroup.create', compact('keys'));
+        return view('keygroup.create')
+            ->with('keys', $keys);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  KeygroupCreateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(KeygroupCreateRequest $request)
+    public function store(KeygroupCreateRequest $request): RedirectResponse
     {
         try {
             $keygroup = Keygroup::create([
@@ -74,51 +60,27 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.create.error'));
         }
 
-        activity()
-            ->performedOn($keygroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create key group '%s'.", $keygroup->name));
-
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Keygroup  $keygroup
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show(Keygroup $keygroup)
+    public function show(Keygroup $keygroup): View
     {
-        return view('keygroup.show', compact('keygroup'));
+        return view('keygroup.show')
+            ->with('keygroup', $keygroup);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Keygroup  $keygroup
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit(Keygroup $keygroup)
+    public function edit(Keygroup $keygroup): View
     {
         // Get all existing keys
         $keys = Key::orderBy('username')->pluck('username', 'id');
 
-        return view('keygroup.edit', compact('keygroup', 'keys'));
+        return view('keygroup.edit')
+            ->with('keygroup', $keygroup)
+            ->with('keys', $keys);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Keygroup  $keygroup
-     * @param  KeygroupUpdateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Keygroup $keygroup, KeygroupUpdateRequest $request)
+    public function update(Keygroup $keygroup, KeygroupUpdateRequest $request): RedirectResponse
     {
         try {
             $keygroup->update([
@@ -138,36 +100,17 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.edit.error'));
         }
 
-        activity()
-            ->performedOn($keygroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update key group '%s'.", $keygroup->name));
-
         return redirect()->route('keygroups.edit', $keygroup->id)
             ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
     }
 
-    /**
-     * Remove keygroup.
-     *
-     * @param  Keygroup  $keygroup
-     *
-     * @return \Illuminate\View\View
-     */
-    public function delete(Keygroup $keygroup)
+    public function delete(Keygroup $keygroup): View
     {
-        return view('keygroup.delete', compact('keygroup'));
+        return view('keygroup.delete')
+            ->with('keygroup', $keygroup);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Keygroup  $keygroup
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy(Keygroup $keygroup)
+    public function destroy(Keygroup $keygroup): RedirectResponse
     {
         $name = $keygroup->name;
 
@@ -178,23 +121,11 @@ class KeygroupController extends Controller
                 ->withErrors(__('keygroup/messages.delete.error'));
         }
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete key group '%s'.", $keygroup->name));
-
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));
     }
 
-    /**
-     * Return all keygroups in order to be used as Datatables.
-     *
-     * @param  Datatables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function data(Datatables $datatable)
+    public function data(Datatables $datatable): JsonResponse
     {
         $keygroups = Keygroup::select([
             'id',

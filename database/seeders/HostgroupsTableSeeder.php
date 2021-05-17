@@ -17,18 +17,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Activity;
 use App\Models\Hostgroup;
 use Illuminate\Database\Seeder;
 
 class HostgroupsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $hostgroups = [
             [
@@ -43,10 +37,6 @@ class HostgroupsTableSeeder extends Seeder
 
         foreach ($hostgroups as $groupData) {
             $group = Hostgroup::create($groupData);
-            activity()
-                ->performedOn($group)
-                ->withProperties(['status' => Activity::STATUS_SUCCESS])
-                ->log(sprintf("Create host group '%s'.", $group->name));
         }
     }
 }

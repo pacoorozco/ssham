@@ -45,6 +45,10 @@ class Host extends Model implements Searchable
         'last_rotation' => 'datetime',
     ];
 
+    protected $attributes = [
+        'status_code' => HostStatus::INITIAL_STATUS,
+    ];
+
     /**
      * A Host belongs to many Hostgroups (many-to-many).
      */

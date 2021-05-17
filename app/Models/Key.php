@@ -21,6 +21,7 @@ use App\Libs\RsaSshKey\RsaSshKey;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -28,103 +29,41 @@ use Spatie\Searchable\SearchResult;
  * Class Key.
  *
  *
- * @property string  $id
- * @property string  $username
+ * @property string $id
+ * @property string $username
  * @property bool $enabled
- * @property string  $type
- * @property string  $public
- * @property string  $private
- * @property string  $fingerprint
+ * @property string $type
+ * @property string $public
+ * @property string $private
+ * @property string $fingerprint
  */
 class Key extends Model implements Searchable
 {
-    use HasFactory, UsesUUID;
+    use HasFactory;
+    use UsesUUID;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'keys';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'username',
+        'public',
+        'private',
         'enabled',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'id' => 'string',
-        'username' => 'string',
-        'public' => 'string',
-        'private' => 'string',
-        'fingerprint' => 'string',
         'enabled' => 'boolean',
     ];
 
     /**
-     * Attach the provided keys to the model and save it.
-     *
-     * It calculated the 'fingerprint' attribute also.
-     *
-     * @param string $public_key  - Provided public key
-     * @param string $private_key - Provided private key (nullable)
-     *
-     * @throws \Throwable
-     */
-    public function attachKeyAndSave(string $public_key, string $private_key = null): void
-    {
-        $this->attachKey($public_key, $private_key);
-        $this->saveOrFail();
-    }
-
-    /**
-     * Attach the provided keys to the model.
-     *
-     * It calculated the 'fingerprint' attribute also.
-     *
-     * @param string $public_key  - Provided public key
-     * @param string $private_key - Provided private key (nullable)
-     *
-     * @throws \App\Libs\RsaSshKey\InvalidInputException
-     */
-    public function attachKey(string $public_key, string $private_key = null): void
-    {
-        // In case of empty public_key, do nothing.
-        if (empty($public_key)) {
-            return;
-        }
-
-        $this->private = $private_key;
-        $this->public = RsaSshKey::getPublicKey($public_key);
-        $this->fingerprint = RsaSshKey::getPublicFingerprint($public_key);
-    }
-
-    /**
      * An Key belongs to many Keygroups (many-to-many).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function groups()
+    public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Keygroup::class);
     }
 
-    /**
-     * Set the username Key attribute to lowercase.
-     *
-     * @param string $value
-     */
-    public function setUsernameAttribute(string $value)
+    public function setUsernameAttribute(string $value): void
     {
         $this->attributes['username'] = strtolower($value);
     }
@@ -138,5 +77,10 @@ class Key extends Model implements Searchable
             $this->username,
             $url
         );
+    }
+
+    public function hasPrivateKey(): bool
+    {
+        return ! empty($this->private);
     }
 }

@@ -17,17 +17,22 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\KeyOperation;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class KeyControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user_to_act_as;
+    const VALID_PUBLIC_KEY_ONE = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDl8cMHgSYgkMFo27dvnv+1RY3el3628wCF6h+fvNwH5YLbKQZTSSFlWH6BMsMahMp3zYOvb4kURkloaPTX6paZZ+axZo6Uhww+ISws3fkykEhZWanOABy1/cKjT36SqfJD/xFVgL+FaE5QB5gvarf2IH1lNT9iYutKY0hJVz15IQ== valid-key-one';
+    const VALID_PUBLIC_KEY_TWO = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDdZTBjbqXy299z3erXD0/rumaLZwfS1IwFmsPex+oTwytekdeoCAPr86jU+pDFAtxTqhNU5HMo8ZKwdDw6csbHkh6SpV0R8O7u0w8oVs7MIhr4Lm2Uhyl/tF5BrzerhSMk5esKlVAjdYyyLxE/JsJqGaZbchrDCHu1trH9Oy5+yw== valid-key-two';
+
+    private User $user_to_act_as;
 
     public function setUp(): void
     {
@@ -36,7 +41,8 @@ class KeyControllerTest extends TestCase
             ->create();
     }
 
-    public function test_index_method_returns_proper_view()
+    /** @test */
+    public function index_method_should_return_proper_view(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -46,7 +52,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewIs('key.index');
     }
 
-    public function test_create_method_returns_proper_view()
+    /** @test */
+    public function create_method_should_return_proper_view(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -56,7 +63,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewIs('key.create');
     }
 
-    public function test_create_method_returns_proper_data()
+    /** @test */
+    public function create_method_should_return_proper_data(): void
     {
         $groups = Keygroup::factory()
             ->count(3)
@@ -70,7 +78,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_edit_method_returns_proper_view()
+    /** @test */
+    public function edit_method_should_return_proper_view(): void
     {
         $key = Key::factory()
             ->create();
@@ -84,7 +93,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('key', $key);
     }
 
-    public function test_edit_method_returns_proper_data()
+    /** @test */
+    public function edit_method_should_return_proper_data(): void
     {
         $key = Key::factory()
             ->create();
@@ -101,7 +111,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_delete_method_returns_proper_view()
+    /** @test */
+    public function delete_method_should_return_proper_view(): void
     {
         $key = Key::factory()
             ->create();
@@ -115,7 +126,8 @@ class KeyControllerTest extends TestCase
         $response->assertViewHas('key', $key);
     }
 
-    public function test_destroy_method_returns_proper_success_message()
+    /** @test */
+    public function destroy_method_should_return_proper_success_message(): void
     {
         $key = Key::factory()
             ->create();
@@ -125,9 +137,11 @@ class KeyControllerTest extends TestCase
             ->delete(route('keys.destroy', $key->id));
 
         $response->assertSessionHas('success');
+        $this->assertDatabaseMissing('keys', ['id' => $key->id]);
     }
 
-    public function test_data_method_returns_error_when_not_ajax()
+    /** @test */
+    public function data_method_should_return_error_when_not_ajax(): void
     {
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -136,7 +150,8 @@ class KeyControllerTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_data_method_returns_data()
+    /** @test */
+    public function data_method_should_return_data(): void
     {
         $keys = $key = Key::factory()
             ->count(3)
@@ -160,33 +175,110 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    public function test_downloadPrivateKey_method_returns_downloadable_file()
+    /** @test */
+    public function store_method_should_create_a_new_key_when_it_is_not_supplied(): void
     {
-        $key = Key::factory()
-            ->create([
-                'private' => 'blah blah blah',
-            ]);
+        $key = Key::factory()->make();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->ajaxGet(route('keys.download', $key->id));
+            ->post(route('keys.store'), [
+                'username' => $key->username,
+                'operation' => KeyOperation::CREATE_OPERATION,
+            ]);
 
-        $response->assertSuccessful();
-        $response->assertHeader('Content-Type', 'application/pkcs8');
-        $response->assertHeader('Content-Disposition', 'attachment; filename="'.$key->username.'.key"');
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('keys', Arr::only($key->toArray(), ['username']));
     }
 
-    public function test_downloadPrivateKey_method_returns_error_when_private_key_is_not_present()
+    /** @test */
+    public function store_method_should_fail_when_invalid_key_is_supplied(): void
     {
-        $key = Key::factory()
-            ->create([
-                'private' => null,
-            ]);
+        $key = Key::factory()->make();
 
         $response = $this
             ->actingAs($this->user_to_act_as)
-            ->ajaxGet(route('keys.download', $key->id));
+            ->post(route('keys.store'), [
+                'username' => $key->username,
+                'operation' => KeyOperation::IMPORT_OPERATION,
+                'public_key' => 'Invalid Key',
+            ]);
 
-        $response->assertNotFound();
+        $response->assertSessionHasErrors();
+        $this->assertDatabaseMissing('keys', Arr::only($key->toArray(), ['username']));
+    }
+
+    /** @test */
+    public function store_method_should_create_a_key_when_valid_key_is_supplied(): void
+    {
+        $key = Key::factory()->make();
+
+        $response = $this
+            ->actingAs($this->user_to_act_as)
+            ->post(route('keys.store'), [
+                'username' => $key->username,
+                'operation' => KeyOperation::IMPORT_OPERATION,
+                'public_key' => self::VALID_PUBLIC_KEY_ONE,
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('keys', Arr::only($key->toArray(), ['username']));
+    }
+
+    /** @test */
+    public function update_method_should_maintain_the_key_when_noop_operation_is_used(): void
+    {
+        $wantPublicKey = self::VALID_PUBLIC_KEY_ONE;
+        $key = Key::factory()->create([
+            'public' => $wantPublicKey,
+        ]);
+
+        $response = $this
+            ->actingAs($this->user_to_act_as)
+            ->put(route('keys.update', $key), [
+                'operation' => KeyOperation::NOOP_OPERATION,
+                'enabled' => true,
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('keys', ['id' => $key->id, 'public' => $wantPublicKey]);
+    }
+
+    /** @test */
+    public function update_method_should_change_the_key_when_import_operation_is_used(): void
+    {
+        $key = Key::factory()->create([
+            'public' => self::VALID_PUBLIC_KEY_ONE,
+        ]);
+        $wantPublicKey = self::VALID_PUBLIC_KEY_TWO;
+
+        $response = $this
+            ->actingAs($this->user_to_act_as)
+            ->put(route('keys.update', $key), [
+                'operation' => KeyOperation::IMPORT_OPERATION,
+                'public_key' => $wantPublicKey,
+                'enabled' => true,
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('keys', ['id' => $key->id, 'public' => $wantPublicKey]);
+    }
+
+    /** @test */
+    public function update_method_should_create_a_new_key_when_create_operation_is_used(): void
+    {
+        $key = Key::factory()->create([
+            'public' => self::VALID_PUBLIC_KEY_ONE,
+        ]);
+
+        $response = $this
+            ->actingAs($this->user_to_act_as)
+            ->put(route('keys.update', $key), [
+                'operation' => KeyOperation::CREATE_OPERATION,
+                'enabled' => true,
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertNotEquals(self::VALID_PUBLIC_KEY_ONE, optional(Key::findOrFail($key->id))->public);
     }
 }

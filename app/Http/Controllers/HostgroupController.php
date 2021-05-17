@@ -19,44 +19,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\HostgroupCreateRequest;
 use App\Http\Requests\HostgroupUpdateRequest;
-use App\Models\Activity;
 use App\Models\Host;
 use App\Models\Hostgroup;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(): View
     {
         return view('hostgroup.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         // Get all existing hosts
         $hosts = Host::orderBy('hostname')->pluck('hostname', 'id');
 
-        return view('hostgroup.create', compact('hosts'));
+        return view('hostgroup.create')
+            ->with('hosts', $hosts);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  HostgroupCreateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(HostgroupCreateRequest $request)
+    public function store(HostgroupCreateRequest $request): RedirectResponse
     {
         try {
             $hostgroup = Hostgroup::create([
@@ -74,51 +60,27 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.create.error'));
         }
 
-        activity()
-            ->performedOn($hostgroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Create host group '%s'.", $hostgroup->name));
-
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.create.success', ['name' => $hostgroup->name]));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Hostgroup  $hostgroup
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show(Hostgroup $hostgroup)
+    public function show(Hostgroup $hostgroup): View
     {
-        return view('hostgroup.show', compact('hostgroup'));
+        return view('hostgroup.show')
+            ->with('hostgroup', $hostgroup);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Hostgroup  $hostgroup
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit(Hostgroup $hostgroup)
+    public function edit(Hostgroup $hostgroup): View
     {
         // Get all existing hosts
         $hosts = Host::orderBy('hostname')->pluck('hostname', 'id');
 
-        return view('hostgroup.edit', compact('hostgroup', 'hosts'));
+        return view('hostgroup.edit')
+            ->with('hostgroup', $hostgroup)
+            ->with('hosts', $hosts);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Hostgroup  $hostgroup
-     * @param  HostgroupUpdateRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request)
+    public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request): RedirectResponse
     {
         try {
             $hostgroup->update([
@@ -138,36 +100,17 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.edit.error'));
         }
 
-        activity()
-            ->performedOn($hostgroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Update host group '%s'.", $hostgroup->name));
-
         return redirect()->route('hostgroups.edit', [$hostgroup->id])
             ->withSuccess(__('hostgroup/messages.edit.success', ['name' => $hostgroup->name]));
     }
 
-    /**
-     * Remove hostgroup.
-     *
-     * @param  Hostgroup  $hostgroup
-     *
-     * @return \Illuminate\View\View
-     */
-    public function delete(Hostgroup $hostgroup)
+    public function delete(Hostgroup $hostgroup): View
     {
-        return view('hostgroup.delete', compact('hostgroup'));
+        return view('hostgroup.delete')
+            ->with('hostgroup', $hostgroup);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Hostgroup  $hostgroup
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy(Hostgroup $hostgroup)
+    public function destroy(Hostgroup $hostgroup): RedirectResponse
     {
         $name = $hostgroup->name;
 
@@ -178,23 +121,11 @@ class HostgroupController extends Controller
                 ->withErrors(__('hostgroup/messages.delete.error'));
         }
 
-        activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Delete host group '%s'.", $hostgroup->name));
-
         return redirect()->route('hostgroups.index')
             ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $name]));
     }
 
-    /**
-     * Return all Hostgroups in order to be used as DataTables.
-     *
-     * @param  Datatables  $datatable
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function data(Datatables $datatable)
+    public function data(Datatables $datatable): JsonResponse
     {
         $hostgroups = Hostgroup::select([
             'id',

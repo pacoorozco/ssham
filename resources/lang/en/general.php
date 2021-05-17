@@ -20,4 +20,5 @@ return [
     'submit' => 'Submit',
     'view_more' => 'View More',
     'close' => 'Close',
+    'cancel' => 'Cancel',
 ];

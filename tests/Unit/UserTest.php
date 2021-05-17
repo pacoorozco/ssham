@@ -33,10 +33,6 @@ class UserTest extends ModelTestCase
         $m = new User();
         $this->assertEquals([
             'id' => 'int',
-            'username' => 'string',
-            'email' => 'string',
-            'password' => 'string',
-            'auth_type' => 'string',
             'enabled' => 'boolean',
             'email_verified_at' => 'datetime',
         ], $m->getCasts());

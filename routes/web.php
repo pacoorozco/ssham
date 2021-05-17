@@ -17,11 +17,13 @@
 
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlRuleController;
+use App\Http\Controllers\DownloadPrivateKeyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
@@ -96,6 +98,15 @@ Route::middleware(['auth'])->group(function () {
 
     /**
      * ------------------------------------------
+     * Personal Access Tokens
+     * ------------------------------------------.
+     */
+    Route::resource('users.tokens', PersonalAccessTokenController::class)
+        ->shallow()
+        ->only(['index', 'create', 'store', 'destroy']);
+
+    /**
+     * ------------------------------------------
      * Keys
      * ------------------------------------------.
      */
@@ -111,8 +122,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('keys.delete');
 
     // Download a private key.
-    Route::get('keys/{key}/download',
-        [KeyController::class, 'downloadPrivateKey'])
+    Route::get('keys/{key}/download', DownloadPrivateKeyController::class)
         ->name('keys.download');
 
     // Pre-baked resource controller actions for index, create, store,
@@ -192,7 +202,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Pre-baked resource controller actions for index, create, store,
     // show, edit, update, destroy
-    Route::resource('rules', ControlRuleController::class);
+    Route::resource('rules', ControlRuleController::class)
+        ->only(['index', 'create', 'store', 'destroy']);
 
     /**
      * ------------------------------------------

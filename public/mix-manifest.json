@@ -1,1 +1,16 @@
-{}
+{
+    "/vendor/clipboard/clipboard.js": "/vendor/clipboard/clipboard.js",
+    "/vendor/clipboard/clipboard.min.js": "/vendor/clipboard/clipboard.min.js",
+    "/vendor/AdminLTE/plugins/jquery/jquery.js": "/vendor/AdminLTE/plugins/jquery/jquery.js",
+    "/vendor/AdminLTE/plugins/jquery/jquery.min.js": "/vendor/AdminLTE/plugins/jquery/jquery.min.js",
+    "/vendor/AdminLTE/plugins/jquery/jquery.min.map": "/vendor/AdminLTE/plugins/jquery/jquery.min.map",
+    "/vendor/AdminLTE/plugins/jquery/jquery.slim.js": "/vendor/AdminLTE/plugins/jquery/jquery.slim.js",
+    "/vendor/AdminLTE/plugins/jquery/jquery.slim.min.js": "/vendor/AdminLTE/plugins/jquery/jquery.slim.min.js",
+    "/vendor/AdminLTE/plugins/jquery/jquery.slim.min.map": "/vendor/AdminLTE/plugins/jquery/jquery.slim.min.map",
+    "/vendor/AdminLTE/plugins/datatables/jquery.dataTables.js": "/vendor/AdminLTE/plugins/datatables/jquery.dataTables.js",
+    "/vendor/AdminLTE/plugins/datatables/jquery.dataTables.min.js": "/vendor/AdminLTE/plugins/datatables/jquery.dataTables.min.js",
+    "/vendor/AdminLTE/plugins/icheck-bootstrap/README.md": "/vendor/AdminLTE/plugins/icheck-bootstrap/README.md",
+    "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.css": "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.css",
+    "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css": "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
+    "/vendor/AdminLTE/plugins/icheck-bootstrap/package.json": "/vendor/AdminLTE/plugins/icheck-bootstrap/package.json"
+}
