@@ -8,7 +8,6 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class HostRequest extends ResourceRequest
 {
-
     /**
      * Get the validation rules for the resource.
      *
@@ -20,5 +19,4 @@ class HostRequest extends ResourceRequest
             // @TODO
         ];
     }
-
 }
