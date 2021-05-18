@@ -15,6 +15,7 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use Illuminate\Support\Facades\Route;
 use LaravelJsonApi\Laravel\Facades\JsonApiRoute;
 use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
 
@@ -29,9 +30,10 @@ use LaravelJsonApi\Laravel\Http\Controllers\JsonApiController;
 |
 */
 
-JsonApiRoute::server('v1')
-    ->prefix('v1')
-    ->resources(function ($server) {
-        $server->resource('hosts', JsonApiController::class);
-    });
-
+Route::middleware('auth:sanctum')->group(function () {
+    JsonApiRoute::server('v1')
+        ->prefix('v1')
+        ->resources(function ($server) {
+            $server->resource('hosts', JsonApiController::class);
+        });
+});
