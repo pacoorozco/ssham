@@ -18,7 +18,6 @@
 namespace App\Services\SFTP;
 
 use App\Exceptions\PusherException;
-use Illuminate\Auth\AuthenticationException;
 use phpseclib\Net\SFTP;
 
 class SFTPPusher
@@ -85,7 +84,7 @@ class SFTPPusher
             $this->sftp->enableQuietMode();
         }
 
-        if (false === $this->sftp->exec($command)) {
+        if (!$this->sftp->exec($command)) {
             throw new PusherException('Unable to exec command');
         }
 

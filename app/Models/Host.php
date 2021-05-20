@@ -74,7 +74,7 @@ class Host extends Model implements Searchable
 
     public function getPortAttribute(string $value): int
     {
-        return $value ?? setting()->get('ssh_port');
+        return $value ?? (int) setting()->get('ssh_port');
     }
 
     public function scopeNotInSync(Builder $query): Builder

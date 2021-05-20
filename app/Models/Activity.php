@@ -26,7 +26,7 @@ class Activity extends \Spatie\Activitylog\Models\Activity
 
     protected string $presenter = ActivityPresenter::class;
 
-    public function getStatusAttribute(): string
+    public function getStatusAttribute(): ?string
     {
         return $this->getExtraProperty('status');
     }

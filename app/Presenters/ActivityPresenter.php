@@ -25,17 +25,17 @@ class ActivityPresenter extends Presenter
 {
     public function activityAge(): HtmlString
     {
-        return new HtmlString($this->created_at->diffForHumans());
+        return new HtmlString($this->model->created_at->diffForHumans());
     }
 
     public function causerUsername(): string
     {
-        return (is_null($this->causer)) ? 'system' : $this->causer->username;
+        return (is_null($this->model->causer)) ? 'system' : $this->model->causer->username;
     }
 
     public function statusBadge(): HtmlString
     {
-        switch ($this->status) {
+        switch ($this->model->status) {
             case Activity::STATUS_SUCCESS:
                 return new HtmlString('<p class="text-success">'.__('activity/model.statuses.success').'</p>');
             case Activity::STATUS_FAIL:
