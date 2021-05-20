@@ -84,7 +84,7 @@ class SFTPPusher
             $this->sftp->enableQuietMode();
         }
 
-        if (!$this->sftp->exec($command)) {
+        if (! $this->sftp->exec($command)) {
             throw new PusherException('Unable to exec command');
         }
 
