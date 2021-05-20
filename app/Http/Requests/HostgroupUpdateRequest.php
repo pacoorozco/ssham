@@ -50,7 +50,7 @@ class HostgroupUpdateRequest extends Request
         $group = $this->hostgroup;
 
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('keygroups')->ignore($group->id)],
+            'name' => ['required', 'min:5', 'max:255', Rule::unique('hostgroups')->ignore($group->id)],
             'description' => ['max:255'],
         ];
     }

@@ -34,6 +34,12 @@ Route::middleware('auth:sanctum')->group(function () {
     JsonApiRoute::server('v1')
         ->prefix('v1')
         ->resources(function ($server) {
-            $server->resource('hosts', JsonApiController::class);
+            $server->resource('hosts', JsonApiController::class)->relationships(function ($relationships) {
+                $relationships->hasMany('groups');
+            });
+
+            $server->resource('hostgroups', JsonApiController::class)->relationships(function ($relationships) {
+                $relationships->hasMany('hosts');
+            });;
         });
 });

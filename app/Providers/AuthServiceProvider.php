@@ -18,6 +18,8 @@
 namespace App\Providers;
 
 use App\Models\Host;
+use App\Models\Hostgroup;
+use App\Policies\HostgroupPolicy;
 use App\Policies\HostPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -31,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Host::class => HostPolicy::class,
+        Hostgroup::class => HostgroupPolicy::class,
     ];
 
     /**

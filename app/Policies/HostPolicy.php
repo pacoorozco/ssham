@@ -34,4 +34,9 @@ class HostPolicy
     {
         return true;
     }
+
+    public function viewGroups(User $user, Host $host): bool
+    {
+        return true;
+    }
 }
