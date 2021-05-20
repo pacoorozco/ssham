@@ -8,7 +8,6 @@ use LaravelJsonApi\Core\Server\Server as BaseServer;
 
 class Server extends BaseServer
 {
-
     /**
      * The base URI namespace for this server.
      *
