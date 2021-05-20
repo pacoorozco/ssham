@@ -75,6 +75,7 @@ class Host extends Model implements Searchable
     public function getPortAttribute(string $value): int
     {
         $defaultPort = setting()->get('ssh_port');
+
         return $value ?? (int) $defaultPort;
     }
 
@@ -124,7 +125,7 @@ class Host extends Model implements Searchable
                             break;
                         case 'allow':
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username . '@ssham';
+                            $content[2] = $key->username.'@ssham';
                             $sshKeys[$key->username] = join(' ', $content);
                             break;
                         default:
@@ -133,7 +134,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (!is_null($bastionSSHPublicKey)) {
+        if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 

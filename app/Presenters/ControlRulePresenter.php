@@ -25,8 +25,9 @@ class ControlRulePresenter extends Presenter
     public function actionWithIcon(): HtmlString
     {
         if ($this->model->action == 'allow') {
-            return new HtmlString('<i class="fa fa-lock-open"></i> ' . __('rule/table.allowed'));
+            return new HtmlString('<i class="fa fa-lock-open"></i> '.__('rule/table.allowed'));
         }
-        return new HtmlString('<i class="fa fa-lock"></i> ' . __('rule/table.denied'));
+
+        return new HtmlString('<i class="fa fa-lock"></i> '.__('rule/table.denied'));
     }
 }

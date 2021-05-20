@@ -220,7 +220,6 @@ class HostTest extends TestCase
         $this->assertCount(2, $got);
     }
 
-
     /** @test */
     public function getFullHostname_return_the_full_hostname(): void
     {
