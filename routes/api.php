@@ -40,6 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
             $server->resource('hostgroups', JsonApiController::class)->relationships(function ($relationships) {
                 $relationships->hasMany('hosts');
-            });;
+            });
         });
 });

@@ -31,7 +31,6 @@ class ApiHostsTest extends ApiTestCase
         $response->assertFetchedMany($hosts);
     }
 
-
     /** @test */
     public function it_should_success_when_creating_a_host(): void
     {
@@ -48,7 +47,7 @@ class ApiHostsTest extends ApiTestCase
             ],
             'relationships' => [
                 'groups' => [
-                    'data' => $groups->map(fn(Hostgroup $group) => [
+                    'data' => $groups->map(fn (Hostgroup $group) => [
                         'type' => 'hostgroups',
                         'id' => (string) $group->getRouteKey(),
                     ])->all(),
@@ -121,7 +120,7 @@ class ApiHostsTest extends ApiTestCase
     public function it_should_success_when_getting_an_existing_host(): void
     {
         $host = Host::factory()->create();
-        $self = 'http://localhost/api/v1/hosts/' . $host->getRouteKey();
+        $self = 'http://localhost/api/v1/hosts/'.$host->getRouteKey();
 
         $expected = [
             'type' => 'hosts',
@@ -130,13 +129,13 @@ class ApiHostsTest extends ApiTestCase
                 'hostname' => $host->hostname,
                 'username' => $host->username,
                 'port' => $host->port,
-                "fullHostname" => $host->full_hostname,
+                'fullHostname' => $host->full_hostname,
                 'authorizedKeysFile' => $host->authorized_keys_file,
                 'enabled' => $host->enabled,
                 'createdAt' => $host->created_at->jsonSerialize(),
-                "synced" => $host->synced,
-                "syncedAt" => optional($host->last_rotation)->jsonSerialize(),
-                "syncedStatus" => $host->status_code,
+                'synced' => $host->synced,
+                'syncedAt' => optional($host->last_rotation)->jsonSerialize(),
+                'syncedStatus' => $host->status_code,
             ],
             'relationships' => [
                 'groups' => [
@@ -181,7 +180,7 @@ class ApiHostsTest extends ApiTestCase
             ],
             'relationships' => [
                 'groups' => [
-                    'data' => $newGroups->map(fn(Hostgroup $group) => [
+                    'data' => $newGroups->map(fn (Hostgroup $group) => [
                         'type' => 'hostgroups',
                         'id' => (string) $group->getRouteKey(),
                     ])->all(),
@@ -196,13 +195,13 @@ class ApiHostsTest extends ApiTestCase
                 'hostname' => $host->hostname,
                 'username' => $host->username,
                 'port' => $newData->port,
-                "fullHostname" => $newData->full_hostname,
+                'fullHostname' => $newData->full_hostname,
                 'authorizedKeysFile' => $newData->authorized_keys_file,
                 'enabled' => $newData->enabled,
                 'createdAt' => $host->created_at->jsonSerialize(),
-                "synced" => $host->synced,
-                "syncedAt" => optional($host->last_rotation)->jsonSerialize(),
-                "syncedStatus" => $host->status_code,
+                'synced' => $host->synced,
+                'syncedAt' => optional($host->last_rotation)->jsonSerialize(),
+                'syncedStatus' => $host->status_code,
             ],
         ];
 
@@ -212,7 +211,7 @@ class ApiHostsTest extends ApiTestCase
             ->expects('hosts')
             ->includePaths('groups')
             ->withData($data)
-            ->patch('/api/v1/hosts/' . $host->getRouteKey());
+            ->patch('/api/v1/hosts/'.$host->getRouteKey());
 
         $response->assertFetchedOne($expected);
 
@@ -249,7 +248,7 @@ class ApiHostsTest extends ApiTestCase
         $response = $this
             ->actingAs($this->user)
             ->jsonApi()
-            ->delete('/api/v1/hosts/' . $host->getRouteKey());
+            ->delete('/api/v1/hosts/'.$host->getRouteKey());
 
         $response->assertNoContent();
 

@@ -14,7 +14,6 @@ use LaravelJsonApi\Eloquent\Schema;
 
 class HostgroupSchema extends Schema
 {
-
     /**
      * The model the schema corresponds to.
      *
@@ -59,5 +58,4 @@ class HostgroupSchema extends Schema
     {
         return PagePagination::make();
     }
-
 }
