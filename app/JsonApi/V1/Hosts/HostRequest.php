@@ -15,7 +15,6 @@ class HostRequest extends ResourceRequest
      */
     public function rules(): array
     {
-
         $data = $this->validationData();
 
         $unique = Rule::unique('hosts')

@@ -31,7 +31,6 @@ class ApiHostgroupsTest extends ApiTestCase
         $response->assertFetchedMany($groups);
     }
 
-
     /** @test */
     public function it_should_success_when_creating_a_hostgroup(): void
     {
@@ -46,7 +45,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ],
             'relationships' => [
                 'hosts' => [
-                    'data' => $hosts->map(fn(Host $host) => [
+                    'data' => $hosts->map(fn (Host $host) => [
                         'type' => 'hosts',
                         'id' => (string) $host->getRouteKey(),
                     ])->all(),
@@ -114,7 +113,7 @@ class ApiHostgroupsTest extends ApiTestCase
     public function it_should_success_when_getting_an_existing_hostgroup(): void
     {
         $group = Hostgroup::factory()->create();
-        $self = 'http://localhost/api/v1/hostgroups/' . $group->getRouteKey();
+        $self = 'http://localhost/api/v1/hostgroups/'.$group->getRouteKey();
 
         $expected = [
             'type' => 'hostgroups',
@@ -164,7 +163,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ],
             'relationships' => [
                 'hosts' => [
-                    'data' => $newHosts->map(fn(Host $host) => [
+                    'data' => $newHosts->map(fn (Host $host) => [
                         'type' => 'hosts',
                         'id' => (string) $host->getRouteKey(),
                     ])->all(),
@@ -188,7 +187,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->expects('hostgroups')
             ->includePaths('hosts')
             ->withData($data)
-            ->patch('/api/v1/hostgroups/' . $group->getRouteKey());
+            ->patch('/api/v1/hostgroups/'.$group->getRouteKey());
 
         $response->assertFetchedOne($expected);
 
@@ -222,7 +221,7 @@ class ApiHostgroupsTest extends ApiTestCase
         $response = $this
             ->actingAs($this->user)
             ->jsonApi()
-            ->delete('/api/v1/hostgroups/' . $group->getRouteKey());
+            ->delete('/api/v1/hostgroups/'.$group->getRouteKey());
 
         $response->assertNoContent();
 
