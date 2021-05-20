@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Hostgroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\ModelTestCase;
 
 class HostgroupTest extends ModelTestCase
 {
-    public function test_contains_valid_fillable_properties()
+    /** @test */
+    public function it_contains_valid_fillable_properties(): void
     {
         $m = new Hostgroup();
         $this->assertEquals([
@@ -18,17 +18,8 @@ class HostgroupTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    public function test_contains_valid_casts_properties()
-    {
-        $m = new Hostgroup();
-        $this->assertEquals([
-            'id' => 'int',
-            'name' => 'string',
-            'description' => 'string',
-        ], $m->getCasts());
-    }
-
-    public function test_hosts_relation()
+    /** @test */
+    public function it_contains_a_hosts_relation(): void
     {
         $m = new Hostgroup();
         $r = $m->hosts();

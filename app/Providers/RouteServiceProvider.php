@@ -22,7 +22,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class RouteServiceProvider extends ServiceProvider
 {

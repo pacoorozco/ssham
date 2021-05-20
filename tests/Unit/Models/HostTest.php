@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

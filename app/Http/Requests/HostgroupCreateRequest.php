@@ -39,7 +39,7 @@ class HostgroupCreateRequest extends Request
     public function rules()
     {
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('keygroups')],
+            'name' => ['required', 'min:5', 'max:255', Rule::unique('hostgroups')],
             'description' => ['max:255'],
         ];
     }

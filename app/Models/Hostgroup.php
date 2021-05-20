@@ -19,6 +19,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -26,7 +28,7 @@ use Spatie\Searchable\SearchResult;
  * Class Hostgroup.
  *
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $description
  */
@@ -34,59 +36,24 @@ class Hostgroup extends Model implements Searchable
 {
     use HasFactory;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'hostgroups';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'description',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'string',
-        'description' => 'string',
-    ];
-
-    /**
-     * A Hostgroup is composed by Host (many-to-many).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function hosts()
+    public function hosts(): BelongsToMany
     {
         return $this->belongsToMany(Host::class);
     }
 
-    /**
-     *  Returns the number of Rules where this Hostgroup is present.
-     *
-     * @return int
-     */
     public function getNumberOfRelatedRules(): int
     {
         return $this->getRelatedRules()->count();
     }
 
-    /**
-     * Returns a Collection of Rules where this Hostgroup is present.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getRelatedRules()
+    public function getRelatedRules(): Collection
     {
         return ControlRule::findByTarget($this->id);
     }
