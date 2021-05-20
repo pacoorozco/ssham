@@ -48,16 +48,6 @@ class KeyObserver
             ->log(sprintf("Delete key '%s'.", $key->username));
     }
 
-    public function restored(Key $key): void
-    {
-        //
-    }
-
-    public function forceDeleted(Key $key): void
-    {
-        //
-    }
-
     public function saving(Key $key): void
     {
         $key->fingerprint = RsaSshKey::getPublicFingerprint($key->public);

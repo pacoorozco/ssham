@@ -44,14 +44,4 @@ class UserObserver
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Delete user '%s'.", $user->username));
     }
-
-    public function restored(User $user): void
-    {
-        //
-    }
-
-    public function forceDeleted(User $user): void
-    {
-        //
-    }
 }

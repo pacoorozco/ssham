@@ -2,40 +2,38 @@
 
 namespace App\Policies;
 
-use App\Models\Host;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HostPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return true;
     }
 
-    public function view(User $user, Host $host): bool
+    public function view(): bool
     {
         return true;
     }
 
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }
 
-    public function update(User $user, Host $host): bool
+    public function update(): bool
     {
         return true;
     }
 
-    public function delete(User $user, Host $host): bool
+    public function delete(): bool
     {
         return true;
     }
 
-    public function viewGroups(User $user, Host $host): bool
+    public function viewGroups(): bool
     {
         return true;
     }

@@ -45,13 +45,4 @@ class KeygroupObserver
             ->log(sprintf("Delete key group '%s'.", $keygroup->name));
     }
 
-    public function restored(Keygroup $keygroup): void
-    {
-        //
-    }
-
-    public function forceDeleted(Keygroup $keygroup): void
-    {
-        //
-    }
 }

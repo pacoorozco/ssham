@@ -17,62 +17,36 @@
 
 namespace App\Observers;
 
+use App\Models\Activity;
 use App\Models\PersonalAccessToken;
 
 class PersonalAccessTokenObserver
 {
-    /**
-     * Handle the PersonalAccessToken "created" event.
-     *
-     * @param  \App\Models\PersonalAccessToken  $personalAccessToken
-     * @return void
-     */
-    public function created(PersonalAccessToken $personalAccessToken)
+    public function created(PersonalAccessToken $personalAccessToken): void
     {
-        //
+        $user = $personalAccessToken->relatedUser();
+
+        activity()
+            ->performedOn($user)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf(
+                    "Create personal access token '%s' for '%s'.",
+                    $personalAccessToken->name,
+                    $user->username)
+            );
     }
 
-    /**
-     * Handle the PersonalAccessToken "updated" event.
-     *
-     * @param  \App\Models\PersonalAccessToken  $personalAccessToken
-     * @return void
-     */
-    public function updated(PersonalAccessToken $personalAccessToken)
+    public function deleted(PersonalAccessToken $personalAccessToken): void
     {
-        //
-    }
+        $user = $personalAccessToken->relatedUser();
 
-    /**
-     * Handle the PersonalAccessToken "deleted" event.
-     *
-     * @param  \App\Models\PersonalAccessToken  $personalAccessToken
-     * @return void
-     */
-    public function deleted(PersonalAccessToken $personalAccessToken)
-    {
-        //
-    }
-
-    /**
-     * Handle the PersonalAccessToken "restored" event.
-     *
-     * @param  \App\Models\PersonalAccessToken  $personalAccessToken
-     * @return void
-     */
-    public function restored(PersonalAccessToken $personalAccessToken)
-    {
-        //
-    }
-
-    /**
-     * Handle the PersonalAccessToken "force deleted" event.
-     *
-     * @param  \App\Models\PersonalAccessToken  $personalAccessToken
-     * @return void
-     */
-    public function forceDeleted(PersonalAccessToken $personalAccessToken)
-    {
-        //
+        activity()
+            ->performedOn($user)
+            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->log(sprintf(
+                    "Revoked personal access token '%s' for '%s'.",
+                    $personalAccessToken->name,
+                    $user->username)
+            );
     }
 }

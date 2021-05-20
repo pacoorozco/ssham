@@ -44,14 +44,4 @@ class HostObserver
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Delete host '%s'.", $host->full_hostname));
     }
-
-    public function restored(Host $host): void
-    {
-        //
-    }
-
-    public function forceDeleted(Host $host): void
-    {
-        //
-    }
 }
