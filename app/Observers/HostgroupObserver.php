@@ -44,14 +44,4 @@ class HostgroupObserver
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Delete host group '%s'.", $hostgroup->name));
     }
-
-    public function restored(Hostgroup $hostgroup): void
-    {
-        //
-    }
-
-    public function forceDeleted(Hostgroup $hostgroup): void
-    {
-        //
-    }
 }

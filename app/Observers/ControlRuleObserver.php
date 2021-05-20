@@ -29,26 +29,11 @@ class ControlRuleObserver
             ->log(sprintf("Create rule '%s'.", $rule->name));
     }
 
-    public function updated(ControlRule $rule): void
-    {
-        //
-    }
-
     public function deleted(ControlRule $rule): void
     {
         activity()
             ->performedOn($rule)
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Delete rule '%s'.", $rule->name));
-    }
-
-    public function restored(ControlRule $rule): void
-    {
-        //
-    }
-
-    public function forceDeleted(ControlRule $rule): void
-    {
-        //
     }
 }

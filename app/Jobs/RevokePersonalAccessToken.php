@@ -18,6 +18,7 @@ class RevokePersonalAccessToken
 
     public function handle(): bool
     {
-        return $this->token->delete();
+        // delete() can return null while we want to return boolean.
+        return $this->token->delete() ?? false;
     }
 }

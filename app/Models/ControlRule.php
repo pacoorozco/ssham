@@ -17,8 +17,10 @@
 
 namespace App\Models;
 
+use App\Presenters\ControlRulePresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laracodes\Presenter\Traits\Presentable;
 
 /**
  * Class ControlRule.
@@ -38,6 +40,9 @@ use Illuminate\Database\Eloquent\Model;
 class ControlRule extends Model
 {
     use HasFactory;
+    use Presentable;
+
+    protected string $presenter = ControlRulePresenter::class;
 
     /**
      * The database table used by the model.
