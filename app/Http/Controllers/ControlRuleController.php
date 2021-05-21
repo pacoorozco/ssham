@@ -46,18 +46,12 @@ class ControlRuleController extends Controller
 
     public function store(ControlRuleCreateRequest $request): RedirectResponse
     {
-        try {
-            $rule = ControlRule::create([
-                'name' => $request->name,
-                'source_id' => $request->source,
-                'target_id' => $request->target,
-                'action' => $request->action,
-            ]);
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(__('rule/messages.create.error'));
-        }
+        $rule = ControlRule::create([
+            'name' => $request->name(),
+            'source_id' => $request->source(),
+            'target_id' => $request->target(),
+            'action' => $request->action(),
+        ]);
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
@@ -65,17 +59,10 @@ class ControlRuleController extends Controller
 
     public function destroy(ControlRule $rule): RedirectResponse
     {
-        $id = $rule->id;
-
-        try {
-            $rule->delete();
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withErrors(__('rule/messages.delete.error'));
-        }
+        $rule->delete();
 
         return redirect()->route('rules.index')
-            ->withSuccess(__('rule/messages.delete.success', ['rule' => $id]));
+            ->withSuccess(__('rule/messages.delete.success', ['rule' => $rule->id]));
     }
 
     public function data(Datatables $datatable): JsonResponse
@@ -91,10 +78,10 @@ class ControlRuleController extends Controller
 
         return $datatable->eloquent($rules)
             ->addColumn('source', function (ControlRule $rule) {
-                return $rule->source;
+                return $rule->present()->sourceWithLink;
             })
             ->addColumn('target', function (ControlRule $rule) {
-                return $rule->target;
+                return $rule->present()->targetWithLink;
             })
             ->editColumn('action', function (ControlRule $rule) {
                 return $rule->present()->actionWithIcon;
@@ -104,7 +91,7 @@ class ControlRuleController extends Controller
                     ->with('rule', $rule)
                     ->render();
             })
-            ->rawColumns(['action', 'actions'])
+            ->rawColumns(['source', 'target', 'action', 'actions'])
             ->removeColumn(['source_id', 'target_id'])
             ->toJson();
     }

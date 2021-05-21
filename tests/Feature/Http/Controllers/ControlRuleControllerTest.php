@@ -21,7 +21,6 @@ use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -50,18 +49,7 @@ class ControlRuleControllerTest extends TestCase
     }
 
     /** @test */
-    public function create_method_returns_proper_view(): void
-    {
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('rules.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('rule.create');
-    }
-
-    /** @test */
-    public function create_method_returns_proper_data(): void
+    public function create_method_returns_proper_view_with_data(): void
     {
         $sources = Keygroup::factory()
             ->count(3)
@@ -75,47 +63,54 @@ class ControlRuleControllerTest extends TestCase
             ->get(route('rules.create'));
 
         $response->assertSuccessful();
+        $response->assertViewIs('rule.create');
         $response->assertViewHas('sources', $sources->pluck('name', 'id'));
         $response->assertViewHas('targets', $targets->pluck('name', 'id'));
     }
 
-    /** @test  */
-    public function create_method_create_rule_in_database(): void
+    /** @test */
+    public function create_method_creates_a_rule(): void
     {
         $expectedControlRule = ControlRule::factory()->make();
+
         $formData = [
-            'name' =>   $expectedControlRule->name,
-            'source' => $expectedControlRule->source,
-            'target' => $expectedControlRule->target,
-            'action' => $expectedControlRule->action,
+            'name' => $expectedControlRule->name,
+            'source' => $expectedControlRule->source->id,
+            'target' => $expectedControlRule->target->id,
+            'action' => $expectedControlRule->action->value,
         ];
 
         $response = $this
             ->actingAs($this->user)
-            ->post(route('rules.create'), $formData);
+            ->post(route('rules.store'), $formData);
 
         $response->assertRedirect(route('rules.index'));
         $this->assertDatabaseHas('hostgroup_keygroup_permissions', [
             'name' => $expectedControlRule->name,
-            'source' => $expectedControlRule->source,
-            'target' => $expectedControlRule->target,
-            'action' => $expectedControlRule->action,
+            'source_id' => $expectedControlRule->source->id,
+            'target_id' => $expectedControlRule->target->id,
+            'action' => $expectedControlRule->action->value,
         ]);
     }
 
-    public function test_destroy_method_returns_proper_success_message()
+    /** @test */
+    public function destroy_method_removes_the_rule(): void
     {
         $rule = ControlRule::factory()
             ->create();
 
         $response = $this
             ->actingAs($this->user)
-            ->delete(route('rules.destroy', $rule->id));
+            ->delete(route('rules.destroy', $rule));
 
-        $response->assertSessionHas('success');
+        $response->assertRedirect(route('rules.index'));
+        $this->assertDatabaseMissing('hostgroup_keygroup_permissions', [
+            'id' => $rule->id,
+        ]);
     }
 
-    public function test_data_method_returns_error_when_not_ajax()
+    /** @test */
+    public function data_method_returns_error_when_not_ajax(): void
     {
         $response = $this
             ->actingAs($this->user)
@@ -124,7 +119,8 @@ class ControlRuleControllerTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_data_method_returns_data()
+    /** @test */
+    public function data_method_returns_json_data(): void
     {
         $rules = ControlRule::factory()
             ->count(3)
