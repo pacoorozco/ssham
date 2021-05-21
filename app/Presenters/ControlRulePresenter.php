@@ -29,12 +29,14 @@ class ControlRulePresenter extends Presenter
         if ($action->is(ControlRuleAction::Allow)) {
             return new HtmlString('<i class="fa fa-lock-open"></i> '.$action->description);
         }
+
         return new HtmlString('<i class="fa fa-lock"></i> '.$action->description);
     }
 
     public function sourceWithLink(): HtmlString
     {
         $source = $this->model->source;
+
         return new HtmlString(
             sprintf('<a href="%s">%s</a> (%d %s)',
                 route('keygroups.show', $source),
