@@ -40,7 +40,7 @@ class ControlRule extends Model
         'name',
         'enabled',
     ];
-    protected $casts    = [
+    protected $casts = [
         'action' => ControlRuleAction::class,
     ];
 
