@@ -7,6 +7,6 @@ use BenSampo\Enum\Enum;
 
 final class ControlRuleAction extends Enum implements LocalizedEnum
 {
-    const Allow =   'allow';
-    const Deny =   'deny';
+    const Allow = 'allow';
+    const Deny = 'deny';
 }
