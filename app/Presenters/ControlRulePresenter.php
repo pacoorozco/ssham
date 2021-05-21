@@ -26,15 +26,16 @@ class ControlRulePresenter extends Presenter
     public function actionWithIcon(): HtmlString
     {
         if ($this->model->action->is(ControlRuleAction::Allow)) {
-            return new HtmlString('<i class="fa fa-lock-open"></i> ' . ControlRuleAction::getDescription($this->model->action));
+            return new HtmlString('<i class="fa fa-lock-open"></i> '.ControlRuleAction::getDescription($this->model->action));
         }
 
-        return new HtmlString('<i class="fa fa-lock"></i> ' . ControlRuleAction::getDescription($this->model->action));
+        return new HtmlString('<i class="fa fa-lock"></i> '.ControlRuleAction::getDescription($this->model->action));
     }
 
     public function sourceWithLink(): HtmlString
     {
         $source = $this->model->source;
+
         return new HtmlString(
             sprintf('<a href="%s">%s</a> (%d %s)',
                 route('keygroups.show', $source),
@@ -48,6 +49,7 @@ class ControlRulePresenter extends Presenter
     public function targetWithLink(): HtmlString
     {
         $target = $this->model->target;
+
         return new HtmlString(
             sprintf('<a href="%s">%s</a> (%d %s)',
                 route('hostgroups.show', $target),
