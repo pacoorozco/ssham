@@ -26,9 +26,9 @@ class ControlRulePresenter extends Presenter
     public function actionWithIcon(): HtmlString
     {
         if ($this->model->action->is(ControlRuleAction::Allow)) {
-            return new HtmlString('<i class="fa fa-lock-open"></i> ' . ControlRuleAction::getDescription($this->model->action));
+            return new HtmlString('<i class="fa fa-lock-open"></i> '.ControlRuleAction::getDescription($this->model->action));
         }
 
-        return new HtmlString('<i class="fa fa-lock"></i> ' . ControlRuleAction::getDescription($this->model->action));
+        return new HtmlString('<i class="fa fa-lock"></i> '.ControlRuleAction::getDescription($this->model->action));
     }
 }
