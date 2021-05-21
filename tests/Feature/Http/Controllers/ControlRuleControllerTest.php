@@ -84,10 +84,10 @@ class ControlRuleControllerTest extends TestCase
     {
         $expectedControlRule = ControlRule::factory()->make();
         $formData = [
-          'name' =>   $expectedControlRule->name,
-          'source' => $expectedControlRule->source,
-          'target' => $expectedControlRule->target,
-          'action' => $expectedControlRule->action,
+            'name' =>   $expectedControlRule->name,
+            'source' => $expectedControlRule->source,
+            'target' => $expectedControlRule->target,
+            'action' => $expectedControlRule->action,
         ];
 
         $response = $this
@@ -101,7 +101,6 @@ class ControlRuleControllerTest extends TestCase
             'target' => $expectedControlRule->target,
             'action' => $expectedControlRule->action,
         ]);
-
     }
 
     public function test_destroy_method_returns_proper_success_message()
