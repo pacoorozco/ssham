@@ -17,15 +17,17 @@
 
 namespace App\Presenters;
 
-use Illuminate\Support\HtmlString;
 use Laracodes\Presenter\Presenter;
 
 class PersonalAccessTokenPresenter extends Presenter
 {
     public function getLastUsedDateString(): string
     {
-        return is_null($this->model->last_used_at)
-            ? __('user/personal_access_token.never_used')
-            : __('user/personal_access_token.last_used', ['time' => $this->last_used_at->diffForHumans()]);
+        if (!is_null($this->model->last_used_at)) {
+            return __('user/personal_access_token.last_used', [
+                'time' => $this->model->last_used_at->diffForHumans(),
+            ]);
+        }
+        return __('user/personal_access_token.never_used');
     }
 }
