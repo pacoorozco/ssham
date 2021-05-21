@@ -44,5 +44,4 @@ class KeygroupObserver
             ->withProperties(['status' => Activity::STATUS_SUCCESS])
             ->log(sprintf("Delete key group '%s'.", $keygroup->name));
     }
-
 }
