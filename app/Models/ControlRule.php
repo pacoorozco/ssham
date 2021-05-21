@@ -17,9 +17,11 @@
 
 namespace App\Models;
 
+use App\Enums\ControlRuleAction;
 use App\Presenters\ControlRulePresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Laracodes\Presenter\Traits\Presentable;
 
 /**
@@ -44,24 +46,18 @@ class ControlRule extends Model
 
     protected string $presenter = ControlRulePresenter::class;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'hostgroup_keygroup_permissions';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'source_id',
         'target_id',
         'action',
         'name',
         'enabled',
+    ];
+
+    protected $casts = [
+        'action' => ControlRuleAction::class,
     ];
 
     /**
@@ -79,13 +75,13 @@ class ControlRule extends Model
      *
      * @return \App\Models\Keygroup
      */
-    public function getSourceObject()
+    public function getSourceObject(): Keygroup
     {
         return Keygroup::find($this->source_id);
     }
 
     /**
-     *Returns the Hostgroup name used as target.
+     * Returns the Hostgroup name used as target.
      *
      * @return string
      */
@@ -99,7 +95,7 @@ class ControlRule extends Model
      *
      * @return \App\Models\Hostgroup
      */
-    public function getTargetObject()
+    public function getTargetObject(): Hostgroup
     {
         return Hostgroup::find($this->target_id);
     }
@@ -111,7 +107,7 @@ class ControlRule extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findBySource(int $source_id)
+    public static function findBySource(int $source_id): Collection
     {
         return ControlRule::where('source_id', $source_id)->get();
     }
@@ -123,7 +119,7 @@ class ControlRule extends Model
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function findByTarget(int $target_id)
+    public static function findByTarget(int $target_id): Collection
     {
         return ControlRule::where('target_id', $target_id)->get();
     }

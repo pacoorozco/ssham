@@ -28,37 +28,40 @@ use Tests\TestCase;
 class ControlRuleControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use DatabaseMigrations;
 
-    private $user_to_act_as;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = User::factory()->create();
+        $this->user = User::factory()
+            ->create();
     }
 
-    public function test_index_method_returns_proper_view()
+    /** @test */
+    public function index_method_returns_proper_view(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.index'));
 
         $response->assertSuccessful();
         $response->assertViewIs('rule.index');
     }
 
-    public function test_create_method_returns_proper_view()
+    /** @test */
+    public function create_method_returns_proper_view(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.create'));
 
         $response->assertSuccessful();
         $response->assertViewIs('rule.create');
     }
 
-    public function test_create_method_returns_proper_data()
+    /** @test */
+    public function create_method_returns_proper_data(): void
     {
         $sources = Keygroup::factory()
             ->count(3)
@@ -68,12 +71,37 @@ class ControlRuleControllerTest extends TestCase
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.create'));
 
         $response->assertSuccessful();
         $response->assertViewHas('sources', $sources->pluck('name', 'id'));
         $response->assertViewHas('targets', $targets->pluck('name', 'id'));
+    }
+
+    /** @test  */
+    public function create_method_create_rule_in_database(): void
+    {
+        $expectedControlRule = ControlRule::factory()->make();
+        $formData = [
+          'name' =>   $expectedControlRule->name,
+          'source' => $expectedControlRule->source,
+          'target' => $expectedControlRule->target,
+          'action' => $expectedControlRule->action,
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('rules.create'), $formData);
+
+        $response->assertRedirect(route('rules.index'));
+        $this->assertDatabaseHas('hostgroup_keygroup_permissions', [
+            'name' => $expectedControlRule->name,
+            'source' => $expectedControlRule->source,
+            'target' => $expectedControlRule->target,
+            'action' => $expectedControlRule->action,
+        ]);
+
     }
 
     public function test_destroy_method_returns_proper_success_message()
@@ -82,7 +110,7 @@ class ControlRuleControllerTest extends TestCase
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->delete(route('rules.destroy', $rule->id));
 
         $response->assertSessionHas('success');
@@ -91,7 +119,7 @@ class ControlRuleControllerTest extends TestCase
     public function test_data_method_returns_error_when_not_ajax()
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.data'));
 
         $response->assertForbidden();
@@ -104,7 +132,7 @@ class ControlRuleControllerTest extends TestCase
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->ajaxGet(route('rules.data'));
 
         $response->assertSuccessful();

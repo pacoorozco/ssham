@@ -17,14 +17,16 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ControlRuleAction;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
 
 /**
  * Class RuleCreateRequest.
  *
  *
- * @property int    $source
- * @property int    $target
+ * @property int $source
+ * @property int $target
  * @property string $name
  * @property string $action
  */
@@ -50,16 +52,33 @@ class ControlRuleCreateRequest extends Request
         $source = $this->source;
         $target = $this->target;
 
+        // 'keygroup' and 'hostgroup' combination must be unique
+        $unique = Rule::unique('hostgroup_keygroup_permissions', 'source_id')->where(function ($query) use (
+            $source,
+            $target
+        ) {
+            return $query->where('source_id', $source)
+                ->where('target_id', $target);
+        });
+
         return [
-            'source' => ['required', 'exists:App\Models\Keygroup,id',
-                // 'keygroup' and 'hostgroup' combination must be unique
-                Rule::unique('hostgroup_keygroup_permissions', 'source_id')->where(function ($query) use ($source, $target) {
-                    return $query->where('source_id', $source)
-                        ->where('target_id', $target);
-                }), ],
-            'target' => ['required', 'exists:App\Models\Hostgroup,id'],
-            'action' => ['required', Rule::in(['allow', 'deny'])],
-            'name' => ['required', 'string'],
+            'source' => [
+                'required',
+                'exists:App\Models\Keygroup,id',
+                $unique,
+            ],
+            'target' => [
+                'required',
+                'exists:App\Models\Hostgroup,id',
+            ],
+            'action' => [
+                'required',
+                new EnumValue(ControlRuleAction::class),
+            ],
+            'name' => [
+                'required',
+                'string',
+            ],
         ];
     }
 }

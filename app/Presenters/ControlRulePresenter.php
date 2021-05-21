@@ -17,6 +17,7 @@
 
 namespace App\Presenters;
 
+use App\Enums\ControlRuleAction;
 use Illuminate\Support\HtmlString;
 use Laracodes\Presenter\Presenter;
 
@@ -24,10 +25,10 @@ class ControlRulePresenter extends Presenter
 {
     public function actionWithIcon(): HtmlString
     {
-        if ($this->model->action == 'allow') {
-            return new HtmlString('<i class="fa fa-lock-open"></i> '.__('rule/table.allowed'));
+        if ($this->model->action->is(ControlRuleAction::Allow)) {
+            return new HtmlString('<i class="fa fa-lock-open"></i> ' . ControlRuleAction::getDescription($this->model->action));
         }
 
-        return new HtmlString('<i class="fa fa-lock"></i> '.__('rule/table.denied'));
+        return new HtmlString('<i class="fa fa-lock"></i> ' . ControlRuleAction::getDescription($this->model->action));
     }
 }

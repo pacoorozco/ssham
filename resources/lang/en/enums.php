@@ -15,11 +15,11 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Enums\ControlRuleAction;
+
 return [
-    'source' => 'Source (SSH Key Group)',
-    'target' => 'Target (Host Group)',
-    'name' => 'Description',
-    'action' => 'Action',
-    'enabled' => 'Enabled',
-    'actions' => 'Actions',
+    ControlRuleAction::class => [
+        ControlRuleAction::Allow => 'Allow',
+        ControlRuleAction::Deny => 'Deny',
+    ],
 ];

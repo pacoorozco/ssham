@@ -67,7 +67,7 @@
                         <!-- action -->
                         <div class="form-group">
                             {!! Form::label('action', __('rule/model.action')) !!}
-                            {!! Form::select('action', array('allow' => __('rule/model.action_allow'), 'deny' => __('rule/model.action_deny')), null, array('class' => 'form-control' . ($errors->has('action') ? ' is-invalid' : ''))) !!}
+                            {!! Form::select('action', \App\Enums\ControlRuleAction::asSelectArray(), null, array('class' => 'form-control' . ($errors->has('action') ? ' is-invalid' : ''))) !!}
                             @error('description')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror

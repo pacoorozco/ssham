@@ -15,6 +15,7 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
+use App\Enums\ControlRuleAction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -34,7 +35,7 @@ class CreateHostgroupKeygroupPermissionsTable extends Migration
             $table->foreign('source_id')->references('id')->on('keygroups')->onDelete('cascade');
             $table->unsignedBigInteger('target_id')->unsigned();
             $table->foreign('target_id')->references('id')->on('hostgroups')->onDelete('cascade');
-            $table->enum('action', ['allow', 'deny'])->default('allow');
+            $table->enum('action', ControlRuleAction::getValues())->default(ControlRuleAction::Allow);
             $table->string('name')->nullable();
             $table->boolean('enabled')->default('1');
             $table->timestamps();

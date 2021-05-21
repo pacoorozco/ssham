@@ -17,6 +17,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
@@ -49,7 +50,7 @@ class ControlRuleFactory extends Factory
 
                 return $hostgroup->id;
             },
-            'action' => $this->faker->randomElement(['allow', 'deny']),
+            'action' => $this->faker->randomElement(ControlRuleAction::getValues()),
             'name' => $this->faker->sentence,
         ];
     }
