@@ -17,7 +17,7 @@ class HostTest extends TestCase
     use RefreshDatabase;
 
     /** @test  */
-    public function scopeEnabled_returns_correct_data():void
+    public function scopeEnabled_returns_correct_data(): void
     {
         // two disabled Host
         Host::factory()
