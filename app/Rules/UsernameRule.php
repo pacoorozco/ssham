@@ -27,7 +27,7 @@ class UsernameRule implements Rule
 
     public function passes($attribute, $value): bool
     {
-        return (1 == preg_match(self::VALID_USERNAME_REGEXP, $value));
+        return 1 == preg_match(self::VALID_USERNAME_REGEXP, $value);
     }
 
     public function message(): string
