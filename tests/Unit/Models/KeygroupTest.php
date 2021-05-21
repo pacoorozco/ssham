@@ -19,11 +19,13 @@ namespace Tests\Unit\Models;
 
 use App\Models\Keygroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\ModelTestCase;
 
 class KeygroupTest extends ModelTestCase
 {
-    public function test_contains_valid_fillable_properties()
+    /** @test */
+    public function it_contains_valid_fillable_properties(): void
     {
         $m = new Keygroup();
         $this->assertEquals([
@@ -32,20 +34,19 @@ class KeygroupTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    public function test_contains_valid_casts_properties()
-    {
-        $m = new Keygroup();
-        $this->assertEquals([
-            'id' => 'int',
-            'name' => 'string',
-            'description' => 'string',
-        ], $m->getCasts());
-    }
-
-    public function test_users_relation()
+    /** @test */
+    public function it_has_keys_relation(): void
     {
         $m = new Keygroup();
         $r = $m->keys();
         $this->assertInstanceOf(BelongsToMany::class, $r);
+    }
+
+    /** @test */
+    public function it_has_rules_relation(): void
+    {
+        $m = new Keygroup();
+        $r = $m->rules();
+        $this->assertInstanceOf(HasMany::class, $r);
     }
 }

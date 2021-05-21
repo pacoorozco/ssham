@@ -130,13 +130,21 @@ class ControlRuleControllerTest extends TestCase
             ->actingAs($this->user)
             ->ajaxGet(route('rules.data'));
 
+        //var_dump($response->dump());
+
         $response->assertSuccessful();
-        foreach ($rules as $rule) {
-            $response->assertJsonFragment([
-                'source' => $rule->source,
-                'target' => $rule->target,
-                'name' => $rule->name,
-            ]);
-        }
+        $response->assertJsonCount(3, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'action',
+                    'source',
+                    'target',
+                    'actions',
+                ],
+            ],
+        ]);
     }
 }

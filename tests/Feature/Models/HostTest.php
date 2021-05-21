@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -14,9 +15,9 @@ use Tests\TestCase;
 class HostTest extends TestCase
 {
     use RefreshDatabase;
-    use DatabaseMigrations;
 
-    public function test_scopeEnabled_returns_correct_data()
+    /** @test  */
+    public function scopeEnabled_returns_correct_data():void
     {
         // two disabled Host
         Host::factory()
@@ -37,7 +38,8 @@ class HostTest extends TestCase
         $this->assertCount(3, $got);
     }
 
-    public function test_scopeEnabled_returns_no_data_if_all_hosts_are_disabled()
+    /** @test */
+    public function scopeEnabled_returns_no_data_if_all_hosts_are_disabled(): void
     {
         // two disabled Host
         Host::factory()
@@ -51,7 +53,8 @@ class HostTest extends TestCase
         $this->assertEmpty($got);
     }
 
-    public function test_scopeNotInSync_returns_correct_data()
+    /** @test */
+    public function scopeNotInSync_returns_correct_data(): void
     {
         // two synced Host
         Host::factory()
@@ -72,7 +75,8 @@ class HostTest extends TestCase
         $this->assertCount(3, $got);
     }
 
-    public function test_scopeNotInSync_returns_no_data_if_all_hosts_are_disabled()
+    /** @test */
+    public function scopeNotInSync_returns_no_data_if_all_hosts_are_disabled(): void
     {
         // two synced Host
         Host::factory()
@@ -87,7 +91,7 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_expected_number_of_keys_for_a_given_host()
+    public function it_returns_the_expected_number_of_keys_for_a_given_host(): void
     {
         $host = Host::factory()->create();
 
@@ -107,7 +111,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => 'allow',
+                'action' => ControlRuleAction::Allow,
             ]);
 
         // This key should NOT appear on the getSSHKeysForHost() list.
@@ -121,7 +125,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $deniedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => 'deny',
+                'action' => ControlRuleAction::Deny,
             ]);
 
         $got = $host->getSSHKeysForHost();
@@ -132,7 +136,7 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_empty_array_when_key_is_allowed_and_denied_for_a_given_host()
+    public function it_returns_empty_array_when_key_is_allowed_and_denied_for_a_given_host(): void
     {
         $host = Host::factory()->create();
 
@@ -147,7 +151,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => 'allow',
+                'action' => ControlRuleAction::Allow,
             ]);
 
         $deniedKeyGroup = Keygroup::factory()->create();
@@ -157,7 +161,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $deniedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => 'deny',
+                'action' => ControlRuleAction::Deny,
             ]);
 
         $got = $host->getSSHKeysForHost();
@@ -165,7 +169,7 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_expected_number_of_keys_when_key_is_disabled()
+    public function it_returns_the_expected_number_of_keys_when_key_is_disabled(): void
     {
         $host = Host::factory()->create();
 
@@ -186,7 +190,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => 'allow',
+                'action' => ControlRuleAction::Allow,
             ]);
 
         $got = $host->getSSHKeysForHost();
@@ -196,7 +200,7 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_provided_key_inside_results()
+    public function it_returns_the_provided_key_inside_results(): void
     {
         $host = Host::factory()->create();
 
@@ -211,7 +215,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => 'allow',
+                'action' => ControlRuleAction::Allow,
             ]);
 
         $bastionHostKey = Key::factory()->create();

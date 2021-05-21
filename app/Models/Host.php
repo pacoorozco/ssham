@@ -17,6 +17,7 @@
 
 namespace App\Models;
 
+use App\Enums\ControlRuleAction;
 use App\Enums\HostStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -114,16 +115,16 @@ class Host extends Model implements Searchable
         $sshKeys = [];
         $hostGroups = $this->groups;
         foreach ($hostGroups as $hostGroup) {
-            $rules = $hostGroup->getRelatedRules();
+            $rules = $hostGroup->rules;
             foreach ($rules as $rule) {
-                $keygroup = $rule->getSourceObject();
+                $keygroup = $rule->source;
                 $keys = $keygroup->keys()->where('enabled', true)->get();
                 foreach ($keys as $key) {
                     switch ($rule->action) {
-                        case 'deny':
+                        case ControlRuleAction::Deny:
                             unset($sshKeys[$key->username]);
                             break;
-                        case 'allow':
+                        case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
                             $content[2] = $key->username.'@ssham';
                             $sshKeys[$key->username] = join(' ', $content);
