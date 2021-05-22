@@ -82,12 +82,12 @@ class Host extends Model implements Searchable
 
     public function scopeNotInSync(Builder $query): Builder
     {
-        return $query->where('synced', '=', false);
+        return $query->where('synced', false);
     }
 
     public function scopeEnabled(Builder $query): Builder
     {
-        return $query->where('enabled', '=', true);
+        return $query->where('enabled', true);
     }
 
     public function getSearchResult(): SearchResult
@@ -135,7 +135,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (! is_null($bastionSSHPublicKey)) {
+        if (!is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 
