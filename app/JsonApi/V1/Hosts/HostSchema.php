@@ -41,7 +41,7 @@ class HostSchema extends Schema
             Boolean::make('synced')->readOnly(),
             Str::make('syncedStatus', 'status_code')
                 ->serializeUsing(
-                    static fn($value) => $value->description
+                    static fn ($value) => $value->description
                 )
                 ->readOnly(),
             DateTime::make('syncedAt', 'last_rotation')->readOnly(),
