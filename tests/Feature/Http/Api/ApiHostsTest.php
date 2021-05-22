@@ -135,7 +135,7 @@ class ApiHostsTest extends ApiTestCase
                 'createdAt' => $host->created_at->jsonSerialize(),
                 'synced' => $host->synced,
                 'syncedAt' => optional($host->last_rotation)->jsonSerialize(),
-                'syncedStatus' => $host->status_code,
+                'syncedStatus' => $host->status_code->description,
             ],
             'relationships' => [
                 'groups' => [
@@ -201,7 +201,7 @@ class ApiHostsTest extends ApiTestCase
                 'createdAt' => $host->created_at->jsonSerialize(),
                 'synced' => $host->synced,
                 'syncedAt' => optional($host->last_rotation)->jsonSerialize(),
-                'syncedStatus' => $host->status_code,
+                'syncedStatus' => $host->status_code->description,
             ],
         ];
 
