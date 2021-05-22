@@ -5,6 +5,11 @@ namespace App\Enums;
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
+/**
+ * @method static static Success()
+ * @method static static Failure()
+ * @method static static Unknown()
+ */
 final class ActivityStatus extends Enum implements LocalizedEnum
 {
     const Success = 'STATUS_SUCCESS';

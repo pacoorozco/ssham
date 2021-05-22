@@ -4,6 +4,12 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * @method static static INITIAL_STATUS()
+ * @method static static AUTH_FAIL_STATUS()
+ * @method static static GENERIC_FAIL_STATUS()
+ * @method static static SUCCESS_STATUS()
+ */
 final class HostStatus extends Enum
 {
     const INITIAL_STATUS = 'INITIAL';
