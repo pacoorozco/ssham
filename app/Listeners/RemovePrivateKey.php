@@ -17,8 +17,8 @@
 
 namespace App\Listeners;
 
+use App\Enums\ActivityStatus;
 use App\Events\PrivateKeyWasDownloaded;
-use App\Models\Activity;
 
 class RemovePrivateKey
 {
@@ -32,7 +32,7 @@ class RemovePrivateKey
         // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
             //->performedOn($key)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
-            ->log(sprintf("Private key was removed from ky '%s'.", $key->username));
+            ->withProperties(['status' => ActivityStatus::Success])
+            ->log(sprintf("Private key was removed from key '%s'.", $key->username));
     }
 }

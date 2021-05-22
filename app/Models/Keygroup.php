@@ -19,76 +19,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-/**
- * Class Keygroup.
- *
- *
- * @property int    $id
- * @property string $name
- * @property string $description
- */
 class Keygroup extends Model implements Searchable
 {
     use HasFactory;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'keygroups';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'description',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'string',
-        'description' => 'string',
-    ];
-
-    /**
-     * An Keygroup is composed by many Keys (many-to-many).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function keys()
+    public function keys(): BelongsToMany
     {
         return $this->belongsToMany(Key::class);
     }
 
-    /**
-     * Returns the number of Rules where this Keygroup is present.
-     *
-     * @return int
-     */
-    public function getNumberOfRelatedRules(): int
+    public function rules(): HasMany
     {
-        return $this->getRelatedRules()->count();
+        return $this->hasMany(ControlRule::class, 'source_id');
     }
 
-    /**
-     * Returns a Collection of Rules where this Keygroup is present.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    private function getRelatedRules()
+    public function getNumberOfRelatedRules(): int
     {
-        return ControlRule::findBySource($this->id);
+        return $this->rules()->count();
     }
 
     public function getSearchResult(): SearchResult

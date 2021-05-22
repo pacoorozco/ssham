@@ -17,6 +17,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
@@ -24,19 +25,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ControlRuleFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = ControlRule::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
             'source_id' => function () {
@@ -49,7 +40,7 @@ class ControlRuleFactory extends Factory
 
                 return $hostgroup->id;
             },
-            'action' => $this->faker->randomElement(['allow', 'deny']),
+            'action' => $this->faker->randomElement(ControlRuleAction::getValues()),
             'name' => $this->faker->sentence,
         ];
     }

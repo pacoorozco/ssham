@@ -21,44 +21,35 @@ use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ControlRuleControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use DatabaseMigrations;
 
-    private $user_to_act_as;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = User::factory()->create();
+        $this->user = User::factory()
+            ->create();
     }
 
-    public function test_index_method_returns_proper_view()
+    /** @test */
+    public function index_method_returns_proper_view(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.index'));
 
         $response->assertSuccessful();
         $response->assertViewIs('rule.index');
     }
 
-    public function test_create_method_returns_proper_view()
-    {
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('rules.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('rule.create');
-    }
-
-    public function test_create_method_returns_proper_data()
+    /** @test */
+    public function create_method_returns_proper_view_with_data(): void
     {
         $sources = Keygroup::factory()
             ->count(3)
@@ -68,52 +59,92 @@ class ControlRuleControllerTest extends TestCase
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.create'));
 
         $response->assertSuccessful();
+        $response->assertViewIs('rule.create');
         $response->assertViewHas('sources', $sources->pluck('name', 'id'));
         $response->assertViewHas('targets', $targets->pluck('name', 'id'));
     }
 
-    public function test_destroy_method_returns_proper_success_message()
+    /** @test */
+    public function create_method_creates_a_rule(): void
+    {
+        $expectedControlRule = ControlRule::factory()->make();
+
+        $formData = [
+            'name' => $expectedControlRule->name,
+            'source' => $expectedControlRule->source->id,
+            'target' => $expectedControlRule->target->id,
+            'action' => $expectedControlRule->action->value,
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('rules.store'), $formData);
+
+        $response->assertRedirect(route('rules.index'));
+        $this->assertDatabaseHas('hostgroup_keygroup_permissions', [
+            'name' => $expectedControlRule->name,
+            'source_id' => $expectedControlRule->source->id,
+            'target_id' => $expectedControlRule->target->id,
+            'action' => $expectedControlRule->action->value,
+        ]);
+    }
+
+    /** @test */
+    public function destroy_method_removes_the_rule(): void
     {
         $rule = ControlRule::factory()
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->delete(route('rules.destroy', $rule->id));
+            ->actingAs($this->user)
+            ->delete(route('rules.destroy', $rule));
 
-        $response->assertSessionHas('success');
+        $response->assertRedirect(route('rules.index'));
+        $this->assertDatabaseMissing('hostgroup_keygroup_permissions', [
+            'id' => $rule->id,
+        ]);
     }
 
-    public function test_data_method_returns_error_when_not_ajax()
+    /** @test */
+    public function data_method_returns_error_when_not_ajax(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('rules.data'));
 
         $response->assertForbidden();
     }
 
-    public function test_data_method_returns_data()
+    /** @test */
+    public function data_method_returns_json_data(): void
     {
         $rules = ControlRule::factory()
             ->count(3)
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->ajaxGet(route('rules.data'));
 
+        //var_dump($response->dump());
+
         $response->assertSuccessful();
-        foreach ($rules as $rule) {
-            $response->assertJsonFragment([
-                'source' => $rule->source,
-                'target' => $rule->target,
-                'name' => $rule->name,
-            ]);
-        }
+        $response->assertJsonCount(3, 'data');
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'action',
+                    'source',
+                    'target',
+                    'actions',
+                ],
+            ],
+        ]);
     }
 }

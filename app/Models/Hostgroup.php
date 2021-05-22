@@ -20,18 +20,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-/**
- * Class Hostgroup.
- *
- *
- * @property int $id
- * @property string $name
- * @property string $description
- */
 class Hostgroup extends Model implements Searchable
 {
     use HasFactory;
@@ -48,14 +40,14 @@ class Hostgroup extends Model implements Searchable
         return $this->belongsToMany(Host::class);
     }
 
-    public function getNumberOfRelatedRules(): int
+    public function rules(): HasMany
     {
-        return $this->getRelatedRules()->count();
+        return $this->hasMany(ControlRule::class, 'target_id');
     }
 
-    public function getRelatedRules(): Collection
+    public function getNumberOfRelatedRules(): int
     {
-        return ControlRule::findByTarget($this->id);
+        return $this->rules()->count();
     }
 
     public function getSearchResult(): SearchResult

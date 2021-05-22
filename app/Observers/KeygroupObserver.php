@@ -17,7 +17,7 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use App\Models\Keygroup;
 
 class KeygroupObserver
@@ -26,7 +26,7 @@ class KeygroupObserver
     {
         activity()
             ->performedOn($keygroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Create key group '%s'.", $keygroup->name));
     }
 
@@ -34,24 +34,14 @@ class KeygroupObserver
     {
         activity()
             ->performedOn($keygroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Update key group '%s'.", $keygroup->name));
     }
 
     public function deleted(Keygroup $keygroup): void
     {
         activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Delete key group '%s'.", $keygroup->name));
-    }
-
-    public function restored(Keygroup $keygroup): void
-    {
-        //
-    }
-
-    public function forceDeleted(Keygroup $keygroup): void
-    {
-        //
     }
 }

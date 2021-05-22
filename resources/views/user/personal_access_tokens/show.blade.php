@@ -88,7 +88,7 @@
                                 </a>
                             @else
                                 <small class="text-muted float-right">
-                                    {{ $token->getLastUsedDateString() }}
+                                    {{ $token->present()->getLastUsedDateString() }}
                                 </small>
                                 {{ $token->name }}
                             @endif

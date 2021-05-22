@@ -17,8 +17,8 @@
 
 namespace App\Observers;
 
+use App\Enums\ActivityStatus;
 use App\Libs\RsaSshKey\RsaSshKey;
-use App\Models\Activity;
 use App\Models\Key;
 
 class KeyObserver
@@ -28,7 +28,7 @@ class KeyObserver
         // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
             //->performedOn($key)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Create key '%s'.", $key->username));
     }
 
@@ -37,25 +37,15 @@ class KeyObserver
         // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
             //->performedOn($key)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Update key '%s'.", $key->username));
     }
 
     public function deleted(Key $key): void
     {
         activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Delete key '%s'.", $key->username));
-    }
-
-    public function restored(Key $key): void
-    {
-        //
-    }
-
-    public function forceDeleted(Key $key): void
-    {
-        //
     }
 
     public function saving(Key $key): void

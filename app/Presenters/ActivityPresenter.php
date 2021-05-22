@@ -17,7 +17,7 @@
 
 namespace App\Presenters;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use Illuminate\Support\HtmlString;
 use Laracodes\Presenter\Presenter;
 
@@ -25,24 +25,21 @@ class ActivityPresenter extends Presenter
 {
     public function activityAge(): HtmlString
     {
-        return new HtmlString($this->created_at->diffForHumans());
+        return new HtmlString(optional($this->model->created_at)->diffForHumans());
     }
 
     public function causerUsername(): string
     {
-        return (is_null($this->causer)) ? 'system' : $this->causer->username;
+        return optional($this->model->causer)->username ?? 'system';
     }
 
     public function statusBadge(): HtmlString
     {
-        switch ($this->status) {
-            case Activity::STATUS_SUCCESS:
-                return new HtmlString('<p class="text-success">'.__('activity/model.statuses.success').'</p>');
-            case Activity::STATUS_FAIL:
-                return new HtmlString(__('activity/model.statuses.failed'));
-
+        $status = $this->model->status;
+        if ($status->is(ActivityStatus::Success)) {
+            return new HtmlString('<p class="text-success">'.$status->description.'</p>');
         }
 
-        return new HtmlString(__('activity/model.statuses.unknown'));
+        return new HtmlString($status->description);
     }
 }

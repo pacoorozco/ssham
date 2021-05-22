@@ -17,49 +17,69 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ControlRuleAction;
+use App\Models\ControlRule;
+use App\Models\Hostgroup;
+use App\Models\Keygroup;
+use BenSampo\Enum\Rules\Enum;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
 
-/**
- * Class RuleCreateRequest.
- *
- *
- * @property int    $source
- * @property int    $target
- * @property string $name
- * @property string $action
- */
 class ControlRuleCreateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
-        $source = $this->source;
-        $target = $this->target;
+        $target_id = $this->input('target');
+
+        // 'keygroup' and 'hostgroup' combination must be unique
+        $unique = Rule::unique(ControlRule::class, 'source_id')
+            ->where(function ($query) use ($target_id) {
+                return $query->where('target_id', $target_id);
+            });
 
         return [
-            'source' => ['required', 'exists:App\Models\Keygroup,id',
-                // 'keygroup' and 'hostgroup' combination must be unique
-                Rule::unique('hostgroup_keygroup_permissions', 'source_id')->where(function ($query) use ($source, $target) {
-                    return $query->where('source_id', $source)
-                        ->where('target_id', $target);
-                }), ],
-            'target' => ['required', 'exists:App\Models\Hostgroup,id'],
-            'action' => ['required', Rule::in(['allow', 'deny'])],
-            'name' => ['required', 'string'],
+            'source' => [
+                'required',
+                Rule::exists(Keygroup::class, 'id'),
+                $unique,
+            ],
+            'target' => [
+                'required',
+                Rule::exists(Hostgroup::class, 'id'),
+            ],
+            'action' => [
+                'required',
+                new EnumValue(ControlRuleAction::class),
+            ],
+            'name' => [
+                'required',
+                'string',
+            ],
         ];
+    }
+
+    public function source(): int
+    {
+        return $this->input('source');
+    }
+
+    public function target(): int
+    {
+        return $this->input('target');
+    }
+
+    public function action(): ControlRuleAction
+    {
+        return ControlRuleAction::fromValue($this->input('action'));
+    }
+
+    public function name(): string
+    {
+        return $this->input('name');
     }
 }

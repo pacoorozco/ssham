@@ -17,40 +17,38 @@
 
 namespace App\Policies;
 
-use App\Models\Hostgroup;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HostgroupPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return true;
     }
 
-    public function view(User $user, Hostgroup $group): bool
+    public function view(): bool
     {
         return true;
     }
 
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }
 
-    public function update(User $user, Hostgroup $group): bool
+    public function update(): bool
     {
         return true;
     }
 
-    public function delete(User $user, Hostgroup $group): bool
+    public function delete(): bool
     {
         return true;
     }
 
-    public function viewHosts(User $user, Hostgroup $group): bool
+    public function viewHosts(): bool
     {
         return true;
     }

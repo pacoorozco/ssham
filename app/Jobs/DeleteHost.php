@@ -18,6 +18,7 @@ final class DeleteHost
 
     public function handle(): bool
     {
-        return $this->host->delete();
+        // delete() can return null while we want to return boolean.
+        return $this->host->delete() ?? false;
     }
 }

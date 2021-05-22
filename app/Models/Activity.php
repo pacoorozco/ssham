@@ -17,6 +17,7 @@
 
 namespace App\Models;
 
+use App\Enums\ActivityStatus;
 use App\Presenters\ActivityPresenter;
 use Laracodes\Presenter\Traits\Presentable;
 
@@ -26,12 +27,10 @@ class Activity extends \Spatie\Activitylog\Models\Activity
 
     protected string $presenter = ActivityPresenter::class;
 
-    public function getStatusAttribute(): string
+    public function getStatusAttribute(): ActivityStatus
     {
-        return $this->getExtraProperty('status');
+        // There is a default value in order to avoid errors when database contains old messages
+        // which doesn't have a value now.
+        return ActivityStatus::coerce($this->getExtraProperty('status')) ?? ActivityStatus::Unknown();
     }
-
-    // Statuses
-    const STATUS_SUCCESS = 'STATUS_SUCCESS';
-    const STATUS_FAIL = 'STATUS_FAIL';
 }

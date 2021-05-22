@@ -6,7 +6,5 @@ return [
     'source' => 'Source (SSH Key Group)',
     'target' => 'Target (Host Group)',
     'action' => 'Action',
-    'action_allow' => 'Allow',
-    'action_deny' => 'Deny',
     'name' => 'Description',
 ];

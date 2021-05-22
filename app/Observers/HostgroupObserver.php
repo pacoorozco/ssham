@@ -17,7 +17,7 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use App\Models\Hostgroup;
 
 class HostgroupObserver
@@ -26,7 +26,7 @@ class HostgroupObserver
     {
         activity()
             ->performedOn($hostgroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Create host group '%s'.", $hostgroup->name));
     }
 
@@ -34,24 +34,14 @@ class HostgroupObserver
     {
         activity()
             ->performedOn($hostgroup)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Update host group '%s'.", $hostgroup->name));
     }
 
     public function deleted(Hostgroup $hostgroup): void
     {
         activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Delete host group '%s'.", $hostgroup->name));
-    }
-
-    public function restored(Hostgroup $hostgroup): void
-    {
-        //
-    }
-
-    public function forceDeleted(Hostgroup $hostgroup): void
-    {
-        //
     }
 }

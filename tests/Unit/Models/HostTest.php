@@ -78,18 +78,4 @@ class HostTest extends ModelTestCase
             $this->assertEquals($want, $host->hostname);
         }
     }
-
-    /** @test */
-    public function getFullHostname_return_the_full_hostname(): void
-    {
-        /** @var Host $host */
-        $host = Host::factory()->makeOne([
-            'username' => 'root',
-            'hostname' => 'server1.domain.local',
-            'port' => 12345,
-        ]);
-        $want = 'root@server1.domain.local:12345';
-
-        $this->assertEquals($want, $host->full_hostname);
-    }
 }

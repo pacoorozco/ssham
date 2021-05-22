@@ -16,16 +16,14 @@ use phpseclib\Crypt\RSA;
 
 class UpdateServer implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected Host       $host;
     protected SFTPPusher $pusher;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
     public function __construct(Host $host)
     {
         $this->host = $host;
@@ -37,12 +35,7 @@ class UpdateServer implements ShouldQueue
         );
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
         try {
             $this->connectRemoteServer();
@@ -66,7 +59,7 @@ class UpdateServer implements ShouldQueue
     /**
      * @throws \App\Exceptions\PusherException
      */
-    protected function connectRemoteServer()
+    protected function connectRemoteServer(): void
     {
         $key = new RSA();
         $key->loadKey(setting()->get('private_key'));
@@ -76,7 +69,7 @@ class UpdateServer implements ShouldQueue
     /**
      * @throws \App\Exceptions\PusherException
      */
-    protected function execRemoteUpdater()
+    protected function execRemoteUpdater(): void
     {
         $command = setting()->get('cmd_remote_updater').' update '
             .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
@@ -91,7 +84,7 @@ class UpdateServer implements ShouldQueue
      * @throws \App\Exceptions\PusherException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function sendRemoteUpdaterCLI()
+    protected function sendRemoteUpdaterCLI(): void
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
         $this->pusher->pushFileTo($remoteUpdater, setting()->get('cmd_remote_updater'), 0700);
@@ -100,9 +93,9 @@ class UpdateServer implements ShouldQueue
     /**
      * @throws \App\Exceptions\PusherException
      */
-    protected function updateRemoteSSHKeys()
+    protected function updateRemoteSSHKeys(): void
     {
-        $sshKeys = $this->host->getSSHKeysForHost(setting('public_key'));
+        $sshKeys = $this->host->getSSHKeysForHost(setting()->get('public_key'));
         $this->pusher->pushDataTo(join(PHP_EOL, $sshKeys), setting()->get('ssham_file'), 0600);
     }
 }
