@@ -131,7 +131,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (!is_null($bastionSSHPublicKey)) {
+        if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 
