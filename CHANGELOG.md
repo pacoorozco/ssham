@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+
+## 0.13.0 - 2021-05-22
+
 ### Added
 - Validation for `usernames` following POSIX definition, [The Open Group Base Specifications Issue 7, 2018 edition](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_437).
 - `KeyController` tests for CRUD operations.
 - Add **Personal Access Tokens** to users to implement API authentication based on [Bearer tokens](https://laravel.com/docs/8.x/http-client#bearer-tokens).
+- API accesses to Hosts and Hostgroups. It follows [{json:api}](https://jsonapi.org/) specification.
 ### Changed
 - Settings package to `larapacks/setting`.
 - Update dependencies to latest versions.
@@ -15,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Bump `fruitcake/laravel-cors` to `v2.0.4`.
 - Bump `laravel/framework` to `v8.41`.
 - Bump `laravel/sanctum` to `v2.11`.
+- Bump `phpseclib/phpseclib` to `v2.0.31`.
 - Code to honor PHP 8.0 best practices.
 - Refactor code to make it more readable (implementing Jobs and Observers).
 ### Fixed
