@@ -39,6 +39,7 @@ class ActivityPresenter extends Presenter
         if ($status->is(ActivityStatus::Success)) {
             return new HtmlString('<p class="text-success">'.$status->description.'</p>');
         }
+
         return new HtmlString($status->description);
     }
 }
