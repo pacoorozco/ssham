@@ -33,7 +33,4 @@ class Activity extends \Spatie\Activitylog\Models\Activity
         // which doesn't have a value now.
         return ActivityStatus::coerce($this->getExtraProperty('status')) ?? ActivityStatus::Unknown();
     }
-
-    // Statuses
-    const STATUS_SUCCESS = 'STATUS_SUCCESS';
 }

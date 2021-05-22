@@ -17,7 +17,7 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use App\Models\PersonalAccessToken;
 
 class PersonalAccessTokenObserver
@@ -28,7 +28,7 @@ class PersonalAccessTokenObserver
 
         activity()
             ->performedOn($user)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf(
                     "Create personal access token '%s' for '%s'.",
                     $personalAccessToken->name,
@@ -42,7 +42,7 @@ class PersonalAccessTokenObserver
 
         activity()
             ->performedOn($user)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf(
                     "Revoked personal access token '%s' for '%s'.",
                     $personalAccessToken->name,

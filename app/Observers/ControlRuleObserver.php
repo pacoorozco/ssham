@@ -17,7 +17,7 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use App\Models\ControlRule;
 
 class ControlRuleObserver
@@ -25,7 +25,8 @@ class ControlRuleObserver
     public function created(ControlRule $rule): void
     {
         activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->performedOn($rule)
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Create rule '%s'.", $rule->name));
     }
 
@@ -33,7 +34,7 @@ class ControlRuleObserver
     {
         activity()
             ->performedOn($rule)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Delete rule '%s'.", $rule->name));
     }
 }

@@ -17,7 +17,7 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use App\Models\Host;
 
 class HostObserver
@@ -26,7 +26,7 @@ class HostObserver
     {
         activity()
             ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Create host '%s'.", $host->full_hostname));
     }
 
@@ -34,14 +34,14 @@ class HostObserver
     {
         activity()
             ->performedOn($host)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Update host '%s'.", $host->full_hostname));
     }
 
     public function deleted(Host $host): void
     {
         activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Delete host '%s'.", $host->full_hostname));
     }
 }

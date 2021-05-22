@@ -17,7 +17,7 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
+use App\Enums\ActivityStatus;
 use App\Models\User;
 
 class UserObserver
@@ -26,7 +26,7 @@ class UserObserver
     {
         activity()
             ->performedOn($user)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Create user '%s'.", $user->username));
     }
 
@@ -34,14 +34,14 @@ class UserObserver
     {
         activity()
             ->performedOn($user)
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Update user '%s'.", $user->username));
     }
 
     public function deleted(User $user): void
     {
         activity()
-            ->withProperties(['status' => Activity::STATUS_SUCCESS])
+            ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Delete user '%s'.", $user->username));
     }
 }
