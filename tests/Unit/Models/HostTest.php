@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\ModelTestCase;
@@ -30,6 +31,7 @@ class HostTest extends ModelTestCase
             'enabled' => 'boolean',
             'synced' => 'boolean',
             'last_rotation' => 'datetime',
+            'status_code' => HostStatus::class,
         ], $m->getCasts());
     }
 

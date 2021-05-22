@@ -35,13 +35,12 @@ class DownloadPrivateKeyControllerTest extends TestCase
             ->create();
     }
 
-    public function test_downloadPrivateKey_method_returns_downloadable_file(): void
+    /** @test */
+    public function downloadPrivateKey_method_removes_private_key_after_it_is_downloaded(): void
     {
-        $wantPrivateKeyContent = 'blah blah blah';
         $key = Key::factory()
-            ->create([
-                'private' => $wantPrivateKeyContent,
-            ]);
+            ->create();
+        $wantPrivateKeyContent = $key->private;
 
         $response = $this
             ->actingAs($this->user_to_act_as)
@@ -51,9 +50,14 @@ class DownloadPrivateKeyControllerTest extends TestCase
         $response->assertHeader('Content-Type', 'application/pkcs8');
         $response->assertHeader('Content-Disposition', 'attachment; filename=id_rsa');
         $this->assertEquals($wantPrivateKeyContent, $response->streamedContent());
+        $this->assertDatabaseHas('keys', [
+            'id' => $key->id,
+            'private' => null,
+        ]);
     }
 
-    public function test_downloadPrivateKey_method_returns_error_when_private_key_is_not_present(): void
+    /** @test */
+    public function downloadPrivateKey_method_returns_error_when_private_key_is_not_present(): void
     {
         $key = Key::factory()
             ->create([

@@ -3,7 +3,6 @@
 namespace App\JsonApi\V1\Hosts;
 
 use App\Models\Host;
-use Carbon\Traits\Date;
 use LaravelJsonApi\Eloquent\Contracts\Paginator;
 use LaravelJsonApi\Eloquent\Fields\Boolean;
 use LaravelJsonApi\Eloquent\Fields\DateTime;
@@ -40,7 +39,11 @@ class HostSchema extends Schema
             Str::make('authorizedKeysFile'),
             Boolean::make('enabled'),
             Boolean::make('synced')->readOnly(),
-            Str::make('syncedStatus', 'status_code')->readOnly(),
+            Str::make('syncedStatus', 'status_code')
+                ->serializeUsing(
+                    static fn ($value) => $value->description
+                )
+                ->readOnly(),
             DateTime::make('syncedAt', 'last_rotation')->readOnly(),
             DateTime::make('createdAt')->readOnly(),
             BelongsToMany::make('groups')->type('hostgroups'),

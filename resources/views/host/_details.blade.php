@@ -128,9 +128,9 @@
                         <strong>@lang('host/model.last_rotation')</strong>
                     </div>
                     <div class="col-10">
-                        {{ $host->status_code }}
+                        {{ $host->status_code->description }}
                         @if (is_null($host->last_rotation))
-                            ({{ $host->created_at }})
+                            (@lang('host/messages.never_rotated'))
                         @else
                             ({{ $host->last_rotation }})
                         @endif

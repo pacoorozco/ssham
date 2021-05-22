@@ -44,15 +44,13 @@ class Host extends Model implements Searchable
         'enabled' => 'boolean',
         'synced' => 'boolean',
         'last_rotation' => 'datetime',
+        'status_code' => HostStatus::class,
     ];
 
     protected $attributes = [
         'status_code' => HostStatus::INITIAL_STATUS,
     ];
 
-    /**
-     * A Host belongs to many Hostgroups (many-to-many).
-     */
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Hostgroup::class);
@@ -82,12 +80,12 @@ class Host extends Model implements Searchable
 
     public function scopeNotInSync(Builder $query): Builder
     {
-        return $query->where('synced', '=', false);
+        return $query->where('synced', false);
     }
 
     public function scopeEnabled(Builder $query): Builder
     {
-        return $query->where('enabled', '=', true);
+        return $query->where('enabled', true);
     }
 
     public function getSearchResult(): SearchResult
@@ -99,13 +97,11 @@ class Host extends Model implements Searchable
         );
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(HostStatus $status): void
     {
-        // TODO: validate status
-
         $this->status_code = $status;
         $this->last_rotation = now()->timestamp;
-        $this->synced = (HostStatus::SUCCESS_STATUS === $status);
+        $this->synced = ($status->is(HostStatus::SUCCESS_STATUS));
         $this->save();
     }
 

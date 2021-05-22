@@ -37,7 +37,7 @@ class KeyFactory extends Factory
         return [
             'username' => $this->faker->unique()->userName,
             'public' => RsaSshKey::getPublicKey($rsa['publickey']),
-            'private' => null,
+            'private' => RsaSshKey::getPrivateKey($rsa['privatekey']),
             'enabled' => true,
         ];
     }
