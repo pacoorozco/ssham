@@ -23,5 +23,5 @@ return [
     'close' => 'Close',
     'cancel' => 'Cancel',
 
-    "filter_box_help" => "Start typing to filter values",
+    'filter_box_help' => 'Start typing to filter values',
 ];

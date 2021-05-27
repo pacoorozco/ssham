@@ -31,6 +31,7 @@ class HostPresenter extends Presenter
         if ($this->model->enabled) {
             return new HtmlString('<span class="badge badge-success">'.__('general.enabled').'</span>');
         }
+
         return new HtmlString('<span class="badge badge-secondary">'.__('general.disabled').'</span>');
     }
 
@@ -44,6 +45,7 @@ class HostPresenter extends Presenter
         if ($this->model->synced) {
             return new HtmlString('<span class="badge badge-success">'.__('general.no').'</span>');
         }
+
         return new HtmlString('<span class="badge badge-warning">'.__('general.yes').'</span>');
     }
 

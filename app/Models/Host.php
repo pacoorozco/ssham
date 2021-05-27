@@ -94,7 +94,7 @@ class Host extends Model implements Searchable
 
     public function hasCustomAuthorizedKeysFile(): bool
     {
-        return ($this->authorized_keys_file !== '');
+        return $this->authorized_keys_file !== '';
     }
 
     public function scopeNotInSync(Builder $query): Builder
@@ -150,7 +150,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (!is_null($bastionSSHPublicKey)) {
+        if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 
