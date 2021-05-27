@@ -60,7 +60,7 @@
     <!-- start: PAGE -->
     <div class="content-wrapper">
         <!-- start: PAGE HEADER -->
-        <div class="content-header">
+        <section class="content-header">
             <!-- start: PAGE TITLE & BREADCRUMB -->
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -68,30 +68,31 @@
                         <h1 class="text-dark">
                             @yield('header', 'Title')
                         </h1>
-                    </div><!-- /.col -->
+                    </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             @yield('breadcrumbs')
                         </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-                <!-- end: PAGE TITLE & BREADCRUMB -->
-            </div><!-- /.container-fluid -->
-        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: PAGE TITLE & BREADCRUMB -->
+        </section>
         <!-- end: PAGE HEADER -->
 
         <!-- start: PAGE CONTENT -->
-        <div class="content">
+        <section class="content">
             @yield('content')
-        </div>
+        </section>
         <!-- end: PAGE CONTENT-->
     </div>
     <!-- end: PAGE -->
 
     <!-- start: FOOTER -->
-    @include('partials.footer')
+    <footer class="main-footer">
+        @include('partials.footer')
+    </footer>
     <!-- end: FOOTER -->
-
 </div>
 <!-- end: MAIN CONTAINER -->
 <!-- start: GLOBAL JAVASCRIPT -->

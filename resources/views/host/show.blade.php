@@ -29,6 +29,4 @@
 
     @include('host._details')
 
-
-
 @endsection
