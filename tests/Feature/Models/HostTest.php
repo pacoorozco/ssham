@@ -233,7 +233,7 @@ class HostTest extends TestCase
             'hostname' => 'server1.domain.local',
             'port' => 12345,
         ]);
-        $want = 'root@server1.domain.local:12345';
+        $want = 'root@server1.domain.local';
 
         $this->assertEquals($want, $host->full_hostname);
     }

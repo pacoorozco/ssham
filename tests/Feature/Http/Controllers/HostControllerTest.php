@@ -101,20 +101,6 @@ class HostControllerTest extends TestCase
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_delete_method_returns_proper_view()
-    {
-        $host = Host::factory()
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('hosts.delete', $host->id));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('host.delete');
-        $response->assertViewHas('host', $host);
-    }
-
     public function test_destroy_method_returns_proper_success_message()
     {
         $host = Host::factory()
