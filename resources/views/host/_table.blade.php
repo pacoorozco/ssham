@@ -9,7 +9,6 @@
     <tr>
         <th>@lang('host/table.hostname')</th>
         <th>@lang('host/table.username')</th>
-        <th>@lang('host/table.type')</th>
         <th>@lang('host/table.groups')</th>
         <th>@lang('host/table.enabled')</th>
         <th>@lang('host/table.actions')</th>
@@ -19,7 +18,6 @@
     <tr>
         <th>@lang('host/table.hostname')</th>
         <th>@lang('host/table.username')</th>
-        <th>@lang('host/table.type')</th>
         <th>@lang('host/table.groups')</th>
         <th>@lang('host/table.enabled')</th>
         <th>@lang('host/table.actions')</th>
@@ -38,7 +36,6 @@
                 "columns": [
                     {data: "hostname"},
                     {data: "username"},
-                    {data: "type"},
                     {data: "groups", "orderable": false, "searchable": false},
                     {data: "enabled"},
                     {data: "actions", "orderable": false, "searchable": false}

@@ -1,157 +1,175 @@
 <div class="card">
-    <div class="card-header bg-cyan">
-        <h3 class="card-title">{{ $host->full_hostname }}  @if(!$host->enabled)<span
-                class="badge badge-secondary">{{ __('general.disabled') }}</span>@endif </h3>
+    <div class="card-header @unless($host->enabled) bg-gray-dark @endunless">
+        <h2 class="card-title">
+            {{ $host->present()->full_hostname }}
+            @unless($host->enabled)
+                {{ $host->present()->enabledAsBadge() }}
+            @endunless
+        </h2>
     </div>
+
     <div class="card-body">
         <div class="row">
             <!-- left column -->
             <div class="col-md-6">
 
-                <h4>@lang('host/title.host_information_section')</h4>
-
-                <!-- hostname -->
-                <div class="row">
-                    <div class="col-2">
+                <h3>@lang('host/title.host_information_section')</h3>
+                <dl class="row">
+                    <!-- hostname -->
+                    <dt class="col-sm-3">
                         <strong>@lang('host/model.hostname')</strong>
-                    </div>
-                    <div class="col-10">
-                        {{ $host->hostname }}
-                    </div>
-                </div>
-                <!-- ./ hostname -->
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $host->present()->hostname }}
+                    </dd>
+                    <!-- ./ hostname -->
 
-                <!-- username -->
-                <div class="row">
-                    <div class="col-2">
+                    <!-- username -->
+                    <dt class="col-sm-3">
                         <strong>@lang('host/model.username')</strong>
-                    </div>
-                    <div class="col-10">
-                        {{ $host->username }}
-                    </div>
-                </div>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $host->present()->username }}
+                    </dd>
+                </dl>
                 <!-- ./ username -->
 
-                <h4>@lang('host/title.advanced_config_section')</h4>
-
-                <!-- port -->
-                <div class="row">
-                    <div class="col-2">
+                <h3>@lang('host/title.advanced_config_section')</h3>
+                <dl class="row">
+                    <!-- port -->
+                    <dt class="col-sm-3">
                         <strong>@lang('host/model.port')</strong>
-                    </div>
-                    <div class="col-10">
-                        {{ $host->port }}
-                    </div>
-                </div>
-                <!-- ./ port -->
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $host->present()->port }}
+                        @unless($host->hasCustomPort())
+                            (set by <a href="{{ route('settings.index') }}">settings</a>)
+                        @endunless
+                    </dd>
+                    <!-- ./ port -->
 
-                <!-- authorized_keys_file -->
-                <div class="row">
-                    <div class="col-2">
+                    <!-- authorized_keys_file -->
+                    <dt class="col-sm-3">
                         <strong>@lang('host/model.authorized_keys_file')</strong>
-                    </div>
-                    <div class="col-10">
-                        {{ $host->authorized_keys_file }}
-                    </div>
-                </div>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $host->present()->authorized_keys_file }}
+                        @unless($host->hasCustomAuthorizedKeysFile())
+                            (set by <a href="{{ route('settings.index') }}">settings</a>)
+                        @endunless
+                    </dd>
+                </dl>
                 <!-- ./ authorized_keys_file -->
             </div>
             <!-- ./ left column -->
             <!-- right column -->
             <div class="col-md-6">
 
-                <h4>@lang('host/title.membership_section')</h4>
-
+                <h3>@lang('host/title.membership_section')</h3>
                 <!-- groups -->
-                <div class="row">
-                    <div class="col-2">
+                <dl class="row">
+                    <dt class="col-sm-3">
                         <strong>@lang('host/model.groups')</strong>
-                    </div>
-                    <div class="col-10">
-                        <p>{{ $host->groups->count() }} @lang('hostgroup/model.item')</p>
-                        <ul class="list-inline">
-                            @foreach($host->groups as $group)
-                                <li class="list-inline-item"><a
-                                        href="{{ route('hostgroups.show', $group->id) }}">{{ $group->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+                    </dt>
+                    <dd class="col-sm-9">
+                        @forelse($host->groups as $group)
+                            @if ($loop->first)
+                                {{ $host->groups->count() }} @lang('hostgroup/model.item')
+                                <ul class="list-inline">
+                                    @endif
+
+                                    <li class="list-inline-item">
+                                        <a href="{{ route('hostgroups.show', $group->id) }}">{{ $group->name }}</a>
+                                    </li>
+
+                                    @if ($loop->last)
+                                </ul>
+                            @endif
+                        @empty
+                            @lang('host/messages.groups_empty')
+                        @endforelse
+                    </dd>
+                </dl>
                 <!-- ./ groups -->
 
-                <h4>@lang('host/title.status_section')</h4>
-
-                <!-- enabled -->
-                <div class="row">
-                    <div class="col-2">
-                        <strong>@lang('host/model.enabled')</strong>
-                    </div>
-                    <div class="col-10">
-                        @if ($host->enabled)
-                            <span class="badge badge-pill badge-success">{{ __('general.enabled') }}</span>
-                        @else
-                            <span class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>
-                        @endif
-                    </div>
-                </div>
-                <!-- ./ enabled -->
-
-                <!-- synced -->
-                <div class="row">
-                    <div class="col-2">
-                        <strong>@lang('host/model.synced')</strong>
-                    </div>
-                    <div class="col-10">
-                        @if ($host->synced)
-                            <span class="badge badge-pill badge-success">{{ __('general.yes') }}</span>
-                        @else
-                            <span class="badge badge-pill badge-secondary">{{ __('general.no') }}</span>
-                        @endif
-                    </div>
-                </div>
-                <!-- ./ synced -->
-
-                <!-- created at -->
-                <div class="row">
-                    <div class="col-2">
+                <h3>@lang('host/title.status_section')</h3>
+                <dl class="row">
+                    <!-- created at -->
+                    <dt class="col-3">
                         <strong>@lang('host/model.created_at')</strong>
-                    </div>
-                    <div class="col-10">
-                        {{ $host->created_at }}
-                    </div>
-                </div>
-                <!-- ./ created at -->
+                    </dt>
+                    <dd class="col-9">
+                        {{ $host->present()->createdAtForHumans() }} ({{ $host->present()->created_at }})
+                    </dd>
+                    <!-- ./ created at -->
 
-                <!-- last_rotation -->
-                <div class="row">
-                    <div class="col-2">
+                    <!-- enabled -->
+                    <dt class="col-3">
+                        <strong>@lang('host/model.enabled')</strong>
+                    </dt>
+                    <dd class="col-9">
+                        {{ $host->present()->enabledAsBadge() }}
+                    </dd>
+                    <!-- ./ enabled -->
+
+                    <!-- synced -->
+                    <dt class="col-3">
+                        <strong>@lang('host/model.synced')</strong>
+                    </dt>
+                    <dd class="col-9">
+                        {{ $host->present()->pendingSyncAsBadge() }}
+                    </dd>
+                    <!-- ./ synced -->
+
+                    <!-- last_rotation -->
+                    <dt class="col-3">
                         <strong>@lang('host/model.last_rotation')</strong>
-                    </div>
-                    <div class="col-10">
-                        {{ $host->status_code->description }}
-                        @if (is_null($host->last_rotation))
-                            (@lang('host/messages.never_rotated'))
-                        @else
-                            ({{ $host->last_rotation }})
-                        @endif
-                    </div>
-                </div>
-                <!-- ./ synced -->
+                    </dt>
+                    <dd class="col-9">
+                        {{ $host->present()->status_code }}
+                        ({{ $host->present()->lastRotationForHumans() }})
+                    </dd>
+                    <!-- ./ last_rotation -->
+                </dl>
+
+                <h3>@lang('host/messages.danger_zone_section')</h3>
+
+                <ul class="list-group border border-danger">
+                    <li class="list-group-item">
+                        <strong>@lang('host/messages.delete_button')</strong>
+                        <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                data-toggle="modal"
+                                data-target="#confirmationModal">
+                            @lang('host/messages.delete_button')
+                        </button>
+                        <p>@lang('host/messages.delete_host_help')</p>
+                    </li>
+                </ul>
+
             </div>
             <!-- ./ right column -->
         </div>
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('hosts.index') }}" class="btn btn-primary" role="button">
-            <i class="fa fa-arrow-left"></i> @lang('general.back')
+        <a href="{{ route('hosts.edit', $host->id) }}" class="btn btn-primary" role="button">
+            @lang('general.edit')
         </a>
-        @if ($action == 'show')
-            <a href="{{ route('hosts.edit', $host->id) }}" class="btn btn-primary" role="button">
-                <i class="fa fa-pen"></i> @lang('general.edit')
-            </a>
-        @else
-            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> @lang('general.delete')</button>
-        @endif
+        <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">
+            @lang('general.cancel')
+        </a>
     </div>
+
+    <!-- confirmation modal -->
+    <x-modals.confirmation
+        action="{{ route('hosts.destroy', $host) }}"
+        confirmationText="{{ $host->hostname }}"
+        buttonText="{{ __('host/messages.delete_confirmation_button') }}">
+
+        <div class="alert alert-warning" role="alert">
+            @lang('host/messages.delete_confirmation_warning', ['hostname' => $host->hostname])
+        </div>
+
+    </x-modals.confirmation>
+    <!-- ./ confirmation modal -->
 </div>

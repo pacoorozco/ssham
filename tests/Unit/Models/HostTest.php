@@ -32,6 +32,7 @@ class HostTest extends ModelTestCase
             'synced' => 'boolean',
             'last_rotation' => 'datetime',
             'status_code' => HostStatus::class,
+            'port' => 'int',
         ], $m->getCasts());
     }
 

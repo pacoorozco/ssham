@@ -12,6 +12,7 @@ return [
     'blocked' => 'Blocked',
 
     'show' => 'Show',
+    'create' => 'Create',
     'edit' => 'Edit',
     'delete' => 'Delete',
     'update' => 'Update',
@@ -21,4 +22,6 @@ return [
     'view_more' => 'View More',
     'close' => 'Close',
     'cancel' => 'Cancel',
+
+    "filter_box_help" => "Start typing to filter values",
 ];

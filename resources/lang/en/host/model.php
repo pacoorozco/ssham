@@ -8,10 +8,10 @@ return [
     'type' => 'Type',
     'groups' => 'Group memberships',
     'enabled' => 'Status',
-    'synced' => 'Synced',
+    'synced' => 'Pending sync',
     'created_at' => 'Created',
     'last_rotation' => 'Last heartbeat',
     'port' => 'Port',
-    'authorized_keys_file' => 'Remote path for `authorized_keys`',
+    'authorized_keys_file' => 'Remote path',
 
 ];

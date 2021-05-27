@@ -13,6 +13,8 @@ class CreateHost
 
     private string $username;
 
+    private bool $enabled;
+
     private int $port;
 
     private array $groups;
@@ -24,13 +26,14 @@ class CreateHost
      *
      * @param  string  $hostname
      * @param  string  $username
-     * @param  array  $options  - Optional parameters: 'authorized_keys_file', 'groups', 'port'
+     * @param  array  $options  - Optional parameters: 'authorized_keys_file', 'enabled', 'groups', 'port'
      */
     public function __construct(string $hostname, string $username, array $options = [])
     {
         $this->hostname = $hostname;
         $this->username = $username;
 
+        $this->enabled = (bool) $options['enabled'];
         $this->port = (int) $options['port'];
         $this->authorized_keys_file = $options['authorized_keys_file'];
         $this->groups = $options['groups'] ?? [];
@@ -41,6 +44,7 @@ class CreateHost
         $host = Host::create([
             'hostname' => $this->hostname,
             'username' => $this->username,
+            'enabled' => $this->enabled,
             'port' => $this->port,
             'authorized_keys_file' => $this->authorized_keys_file,
         ]);

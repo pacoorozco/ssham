@@ -151,7 +151,6 @@ class HostControllerTest extends TestCase
             $response->assertJsonFragment([
                 'hostname' => $host['hostname'],
                 'username' => $host['username'],
-                'type' => $host['type'],
                 'groups' => '0',
             ]);
         }
