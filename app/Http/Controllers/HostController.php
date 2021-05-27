@@ -113,6 +113,8 @@ class HostController extends Controller
             'id',
             'hostname',
             'username',
+            'synced',
+            'status_code',
             'enabled',
         ])
             ->withCount('groups as groups') // count number of groups without loading the models
@@ -122,13 +124,19 @@ class HostController extends Controller
             ->editColumn('enabled', function (Host $host) {
                 return $host->present()->enabledAsBadge();
             })
+            ->editColumn('synced', function (Host $host) {
+                return $host->present()->pendingSyncAsBadge();
+            })
+            ->editColumn('status_code', function (Host $host) {
+                return $host->present()->statusCode();
+            })
             ->addColumn('actions', function (Host $host) {
-                return view('partials.actions_dd')
+                return view('partials.buttons-to-show-and-edit-actions')
                     ->with('model', 'hosts')
                     ->with('id', $host->id)
                     ->render();
             })
-            ->rawColumns(['enabled', 'actions'])
+            ->rawColumns(['enabled', 'synced', 'actions'])
             ->removeColumn('id')
             ->toJson();
     }

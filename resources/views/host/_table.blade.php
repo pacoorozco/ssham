@@ -11,6 +11,8 @@
         <th>@lang('host/table.username')</th>
         <th>@lang('host/table.groups')</th>
         <th>@lang('host/table.enabled')</th>
+        <th>@lang('host/table.synced')</th>
+        <th>@lang('host/table.status_code')</th>
         <th>@lang('host/table.actions')</th>
     </tr>
     </thead>
@@ -20,6 +22,8 @@
         <th>@lang('host/table.username')</th>
         <th>@lang('host/table.groups')</th>
         <th>@lang('host/table.enabled')</th>
+        <th>@lang('host/table.synced')</th>
+        <th>@lang('host/table.status_code')</th>
         <th>@lang('host/table.actions')</th>
     </tr>
     </tfoot>
@@ -38,6 +42,8 @@
                     {data: "username"},
                     {data: "groups", "orderable": false, "searchable": false},
                     {data: "enabled"},
+                    {data: "synced"},
+                    {data: "status_code"},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [
