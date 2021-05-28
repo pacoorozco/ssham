@@ -31,6 +31,4 @@ class HostgroupPresenter extends Presenter
             'value' => $this->model->getNumberOfRelatedRules(),
         ]);
     }
-
-
 }
