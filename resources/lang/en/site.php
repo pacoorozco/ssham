@@ -20,14 +20,14 @@ return [
     'home' => 'Dashboard',
     'search' => 'Search',
     'keys' => 'SSH Keys',
-    'key_groups' => 'SSH Key Groups',
+    'key_groups' => 'SSH Key groups',
     'hosts' => 'Hosts',
-    'host_groups' => 'Host Groups',
+    'host_groups' => 'Host groups',
     'rules' => 'Rules',
     'audit' => 'Audit',
 
     'admin_sidebar_header' => 'ADMINISTRATION',
-    'users' => 'User Management',
+    'users' => 'User management',
     'settings' => 'Settings',
 
     'language' => 'English',    // Used for jQuery Datatables

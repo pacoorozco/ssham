@@ -175,11 +175,6 @@ Route::middleware(['auth'])->group(function () {
             [HostgroupController::class, 'data'])
         ->name('hostgroups.data');
 
-    // Delete confirmation route - uses the show/details view.
-    Route::get('hostgroups/{hostgroup}/delete',
-        [HostgroupController::class, 'delete'])
-        ->name('hostgroups.delete');
-
     // Pre-baked resource controller actions for index, create, store,
     // show, edit, update, destroy
     Route::resource('hostgroups', HostgroupController::class);

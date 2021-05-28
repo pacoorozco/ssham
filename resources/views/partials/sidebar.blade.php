@@ -28,7 +28,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('hostgroups*') ? 'active' : '' }}" href="{{ route('hostgroups.index') }}">
-                    <i class="nav-icon fa fa-database"></i>
+                    <i class="nav-icon fa fa-server"></i>
                     <p>{{ __('site.host_groups') }}</p>
                 </a>
             </li>

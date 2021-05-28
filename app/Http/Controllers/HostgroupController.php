@@ -137,11 +137,10 @@ class HostgroupController extends Controller
 
         return $datatable->eloquent($hostgroups)
             ->addColumn('rules', function (Hostgroup $group) {
-                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(),
-                    ['value' => $group->getNumberOfRelatedRules()]);
+                return $group->present()->rulesCount();
             })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
-                return view('partials.actions_dd')
+                return view('partials.buttons-to-show-and-edit-actions')
                     ->with('model', 'hostgroups')
                     ->with('id', $hostgroup->id)
                     ->render();

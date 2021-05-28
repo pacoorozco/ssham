@@ -6,7 +6,6 @@
 {{-- Content Header --}}
 @section('header')
     @lang('hostgroup/title.host_group_show')
-    <small class="text-muted">{{ $hostgroup->name }}</small>
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -28,6 +27,6 @@
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-    @include('hostgroup._details', ['action' => 'show'])
+    @include('hostgroup._details')
 
 @endsection
