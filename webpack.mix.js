@@ -37,6 +37,7 @@ const adminLTEPlugins = {
     'node_modules/admin-lte/plugins/datatables': 'public/vendor/AdminLTE/plugins/datatables',
     'node_modules/admin-lte/plugins/select2': 'public/vendor/AdminLTE/plugins/select2',
     'node_modules/admin-lte/plugins/icheck-bootstrap': 'public/vendor/AdminLTE/plugins/icheck-bootstrap',
+    'node_modules/admin-lte/plugins/bootstrap4-duallistbox': 'public/vendor/AdminLTE/plugins/bootstrap4-duallistbox',
 };
 
 for (let directory in adminLTEPlugins) {
