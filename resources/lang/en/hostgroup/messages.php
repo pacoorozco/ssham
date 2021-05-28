@@ -30,5 +30,4 @@ return [
     'delete_confirmation_warning' => 'This action <strong>cannot</strong> be undone. This will permanently delete the <strong>:name</strong> group and remove all related rules.',
     'delete_confirmation_button' => 'I understand the consequences, delete this group',
 
-
 ];
