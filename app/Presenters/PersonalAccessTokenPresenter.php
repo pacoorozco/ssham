@@ -21,6 +21,9 @@ use Laracodes\Presenter\Presenter;
 
 class PersonalAccessTokenPresenter extends Presenter
 {
+    /** @var \App\Models\PersonalAccessToken */
+    protected $model;
+
     public function getLastUsedDateString(): string
     {
         if (! is_null($this->model->last_used_at)) {
