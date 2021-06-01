@@ -26,7 +26,7 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 /**
- * Class Key
+ * Class Key.
  *
  * @property string $id
  * @property string $username
@@ -38,8 +38,6 @@ use Spatie\Searchable\SearchResult;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Keygroup[] $groups
- *
- * @package App\Models
  */
 class Key extends Model implements Searchable
 {

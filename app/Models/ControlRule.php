@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracodes\Presenter\Traits\Presentable;
 
 /**
- * Class ControlRule
+ * Class ControlRule.
  *
  * @property int $id
  * @property int $source_id
@@ -37,8 +37,6 @@ use Laracodes\Presenter\Traits\Presentable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Keygroup $source
  * @property-read \App\Models\Hostgroup $target
- *
- * @package App\Models
  */
 class ControlRule extends Model
 {
