@@ -46,11 +46,11 @@ class UpdateServer implements ShouldQueue
 
             $this->execRemoteUpdater();
         } catch (\Throwable $exception) {
-            $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS);
+            $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
             $this->fail($exception);
         }
 
-        $this->host->setStatus(HostStatus::SUCCESS_STATUS);
+        $this->host->setStatus(HostStatus::SUCCESS_STATUS());
 
         $this->pusher->disconnect();
         HostKeysUpdated::dispatch();

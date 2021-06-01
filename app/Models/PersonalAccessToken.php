@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
+/**
+ * Class PersonalAccessToken.
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $token
+ * @property array|null $abilities
+ * @property \Illuminate\Support\Carbon|null $last_used_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model $tokenable
+ */
 class PersonalAccessToken extends SanctumPersonalAccessToken
 {
     use Presentable;

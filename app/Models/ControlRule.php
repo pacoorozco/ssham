@@ -24,6 +24,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracodes\Presenter\Traits\Presentable;
 
+/**
+ * Class ControlRule.
+ *
+ * @property int $id
+ * @property int $source_id
+ * @property int $target_id
+ * @property \App\Enums\ControlRuleAction $action
+ * @property string|null $name
+ * @property int $enabled
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Keygroup $source
+ * @property-read \App\Models\Hostgroup $target
+ */
 class ControlRule extends Model
 {
     use HasFactory;
