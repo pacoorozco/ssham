@@ -1,8 +1,6 @@
 <?php
 
 return [
-    'confirm_delete_title' => 'Deleting rule #',
-    'confirm_delete' => 'Are you sure you want to delete this rule?',
     'create' => [
         'error' => 'Rule was not created, please try again.',
         'success' => 'The Rule \'#:rule\' was created successfully.',
@@ -16,4 +14,8 @@ return [
         'success' => 'The rule \'#:rule\' was deleted successfully.',
     ],
 
+    'confirmation_title' => 'Are you absolutely sure?',
+    'confirmation_help' => 'Please type <strong>:confirmationText</strong> to confirm.',
+    'delete_confirmation_warning' => 'This action <strong>cannot</strong> be undone. This will delete the rule and mark all related hosts as pending to be synced.',
+    'delete_button' => 'Delete this rule',
 ];

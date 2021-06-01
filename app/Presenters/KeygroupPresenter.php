@@ -20,35 +20,28 @@ namespace App\Presenters;
 use Illuminate\Support\HtmlString;
 use Laracodes\Presenter\Presenter;
 
-class HostgroupPresenter extends Presenter
+class KeygroupPresenter extends Presenter
 {
-    /** @var \App\Models\Hostgroup */
+    /** @var \App\Models\Keygroup */
     protected $model;
 
-    public function rulesCount(): string
+    public function nameWithKeysCount(): HtmlString
     {
-        return trans_choice('rule/model.rules_count', $this->model->getNumberOfRelatedRules(), [
-            'value' => $this->model->getNumberOfRelatedRules(),
-        ]);
+        return $this->linkableNameWithKeysCount(false);
     }
 
-    public function nameWithHostsCount(): HtmlString
+    public function linkableNameWithKeysCount(bool $linkable = true): HtmlString
     {
-        return $this->linkableNameWithHostsCount(false);
-    }
-
-    public function linkableNameWithHostsCount(bool $linkable = true): HtmlString
-    {
-        $hostsCount = '('.trans_choice('hostgroup/messages.hosts_count', $this->model->hosts->count()).')';
+        $keysCount = '('.trans_choice('keygroup/messages.keys_count', $this->model->keys->count()).')';
 
         if (false === $linkable) {
             return new HtmlString(
-                $this->model->name.' '.$hostsCount
+                $this->model->name.' '.$keysCount
             );
         }
 
         return new HtmlString(
-            '<a href="'.route('hostgroups.show', $this->model).'">'.$this->model->name.'</a>'.' '.$hostsCount
+            '<a href="'.route('keygroups.show', $this->model).'">'.$this->model->name.'</a>'.' '.$keysCount
         );
     }
 }

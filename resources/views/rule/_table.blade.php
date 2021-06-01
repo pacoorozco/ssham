@@ -27,27 +27,50 @@
     </tfoot>
 </table>
 
-<div class="modal" id="deleteModal" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<!-- confirmation modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1"
+     aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">@lang('general.delete')</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@lang('rule/messages.confirm_delete')</p>
-            </div>
-            <div class="modal-footer">
-                {!! Form::open(['method' => 'delete', 'class' =>'form-inline', 'id' => 'deleteForm']) !!}
-                {!! Form::button('<i class="fa fa-trash"></i> ' . __('general.delete'), ['type' => 'submit', 'class' => 'btn btn-danger']) !!}
-                {!! Form::close() !!}
-                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            </div>
+            <form action="#" method="post" id="confirmationForm">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">
+                        @lang('rule/messages.confirmation_title')
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning" role="alert">
+                        @lang('rule/messages.delete_confirmation_warning')
+                    </div>
+                    <dl>
+                        <dt>@lang('rule/model.source')</dt>
+                        <dd id="source-text">N/A</dd>
+                        <dt>@lang('rule/model.target')</dt>
+                        <dd id="target-text">N/A</dd>
+                        <dt>@lang('rule/model.action')</dt>
+                        <dd id="action-text">N/A</dd>
+                    </dl>
+                    <p>
+                        @lang('rule/messages.confirmation_help', ['confirmationText' => 'delete rule'])
+                    </p>
+                    <input id="confirmationInput" type="text" class="form-control" autocomplete="off">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-block btn-outline-danger" id="confirmationButton"
+                            disabled="disabled">
+                        @lang('rule/messages.delete_button')
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+<!-- ./ confirmation modal -->
 
 {{-- Scripts --}}
 @push('scripts')
@@ -65,6 +88,7 @@
                     {data: "name"},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
+                "order": [[3, 'asc'], [1, 'asc']],
                 "aLengthMenu": [
                     [5, 10, 15, 20, -1],
                     [5, 10, 15, 20, "@lang('general.all')"]
@@ -74,14 +98,27 @@
             });
         });
 
-        $(function () {
-            $('#deleteModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var rule = button.data('rule-id'); // Extract info from data-* attributes
-                var modal = $(this);
-                modal.find('.modal-title').text('@lang('rule/messages.confirm_delete_title')' + rule);
-                modal.find('.modal-footer #deleteForm').attr('action', 'rules/' + rule);
-            })
+        $('#confirmationInput').keyup(function (e) {
+            if ($('#confirmationInput').val().trim() === 'delete rule') {
+                $('#confirmationButton').removeAttr('disabled');
+            } else {
+                $('#confirmationButton').attr('disabled', 'true');
+            }
         });
+
+        $('#confirmationModal').on('show.bs.modal', function (event) {
+            $('#confirmationInput').trigger('focus');
+
+            var button = $(event.relatedTarget);
+            var ruleId = button.data('rule-id');
+            var source = button.data('rule-source');
+            var target = button.data('rule-target');
+            var action = button.data('rule-action');
+            $('#confirmationForm').attr('action', 'rules/' + ruleId);
+            $('#source-text').text(source);
+            $('#target-text').text(target);
+            $('#action-text').text(action);
+        });
+
     </script>
 @endpush

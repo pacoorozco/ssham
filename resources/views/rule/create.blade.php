@@ -24,85 +24,86 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
-        <!-- Notifications -->
+
+    <!-- Notifications -->
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-        <div class="card">
-            {!! Form::open(['route' => 'rules.store', 'method' => 'post']) !!}
+    <div class="card">
+        {!! Form::open(['route' => 'rules.store', 'method' => 'post']) !!}
 
-            <div class="card-body">
-                <div class="form-row">
-                    <!-- left column -->
-                    <div class="col-md-6">
+        <div class="card-body">
+            <div class="form-row">
 
-                        <!-- description -->
-                        <div class="form-group">
-                            {!! Form::label('name', __('rule/model.name')) !!}
-                            {!! Form::textarea('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            @error('name')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- ./ description -->
-
+                <!-- source -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::label('source', __('rule/model.source')) !!}
+                        {!! Form::select('source', $sources, null, array('placeholder' => '', 'class' => 'form-control search-select' . ($errors->has('source') ? ' is-invalid' : ''))) !!}
+                        <small class="form-text text-muted">This is the group of SSH keys which will be have access to
+                            the target.</small>
+                        @error('source')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <!-- ./ left column -->
-
-                    <!-- right column -->
-                    <div class="col-md-6">
-
-                        <!-- source -->
-                        <div class="form-group">
-                            {!! Form::label('source', __('rule/model.source')) !!}
-                            {!! Form::select('source', $sources, null, array('class' => 'form-control search-select' . ($errors->has('source') ? ' is-invalid' : ''))) !!}
-                            @error('source')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- ./ source -->
-
-                        <!-- action -->
-                        <div class="form-group">
-                            {!! Form::label('action', __('rule/model.action')) !!}
-                            {!! Form::select('action', \App\Enums\ControlRuleAction::asSelectArray(), null, array('class' => 'form-control' . ($errors->has('action') ? ' is-invalid' : ''))) !!}
-                            @error('description')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- ./ action -->
-
-                        <!-- target -->
-                        <div class="form-group">
-                            {!! Form::label('target', __('rule/model.target')) !!}
-                            {!! Form::select('target', $targets, null, array('class' => 'form-control search-select' . ($errors->has('target') ? ' is-invalid' : ''))) !!}
-                            @error('target')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- ./ target -->
-
-                    </div>
-                    <!-- ./ right column -->
-
                 </div>
-            </div>
+                <!-- ./ source -->
 
-            <div class="card-footer">
-                <!-- Form Actions -->
-                <a href="{{ route('rules.index') }}" class="btn btn-primary" role="button">
-                    <i class="fa fa-arrow-left"></i> {{ __('general.back') }}
-                </a>
-            {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
-            <!-- ./ form actions -->
-            </div>
+                <!-- action -->
+                <div class="col-md-1">
+                    <!-- action -->
+                    <div class="form-group">
+                        {!! Form::label('action', __('rule/model.action')) !!}
+                        {!! Form::select('action', \App\Enums\ControlRuleAction::asSelectArray(), null, array('class' => 'form-control' . ($errors->has('action') ? ' is-invalid' : ''))) !!}
+                        @error('description')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <!-- ./ action -->
 
-            {!! Form::close() !!}
+                <!-- target -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::label('target', __('rule/model.target')) !!}
+                        {!! Form::select('target', $targets, null, array('placeholder' => '', 'class' => 'form-control search-select' . ($errors->has('target') ? ' is-invalid' : ''))) !!}
+                        <small class="form-text text-muted">This is the group of hosts to which you are granting access
+                            to.</small>
+                        @error('target')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <!-- ./ target -->
+
+                <!-- description -->
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {!! Form::label('name', __('rule/model.name')) !!}
+                        {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required')) !!}
+                        <small class="form-text text-muted">Short description to identify the rule easily.</small>
+                        @error('name')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <!-- ./ description -->
+            </div>
         </div>
-        <!-- ./ card -->
+
+        <div class="card-footer">
+            <!-- Form Actions -->
+            {!! Form::button(__('general.create'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <a href="{{ route('rules.index') }}" class="btn btn-link" role="button">
+                @lang('general.cancel')
+            </a>
+            <!-- ./ form actions -->
+        </div>
+
+        {!! Form::close() !!}
     </div>
+    <!-- ./ card -->
 @endsection
 
 {{-- Styles --}}
@@ -116,7 +117,7 @@
     <script src="{{ asset('vendor/AdminLTE/plugins/select2/js/select2.min.js') }}"></script>
     <script>
         $(".search-select").select2({
-            placeholder: "@lang('user/messages.groups_help')",
+            placeholder: 'Select a group',
             language: "@lang('site.language_short')",
         });
     </script>
