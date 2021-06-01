@@ -24,8 +24,7 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * Class User.
- *
+ * Class User
  *
  * @property int $id
  * @property string $username
@@ -34,6 +33,13 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $password
  * @property bool $enabled
  * @property string $auth_type
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\PersonalAccessToken[] $tokens
+ *
+ * @package App\Models
  */
 final class User extends Authenticatable
 {

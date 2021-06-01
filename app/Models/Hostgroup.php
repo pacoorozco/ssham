@@ -26,6 +26,19 @@ use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+/**
+ * Class Hostgroup
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Host[] $hosts
+ * @property-read \App\Models\ControlRule[] $rules
+ *
+ * @package App\Models
+ */
 class Hostgroup extends Model implements Searchable
 {
     use HasFactory;

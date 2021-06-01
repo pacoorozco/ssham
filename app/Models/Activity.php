@@ -21,6 +21,16 @@ use App\Enums\ActivityStatus;
 use App\Presenters\ActivityPresenter;
 use Laracodes\Presenter\Traits\Presentable;
 
+/**
+ * Class Activity
+ *
+ * @property string $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property-read \Illuminate\Database\Eloquent\Model $causer
+ * @property-read \App\Enums\ActivityStatus $status
+ *
+ * @package App\Models
+ */
 class Activity extends \Spatie\Activitylog\Models\Activity
 {
     use Presentable;

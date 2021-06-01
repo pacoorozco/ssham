@@ -28,6 +28,27 @@ use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
+/**
+ * Class Host
+ *
+ * @property int $id
+ * @property string $hostname
+ * @property string $username
+ * @property int $port
+ * @property string $authorized_keys_file
+ * @property string $type
+ * @property string|null $key_hash
+ * @property bool $enabled
+ * @property bool $synced
+ * @property \App\Enums\HostStatus $status_code
+ * @property \Illuminate\Support\Carbon|null $last_rotation
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $full_hostname
+ * @property-read \App\Models\Hostgroup[] $groups
+ *
+ * @package App\Models
+ */
 class Host extends Model implements Searchable
 {
     use HasFactory;

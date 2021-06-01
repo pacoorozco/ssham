@@ -23,6 +23,9 @@ use Laracodes\Presenter\Presenter;
 
 class ActivityPresenter extends Presenter
 {
+    /** @var \App\Models\Activity */
+    protected $model;
+
     public function activityAge(): HtmlString
     {
         return new HtmlString(optional($this->model->created_at)->diffForHumans());
