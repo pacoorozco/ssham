@@ -37,10 +37,10 @@ class ControlRuleController extends Controller
     {
         // Get all existing user and hosts groups
         $sources = Keygroup::orderBy('name')->get()->mapWithKeys(
-            fn($group) => [$group->id => $group->present()->nameWithKeysCount()]
+            fn ($group) => [$group->id => $group->present()->nameWithKeysCount()]
         );
         $targets = Hostgroup::orderBy('name')->get()->mapWithKeys(
-            fn($group) => [$group->id => $group->present()->nameWithHostsCount()]
+            fn ($group) => [$group->id => $group->present()->nameWithHostsCount()]
         );
 
         return view('rule.create')
@@ -83,11 +83,13 @@ class ControlRuleController extends Controller
             ->addColumn('source', function (ControlRule $rule) {
                 /** @var Keygroup $source */
                 $source = $rule->source;
+
                 return $source->present()->linkableNameWithKeysCount();
             })
             ->addColumn('target', function (ControlRule $rule) {
                 /** @var Hostgroup $target */
                 $target = $rule->target;
+
                 return $target->present()->linkableNameWithHostsCount();
             })
             ->editColumn('action', function (ControlRule $rule) {
