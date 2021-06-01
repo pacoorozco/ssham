@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('hostgroup/title.host_group_update')
+    <i class="fa fa-server"></i>  @lang('hostgroup/title.host_group_update')
 @endsection
 
 {{-- Breadcrumbs --}}
