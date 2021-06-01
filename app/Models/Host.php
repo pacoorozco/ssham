@@ -19,16 +19,21 @@ namespace App\Models;
 
 use App\Enums\ControlRuleAction;
 use App\Enums\HostStatus;
+use App\Presenters\HostPresenter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 class Host extends Model implements Searchable
 {
     use HasFactory;
+    use Presentable;
+
+    protected string $presenter = HostPresenter::class;
 
     protected $table = 'hosts';
 
@@ -45,6 +50,7 @@ class Host extends Model implements Searchable
         'synced' => 'boolean',
         'last_rotation' => 'datetime',
         'status_code' => HostStatus::class,
+        'port' => 'int',
     ];
 
     protected $attributes = [
@@ -68,14 +74,27 @@ class Host extends Model implements Searchable
 
     public function getFullHostnameAttribute(): string
     {
-        return "{$this->username}@{$this->hostname}:{$this->port}";
+        return "{$this->username}@{$this->hostname}";
     }
 
-    public function getPortAttribute(string $value): int
+    public function getPortOrDefault(): int
     {
-        $defaultPort = setting()->get('ssh_port');
+        return $this->hasCustomPort() ? $this->port : setting()->get('ssh_port');
+    }
 
-        return $value ?? (int) $defaultPort;
+    public function hasCustomPort(): bool
+    {
+        return $this->port !== 0;
+    }
+
+    public function getAuthorizedKeysFileOrDefault(): string
+    {
+        return $this->hasCustomAuthorizedKeysFile() ? $this->authorized_keys_file : setting()->get('authorized_keys');
+    }
+
+    public function hasCustomAuthorizedKeysFile(): bool
+    {
+        return $this->authorized_keys_file !== '';
     }
 
     public function scopeNotInSync(Builder $query): Builder

@@ -17,16 +17,21 @@
 
 namespace App\Models;
 
+use App\Presenters\KeygroupPresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 class Keygroup extends Model implements Searchable
 {
     use HasFactory;
+    use Presentable;
+
+    protected string $presenter = KeygroupPresenter::class;
 
     protected $table = 'keygroups';
 

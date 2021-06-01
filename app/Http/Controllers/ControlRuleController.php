@@ -36,8 +36,12 @@ class ControlRuleController extends Controller
     public function create(): View
     {
         // Get all existing user and hosts groups
-        $sources = Keygroup::orderBy('name')->pluck('name', 'id');
-        $targets = Hostgroup::orderBy('name')->pluck('name', 'id');
+        $sources = Keygroup::orderBy('name')->get()->mapWithKeys(
+            fn ($group) => [$group->id => $group->present()->nameWithKeysCount()]
+        );
+        $targets = Hostgroup::orderBy('name')->get()->mapWithKeys(
+            fn ($group) => [$group->id => $group->present()->nameWithHostsCount()]
+        );
 
         return view('rule.create')
             ->with('sources', $sources)
@@ -73,15 +77,20 @@ class ControlRuleController extends Controller
             'source_id',
             'target_id',
             'action',
-        ])
-            ->orderBy('id', 'asc');
+        ]);
 
         return $datatable->eloquent($rules)
             ->addColumn('source', function (ControlRule $rule) {
-                return $rule->present()->sourceWithLink;
+                /** @var Keygroup $source */
+                $source = $rule->source;
+
+                return $source->present()->linkableNameWithKeysCount();
             })
             ->addColumn('target', function (ControlRule $rule) {
-                return $rule->present()->targetWithLink;
+                /** @var Hostgroup $target */
+                $target = $rule->target;
+
+                return $target->present()->linkableNameWithHostsCount();
             })
             ->editColumn('action', function (ControlRule $rule) {
                 return $rule->present()->actionWithIcon;

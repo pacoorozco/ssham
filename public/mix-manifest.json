@@ -12,5 +12,9 @@
     "/vendor/AdminLTE/plugins/icheck-bootstrap/README.md": "/vendor/AdminLTE/plugins/icheck-bootstrap/README.md",
     "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.css": "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.css",
     "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css": "/vendor/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
-    "/vendor/AdminLTE/plugins/icheck-bootstrap/package.json": "/vendor/AdminLTE/plugins/icheck-bootstrap/package.json"
+    "/vendor/AdminLTE/plugins/icheck-bootstrap/package.json": "/vendor/AdminLTE/plugins/icheck-bootstrap/package.json",
+    "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css": "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.css",
+    "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css": "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css",
+    "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.js": "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.js",
+    "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js": "/vendor/AdminLTE/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"
 }

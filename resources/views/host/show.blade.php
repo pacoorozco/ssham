@@ -27,6 +27,6 @@
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-    @include('host._details', ['action' => 'show'])
+    @include('host._details')
 
 @endsection

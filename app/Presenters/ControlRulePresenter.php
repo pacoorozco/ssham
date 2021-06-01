@@ -23,6 +23,9 @@ use Laracodes\Presenter\Presenter;
 
 class ControlRulePresenter extends Presenter
 {
+    /** @var \App\Models\ControlRule */
+    protected $model;
+
     public function actionWithIcon(): HtmlString
     {
         $action = $this->model->action;
@@ -31,33 +34,5 @@ class ControlRulePresenter extends Presenter
         }
 
         return new HtmlString('<i class="fa fa-lock"></i> '.$action->description);
-    }
-
-    public function sourceWithLink(): HtmlString
-    {
-        $source = $this->model->source;
-
-        return new HtmlString(
-            sprintf('<a href="%s">%s</a> (%d %s)',
-                route('keygroups.show', $source),
-                $source->name,
-                $source->keys()->count(),
-                __('keygroup/model.keys')
-            )
-        );
-    }
-
-    public function targetWithLink(): HtmlString
-    {
-        $target = $this->model->target;
-
-        return new HtmlString(
-            sprintf('<a href="%s">%s</a> (%d %s)',
-                route('hostgroups.show', $target),
-                $target->name,
-                $target->hosts()->count(),
-                __('hostgroup/model.hosts')
-            )
-        );
     }
 }

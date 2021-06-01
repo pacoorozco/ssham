@@ -7,7 +7,7 @@
 {{-- Content Header --}}
 @section('header')
     <i class="fa fa-laptop"></i> @lang('host/title.host_management')
-    <small>@lang('host/title.host_management_subtitle')</small>
+    <small class="text-muted">@lang('host/title.host_management_subtitle')</small>
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -19,26 +19,24 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
-        <!-- Notifications -->
+    <!-- Notifications -->
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-        <div class="card">
-            <div class="card-header">
-                <!-- actions -->
-                <a class="btn btn-success" href="{{ route('hosts.create') }}" role="button">
-                    <i class="fa fa-plus"></i> @lang('host/title.create_a_new_host')
-                </a>
-                <a class="btn btn-primary" href="{{ route('hostgroups.index') }}" role="button">
-                    <i class="fa fa-users"></i> @lang('hostgroup/title.host_group_management')
-                </a>
-                <!-- /.actions -->
-            </div>
-            <div class="card-body">
-                @include('host._table')
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <!-- actions -->
+            <a class="btn btn-success" href="{{ route('hosts.create') }}" role="button">
+                <i class="fa fa-plus"></i> @lang('host/title.create_a_new_host')
+            </a>
+            <a class="btn btn-primary" href="{{ route('hostgroups.index') }}" role="button">
+                <i class="fa fa-server"></i> @lang('hostgroup/title.host_group_management')
+            </a>
+            <!-- /.actions -->
+        </div>
+        <div class="card-body">
+            @include('host._table')
         </div>
     </div>
 @endsection

@@ -64,8 +64,8 @@ class ControlRuleControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertViewIs('rule.create');
-        $response->assertViewHas('sources', $sources->pluck('name', 'id'));
-        $response->assertViewHas('targets', $targets->pluck('name', 'id'));
+        $response->assertViewHas('sources');
+        $response->assertViewHas('targets');
     }
 
     /** @test */

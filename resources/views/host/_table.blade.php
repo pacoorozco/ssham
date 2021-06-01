@@ -9,9 +9,10 @@
     <tr>
         <th>@lang('host/table.hostname')</th>
         <th>@lang('host/table.username')</th>
-        <th>@lang('host/table.type')</th>
         <th>@lang('host/table.groups')</th>
         <th>@lang('host/table.enabled')</th>
+        <th>@lang('host/table.synced')</th>
+        <th>@lang('host/table.status_code')</th>
         <th>@lang('host/table.actions')</th>
     </tr>
     </thead>
@@ -19,9 +20,10 @@
     <tr>
         <th>@lang('host/table.hostname')</th>
         <th>@lang('host/table.username')</th>
-        <th>@lang('host/table.type')</th>
         <th>@lang('host/table.groups')</th>
         <th>@lang('host/table.enabled')</th>
+        <th>@lang('host/table.synced')</th>
+        <th>@lang('host/table.status_code')</th>
         <th>@lang('host/table.actions')</th>
     </tr>
     </tfoot>
@@ -38,9 +40,10 @@
                 "columns": [
                     {data: "hostname"},
                     {data: "username"},
-                    {data: "type"},
                     {data: "groups", "orderable": false, "searchable": false},
                     {data: "enabled"},
+                    {data: "synced"},
+                    {data: "status_code"},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [
