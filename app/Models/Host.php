@@ -29,7 +29,7 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 /**
- * Class Host
+ * Class Host.
  *
  * @property int $id
  * @property string $hostname
@@ -46,8 +46,6 @@ use Spatie\Searchable\SearchResult;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $full_hostname
  * @property-read \App\Models\Hostgroup[] $groups
- *
- * @package App\Models
  */
 class Host extends Model implements Searchable
 {
