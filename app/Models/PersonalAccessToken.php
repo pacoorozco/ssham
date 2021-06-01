@@ -8,7 +8,7 @@ use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
 /**
- * Class PersonalAccessToken
+ * Class PersonalAccessToken.
  *
  * @property int $id
  * @property string $name
@@ -18,8 +18,6 @@ use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model $tokenable
- *
- * @package App\Models
  */
 class PersonalAccessToken extends SanctumPersonalAccessToken
 {
