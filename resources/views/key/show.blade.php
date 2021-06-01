@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('key/title.key_show')
+    <i class="nav-icon fa fa-key"></i> @lang('key/title.key_show')
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -27,6 +27,6 @@
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-    @include('key._details', ['action' => 'show'])
+    @include('key._details')
 
 @endsection

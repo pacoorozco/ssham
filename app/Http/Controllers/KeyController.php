@@ -176,17 +176,19 @@ class KeyController extends Controller
 
         return $datatable->eloquent($keys)
             ->editColumn('username', function (Key $key) {
-                return Helper::addDisabledStatusLabel($key->enabled, $key->username);
+                return $key->present()->usernameWithDisabledBadge();
+            })
+            ->editColumn('enabled', function (Key $key) {
+                return $key->present()->enabledAsBadge();
             })
             ->addColumn('actions', function (Key $key) {
-                return view('partials.actions_dd')
+                return view('partials.buttons-to-show-and-edit-actions')
                     ->with('model', 'keys')
                     ->with('id', $key->id)
                     ->render();
             })
-            ->rawColumns(['username', 'actions'])
+            ->rawColumns(['username', 'enabled', 'actions'])
             ->removeColumn('id')
-            ->removeColumn('enabled')
             ->toJson();
     }
 }

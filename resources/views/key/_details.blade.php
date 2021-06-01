@@ -1,112 +1,177 @@
 <div class="card">
-    <div class="card-header bg-cyan">
-        <h2 class="card-title">{{ $key->username }} @if(!$key->enabled)<span
-                class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>@endif </h2>
+    <div class="card-header @unless($key->enabled) bg-gray-dark @endunless">
+        <h2 class="card-title">
+            {{ $key->present()->username }}
+            @unless($key->enabled)
+                {{ $key->present()->enabledAsBadge() }}
+            @endunless
+        </h2>
     </div>
+
     <div class="card-body">
-
-        <!-- username -->
         <div class="row">
-            <div class="col-2">
-                <strong>@lang('key/model.username')</strong>
-            </div>
-            <div class="col-10">
-                {{ $key->username }}
-            </div>
-        </div>
-        <!-- ./ username -->
+            <!-- left column -->
+            <div class="col-md-6">
 
-    @if (!empty($key->private))
-        <!-- private key -->
-            <div class="row hide-after-download">
-                <div class="col-2">
-                    <strong>@lang('key/model.private_key')</strong>
-                </div>
-                <div class="col-10">
-                    <button type="button" class="btn btn-secondary" data-toggle="modal"
-                            data-target="#download-private-key">
-                        <i class="fa fa-download"></i> @lang('key/messages.private_key_available')
-                    </button>
-                </div>
-            </div>
-            <!-- ./ private key -->
-    @endif
+                <h3>@lang('key/title.key_identification_section')</h3>
+                <dl class="row">
 
-    <!-- fingerprint -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('key/model.fingerprint')</strong>
-            </div>
-            <div class="col-10">
-                {{ $key->fingerprint }}
-            </div>
-        </div>
-        <!-- ./ fingerprint -->
+                    <!-- username -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('key/model.username')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $key->present()->username }}
+                    </dd>
+                    <!-- ./ username -->
 
-        <!-- public key -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('key/model.public_key')</strong>
-            </div>
-            <div class="col-10">
-                <pre class="key-code">{{ $key->public }}</pre>
-            </div>
-        </div>
-        <!-- ./ public key -->
+                    <!-- fingerprint -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('key/model.fingerprint')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $key->present()->fingerprint }}
+                    </dd>
+                    <!-- ./ fingerprint -->
 
-        <!-- groups -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('key/model.groups')</strong>
-            </div>
-            <div class="col-10">
-                <ul class="list-inline">
-                    @forelse($key->groups as $group)
-                        <li class="list-inline-item"><a
-                                href="{{ route('keygroups.show', $group->id) }}">{{ $group->name }}</a></li>
-                    @empty
-                        <li class="list-inline-item">@lang('key/model.no_groups')</li>
-                    @endforelse
-                </ul>
-            </div>
-        </div>
-        <!-- ./ groups -->
+                    <!-- public key -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('key/model.public_key')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        <pre class="key-code">{{ $key->present()->public }}</pre>
+                    </dd>
+                    <!-- ./ public key -->
 
-        <!-- enabled -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('key/model.enabled')</strong>
-            </div>
-            <div class="col-10">
-                @if ($key->enabled)
-                    <span class="badge badge-pill badge-success">{{ __('general.enabled') }}</span>
-                @else
-                    <span class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>
+                </dl>
+
+            @if (!empty($key->private))
+                <!-- private key -->
+                    <dl class="row hide-after-download">
+                        <dt class="col-sm-3">
+                            <strong>@lang('key/model.private_key')</strong>
+                        </dt>
+                        <dd class="col-sm-9">
+                            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#download-private-key">
+                                <i class="fa fa-download"></i> @lang('key/messages.private_key_available')
+                            </button>
+                        </dd>
+                    </dl>
+                    <!-- ./ private key -->
                 @endif
+
             </div>
+            <!-- ./ left column -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+                <h3>@lang('key/title.membership_section')</h3>
+
+                <!-- groups -->
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        <strong>@lang('key/model.groups')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        @forelse($key->groups as $group)
+                            @if ($loop->first)
+                                {{ $key->groups->count() }} @lang('keygroup/model.item')
+                                <ul class="list-inline">
+                                    @endif
+
+                                    <li class="list-inline-item">
+                                        <a href="{{ route('keygroups.show', $group->id) }}">{{ $group->name }}</a>
+                                    </li>
+
+                                    @if ($loop->last)
+                                </ul>
+                            @endif
+                        @empty
+                            @lang('key/messages.groups_empty')
+                        @endforelse
+                    </dd>
+                </dl>
+                <!-- ./ groups -->
+
+                <h3>@lang('key/title.status_section')</h3>
+                <dl class="row">
+                    <!-- created at -->
+                    <dt class="col-3">
+                        <strong>@lang('key/model.created_at')</strong>
+                    </dt>
+                    <dd class="col-9">
+                        {{ $key->present()->createdAtForHumans() }} ({{ $key->present()->created_at }})
+                    </dd>
+                    <!-- ./ created at -->
+
+                    <!-- updated at -->
+                    <dt class="col-3">
+                        <strong>@lang('key/model.updated_at')</strong>
+                    </dt>
+                    <dd class="col-9">
+                        {{ $key->present()->updatedAtForHumans() }} ({{ $key->present()->updated_at }})
+                    </dd>
+                    <!-- ./ updated at -->
+
+                    <!-- enabled -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('key/model.enabled')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $key->present()->enabledAsBadge() }}
+                    </dd>
+                    <!-- ./ enabled -->
+                </dl>
+
+                <fieldset class="mt-5">
+                    <legend>@lang('key/messages.danger_zone_section')</legend>
+
+                    <ul class="list-group border border-danger">
+                        <li class="list-group-item">
+                            <strong>@lang('key/messages.delete_button')</strong>
+                            <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                    data-toggle="modal"
+                                    data-target="#confirmationModal">
+                                @lang('key/messages.delete_button')
+                            </button>
+                            <p>@lang('key/messages.delete_help')</p>
+                        </li>
+                    </ul>
+                </fieldset>
+
+
+            </div>
+            <!-- ./ right column -->
         </div>
-        <!-- ./ enabled -->
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('keys.index') }}" class="btn btn-primary" role="button">
-            <i class="fa fa-arrow-left"></i> @lang('general.back')
+        <a href="{{ route('keys.edit', $key->id) }}" class="btn btn-primary" role="button">
+            @lang('general.edit')
         </a>
-        @if ($action == 'show')
-            <a href="{{ route('keys.edit', $key->id) }}" class="btn btn-primary" role="button">
-                <i class="fa fa-pen"></i> @lang('general.edit')
-            </a>
-            @if (!empty($key->private))
-                <button type="button" class="btn btn-secondary hide-after-download" data-toggle="modal"
-                        data-target="#download-private-key">
-                    <i class="fa fa-download"></i> @lang('key/messages.private_key_available')
-                </button>
-            @endif
-        @else
-            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> @lang('general.delete')</button>
-        @endif
+        <a href="{{ route('keys.index') }}" class="btn btn-link" role="button">
+            @lang('general.cancel')
+        </a>
+
+
+
     </div>
 </div>
+<!-- ./ card -->
+
+<!-- confirmation modal -->
+<x-modals.confirmation
+    action="{{ route('keys.destroy', $key) }}"
+    confirmationText="{{ $key->username }}"
+    buttonText="{{ __('key/messages.delete_confirmation_button') }}">
+
+    <div class="alert alert-warning" role="alert">
+        @lang('key/messages.delete_confirmation_warning', ['username' => $key->username])
+    </div>
+
+</x-modals.confirmation>
+<!-- ./ confirmation modal -->
 
 @if (!empty($key->private))
     <!-- download private key modal -->
@@ -117,20 +182,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">@lang('key/title.download_private_key')</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="@lang('general.close')">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="@lang('general.close')">
                         <span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     @lang('key/messages.download_private_key_help')
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
-                        @lang('general.close')
-                    </button>
                     <a href="{{ route('keys.download', $key->id) }}" class="btn btn-primary" role="button"
                        id="download-button">
                         <i class="fa fa-download"></i> @lang('key/messages.download_private_key')
                     </a>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">
+                        @lang('general.cancel')
+                    </button>
                 </div>
             </div>
             <!-- ./modal-content -->

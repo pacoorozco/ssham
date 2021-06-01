@@ -30,4 +30,6 @@ return [
     'enabled' => 'Status',
     'groups' => 'Group membership',
     'no_groups' => 'Key does not pertain to any group',
+    'created_at' => 'Created',
+    'updated_at' => 'Last update',
 ];

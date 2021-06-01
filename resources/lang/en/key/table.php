@@ -18,6 +18,7 @@
 return [
     'username' => 'Username',
     'groups' => 'Groups',
+    'enabled' => 'Status',
     'fingerprint' => 'Fingerprint',
     'actions' => 'Actions',
 ];

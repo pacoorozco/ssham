@@ -16,15 +16,15 @@
  */
 
 return [
-    'key_management' => 'SSH Key Management',
+    'key_management' => 'SSH key Management',
     'key_management_subtitle' => 'create and edit SSH keys',
     'key_show' => 'SSH key Details',
     'create_a_new_key' => 'Create a new SSH key',
     'create_a_new_key_subtitle' => 'add a new SSH key',
     'key_update' => 'Update SSH key',
-    'key_delete' => 'Delete SSH key',
-    'key_identification_section' => 'SSH Key identification',
+    'key_identification_section' => 'SSH key identification',
     'membership_section' => 'Membership',
-    'public_key_section' => 'SSH Key',
+    'public_key_section' => 'SSH key',
     'download_private_key' => 'Download private key',
+    'status_section' => 'Key status',
 ];
