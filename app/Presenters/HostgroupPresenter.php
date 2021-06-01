@@ -27,9 +27,7 @@ class HostgroupPresenter extends Presenter
 
     public function rulesCount(): string
     {
-        return trans_choice('rule/model.rules_count', $this->model->getNumberOfRelatedRules(), [
-            'value' => $this->model->getNumberOfRelatedRules(),
-        ]);
+        return trans_choice('rule/model.rules_count', $this->model->getNumberOfRelatedRules());
     }
 
     public function nameWithHostsCount(): HtmlString

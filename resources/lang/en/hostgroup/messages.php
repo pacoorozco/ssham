@@ -31,4 +31,5 @@ return [
     'delete_confirmation_button' => 'I understand the consequences, delete this group',
 
     'hosts_count' => '{0} :count hosts|{1} :count host|[2,*] :count hosts',
+
 ];
