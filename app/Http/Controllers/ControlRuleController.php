@@ -39,10 +39,10 @@ class ControlRuleController extends Controller
     {
         // Get all existing user and hosts groups
         $sources = Keygroup::orderBy('name')->get()->mapWithKeys(
-            fn($group) => [$group->id => $group->present()->nameWithKeysCount()]
+            fn ($group) => [$group->id => $group->present()->nameWithKeysCount()]
         );
         $targets = Hostgroup::orderBy('name')->get()->mapWithKeys(
-            fn($group) => [$group->id => $group->present()->nameWithHostsCount()]
+            fn ($group) => [$group->id => $group->present()->nameWithHostsCount()]
         );
 
         return view('rule.create')
