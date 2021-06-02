@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('keygroup/title.key_group_show')
+    <i class="fa fa-briefcase"></i> @lang('keygroup/title.key_group_show')
 @endsection
 
 {{-- Breadcrumbs --}}

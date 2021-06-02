@@ -18,6 +18,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ControlRuleCreateRequest;
+use App\Jobs\CreateControlRule;
+use App\Jobs\DeleteControlRule;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
@@ -50,12 +52,12 @@ class ControlRuleController extends Controller
 
     public function store(ControlRuleCreateRequest $request): RedirectResponse
     {
-        $rule = ControlRule::create([
-            'name' => $request->name(),
-            'source_id' => $request->source(),
-            'target_id' => $request->target(),
-            'action' => $request->action(),
-        ]);
+        $rule = CreateControlRule::dispatchSync(
+            $request->name(),
+            $request->source(),
+            $request->target(),
+            $request->action()
+        );
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.create.success', ['rule' => $rule->id]));
@@ -63,7 +65,7 @@ class ControlRuleController extends Controller
 
     public function destroy(ControlRule $rule): RedirectResponse
     {
-        $rule->delete();
+        DeleteControlRule::dispatchSync($rule);
 
         return redirect()->route('rules.index')
             ->withSuccess(__('rule/messages.delete.success', ['rule' => $rule->id]));

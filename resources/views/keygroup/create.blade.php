@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('keygroup/title.create_a_new_key_group')
+    <i class="fa fa-briefcase"></i> @lang('keygroup/title.create_a_new_key_group')
     <small class="text-muted">@lang('keygroup/title.create_a_new_key_group_subtitle')</small>
 @endsection
 
@@ -24,84 +24,91 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
-        <!-- Notifications -->
+    <!-- Notifications -->
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-        <!-- Card -->
-        <div class="card">
-            {!! Form::open(['route' => 'keygroups.store', 'method' => 'post']) !!}
-            <div class="card-body">
-                <div class="form-row">
-                    <!-- left column -->
-                    <div class="col-md-6">
+    <!-- Card -->
+    <div class="card">
+        {!! Form::open(['route' => 'keygroups.store', 'method' => 'post']) !!}
+        <div class="card-body">
+            <div class="form-row">
+                <!-- left column -->
+                <div class="col-md-4">
+
+                    <fieldset>
+                        <legend>@lang('keygroup/messages.basic_information_section')</legend>
 
                         <!-- name -->
                         <div class="form-group">
                             {!! Form::label('name', __('keygroup/model.name')) !!}
+                            <small class="form-text text-muted">@lang('keygroup/messages.name_help')</small>
                             {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
                             @error('name')
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
-
                         </div>
                         <!-- ./ name -->
 
                         <!-- description -->
                         <div class="form-group">
                             {!! Form::label('description', __('keygroup/model.description')) !!}
+                            <small class="form-text text-muted">@lang('keygroup/messages.description_help')</small>
                             {!! Form::textarea('description', null, array('class' => 'form-control' . ($errors->has('description') ? ' is-invalid' : ''))) !!}
                             @error('description'))
                             <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
                         <!-- ./ description -->
-                    </div>
-                    <!-- ./ left column -->
+                    </fieldset>
+                </div>
+                <!-- ./ left column -->
 
-                    <!-- right column -->
-                    <div class="col-md-6">
+                <!-- right column -->
+                <div class="col-md-8">
+                    <fieldset>
+                        <legend>@lang('keygroup/messages.group_members_section')</legend>
                         <!-- key's groups -->
                         <div class="form-group">
                             {!! Form::label('keys[]', __('keygroup/model.keys')) !!}
-                            {!! Form::select('keys[]', $keys, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
+                            {!! Form::select('keys[]', $keys, null, array('multiple' => 'multiple', 'class' => 'form-control duallistbox')) !!}
+                            <small class="form-text text-muted">@lang('keygroup/messages.group_help')</small>
                         </div>
                         <!-- ./ key's groups -->
-                    </div>
-                    <!-- ./right column -->
+                    </fieldset>
                 </div>
+                <!-- ./right column -->
             </div>
-            <div class="card-footer">
-                <!-- Form Actions -->
-                <a href="{{ route('keygroups.index') }}" class="btn btn-primary" role="button">
-                    <i class="fa fa-arrow-left"></i> {{ __('general.back') }}
-                </a>
-            {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
-            <!-- ./ form actions -->
-            </div>
-
-            {!! Form::close() !!}
         </div>
-        <!-- ./ card -->
+        <div class="card-footer">
+            <!-- Form Actions -->
+            {!! Form::button(__('general.create'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <a href="{{ route('keygroups.index') }}" class="btn btn-link" role="button">
+                @lang('general.cancel')
+            </a>
+            <!-- ./ form actions -->
+        </div>
+
+        {!! Form::close() !!}
     </div>
+    <!-- ./ card -->
 @endsection
 
 {{-- Styles --}}
 @push('styles')
     <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/AdminLTE/plugins/select2/css/select2.min.css') }}">
+          href="{{ asset('vendor/AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
 @endpush
 
 {{-- Scripts --}}
 @push('scripts')
-    <script src="{{ asset('vendor/AdminLTE/plugins/select2/js/select2.min.js') }}"></script>
+    <script
+        src="{{ asset('vendor/AdminLTE/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
     <script>
-        $(".search-select").select2({
-            placeholder: "@lang('key/messages.groups_help')",
-            allowClear: true,
-            language: "@lang('site.language_short')",
+        $('.duallistbox').bootstrapDualListbox({
+            nonSelectedListLabel: '{{ __('keygroup/messages.available_keys_section') }}',
+            selectedListLabel: '{{ __('keygroup/messages.selected_keys_section') }}',
         });
     </script>
 @endpush

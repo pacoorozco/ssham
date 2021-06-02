@@ -112,21 +112,6 @@ class KeyControllerTest extends TestCase
     }
 
     /** @test */
-    public function delete_method_should_return_proper_view(): void
-    {
-        $key = Key::factory()
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('keys.delete', $key->id));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('key.delete');
-        $response->assertViewHas('key', $key);
-    }
-
-    /** @test */
     public function destroy_method_should_return_proper_success_message(): void
     {
         $key = Key::factory()

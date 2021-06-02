@@ -10,6 +10,7 @@
         <th>@lang('key/table.username')</th>
         <th>@lang('key/table.fingerprint')</th>
         <th>@lang('key/table.groups')</th>
+        <th>@lang('key/table.enabled')</th>
         <th>@lang('key/table.actions')</th>
     </tr>
     </thead>
@@ -18,6 +19,7 @@
         <th>@lang('key/table.username')</th>
         <th>@lang('key/table.fingerprint')</th>
         <th>@lang('key/table.groups')</th>
+        <th>@lang('key/table.enabled')</th>
         <th>@lang('key/table.actions')</th>
     </tr>
     </tfoot>
@@ -35,6 +37,7 @@
                     {data: "username"},
                     {data: "fingerprint", "orderable": false, "searchable": true},
                     {data: "groups", "orderable": false, "searchable": false},
+                    {data: "enabled"},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [

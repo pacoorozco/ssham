@@ -18,10 +18,12 @@
 namespace App\Models;
 
 use App\Libs\RsaSshKey\RsaSshKey;
+use App\Presenters\KeyPresenter;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -43,6 +45,9 @@ class Key extends Model implements Searchable
 {
     use HasFactory;
     use UsesUUID;
+    use Presentable;
+
+    protected string $presenter = KeyPresenter::class;
 
     protected $table = 'keys';
 

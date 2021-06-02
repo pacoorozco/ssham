@@ -116,11 +116,6 @@ Route::middleware(['auth'])->group(function () {
             [KeyController::class, 'data'])
         ->name('keys.data');
 
-    // Delete confirmation route - uses the show/details view.
-    Route::get('keys/{key}/delete',
-        [KeyController::class, 'delete'])
-        ->name('keys.delete');
-
     // Download a private key.
     Route::get('keys/{key}/download', DownloadPrivateKeyController::class)
         ->name('keys.download');
@@ -154,11 +149,6 @@ Route::middleware(['auth'])->group(function () {
         ->get('keygroups/data',
             [KeygroupController::class, 'data'])
         ->name('keygroups.data');
-
-    // Delete confirmation route - uses the show/details view.
-    Route::get('keygroups/{keygroup}/delete',
-        [KeygroupController::class, 'delete'])
-        ->name('keygroups.delete');
 
     // Pre-baked resource controller actions for index, create, store,
     // show, edit, update, destroy

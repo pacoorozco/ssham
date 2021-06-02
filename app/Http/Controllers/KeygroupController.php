@@ -19,6 +19,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
+use App\Jobs\CreateKeygroup;
+use App\Jobs\DeleteKeygroup;
+use App\Jobs\UpdateKeygroup;
 use App\Models\Key;
 use App\Models\Keygroup;
 use Illuminate\Http\JsonResponse;
@@ -44,21 +47,11 @@ class KeygroupController extends Controller
 
     public function store(KeygroupCreateRequest $request): RedirectResponse
     {
-        try {
-            $keygroup = Keygroup::create([
-                'name' => $request->name,
-                'description' => $request->description,
-            ]);
-
-            // Associate Keys to Key groups
-            if ($request->filled('keys')) {
-                $keygroup->keys()->sync($request->keys);
-            }
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(__('keygroup/messages.create.error'));
-        }
+        $keygroup = CreateKeygroup::dispatchSync(
+            $request->name(),
+            $request->description(),
+            $request->keys(),
+        );
 
         return redirect()->route('keygroups.index')
             ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
@@ -82,47 +75,23 @@ class KeygroupController extends Controller
 
     public function update(Keygroup $keygroup, KeygroupUpdateRequest $request): RedirectResponse
     {
-        try {
-            $keygroup->update([
-                'name' => $request->name,
-                'description' => $request->description,
-            ]);
-
-            // Associate Users to User's group
-            if ($request->filled('keys')) {
-                $keygroup->keys()->sync($request->keys);
-            } else {
-                $keygroup->keys()->detach();
-            }
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(__('keygroup/messages.edit.error'));
-        }
+        UpdateKeygroup::dispatchSync(
+            $keygroup,
+            $request->name(),
+            $request->description(),
+            $request->keys(),
+        );
 
         return redirect()->route('keygroups.edit', $keygroup->id)
             ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
     }
 
-    public function delete(Keygroup $keygroup): View
-    {
-        return view('keygroup.delete')
-            ->with('keygroup', $keygroup);
-    }
-
     public function destroy(Keygroup $keygroup): RedirectResponse
     {
-        $name = $keygroup->name;
-
-        try {
-            $keygroup->delete();
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withErrors(__('keygroup/messages.delete.error'));
-        }
+        DeleteKeygroup::dispatchSync($keygroup);
 
         return redirect()->route('keygroups.index')
-            ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));
+            ->withSuccess(__('keygroup/messages.delete.success', ['name' =>$keygroup->name]));
     }
 
     public function data(Datatables $datatable): JsonResponse
@@ -137,11 +106,10 @@ class KeygroupController extends Controller
 
         return $datatable->eloquent($keygroups)
             ->addColumn('rules', function (Keygroup $group) {
-                return trans_choice('rule/model.items_count', $group->getNumberOfRelatedRules(),
-                    ['value' => $group->getNumberOfRelatedRules()]);
+                return $group->present()->rulesCount();
             })
             ->addColumn('actions', function (Keygroup $keygroup) {
-                return view('partials.actions_dd')
+                return view('partials.buttons-to-show-and-edit-actions')
                     ->with('model', 'keygroups')
                     ->with('id', $keygroup->id)
                     ->render();

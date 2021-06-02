@@ -44,4 +44,9 @@ class KeygroupPresenter extends Presenter
             '<a href="'.route('keygroups.show', $this->model).'">'.$this->model->name.'</a>'.' '.$keysCount
         );
     }
+
+    public function rulesCount(): string
+    {
+        return trans_choice('rule/model.rules_count', $this->model->getNumberOfRelatedRules());
+    }
 }
