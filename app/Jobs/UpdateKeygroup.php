@@ -17,7 +17,6 @@ class UpdateKeygroup
 
     private array $keys;
 
-
     /**
      * UpdateKeygroup constructor.
      *
