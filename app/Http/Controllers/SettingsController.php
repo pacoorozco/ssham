@@ -34,16 +34,16 @@ class SettingsController extends Controller
     public function update(SettingsRequest $request): RedirectResponse
     {
         setting()->set([
-            'authorized_keys' => $request->authorized_keys,
-            'private_key' => $request->private_key,
-            'public_key' => $request->public_key,
-            'temp_dir' => $request->temp_dir,
-            'ssh_timeout' => $request->ssh_timeout,
-            'ssh_port' => $request->ssh_port,
-            'mixed_mode' => $request->mixed_mode,
-            'ssham_file' => $request->ssham_file,
-            'non_ssham_file' => $request->non_ssham_file,
-            'cmd_remote_updater' => $request->cmd_remote_updater,
+            'authorized_keys' => $request->authorizedKeys(),
+            'private_key' => $request->privateKey(),
+            'public_key' => $request->publicKey(),
+            'temp_dir' => $request->tempDir(),
+            'ssh_timeout' => $request->sshTimeout(),
+            'ssh_port' => $request->sshPort(),
+            'mixed_mode' => $request->mixedMode(),
+            'ssham_file' => $request->sshamFile(),
+            'non_ssham_file' => $request->nonSSHAMFile(),
+            'cmd_remote_updater' => $request->cmdRemoteUpdater(),
         ]);
 
         return redirect()->route('settings.index')

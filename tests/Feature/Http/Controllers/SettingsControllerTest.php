@@ -19,18 +19,19 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user_to_act_as;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = User::factory()
+        $this->user = User::factory()
             ->create();
     }
 
@@ -73,7 +74,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
     ];
 
-    private function createDefaultSettingsForTesting()
+    private function createDefaultSettingsForTesting(): Collection
     {
         // Set settings
         setting()->set(self::TEST_SETTINGS);
@@ -81,24 +82,26 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         return setting()->all();
     }
 
-    public function test_index_method_returns_proper_view()
+    /** @test  */
+    public function index_method_should_return_proper_view(): void
     {
         $this->createDefaultSettingsForTesting();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('settings.index'));
 
         $response->assertSuccessful();
         $response->assertViewIs('settings.index');
     }
 
-    public function test_index_method_returns_proper_data()
+    /** @test  */
+    public function index_method_should_return_proper_data()
     {
         $settings = $this->createDefaultSettingsForTesting();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('settings.index'));
 
         $response->assertSuccessful();
