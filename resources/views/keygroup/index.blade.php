@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('keygroup/title.key_group_management')
+    <i class="fa fa-briefcase"></i> @lang('keygroup/title.key_group_management')
     <small class="text-muted">@lang('keygroup/title.key_group_management_subtitle')</small>
 @endsection
 
@@ -18,7 +18,6 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
         <!-- Notifications -->
     @include('partials.notifications')
@@ -36,5 +35,4 @@
                 @include('keygroup._table')
             </div>
         </div>
-    </div>
 @endsection

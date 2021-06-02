@@ -19,39 +19,43 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
-/**
- * Class KeygroupUpdateRequest.
- *
- *
- * @property \App\Keygroup $keygroup
- * @property string        $name
- * @property string        $description
- * @property array         $keys
- */
 class KeygroupUpdateRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         $group = $this->keygroup;
 
         return [
-            'name' => ['required', 'min:5', 'max:255', Rule::unique('keygroups')->ignore($group->id)],
-            'description' => ['max:255'],
+            'name' => [
+                'required',
+                'min:5',
+                'max:255',
+                Rule::unique('keygroups')->ignore($group->id),
+            ],
+            'description' => [
+                'string',
+                'nullable',
+            ],
         ];
+    }
+
+    public function name(): string
+    {
+        return $this->input('name');
+    }
+
+    public function description(): ?string
+    {
+        return $this->input('description');
+    }
+
+    public function keys(): ?array
+    {
+        return $this->input('keys');
     }
 }

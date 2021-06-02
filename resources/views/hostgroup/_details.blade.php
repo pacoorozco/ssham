@@ -84,7 +84,6 @@
                         <p>@lang('hostgroup/messages.delete_help')</p>
                     </li>
                 </ul>
-                </h3>
 
             </div>
             <!-- ./ right column -->
