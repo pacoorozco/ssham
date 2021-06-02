@@ -87,11 +87,6 @@ Route::middleware(['auth'])->group(function () {
             [UserController::class, 'data'])
         ->name('users.data');
 
-    // Delete confirmation route - uses the show/details view.
-    Route::get('users/{user}/delete',
-        [UserController::class, 'delete'])
-        ->name('users.delete');
-
     // Pre-baked resource controller actions for index, create, store,
     // show, edit, update, destroy
     Route::resource('users', UserController::class);

@@ -22,6 +22,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Jobs\ChangeUserPassword;
 use App\Jobs\CreateUser;
+use App\Jobs\DeleteUser;
 use App\Jobs\UpdateUser;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -46,8 +47,8 @@ class UserController extends Controller
     {
         $user = CreateUser::dispatchSync(
             $request->username(),
-            $request->password(),
-            $request->email()
+            $request->email(),
+            $request->password()
         );
 
         return redirect()->route('users.index')
@@ -85,31 +86,18 @@ class UserController extends Controller
             ->withSuccess(__('user/messages.edit.success', ['name' => $user->username]));
     }
 
-    public function delete(User $user): View
-    {
-        return view('user.delete')
-            ->with('user', $user);
-    }
-
     public function destroy(User $user): RedirectResponse
     {
-        $username = $user->username;
-
         // you can not delete yourself
         if ($user->id === Auth::id()) {
             return redirect()->back()
                 ->withErrors(__('user/messages.delete.impossible'));
         }
 
-        try {
-            $user->delete();
-        } catch (\Exception $exception) {
-            return redirect()->back()
-                ->withSuccess(__('user/messages.delete.error'));
-        }
+        DeleteUser::dispatchSync($user);
 
         return redirect()->route('users.index')
-            ->withSuccess(__('user/messages.delete.success', ['name' => $username]));
+            ->withSuccess(__('user/messages.delete.success', ['name' => $user->username]));
     }
 
     public function data(Datatables $datatable): JsonResponse
@@ -124,10 +112,10 @@ class UserController extends Controller
 
         return $datatable->eloquent($users)
             ->editColumn('username', function (User $user) {
-                return Helper::addDisabledStatusLabel($user->enabled, $user->username);
+                return $user->present()->usernameWithDisabledBadge();
             })
             ->addColumn('actions', function (User $user) {
-                return view('partials.actions_dd')
+                return view('partials.buttons-to-show-and-edit-actions')
                     ->with('model', 'users')
                     ->with('id', $user->id)
                     ->render();

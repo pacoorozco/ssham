@@ -25,7 +25,8 @@ class AuditControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_calling_index_should_return_index_view()
+    /** @test */
+    public function calling_index_should_return_index_view(): void
     {
         $user = User::factory()
             ->create();
@@ -36,14 +37,16 @@ class AuditControllerTest extends TestCase
         $response->assertViewIs('audit.index');
     }
 
-    public function test_calling_index_without_auth_should_return_login_route()
+    /** @test */
+    public function calling_index_without_auth_should_return_login_route(): void
     {
         $response = $this->get(route('audit'));
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_calling_data_should_return_a_json()
+    /** @test */
+    public function calling_data_should_return_a_json(): void
     {
         $user = User::factory()
             ->create();
@@ -51,10 +54,12 @@ class AuditControllerTest extends TestCase
         $response = $this->actingAs($user)
             ->ajaxGet(route('audit.data'));
 
+        $response->assertSuccessful();
         $response->assertJsonCount(5);
     }
 
-    public function test_calling_data_without_ajax_should_return_error()
+    /** @test */
+    public function calling_data_without_ajax_should_return_error(): void
     {
         $user = User::factory()
             ->create();
@@ -65,7 +70,8 @@ class AuditControllerTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_calling_data_without_auth_should_return_login_route()
+    /** @test */
+    public function calling_data_without_auth_should_return_login_route(): void
     {
         $response = $this->ajaxGet(route('audit.data'));
 

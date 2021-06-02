@@ -20,7 +20,6 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -37,7 +36,7 @@ class KeygroupControllerTest extends TestCase
             ->create();
     }
 
-    /** @test  */
+    /** @test */
     public function index_method_should_return_proper_view(): void
     {
         $response = $this
@@ -51,17 +50,6 @@ class KeygroupControllerTest extends TestCase
     /** @test */
     public function create_method_should_return_proper_view(): void
     {
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('keygroups.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('keygroup.create');
-    }
-
-    /** @test */
-    public function create_method_should_return_proper_data(): void
-    {
         $keys = Key::factory()
             ->count(3)
             ->create();
@@ -71,13 +59,37 @@ class KeygroupControllerTest extends TestCase
             ->get(route('keygroups.create'));
 
         $response->assertSuccessful();
+        $response->assertViewIs('keygroup.create');
         $response->assertViewHas('keys', $keys->pluck('username', 'id'));
+    }
+
+    /** @test */
+    public function store_method_should_create_a_new_group(): void
+    {
+        $group = Keygroup::factory()->make();
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('keygroups.store'), [
+                'name' => $group->name,
+                'description' => $group->description,
+            ]);
+
+        $response->assertRedirect(route('keygroups.index'));
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('keygroups', [
+            'name' => $group->name,
+            'description' => $group->description,
+        ]);
     }
 
     /** @test */
     public function edit_method_should_return_proper_view(): void
     {
         $group = Keygroup::factory()
+            ->create();
+        $keys = Key::factory()
+            ->count(3)
             ->create();
 
         $response = $this
@@ -87,23 +99,29 @@ class KeygroupControllerTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('keygroup.edit');
         $response->assertViewHas('keygroup', $group);
+        $response->assertViewHas('keys', $keys->pluck('username', 'id'));
     }
 
     /** @test */
-    public function edit_method_should_return_proper_data(): void
+    public function update_method_should_update_group(): void
     {
-        $group = Keygroup::factory()
-            ->create();
-        $keys = Key::factory()
-            ->count(3)
-            ->create();
+        $want = Keygroup::factory()->make();
+        $group = Keygroup::factory()->create();
 
         $response = $this
             ->actingAs($this->user)
-            ->get(route('keygroups.edit', $group->id));
+            ->put(route('keygroups.update', $group), [
+                'name' => $want->name,
+                'description' => $want->description,
+            ]);
 
-        $response->assertSuccessful();
-        $response->assertViewHas('keys', $keys->pluck('username', 'id'));
+        $response->assertRedirect(route('keygroups.edit', $group));
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('keygroups', [
+            'id' => $group->id,
+            'name' => $want->name,
+            'description' => $want->description,
+        ]);
     }
 
     /** @test */
@@ -114,12 +132,10 @@ class KeygroupControllerTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->delete(route('keygroups.destroy', $group->id));
+            ->delete(route('keygroups.destroy', $group));
 
         $response->assertSessionHas('success');
-        $this->assertDatabaseMissing('keygroups', [
-            'id' => $group->id,
-        ]);
+        $this->assertDeleted($group);
     }
 
     /** @test */
@@ -161,45 +177,5 @@ class KeygroupControllerTest extends TestCase
                 'description' => $group['description'],
             ]);
         }
-    }
-
-    /** @test */
-    public function store_method_should_create_a_new_group(): void
-    {
-        $group = Keygroup::factory()->make();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->post(route('keygroups.store'), [
-                'name' => $group->name,
-                'description' => $group->description,
-            ]);
-
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keygroups', [
-            'name' => $group->name,
-            'description' => $group->description,
-        ]);
-    }
-
-    /** @test */
-    public function update_method_should_update_group(): void
-    {
-        $want = Keygroup::factory()->make();
-        $group = Keygroup::factory()->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->put(route('keygroups.update', $group), [
-                'name' => $want->name,
-                'description' => $want->description,
-            ]);
-
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keygroups', [
-            'id' => $group->id,
-            'name' => $want->name,
-            'description' => $want->description,
-        ]);
     }
 }
