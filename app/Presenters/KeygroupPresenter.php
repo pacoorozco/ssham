@@ -49,5 +49,4 @@ class KeygroupPresenter extends Presenter
     {
         return trans_choice('rule/model.rules_count', $this->model->getNumberOfRelatedRules());
     }
-
 }
