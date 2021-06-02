@@ -115,6 +115,7 @@ class HostgroupControllerTest extends TestCase
             ->actingAs($this->user)
             ->delete(route('hostgroups.destroy', $group));
 
+        $response->assertRedirect(route('hostgroups.index'));
         $response->assertSessionHas('success');
         $this->assertDatabaseMissing('hostgroups', [
             'id' => $group->id,
@@ -174,6 +175,7 @@ class HostgroupControllerTest extends TestCase
                 'description' => $group->description,
             ]);
 
+        $response->assertRedirect(route('hostgroups.index'));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('hostgroups', [
             'name' => $group->name,
@@ -194,6 +196,7 @@ class HostgroupControllerTest extends TestCase
                 'description' => $want->description,
             ]);
 
+        $response->assertRedirect(route('hostgroups.edit', [$group]));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('hostgroups', [
             'id' => $group->id,

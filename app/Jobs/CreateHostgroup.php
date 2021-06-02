@@ -29,7 +29,7 @@ class CreateHostgroup
             'name' => $this->name,
             'description' => $this->description,
         ]);
-        $group->keys()->sync($this->hosts);
+        $group->hosts()->sync($this->hosts);
 
         return $group;
     }
