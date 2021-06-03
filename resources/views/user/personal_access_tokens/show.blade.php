@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('user/personal_access_token.title')
+    <i class="nav-icon fa fa-users"></i> @lang('user/personal_access_token.title')
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -27,47 +27,47 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
-        <!-- Notifications -->
+    <!-- Notifications -->
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-        <div class="row">
-            <!-- User edit sidebar -->
-            <div class="col-md-2">
-                @include('user._settings_menu')
-            </div>
-            <!-- ./ User edit sidebar -->
+    <div class="row">
+        <!-- User edit sidebar -->
+        <div class="col-md-2">
+            @include('user._settings_menu')
+        </div>
+        <!-- ./ User edit sidebar -->
 
-            <div class="col-md-10">
-                <!-- card -->
-                <div class="card card-outline">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            @lang('user/personal_access_token.title')
-                        </h3>
-                        <div class="card-tools">
-                            <a href="{{ route('users.tokens.create', $user) }}" class="btn btn-block btn-outline-success btn-sm">
-                                @lang('user/personal_access_token.generate_button')
-                            </a>
-                        </div>
+        <div class="col-md-10">
+            <!-- card -->
+            <div class="card card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        @lang('user/personal_access_token.title')
+                    </h3>
+                    <div class="card-tools">
+                        <a href="{{ route('users.tokens.create', $user) }}"
+                           class="btn btn-block btn-outline-success btn-sm">
+                            @lang('user/personal_access_token.generate_button')
+                        </a>
                     </div>
-                    <div class="card-body">
-                        @forelse($tokens as $token)
+                </div>
+                <div class="card-body">
+                    @forelse($tokens as $token)
                         @if ($loop->first)
                             <p>@lang('user/personal_access_token.list_help')</p>
 
-                                @if(session()->has('newTokenName'))
-                                    <div class="alert alert-info" role="alert">
-                                        @lang('user/personal_access_token.created_instructions')
-                                    </div>
-                                @endif
+                            @if(session()->has('newTokenName'))
+                                <div class="alert alert-info" role="alert">
+                                    @lang('user/personal_access_token.created_instructions')
+                                </div>
+                            @endif
 
                             <ul class="list-group">
-                        @endif
+                                @endif
 
-                        @if ($loop->last)
+                                @if ($loop->last)
                             </ul>
                         @endif
 
@@ -80,63 +80,63 @@
                                     @lang('user/personal_access_token.revoke_button')
                                 </button>
 
-                            @if(session('newTokenName') == $token->name)
-                                <i class="fas fa-check-circle text-success"></i>
-                                <code id="new-token">{{ session('newPlainTextToken') }}</code>
-                                <a class="btn-link" role="button" id="copyToClipboard" data-clipboard-target="#new-token">
-                                    <i class="far fa-clipboard"></i>
-                                </a>
-                            @else
-                                <small class="text-muted float-right">
-                                    {{ $token->present()->getLastUsedDateString() }}
-                                </small>
-                                {{ $token->name }}
-                            @endif
+                                @if(session('newTokenName') == $token->name)
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <code id="new-token">{{ session('newPlainTextToken') }}</code>
+                                    <a class="btn-link" role="button" id="copyToClipboard"
+                                       data-clipboard-target="#new-token">
+                                        <i class="far fa-clipboard"></i>
+                                    </a>
+                                @else
+                                    <small class="text-muted float-right">
+                                        {{ $token->present()->getLastUsedDateString() }}
+                                    </small>
+                                    {{ $token->name }}
+                                @endif
                             </div>
                         </li>
-                        @empty
-                            <p>@lang('user/personal_access_token.empty_list_text', ['url' => route('users.tokens.create', $user)])</p>
-                        @endforelse
+                    @empty
+                        <p>@lang('user/personal_access_token.empty_list_text', ['url' => route('users.tokens.create', $user)])</p>
+                    @endforelse
 
-                        <small class="text-muted">
-                            @lang('user/personal_access_token.help')
-                        </small>
-                    </div>
+                    <small class="text-muted">
+                        @lang('user/personal_access_token.help')
+                    </small>
                 </div>
-                <!-- ./ card -->
-
-                <!-- confirmation modal -->
-                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
-                     aria-labelledby="confirmationModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <form action="" method="post" id="deleteForm">
-                                @csrf
-                                @method('DELETE')
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmationModalLabel">
-                                        @lang('user/personal_access_token.confirmation_title')
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="alert alert-warning" role="alert">
-                                        @lang('user/personal_access_token.confirmation_warning')
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-block btn-outline-danger">
-                                        @lang('user/personal_access_token.confirmation_button')
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./ confirmation modal -->
             </div>
+            <!-- ./ card -->
+
+            <!-- confirmation modal -->
+            <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
+                 aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="" method="post" id="deleteForm">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmationModalLabel">
+                                    @lang('user/personal_access_token.confirmation_title')
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-warning" role="alert">
+                                    @lang('user/personal_access_token.confirmation_warning')
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-block btn-outline-danger">
+                                    @lang('user/personal_access_token.confirmation_button')
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- ./ confirmation modal -->
         </div>
     </div>
 @endsection

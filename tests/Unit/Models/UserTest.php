@@ -17,12 +17,14 @@
 
 namespace Tests\Unit\Models;
 
+use App\Enums\AuthType;
 use App\Models\User;
 use Tests\ModelTestCase;
 
 class UserTest extends ModelTestCase
 {
-    public function test_contains_valid_fillable_properties()
+    /** @test */
+    public function contains_valid_fillable_properties(): void
     {
         $m = new User();
         $this->assertEquals([
@@ -33,40 +35,44 @@ class UserTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    public function test_contains_valid_hidden_properties()
+    /** @test */
+    public function contains_valid_hidden_properties(): void
     {
         $m = new User();
         $this->assertEquals([
             'password',
             'remember_token',
-            'auth_type',
         ], $m->getHidden());
     }
 
-    public function test_contains_valid_casts_properties()
+    /** @test */
+    public function contains_valid_casts_properties(): void
     {
         $m = new User();
         $this->assertEquals([
             'id' => 'int',
             'enabled' => 'boolean',
             'email_verified_at' => 'datetime',
+            'auth_type' => AuthType::class,
         ], $m->getCasts());
     }
 
-    public function test_username_is_lowercase()
+    /** @test */
+    public function username_is_lowercase(): void
     {
-        $m = new User();
-
-        $test_data = [
+        $testCases = [
             'User' => 'user',
             'ADMIN' => 'admin',
             'user' => 'user',
             'admin' => 'admin',
         ];
 
-        foreach ($test_data as $input => $want) {
-            $m->username = $input;
-            $this->assertEquals($want, $m->getAttribute('username'));
+        foreach ($testCases as $input => $want) {
+            /** @var User $user */
+            $user = User::factory()->makeOne([
+                'username' => $input,
+            ]);
+            $this->assertEquals($want, $user->username);
         }
     }
 }

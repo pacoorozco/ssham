@@ -17,6 +17,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\AuthType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -35,7 +36,7 @@ class UserFactory extends Factory
         return [
             'username' => $this->faker->unique()->userName,
             'email' => $this->faker->unique()->safeEmail,
-            'auth_type' => 'local',
+            'auth_type' => AuthType::Local,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'enabled' => true,

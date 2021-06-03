@@ -1,47 +1,120 @@
 <div class="card">
-    <div class="card-header bg-cyan">
-        <h2 class="card-title">{{ $user->username }} @if(!$user->enabled)<span class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>@endif </h2>
+    <div class="card-header @unless($user->enabled) bg-gray-dark @endunless">
+        <div class="card-title">
+            <h2 class="card-title">
+                {{ $user->present()->username }}
+                @unless($user->enabled)
+                    {{ $user->present()->enabledAsBadge() }}
+                @endunless
+            </h2>
+        </div>
     </div>
+
     <div class="card-body">
-
-        <!-- email -->
         <div class="row">
-            <div class="col-2">
-                <strong>@lang('user/model.email')</strong>
-            </div>
-            <div class="col-10">
-                {{ $user->email }}
-            </div>
-        </div>
-        <!-- ./email -->
+            <!-- left column -->
+            <div class="col-md-6">
 
-        <!-- enabled -->
-        <div class="row">
-            <div class="col-2">
-                <strong>@lang('user/model.enabled')</strong>
-            </div>
-            <div class="col-10">
-                @if ($user->enabled)
-                    <span class="badge badge-pill badge-success">{{ __('general.enabled') }}</span>
-                @else
-                    <span class="badge badge-pill badge-secondary">{{ __('general.disabled') }}</span>
-                @endif
-            </div>
-        </div>
-        <!-- ./ enabled -->
+                <h3>@lang('user/title.personal_information_section')</h3>
+                <dl class="row">
 
+                    <!-- username -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('user/model.username')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $user->present()->username }}
+                    </dd>
+                    <!-- ./username -->
+
+                    <!-- email -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('user/model.email')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $user->present()->email }}
+                    </dd>
+                    <!-- ./email -->
+
+                </dl>
+            </div>
+            <!-- ./ left column -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+                <h3>@lang('user/title.status_section')</h3>
+
+                <dl class="row">
+                    <!-- created at -->
+
+                    <dt class="col-sm-3">
+                        <strong>@lang('user/model.created_at')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $user->present()->createdAtForHumans() }} ({{ $user->present()->created_at }})
+                    </dd>
+                    <!-- ./ created at -->
+
+                    <!-- enabled -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('user/model.enabled')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $user->present()->enabledAsBadge() }}
+                    </dd>
+                    <!-- ./ enabled -->
+
+                    <!-- authentication -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('user/model.authentication')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $user->present()->authenticationAsBadge() }}
+                    </dd>
+                    <!-- ./ authentication -->
+                </dl>
+
+                @unless (Auth::id() === $user->id)
+                    <h3>@lang('user/messages.danger_zone_section')</h3>
+
+                    <ul class="list-group border border-danger">
+                        <li class="list-group-item">
+                            <strong>@lang('user/messages.delete_button')</strong>
+                            <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                    data-toggle="modal"
+                                    data-target="#confirmationModal">
+                                @lang('user/messages.delete_button')
+                            </button>
+                            <p>@lang('user/messages.delete_help')</p>
+                        </li>
+                    </ul>
+                @endunless
+
+            </div>
+            <!-- ./ right column -->
+        </div>
     </div>
+
     <div class="card-footer">
-        <a href="{{ route('users.index') }}" class="btn btn-primary" role="button">
-            <i class="fa fa-arrow-left"></i> @lang('general.back')
+        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary" role="button">
+            @lang('general.edit')
         </a>
-        @if ($action == 'show')
-            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary" role="button">
-                <i class="fa fa-pen"></i> @lang('general.edit')
-            </a>
-        @else
-            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> @lang('general.delete')</button>
-        @endif
+        <a href="{{ route('users.index') }}" class="btn btn-link" role="button">
+            @lang('general.cancel')
+        </a>
     </div>
-</div>
+
+@unless (Auth::id() === $user->id)
+    <!-- confirmation modal -->
+        <x-modals.confirmation
+            action="{{ route('users.destroy', $user) }}"
+            confirmationText="{{ $user->username }}"
+            buttonText="{{ __('user/messages.delete_confirmation_button') }}">
+
+            <div class="alert alert-warning" role="alert">
+                @lang('user/messages.delete_confirmation_warning', ['username' => $user->username])
+            </div>
+        </x-modals.confirmation>
+        <!-- ./ confirmation modal -->
+@endunless
 

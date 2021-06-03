@@ -17,10 +17,12 @@
 
 namespace App\Models;
 
+use App\Enums\AuthType;
+use App\Presenters\UserPresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -44,6 +46,9 @@ final class User extends Authenticatable
     use HasFactory;
     use HasApiTokens;
     use Notifiable;
+    use Presentable;
+
+    protected string $presenter = UserPresenter::class;
 
     protected $table = 'users';
 
@@ -57,21 +62,25 @@ final class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'auth_type',
     ];
 
     protected $casts = [
         'enabled' => 'boolean',
         'email_verified_at' => 'datetime',
+        'auth_type' => AuthType::class,
     ];
 
-    public static function createRandomPassword(): string
-    {
-        return Str::random(32);
-    }
+    protected $attributes = [
+        'auth_type' => AuthType::Local,
+    ];
 
     public function setUsernameAttribute(string $value): void
     {
         $this->attributes['username'] = strtolower($value);
+    }
+
+    public function hasTokens(): bool
+    {
+        return $this->tokens()->exists();
     }
 }

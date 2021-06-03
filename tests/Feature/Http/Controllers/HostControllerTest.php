@@ -29,115 +29,162 @@ class HostControllerTest extends TestCase
     use RefreshDatabase;
     use DatabaseMigrations;
 
-    private $user_to_act_as;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = User::factory()->create();
+        $this->user = User::factory()->create();
     }
 
-    public function test_index_method_returns_proper_view()
+    /** @test */
+    public function index_method_should_return_proper_view(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('hosts.index'));
 
         $response->assertSuccessful();
         $response->assertViewIs('host.index');
     }
 
-    public function test_create_method_returns_proper_view()
+    /** @test */
+    public function create_method_should_return_proper_view(): void
     {
+        $groups = Hostgroup::factory()
+            ->count(3)
+            ->create();
+
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('hosts.create'));
 
         $response->assertSuccessful();
         $response->assertViewIs('host.create');
+        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_create_method_returns_proper_data()
+    /** @test */
+    public function store_method_should_create_a_new_host(): void
     {
+        $host = Host::factory()->make();
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('hosts.store'), [
+                'hostname' => $host->hostname,
+                'username' => $host->username,
+                'enabled' => $host->enabled,
+                'port' => $host->port,
+                'authorized_keys_file' => $host->authorized_keys_file,
+            ]);
+
+        $response->assertRedirect(route('hosts.index'));
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('hosts', [
+            'hostname' => $host->hostname,
+            'username' => $host->username,
+            'enabled' => $host->enabled,
+            'port' => $host->port,
+            'authorized_keys_file' => $host->authorized_keys_file,
+        ]);
+    }
+
+    /** @test */
+    public function edit_method_should_return_proper_view(): void
+    {
+        $host = Host::factory()
+            ->create();
         $groups = Hostgroup::factory()
             ->count(3)
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('hosts.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
-    }
-
-    public function test_edit_method_returns_proper_view()
-    {
-        $host = Host::factory()
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('hosts.edit', $host->id));
+            ->actingAs($this->user)
+            ->get(route('hosts.edit', $host));
 
         $response->assertSuccessful();
         $response->assertViewIs('host.edit');
         $response->assertViewHas('host', $host);
-    }
-
-    public function test_edit_method_returns_proper_data()
-    {
-        $host = Host::factory()
-            ->create();
-        $groups = Hostgroup::factory()
-            ->count(3)
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('hosts.edit', $host->id));
-
-        $response->assertSuccessful();
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    public function test_destroy_method_returns_proper_success_message()
+    /** @test */
+    public function update_method_should_update_host(): void
+    {
+        $want = Host::factory()->make();
+        $host = Host::factory()->create();
+
+        $response = $this
+            ->actingAs($this->user)
+            ->put(route('hosts.update', $host), [
+                'enabled' => $want->enabled,
+                'port' => $want->port,
+                'authorized_keys_file' => $want->authorized_keys_file,
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('hosts', [
+            'id' => $host->id,
+            'hostname' => $host->hostname,
+            'username' => $host->username,
+            'enabled' => $want->enabled,
+            'port' => $want->port,
+            'authorized_keys_file' => $want->authorized_keys_file,
+        ]);
+    }
+
+    /** @test */
+    public function destroy_method_should_return_proper_success_message(): void
     {
         $host = Host::factory()
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->delete(route('hosts.destroy', $host->id));
 
+        $response->assertRedirect(route('hosts.index'));
         $response->assertSessionHas('success');
+        $this->assertDeleted($host);
     }
 
-    public function test_data_method_returns_error_when_not_ajax()
+    /** @test */
+    public function data_method_should_return_error_when_not_ajax(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('hosts.data'));
 
         $response->assertForbidden();
     }
 
-    public function test_data_method_returns_data()
+    /** @test */
+    public function data_method_should_return_data(): void
     {
         $hosts = Host::factory()
             ->count(3)
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->ajaxGet(route('hosts.data'));
 
         $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'hostname',
+                    'username',
+                    'groups',
+                    'actions',
+                ],
+            ],
+        ]);
         foreach ($hosts as $host) {
             $response->assertJsonFragment([
                 'hostname' => $host['hostname'],
                 'username' => $host['username'],
-                'groups' => '0',
             ]);
         }
     }

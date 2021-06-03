@@ -3,7 +3,7 @@
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('users.edit', $user) }}">
-                    Personal information
+                    @lang('user/title.personal_information_section')
                 </a>
             </li>
             <li class="nav-item active">
