@@ -47,7 +47,7 @@ class UserPresenter extends Presenter
     public function authenticationAsBadge(): HtmlString
     {
         return new HtmlString(
-            $this->authTypeAsBadge() . ' ' . $this->tokensCountAsBadge()
+            $this->authTypeAsBadge().' '.$this->tokensCountAsBadge()
         );
     }
 
@@ -57,6 +57,7 @@ class UserPresenter extends Presenter
         if ($this->model->tokens_count > 0) {
             return new HtmlString('<span class="badge badge-pill badge-danger">tokens</span>');
         }
+
         return new HtmlString();
     }
 
@@ -65,6 +66,7 @@ class UserPresenter extends Presenter
         if ($this->model->auth_type === AuthType::External) {
             return new HtmlString('<span class="badge badge-pill badge-info">external</span>');
         }
+
         return new HtmlString('<span class="badge badge-pill badge-secondary">'.$this->model->auth_type.'</span>');
     }
 
