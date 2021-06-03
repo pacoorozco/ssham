@@ -66,6 +66,8 @@ class Keygroup extends Model implements Searchable
         return $this->rules()->count();
     }
 
+    public string $searchableType = 'SSH Key groups';
+
     public function getSearchResult(): SearchResult
     {
         $url = route('keygroups.show', $this->id);

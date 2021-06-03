@@ -28,9 +28,13 @@ use Spatie\Searchable\Search;
 
 class SearchController extends Controller
 {
-    public function index(SearchRequest $request): View
+    public function __invoke(SearchRequest $request): View
     {
-        $query = $request->input('query');
+        $searchString = $request->searchString();
+
+        if (is_null($searchString)) {
+            return view('search.index');
+        }
 
         $searchResults = (new Search())
             ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
@@ -41,13 +45,10 @@ class SearchController extends Controller
             ->registerModel(Keygroup::class, 'name', 'description')
             ->registerModel(Host::class, 'hostname')
             ->registerModel(Hostgroup::class, 'name', 'description')
-            ->perform($request->input('query'));
-
-        $count = $searchResults->count();
+            ->perform($searchString);
 
         return view('search.results')
-            ->with('count', $count)
-            ->with('query', $query)
+            ->with('searchString', $searchString)
             ->with('searchResults', $searchResults);
     }
 }

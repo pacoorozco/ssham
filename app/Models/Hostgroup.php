@@ -66,6 +66,8 @@ class Hostgroup extends Model implements Searchable
         return $this->rules()->count();
     }
 
+    public string $searchableType = 'Host groups';
+
     public function getSearchResult(): SearchResult
     {
         $url = route('hostgroups.show', $this->id);

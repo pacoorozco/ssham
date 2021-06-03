@@ -11,9 +11,9 @@
     </ul>
 
     <!-- start: SEARCH FORM -->
-    {!! Form::open(['route' => 'search', 'class' => 'form-inline ml-3']) !!}
+    {!! Form::open(['route' => 'search', 'class' => 'form-inline ml-3', 'method' => 'get', 'role' => 'search']) !!}
     <div class="input-group input-group-sm">
-        {!! Form::text('query', null, ['class' => 'form-control form-control-navbar', 'placeholder' => __('site.search'), 'aria-label' => __('site.search')]) !!}
+        {!! Form::text('q', null, ['class' => 'form-control form-control-navbar', 'placeholder' => __('site.search'), 'aria-label' => __('site.search')]) !!}
         <div class="input-group-append">
             {!! Form::button('<i class="fas fa-search"></i>', array('type' => 'submit', 'class' => 'btn btn-navbar')) !!}
         </div>

@@ -9,6 +9,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->is('search*') ? 'active' : '' }}" href="{{ route('search') }}">
+                    <i class="nav-icon fa fa-search"></i>
+                    <p>{{ __('site.search') }}</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->is('keys*') ? 'active' : '' }}" href="{{ route('keys.index') }}">
                     <i class="nav-icon fa fa-key"></i>
                     <p>{{ __('site.keys') }}</p>
