@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('user/title.user_management')
+    <i class="nav-icon fa fa-users"></i> @lang('user/title.user_management')
     <small class="text-muted">@lang('user/title.user_management_subtitle')</small>
 @endsection
 
@@ -18,23 +18,21 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
-        <!-- Notifications -->
-        @include('partials.notifications')
-        <!-- ./ notifications -->
+    <!-- Notifications -->
+    @include('partials.notifications')
+    <!-- ./ notifications -->
 
-        <div class="card">
-            <div class="card-header">
-                <!-- actions -->
-                <a class="btn btn-success" href="{{ route('users.create') }}" role="button">
-                    <i class="fa fa-plus"></i> @lang('user/title.create_a_new_user')
-                </a>
-                <!-- /.actions -->
-            </div>
-            <div class="card-body">
-                @include('user._table')
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <!-- actions -->
+            <a class="btn btn-success" href="{{ route('users.create') }}" role="button">
+                <i class="fa fa-plus"></i> @lang('user/title.create_a_new_user')
+            </a>
+            <!-- /.actions -->
+        </div>
+        <div class="card-body">
+            @include('user._table')
         </div>
     </div>
 @endsection

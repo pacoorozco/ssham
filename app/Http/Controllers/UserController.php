@@ -17,7 +17,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Jobs\ChangeUserPassword;
@@ -28,6 +27,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use yajra\Datatables\Datatables;
 
@@ -107,12 +107,19 @@ class UserController extends Controller
             'username',
             'email',
             'enabled',
+            'auth_type',
         ])
             ->orderBy('username', 'asc');
 
         return $datatable->eloquent($users)
             ->editColumn('username', function (User $user) {
                 return $user->present()->usernameWithDisabledBadge();
+            })
+            ->editColumn('enabled', function (User $user) {
+                return $user->present()->enabledAsBadge();
+            })
+            ->addColumn('authentication', function (User $user) {
+                return $user->present()->authenticationAsBadge();
             })
             ->addColumn('actions', function (User $user) {
                 return view('partials.buttons-to-show-and-edit-actions')
@@ -121,8 +128,7 @@ class UserController extends Controller
                     ->render();
             })
             ->rawColumns(['username', 'actions'])
-            ->removeColumn('id')
-            ->removeColumn('enabled')
+            ->removeColumn(['id', 'tokens'])
             ->toJson();
     }
 }

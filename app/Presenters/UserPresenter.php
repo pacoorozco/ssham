@@ -17,6 +17,7 @@
 
 namespace App\Presenters;
 
+use App\Enums\AuthType;
 use Illuminate\Support\HtmlString;
 use Laracodes\Presenter\Presenter;
 
@@ -41,5 +42,34 @@ class UserPresenter extends Presenter
         return $this->model->enabled
             ? new HtmlString($this->model->username)
             : new HtmlString($this->model->username.' '.$badge);
+    }
+
+    public function authenticationAsBadge(): HtmlString
+    {
+        return new HtmlString(
+            $this->authTypeAsBadge() . ' ' . $this->tokensCountAsBadge()
+        );
+    }
+
+    public function tokensCountAsBadge(): HtmlString
+    {
+        $this->model->loadCount('tokens');
+        if ($this->model->tokens_count > 0) {
+            return new HtmlString('<span class="badge badge-pill badge-danger">tokens</span>');
+        }
+        return new HtmlString();
+    }
+
+    public function authTypeAsBadge(): HtmlString
+    {
+        if ($this->model->auth_type === AuthType::External) {
+            return new HtmlString('<span class="badge badge-pill badge-info">external</span>');
+        }
+        return new HtmlString('<span class="badge badge-pill badge-secondary">'.$this->model->auth_type.'</span>');
+    }
+
+    public function createdAtForHumans(): string
+    {
+        return optional($this->model->created_at)->diffForHumans() ?? 'N/A';
     }
 }

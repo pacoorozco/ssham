@@ -9,6 +9,8 @@
     <tr>
         <th>@lang('user/table.username')</th>
         <th>@lang('user/table.email')</th>
+        <th>@lang('user/table.enabled')</th>
+        <th>@lang('user/table.authentication')</th>
         <th>@lang('user/table.actions')</th>
     </tr>
     </thead>
@@ -16,6 +18,8 @@
     <tr>
         <th>@lang('user/table.username')</th>
         <th>@lang('user/table.email')</th>
+        <th>@lang('user/table.enabled')</th>
+        <th>@lang('user/table.authentication')</th>
         <th>@lang('user/table.actions')</th>
     </tr>
     </tfoot>
@@ -32,6 +36,8 @@
                 "columns": [
                     {data: "username"},
                     {data: "email"},
+                    {data: "enabled"},
+                    {data: "authentication"},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
                 "aLengthMenu": [

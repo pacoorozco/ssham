@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('user/title.user_show')
+    <i class="nav-icon fa fa-users"></i> @lang('user/title.user_show')
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -27,6 +27,6 @@
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-    @include('user._details', ['action' => 'show'])
+    @include('user._details')
 
 @endsection

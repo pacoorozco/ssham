@@ -16,4 +16,6 @@ return [
     'password' => 'Password',
     'password_confirmation' => 'Password Confirmation',
     'enabled' => 'Status',
+    'created_at' => 'Created',
+    'authentication' => 'Authentication',
 ];
