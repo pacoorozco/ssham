@@ -28,7 +28,7 @@ class SearchRequest extends Request
     {
         return [
             'q' => [
-                'sometimes',
+                'nullable',
                 'string',
             ],
         ];
