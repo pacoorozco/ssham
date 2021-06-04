@@ -38,7 +38,7 @@ class KeygroupFactory extends Factory
     {
         return [
             'name' => 'Group_'.$this->faker->unique()->colorName,
-            'description' => $this->faker->paragraph,
+            'description' => $this->faker->text,
         ];
     }
 }

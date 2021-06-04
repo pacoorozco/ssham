@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('search/messages.title')
+    <i class="fa fa-search"></i> @lang('search/messages.title')
 @endsection
 
 {{-- Breadcrumbs --}}
@@ -16,23 +16,36 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <h2>@lang('search/messages.header', ['count' => $count, 'query' => $query])</h2>
-            </div>
+    <!-- card -->
+    <div class="card">
 
-            <div class="card-body">
-                @foreach($searchResults->groupByType() as $type => $modelSearchResults)
-                    <h3>{{ ucfirst($type) }}</h3>
-
-                    @foreach($modelSearchResults as $searchResult)
-                        <ul>
-                            <li><a href="{{ $searchResult->url }}">{{ $searchResult->title }}</a></li>
-                        </ul>
-                    @endforeach
-                @endforeach
-            </div>
+        <div class="card-header">
+            <x-search.form searchString="{{ $searchString }}"/>
         </div>
+
+        <div class="card-body">
+
+            <h3>@lang('search/messages.results_section')</h3>
+            <p class="text-muted">@lang('search/messages.showing_all_results', ['searchString' => $searchString])</p>
+
+            @forelse($searchResults->groupByType() as $type => $modelSearchResults)
+                <h4>{{ $type }}</h4>
+                <ul>
+                    @foreach($modelSearchResults as $searchResult)
+                        <li>
+                            <a href="{{ $searchResult->url }}">
+                                {{ $searchResult->title }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @empty
+                <p>
+                    @lang('search/messages.no_results')
+                </p>
+            @endforelse
+        </div>
+
     </div>
+    <!-- ./ card -->
 @endsection

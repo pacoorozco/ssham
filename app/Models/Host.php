@@ -126,6 +126,8 @@ class Host extends Model implements Searchable
         return $query->where('enabled', true);
     }
 
+    public string $searchableType = 'Hosts';
+
     public function getSearchResult(): SearchResult
     {
         return new SearchResult(

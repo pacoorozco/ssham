@@ -57,8 +57,7 @@ Route::middleware(['auth'])->group(function () {
         [HomeController::class, 'index'])
         ->name('home');
 
-    Route::post('search',
-        [SearchController::class, 'index'])
+    Route::get('search', SearchController::class)
         ->name('search');
 
     /**

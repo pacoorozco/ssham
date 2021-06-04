@@ -75,6 +75,8 @@ class Key extends Model implements Searchable
         $this->attributes['username'] = strtolower($value);
     }
 
+    public string $searchableType = 'SSH Keys';
+
     public function getSearchResult(): SearchResult
     {
         $url = route('keys.show', $this->id);
