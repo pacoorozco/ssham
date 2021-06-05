@@ -57,14 +57,14 @@ class PasswordResetTest extends TestCase
     }
 
     /** @test */
-    public function password_can_be_reset_with_valid_token():void
+    public function password_can_be_reset_with_valid_token(): void
     {
         Notification::fake();
 
         $user = User::factory()->create();
 
         $this->post(route('password.email'), [
-            'email' => $user->email
+            'email' => $user->email,
         ]);
 
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
