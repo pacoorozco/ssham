@@ -35,5 +35,6 @@ return [
     'invalid_credentials' => 'These credentials do not match our records. Try again?',
     'logout_successfully' => 'You have successfully logged out!',
     'forgot_password' => 'I forgot my password',
+    'confirm_password' => 'Confirm password',
 
 ];
