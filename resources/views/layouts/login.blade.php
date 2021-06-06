@@ -10,15 +10,17 @@
     <!-- start: META -->
     <meta content="SSH Access Manager - Administration" name="description">
     <meta content="Paco Orozco" name="author">
-    @yield('meta')
-    <!-- end: META -->
+@yield('meta')
+<!-- end: META -->
     <!-- start: GLOBAL CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('vendor/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css') }}">
     <!-- end: GLOBAL CSS -->
     <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
-    @stack('styles')
-    <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+@stack('styles')
+<!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
     <!-- start: MAIN CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/AdminLTE/css/adminlte.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
@@ -31,7 +33,7 @@
     <!-- end: MAIN CSS -->
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 </head>
-    <!-- start: BODY -->
+<!-- start: BODY -->
 <body class="hold-transition login-page">
 <!-- start: LOGIN BOX -->
 <div class="login-box">
@@ -43,11 +45,7 @@
     @include('partials.notifications')
     <!-- end: NOTIFICATIONS -->
 
-    <div class="card">
-        <div class="card-body login-card-body">
-            @yield('content')
-        </div>
-    </div>
+    @yield('content')
 </div>
 <!-- end: LOGIN BOX -->
 <!-- start: GLOBAL JAVASCRIPT -->

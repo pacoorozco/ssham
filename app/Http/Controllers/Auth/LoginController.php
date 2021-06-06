@@ -9,15 +9,16 @@
  *  Licensed under GNU General Public License 3.0.
  *  Some rights reserved. See LICENSE, AUTHORS.
  *
- *  @author      Paco Orozco <paco@pacoorozco.info>
- *  @copyright   2017 - 2020 Paco Orozco
- *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
- *  @link        https://github.com/pacoorozco/ssham
+ * @author      Paco Orozco <paco@pacoorozco.info>
+ * @copyright   2017 - 2020 Paco Orozco
+ * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ * @link        https://github.com/pacoorozco/ssham
  */
 
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -37,30 +38,19 @@ class LoginController extends Controller
 
     /**
      * Maximum number of attempts to allow.
-     *
-     * @var int
      */
-    public $maxAttempts = 5;
+    public int $maxAttempts = 5;
 
     /**
      * Number of minutes to throttle for.
-     *
-     * @var int
      */
-    protected $decayMinutes = 1;
+    protected int $decayMinutes = 1;
 
     /**
      * Where to redirect users after login.
-     *
-     * @var string
      */
-    protected $redirectTo = '/';
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -71,10 +61,8 @@ class LoginController extends Controller
     /**
      * By default, Laravel uses the email field for authentication. If you would like to customize this, you may define
      * a username method.
-     *
-     * @return string
      */
-    public function username()
+    public function username(): string
     {
         return 'username';
     }

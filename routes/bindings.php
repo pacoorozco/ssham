@@ -15,7 +15,12 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Models\PersonalAccessToken;
-use Illuminate\Support\Facades\Route;
-
-Route::model('token', PersonalAccessToken::class);
+/*
+|--------------------------------------------------------------------------
+| Route Bindings
+|--------------------------------------------------------------------------
+|
+| Here is where you can register route bindings for your application. These
+| bindings are loaded by the RouteServiceProvider.
+|
+*/
