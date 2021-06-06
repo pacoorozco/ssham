@@ -93,12 +93,6 @@ class HostController extends Controller
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
     }
 
-    public function delete(Host $host): View
-    {
-        return view('host.delete')
-            ->with('host', $host);
-    }
-
     public function destroy(Host $host): RedirectResponse
     {
         DeleteHost::dispatchSync($host);
