@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">@lang('request_new_password_help')</p>
+            <p class="login-box-msg">@lang('passwords.request_new_password_help')</p>
 
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
