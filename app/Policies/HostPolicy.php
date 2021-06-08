@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HostPolicy
@@ -18,19 +19,19 @@ class HostPolicy
         return true;
     }
 
-    public function create(): bool
+    public function create(User $user): bool
     {
-        return true;
+        return $user->can('edit hosts');
     }
 
-    public function update(): bool
+    public function update(User $user): bool
     {
-        return true;
+        return $user->can('edit hosts');
     }
 
-    public function delete(): bool
+    public function delete(User $user): bool
     {
-        return true;
+        return $user->can('delete hosts');
     }
 
     public function viewGroups(): bool

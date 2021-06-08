@@ -18,12 +18,14 @@
 namespace App\Models;
 
 use App\Enums\AuthType;
+use App\Enums\Roles;
 use App\Presenters\UserPresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User.
@@ -47,6 +49,7 @@ final class User extends Authenticatable
     use HasApiTokens;
     use Notifiable;
     use Presentable;
+    use HasRoles;
 
     protected string $presenter = UserPresenter::class;
 
@@ -82,5 +85,10 @@ final class User extends Authenticatable
     public function hasTokens(): bool
     {
         return $this->tokens()->exists();
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole(Roles::SuperAdmin);
     }
 }

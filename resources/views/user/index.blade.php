@@ -26,7 +26,7 @@
     <div class="card">
         <div class="card-header">
             <!-- actions -->
-            <a class="btn btn-success" href="{{ route('users.create') }}" role="button">
+            <a class="btn btn-success @cannot('create', \App\Models\User::class) disabled @endcannot" href="{{ route('users.create') }}" role="button">
                 <i class="fa fa-plus"></i> @lang('user/title.create_a_new_user')
             </a>
             <!-- /.actions -->

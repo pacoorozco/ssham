@@ -5,7 +5,8 @@ return [
     'username_help' => 'For security reasons, username cannot be changed once added.',
     'roles_help' => 'Select a role to assign to the user, remember that a user takes on the permissions of the role they are assigned.',
     'edit_password_help' => 'If you would like to change the password type a new one. Otherwise leave it blank.',
-    'edit_your_status_help' => 'You can not disable your own user.',
+    'edit_status_avoided' => 'You are not allowed to disable this user.',
+    'delete_avoided' => 'You are not allowed to delete this user.',
 
     'create' => [
         'error' => 'User was not created, please try again.',
@@ -28,5 +29,6 @@ return [
     'delete_help' => 'Once you delete a user, there is no going back. Please be certain.',
     'delete_confirmation_warning' => 'This action <strong>cannot</strong> be undone. This will permanently delete the <strong>:username</strong> user.',
     'delete_confirmation_button' => 'I understand the consequences, delete this user',
+
 
 ];

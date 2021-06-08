@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Testing\TestResponse;
 
 abstract class TestCase extends BaseTestCase
@@ -12,7 +13,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Make ajax GET request.
      *
-     * @param string $uri
+     * @param  string  $uri
      *
      * @return TestResponse
      */
@@ -20,5 +21,12 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->withHeader('HTTP_X-Requested-With', 'XMLHttpRequest')
             ->get($uri);
+    }
+
+    protected function disableAuthorizationCheck(): void
+    {
+        Gate::before(function () {
+            return true;
+        });
     }
 }

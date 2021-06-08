@@ -74,9 +74,10 @@
                     <!-- ./ authentication -->
                 </dl>
 
-                @unless (Auth::id() === $user->id)
-                    <h3>@lang('user/messages.danger_zone_section')</h3>
 
+                <h3>@lang('user/messages.danger_zone_section')</h3>
+
+                @can('delete', $user)
                     <ul class="list-group border border-danger">
                         <li class="list-group-item">
                             <strong>@lang('user/messages.delete_button')</strong>
@@ -88,7 +89,9 @@
                             <p>@lang('user/messages.delete_help')</p>
                         </li>
                     </ul>
-                @endunless
+                @else
+                    <p class="text-muted">@lang('user/messages.delete_avoided')</p>
+                @endcan
 
             </div>
             <!-- ./ right column -->
@@ -96,7 +99,8 @@
     </div>
 
     <div class="card-footer">
-        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary" role="button">
+        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary  @cannot('update', $user) disabled @endcannot"
+           role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('users.index') }}" class="btn btn-link" role="button">
@@ -104,7 +108,7 @@
         </a>
     </div>
 
-@unless (Auth::id() === $user->id)
+@can('delete', $user)
     <!-- confirmation modal -->
         <x-modals.confirmation
             action="{{ route('users.destroy', $user) }}"
@@ -116,5 +120,5 @@
             </div>
         </x-modals.confirmation>
         <!-- ./ confirmation modal -->
-@endunless
+@endcan
 

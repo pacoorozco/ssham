@@ -70,27 +70,27 @@
                             </fieldset>
 
                             <!-- enabled -->
-                            @if (Auth::id() === $user->id)
-                                {!! Form::hidden('enabled', ($user->enabled) ? 1 : 0) !!}
-                            @endif
-                            <fieldset class="form-group" @if (Auth::id() === $user->id) disabled="disabled" @endif>
+                            <fieldset class="form-group" @cannot('delete', $user) disabled="disabled" @endcannot>
                                 <div class="row">
                                     <legend class="col-form-label col-sm-2 pt-0">
                                         <strong>@lang('user/model.enabled')</strong>
                                     </legend>
                                     <div class="col-sm-10">
-                                        @if (Auth::id() === $user->id)
-                                            <small
-                                                class="form-text text-muted">@lang('user/messages.edit_your_status_help')</small>
-                                        @endif
-                                        <div class="form-check">
-                                            {!! Form::radio('enabled', 0, null, array('class' => 'form-check-input')) !!}
-                                            {!! Form::label('enabled', __('general.blocked'), array('class' => 'form-check-label')) !!}
-                                        </div>
-                                        <div class="form-check">
-                                            {!! Form::radio('enabled', 1, null, array('class' => 'form-check-input')) !!}
-                                            {!! Form::label('enabled', __('general.active'), array('class' => 'form-check-label')) !!}
-                                        </div>
+                                        @can('delete', $user)
+                                            <div class="form-check">
+                                                {!! Form::radio('enabled', 0, null, array('class' => 'form-check-input')) !!}
+                                                {!! Form::label('enabled', __('general.blocked'), array('class' => 'form-check-label')) !!}
+                                            </div>
+                                            <div class="form-check">
+                                                {!! Form::radio('enabled', 1, null, array('class' => 'form-check-input')) !!}
+                                                {!! Form::label('enabled', __('general.active'), array('class' => 'form-check-label')) !!}
+                                            </div>
+                                        @else
+                                            <small class="form-text text-muted">
+                                                @lang('user/messages.edit_status_avoided')
+                                            </small>
+                                            {!! Form::hidden('enabled', ($user->enabled) ? 1 : 0) !!}
+                                        @endcan
                                     </div>
                                 </div>
                             </fieldset>
@@ -149,7 +149,8 @@
                                         <strong>@lang('user/model.created_at')</strong>
                                     </div>
                                     <div class="col-9">
-                                        {{ $user->present()->createdAtForHumans() }} ({{ $user->present()->created_at }})
+                                        {{ $user->present()->createdAtForHumans() }} ({{ $user->present()->created_at }}
+                                        )
                                     </div>
                                 </div>
                                 <!-- ./ created at -->
@@ -177,10 +178,11 @@
                                 <!-- ./ authentication -->
                             </fieldset>
 
-                            @unless (Auth::id() === $user->id)
-                                <fieldset class="mt-3">
-                                    <legend>@lang('user/messages.danger_zone_section')</legend>
 
+                            <fieldset class="mt-3">
+                                <legend>@lang('user/messages.danger_zone_section')</legend>
+
+                                @can('delete', $user)
                                     <ul class="list-group border border-danger">
                                         <li class="list-group-item">
                                             <strong>@lang('user/messages.delete_button')</strong>
@@ -192,8 +194,10 @@
                                             <p>@lang('user/messages.delete_help')</p>
                                         </li>
                                     </ul>
-                                </fieldset>
-                            @endunless
+                                @else
+                                    <p class="from-text text-muted">@lang('user/messages.delete_avoided')</p>
+                                @endcan
+                            </fieldset>
 
                         </div>
                         <!-- ./right column -->
@@ -215,7 +219,7 @@
         <!-- ./ card -->
     </div>
 
-    @unless (Auth::id() === $user->id)
+    @can('delete', $user)
         <!-- confirmation modal -->
         <x-modals.confirmation
             action="{{ route('users.destroy', $user) }}"
@@ -227,5 +231,5 @@
             </div>
         </x-modals.confirmation>
         <!-- ./ confirmation modal -->
-    @endunless
+    @endcan
 @endsection
