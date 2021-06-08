@@ -20,19 +20,19 @@ use BenSampo\Enum\Enum;
  */
 final class Permissions extends Enum
 {
-    const ViewKeys   = 'view keys';
-    const EditKeys   = 'edit keys';
+    const ViewKeys = 'view keys';
+    const EditKeys = 'edit keys';
     const DeleteKeys = 'delete keys';
 
-    const ViewHosts   = 'view hosts';
-    const EditHosts   = 'edit hosts';
+    const ViewHosts = 'view hosts';
+    const EditHosts = 'edit hosts';
     const DeleteHosts = 'delete hosts';
 
-    const ViewRules   = 'view rules';
-    const EditRules   = 'edit rules';
+    const ViewRules = 'view rules';
+    const EditRules = 'edit rules';
     const DeleteRules = 'delete rules';
 
-    const ViewUsers   = 'view users';
-    const EditUsers   = 'edit users';
+    const ViewUsers = 'view users';
+    const EditUsers = 'edit users';
     const DeleteUsers = 'delete users';
 }
