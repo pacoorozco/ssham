@@ -32,9 +32,9 @@ class UserControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->disableAuthorizationCheck();
         $this->user = User::factory()
             ->create();
+        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */
@@ -141,24 +141,6 @@ class UserControllerTest extends TestCase
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHas('success');
         $this->assertDeleted($testUser);
-    }
-
-    /** @test */
-    public function destroy_method_should_return_error_message_when_deletes_myself(): void
-    {
-        $testUser = $this->user;
-
-        $response = $this
-            ->actingAs($this->user)
-            ->delete(route('users.destroy', $testUser));
-
-        $response->assertStatus(Response::HTTP_FOUND);
-        $response->assertSessionHas('errors');
-        $this->assertDatabaseHas('users', [
-            'id' => $testUser->id,
-            'username' => $testUser->username,
-            'email' => $testUser->email,
-        ]);
     }
 
     /** @test */

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Permissions;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -10,23 +11,18 @@ class PersonalAccessTokenPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, User $modelUser): bool
     {
-        return false;
+        return $user->can('update', $modelUser);
     }
 
-    public function create(User $user): bool
+    public function create(User $user, User $modelUser): bool
     {
-        //
+        return $user->can('update', $modelUser);
     }
 
-    public function update(User $user, PersonalAccessToken $personalAccessToken): bool
+    public function delete(User $user, User $modelUser): bool
     {
-        //
-    }
-
-    public function delete(User $user, PersonalAccessToken $personalAccessToken): bool
-    {
-        //
+        return $user->can('update', $modelUser);
     }
 }

@@ -17,7 +17,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Permissions;
 use App\Http\Requests\PersonalAccessTokenRequest;
 use App\Jobs\CreatePersonalAccessToken;
 use App\Jobs\RevokePersonalAccessToken;
@@ -30,7 +29,7 @@ class PersonalAccessTokenController extends Controller
 {
     public function index(User $user): View
     {
-        $this->authorize(Permissions::EditUsers, PersonalAccessToken::class);
+        $this->authorize('viewAny', [PersonalAccessToken::class, $user]);
 
         $tokens = $user->tokens()->latest()->get();
 
@@ -43,6 +42,8 @@ class PersonalAccessTokenController extends Controller
 
     public function create(User $user): View
     {
+        $this->authorize('create', [PersonalAccessToken::class, $user]);
+
         return view('user.personal_access_tokens.create')
             ->with([
                 'user' => $user,
@@ -52,6 +53,8 @@ class PersonalAccessTokenController extends Controller
     public function store(PersonalAccessTokenRequest $request): RedirectResponse
     {
         $user = $request->requestedUser();
+
+        $this->authorize('create', [PersonalAccessToken::class, $user]);
 
         $plainTextToken = CreatePersonalAccessToken::dispatchSync($user, $request->name());
 
@@ -66,6 +69,8 @@ class PersonalAccessTokenController extends Controller
     public function destroy(PersonalAccessToken $token): RedirectResponse
     {
         $user = $token->relatedUser();
+
+        $this->authorize('delete', [PersonalAccessToken::class, $user]);
 
         RevokePersonalAccessToken::dispatchSync($token);
 

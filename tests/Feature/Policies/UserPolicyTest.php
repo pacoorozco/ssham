@@ -6,9 +6,9 @@ use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
-use Tests\PolicyTestCase;
+use Tests\TestCase;
 
-class UserPolicyTest extends PolicyTestCase
+class UserPolicyTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -45,6 +45,20 @@ class UserPolicyTest extends PolicyTestCase
         $response->assertForbidden();
     }
 
+    private function createUserRequestAs(User $user): TestResponse
+    {
+        /** @var User $want */
+        $want = User::factory()->make();
+
+        return $this->actingAs($user)
+            ->post(route('users.store'), [
+                'username' => $want->username,
+                'email' => $want->email,
+                'password' => 'secret123',
+                'password_confirmation' => 'secret123',
+            ]);
+    }
+
     /** @test */
     public function operator_can_not_create_users(): void
     {
@@ -77,6 +91,20 @@ class UserPolicyTest extends PolicyTestCase
         $response = $this->editUserRequestAs($this->auditor);
 
         $response->assertForbidden();
+    }
+
+    private function editUserRequestAs(User $user, ?User $testUser = null): TestResponse
+    {
+        $testUser = $testUser ?? User::factory()->create();
+
+        /** @var User $want */
+        $want = User::factory()->make();
+
+        return $this->actingAs($user)
+            ->put(route('users.update', $testUser), [
+                'email' => $want->email,
+                'enabled' => $want->enabled,
+            ]);
     }
 
     /** @test */
@@ -143,6 +171,14 @@ class UserPolicyTest extends PolicyTestCase
         $response->assertForbidden();
     }
 
+    private function deleteUserRequestAs(User $user, ?User $testUser = null): TestResponse
+    {
+        $testUser = $testUser ?? User::factory()->create();
+
+        return $this->actingAs($user)
+            ->delete(route('users.destroy', $testUser));
+    }
+
     /** @test */
     public function operator_can_not_delete_users(): void
     {
@@ -175,41 +211,5 @@ class UserPolicyTest extends PolicyTestCase
         $response = $this->deleteUserRequestAs($this->superAdmin, $this->superAdmin);
 
         $response->assertForbidden();
-    }
-
-    private function createUserRequestAs(User $user): TestResponse
-    {
-        /** @var User $want */
-        $want = User::factory()->make();
-
-        return $this->actingAs($user)
-            ->post(route('users.store'), [
-                'username' => $want->username,
-                'email' => $want->email,
-                'password' => 'secret123',
-                'password_confirmation' => 'secret123',
-            ]);
-    }
-
-    private function editUserRequestAs(User $user, ?User $testUser = null): TestResponse
-    {
-        $testUser = $testUser ?? User::factory()->create();
-
-        /** @var User $want */
-        $want = User::factory()->make();
-
-        return $this->actingAs($user)
-            ->put(route('users.update', $testUser), [
-                'email' => $want->email,
-                'enabled' => $want->enabled,
-            ]);
-    }
-
-    private function deleteUserRequestAs(User $user, ?User $testUser = null): TestResponse
-    {
-        $testUser = $testUser ?? User::factory()->create();
-
-        return $this->actingAs($user)
-            ->delete(route('users.destroy', $testUser));
     }
 }
