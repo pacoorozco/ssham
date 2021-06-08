@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Http\Requests\PersonalAccessTokenRequest;
 use App\Jobs\CreatePersonalAccessToken;
 use App\Jobs\RevokePersonalAccessToken;
@@ -29,6 +30,8 @@ class PersonalAccessTokenController extends Controller
 {
     public function index(User $user): View
     {
+        $this->authorize(Permissions::EditUsers, PersonalAccessToken::class);
+
         $tokens = $user->tokens()->latest()->get();
 
         return view('user.personal_access_tokens.show')

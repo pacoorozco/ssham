@@ -31,6 +31,11 @@ use yajra\Datatables\Datatables;
 
 class HostController extends Controller
 {
+    public function __construct()
+    {
+        //$this->authorizeResource(Host::class);
+    }
+
     public function index(): View
     {
         return view('host.index');
@@ -126,8 +131,8 @@ class HostController extends Controller
             })
             ->addColumn('actions', function (Host $host) {
                 return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('model', 'hosts')
-                    ->with('id', $host->id)
+                    ->with('modelType', 'hosts')
+                    ->with('model', $host)
                     ->render();
             })
             ->rawColumns(['enabled', 'synced', 'actions'])

@@ -110,8 +110,8 @@ class HostgroupController extends Controller
             })
             ->addColumn('actions', function (Hostgroup $hostgroup) {
                 return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('model', 'hostgroups')
-                    ->with('id', $hostgroup->id)
+                    ->with('modelType', 'hostgroups')
+                    ->with('model', $hostgroup)
                     ->render();
             })
             ->rawColumns(['actions'])

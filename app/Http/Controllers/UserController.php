@@ -33,6 +33,11 @@ use yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index(): View
     {
         return view('user.index');
@@ -67,7 +72,7 @@ class UserController extends Controller
             ->with('user', $user);
     }
 
-    public function update(User $user, UserUpdateRequest $request): RedirectResponse
+    public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
         UpdateUser::dispatchSync(
             $user,
@@ -88,7 +93,7 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
-        // you can not delete yourself
+        // it is handle here instead of UserPolicy to avoid that the SuperAdmin can delete itself.
         if ($user->id === Auth::id()) {
             return redirect()->back()
                 ->withErrors(__('user/messages.delete.impossible'));
@@ -102,6 +107,8 @@ class UserController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', User::class);
+
         $users = User::select([
             'id',
             'username',
@@ -123,8 +130,8 @@ class UserController extends Controller
             })
             ->addColumn('actions', function (User $user) {
                 return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('model', 'users')
-                    ->with('id', $user->id)
+                    ->with('modelType', 'users')
+                    ->with('model', $user)
                     ->render();
             })
             ->rawColumns(['username', 'actions'])

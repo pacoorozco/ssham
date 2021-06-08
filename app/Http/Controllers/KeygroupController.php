@@ -110,8 +110,8 @@ class KeygroupController extends Controller
             })
             ->addColumn('actions', function (Keygroup $keygroup) {
                 return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('model', 'keygroups')
-                    ->with('id', $keygroup->id)
+                    ->with('modelType', 'keygroups')
+                    ->with('model', $keygroup)
                     ->render();
             })
             ->rawColumns(['actions'])

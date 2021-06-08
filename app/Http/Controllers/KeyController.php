@@ -183,8 +183,8 @@ class KeyController extends Controller
             })
             ->addColumn('actions', function (Key $key) {
                 return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('model', 'keys')
-                    ->with('id', $key->id)
+                    ->with('modelType', 'keys')
+                    ->with('model', $key)
                     ->render();
             })
             ->rawColumns(['username', 'enabled', 'actions'])
