@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-outline-danger btn-sm"
+<button type="button" class="btn btn-outline-danger btn-sm @cannot('delete', $rule) disabled @endcannot"
         data-toggle="modal"
         data-target="#confirmationModal"
         data-rule-id="{{ $rule->id }}"

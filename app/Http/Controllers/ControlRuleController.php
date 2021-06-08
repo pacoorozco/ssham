@@ -23,6 +23,7 @@ use App\Jobs\DeleteControlRule;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -30,6 +31,11 @@ use yajra\Datatables\Datatables;
 
 class ControlRuleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(ControlRule::class, 'rule');
+    }
+
     public function index(): View
     {
         return view('rule.index');
@@ -73,6 +79,8 @@ class ControlRuleController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', ControlRule::class);
+
         $rules = ControlRule::select([
             'id',
             'name',

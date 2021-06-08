@@ -17,6 +17,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
@@ -33,8 +34,8 @@ class ControlRuleControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()
-            ->create();
+        $this->user = User::factory()->create();
+        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */
