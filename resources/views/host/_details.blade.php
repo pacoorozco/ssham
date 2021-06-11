@@ -134,17 +134,21 @@
 
                 <h3>@lang('host/messages.danger_zone_section')</h3>
 
-                <ul class="list-group border border-danger">
-                    <li class="list-group-item">
-                        <strong>@lang('host/messages.delete_button')</strong>
-                        <button type="button" class="btn btn-outline-danger btn-sm float-right"
-                                data-toggle="modal"
-                                data-target="#confirmationModal">
-                            @lang('host/messages.delete_button')
-                        </button>
-                        <p>@lang('host/messages.delete_host_help')</p>
-                    </li>
-                </ul>
+                @can('delete', $host)
+                    <ul class="list-group border border-danger">
+                        <li class="list-group-item">
+                            <strong>@lang('host/messages.delete_button')</strong>
+                            <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                    data-toggle="modal"
+                                    data-target="#confirmationModal">
+                                @lang('host/messages.delete_button')
+                            </button>
+                            <p>@lang('host/messages.delete_host_help')</p>
+                        </li>
+                    </ul>
+                @else
+                    <p class="text-muted">@lang('host/messages.delete_avoided')</p>
+                @endcan
 
             </div>
             <!-- ./ right column -->
@@ -152,7 +156,7 @@
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('hosts.edit', $host->id) }}" class="btn btn-primary" role="button">
+        <a href="{{ route('hosts.edit', $host->id) }}" class="btn btn-primary @cannot('update', $host) disabled @endcannot" role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">

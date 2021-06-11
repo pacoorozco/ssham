@@ -32,4 +32,6 @@ return [
 
     'hosts_count' => '{0} :count hosts|{1} :count host|[2,*] :count hosts',
 
+    'delete_avoided' => 'You are not allowed to delete this group.',
+
 ];

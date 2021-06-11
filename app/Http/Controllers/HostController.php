@@ -33,7 +33,7 @@ class HostController extends Controller
 {
     public function __construct()
     {
-        //$this->authorizeResource(Host::class);
+        $this->authorizeResource(Host::class, 'host');
     }
 
     public function index(): View
@@ -108,6 +108,8 @@ class HostController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', Host::class);
+
         $hosts = Host::select([
             'id',
             'hostname',

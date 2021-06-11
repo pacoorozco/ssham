@@ -29,4 +29,5 @@ return [
     'delete_host_help' => 'Once you delete a host, there is no going back. Please be certain.',
     'delete_confirmation_warning' => 'This action <strong>cannot</strong> be undone. This will permanently delete the <strong>:hostname</strong> host and remove all group associations.',
     'delete_confirmation_button' => 'I understand the consequences, delete this host',
+    'delete_avoided' => 'You are not allowed to delete this host.',
 ];

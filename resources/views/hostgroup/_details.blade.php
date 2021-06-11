@@ -73,17 +73,21 @@
                     @lang('hostgroup/messages.danger_zone_section')
                 </h3>
 
-                <ul class="list-group border border-danger">
-                    <li class="list-group-item">
-                        <strong>@lang('hostgroup/messages.delete_button')</strong>
-                        <button type="button" class="btn btn-outline-danger btn-sm float-right"
-                                data-toggle="modal"
-                                data-target="#confirmationModal">
-                            @lang('hostgroup/messages.delete_button')
-                        </button>
-                        <p>@lang('hostgroup/messages.delete_help')</p>
-                    </li>
-                </ul>
+                @can('delete', $hostgroup)
+                    <ul class="list-group border border-danger">
+                        <li class="list-group-item">
+                            <strong>@lang('hostgroup/messages.delete_button')</strong>
+                            <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                    data-toggle="modal"
+                                    data-target="#confirmationModal">
+                                @lang('hostgroup/messages.delete_button')
+                            </button>
+                            <p>@lang('hostgroup/messages.delete_help')</p>
+                        </li>
+                    </ul>
+                @else
+                    <p class="text-muted">@lang('hostgroup/messages.delete_avoided')</p>
+                @endcan
 
             </div>
             <!-- ./ right column -->
@@ -91,7 +95,8 @@
     </div>
 
     <div class="card-footer">
-        <a href="{{ route('hostgroups.edit', $hostgroup->id) }}" class="btn btn-primary" role="button">
+        <a href="{{ route('hostgroups.edit', $hostgroup) }}"
+           class="btn btn-primary @cannot('update', $hostgroup) disabled @endcannot" role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('hostgroups.index') }}" class="btn btn-link" role="button">
@@ -100,16 +105,18 @@
     </div>
 </div>
 
-<!-- confirmation modal -->
-<x-modals.confirmation
-    action="{{ route('hostgroups.destroy', $hostgroup) }}"
-    confirmationText="{{ $hostgroup->name }}"
-    buttonText="{{ __('hostgroup/messages.delete_confirmation_button') }}">
+@can('delete', $hostgroup)
+    <!-- confirmation modal -->
+    <x-modals.confirmation
+        action="{{ route('hostgroups.destroy', $hostgroup) }}"
+        confirmationText="{{ $hostgroup->name }}"
+        buttonText="{{ __('hostgroup/messages.delete_confirmation_button') }}">
 
-    <div class="alert alert-warning" role="alert">
-        @lang('hostgroup/messages.delete_confirmation_warning', ['name' => $hostgroup->name])
-    </div>
-</x-modals.confirmation>
-<!-- ./ confirmation modal -->
+        <div class="alert alert-warning" role="alert">
+            @lang('hostgroup/messages.delete_confirmation_warning', ['name' => $hostgroup->name])
+        </div>
+    </x-modals.confirmation>
+    <!-- ./ confirmation modal -->
+@endcan
 
 

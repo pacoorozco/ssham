@@ -31,6 +31,11 @@ use yajra\Datatables\Datatables;
 
 class HostgroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Hostgroup::class, 'hostgroup');
+    }
+
     public function index(): View
     {
         return view('hostgroup.index');
@@ -96,6 +101,8 @@ class HostgroupController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', Hostgroup::class);
+
         $hostgroups = Hostgroup::select([
             'id',
             'name',
