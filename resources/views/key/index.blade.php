@@ -26,7 +26,7 @@
     <div class="card">
         <div class="card-header">
             <!-- actions -->
-            <a class="btn btn-success" href="{{ route('keys.create') }}" role="button">
+            <a class="btn btn-success @cannot('create', \App\Models\Key::class) disabled @endcannot" href="{{ route('keys.create') }}" role="button">
                 <i class="fa fa-plus"></i> @lang('key/title.create_a_new_key')
             </a>
             <a class="btn btn-primary" href="{{ route('keygroups.index') }}" role="button">

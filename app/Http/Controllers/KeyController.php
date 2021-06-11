@@ -17,7 +17,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
 use App\Libs\RsaSshKey\RsaSshKey;
@@ -32,6 +31,11 @@ use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Key::class, 'key');
+    }
+
     public function index(): View
     {
         return view('key.index');
@@ -165,6 +169,8 @@ class KeyController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', Key::class);
+
         $keys = Key::select([
             'id',
             'username',

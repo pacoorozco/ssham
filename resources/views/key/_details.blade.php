@@ -127,6 +127,7 @@
                 <fieldset class="mt-5">
                     <legend>@lang('key/messages.danger_zone_section')</legend>
 
+                    @can('delete', $key)
                     <ul class="list-group border border-danger">
                         <li class="list-group-item">
                             <strong>@lang('key/messages.delete_button')</strong>
@@ -138,6 +139,9 @@
                             <p>@lang('key/messages.delete_help')</p>
                         </li>
                     </ul>
+                    @else
+                        <p class="text-muted">@lang('key/messages.delete_avoided')</p>
+                    @endcan
                 </fieldset>
 
 
@@ -147,19 +151,17 @@
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('keys.edit', $key->id) }}" class="btn btn-primary" role="button">
+        <a href="{{ route('keys.edit', $key) }}" class="btn btn-primary @cannot('update', $key) disabled @endcannot" role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('keys.index') }}" class="btn btn-link" role="button">
             @lang('general.cancel')
         </a>
-
-
-
     </div>
 </div>
 <!-- ./ card -->
 
+@can('delete', $keygroup)
 <!-- confirmation modal -->
 <x-modals.confirmation
     action="{{ route('keys.destroy', $key) }}"
@@ -169,9 +171,9 @@
     <div class="alert alert-warning" role="alert">
         @lang('key/messages.delete_confirmation_warning', ['username' => $key->username])
     </div>
-
 </x-modals.confirmation>
 <!-- ./ confirmation modal -->
+@endcan
 
 @if (!empty($key->private))
     <!-- download private key modal -->

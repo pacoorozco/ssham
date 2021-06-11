@@ -31,6 +31,11 @@ use yajra\Datatables\Datatables;
 
 class KeygroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Keygroup::class, 'keygroup');
+    }
+
     public function index(): View
     {
         return view('keygroup.index');
@@ -96,6 +101,8 @@ class KeygroupController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', Keygroup::class);
+
         $keygroups = Keygroup::select([
             'id',
             'name',

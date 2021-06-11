@@ -89,6 +89,7 @@
                     <fieldset class="mt-3">
                         <legend>@lang('keygroup/messages.danger_zone_section')</legend>
 
+                        @can('delete', $keygroup)
                         <ul class="list-group border border-danger">
                             <li class="list-group-item">
                                 <strong>@lang('keygroup/messages.delete_button')</strong>
@@ -100,6 +101,9 @@
                                 <p>@lang('keygroup/messages.delete_help')</p>
                             </li>
                         </ul>
+                        @else
+                            <p class="from-text text-muted">@lang('keygroup/messages.delete_avoided')</p>
+                        @endcan
                     </fieldset>
 
                 </div>
@@ -119,6 +123,7 @@
     </div>
     <!-- ./ card -->
 
+    @can('delete', $keygroup)
     <!-- confirmation modal -->
     <x-modals.confirmation
         action="{{ route('keygroups.destroy', $keygroup) }}"
@@ -130,6 +135,7 @@
         </div>
     </x-modals.confirmation>
     <!-- ./ confirmation modal -->
+    @endcan
 @endsection
 
 {{-- Styles --}}

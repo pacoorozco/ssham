@@ -31,4 +31,6 @@ return [
     'delete_confirmation_button' => 'I understand the consequences, delete this group',
 
     'keys_count' => '{0} :count keys|{1} :count key|[2,*] :count keys',
+
+    'delete_avoided' => 'You are not allowed to delete this group.',
 ];
