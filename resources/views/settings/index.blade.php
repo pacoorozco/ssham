@@ -5,7 +5,7 @@
 
 {{-- Content Header --}}
 @section('header')
-    @lang('settings/title.title')
+    <i class="fa fa-cog"></i> @lang('settings/title.title')
     <small class="text-muted">@lang('settings/title.subtitle')</small>
 @endsection
 
@@ -18,227 +18,144 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="container-fluid">
 
-        <!-- Notifications -->
+    <!-- Notifications -->
     @include('partials.notifications')
     <!-- ./ notifications -->
 
-        <div class="card card-tabs">
-            {!! Form::open(['route' => ['settings.update'], 'method' => 'put']) !!}
+    <div class="card">
 
-            <div class="card-header">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a href="#panel-ssh-settings" id="panel-ssh-settings-tab" class="nav-link active"
-                           data-toggle="tab" role="tab" aria-controls="panel-ssh-settings"
-                           aria-selected="true">
-                            @lang('settings/title.ssh_settings')
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#panel-defaults" id="panel-defaults-tab" class="nav-link"
-                           data-toggle="tab" role="tab" aria-controls="panel-defaults"
-                           aria-selected="false">
-                            @lang('settings/title.defaults')
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#panel-advanced-settings" id="panel-advanced-settings-tab" class="nav-link"
-                           data-toggle="tab" role="tab" aria-controls="panel-advanced-settings"
-                           aria-selected="false">
-                            @lang('settings/title.advanced_settings')
-                        </a>
-                    </li>
+        <div class="card-header">
+            <a href="{{ route('settings.edit') }}"
+               class="btn btn-primary @cannot(\App\Enums\Permissions::EditSettings) disabled @endcannot" role="button">
+                <i class="fa fa-edit"></i> {{ __('settings/messages.edit_button') }}
+            </a>
+        </div>
+        <div class="card-body">
 
-                </ul>
-            </div>
+            <!-- panel-ssh-settings -->
 
-            <div class="card-body">
-                <div class="tab-content">
+            <h2 id="panel-ssh-settings">@lang('settings/title.ssh_settings')</h2>
+            <div class="border bg-light p-2">
+                <h3>@lang('settings/title.ssh_credentials_section')</h3>
+                <div class="row">
 
-                    <!-- panel-ssh-settings -->
-                    <div class="tab-pane fade show active" id="panel-ssh-settings" role="tabpanel"
-                         aria-labelledby="panel-ssh-settings-tab">
-
-                        <fieldset>
-                            <legend>@lang('settings/title.ssh_credentials_section')</legend>
-
-                            <div class="form-row">
-                                <div class="col-6">
-                                    <!-- private_key -->
-                                    <div class="form-group">
-                                        {!! Form::label('private_key', __('settings/model.private_key')) !!}
-                                        {!! Form::textarea('private_key', $settings['private_key'], array('class' => 'form-control' . ($errors->has('private_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                        <span
-                                            class="form-text text-muted">@lang('settings/model.private_key_help')</span>
-                                        @error('private_key'))
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <!-- ./ private_key -->
-                                </div>
-                                <div class="col-6">
-                                    <!-- public_key -->
-                                    <div class="form-group">
-                                        {!! Form::label('public_key', __('settings/model.public_key')) !!}
-                                        {!! Form::textarea('public_key', $settings['public_key'], array('class' => 'form-control' . ($errors->has('public_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                        <span
-                                            class="form-text text-muted">@lang('settings/model.public_key_help')</span>
-                                        @error('public_key'))
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <!-- ./ public_key -->
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <fieldset>
-                            <legend>@lang('settings/title.ssh_options_section')</legend>
-
-                            <!-- SSH connect timeout -->
-                            <div class="form-group">
-                                {!! Form::label('ssh_timeout', __('settings/model.ssh_timeout')) !!}
-                                {!! Form::number('ssh_timeout', $settings['ssh_timeout'], array('class' => 'form-control' . ($errors->has('ssh_timeout') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.ssh_timeout_help')</span>
-                                @error('ssh_timeout'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ SSH connect timeout -->
-
-                        </fieldset>
-
+                    <!-- private_key -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.private_key')</strong><br/>
+                        <small class="text-muted">@lang('settings/model.private_key_help')</small>
                     </div>
-                    <!-- ./ panel-ssh-settings -->
-
-                    <!-- panel-advanced-settings -->
-                    <div class="tab-pane fade" id="panel-advanced-settings" role="tabpanel"
-                         aria-labelledby="panel-advanced-settings-tab">
-
-                        <fieldset>
-                            <legend>@lang('settings/title.remote_paths_section')</legend>
-
-                            <!-- cmd_remote_updater -->
-                            <div class="form-group">
-                                {!! Form::label('cmd_remote_updater', __('settings/model.cmd_remote_updater')) !!}
-                                {!! Form::text('cmd_remote_updater', $settings['cmd_remote_updater'], array('class' => 'form-control' . ($errors->has('cmd_remote_updater') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                <span
-                                    class="form-text text-muted">@lang('settings/model.cmd_remote_updater_help')</span>
-                                @error('cmd_remote_updater'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ cmd_remote_updater -->
-
-                        </fieldset>
-
-                        <fieldset>
-                            <legend>@lang('settings/title.mixed_mode_section')</legend>
-
-                            <!-- mixed_mode -->
-                            <div class="form-group">
-                                {!! Form::label('mixed_mode', __('settings/model.mixed_mode')) !!}
-                                {!! Form::select('mixed_mode', array('1' => __('general.yes'), '0' => __('general.no')), $settings['mixed_mode'], array('class' => 'form-control' . ($errors->has('mixed_mode') ? ' is-invalid' : ''), 'required' => 'required', 'id' => 'mixed_mode_select')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.mixed_mode_help')</span>
-                                @error('mixed_mode'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ mixed_mode -->
-
-                            <div id="mixed_mode_options_form">
-
-                                <!-- ssham_file -->
-                                <div class="form-group">
-                                    {!! Form::label('ssham_file', __('settings/model.ssham_file')) !!}
-                                    {!! Form::text('ssham_file', $settings['ssham_file'], array('class' => 'form-control'. ($errors->has('ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                    <span class="form-text text-muted">@lang('settings/model.ssham_file_help')</span>
-                                    @error('ssham_file'))
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!-- ./ ssham_file -->
-
-                                <!-- non_ssham_file -->
-                                <div class="form-group">
-                                    {!! Form::label('non_ssham_file', __('settings/model.non_ssham_file')) !!}
-                                    {!! Form::text('non_ssham_file', $settings['non_ssham_file'], array('class' => 'form-control' . ($errors->has('non_ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                    <span
-                                        class="form-text text-muted">@lang('settings/model.non_ssham_file_help')</span>
-                                    @error('non_ssham_file'))
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!-- ./ non_ssham_file -->
-
-                            </div>
-                        </fieldset>
-
+                    <div class="col-sm-9">
+                        {{ __('settings/messages.private_key_can_not_be_shown') }}
                     </div>
+                    <!-- ./ private_key -->
 
-                    <!-- panel-defaults -->
-                    <div class="tab-pane fade" id="panel-defaults" role="tabpanel"
-                         aria-labelledby="panel-defaults-tab">
-
-                        <fieldset>
-                            <legend>@lang('settings/title.defaults_section')</legend>
-
-                            <!-- authorized_keys -->
-                            <div class="form-group">
-                                {!! Form::label('authorized_keys', __('settings/model.authorized_keys')) !!}
-                                {!! Form::text('authorized_keys', $settings['authorized_keys'], array('class' => 'form-control' . ($errors->has('authorized_keys') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.authorized_keys_help')</span>
-                                @error('authorized_keys'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ authorized_keys -->
-
-                            <!-- SSH port -->
-                            <div class="form-group">
-                                {!! Form::label('ssh_port', __('settings/model.ssh_port')) !!}
-                                {!! Form::number('ssh_port', $settings['ssh_port'], array('class' => 'form-control' . ($errors->has('ssh_port') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                <span class="form-text text-muted">@lang('settings/model.ssh_port_help')</span>
-                                @error('ssh_port'))
-                                <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <!-- ./ SSH port -->
-
-                        </fieldset>
+                    <!-- public_key -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.public_key')</strong><br>
+                        <small class="text-muted">@lang('settings/model.public_key_help')</small>
                     </div>
+                    <div class="col-sm-9">
+                        <pre class="key-code">{{ $settings['public_key'] }}</pre>
+                    </div>
+                    <!-- ./ public_key -->
+                </div>
 
+                <h3>@lang('settings/title.ssh_options_section')</h3>
+                <div class="row">
+
+                    <!-- SSH connect timeout -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.ssh_timeout')</strong><br>
+                        <small class="text-muted">@lang('settings/model.ssh_timeout_help')</small>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ $settings['ssh_timeout'] }}
+                    </div>
+                    <!-- ./ SSH connect timeout -->
 
                 </div>
             </div>
-            <div class="card-footer">
-                {!! Form::button('<i class="fa fa-save"></i> ' . __('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+
+            <!-- panel-defaults -->
+            <h2 id="panel-defaults" class="mt-4">@lang('settings/title.defaults')</h2>
+            <div class="border bg-light p-2">
+                <h3>@lang('settings/title.remote_paths_section')</h3>
+                <div class="row">
+
+                    <!-- cmd_remote_updater -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.cmd_remote_updater')</strong><br>
+                        <small class="text-muted">@lang('settings/model.cmd_remote_updater_help')</small>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ $settings['cmd_remote_updater'] }}
+                    </div>
+                    <!-- ./ cmd_remote_updater -->
+
+                    <!-- authorized_keys -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.authorized_keys')</strong><br>
+                        <small class="text-muted">@lang('settings/model.authorized_keys_help')</small>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ $settings['authorized_keys'] }}
+                    </div>
+                    <!-- ./ authorized_keys -->
+
+                    <!-- SSH port -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.ssh_port')</strong><br>
+                        <small class="text-muted">@lang('settings/model.ssh_port_help')</small>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ $settings['ssh_port'] }}
+                    </div>
+                    <!-- ./ SSH port -->
+                </div>
             </div>
 
-            {!! Form::close() !!}
-        </div>
+            <!-- panel-advanced-settings -->
+            <h2 id="panel-advanced-settings" class="mt-4">@lang('settings/title.mixed_mode_section')</h2>
+            <div class="border bg-light p-2">
+                <div class="row">
 
+                    <!-- mixed_mode -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.mixed_mode')</strong><br>
+                        <small class="text-muted">@lang('settings/model.mixed_mode_help')</small>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ $settings['mixed_mode'] }}
+                    </div>
+                    <!-- ./ mixed_mode -->
+
+                @if($settings['mixed_mode'])
+                    <!-- ssham_file -->
+                        <div class="col-sm-3">
+                            <strong>@lang('settings/model.ssham_file')</strong><br>
+                            <small class="text-muted">@lang('settings/model.ssham_file_help')</small>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ $settings['ssham_file'] }}
+                        </div>
+                        <!-- ./ ssham_file -->
+
+
+                        <!-- non_ssham_file -->
+                        <div class="col-sm-3">
+                            <strong>@lang('settings/model.non_ssham_file')</strong><br>
+                            <small class="text-muted">@lang('settings/model.non_ssham_file_help')</small>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ $settings['non_ssham_file'] }}
+                        </div>
+                        <!-- ./ non_ssham_file -->
+
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
-@push('scripts')
-    <script>
-        $(function () {
-            showMixedModeOptionsIfNeeded();
-
-            $("#mixed_mode_select").change(function () {
-                showMixedModeOptionsIfNeeded();
-            });
-
-            function showMixedModeOptionsIfNeeded() {
-                if ($("#mixed_mode_select").val() === '1') {
-                    $("#mixed_mode_options_form").removeClass("d-none");
-                } else {
-                    $("#mixed_mode_options_form").addClass("d-none");
-                }
-            }
-        });
-    </script>
-@endpush

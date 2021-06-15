@@ -35,4 +35,6 @@ final class Permissions extends Enum
     const ViewUsers   = 'view users';
     const EditUsers   = 'edit users';
     const DeleteUsers = 'delete users';
+
+    const EditSettings = 'edit settings';
 }
