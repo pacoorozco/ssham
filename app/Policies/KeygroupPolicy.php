@@ -15,6 +15,7 @@ class KeygroupPolicy
     {
         return $user->can(Permissions::ViewKeys, Keygroup::class);
     }
+
     public function view(User $user, Keygroup $model): bool
     {
         return $user->can(Permissions::ViewKeys, $model);
