@@ -17,6 +17,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
@@ -35,6 +36,7 @@ class HostControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */

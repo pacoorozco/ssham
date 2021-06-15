@@ -2,39 +2,43 @@
 
 namespace App\Policies;
 
+use App\Enums\Permissions;
+use App\Models\Host;
+use App\Models\Hostgroup;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HostPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(): bool
+    public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can(Permissions::ViewHosts, Host::class);
     }
 
-    public function view(): bool
+    public function view(User $user, Host $model): bool
     {
-        return true;
+        return $user->can(Permissions::ViewHosts, $model);
     }
 
-    public function create(): bool
+    public function create(User $user): bool
     {
-        return true;
+        return $user->can(Permissions::EditHosts, Host::class);
     }
 
-    public function update(): bool
+    public function update(User $user, Host $model): bool
     {
-        return true;
+        return $user->can(Permissions::EditHosts, $model);
     }
 
-    public function delete(): bool
+    public function delete(User $user, Host $model): bool
     {
-        return true;
+        return $user->can(Permissions::DeleteHosts, $model);
     }
 
-    public function viewGroups(): bool
+    public function viewGroups(User $user): bool
     {
-        return true;
+        return $user->can('viewAny', Hostgroup::class);
     }
 }

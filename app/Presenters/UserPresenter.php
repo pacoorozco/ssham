@@ -74,4 +74,9 @@ class UserPresenter extends Presenter
     {
         return optional($this->model->created_at)->diffForHumans() ?? 'N/A';
     }
+
+    public function role(): string
+    {
+        return $this->model->role->description;
+    }
 }

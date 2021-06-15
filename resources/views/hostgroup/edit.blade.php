@@ -86,6 +86,7 @@
                     <fieldset class="mt-3">
                         <legend>@lang('hostgroup/messages.danger_zone_section')</legend>
 
+                        @can('delete', $hostgroup)
                         <ul class="list-group border border-danger">
                             <li class="list-group-item">
                                 <strong>@lang('hostgroup/messages.delete_button')</strong>
@@ -97,6 +98,9 @@
                                 <p>@lang('hostgroup/messages.delete_help')</p>
                             </li>
                         </ul>
+                        @else
+                            <p class="from-text text-muted">@lang('hostgroup/messages.delete_avoided')</p>
+                        @endcan
                     </fieldset>
                 </div>
                 <!-- ./right column -->
@@ -114,17 +118,19 @@
         {!! Form::close() !!}
     </div>
 
-    <!-- confirmation modal -->
-    <x-modals.confirmation
-        action="{{ route('hostgroups.destroy', $hostgroup) }}"
-        confirmationText="{{ $hostgroup->name }}"
-        buttonText="{{ __('hostgroup/messages.delete_confirmation_button') }}">
+    @can('delete', $hostgroup)
+        <!-- confirmation modal -->
+        <x-modals.confirmation
+            action="{{ route('hostgroups.destroy', $hostgroup) }}"
+            confirmationText="{{ $hostgroup->name }}"
+            buttonText="{{ __('hostgroup/messages.delete_confirmation_button') }}">
 
-        <div class="alert alert-warning" role="alert">
-            @lang('hostgroup/messages.delete_confirmation_warning', ['name' => $hostgroup->name])
-        </div>
-    </x-modals.confirmation>
-    <!-- ./ confirmation modal -->
+            <div class="alert alert-warning" role="alert">
+                @lang('hostgroup/messages.delete_confirmation_warning', ['name' => $hostgroup->name])
+            </div>
+        </x-modals.confirmation>
+        <!-- ./ confirmation modal -->
+    @endcan
 @endsection
 
 {{-- Styles --}}

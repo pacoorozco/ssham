@@ -17,8 +17,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
@@ -29,20 +31,36 @@ class UsersTableSeeder extends Seeder
 
         $users = [
             [
-                'username' => 'admin',
-                'email' => 'admin@example.org',
-                'password' => bcrypt('secret'),
+                'username' => 'superadmin',
+                'email' => 'superadmin@domain.local',
+                'password' => bcrypt('superadmin'),
+                'role' => Roles::SuperAdmin,
             ],
             [
-                'username' => 'user',
-                'email' => 'user@example.org',
-                'password' => bcrypt('user'),
-                'enabled' => false,
+                'username' => 'admin',
+                'email' => 'admin@domain.local',
+                'password' => bcrypt('admin'),
+                'role' => Roles::Admin,
+            ],
+            [
+                'username' => 'operator',
+                'email' => 'operator@domain.local',
+                'password' => bcrypt('operator'),
+                'role' => Roles::Operator,
+            ],
+            [
+                'username' => 'auditor',
+                'email' => 'auditor@domain.local',
+                'password' => bcrypt('auditor'),
+                'role' => Roles::Auditor,
             ],
         ];
 
         foreach ($users as $userData) {
-            User::factory()->create($userData);
+            /** @var \App\Models\User $user */
+            $user = User::factory()->create(Arr::except($userData, 'role'));
+
+            $user->assignRole($userData['role']);
         }
     }
 }

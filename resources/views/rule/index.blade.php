@@ -26,7 +26,7 @@
     <div class="card">
         <div class="card-header">
             <!-- actions -->
-            <a class="btn btn-success" href="{{ route('rules.create') }}" role="button">
+            <a class="btn btn-success @cannot('create', \App\Models\ControlRule::class) disabled @endcannot" href="{{ route('rules.create') }}" role="button">
                 <i class="fa fa-plus"></i> @lang('rule/title.create_a_new_rule')
             </a>
             <!-- /.actions -->

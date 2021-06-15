@@ -37,6 +37,7 @@
         "laravelcollective/html": "^6.2.1",
         "phpseclib/phpseclib": "^2.0.31",
         "spatie/laravel-activitylog": "^3.17.0",
+        "spatie/laravel-permission": "^4.2",
         "spatie/laravel-searchable": "^1.9.1",
         "yajra/laravel-datatables-oracle": "^9.18"
     },

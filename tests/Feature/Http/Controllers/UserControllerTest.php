@@ -17,6 +17,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -26,20 +27,21 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private User $user_to_act_as;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = User::factory()
+        $this->user = User::factory()
             ->create();
+        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */
     public function index_method_should_return_proper_view(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('users.index'));
 
         $response->assertSuccessful();
@@ -50,7 +52,7 @@ class UserControllerTest extends TestCase
     public function create_method_should_return_proper_view(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('users.create'));
 
         $response->assertSuccessful();
@@ -60,78 +62,98 @@ class UserControllerTest extends TestCase
     /** @test */
     public function store_method_should_create_a_new_user(): void
     {
-        $user = User::factory()->make();
+        $testUser = User::factory()->make();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->post(route('users.store'), [
-                'username' => $user->username,
-                'email' => $user->email,
+                'username' => $testUser->username,
+                'email' => $testUser->email,
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
+                'role' => Roles::Operator,
             ]);
 
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('users', [
-            'username' => $user->username,
-            'email' => $user->email,
+            'username' => $testUser->username,
+            'email' => $testUser->email,
         ]);
     }
 
     /** @test */
     public function edit_method_should_return_proper_view(): void
     {
-        $user = User::factory()
+        $testUser = User::factory()
             ->create();
+        $testUser->assignRole(Roles::Operator);
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('users.edit', $user->id));
+            ->actingAs($this->user)
+            ->get(route('users.edit', $testUser));
 
         $response->assertSuccessful();
         $response->assertViewIs('user.edit');
-        $response->assertViewHas('user', $user);
+        $response->assertViewHas('user', $testUser);
+    }
+
+    /** @test */
+    public function update_method_should_modify_the_user(): void
+    {
+        /** @var User $testUser */
+        $testUser = User::factory()->create([
+            'enabled' => true,
+        ]);
+        $testUser->assignRole(Roles::Auditor);
+
+        /** @var User $want */
+        $want = User::factory()->make([
+            'enabled' => false,
+        ]);
+
+        $response = $this
+            ->actingAs($this->user)
+            ->put(route('users.update', $testUser), [
+                'email' => $want->email,
+                'enabled' => $want->enabled,
+                'password' => 'new-password-123',
+                'password_confirmation' => 'new-password-123',
+                'role' => Roles::Operator,
+            ]);
+
+        $response->assertRedirect(route('users.index'));
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('users', [
+            'id' => $testUser->id,
+            'username' => $testUser->username,
+            'email' => $want->email,
+            'enabled' => $want->enabled,
+        ]);
+        $testUser->refresh();
+        $this->assertEquals(Roles::Operator, $testUser->role);
     }
 
     /** @test */
     public function destroy_method_should_return_success_and_delete_user(): void
     {
-        $user = User::factory()
+        $testUser = User::factory()
             ->create();
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->delete(route('users.destroy', $user));
+            ->actingAs($this->user)
+            ->delete(route('users.destroy', $testUser));
 
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHas('success');
-        $this->assertDeleted($user);
-    }
-
-    /** @test */
-    public function destroy_method_should_return_error_message_when_deletes_myself(): void
-    {
-        $user = $this->user_to_act_as;
-
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->delete(route('users.destroy', $user));
-
-        $response->assertStatus(Response::HTTP_FOUND);
-        $response->assertSessionHas('errors');
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-        ]);
+        $this->assertDeleted($testUser);
     }
 
     /** @test */
     public function data_method_should_return_error_when_not_ajax(): void
     {
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->get(route('users.data'));
 
         $response->assertForbidden();
@@ -147,7 +169,7 @@ class UserControllerTest extends TestCase
             ]);
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
+            ->actingAs($this->user)
             ->ajaxGet(route('users.data'));
 
         $response->assertSuccessful();
@@ -159,10 +181,10 @@ class UserControllerTest extends TestCase
                 ],
             ],
         ]);
-        foreach ($users as $user) {
+        foreach ($users as $testUser) {
             $response->assertJsonFragment([
-                'username' => $user->username,
-                'email' => $user->email,
+                'username' => $testUser->username,
+                'email' => $testUser->email,
             ]);
         }
     }

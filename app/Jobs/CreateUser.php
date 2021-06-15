@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,19 +17,25 @@ class CreateUser implements ShouldQueue
 
     private string $password;
 
-    public function __construct(string $username, string $email, string $password)
+    private Roles $role;
+
+    public function __construct(string $username, string $email, string $password, Roles $role)
     {
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->role = $role;
     }
 
     public function handle(): User
     {
-        return User::create([
+        $user = User::create([
             'username' => $this->username,
             'password' => bcrypt($this->password),
             'email' => $this->email,
         ]);
+        $user->assignRole($this->role->value);
+
+        return $user;
     }
 }

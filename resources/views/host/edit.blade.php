@@ -204,17 +204,21 @@
                     <fieldset class="mt-5">
                         <legend>@lang('host/messages.danger_zone_section')</legend>
 
-                        <ul class="list-group border border-danger">
-                            <li class="list-group-item">
-                                <strong>@lang('host/messages.delete_button')</strong>
-                                <button type="button" class="btn btn-outline-danger btn-sm float-right"
-                                        data-toggle="modal"
-                                        data-target="#confirmationModal">
-                                    @lang('host/messages.delete_button')
-                                </button>
-                                <p>@lang('host/messages.delete_host_help')</p>
-                            </li>
-                        </ul>
+                        @can('delete', $host)
+                            <ul class="list-group border border-danger">
+                                <li class="list-group-item">
+                                    <strong>@lang('host/messages.delete_button')</strong>
+                                    <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                            data-toggle="modal"
+                                            data-target="#confirmationModal">
+                                        @lang('host/messages.delete_button')
+                                    </button>
+                                    <p>@lang('host/messages.delete_host_help')</p>
+                                </li>
+                            </ul>
+                        @else
+                            <p class="from-text text-muted">@lang('host/messages.delete_avoided')</p>
+                        @endcan
                     </fieldset>
 
                 </div>
@@ -234,6 +238,7 @@
     </div>
     <!-- ./ card -->
 
+    @can('delete', $host)
     <!-- confirmation modal -->
     <x-modals.confirmation
         action="{{ route('hosts.destroy', $host) }}"
@@ -243,9 +248,9 @@
         <div class="alert alert-warning" role="alert">
             @lang('host/messages.delete_confirmation_warning', ['hostname' => $host->hostname])
         </div>
-
     </x-modals.confirmation>
     <!-- ./ confirmation modal -->
+    @endcan
 
 @endsection
 

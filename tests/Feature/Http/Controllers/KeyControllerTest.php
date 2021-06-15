@@ -18,6 +18,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\KeyOperation;
+use App\Enums\Roles;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
@@ -37,8 +38,8 @@ class KeyControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()
-            ->create();
+        $this->user = User::factory()->create();
+        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */

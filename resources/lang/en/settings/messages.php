@@ -20,4 +20,6 @@ return [
         'error' => 'Settings was not saved, please try again.',
         'success' => 'Settings saved successfully.',
     ],
+    'edit_button' => 'Edit settings',
+    'private_key_can_not_be_shown' => 'Private key is not shown by security reasons.',
 ];

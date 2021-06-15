@@ -31,6 +31,11 @@ use yajra\Datatables\Datatables;
 
 class HostController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Host::class, 'host');
+    }
+
     public function index(): View
     {
         return view('host.index');
@@ -93,12 +98,6 @@ class HostController extends Controller
             ->withSuccess(__('host/messages.edit.success', ['hostname' => $host->full_hostname]));
     }
 
-    public function delete(Host $host): View
-    {
-        return view('host.delete')
-            ->with('host', $host);
-    }
-
     public function destroy(Host $host): RedirectResponse
     {
         DeleteHost::dispatchSync($host);
@@ -109,6 +108,8 @@ class HostController extends Controller
 
     public function data(Datatables $datatable): JsonResponse
     {
+        $this->authorize('viewAny', Host::class);
+
         $hosts = Host::select([
             'id',
             'hostname',
@@ -132,8 +133,8 @@ class HostController extends Controller
             })
             ->addColumn('actions', function (Host $host) {
                 return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('model', 'hosts')
-                    ->with('id', $host->id)
+                    ->with('modelType', 'hosts')
+                    ->with('model', $host)
                     ->render();
             })
             ->rawColumns(['enabled', 'synced', 'actions'])

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Api;
 
+use App\Enums\Roles;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
@@ -14,6 +15,7 @@ class ApiHostgroupsTest extends ApiTestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->disableAuthorization();
         $this->user = User::factory()->create();
     }
 

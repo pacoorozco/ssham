@@ -188,6 +188,10 @@ Route::middleware(['auth'])->group(function () {
         [SettingsController::class, 'index'])
         ->name('settings.index');
 
+    Route::get('settings/edit',
+        [SettingsController::class, 'edit'])
+        ->name('settings.edit');
+
     Route::put('settings',
         [SettingsController::class, 'update'])
         ->name('settings.update');

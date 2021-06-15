@@ -22,11 +22,13 @@ return [
     'advanced_settings' => 'Advanced settings',
 
     'remote_paths_section' => 'Remote paths configuration',
-    'mixed_mode_section' => 'Mixed mode configuration',
+    'mixed_mode_section' => 'Hybrid configuration',
 
-    'ssh_credentials_section' => 'Bastion host SSH credentials',
+    'ssh_credentials_section' => 'Bastion host credentials',
     'ssh_options_section' => 'SSH options',
 
     'defaults' => 'Application defaults',
     'defaults_section' => 'Application defaults',
+
+    'update' => 'Edit settings',
 ];

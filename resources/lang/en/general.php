@@ -16,7 +16,7 @@ return [
     'edit' => 'Edit',
     'delete' => 'Delete',
     'update' => 'Update',
-    'save' => 'Save data',
+    'save' => 'Save',
     'back' => 'Back',
     'submit' => 'Submit',
     'view_more' => 'View More',

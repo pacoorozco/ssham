@@ -17,6 +17,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Http\Requests\SettingsRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -31,8 +32,20 @@ class SettingsController extends Controller
             ->with('settings', $settings);
     }
 
+    public function edit(): View
+    {
+        $this->authorize(Permissions::EditSettings);
+
+        $settings = setting()->all();
+
+        return view('settings.edit')
+            ->with('settings', $settings);
+    }
+
     public function update(SettingsRequest $request): RedirectResponse
     {
+        $this->authorize(Permissions::EditSettings);
+
         setting()->set([
             'authorized_keys' => $request->authorizedKeys(),
             'private_key' => $request->privateKey(),

@@ -17,11 +17,22 @@
 
 namespace App\Providers;
 
+use App\Models\ControlRule;
 use App\Models\Host;
 use App\Models\Hostgroup;
+use App\Models\Key;
+use App\Models\Keygroup;
+use App\Models\PersonalAccessToken;
+use App\Models\User;
+use App\Policies\ControlRulePolicy;
 use App\Policies\HostgroupPolicy;
 use App\Policies\HostPolicy;
+use App\Policies\KeygroupPolicy;
+use App\Policies\KeyPolicy;
+use App\Policies\PersonalAccessTokenPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -31,9 +42,13 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Host::class => HostPolicy::class,
         Hostgroup::class => HostgroupPolicy::class,
+        Key::class => KeyPolicy::class,
+        Keygroup::class => KeygroupPolicy::class,
+        ControlRule::class => ControlRulePolicy::class,
+        User::class => UserPolicy::class,
+        PersonalAccessToken::class, PersonalAccessTokenPolicy::class,
     ];
 
     /**
@@ -44,7 +59,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
-
-        //
     }
 }

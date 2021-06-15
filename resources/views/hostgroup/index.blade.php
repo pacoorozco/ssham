@@ -26,7 +26,7 @@
     <div class="card">
         <div class="card-header">
             <!-- actions -->
-            <a class="btn btn-success" href="{{ route('hostgroups.create') }}" role="button">
+            <a class="btn btn-success @cannot('create', \App\Models\Hostgroup::class) disabled @endcannot" href="{{ route('hostgroups.create') }}" role="button">
                 <i class="fa fa-plus"></i> @lang('hostgroup/title.create_a_new_host_group')
             </a>
             <!-- /.actions -->

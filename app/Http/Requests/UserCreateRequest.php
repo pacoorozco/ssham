@@ -17,7 +17,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Roles;
 use App\Rules\UsernameRule;
+use BenSampo\Enum\Rules\EnumValue;
 
 class UserCreateRequest extends Request
 {
@@ -46,6 +48,10 @@ class UserCreateRequest extends Request
                 'min:6',
                 'confirmed',
             ],
+            'role' => [
+                'required',
+                new EnumValue(Roles::class),
+            ],
         ];
     }
 
@@ -62,5 +68,12 @@ class UserCreateRequest extends Request
     public function password(): string
     {
         return $this->input('password');
+    }
+
+    public function role(): Roles
+    {
+        $roleName = $this->input('role');
+
+        return Roles::fromValue($roleName);
     }
 }

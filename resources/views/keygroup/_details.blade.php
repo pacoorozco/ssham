@@ -76,6 +76,7 @@
                 <fieldset class="mt-3">
                     <legend>@lang('keygroup/messages.danger_zone_section')</legend>
 
+                    @can('delete', $keygroup)
                     <ul class="list-group border border-danger">
                         <li class="list-group-item">
                             <strong>@lang('keygroup/messages.delete_button')</strong>
@@ -87,6 +88,9 @@
                             <p>@lang('keygroup/messages.delete_help')</p>
                         </li>
                     </ul>
+                    @else
+                        <p class="text-muted">@lang('keygroup/messages.delete_avoided')</p>
+                    @endcan
                 </fieldset>
 
             </div>
@@ -95,7 +99,7 @@
     </div>
 
     <div class="card-footer">
-        <a href="{{ route('keygroups.edit', $keygroup) }}" class="btn btn-primary" role="button">
+        <a href="{{ route('keygroups.edit', $keygroup) }}" class="btn btn-primary @cannot('update', $keygroup) disabled @endcannot" role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('keygroups.index') }}" class="btn btn-link" role="button">

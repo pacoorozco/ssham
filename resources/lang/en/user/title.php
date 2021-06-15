@@ -9,6 +9,6 @@ return [
     'user_update' => 'Update user',
 
     'personal_information_section' => 'Personal information',
-    'about_the_user_section' => 'About the user',
     'status_section' => 'Details',
+    'credentials' => 'Credentials',
 ];
