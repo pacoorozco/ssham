@@ -95,6 +95,7 @@ final class User extends Authenticatable
     public function getRoleAttribute(): Roles
     {
         $roleName = $this->getRoleNames()->first();
+
         return Roles::fromValue($roleName);
     }
 }
