@@ -139,6 +139,7 @@ class PersonalAccessTokenControllerTest extends TestCase
     private function userHasToken(User $user, string $tokenName): bool
     {
         $tokens = $user->tokens()->pluck('name');
-        return (false !== $tokens->search($tokenName));
+
+        return false !== $tokens->search($tokenName);
     }
 }
