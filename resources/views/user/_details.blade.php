@@ -36,6 +36,15 @@
                     </dd>
                     <!-- ./email -->
 
+                    <!-- role -->
+                    <dt class="col-sm-3">
+                        <strong>@lang('user/model.role')</strong>
+                    </dt>
+                    <dd class="col-sm-9">
+                        {{ $user->present()->role }}
+                    </dd>
+                    <!-- ./role -->
+
                 </dl>
             </div>
             <!-- ./ left column -->

@@ -53,7 +53,8 @@ class UserController extends Controller
         $user = CreateUser::dispatchSync(
             $request->username(),
             $request->email(),
-            $request->password()
+            $request->password(),
+            $request->role()
         );
 
         return redirect()->route('users.index')
@@ -77,7 +78,8 @@ class UserController extends Controller
         UpdateUser::dispatchSync(
             $user,
             $request->email(),
-            $request->enabled()
+            $request->enabled(),
+            $request->role()
         );
 
         if ($request->filled('password')) {

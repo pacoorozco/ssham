@@ -71,6 +71,7 @@ class UserControllerTest extends TestCase
                 'email' => $testUser->email,
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
+                'role' => Roles::Operator,
             ]);
 
         $response->assertRedirect(route('users.index'));
@@ -86,6 +87,7 @@ class UserControllerTest extends TestCase
     {
         $testUser = User::factory()
             ->create();
+        $testUser->assignRole(Roles::Operator);
 
         $response = $this
             ->actingAs($this->user)
@@ -103,6 +105,7 @@ class UserControllerTest extends TestCase
         $testUser = User::factory()->create([
             'enabled' => true,
         ]);
+        $testUser->assignRole(Roles::Auditor);
 
         /** @var User $want */
         $want = User::factory()->make([
@@ -116,6 +119,7 @@ class UserControllerTest extends TestCase
                 'enabled' => $want->enabled,
                 'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
+                'role' => Roles::Operator,
             ]);
 
         $response->assertRedirect(route('users.index'));
@@ -126,6 +130,8 @@ class UserControllerTest extends TestCase
             'email' => $want->email,
             'enabled' => $want->enabled,
         ]);
+        $testUser->refresh();
+        $this->assertEquals(Roles::Operator, $testUser->role);
     }
 
     /** @test */

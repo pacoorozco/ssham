@@ -17,6 +17,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Roles;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,6 +44,10 @@ class UserUpdateRequest extends Request
                 'string',
                 'min:6',
                 'confirmed',
+            ],
+            'role' => [
+                'required',
+                new EnumValue(Roles::class),
             ],
             'enabled' => [
                 'required',
@@ -80,5 +86,11 @@ class UserUpdateRequest extends Request
     public function enabled(): bool
     {
         return (bool) $this->input('enabled');
+    }
+
+    public function role(): Roles
+    {
+        $roleName = $this->input('role');
+        return Roles::fromValue($roleName);
     }
 }

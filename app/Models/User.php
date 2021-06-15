@@ -91,4 +91,10 @@ final class User extends Authenticatable
     {
         return $this->hasRole(Roles::SuperAdmin);
     }
+
+    public function getRoleAttribute(): Roles
+    {
+        $roleName = $this->getRoleNames()->first();
+        return Roles::fromValue($roleName);
+    }
 }

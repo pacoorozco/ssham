@@ -60,6 +60,13 @@
                             @enderror
                         </div>
                         <!-- ./ email -->
+
+                        <!-- role -->
+                        <div class="form-group">
+                            {!! Form::label('role', __('user/model.role')) !!}
+                            {!! Form::select('role', \App\Enums\Roles::asSelectArray(), \App\Enums\Roles::Operator, array('class' => 'form-control', 'required' => 'required')) !!}
+                        </div>
+                        <!-- ./ role -->
                     </fieldset>
 
                 </div>
@@ -68,7 +75,7 @@
                 <div class="col-md-6">
 
                     <fieldset>
-                        <legend>@lang('user/title.about_the_user_section')</legend>
+                        <legend>@lang('user/title.credentials')</legend>
 
                         <!-- password -->
                         <div class="form-group">

@@ -18,4 +18,5 @@ return [
     'enabled' => 'Status',
     'created_at' => 'Created',
     'authentication' => 'Authentication',
+    'role' => 'Role',
 ];

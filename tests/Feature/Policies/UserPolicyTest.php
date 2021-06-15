@@ -6,6 +6,7 @@ use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class UserPolicyTest extends TestCase
@@ -56,6 +57,7 @@ class UserPolicyTest extends TestCase
                 'email' => $want->email,
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
+                'role' => Roles::Operator,
             ]);
     }
 
@@ -96,6 +98,7 @@ class UserPolicyTest extends TestCase
     private function editUserRequestAs(User $user, ?User $testUser = null): TestResponse
     {
         $testUser = $testUser ?? User::factory()->create();
+        $testUser->syncRoles(Roles::Auditor);
 
         /** @var User $want */
         $want = User::factory()->make();
@@ -104,6 +107,7 @@ class UserPolicyTest extends TestCase
             ->put(route('users.update', $testUser), [
                 'email' => $want->email,
                 'enabled' => $want->enabled,
+                'role' => Roles::Operator,
             ]);
     }
 

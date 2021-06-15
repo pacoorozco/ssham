@@ -67,6 +67,13 @@
                                     @enderror
                                 </div>
                                 <!-- ./ email -->
+
+                                <!-- role -->
+                                <div class="form-group">
+                                    {!! Form::label('role', __('user/model.role')) !!}
+                                    {!! Form::select('role', \App\Enums\Roles::asSelectArray(), $user->role, array('class' => 'form-control', 'required' => 'required')) !!}
+                                </div>
+                                <!-- ./ role -->
                             </fieldset>
 
                             <!-- enabled -->
