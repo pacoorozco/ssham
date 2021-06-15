@@ -35,6 +35,7 @@ class CreateUser implements ShouldQueue
             'email' => $this->email,
         ]);
         $user->assignRole($this->role->value);
+
         return $user;
     }
 }

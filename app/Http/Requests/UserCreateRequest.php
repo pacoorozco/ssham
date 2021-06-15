@@ -73,6 +73,7 @@ class UserCreateRequest extends Request
     public function role(): Roles
     {
         $roleName = $this->input('role');
+
         return Roles::fromValue($roleName);
     }
 }
