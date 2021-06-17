@@ -50,21 +50,6 @@ class UserPolicyTest extends TestCase
         $response->assertForbidden();
     }
 
-    private function createUserRequestAs(User $user): TestResponse
-    {
-        /** @var User $want */
-        $want = User::factory()->make();
-
-        return $this->actingAs($user)
-            ->post(route('users.store'), [
-                'username' => $want->username,
-                'email' => $want->email,
-                'password' => 'secret123',
-                'password_confirmation' => 'secret123',
-                'role' => Roles::Operator,
-            ]);
-    }
-
     /** @test */
     public function operator_can_not_create_users(): void
     {
@@ -97,22 +82,6 @@ class UserPolicyTest extends TestCase
         $response = $this->editUserRequestAs($this->auditor);
 
         $response->assertForbidden();
-    }
-
-    private function editUserRequestAs(User $user, ?User $testUser = null): TestResponse
-    {
-        $testUser = $testUser ?? User::factory()->create();
-        $testUser->syncRoles(Roles::Auditor);
-
-        /** @var User $want */
-        $want = User::factory()->make();
-
-        return $this->actingAs($user)
-            ->put(route('users.update', $testUser), [
-                'email' => $want->email,
-                'enabled' => $want->enabled,
-                'role' => Roles::Operator,
-            ]);
     }
 
     /** @test */
@@ -179,14 +148,6 @@ class UserPolicyTest extends TestCase
         $response->assertForbidden();
     }
 
-    private function deleteUserRequestAs(User $user, ?User $testUser = null): TestResponse
-    {
-        $testUser = $testUser ?? User::factory()->create();
-
-        return $this->actingAs($user)
-            ->delete(route('users.destroy', $testUser));
-    }
-
     /** @test */
     public function operator_can_not_delete_users(): void
     {
@@ -219,5 +180,44 @@ class UserPolicyTest extends TestCase
         $response = $this->deleteUserRequestAs($this->superAdmin, $this->superAdmin);
 
         $response->assertForbidden();
+    }
+
+    private function createUserRequestAs(User $user): TestResponse
+    {
+        /** @var User $want */
+        $want = User::factory()->make();
+
+        return $this->actingAs($user)
+            ->post(route('users.store'), [
+                'username' => $want->username,
+                'email' => $want->email,
+                'password' => 'secret123',
+                'password_confirmation' => 'secret123',
+                'role' => Roles::Operator,
+            ]);
+    }
+
+    private function editUserRequestAs(User $user, ?User $testUser = null): TestResponse
+    {
+        $testUser = $testUser ?? User::factory()->create();
+        $testUser->syncRoles(Roles::Auditor);
+
+        /** @var User $want */
+        $want = User::factory()->make();
+
+        return $this->actingAs($user)
+            ->put(route('users.update', $testUser), [
+                'email' => $want->email,
+                'enabled' => $want->enabled,
+                'role' => Roles::Operator,
+            ]);
+    }
+
+    private function deleteUserRequestAs(User $user, ?User $testUser = null): TestResponse
+    {
+        $testUser = $testUser ?? User::factory()->create();
+
+        return $this->actingAs($user)
+            ->delete(route('users.destroy', $testUser));
     }
 }
