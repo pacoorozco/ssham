@@ -49,5 +49,3 @@ trait InteractsWithPermissions
         return $this;
     }
 }
-
-

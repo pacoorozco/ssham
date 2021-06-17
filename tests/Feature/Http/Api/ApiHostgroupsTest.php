@@ -50,7 +50,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ],
             'relationships' => [
                 'hosts' => [
-                    'data' => $hosts->map(fn(Host $host) => [
+                    'data' => $hosts->map(fn (Host $host) => [
                         'type' => 'hosts',
                         'id' => (string) $host->getRouteKey(),
                     ])->all(),
@@ -168,7 +168,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ],
             'relationships' => [
                 'hosts' => [
-                    'data' => $newHosts->map(fn(Host $host) => [
+                    'data' => $newHosts->map(fn (Host $host) => [
                         'type' => 'hosts',
                         'id' => (string) $host->getRouteKey(),
                     ])->all(),
