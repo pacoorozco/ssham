@@ -20,21 +20,27 @@ namespace Tests\Feature\Http\Controllers;
 use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
 
     private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->disablePermissionsCheck();
+
+        // Roles and Permission are used when creating/updating users as part of its data.
+        $this->loadRolesAndPermissions();
+
         $this->user = User::factory()
             ->create();
-        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */

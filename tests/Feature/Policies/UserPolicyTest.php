@@ -8,10 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class UserPolicyTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
 
     private User $auditor;
 
@@ -24,6 +26,8 @@ class UserPolicyTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->enablePermissionsCheck();
 
         $this->auditor = User::factory()->create();
         $this->auditor->assignRole(Roles::Auditor);

@@ -20,10 +20,19 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class AuditControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->disablePermissionsCheck();
+    }
 
     /** @test */
     public function calling_index_should_return_index_view(): void
