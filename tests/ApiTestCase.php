@@ -27,16 +27,4 @@ abstract class ApiTestCase extends BaseTestCase
     use CreatesApplication;
     use MakesJsonApiRequests;
     use RefreshDatabase;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    protected function disableAuthorization(): void
-    {
-        Gate::before(function () {
-            return true;
-        });
-    }
 }

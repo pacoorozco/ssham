@@ -22,11 +22,20 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class PersonalAccessTokenControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
+    use InteractsWithPermissions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->enablePermissionsCheck();
+    }
 
     /** @test */
     public function users_can_access_to_its_own_token_data(): void

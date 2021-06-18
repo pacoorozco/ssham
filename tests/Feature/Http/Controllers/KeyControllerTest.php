@@ -18,17 +18,18 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\KeyOperation;
-use App\Enums\Roles;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class KeyControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
 
     const VALID_PUBLIC_KEY_ONE = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDl8cMHgSYgkMFo27dvnv+1RY3el3628wCF6h+fvNwH5YLbKQZTSSFlWH6BMsMahMp3zYOvb4kURkloaPTX6paZZ+axZo6Uhww+ISws3fkykEhZWanOABy1/cKjT36SqfJD/xFVgL+FaE5QB5gvarf2IH1lNT9iYutKY0hJVz15IQ== valid-key-one';
     const VALID_PUBLIC_KEY_TWO = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDdZTBjbqXy299z3erXD0/rumaLZwfS1IwFmsPex+oTwytekdeoCAPr86jU+pDFAtxTqhNU5HMo8ZKwdDw6csbHkh6SpV0R8O7u0w8oVs7MIhr4Lm2Uhyl/tF5BrzerhSMk5esKlVAjdYyyLxE/JsJqGaZbchrDCHu1trH9Oy5+yw== valid-key-two';
@@ -38,8 +39,9 @@ class KeyControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->disablePermissionsCheck();
         $this->user = User::factory()->create();
-        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */

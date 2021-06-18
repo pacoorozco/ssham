@@ -17,24 +17,26 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Enums\Roles;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class KeygroupControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
 
     private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->disablePermissionsCheck();
         $this->user = User::factory()->create();
-        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */

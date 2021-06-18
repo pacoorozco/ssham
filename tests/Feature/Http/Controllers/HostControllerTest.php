@@ -17,26 +17,28 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Enums\Roles;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class HostControllerTest extends TestCase
 {
     use RefreshDatabase;
     use DatabaseMigrations;
+    use InteractsWithPermissions;
 
     private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->disablePermissionsCheck();
         $this->user = User::factory()->create();
-        $this->user->assignRole(Roles::SuperAdmin);
     }
 
     /** @test */

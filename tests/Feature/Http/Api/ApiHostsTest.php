@@ -2,20 +2,23 @@
 
 namespace Tests\Feature\Http\Api;
 
-use App\Enums\Roles;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
 use Tests\ApiTestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class ApiHostsTest extends ApiTestCase
 {
+    use InteractsWithPermissions;
+
     private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->disableAuthorization();
+
+        $this->disablePermissionsCheck();
         $this->user = User::factory()->create();
     }
 

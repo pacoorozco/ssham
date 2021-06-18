@@ -2,46 +2,37 @@
 
 namespace Tests\Feature\Policies;
 
+use App\Enums\Permissions;
 use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class UserPolicyTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
 
-    private User $auditor;
-
-    private User $operator;
-
-    private User $admin;
-
-    private User $superAdmin;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->auditor = User::factory()->create();
-        $this->auditor->assignRole(Roles::Auditor);
+        $this->enablePermissionsCheck();
 
-        $this->operator = User::factory()->create();
-        $this->operator->assignRole(Roles::Operator);
-
-        $this->admin = User::factory()->create();
-        $this->admin->assignRole(Roles::Admin);
-
-        $this->superAdmin = User::factory()->create();
-        $this->superAdmin->assignRole(Roles::SuperAdmin);
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function auditor_can_not_create_users(): void
+    public function can_not_create_users_without_the_proper_permission(): void
     {
-        $response = $this->createUserRequestAs($this->auditor);
+        $this->user->givePermissionTo(Permissions::asArray());
+        $this->user->revokePermissionTo(Permissions::EditUsers);
+
+        $response = $this->createUserRequestAs($this->user);
 
         $response->assertForbidden();
     }
@@ -62,25 +53,11 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function operator_can_not_create_users(): void
+    public function can_create_users_with_the_proper_permission(): void
     {
-        $response = $this->createUserRequestAs($this->operator);
+        $this->user->syncPermissions(Permissions::EditUsers);
 
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function admin_can_not_create_users(): void
-    {
-        $response = $this->createUserRequestAs($this->admin);
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function superadmin_can_create_users(): void
-    {
-        $response = $this->createUserRequestAs($this->superAdmin);
+        $response = $this->createUserRequestAs($this->user);
 
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHasNoErrors();
@@ -88,9 +65,12 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function auditor_can_not_edit_users(): void
+    public function can_not_edit_users_without_the_proper_permission(): void
     {
-        $response = $this->editUserRequestAs($this->auditor);
+        $this->user->givePermissionTo(Permissions::asArray());
+        $this->user->revokePermissionTo(Permissions::EditUsers);
+
+        $response = $this->editUserRequestAs($this->user);
 
         $response->assertForbidden();
     }
@@ -112,9 +92,11 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function auditor_can_edit_its_own_user(): void
+    public function can_edit_users_with_the_proper_permission(): void
     {
-        $response = $this->editUserRequestAs($this->auditor, $this->auditor);
+        $this->user->syncPermissions(Permissions::EditUsers);
+
+        $response = $this->editUserRequestAs($this->user);
 
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHasNoErrors();
@@ -122,17 +104,12 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function operator_can_not_edit_users(): void
+    public function anyone_can_edit_its_own_user(): void
     {
-        $response = $this->editUserRequestAs($this->operator);
+        $this->user->givePermissionTo(Permissions::asArray());
+        $this->user->revokePermissionTo(Permissions::EditUsers);
 
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function operator_can_edit_its_own_user(): void
-    {
-        $response = $this->editUserRequestAs($this->operator, $this->operator);
+        $response = $this->editUserRequestAs($this->user, $this->user);
 
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHasNoErrors();
@@ -140,37 +117,12 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_not_edit_users(): void
+    public function can_not_delete_users_without_the_poper_permission(): void
     {
-        $response = $this->editUserRequestAs($this->admin);
+        $this->user->givePermissionTo(Permissions::asArray());
+        $this->user->revokePermissionTo(Permissions::DeleteUsers);
 
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function admin_can_edit_its_own_user(): void
-    {
-        $response = $this->editUserRequestAs($this->admin, $this->admin);
-
-        $response->assertRedirect(route('users.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
-    }
-
-    /** @test */
-    public function superadmin_can_edit_users(): void
-    {
-        $response = $this->editUserRequestAs($this->superAdmin);
-
-        $response->assertRedirect(route('users.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
-    }
-
-    /** @test */
-    public function auditor_can_not_delete_users(): void
-    {
-        $response = $this->deleteUserRequestAs($this->auditor);
+        $response = $this->deleteUserRequestAs($this->user);
 
         $response->assertForbidden();
     }
@@ -184,25 +136,11 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function operator_can_not_delete_users(): void
+    public function can_delete_users_with_the_proper_permission(): void
     {
-        $response = $this->deleteUserRequestAs($this->operator);
+        $this->user->syncPermissions(Permissions::DeleteUsers);
 
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function admin_can_not_delete_users(): void
-    {
-        $response = $this->deleteUserRequestAs($this->admin);
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function superadmin_can_delete_users(): void
-    {
-        $response = $this->deleteUserRequestAs($this->superAdmin);
+        $response = $this->deleteUserRequestAs($this->user);
 
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHasNoErrors();
@@ -210,9 +148,11 @@ class UserPolicyTest extends TestCase
     }
 
     /** @test */
-    public function superadmin_can_not_delete_its_own_user(): void
+    public function user_can_not_delete_its_own_user(): void
     {
-        $response = $this->deleteUserRequestAs($this->superAdmin, $this->superAdmin);
+        $this->user->syncPermissions(Permissions::DeleteUsers);
+
+        $response = $this->deleteUserRequestAs($this->user, $this->user);
 
         $response->assertForbidden();
     }
