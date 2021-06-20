@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use phpseclib\Crypt\RSA;
+use PacoOrozco\OpenSSH\PrivateKey;
 
 class UpdateServer implements ShouldQueue
 {
@@ -61,9 +61,8 @@ class UpdateServer implements ShouldQueue
      */
     protected function connectRemoteServer(): void
     {
-        $key = new RSA();
-        $key->loadKey(setting()->get('private_key'));
-        $this->pusher->login($this->host->username, $key);
+        $privateKey = PrivateKey::fromString(setting()->get('private_key'));
+        $this->pusher->login($this->host->username, $privateKey);
     }
 
     /**
