@@ -19,23 +19,16 @@ namespace App\Http\Requests;
 
 use App\Enums\KeyOperation;
 use App\Rules\UsernameRule;
-use App\Rules\ValidRSAPublicKeyRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
+use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class KeyCreateRequest extends Request
 {
     public function authorize(): bool
     {
         return true;
-    }
-
-    protected function getValidatorInstance(): Validator
-    {
-        $this->sanitize();
-
-        return parent::getValidatorInstance();
     }
 
     public function rules(): array
@@ -56,24 +49,14 @@ class KeyCreateRequest extends Request
             ],
             'public_key' => [
                 new RequiredIf($this->wantsImportKey()),
-                new ValidRSAPublicKeyRule(),
+                new PublicKeyRule(),
             ],
         ];
     }
 
-    /**
-     * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
-     */
-    protected function sanitize(): void
+    public function wantsImportKey(): bool
     {
-        $input = $this->all();
-
-        // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key'])) {
-            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
-        }
-
-        $this->replace($input);
+        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
 
     public function username(): string
@@ -96,8 +79,25 @@ class KeyCreateRequest extends Request
         return $this->input('operation') === KeyOperation::CREATE_OPERATION;
     }
 
-    public function wantsImportKey(): bool
+    protected function getValidatorInstance(): Validator
     {
-        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
+        //$this->sanitize();
+
+        return parent::getValidatorInstance();
+    }
+
+    /**
+     * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
+     */
+    protected function sanitize(): void
+    {
+        $input = $this->all();
+
+        // Removes carriage returns from 'public_key' input
+        if (isset($input['public_key'])) {
+            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+        }
+
+        $this->replace($input);
     }
 }

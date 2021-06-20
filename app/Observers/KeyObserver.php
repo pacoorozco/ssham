@@ -20,6 +20,7 @@ namespace App\Observers;
 use App\Enums\ActivityStatus;
 use App\Libs\RsaSshKey\RsaSshKey;
 use App\Models\Key;
+use PacoOrozco\OpenSSH\PublicKey;
 
 class KeyObserver
 {
@@ -50,6 +51,6 @@ class KeyObserver
 
     public function saving(Key $key): void
     {
-        $key->fingerprint = RsaSshKey::getPublicFingerprint($key->public);
+        $key->fingerprint = PublicKey::fromString($key->public)->getFingerPrint();
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d70143a5b4319a31c3a606fa64d216fb",
+    "content-hash": "7fb57cc88ec6cd335801cdaf24138296",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2532,6 +2532,58 @@
                 "source": "https://github.com/opis/closure/tree/3.6.2"
             },
             "time": "2021-04-09T13:42:10+00:00"
+        },
+        {
+            "name": "pacoorozco/openssh",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pacoorozco/openssh.git",
+                "reference": "41f82c84d43ec84458c1c67267e8a265b44b0a02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pacoorozco/openssh/zipball/41f82c84d43ec84458c1c67267e8a265b44b0a02",
+                "reference": "41f82c84d43ec84458c1c67267e8a265b44b0a02",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "phpseclib/phpseclib": "^3.0.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PacoOrozco\\OpenSSH\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paco Orozco",
+                    "email": "paco@pacoorozco.info",
+                    "homepage": "https://pacoorozco.info"
+                }
+            ],
+            "description": "Creating and loading private/public OpenSSH keys",
+            "homepage": "https://github.com/pacoorozco/openssh",
+            "keywords": [
+                "crypto",
+                "laravel",
+                "openssh",
+                "ssh-keys"
+            ],
+            "support": {
+                "issues": "https://github.com/pacoorozco/openssh/issues",
+                "source": "https://github.com/pacoorozco/openssh/tree/v0.2.0"
+            },
+            "time": "2021-06-20T14:01:14+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -8608,5 +8660,5 @@
         "php": "^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

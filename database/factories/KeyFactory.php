@@ -17,9 +17,9 @@
 
 namespace Database\Factories;
 
-use App\Libs\RsaSshKey\RsaSshKey;
 use App\Models\Key;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use PacoOrozco\OpenSSH\KeyPair;
 
 class KeyFactory extends Factory
 {
@@ -32,12 +32,12 @@ class KeyFactory extends Factory
 
     public function definition(): array
     {
-        $rsa = RsaSshKey::create();
+        [$privateKey, $publicKey] = (new KeyPair())->generate();
 
         return [
             'username' => $this->faker->unique()->userName,
-            'public' => RsaSshKey::getPublicKey($rsa['publickey']),
-            'private' => RsaSshKey::getPrivateKey($rsa['privatekey']),
+            'public' => $publicKey,
+            'private' => $privateKey,
             'enabled' => true,
         ];
     }
