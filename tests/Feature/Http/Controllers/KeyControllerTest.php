@@ -31,8 +31,8 @@ class KeyControllerTest extends TestCase
     use RefreshDatabase;
     use InteractsWithPermissions;
 
-    const VALID_PUBLIC_KEY_ONE = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDl8cMHgSYgkMFo27dvnv+1RY3el3628wCF6h+fvNwH5YLbKQZTSSFlWH6BMsMahMp3zYOvb4kURkloaPTX6paZZ+axZo6Uhww+ISws3fkykEhZWanOABy1/cKjT36SqfJD/xFVgL+FaE5QB5gvarf2IH1lNT9iYutKY0hJVz15IQ== valid-key-one';
-    const VALID_PUBLIC_KEY_TWO = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDdZTBjbqXy299z3erXD0/rumaLZwfS1IwFmsPex+oTwytekdeoCAPr86jU+pDFAtxTqhNU5HMo8ZKwdDw6csbHkh6SpV0R8O7u0w8oVs7MIhr4Lm2Uhyl/tF5BrzerhSMk5esKlVAjdYyyLxE/JsJqGaZbchrDCHu1trH9Oy5+yw== valid-key-two';
+    const VALID_PUBLIC_KEY_ONE = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDl8cMHgSYgkMFo27dvnv+1RY3el3628wCF6h+fvNwH5YLbKQZTSSFlWH6BMsMahMp3zYOvb4kURkloaPTX6paZZ+axZo6Uhww+ISws3fkykEhZWanOABy1/cKjT36SqfJD/xFVgL+FaE5QB5gvarf2IH1lNT9iYutKY0hJVz15IQ== phpseclib-generated-key';
+    const VALID_PUBLIC_KEY_TWO = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDdZTBjbqXy299z3erXD0/rumaLZwfS1IwFmsPex+oTwytekdeoCAPr86jU+pDFAtxTqhNU5HMo8ZKwdDw6csbHkh6SpV0R8O7u0w8oVs7MIhr4Lm2Uhyl/tF5BrzerhSMk5esKlVAjdYyyLxE/JsJqGaZbchrDCHu1trH9Oy5+yw== phpseclib-generated-key';
 
     private User $user;
 
@@ -74,6 +74,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function store_method_should_create_a_new_key_when_it_is_not_supplied(): void
     {
+        /** @var Key $key */
         $key = Key::factory()->make();
 
         $response = $this
@@ -93,6 +94,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function store_method_should_fail_when_invalid_key_is_supplied(): void
     {
+        /** @var Key $key */
         $key = Key::factory()->make();
 
         $response = $this
@@ -113,6 +115,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function store_method_should_create_a_key_when_valid_key_is_supplied(): void
     {
+        /** @var Key $key */
         $key = Key::factory()->make();
 
         $response = $this
@@ -134,6 +137,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function edit_method_should_return_proper_view(): void
     {
+        /** @var Key $key */
         $key = Key::factory()
             ->create();
         $groups = Keygroup::factory()
@@ -154,6 +158,8 @@ class KeyControllerTest extends TestCase
     public function update_method_should_maintain_the_key_when_noop_operation_is_used(): void
     {
         $wantPublicKey = self::VALID_PUBLIC_KEY_ONE;
+
+        /** @var Key $key */
         $key = Key::factory()->create([
             'public' => $wantPublicKey,
         ]);
@@ -172,6 +178,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function update_method_should_change_the_key_when_import_operation_is_used(): void
     {
+        /** @var Key $key */
         $key = Key::factory()->create([
             'public' => self::VALID_PUBLIC_KEY_ONE,
         ]);
@@ -196,6 +203,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function update_method_should_create_a_new_key_when_create_operation_is_used(): void
     {
+        /** @var Key $key */
         $key = Key::factory()->create([
             'public' => self::VALID_PUBLIC_KEY_ONE,
         ]);
@@ -215,6 +223,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function destroy_method_should_return_proper_success_message(): void
     {
+        /** @var Key $key */
         $key = Key::factory()
             ->create();
 
@@ -240,7 +249,7 @@ class KeyControllerTest extends TestCase
     /** @test */
     public function data_method_should_return_data(): void
     {
-        $keys = $key = Key::factory()
+        $keys = Key::factory()
             ->count(3)
             ->create(
                 [

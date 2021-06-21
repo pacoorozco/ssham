@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Models;
 
-use App\Libs\RsaSshKey\RsaSshKey;
 use App\Models\Key;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PacoOrozco\OpenSSH\PublicKey;
 use Tests\TestCase;
 
 class KeyTest extends TestCase
@@ -16,10 +16,11 @@ class KeyTest extends TestCase
     /** @test */
     public function fingerprint_should_be_set_when_key_is_created()
     {
+        /** @var Key $key */
         $key = Key::factory()->create([
             'public' => self::VALID_PUBLIC_KEY,
         ]);
-        $wantFingerprint = RsaSshKey::getPublicFingerprint(self::VALID_PUBLIC_KEY);
+        $wantFingerprint = PublicKey::fromString(self::VALID_PUBLIC_KEY)->getFingerPrint();
 
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
     }
@@ -27,11 +28,12 @@ class KeyTest extends TestCase
     /** @test */
     public function fingerprint_should_be_set_when_key_is_updated()
     {
+        /** @var Key $key */
         $key = Key::factory()->create();
         $key->update([
             'public' => self::VALID_PUBLIC_KEY,
         ]);
-        $wantFingerprint = RsaSshKey::getPublicFingerprint(self::VALID_PUBLIC_KEY);
+        $wantFingerprint = PublicKey::fromString(self::VALID_PUBLIC_KEY)->getFingerPrint();
 
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
     }
