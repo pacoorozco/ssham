@@ -37,7 +37,7 @@
         "laravelcollective/html": "^6.2.1",
         "pacoorozco/openssh": "^0.2.0",
         "phpseclib/phpseclib": "^3.0.9",
-        "spatie/laravel-activitylog": "^3.17.0",
+        "spatie/laravel-activitylog": "^4.0.0",
         "spatie/laravel-permission": "^4.2",
         "spatie/laravel-searchable": "^1.9.1",
         "yajra/laravel-datatables-oracle": "^9.18"
