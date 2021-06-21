@@ -18,7 +18,6 @@
 namespace App\Observers;
 
 use App\Enums\ActivityStatus;
-use App\Libs\RsaSshKey\RsaSshKey;
 use App\Models\Key;
 use PacoOrozco\OpenSSH\PublicKey;
 

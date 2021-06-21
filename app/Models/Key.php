@@ -17,7 +17,6 @@
 
 namespace App\Models;
 
-use App\Libs\RsaSshKey\RsaSshKey;
 use App\Presenters\KeyPresenter;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,17 +46,15 @@ class Key extends Model implements Searchable
     use UsesUUID;
     use Presentable;
 
+    public string $searchableType = 'SSH Keys';
     protected string $presenter = KeyPresenter::class;
-
     protected $table = 'keys';
-
     protected $fillable = [
         'username',
         'public',
         'private',
         'enabled',
     ];
-
     protected $casts = [
         'enabled' => 'boolean',
     ];
@@ -75,8 +72,6 @@ class Key extends Model implements Searchable
         $this->attributes['username'] = strtolower($value);
     }
 
-    public string $searchableType = 'SSH Keys';
-
     public function getSearchResult(): SearchResult
     {
         $url = route('keys.show', $this->id);
@@ -90,6 +85,6 @@ class Key extends Model implements Searchable
 
     public function hasPrivateKey(): bool
     {
-        return ! empty($this->private);
+        return !empty($this->private);
     }
 }

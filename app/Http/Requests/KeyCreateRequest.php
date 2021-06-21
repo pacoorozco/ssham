@@ -64,9 +64,9 @@ class KeyCreateRequest extends Request
         return $this->input('username');
     }
 
-    public function publicKey(): ?string
+    public function publicKey(): string
     {
-        return $this->input('public_key');
+        return $this->input('public_key', '');
     }
 
     public function groups(): ?array
