@@ -17,26 +17,14 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidRSAPrivateKeyRule;
-use App\Rules\ValidRSAPublicKeyRule;
+use PacoOrozco\OpenSSH\Rules\PrivateKeyRule;
+use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class SettingsRequest extends Request
 {
     public function authorize(): bool
     {
         return true;
-    }
-
-    /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance()
-    {
-        $this->sanitize();
-
-        return parent::getValidatorInstance();
     }
 
     public function rules(): array
@@ -48,11 +36,11 @@ class SettingsRequest extends Request
             ],
             'private_key' => [
                 'required',
-                new ValidRSAPrivateKeyRule(),
+                new PrivateKeyRule(),
             ],
             'public_key' => [
                 'required',
-                new ValidRSAPublicKeyRule(),
+                new PublicKeyRule(),
             ],
             'temp_dir' => [
                 'required',
@@ -85,19 +73,6 @@ class SettingsRequest extends Request
                 'string',
             ],
         ];
-    }
-
-    /**
-     * Sanitizes user input. In special 'public_key' to remove carriage returns.
-     */
-    protected function sanitize(): void
-    {
-        $input = $this->all();
-
-        // Removes carriage returns from 'public_key' input
-        $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
-
-        $this->replace($input);
     }
 
     public function authorizedKeys(): string
@@ -148,5 +123,30 @@ class SettingsRequest extends Request
     public function cmdRemoteUpdater(): string
     {
         return $this->input('cmd_remote_updater');
+    }
+
+    /**
+     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
+     *
+     * @return mixed
+     */
+    protected function getValidatorInstance()
+    {
+        //$this->sanitize();
+
+        return parent::getValidatorInstance();
+    }
+
+    /**
+     * Sanitizes user input. In special 'public_key' to remove carriage returns.
+     */
+    protected function sanitize(): void
+    {
+        $input = $this->all();
+
+        // Removes carriage returns from 'public_key' input
+        $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
+
+        $this->replace($input);
     }
 }

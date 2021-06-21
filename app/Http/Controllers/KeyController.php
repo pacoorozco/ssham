@@ -19,7 +19,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
-use App\Libs\RsaSshKey\RsaSshKey;
 use App\Models\Key;
 use App\Models\Keygroup;
 use Illuminate\Http\JsonResponse;
@@ -27,6 +26,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use PacoOrozco\OpenSSH\KeyPair;
+use PacoOrozco\OpenSSH\PublicKey;
 use yajra\Datatables\Datatables;
 
 class KeyController extends Controller
@@ -57,18 +58,16 @@ class KeyController extends Controller
 
         try {
             if ($request->wantsCreateKey()) {
-                $keys = RsaSshKey::create();
-                $public_key = $keys['publickey'];
-                $private_key = $keys['privatekey'];
+                [$privateKey, $publicKey] = (new KeyPair())->generate();
             } else {
-                $public_key = $request->publicKey();
-                $private_key = null;
+                $publicKey = PublicKey::fromString($request->publicKey());
+                $privateKey = null;
             }
 
             $key = Key::create([
-                'username' => $request->username,
-                'public' => $public_key,
-                'private' => $private_key,
+                'username' => $request->username(),
+                'public' => (string) $publicKey,
+                'private' => (string) $privateKey,
             ]);
 
             $key->groups()->attach($request->groups());
@@ -111,21 +110,19 @@ class KeyController extends Controller
         DB::beginTransaction();
 
         try {
-            $private_key = $key->private;
-            $public_key = $key->public;
+            $privateKey = $key->private;
+            $publicKey = $key->public;
 
             if ($request->wantsCreateKey()) {
-                $keys = RsaSshKey::create();
-                $public_key = $keys['publickey'];
-                $private_key = $keys['privatekey'];
+                [$privateKey, $publicKey] = (new KeyPair())->generate();
             } elseif ($request->wantsImportKey()) {
-                $public_key = $request->publicKey();
+                $publicKey = PublicKey::fromString($request->publicKey());
             }
 
             $key->update([
                 'enabled' => $request->enabled(),
-                'private' => $private_key,
-                'public' => $public_key,
+                'private' => $privateKey,
+                'public' => $publicKey,
             ]);
 
             $key->groups()->sync($request->groups());

@@ -18,7 +18,9 @@
 namespace App\Services\SFTP;
 
 use App\Exceptions\PusherException;
-use phpseclib\Net\SFTP;
+use PacoOrozco\OpenSSH\PrivateKey;
+use phpseclib3\Net\SFTP;
+use phpseclib3\Net\SSH2;
 
 class SFTPPusher
 {
@@ -34,7 +36,7 @@ class SFTPPusher
      *
      * @throws \App\Exceptions\PusherException
      */
-    public function login(string $username, string $privateKey): void
+    public function login(string $username, PrivateKey $privateKey): void
     {
         if (false === $this->sftp->login($username, $privateKey)) {
             throw new PusherException('Invalid credentials');

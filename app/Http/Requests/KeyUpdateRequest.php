@@ -18,23 +18,16 @@
 namespace App\Http\Requests;
 
 use App\Enums\KeyOperation;
-use App\Rules\ValidRSAPublicKeyRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
+use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class KeyUpdateRequest extends Request
 {
     public function authorize(): bool
     {
         return true;
-    }
-
-    protected function getValidatorInstance(): Validator
-    {
-        $this->sanitize();
-
-        return parent::getValidatorInstance();
     }
 
     public function rules(): array
@@ -50,13 +43,18 @@ class KeyUpdateRequest extends Request
             ],
             'public_key' => [
                 new RequiredIf($this->wantsImportKey()),
-                new ValidRSAPublicKeyRule(),
+                new PublicKeyRule(),
             ],
             'enabled' => [
                 'required',
                 'boolean',
             ],
         ];
+    }
+
+    public function wantsImportKey(): bool
+    {
+        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
 
     /**
@@ -94,8 +92,10 @@ class KeyUpdateRequest extends Request
         return $this->input('operation') === KeyOperation::CREATE_OPERATION;
     }
 
-    public function wantsImportKey(): bool
+    protected function getValidatorInstance(): Validator
     {
-        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
+        //$this->sanitize();
+
+        return parent::getValidatorInstance();
     }
 }
