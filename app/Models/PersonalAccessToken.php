@@ -6,6 +6,7 @@ use App\Presenters\PersonalAccessTokenPresenter;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * Class PersonalAccessToken.
@@ -33,5 +34,11 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
         }
 
         return $user;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name']);
     }
 }

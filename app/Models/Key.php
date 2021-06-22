@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laracodes\Presenter\Traits\Presentable;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -86,5 +87,11 @@ class Key extends Model implements Searchable
     public function hasPrivateKey(): bool
     {
         return !empty($this->private);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['username', 'enabled']);
     }
 }

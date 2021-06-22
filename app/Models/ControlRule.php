@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracodes\Presenter\Traits\Presentable;
+use Spatie\Activitylog\LogOptions;
 
 /**
  * Class ControlRule.
@@ -66,5 +67,11 @@ class ControlRule extends Model
     public function target(): BelongsTo
     {
         return $this->belongsTo(Hostgroup::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable();
     }
 }
