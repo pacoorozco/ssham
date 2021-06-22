@@ -86,7 +86,7 @@ class Key extends Model implements Searchable
 
     public function hasPrivateKey(): bool
     {
-        return !empty($this->private);
+        return ! empty($this->private);
     }
 
     public function getActivitylogOptions(): LogOptions
