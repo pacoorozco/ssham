@@ -48,7 +48,8 @@
         "laravel-json-api/testing": "^1.0@beta",
         "mockery/mockery": "^1.4.3",
         "nunomaduro/collision": "^5.4",
-        "phpunit/phpunit": "^9.5.4"
+        "phpunit/phpunit": "^9.5.4",
+        "doctrine/dbal": "^3.1.0"
     },
     "config": {
         "optimize-autoloader": true,
