@@ -72,9 +72,9 @@ class KeyUpdateRequest extends Request
         $this->replace($input);
     }
 
-    public function publicKey(): ?string
+    public function publicKey(): string
     {
-        return $this->input('public_key');
+        return $this->input('public_key', '');
     }
 
     public function groups(): ?array

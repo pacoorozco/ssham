@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracodes\Presenter\Traits\Presentable;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -42,10 +43,9 @@ class Hostgroup extends Model implements Searchable
     use HasFactory;
     use Presentable;
 
+    public string $searchableType = 'Host groups';
     protected string $presenter = HostgroupPresenter::class;
-
     protected $table = 'hostgroups';
-
     protected $fillable = [
         'name',
         'description',
@@ -56,17 +56,15 @@ class Hostgroup extends Model implements Searchable
         return $this->belongsToMany(Host::class)->orderBy('hostname');
     }
 
-    public function rules(): HasMany
-    {
-        return $this->hasMany(ControlRule::class, 'target_id');
-    }
-
     public function getNumberOfRelatedRules(): int
     {
         return $this->rules()->count();
     }
 
-    public string $searchableType = 'Host groups';
+    public function rules(): HasMany
+    {
+        return $this->hasMany(ControlRule::class, 'target_id');
+    }
 
     public function getSearchResult(): SearchResult
     {
@@ -77,5 +75,11 @@ class Hostgroup extends Model implements Searchable
             $this->name,
             $url
         );
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable();
     }
 }

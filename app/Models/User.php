@@ -25,6 +25,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -97,5 +98,11 @@ final class User extends Authenticatable
         $roleName = $this->getRoleNames()->first();
 
         return Roles::fromValue($roleName);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['username', 'email']);
     }
 }
