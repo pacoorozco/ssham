@@ -2,10 +2,10 @@ name: Testing ssham with MySQL
 on: [push, pull_request]
 jobs:
   ssham:
-    name: SSHAM (PHP ${{ matrix.php-versions }})
+    name: PHP ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
     env:
-      DB_DATABASE: ssham
+      DB_DATABASE: testing
       DB_USERNAME: root
       DB_PASSWORD: password
       BROADCAST_DRIVER: log
@@ -18,7 +18,7 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: ssham
+          MYSQL_DATABASE: testing
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -65,7 +65,10 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
       - name: Test with phpunit
-        run: vendor/bin/phpunit --coverage-text
+        run: |
+          vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+          composer require scrutinizer/ocular --dev
+          vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
