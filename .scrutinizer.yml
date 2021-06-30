@@ -9,10 +9,7 @@ build:
       tests:
         override:
           - php-scrutinizer-run
-    coverage:
-      tests:
-        override:
-          - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+          - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
           coverage:
             file: coverage.clover
             format: clover
