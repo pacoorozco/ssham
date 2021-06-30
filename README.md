@@ -1,6 +1,6 @@
 # SSH Access Manager Web Interface
 
-[![Build Status](https://travis-ci.com/pacoorozco/ssham.svg)](https://travis-ci.com/pacoorozco/ssham)
+[![Build Status](https://github.com/pacoorozco/ssham/actions/workflows/run-tests.yml/badge.svg)](https://github.com/pacoorozco/ssham/actions/workflows/run-tests.yml)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
 [![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](LICENSE)
