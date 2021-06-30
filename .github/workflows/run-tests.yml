@@ -66,9 +66,7 @@ jobs:
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
       - name: Test with phpunit
         run: |
-          vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-          composer require scrutinizer/ocular --dev
-          vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+          vendor/bin/phpunit --coverage-text
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
