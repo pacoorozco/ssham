@@ -31,7 +31,7 @@
         "guilhermegonzaga/presenter": "^1.0.5",
         "larapacks/setting": "^3.0",
         "laravel-json-api/laravel": "^1.0@beta",
-        "laravel/framework": "^8.48",
+        "laravel/framework": "^8.49",
         "laravel/sanctum": "^2.11",
         "laravel/ui": "^3.3",
         "laravelcollective/html": "^6.2.1",
