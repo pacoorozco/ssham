@@ -5,13 +5,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.14.0 - 2021-06-30
+### Added
+- Reset password endpoint, which allow users to change its own password. ([#112][i112])
+- Roles and permissions: ability to define users w/ different capabilities. ([#113][i113])
+- **OpenSSH** are used by default know. We were using raw [RSA keys](https://phpseclib.com/docs/rsa) before.
+- Tests to improve code coverage, covering several fixed bugs.
+### Changed
+- Design of almost all pages to improve UX.
+- Improved code for better DX: less doc block, better var and method names. ([#166][i166])
+- Application will use **OpenSSH** keys by default, instead of RSA ones.
+- Migrate code to use [phpseclib](https://phpseclib.com/) `v3`.
+- Bump `bensampo/laravel-enum` to `v3.4`.
+- Bump `laravel/framework` to `v8.49`.
+- Bump `laravel/ui` to `v3.3`.
+- Bump `spatie/laravel-activitylog` to `v4.0`.
+- Bump `spatie/laravel-searchable` to `v1.10`.
+### Removed
+- Unused endpoints and methods.
+
+[i112]: https://github.com/pacoorozco/ssham/issues/112
+[i113]: https://github.com/pacoorozco/ssham/issues/113
+[i166]: https://github.com/pacoorozco/ssham/issues/166
+
 ## 0.13.0 - 2021-05-22
 
 ### Added
 - Validation for `usernames` following POSIX definition, [The Open Group Base Specifications Issue 7, 2018 edition](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_437).
 - `KeyController` tests for CRUD operations.
 - Add **Personal Access Tokens** to users to implement API authentication based on [Bearer tokens](https://laravel.com/docs/8.x/http-client#bearer-tokens).
-- API accesses to Hosts and Hostgroups. It follows [{json:api}](https://jsonapi.org/) specification.
+- API accesses to Hosts and Hostgroups. It follows [{json:api}](https://jsonapi.org/) specification. ([#110][i110])
 ### Changed
 - Settings package to `larapacks/setting`.
 - Update dependencies to latest versions.
@@ -26,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Bug using `php artisan ssham:send` command.
 - Scrutinizer findings to improve code quality. 
 ### Removed
-- PHP 7.4 support. This application will need PHP 8.0 or higher to run.
+- PHP 7.4 support. This application will need PHP 8.0 or higher to run. ([#101][i101])
 - Remove unused `AdminLTE` plugins from `public/vendor/AdminLTE` to reduce vulnerability surface.
 - Remove unused `jquery-ujs` library.
 
@@ -45,6 +68,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 [i85]: https://github.com/pacoorozco/ssham/issues/85
 [i92]: https://github.com/pacoorozco/ssham/issues/92
 [i89]: https://github.com/pacoorozco/ssham/issues/89
+[i101]: https://github.com/pacoorozco/ssham/issues/101
+[i110]: https://github.com/pacoorozco/ssham/issues/110
 
 ## 0.11.0 - 2021-01-30
 
