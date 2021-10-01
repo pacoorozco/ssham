@@ -17,7 +17,6 @@ abstract class TestCase extends BaseTestCase
      * Make ajax GET request.
      *
      * @param  string  $uri
-     *
      * @return TestResponse
      */
     protected function ajaxGet(string $uri): TestResponse
