@@ -12,6 +12,7 @@
  *  @author      Paco Orozco <paco@pacoorozco.info>
  *  @copyright   2017 - 2020 Paco Orozco
  *  @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *
  *  @link        https://github.com/pacoorozco/ssham
  */
 
@@ -35,8 +36,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
-     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
