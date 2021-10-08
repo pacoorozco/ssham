@@ -12,6 +12,7 @@
  * @author      Paco Orozco <paco@pacoorozco.info>
  * @copyright   2017 - 2019 Paco Orozco
  * @license     GPL-3.0 <http://spdx.org/licenses/GPL-3.0>
+ *
  * @link        https://github.com/pacoorozco/ssham
  */
 
@@ -42,7 +43,7 @@ return [
     |
     */
 
-    'version' => '0.14.0',
+    'version' => '0.14.1',
 
     /*
     |--------------------------------------------------------------------------
