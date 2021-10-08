@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Changed
+- Bump `bensampo/laravel-enum` to `v3.4.2`.
+- Bump `laravel-json-api/laravel` to `v1.0.0`.
+- Bump `laravel/framework` to `v8.63`.
+- Bump `laravel/sanctum` to `v2.11.2`.
+- Bump `phpseclib/phpseclib` to `v3.0.10`.
+- Bump `spatie/laravel-activitylog` to `v4.2.0`.
+- Bump `spatie/laravel-permission` to `v4.4.1`.
+- Bump `yajra/laravel-datatables-oracle` to `v9.18.1`.
+- Update dev dependencies
+  - Bump `facade/ignition` to `v2.14.0`.
+  - Bump `fakerphp/faker` to `v1.16.0`.
+  - Bump `laravel-json-api/testing` to `v1.0.0`.
+  - Bump `mockery/mockery` to `v1.4.4`.
+  - Bump `nunomaduro/collision` to `v5.10.0`.
+  - Bump `phpunit/phpunit` to `v9.5.10`.
+  - Bump `doctrine/dbal` to `v3.1.3`.
 
 ## 0.14.0 - 2021-06-30
 ### Added
