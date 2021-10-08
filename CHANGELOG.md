@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+
+## 0.14.1 - 2021-10-08
+
 ### Changed
 - Bump `bensampo/laravel-enum` to `v3.4.2`.
 - Bump `laravel-json-api/laravel` to `v1.0.0`.
