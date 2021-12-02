@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+
+## 0.14.2 - 2021-12-02
+
 ### Changed
 - Bump `laravel/framework` to `v8.74`.
 - Bump `laravel/sanctum` to `v2.12.2`.
