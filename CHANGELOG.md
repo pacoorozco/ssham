@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Changed
+- Bump `laravel/framework` to `v8.74`.
+- Bump `laravel/sanctum` to `v2.12.2`.
+- Bump `laravel/ui` to `v3.4.0`.
+- Bump `phpseclib/phpseclib` to `v3.0.12`.
+- Bump `spatie/laravel-activitylog` to `v4.3.1`.
+- Bump `spatie/laravel-permission` to `v4.4.3`.
+- Bump `yajra/laravel-datatables-oracle` to `v9.18.2`.
+### Fixed
+- Typo in the `docker-compose.yml`.
 
 ## 0.14.1 - 2021-10-08
 
