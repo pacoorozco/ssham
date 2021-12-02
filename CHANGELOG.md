@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Bump `yajra/laravel-datatables-oracle` to `v9.18.2`.
 ### Fixed
 - Typo in the `docker-compose.yml`.
+- Scrutinizer setup to use at least PHP 8.0.2.
 
 ## 0.14.1 - 2021-10-08
 
