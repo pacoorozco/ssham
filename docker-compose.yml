@@ -53,7 +53,7 @@ services:
       ports:
         - "3306:3306"
 
- ### DNS: DNS server ######################################################
+ ### SSH-SERVER: SSH server ################################################
     ssh-server:
       build:
         context: ./
