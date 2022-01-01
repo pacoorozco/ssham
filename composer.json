@@ -38,7 +38,7 @@
         "pacoorozco/openssh": "^0.2.1",
         "phpseclib/phpseclib": "^3.0.12",
         "spatie/laravel-activitylog": "^4.3.1",
-        "spatie/laravel-permission": "^4.4.3",
+        "spatie/laravel-permission": "^5.4.1",
         "spatie/laravel-searchable": "^1.10",
         "yajra/laravel-datatables-oracle": "^9.18.2"
     },
