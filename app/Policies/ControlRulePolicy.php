@@ -21,7 +21,7 @@ class ControlRulePolicy
         return $user->can(Permissions::EditRules, ControlRule::class);
     }
 
-    public function delete(User $user, ControlRule $rule)
+    public function delete(User $user, ControlRule $rule): bool
     {
         return $user->can(Permissions::DeleteRules, $rule);
     }
