@@ -67,7 +67,7 @@ Prior to this installation, you **need to have installed** this software:
     
 1. Point your browser to `http://localhost` and test **SSH Access Manager**. Enjoy!
 
-    > **NOTE**: Default credentials are `admin/secret`.
+    > **NOTE**: See [Default credentials](#default-credentials).
 
 ## How to install SSH Access Manager
 
@@ -118,7 +118,17 @@ Prior to this installation, you **need to have installed** this software:
 
 1. Your SSH Access Manager is not listening at `http://localhost:4000`. Enjoy!
 
-    > **NOTE**: Default credentials are `admin/secret`.
+    > **NOTE**: See [Default credentials](#default-credentials).
+
+## Default credentials
+Some users are created by default:
+
+Role | Username | Password | It can modify...
+---|---|---|---
+Super Admin | superadmin | superadmin | Everything
+Admin | admin |admin | Everything, except Users and Settings
+Operator | operator | operator | Keys and Hosts
+Auditor | auditor | auditor | Nothing, READ-ONLY role
 
 ## Reporting issues
 
