@@ -77,7 +77,7 @@
                             </fieldset>
 
                             <!-- enabled -->
-                            <fieldset class="form-group" @cannot('delete', $user) disabled="disabled" @endcannot>
+                            <fieldset class="form-group">
                                 <div class="row">
                                     <legend class="col-form-label col-sm-2 pt-0">
                                         <strong>@lang('user/model.enabled')</strong>

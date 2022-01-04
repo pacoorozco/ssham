@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Fixed
+- Validation errors when admin tries to edit itself. ([#235][i235])
 ### Changed
 - Bump `laravel/framework` to `v8.77.1`.
 - Bump `laravel-json-api/laravel` to `v1.0.1`.
@@ -19,6 +21,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
     - Bump `nunomaduro/collision` to `v5.10.0`.
     - Bump `phpunit/phpunit` to `v9.5.11`.
     - Bump `doctrine/dbal` to `v3.1.3`.
+
+[i235]: https://github.com/pacoorozco/ssham/issues/235
+
 ## 0.14.2 - 2021-12-02
 
 ### Changed
