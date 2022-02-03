@@ -7,20 +7,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Fixed
 - Validation errors when admin tries to edit itself. ([#235][i235])
 ### Changed
-- Bump `laravel/framework` to `v8.77.1`.
-- Bump `laravel-json-api/laravel` to `v1.0.1`.
-- Bump `laravel/sanctum` to `v2.13.0`.
-- Bump `phpseclib/phpseclib` to `v3.0.12`.
-- Bump `laravel/ui` to `v3.4.1`.
+- Bump `laravel/framework` to `v8.82.0`.
+- Bump `fruitcake/laravel-cors` to `v2.0.5`.
+- Bump `spatie/laravel-activitylog` to `v4.4.0`.
+- Bump `spatie/laravel-searchable` to `v1.11.0`.
+- Bump `yajra/laravel-datatables-oracle` to `v9.19.0`.
+- Bump `laravel-json-api/laravel` to `v1.1.0`.
+- Bump `laravel/sanctum` to `v2.14.0`.
+- Bump `phpseclib/phpseclib` to `v3.0.13`.
+- Bump `laravel/ui` to `v3.4.2`.
 - Bump `pacoorozco/openssh` to `v0.2.1`.
 - Update dev dependencies
     - Bump `facade/ignition` to `v2.17.4`.
-    - Bump `fakerphp/faker` to `v1.17.0`.
+    - Bump `fakerphp/faker` to `v1.19.0`.
     - Bump `laravel-json-api/testing` to `v1.0.0`.
-    - Bump `mockery/mockery` to `v1.4.4`.
-    - Bump `nunomaduro/collision` to `v5.10.0`.
-    - Bump `phpunit/phpunit` to `v9.5.11`.
-    - Bump `doctrine/dbal` to `v3.1.3`.
+    - Bump `mockery/mockery` to `v1.5.0`.
+    - Bump `nunomaduro/collision` to `v5.11.0`.
+    - Bump `phpunit/phpunit` to `v9.5.13`.
+    - Bump `doctrine/dbal` to `v3.3.1`.
 
 [i235]: https://github.com/pacoorozco/ssham/issues/235
 
