@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+
+## 0.14.3 - 2022-02-03
+
 ### Fixed
 - Validation errors when admin tries to edit itself. ([#235][i235])
 ### Changed
