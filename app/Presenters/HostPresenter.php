@@ -29,10 +29,10 @@ class HostPresenter extends Presenter
     public function enabledAsBadge(): HtmlString
     {
         if ($this->model->enabled) {
-            return new HtmlString('<span class="badge badge-success">' . trans('general.enabled') . '</span>');
+            return new HtmlString('<span class="badge badge-success">'.trans('general.enabled').'</span>');
         }
 
-        return new HtmlString('<span class="badge badge-secondary">' . trans('general.disabled') . '</span>');
+        return new HtmlString('<span class="badge badge-secondary">'.trans('general.disabled').'</span>');
     }
 
     public function createdAtForHumans(): string
@@ -43,10 +43,10 @@ class HostPresenter extends Presenter
     public function pendingSyncAsBadge(): HtmlString
     {
         if ($this->model->synced) {
-            return new HtmlString('<span class="badge badge-success">' . trans('general.no') . '</span>');
+            return new HtmlString('<span class="badge badge-success">'.trans('general.no').'</span>');
         }
 
-        return new HtmlString('<span class="badge badge-warning">' . trans('general.yes') . '</span>');
+        return new HtmlString('<span class="badge badge-warning">'.trans('general.yes').'</span>');
     }
 
     public function statusCode(): string
@@ -61,7 +61,7 @@ class HostPresenter extends Presenter
 
     public function port(): string
     {
-        return sprintf("%d", $this->model->getPortOrDefault());
+        return sprintf('%d', $this->model->getPortOrDefault());
     }
 
     public function authorizedKeysFile(): string
