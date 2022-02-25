@@ -26,39 +26,27 @@ class UserPresenter extends Presenter
     /** @var \App\Models\User */
     protected $model;
 
+    public function usernameWithDisabledBadge(): HtmlString
+    {
+        return $this->model->enabled
+            ? new HtmlString($this->model->username)
+            : new HtmlString($this->model->username . ' ' . $this->enabledAsBadge());
+    }
+
     public function enabledAsBadge(): HtmlString
     {
         if ($this->model->enabled) {
-            return new HtmlString('<span class="badge badge-success">'.__('general.enabled').'</span>');
+            return new HtmlString('<span class="badge badge-success">' . trans('general.enabled') . '</span>');
         }
 
-        return new HtmlString('<span class="badge badge-secondary">'.__('general.disabled').'</span>');
-    }
-
-    public function usernameWithDisabledBadge(): HtmlString
-    {
-        $badge = $this->enabledAsBadge();
-
-        return $this->model->enabled
-            ? new HtmlString($this->model->username)
-            : new HtmlString($this->model->username.' '.$badge);
+        return new HtmlString('<span class="badge badge-secondary">' . trans('general.disabled') . '</span>');
     }
 
     public function authenticationAsBadge(): HtmlString
     {
         return new HtmlString(
-            $this->authTypeAsBadge().' '.$this->tokensCountAsBadge()
+            $this->authTypeAsBadge() . ' ' . $this->tokensCountAsBadge()
         );
-    }
-
-    public function tokensCountAsBadge(): HtmlString
-    {
-        $this->model->loadCount('tokens');
-        if ($this->model->tokens_count > 0) {
-            return new HtmlString('<span class="badge badge-pill badge-danger">tokens</span>');
-        }
-
-        return new HtmlString();
     }
 
     public function authTypeAsBadge(): HtmlString
@@ -67,7 +55,16 @@ class UserPresenter extends Presenter
             return new HtmlString('<span class="badge badge-pill badge-info">external</span>');
         }
 
-        return new HtmlString('<span class="badge badge-pill badge-secondary">'.$this->model->auth_type.'</span>');
+        return new HtmlString('<span class="badge badge-pill badge-secondary">' . $this->model->auth_type . '</span>');
+    }
+
+    public function tokensCountAsBadge(): HtmlString
+    {
+        if ($this->model->tokensCount() > 0) {
+            return new HtmlString('<span class="badge badge-pill badge-danger">tokens</span>');
+        }
+
+        return new HtmlString();
     }
 
     public function createdAtForHumans(): string
