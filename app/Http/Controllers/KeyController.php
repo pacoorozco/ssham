@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use PacoOrozco\OpenSSH\KeyPair;
 use PacoOrozco\OpenSSH\PublicKey;
-use yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class KeyController extends Controller
 {
