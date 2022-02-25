@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+### Changed
+- Promote `spatie/laravel-ignition` instead of `facade/ignition`.
+- Bump `laravel/framework` to `v9.0`.
+- Bump `bensampo/laravel-enum` to `v5.1`.
+- Bump `guilhermegonzaga/presenter` to `v1.0.6`.
+- Bump `spatie/laravel-permission` to `v5.5.0`.
+- Update dev dependencies
+    - Bump `nunomaduro/collision` to `v6.1`.
+### Removed
+- Dependency `fideloper/proxy`, it's part of Laravel 9 core. [Details](https://github.com/fideloper/TrustedProxy/issues/152).
+
 
 ## 0.14.3 - 2022-02-03
 
