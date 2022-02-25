@@ -23,12 +23,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateHostgroupKeygroupPermissionsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('hostgroup_keygroup_permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -44,12 +39,7 @@ class CreateHostgroupKeygroupPermissionsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::drop('hostgroup_keygroup_permissions');
     }
