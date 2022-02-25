@@ -22,6 +22,7 @@ use App\Enums\Roles;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Validator;
 
 class UserUpdateRequest extends Request
 {
@@ -57,7 +58,7 @@ class UserUpdateRequest extends Request
         ];
     }
 
-    public function withValidator($validator): void
+    public function withValidator(Validator $validator): void
     {
         // checks user current password
         // before making changes
