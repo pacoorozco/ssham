@@ -1,8 +1,7 @@
 # SSH Access Manager Web Interface
 
 [![Build Status](https://github.com/pacoorozco/ssham/actions/workflows/run-tests.yml/badge.svg)](https://github.com/pacoorozco/ssham/actions/workflows/run-tests.yml)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/pacoorozco/ssham.svg?style=flat-square)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
-[![Code Coverage](https://scrutinizer-ci.com/g/pacoorozco/ssham/badges/coverage.png)](https://scrutinizer-ci.com/g/pacoorozco/ssham)
+[![codecov](https://codecov.io/gh/pacoorozco/ssham/branch/main/graph/badge.svg?token=QdsFi3KlTY)](https://codecov.io/gh/pacoorozco/ssham)
 [![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](LICENSE)
 [![Laravel Version](https://img.shields.io/badge/Laravel-8.x-brightgreen)](https://laravel.com/docs)
 [![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
