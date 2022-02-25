@@ -53,7 +53,7 @@ class UpdateServer implements ShouldQueue
         $this->host->setStatus(HostStatus::SUCCESS_STATUS());
 
         $this->pusher->disconnect();
-        HostKeysUpdated::dispatch();
+        HostKeysUpdated::dispatch($this->host);
     }
 
     /**

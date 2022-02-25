@@ -8,23 +8,17 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class HostRequest extends ResourceRequest
 {
-    /**
-     * Get the validation rules for the resource.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         $data = $this->validationData();
 
-        $unique = Rule::unique('hosts')
-            ->where(function ($query) use ($data) {
+        // Scope the query to only search records that have the proper 'username'.
+        $unique = Rule::unique('hosts')->where(function ($query) use ($data) {
                 return $query->where('username', $data['username']);
             });
 
-        /** @var \App\Models\Host|null $host */
         if ($host = $this->model()) {
-            $unique->ignore($host);
+            $unique = $unique->ignore($host);
         }
 
         return [

@@ -144,12 +144,6 @@ class KeyController extends Controller
             ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
     }
 
-    public function delete(Key $key): View
-    {
-        return view('key.delete')
-            ->with('key', $key);
-    }
-
     public function destroy(Key $key): RedirectResponse
     {
         $username = $key->username;

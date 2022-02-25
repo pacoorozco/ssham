@@ -25,7 +25,7 @@ class RemovePrivateKey
     public function handle(PrivateKeyWasDownloaded $event): void
     {
         $key = $event->getKey();
-        $key->private = null;
+        $key->private = '';
         $key->save();
 
         // Do not use ->performedOn() because Key uses UUID which are not compatible with it.

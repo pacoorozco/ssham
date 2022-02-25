@@ -29,10 +29,10 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-        $key_count = Key::all()->count();
-        $host_count = Host::all()->count();
-        $rule_count = ControlRule::all()->count();
-        $user_count = User::all()->count();
+        $key_count = Key::count();
+        $host_count = Host::count();
+        $rule_count = ControlRule::count();
+        $user_count = User::count();
 
         $activities = Activity::all()->sortByDesc('created_at')->take(15);
 
