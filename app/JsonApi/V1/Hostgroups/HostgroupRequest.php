@@ -8,18 +8,12 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class HostgroupRequest extends ResourceRequest
 {
-    /**
-     * Get the validation rules for the resource.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         $unique = Rule::unique('hostgroups');
 
-        /** @var \App\Models\Hostgroup|null $group */
         if ($group = $this->model()) {
-            $unique->ignore($group);
+            $unique = $unique->ignore($group);
         }
 
         return [

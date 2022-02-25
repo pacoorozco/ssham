@@ -30,7 +30,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -99,7 +99,7 @@ class UserController extends Controller
         // it is handle here instead of UserPolicy to avoid that the SuperAdmin can delete itself.
         if ($user->id === Auth::id()) {
             return redirect()->back()
-                ->withErrors(__('user/messages.delete.impossible'));
+                ->withErrors(trans('user/messages.delete.impossible'));
         }
 
         DeleteUser::dispatchSync($user);

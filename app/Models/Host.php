@@ -141,7 +141,7 @@ class Host extends Model implements Searchable
     public function setStatus(HostStatus $status): void
     {
         $this->status_code = $status;
-        $this->last_rotation = now()->timestamp;
+        $this->last_rotation = now();
         $this->synced = ($status->is(HostStatus::SUCCESS_STATUS));
         $this->save();
     }

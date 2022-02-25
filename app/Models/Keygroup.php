@@ -43,23 +43,22 @@ class Keygroup extends Model implements Searchable
     use HasFactory;
     use Presentable;
 
+    public string $searchableType = 'SSH Key groups';
     protected string $presenter = KeygroupPresenter::class;
-
     protected $table = 'keygroups';
-
     protected $fillable = [
         'name',
         'description',
     ];
 
+    public function keysCount(): int
+    {
+        return $this->keys()->count();
+    }
+
     public function keys(): BelongsToMany
     {
         return $this->belongsToMany(Key::class);
-    }
-
-    public function rules(): HasMany
-    {
-        return $this->hasMany(ControlRule::class, 'source_id');
     }
 
     public function getNumberOfRelatedRules(): int
@@ -67,7 +66,10 @@ class Keygroup extends Model implements Searchable
         return $this->rules()->count();
     }
 
-    public string $searchableType = 'SSH Key groups';
+    public function rules(): HasMany
+    {
+        return $this->hasMany(ControlRule::class, 'source_id');
+    }
 
     public function getSearchResult(): SearchResult
     {

@@ -6,21 +6,22 @@ use Illuminate\Support\Str;
 
 trait UsesUUID
 {
-    protected static function bootUsesUuid()
+    protected static function bootUsesUuid(): void
     {
         static::creating(function ($model) {
-            if (! $model->getKey()) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
+            $model->keyType = 'string';
+            $model->incrementing = false;
+
+            $model->{$model->getKeyName()} = $model->{$model->getKeyName()} ?: (string) Str::uuid();
         });
     }
 
-    public function getIncrementing()
+    public function getIncrementing(): bool
     {
         return false;
     }
 
-    public function getKeyType()
+    public function getKeyType(): string
     {
         return 'string';
     }

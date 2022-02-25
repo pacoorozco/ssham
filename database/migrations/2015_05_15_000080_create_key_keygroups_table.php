@@ -22,12 +22,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateKeyKeygroupsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('key_keygroup', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -39,12 +34,7 @@ class CreateKeyKeygroupsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::drop('key_keygroup');
     }

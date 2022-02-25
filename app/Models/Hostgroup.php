@@ -56,6 +56,11 @@ class Hostgroup extends Model implements Searchable
         return $this->belongsToMany(Host::class)->orderBy('hostname');
     }
 
+    public function hostsCount(): int
+    {
+        return $this->hosts()->count();
+    }
+
     public function getNumberOfRelatedRules(): int
     {
         return $this->rules()->count();

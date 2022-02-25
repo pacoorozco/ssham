@@ -24,12 +24,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateHostsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('hosts', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -48,12 +43,7 @@ class CreateHostsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::drop('hosts');
     }

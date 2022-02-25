@@ -31,16 +31,8 @@ class ControlRuleFactory extends Factory
     public function definition(): array
     {
         return [
-            'source_id' => function () {
-                $keygroup = Keygroup::factory()->create();
-
-                return $keygroup->id;
-            },
-            'target_id' => function () {
-                $hostgroup = Hostgroup::factory()->create();
-
-                return $hostgroup->id;
-            },
+            'source_id' => Keygroup::factory(),
+            'target_id' => Hostgroup::factory(),
             'action' => $this->faker->randomElement(ControlRuleAction::getValues()),
             'name' => $this->faker->sentence,
         ];

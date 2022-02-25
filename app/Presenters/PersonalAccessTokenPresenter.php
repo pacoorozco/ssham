@@ -26,12 +26,10 @@ class PersonalAccessTokenPresenter extends Presenter
 
     public function getLastUsedDateString(): string
     {
-        if (! is_null($this->model->last_used_at)) {
-            return __('user/personal_access_token.last_used', [
+        return (is_null($this->model->last_used_at))
+            ? trans('user/personal_access_token.never_used')
+            : trans('user/personal_access_token.last_used', [
                 'time' => $this->model->last_used_at->diffForHumans(),
             ]);
-        }
-
-        return __('user/personal_access_token.never_used');
     }
 }

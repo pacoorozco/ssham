@@ -88,6 +88,11 @@ final class User extends Authenticatable
         return $this->tokens()->exists();
     }
 
+    public function tokensCount(): int
+    {
+        return $this->tokens()->count();
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->hasRole(Roles::SuperAdmin);

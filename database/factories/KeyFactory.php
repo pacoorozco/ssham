@@ -24,11 +24,6 @@ use PacoOrozco\OpenSSH\KeyPair;
 
 class KeyFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Key::class;
 
     public function definition(): array

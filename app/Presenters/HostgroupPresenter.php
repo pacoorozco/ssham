@@ -37,7 +37,7 @@ class HostgroupPresenter extends Presenter
 
     public function linkableNameWithHostsCount(bool $linkable = true): HtmlString
     {
-        $hostsCount = '('.trans_choice('hostgroup/messages.hosts_count', $this->model->hosts->count()).')';
+        $hostsCount = '('.trans_choice('hostgroup/messages.hosts_count', $this->model->hostsCount()).')';
 
         if (false === $linkable) {
             return new HtmlString(

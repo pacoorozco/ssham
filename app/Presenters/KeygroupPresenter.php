@@ -32,7 +32,7 @@ class KeygroupPresenter extends Presenter
 
     public function linkableNameWithKeysCount(bool $linkable = true): HtmlString
     {
-        $keysCount = '('.trans_choice('keygroup/messages.keys_count', $this->model->keys->count()).')';
+        $keysCount = '('.trans_choice('keygroup/messages.keys_count', $this->model->keysCount()).')';
 
         if (false === $linkable) {
             return new HtmlString(
