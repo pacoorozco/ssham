@@ -80,9 +80,9 @@ class UserUpdateRequest extends Request
         return $this->input('email');
     }
 
-    public function password(): ?string
+    public function password(): string
     {
-        return $this->input('password');
+        return $this->input('password', '');
     }
 
     public function enabled(): bool

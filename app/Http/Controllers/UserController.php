@@ -99,7 +99,7 @@ class UserController extends Controller
         // it is handle here instead of UserPolicy to avoid that the SuperAdmin can delete itself.
         if ($user->id === Auth::id()) {
             return redirect()->back()
-                ->withErrors(__('user/messages.delete.impossible'));
+                ->withErrors(trans('user/messages.delete.impossible'));
         }
 
         DeleteUser::dispatchSync($user);
