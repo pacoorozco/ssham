@@ -30,22 +30,22 @@ class UserPresenter extends Presenter
     {
         return $this->model->enabled
             ? new HtmlString($this->model->username)
-            : new HtmlString($this->model->username . ' ' . $this->enabledAsBadge());
+            : new HtmlString($this->model->username.' '.$this->enabledAsBadge());
     }
 
     public function enabledAsBadge(): HtmlString
     {
         if ($this->model->enabled) {
-            return new HtmlString('<span class="badge badge-success">' . trans('general.enabled') . '</span>');
+            return new HtmlString('<span class="badge badge-success">'.trans('general.enabled').'</span>');
         }
 
-        return new HtmlString('<span class="badge badge-secondary">' . trans('general.disabled') . '</span>');
+        return new HtmlString('<span class="badge badge-secondary">'.trans('general.disabled').'</span>');
     }
 
     public function authenticationAsBadge(): HtmlString
     {
         return new HtmlString(
-            $this->authTypeAsBadge() . ' ' . $this->tokensCountAsBadge()
+            $this->authTypeAsBadge().' '.$this->tokensCountAsBadge()
         );
     }
 
@@ -55,7 +55,7 @@ class UserPresenter extends Presenter
             return new HtmlString('<span class="badge badge-pill badge-info">external</span>');
         }
 
-        return new HtmlString('<span class="badge badge-pill badge-secondary">' . $this->model->auth_type . '</span>');
+        return new HtmlString('<span class="badge badge-pill badge-secondary">'.$this->model->auth_type.'</span>');
     }
 
     public function tokensCountAsBadge(): HtmlString
