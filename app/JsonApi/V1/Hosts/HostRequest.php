@@ -14,8 +14,8 @@ class HostRequest extends ResourceRequest
 
         // Scope the query to only search records that have the proper 'username'.
         $unique = Rule::unique('hosts')->where(function ($query) use ($data) {
-                return $query->where('username', $data['username']);
-            });
+            return $query->where('username', $data['username']);
+        });
 
         if ($host = $this->model()) {
             $unique = $unique->ignore($host);
