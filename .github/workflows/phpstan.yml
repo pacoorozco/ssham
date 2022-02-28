@@ -2,21 +2,23 @@ name: PHPstan
 
 on:
   push:
-    paths:
-      - '**.php'
-      - 'phpstan.neon'
+    branches:
+      - 'main'
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
   pull_request:
-    paths:
-      - '**.php'
-      - 'phpstan.neon'
-
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
 
 jobs:
   phpstan:
     name: phpstan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

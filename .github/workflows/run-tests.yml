@@ -1,4 +1,5 @@
 name: Testing ssham with MySQL
+
 on:
   push:
     branches:
@@ -10,6 +11,7 @@ on:
     paths-ignore:
       - 'docs/**'
       - '*.md'
+
 jobs:
   ssham:
     name: PHP ${{ matrix.php-versions }}
@@ -22,6 +24,7 @@ jobs:
       CACHE_DRIVER: redis
       QUEUE_CONNECTION: redis
       SESSION_DRIVER: redis
+
     services:
       mysql:
         image: mysql:5.7
@@ -37,6 +40,7 @@ jobs:
         ports:
           - 6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     strategy:
       fail-fast: false
       matrix:
@@ -44,35 +48,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug
+
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
+
       - name: Prepare the application
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
-      - name: Clear Config
-        run: php artisan config:clear
-      - name: Start mysql service
-        run: sudo /etc/init.d/mysql start
+
       - name: Run Migration
         run: php artisan migrate --verbose
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-      - name: Test with phpunit
+
+      - name: Run PHPUnit
         run: |
           vendor/bin/phpunit --coverage-text --coverage-clover=clover.xml
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
