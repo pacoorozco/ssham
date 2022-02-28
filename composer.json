@@ -30,7 +30,7 @@
         "fruitcake/laravel-cors": "^3.0.0",
         "guilhermegonzaga/presenter": "^1.0.5",
         "larapacks/setting": "^3.0",
-        "laravel-json-api/laravel": "^1.1.0",
+        "laravel-json-api/laravel": "^2.1.0",
         "laravel/framework": "^8.82.0",
         "laravel/sanctum": "^2.14.0",
         "laravel/ui": "^3.4.2",
