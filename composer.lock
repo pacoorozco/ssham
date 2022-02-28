@@ -8036,16 +8036,16 @@
         },
         {
             "name": "laravel-json-api/testing",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-json-api/testing.git",
-                "reference": "5836ef94caa774f7cfc9a35f0069dd2cb97adc89"
+                "reference": "10c37610c840ad9cba25d4342e3b8ed8b99784cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-json-api/testing/zipball/5836ef94caa774f7cfc9a35f0069dd2cb97adc89",
-                "reference": "5836ef94caa774f7cfc9a35f0069dd2cb97adc89",
+                "url": "https://api.github.com/repos/laravel-json-api/testing/zipball/10c37610c840ad9cba25d4342e3b8ed8b99784cb",
+                "reference": "10c37610c840ad9cba25d4342e3b8ed8b99784cb",
                 "shasum": ""
             },
             "require": {
@@ -8095,9 +8095,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel-json-api/testing/issues",
-                "source": "https://github.com/laravel-json-api/testing/tree/v1.1.0"
+                "source": "https://github.com/laravel-json-api/testing/tree/v1.1.1"
             },
-            "time": "2022-02-08T18:12:31+00:00"
+            "time": "2022-02-27T12:27:36+00:00"
         },
         {
             "name": "mockery/mockery",
