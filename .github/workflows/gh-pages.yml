@@ -1,11 +1,13 @@
-name: Publish documentation site
+name: GitHub Pages
+
 on:
   push:
     branches:
       - main
     paths:
       - 'docs/**'
-      - '.github/workflows/*.yml'
+      - '.github/workflows/gh-pages.yml'
+
 jobs:
   publish:
     runs-on: ubuntu-latest
