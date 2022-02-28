@@ -27,7 +27,7 @@
         "php": "^8.0.2",
         "bensampo/laravel-enum": "^3.4.2",
         "fideloper/proxy": "^4.4.1",
-        "fruitcake/laravel-cors": "^2.0.5",
+        "fruitcake/laravel-cors": "^3.0.0",
         "guilhermegonzaga/presenter": "^1.0.5",
         "larapacks/setting": "^3.0",
         "laravel-json-api/laravel": "^1.1.0",
