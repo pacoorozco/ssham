@@ -1,8 +1,10 @@
 baseURL = 'https://ssham.pacoorozco.info/'
 languageCode = 'en-us'
-title = 'Secure Shell Access Manager'
+title = 'ssham: Secure Shell Access Manager'
 
 theme = "hugo-geekdoc"
+
+enableRobotsTXT = true
 
 [params]
     geekdocLogo = "logo-small.png"

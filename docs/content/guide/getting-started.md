@@ -1,5 +1,9 @@
 ---
+title: "Getting started"
+description: "Quick start and guides for installing ssham on your preferred operating system."
 weight: 100
+date: "2022-03-01"
+lastmod: "2022-03-01"
 ---
 
 ## Quick start
