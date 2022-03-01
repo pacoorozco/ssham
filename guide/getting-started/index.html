@@ -5,32 +5,22 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=color-scheme content="light dark">
 <meta name=generator content="Hugo 0.93.0">
-<meta name=description content="Quick start     This will create several Docker containers to implement all SSHAM needs. A web server and a database server.
-Prior to this installation, you need to have installed this software:
- Docker    Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham   Install PHP dependencies with:
- NOTE: You don&rsquo;t need to install neither PHP nor Composer, we are going to use a Composer image instead.">
-<title>Getting Started | Secure Shell Access Manager</title><link rel=icon type=image/svg+xml href=/favicon/favicon.svg>
+<meta name=description content="Quick start and guides for installing ssham on your preferred operating system.">
+<title>Getting started | ssham: Secure Shell Access Manager</title><link rel=icon type=image/svg+xml href=/favicon/favicon.svg>
 <link rel=icon type=image/png sizes=32x32 href=/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=/favicon/favicon-16x16.png>
-<meta property="og:title" content="Getting Started">
-<meta property="og:site_name" content="Secure Shell Access Manager">
-<meta property="og:description" content="Quick start     This will create several Docker containers to implement all SSHAM needs. A web server and a database server.
-Prior to this installation, you need to have installed this software:
- Docker    Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham   Install PHP dependencies with:
- NOTE: You don’t need to install neither PHP nor Composer, we are going to use a Composer image instead.">
+<meta property="og:title" content="Getting started">
+<meta property="og:site_name" content="ssham: Secure Shell Access Manager">
+<meta property="og:description" content="Quick start and guides for installing ssham on your preferred operating system.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ssham.pacoorozco.info/guide/getting-started/">
 <meta property="article:section" content="Guide">
+<meta property="article:published_time" content="2022-03-01T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-03-01T00:00:00+00:00">
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="Getting Started">
-<meta name=twitter:description content="Quick start     This will create several Docker containers to implement all SSHAM needs. A web server and a database server.
-Prior to this installation, you need to have installed this software:
- Docker    Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham   Install PHP dependencies with:
- NOTE: You don’t need to install neither PHP nor Composer, we are going to use a Composer image instead.">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"TechArticle","articleSection":"Guide","name":"Getting Started","url":"https://ssham.pacoorozco.info/guide/getting-started/","headline":"Getting Started","description":"Quick start     This will create several Docker containers to implement all SSHAM needs. A web server and a database server.\nPrior to this installation, you need to have installed this software:\n Docker    Clone the repository locally\ngit clone https:\/\/github.com\/pacoorozco\/ssham.git ssham cd ssham   Install PHP dependencies with:\n NOTE: You don’t need to install neither PHP nor Composer, we are going to use a Composer image instead.","wordCount":"273","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https://ssham.pacoorozco.info/guide/getting-started/"},"copyrightHolder":"Secure Shell Access Manager","copyrightYear":"0001","dateCreated":"0001-01-01T00:00:00.00Z","datePublished":"0001-01-01T00:00:00.00Z","dateModified":"0001-01-01T00:00:00.00Z","publisher":{"@type":"Organization","name":"Secure Shell Access Manager","url":"https://ssham.pacoorozco.info/","logo":{"@type":"ImageObject","url":"https://ssham.pacoorozco.info/brand.svg","width":"32","height":"32"}}}</script>
+<meta name=twitter:title content="Getting started">
+<meta name=twitter:description content="Quick start and guides for installing ssham on your preferred operating system.">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"TechArticle","articleSection":"Guide","name":"Getting started","url":"https://ssham.pacoorozco.info/guide/getting-started/","headline":"Getting started","description":"Quick start and guides for installing ssham on your preferred operating system.","wordCount":"273","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https://ssham.pacoorozco.info/guide/getting-started/"},"copyrightHolder":"ssham: Secure Shell Access Manager","copyrightYear":"2022","dateCreated":"2022-03-01T00:00:00.00Z","datePublished":"2022-03-01T00:00:00.00Z","dateModified":"2022-03-01T00:00:00.00Z","publisher":{"@type":"Organization","name":"ssham: Secure Shell Access Manager","url":"https://ssham.pacoorozco.info/","logo":{"@type":"ImageObject","url":"https://ssham.pacoorozco.info/brand.svg","width":"32","height":"32"}}}</script>
 <script src=/js/main-8b6f2ee8.bundle.min.js></script>
 <link rel=preload as=font href=/fonts/Metropolis.woff2 type=font/woff2 crossorigin=anonymous>
 <link rel=preload as=font href=/fonts/LiberationSans.woff2 type=font/woff2 crossorigin=anonymous>
@@ -56,7 +46,7 @@ git clone https://github.com/pacoorozco/ssham.git ssham cd ssham   Install PHP d
 <a class="gdoc-brand gdoc-header__link" href=https://ssham.pacoorozco.info/>
 <span class="flex align-center">
 <img class=gdoc-brand__img src=/logo-small.png alt>
-<span class=gdoc-brand__title>Secure Shell Access Manager</span>
+<span class=gdoc-brand__title>ssham: Secure Shell Access Manager</span>
 </span>
 </a>
 </div><div class=gdoc-menu-header>
@@ -105,7 +95,7 @@ Introduction
 <label>
 <span class=flex>
 <a href=/guide/getting-started/ class="gdoc-nav__entry is-active">
-Getting Started
+Getting started
 </a>
 </span>
 </label>
@@ -144,8 +134,8 @@ justify-between
 hidden-mobile" itemprop=breadcrumb>
 <div><svg class="icon gdoc_path hidden-mobile"><use xlink:href="#gdoc_path"/></svg>
 <ol class=breadcrumb itemscope itemtype=https://schema.org/BreadcrumbList>
-<li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemscope itemtype=https://schema.org/WebPage itemprop=item itemid=/ href=/><span itemprop=name></span></a><meta itemprop=position content="1"></li><li> / </li><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemscope itemtype=https://schema.org/WebPage itemprop=item itemid=/guide/ href=/guide/><span itemprop=name>Guide</span></a><meta itemprop=position content="2"></li><li> / </li><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><span itemprop=name>Getting Started</span><meta itemprop=position content="3"></li></ol></div></div><article class="gdoc-markdown gdoc-markdown__align--left">
-<h1>Getting Started</h1><div class=gdoc-page__anchorwrap>
+<li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemscope itemtype=https://schema.org/WebPage itemprop=item itemid=/ href=/><span itemprop=name></span></a><meta itemprop=position content="1"></li><li> / </li><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><a itemscope itemtype=https://schema.org/WebPage itemprop=item itemid=/guide/ href=/guide/><span itemprop=name>Guide</span></a><meta itemprop=position content="2"></li><li> / </li><li itemprop=itemListElement itemscope itemtype=https://schema.org/ListItem><span itemprop=name>Getting started</span><meta itemprop=position content="3"></li></ol></div></div><article class="gdoc-markdown gdoc-markdown__align--left">
+<h1>Getting started</h1><div class=gdoc-page__anchorwrap>
 <h2 id=quick-start>
 Quick start
 <a data-clipboard-text=https://ssham.pacoorozco.info/guide/getting-started/#quick-start class="gdoc-page__anchor gdoc-page__anchor--right clip" title="Anchor to: Quick start" aria-label="Anchor to: Quick start" href=#quick-start><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
