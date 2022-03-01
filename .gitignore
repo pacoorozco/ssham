@@ -25,8 +25,9 @@ Homestead.json
 # Vagrant
 .vagrant/
 
-# Vuepress
-docs/.vuepress/dist
+# Hugo build
+.hugo_build.lock
+/docs/public
 
 # Development & editor stuff
 .idea/

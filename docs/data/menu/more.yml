@@ -1,0 +1,10 @@
+---
+more:
+  - name: Releases
+    ref: "https://github.com/pacoorozco/ssham/releases"
+    external: true
+    icon: "gdoc_download"
+  - name: "View Source"
+    ref: "https://github.com/pacoorozco/ssham"
+    external: true
+    icon: "gdoc_github"
