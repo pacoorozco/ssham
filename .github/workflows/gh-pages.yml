@@ -7,6 +7,12 @@ on:
     paths:
       - 'docs/**'
       - '.github/workflows/gh-pages.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.github/workflows/gh-pages.yml'
 
 jobs:
   deploy:
