@@ -9,18 +9,24 @@ on:
       - '.github/workflows/gh-pages.yml'
 
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses:  actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
-      - name: vuepress-deploy
-        uses: jenkey2011/vuepress-deploy@master
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          TARGET_REPO: pacoorozco/ssham
-          TARGET_BRANCH: gh-pages
-          BUILD_SCRIPT: npm ci && npm run docs:build
-          BUILD_DIR: docs/.vuepress/dist/
-          CNAME: ssham.pacoorozco.info
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+
+      - name: Build
+        run: hugo --minify --source ./docs
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/public
