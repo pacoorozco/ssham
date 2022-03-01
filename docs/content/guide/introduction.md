@@ -1,5 +1,9 @@
 ---
+title: "Introduction"
+description: "ssham's features, license and motivation."
 weight: 50
+date: "2022-03-01"
+lastmod: "2022-03-01"
 ---
 
 SSH Access Manager is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
