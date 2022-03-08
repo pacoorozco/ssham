@@ -36,6 +36,7 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
         return $user;
     }
 
+    /** @codeCoverageIgnore */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
