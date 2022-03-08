@@ -159,7 +159,7 @@ class KeyController extends Controller
             ->with('success', __('key/messages.delete.success', ['username' => $username]));
     }
 
-    public function data(Datatables $datatable): JsonResponse
+    public function data(DataTables $dataTable): JsonResponse
     {
         $this->authorize('viewAny', Key::class);
 
@@ -172,7 +172,7 @@ class KeyController extends Controller
             ->withCount('groups as groups') // count number of groups without loading the models
             ->orderBy('username', 'asc');
 
-        return $datatable->eloquent($keys)
+        return $dataTable->eloquent($keys)
             ->editColumn('username', function (Key $key) {
                 return $key->present()->usernameWithDisabledBadge();
             })

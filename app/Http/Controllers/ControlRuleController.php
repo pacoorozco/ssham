@@ -78,7 +78,7 @@ class ControlRuleController extends Controller
             ->withSuccess(__('rule/messages.delete.success', ['rule' => $rule->id]));
     }
 
-    public function data(Datatables $datatable): JsonResponse
+    public function data(DataTables $dataTable): JsonResponse
     {
         $this->authorize('viewAny', ControlRule::class);
 
@@ -90,7 +90,7 @@ class ControlRuleController extends Controller
             'action',
         ]);
 
-        return $datatable->eloquent($rules)
+        return $dataTable->eloquent($rules)
             ->addColumn('source', function (ControlRule $rule) {
                 /** @var Keygroup $source */
                 $source = $rule->source;

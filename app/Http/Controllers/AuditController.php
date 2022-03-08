@@ -29,11 +29,11 @@ class AuditController extends Controller
         return view('audit.index');
     }
 
-    public function data(Datatables $datatable): JsonResponse
+    public function data(DataTables $dataTable): JsonResponse
     {
         $activities = Activity::all();
 
-        return $datatable->collection($activities)
+        return $dataTable->collection($activities)
             ->addColumn('timestamp', function (Activity $activity) {
                 return $activity->present()->created_at;
             })
