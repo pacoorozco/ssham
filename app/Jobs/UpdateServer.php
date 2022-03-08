@@ -21,7 +21,7 @@ class UpdateServer implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected Host       $host;
+    protected Host $host;
     protected SFTPPusher $pusher;
 
     public function __construct(Host $host)
@@ -67,26 +67,14 @@ class UpdateServer implements ShouldQueue
 
     /**
      * @throws \App\Exceptions\PusherException
-     */
-    protected function execRemoteUpdater(): void
-    {
-        $command = setting()->get('cmd_remote_updater').' update '
-            .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
-            .setting()->get('authorized_keys').' '
-            .setting()->get('non_ssham_file').' '
-            .setting()->get('ssham_file');
-
-        $this->pusher->exec($command);
-    }
-
-    /**
-     * @throws \App\Exceptions\PusherException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     protected function sendRemoteUpdaterCLI(): void
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
-        $this->pusher->pushFileTo($remoteUpdater, setting()->get('cmd_remote_updater'), 0700);
+        if (!is_null($remoteUpdater)) {
+            $this->pusher->pushFileTo($remoteUpdater, setting()->get('cmd_remote_updater'), 0700);
+        }
     }
 
     /**
@@ -96,5 +84,19 @@ class UpdateServer implements ShouldQueue
     {
         $sshKeys = $this->host->getSSHKeysForHost(setting()->get('public_key'));
         $this->pusher->pushDataTo(join(PHP_EOL, $sshKeys), setting()->get('ssham_file'), 0600);
+    }
+
+    /**
+     * @throws \App\Exceptions\PusherException
+     */
+    protected function execRemoteUpdater(): void
+    {
+        $command = setting()->get('cmd_remote_updater') . ' update '
+            . ((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
+            . setting()->get('authorized_keys') . ' '
+            . setting()->get('non_ssham_file') . ' '
+            . setting()->get('ssham_file');
+
+        $this->pusher->exec($command);
     }
 }
