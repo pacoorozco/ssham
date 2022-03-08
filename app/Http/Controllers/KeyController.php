@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use PacoOrozco\OpenSSH\KeyPair;
 use PacoOrozco\OpenSSH\PublicKey;
-use yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class KeyController extends Controller
 {
@@ -79,7 +79,7 @@ class KeyController extends Controller
 
             return redirect()->back()
                 ->withInput()
-                ->withErrors(__('key/messages.create.error'));
+                ->withErrors(trans('key/messages.create.error'));
         }
 
         // Everything went fine, we can commit the transaction.
@@ -126,7 +126,7 @@ class KeyController extends Controller
                 'public' => $publicKey,
             ]);
 
-            $key->groups()->sync($request->groups());
+            $key->groups()->sync(collect($request->groups()));
         } catch (\Throwable $exception) {
             DB::rollBack(); // RollBack in case of error.
 
@@ -134,7 +134,7 @@ class KeyController extends Controller
 
             return redirect()->back()
                 ->withInput()
-                ->withErrors(__('key/messages.edit.error'));
+                ->withErrors(trans('key/messages.edit.error'));
         }
 
         // Everything went fine, we can commit the transaction.
@@ -142,12 +142,6 @@ class KeyController extends Controller
 
         return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
-    }
-
-    public function delete(Key $key): View
-    {
-        return view('key.delete')
-            ->with('key', $key);
     }
 
     public function destroy(Key $key): RedirectResponse
@@ -158,7 +152,7 @@ class KeyController extends Controller
             $key->delete();
         } catch (\Exception $exception) {
             return redirect()->back()
-                ->withErrors(__('key/messages.delete.error'));
+                ->withErrors(trans('key/messages.delete.error'));
         }
 
         return redirect()->route('keys.index')

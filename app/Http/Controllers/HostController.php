@@ -28,7 +28,7 @@ use App\Models\Hostgroup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class HostController extends Controller
 {

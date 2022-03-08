@@ -25,15 +25,6 @@ class KeyPresenter extends Presenter
     /** @var \App\Models\Key */
     protected $model;
 
-    public function enabledAsBadge(): HtmlString
-    {
-        if ($this->model->enabled) {
-            return new HtmlString('<span class="badge badge-success">'.__('general.enabled').'</span>');
-        }
-
-        return new HtmlString('<span class="badge badge-secondary">'.__('general.disabled').'</span>');
-    }
-
     public function createdAtForHumans(): string
     {
         return optional($this->model->created_at)->diffForHumans() ?? 'N/A';
@@ -51,5 +42,14 @@ class KeyPresenter extends Presenter
         return $this->model->enabled
             ? new HtmlString($this->model->username)
             : new HtmlString($this->model->username.' '.$badge);
+    }
+
+    public function enabledAsBadge(): HtmlString
+    {
+        if ($this->model->enabled) {
+            return new HtmlString('<span class="badge badge-success">'.trans('general.enabled').'</span>');
+        }
+
+        return new HtmlString('<span class="badge badge-secondary">'.trans('general.disabled').'</span>');
     }
 }

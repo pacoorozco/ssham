@@ -53,7 +53,7 @@ class DownloadPrivateKeyControllerTest extends TestCase
         $this->assertEquals($wantPrivateKeyContent, $response->streamedContent());
         $this->assertDatabaseHas('keys', [
             'id' => $key->id,
-            'private' => null,
+            'private' => '',
         ]);
     }
 
