@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 ### Changed
+- Bump `fruitcake/laravel-cors` to `v3.0.0`.
+- Bump `larapacks/setting` to `v3.0.1`.
 - Promote `spatie/laravel-ignition` instead of `facade/ignition`.
 - Bump `laravel/framework` to `v9.0`.
 - Bump `bensampo/laravel-enum` to `v5.1`.
