@@ -105,6 +105,7 @@ final class User extends Authenticatable
         return Roles::fromValue($roleName);
     }
 
+    /** @codeCoverageIgnore */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

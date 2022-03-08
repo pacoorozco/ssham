@@ -140,7 +140,7 @@ class HostgroupControllerTest extends TestCase
 
         $response->assertRedirect(route('hostgroups.index'));
         $response->assertSessionHas('success');
-        $this->assertDeleted($group);
+        $this->assertModelMissing($group);
     }
 
     /** @test */

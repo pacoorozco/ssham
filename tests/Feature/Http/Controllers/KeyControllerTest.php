@@ -234,7 +234,7 @@ class KeyControllerTest extends TestCase
 
         $response->assertRedirect(route('keys.index'));
         $response->assertSessionHas('success');
-        $this->assertDeleted($key);
+        $this->assertModelMissing($key);
     }
 
     /** @test */

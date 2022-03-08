@@ -69,6 +69,7 @@ class ControlRule extends Model
         return $this->belongsTo(Hostgroup::class);
     }
 
+    /** @codeCoverageIgnore */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

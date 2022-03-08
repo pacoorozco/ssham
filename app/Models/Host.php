@@ -179,6 +179,7 @@ class Host extends Model implements Searchable
         return $sshKeys;
     }
 
+    /** @codeCoverageIgnore */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

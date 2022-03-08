@@ -82,6 +82,7 @@ class Hostgroup extends Model implements Searchable
         );
     }
 
+    /** @codeCoverageIgnore */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

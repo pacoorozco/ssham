@@ -139,7 +139,7 @@ class KeygroupControllerTest extends TestCase
             ->delete(route('keygroups.destroy', $group));
 
         $response->assertSessionHas('success');
-        $this->assertDeleted($group);
+        $this->assertModelMissing($group);
     }
 
     /** @test */

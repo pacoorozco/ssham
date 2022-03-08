@@ -89,6 +89,7 @@ class Key extends Model implements Searchable
         return ! empty($this->private);
     }
 
+    /** @codeCoverageIgnore */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

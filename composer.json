@@ -25,32 +25,31 @@
     },
     "require": {
         "php": "^8.0.2",
-        "bensampo/laravel-enum": "^3.4.2",
-        "fideloper/proxy": "^4.4.1",
+        "bensampo/laravel-enum": "^5.1",
         "fruitcake/laravel-cors": "^3.0.0",
-        "guilhermegonzaga/presenter": "^1.0.5",
-        "larapacks/setting": "^3.0",
+        "guilhermegonzaga/presenter": "^1.0.6",
+        "larapacks/setting": "^3.0.1",
         "laravel-json-api/laravel": "^2.1.0",
-        "laravel/framework": "^8.82.0",
-        "laravel/sanctum": "^2.14.0",
-        "laravel/ui": "^3.4.2",
-        "laravelcollective/html": "^6.2.1",
+        "laravel/framework": "^9.2",
+        "laravel/sanctum": "^2.14.2",
+        "laravel/ui": "^3.4.5",
+        "laravelcollective/html": "^6.3.0",
         "pacoorozco/openssh": "^0.2.1",
         "phpseclib/phpseclib": "^3.0.13",
         "spatie/laravel-activitylog": "^4.4.0",
-        "spatie/laravel-permission": "^4.4.3",
+        "spatie/laravel-permission": "^5.5.0",
         "spatie/laravel-searchable": "^1.11",
         "yajra/laravel-datatables-oracle": "^9.19.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.17.4",
+        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.19.0",
-        "laravel-json-api/testing": "^1.0.0",
+        "laravel-json-api/testing": "^1.1.1",
         "mockery/mockery": "^1.5.0",
-        "nunomaduro/collision": "^5.11.0",
-        "phpunit/phpunit": "^9.5.13",
-        "doctrine/dbal": "^3.3.1",
-        "nunomaduro/larastan": "^1.0"
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.16",
+        "doctrine/dbal": "^3.3.2",
+        "nunomaduro/larastan": "^1.0.3"
     },
     "config": {
         "optimize-autoloader": true,
@@ -74,7 +73,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "alpha",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [

@@ -21,7 +21,7 @@ class UpdateServer implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected Host       $host;
+    protected Host $host;
     protected SFTPPusher $pusher;
 
     public function __construct(Host $host)
@@ -67,6 +67,27 @@ class UpdateServer implements ShouldQueue
 
     /**
      * @throws \App\Exceptions\PusherException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    protected function sendRemoteUpdaterCLI(): void
+    {
+        $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
+        if (! is_null($remoteUpdater)) {
+            $this->pusher->pushFileTo($remoteUpdater, setting()->get('cmd_remote_updater'), 0700);
+        }
+    }
+
+    /**
+     * @throws \App\Exceptions\PusherException
+     */
+    protected function updateRemoteSSHKeys(): void
+    {
+        $sshKeys = $this->host->getSSHKeysForHost(setting()->get('public_key'));
+        $this->pusher->pushDataTo(join(PHP_EOL, $sshKeys), setting()->get('ssham_file'), 0600);
+    }
+
+    /**
+     * @throws \App\Exceptions\PusherException
      */
     protected function execRemoteUpdater(): void
     {
@@ -77,24 +98,5 @@ class UpdateServer implements ShouldQueue
             .setting()->get('ssham_file');
 
         $this->pusher->exec($command);
-    }
-
-    /**
-     * @throws \App\Exceptions\PusherException
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    protected function sendRemoteUpdaterCLI(): void
-    {
-        $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
-        $this->pusher->pushFileTo($remoteUpdater, setting()->get('cmd_remote_updater'), 0700);
-    }
-
-    /**
-     * @throws \App\Exceptions\PusherException
-     */
-    protected function updateRemoteSSHKeys(): void
-    {
-        $sshKeys = $this->host->getSSHKeysForHost(setting()->get('public_key'));
-        $this->pusher->pushDataTo(join(PHP_EOL, $sshKeys), setting()->get('ssham_file'), 0600);
     }
 }
