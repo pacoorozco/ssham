@@ -51,25 +51,24 @@ class UserTest extends TestCase
 
     public function provideRoleInfo()
     {
-
         yield 'Auditor is not Super Admin' => [
             'role' => Roles::Auditor(),
-            'expected' => false
+            'expected' => false,
         ];
 
         yield 'Operator is not Super Admin' => [
             'role' => Roles::Operator(),
-            'expected' => false
+            'expected' => false,
         ];
 
         yield 'Admin is not Super Admin' => [
             'role' => Roles::Admin(),
-            'expected' => false
+            'expected' => false,
         ];
 
         yield 'SuperAdmin is Super Admin' => [
             'role' => Roles::SuperAdmin(),
-            'expected' => true
+            'expected' => true,
         ];
     }
 }
