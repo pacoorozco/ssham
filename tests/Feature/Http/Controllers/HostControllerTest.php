@@ -151,7 +151,7 @@ class HostControllerTest extends TestCase
 
         $response->assertRedirect(route('hosts.index'));
         $response->assertSessionHas('success');
-        $this->assertDeleted($host);
+        $this->assertModelMissing($host);
     }
 
     /** @test */
