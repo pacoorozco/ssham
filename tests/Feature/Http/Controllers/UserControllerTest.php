@@ -22,6 +22,7 @@ use App\Enums\Roles;
 use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -70,14 +71,14 @@ class UserControllerTest extends TestCase
     /** @test */
     public function it_creates_a_new_user(): void
     {
-        /** @var User $testUser */
-        $testUser = User::factory()->make();
+        /** @var User $want */
+        $want = User::factory()->make();
 
         $response = $this
             ->actingAs($this->user)
             ->post(route('users.store'), [
-                'username' => $testUser->username,
-                'email' => $testUser->email,
+                'username' => $want->username,
+                'email' => $want->email,
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
                 'role' => Roles::Operator,
@@ -86,8 +87,8 @@ class UserControllerTest extends TestCase
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('users', [
-            'username' => $testUser->username,
-            'email' => $testUser->email,
+            'username' => $want->username,
+            'email' => $want->email,
         ]);
     }
 
@@ -105,14 +106,14 @@ class UserControllerTest extends TestCase
             'email' => 'john.doe@domain.local',
         ]);
 
-        /** @var User $testData */
-        $testData = User::factory()->make();
+        /** @var User $want */
+        $want = User::factory()->make();
 
         $formData = [
-            'username' => $data['username'] ?? $testData->username,
-            'email' => $data['email'] ?? $testData->email,
-            'password' => $data['password'] ?? $testData->password,
-            'password_confirmation' => $data['password_confirmation'] ?? $testData->password,
+            'username' => $data['username'] ?? $want->username,
+            'email' => $data['email'] ?? $want->email,
+            'password' => $data['password'] ?? $want->password,
+            'password_confirmation' => $data['password_confirmation'] ?? $want->password,
             'role' => $data['role'] ?? null,
         ];
 
@@ -226,7 +227,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function update_method_should_modify_the_user(): void
+    public function it_updates_the_user(): void
     {
         /** @var User $testUser */
         $testUser = User::factory()->create([
@@ -250,15 +251,122 @@ class UserControllerTest extends TestCase
             ]);
 
         $response->assertRedirect(route('users.index'));
+
         $response->assertSessionHasNoErrors();
+
         $this->assertDatabaseHas('users', [
             'id' => $testUser->id,
             'username' => $testUser->username,
             'email' => $want->email,
             'enabled' => $want->enabled,
         ]);
+
         $testUser->refresh();
+
+        $this->assertTrue(Hash::check('new-password-123', $testUser->password));
+
         $this->assertEquals(Roles::Operator, $testUser->role);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForUserModification
+     */
+    public function it_returns_errors_when_updating_a_user(
+        array $data,
+        array $errors
+    ): void {
+        // User to validate unique rules...
+        User::factory()->create([
+            'username' => 'john',
+            'email' => 'john.doe@domain.local',
+        ]);
+
+        /** @var User $testUser */
+        $testUser = User::factory()->create([
+            'password' => Hash::make('veryS3cr3t'),
+        ]);
+        $testUser->assignRole(Roles::Admin);
+
+        $formData = [
+            'email' => $data['email'] ?? $testUser->email,
+            'password' => $data['password'] ?? $testUser->password,
+            'password_confirmation' => $data['password_confirmation'] ?? $testUser->password,
+            'role' => $data['role'] ?? $testUser->role,
+            'enabled' => $data['enabled'] ?? $testUser->enabled,
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->put(route('users.update', $testUser), $formData);
+
+        $response->assertSessionHasErrors($errors);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $testUser->id,
+            'username' => $testUser->username,
+            'email' => $testUser->email,
+            'enabled' => $testUser->enabled,
+        ]);
+
+        $testUser->refresh();
+
+        $this->assertTrue(Hash::check('veryS3cr3t', $testUser->password));
+
+        $this->assertEquals(Roles::Admin, $testUser->role);
+    }
+
+    public function provideWrongDataForUserModification(): Generator
+    {
+        yield 'email is empty' => [
+            'data' => [
+                'email' => '',
+            ],
+            'errors' => ['email'],
+        ];
+
+        yield 'email ! an email' => [
+            'data' => [
+                'email' => 'is-not-an-email',
+            ],
+            'errors' => ['email'],
+        ];
+
+        yield 'email is taken' => [
+            'data' => [
+                'email' => 'john.doe@domain.local',
+            ],
+            'errors' => ['email'],
+        ];
+
+        yield 'password ! long enough' => [
+            'data' => [
+                'password' => '1234',
+            ],
+            'errors' => ['password'],
+        ];
+
+        yield 'password ! confirmed' => [
+            'data' => [
+                'password' => 'verySecretPassword',
+                'password_confirmation' => 'notSoSecretPassword',
+            ],
+            'errors' => ['password'],
+        ];
+
+        yield 'role ! a role' => [
+            'data' => [
+                'role' => 'non-existent-role',
+            ],
+            'errors' => ['role'],
+        ];
+
+        yield 'enable ! valid' => [
+            'data' => [
+                'enabled' => 'non-boolean',
+            ],
+            'errors' => ['enabled'],
+        ];
     }
 
     /** @test */
