@@ -164,30 +164,35 @@ class UserControllerTest extends TestCase
             ],
             'errors' => ['email'],
         ];
+
         yield 'email ! an email' => [
             'data' => [
                 'email' => 'is-not-an-email',
             ],
             'errors' => ['email'],
         ];
+
         yield 'email is taken' => [
             'data' => [
                 'email' => 'john.doe@domain.local',
             ],
             'errors' => ['email'],
         ];
+
         yield 'password is empty' => [
             'data' => [
                 'password' => '',
             ],
             'errors' => ['password'],
         ];
+
         yield 'password ! long enough' => [
             'data' => [
                 'password' => '1234',
             ],
             'errors' => ['password'],
         ];
+
         yield 'password ! confirmed' => [
             'data' => [
                 'password' => 'verySecretPassword',
@@ -195,6 +200,7 @@ class UserControllerTest extends TestCase
             ],
             'errors' => ['password'],
         ];
+
         yield 'role ! a role' => [
             'data' => [
                 'role' => 'non-existent-role',
