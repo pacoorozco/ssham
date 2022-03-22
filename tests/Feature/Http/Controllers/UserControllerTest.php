@@ -20,6 +20,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\Roles;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -67,8 +68,9 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function store_method_should_create_a_new_user(): void
+    public function it_creates_a_new_user(): void
     {
+        /** @var User $testUser */
         $testUser = User::factory()->make();
 
         $response = $this
@@ -87,6 +89,118 @@ class UserControllerTest extends TestCase
             'username' => $testUser->username,
             'email' => $testUser->email,
         ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForUserCreation
+     */
+    public function it_returns_errors_when_creating_a_new_user(
+        array $data,
+        array $errors
+    ): void {
+        // User to validate unique rules...
+        User::factory()->create([
+            'username' => 'john',
+            'email' => 'john.doe@domain.local',
+        ]);
+
+        /** @var User $testData */
+        $testData = User::factory()->make();
+
+        $formData = [
+            'username' => $data['username'] ?? $testData->username,
+            'email' => $data['email'] ?? $testData->email,
+            'password' => $data['password'] ?? $testData->password,
+            'password_confirmation' => $data['password_confirmation'] ?? $testData->password,
+            'role' => $data['role'] ?? null,
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('users.store'), $formData);
+
+        $response->assertSessionHasErrors($errors);
+
+        $this->assertDatabaseMissing('users', [
+            'username' => $formData['username'],
+            'email' => $formData['email'],
+        ]);
+    }
+
+    public function provideWrongDataForUserCreation(): Generator
+    {
+        yield 'username is empty' => [
+            'data' => [
+                'username' => '',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username > 255 chars' => [
+            'data' => [
+                'username' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username ! a username' => [
+            'data' => [
+                'username' => 'u$ern4me',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username is taken' => [
+            'data' => [
+                'username' => 'john',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'email is empty' => [
+            'data' => [
+                'email' => '',
+            ],
+            'errors' => ['email'],
+        ];
+        yield 'email ! an email' => [
+            'data' => [
+                'email' => 'is-not-an-email',
+            ],
+            'errors' => ['email'],
+        ];
+        yield 'email is taken' => [
+            'data' => [
+                'email' => 'john.doe@domain.local',
+            ],
+            'errors' => ['email'],
+        ];
+        yield 'password is empty' => [
+            'data' => [
+                'password' => '',
+            ],
+            'errors' => ['password'],
+        ];
+        yield 'password ! long enough' => [
+            'data' => [
+                'password' => '1234',
+            ],
+            'errors' => ['password'],
+        ];
+        yield 'password ! confirmed' => [
+            'data' => [
+                'password' => 'verySecretPassword',
+                'password_confirmation' => 'notSoSecretPassword',
+            ],
+            'errors' => ['password'],
+        ];
+        yield 'role ! a role' => [
+            'data' => [
+                'role' => 'non-existent-role',
+            ],
+            'errors' => ['role'],
+        ];
     }
 
     /** @test */

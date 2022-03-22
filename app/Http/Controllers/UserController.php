@@ -18,15 +18,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateUserAction;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Jobs\ChangeUserPassword;
-use App\Jobs\CreateUser;
 use App\Jobs\DeleteUser;
 use App\Jobs\UpdateUser;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -49,13 +50,13 @@ class UserController extends Controller
         return view('user.create');
     }
 
-    public function store(UserCreateRequest $request): RedirectResponse
+    public function store(UserCreateRequest $request, CreateUserAction $createUser): RedirectResponse
     {
-        $user = CreateUser::dispatchSync(
-            $request->username(),
-            $request->email(),
-            $request->password(),
-            $request->role()
+        $user = $createUser(
+            username: $request->username(),
+            email: $request->email(),
+            password: $request->password(),
+            role: $request->role()
         );
 
         return redirect()->route('users.index')

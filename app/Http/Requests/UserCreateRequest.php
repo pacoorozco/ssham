@@ -71,10 +71,8 @@ class UserCreateRequest extends Request
         return $this->input('password');
     }
 
-    public function role(): Roles
+    public function role(): string
     {
-        $roleName = $this->input('role');
-
-        return Roles::fromValue($roleName);
+        return $this->input('role');
     }
 }
