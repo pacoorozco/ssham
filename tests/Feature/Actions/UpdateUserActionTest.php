@@ -42,7 +42,8 @@ class UpdateUserActionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_user(): void {
+    public function it_can_update_a_user(): void
+    {
         /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole(Roles::Auditor);
