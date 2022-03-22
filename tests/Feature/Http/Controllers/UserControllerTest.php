@@ -370,7 +370,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function destroy_method_should_return_success_and_delete_user(): void
+    public function it_can_delete_a_user(): void
     {
         $testUser = User::factory()
             ->create();
@@ -382,6 +382,18 @@ class UserControllerTest extends TestCase
         $response->assertRedirect(route('users.index'));
         $response->assertSessionHas('success');
         $this->assertSoftDeleted($testUser);
+    }
+
+    /** @test */
+    public function it_can_not_delete_itself(): void
+    {
+        $response = $this
+            ->actingAs($this->user)
+            ->delete(route('users.destroy', $this->user));
+
+        $response->assertSessionHasErrors();
+
+        $this->assertModelExists($this->user);
     }
 
     /** @test */
