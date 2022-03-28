@@ -18,6 +18,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateHostAction;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
 use App\Jobs\CreateHost;
@@ -51,9 +52,9 @@ class HostController extends Controller
             ->with('groups', $groups);
     }
 
-    public function store(HostCreateRequest $request): RedirectResponse
+    public function store(HostCreateRequest $request, CreateHostAction $createHost): RedirectResponse
     {
-        $host = CreateHost::dispatchSync(
+        $host = $createHost(
             $request->hostname(),
             $request->username(),
             [

@@ -21,6 +21,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -70,29 +71,141 @@ class HostControllerTest extends TestCase
     }
 
     /** @test */
-    public function store_method_should_create_a_new_host(): void
+    public function it_creates_a_new_host(): void
     {
-        $host = Host::factory()->make();
+        /** @var Host $want */
+        $want = Host::factory()->make();
 
         $response = $this
             ->actingAs($this->user)
             ->post(route('hosts.store'), [
-                'hostname' => $host->hostname,
-                'username' => $host->username,
-                'enabled' => $host->enabled,
-                'port' => $host->port,
-                'authorized_keys_file' => $host->authorized_keys_file,
+                'hostname' => $want->hostname,
+                'username' => $want->username,
+                'enabled' => $want->enabled,
+                'port' => $want->port,
+                'authorized_keys_file' => $want->authorized_keys_file,
             ]);
 
         $response->assertRedirect(route('hosts.index'));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('hosts', [
-            'hostname' => $host->hostname,
-            'username' => $host->username,
-            'enabled' => $host->enabled,
-            'port' => $host->port,
-            'authorized_keys_file' => $host->authorized_keys_file,
+            'hostname' => $want->hostname,
+            'username' => $want->username,
+            'enabled' => $want->enabled,
+            'port' => $want->port,
+            'authorized_keys_file' => $want->authorized_keys_file,
         ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForHostCreation
+     */
+    public function it_returns_errors_when_creating_a_new_host(
+        array $data,
+        array $errors,
+    ): void {
+        /** @var Host $want */
+        $want = Host::factory()->make();
+
+        $formData = [
+            'hostname' => $data['hostname'] ?? $want->hostname,
+            'username' => $data['username'] ?? $want->username,
+            'enabled' => $data['enabled'] ?? $want->enabled,
+            'port' => $data['port'] ?? $want->port,
+            'authorized_keys_file' => $data['authorized_keys_file'] ?? $want->authorized_keys_file,
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('hosts.store'), $formData);
+
+        $response->assertSessionHasErrors($errors);
+
+        $this->assertDatabaseMissing('hosts', [
+            'hostname' => $formData['hostname'],
+            'username' => $formData['username'],
+        ]);
+    }
+
+    public function provideWrongDataForHostCreation(): Generator
+    {
+        yield 'hostname is empty' => [
+            'data' => [
+                'hostname' => '',
+            ],
+            'errors' => ['hostname'],
+        ];
+
+        yield 'hostname > 255 chars' => [
+            'data' => [
+                'hostname' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['hostname'],
+        ];
+
+        yield 'username is empty' => [
+            'data' => [
+                'username' => '',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username > 255 chars' => [
+            'data' => [
+                'username' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'port ! valid' => [
+            'data' => [
+                'port' => 'non-integer',
+            ],
+            'errors' => ['port'],
+        ];
+
+        yield 'enabled ! valid' => [
+            'data' => [
+                'enabled' => 'non-boolean',
+            ],
+            'errors' => ['enabled'],
+        ];
+
+        yield 'authorized_keys_file is empty' => [
+            'data' => [
+                'authorized_keys_file' => '',
+            ],
+            'errors' => ['authorized_keys_file'],
+        ];
+
+        yield 'authorized_keys_file > 255 chars' => [
+            'data' => [
+                'authorized_keys_file' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['authorized_keys_file'],
+        ];
+    }
+
+    /** @test */
+    public function it_ensures_uniqueness_when_creating_a_host(): void {
+        /** @var Host $want */
+        $want = Host::factory()->create([
+            'hostname' => 'existing-server.domain.local',
+            'username' => 'admin',
+        ]);
+
+        $response = $this
+            ->actingAs($this->user)
+            ->post(route('hosts.store'), [
+                'hostname' => $want->hostname,
+                'username' => $want->username,
+                'enabled' => true,
+            ]);
+
+        $response->assertSessionHasErrors(['hostname']);
+
+        $this->assertDatabaseCount('hosts', 1);
     }
 
     /** @test */

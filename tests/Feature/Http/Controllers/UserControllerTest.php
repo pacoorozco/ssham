@@ -361,7 +361,7 @@ class UserControllerTest extends TestCase
             'errors' => ['role'],
         ];
 
-        yield 'enable ! valid' => [
+        yield 'enabled ! valid' => [
             'data' => [
                 'enabled' => 'non-boolean',
             ],
