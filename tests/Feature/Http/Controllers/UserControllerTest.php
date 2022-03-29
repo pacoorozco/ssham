@@ -47,24 +47,26 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function index_method_should_return_proper_view(): void
+    public function it_shows_the_index_view(): void
     {
         $response = $this
             ->actingAs($this->user)
             ->get(route('users.index'));
 
         $response->assertSuccessful();
+
         $response->assertViewIs('user.index');
     }
 
     /** @test */
-    public function create_method_should_return_proper_view(): void
+    public function it_shows_the_new_user_form(): void
     {
         $response = $this
             ->actingAs($this->user)
             ->get(route('users.create'));
 
         $response->assertSuccessful();
+
         $response->assertViewIs('user.create');
     }
 
@@ -85,8 +87,10 @@ class UserControllerTest extends TestCase
             ]);
 
         $response->assertRedirect(route('users.index'));
+
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('users', [
+
+        $this->assertDatabaseHas(User::class, [
             'username' => $want->username,
             'email' => $want->email,
         ]);
@@ -123,7 +127,7 @@ class UserControllerTest extends TestCase
 
         $response->assertSessionHasErrors($errors);
 
-        $this->assertDatabaseMissing('users', [
+        $this->assertDatabaseMissing(User::class, [
             'username' => $formData['username'],
             'email' => $formData['email'],
         ]);
@@ -211,7 +215,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function edit_method_should_return_proper_view(): void
+    public function it_shows_the_edit_user_form(): void
     {
         $testUser = User::factory()
             ->create();
@@ -222,7 +226,9 @@ class UserControllerTest extends TestCase
             ->get(route('users.edit', $testUser));
 
         $response->assertSuccessful();
+
         $response->assertViewIs('user.edit');
+
         $response->assertViewHas('user', $testUser);
     }
 
@@ -254,7 +260,7 @@ class UserControllerTest extends TestCase
 
         $response->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas('users', [
+        $this->assertDatabaseHas(User::class, [
             'id' => $testUser->id,
             'username' => $testUser->username,
             'email' => $want->email,
@@ -302,7 +308,7 @@ class UserControllerTest extends TestCase
 
         $response->assertSessionHasErrors($errors);
 
-        $this->assertDatabaseHas('users', [
+        $this->assertDatabaseHas(User::class, [
             'id' => $testUser->id,
             'username' => $testUser->username,
             'email' => $testUser->email,
@@ -380,7 +386,9 @@ class UserControllerTest extends TestCase
             ->delete(route('users.destroy', $testUser));
 
         $response->assertRedirect(route('users.index'));
+
         $response->assertSessionHas('success');
+
         $this->assertSoftDeleted($testUser);
     }
 
@@ -420,6 +428,7 @@ class UserControllerTest extends TestCase
             ->ajaxGet(route('users.data'));
 
         $response->assertSuccessful();
+
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
@@ -428,6 +437,7 @@ class UserControllerTest extends TestCase
                 ],
             ],
         ]);
+
         foreach ($users as $testUser) {
             $response->assertJsonFragment([
                 'username' => $testUser->username,
