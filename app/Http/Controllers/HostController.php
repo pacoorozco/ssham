@@ -104,10 +104,12 @@ class HostController extends Controller
 
     public function destroy(Host $host): RedirectResponse
     {
-        DeleteHost::dispatchSync($host);
+        $fullHostname = $host->full_hostname;
+
+        $host->delete();
 
         return redirect()->route('hosts.index')
-            ->withSuccess(__('host/messages.delete.success', ['hostname' => $host->hostname]));
+            ->withSuccess(__('host/messages.delete.success', ['hostname' => $fullHostname]));
     }
 
     public function data(DataTables $dataTable): JsonResponse
