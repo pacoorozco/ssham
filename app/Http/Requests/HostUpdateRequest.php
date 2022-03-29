@@ -20,18 +20,28 @@ namespace App\Http\Requests;
 
 class HostUpdateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
-            'enabled' => ['required', 'boolean'],
+            'enabled' => [
+                'required',
+                'boolean',
+            ],
 
-            'port' => ['sometimes', 'required', 'integer', 'min:1', 'max:65535'],
-            'authorized_keys_file' => ['sometimes', 'required', 'string', 'max:255'],
+            'port' => [
+                'sometimes',
+                'required',
+                'integer',
+                'min:1',
+                'max:65535',
+            ],
+
+            'authorized_keys_file' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+            ],
         ];
     }
 
@@ -52,6 +62,6 @@ class HostUpdateRequest extends Request
 
     public function enabled(): bool
     {
-        return $this->input('enabled');
+        return $this->boolean('enabled');
     }
 }

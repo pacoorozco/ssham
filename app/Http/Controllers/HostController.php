@@ -19,6 +19,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateHostAction;
+use App\Actions\UpdateHostAction;
+use App\Actions\UpdateUserAction;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
 use App\Jobs\CreateHost;
@@ -84,9 +86,9 @@ class HostController extends Controller
             ->with('groups', $groups);
     }
 
-    public function update(Host $host, HostUpdateRequest $request): RedirectResponse
+    public function update(Host $host, HostUpdateRequest $request, UpdateHostAction $updateHost): RedirectResponse
     {
-        UpdateHost::dispatchSync(
+        $updateHost(
             $host,
             [
                 'enabled' => $request->enabled(),

@@ -44,18 +44,19 @@ class HostControllerTest extends TestCase
     }
 
     /** @test */
-    public function index_method_should_return_proper_view(): void
+    public function it_shows_the_index_view(): void
     {
         $response = $this
             ->actingAs($this->user)
             ->get(route('hosts.index'));
 
         $response->assertSuccessful();
+
         $response->assertViewIs('host.index');
     }
 
     /** @test */
-    public function create_method_should_return_proper_view(): void
+    public function it_shows_the_new_host_form(): void
     {
         $groups = Hostgroup::factory()
             ->count(3)
@@ -66,7 +67,9 @@ class HostControllerTest extends TestCase
             ->get(route('hosts.create'));
 
         $response->assertSuccessful();
+
         $response->assertViewIs('host.create');
+
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
@@ -87,8 +90,10 @@ class HostControllerTest extends TestCase
             ]);
 
         $response->assertRedirect(route('hosts.index'));
+
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('hosts', [
+
+        $this->assertDatabaseHas(Host::class, [
             'hostname' => $want->hostname,
             'username' => $want->username,
             'enabled' => $want->enabled,
@@ -122,7 +127,7 @@ class HostControllerTest extends TestCase
 
         $response->assertSessionHasErrors($errors);
 
-        $this->assertDatabaseMissing('hosts', [
+        $this->assertDatabaseMissing(Host::class, [
             'hostname' => $formData['hostname'],
             'username' => $formData['username'],
         ]);
@@ -205,11 +210,11 @@ class HostControllerTest extends TestCase
 
         $response->assertSessionHasErrors(['hostname']);
 
-        $this->assertDatabaseCount('hosts', 1);
+        $this->assertDatabaseCount(Host::class, 1);
     }
 
     /** @test */
-    public function edit_method_should_return_proper_view(): void
+    public function it_shows_the_edit_host_form(): void
     {
         $host = Host::factory()
             ->create();
@@ -222,16 +227,22 @@ class HostControllerTest extends TestCase
             ->get(route('hosts.edit', $host));
 
         $response->assertSuccessful();
+
         $response->assertViewIs('host.edit');
+
         $response->assertViewHas('host', $host);
+
         $response->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
     /** @test */
-    public function update_method_should_update_host(): void
+    public function it_updates_the_host(): void
     {
-        $want = Host::factory()->make();
+        /** @var Host $host */
         $host = Host::factory()->create();
+
+        /** @var Host $want */
+        $want = Host::factory()->make();
 
         $response = $this
             ->actingAs($this->user)
@@ -241,8 +252,11 @@ class HostControllerTest extends TestCase
                 'authorized_keys_file' => $want->authorized_keys_file,
             ]);
 
+        $response->assertRedirect(route('hosts.index'));
+
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('hosts', [
+
+        $this->assertDatabaseHas(Host::class, [
             'id' => $host->id,
             'hostname' => $host->hostname,
             'username' => $host->username,
@@ -252,18 +266,88 @@ class HostControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     * @dataProvider provideWrongDataForHostModification
+     */
+    public function it_returns_errors_when_updating_a_host(
+        array $data,
+        array $errors,
+    ): void
+    {
+        /** @var Host $host */
+        $host = Host::factory()->create();
+
+        /** @var Host $want */
+        $want = Host::factory()->make();
+
+        $formData = [
+            'enabled' => $data['enabled'] ?? $want->enabled,
+            'port' => $data['port'] ?? $want->port,
+            'authorized_keys_file' => $data['authorized_keys_file'] ?? $want->authorized_keys_file,
+        ];
+
+        $response = $this
+            ->actingAs($this->user)
+            ->put(route('hosts.update', $host), $formData);
+
+        $response->assertSessionHasErrors($errors);
+
+        $this->assertDatabaseMissing(Host::class, [
+            'id' => $host->id,
+            'hostname' => $host->hostname,
+            'username' => $host->username,
+            'enabled' => $formData['enabled'],
+            'port' => $formData['port'],
+            'authorized_keys_file' => $formData['authorized_keys_file'],
+        ]);
+    }
+
+    public function provideWrongDataForHostModification(): Generator
+    {
+        yield 'port ! valid' => [
+            'data' => [
+                'port' => 'non-integer',
+            ],
+            'errors' => ['port'],
+        ];
+
+        yield 'enabled ! valid' => [
+            'data' => [
+                'enabled' => 'non-boolean',
+            ],
+            'errors' => ['enabled'],
+        ];
+
+        yield 'authorized_keys_file is empty' => [
+            'data' => [
+                'authorized_keys_file' => '',
+            ],
+            'errors' => ['authorized_keys_file'],
+        ];
+
+        yield 'authorized_keys_file > 255 chars' => [
+            'data' => [
+                'authorized_keys_file' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['authorized_keys_file'],
+        ];
+    }
+
     /** @test */
-    public function destroy_method_should_return_proper_success_message(): void
+    public function it_can_delete_a_host(): void
     {
         $host = Host::factory()
             ->create();
 
         $response = $this
             ->actingAs($this->user)
-            ->delete(route('hosts.destroy', $host->id));
+            ->delete(route('hosts.destroy', $host));
 
         $response->assertRedirect(route('hosts.index'));
+
         $response->assertSessionHas('success');
+
         $this->assertModelMissing($host);
     }
 
@@ -289,6 +373,7 @@ class HostControllerTest extends TestCase
             ->ajaxGet(route('hosts.data'));
 
         $response->assertSuccessful();
+
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
@@ -299,6 +384,7 @@ class HostControllerTest extends TestCase
                 ],
             ],
         ]);
+
         foreach ($hosts as $host) {
             $response->assertJsonFragment([
                 'hostname' => $host['hostname'],
