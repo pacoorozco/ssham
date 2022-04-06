@@ -49,7 +49,7 @@
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.16",
         "doctrine/dbal": "^3.3.2",
-        "nunomaduro/larastan": "^1.0.3"
+        "nunomaduro/larastan": "^2.1.4"
     },
     "config": {
         "optimize-autoloader": true,
