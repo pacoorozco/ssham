@@ -100,7 +100,7 @@ class KeygroupController extends Controller
             ->withSuccess(__('keygroup/messages.delete.success', ['name' =>$keygroup->name]));
     }
 
-    public function data(Datatables $datatable): JsonResponse
+    public function data(DataTables $dataTable): JsonResponse
     {
         $this->authorize('viewAny', Keygroup::class);
 
@@ -112,7 +112,7 @@ class KeygroupController extends Controller
             ->withCount('keys as keys') // count number of keys in keygroups without loading the models
             ->orderBy('name', 'asc');
 
-        return $datatable->eloquent($keygroups)
+        return $dataTable->eloquent($keygroups)
             ->addColumn('rules', function (Keygroup $group) {
                 return $group->present()->rulesCount();
             })

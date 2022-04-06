@@ -22,47 +22,26 @@ use App\Jobs\UpdateServer;
 use App\Models\Host;
 use Illuminate\Console\Command;
 
-class SendKeysToHosts extends Command
+class SendKeysToHostsCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'ssham:send';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Send SSH keys to managed hosts.';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle(): int
     {
         $hosts = Host::enabled()->get();
-        $this->info("Hosts to be updated: {$hosts->count()}");
+
+        $this->info("Pending hosts to be updated: {$hosts->count()}");
 
         foreach ($hosts as $host) {
-            $this->info("Updating key for {$host->full_hostname}");
+            $this->info("Updating keys for {$host->full_hostname}...");
             UpdateServer::dispatch($host);
         }
 
-        return 0;
+        $this->newLine();
+        $this->info('All done!');
+
+        return self::SUCCESS;
     }
 }

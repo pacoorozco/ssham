@@ -100,7 +100,7 @@ class HostgroupController extends Controller
             ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $hostgroup->name]));
     }
 
-    public function data(Datatables $datatable): JsonResponse
+    public function data(DataTables $dataTable): JsonResponse
     {
         $this->authorize('viewAny', Hostgroup::class);
 
@@ -112,7 +112,7 @@ class HostgroupController extends Controller
             ->withCount('hosts as hosts') // count number of hosts in hostgroups without loading the models
             ->orderBy('name', 'asc');
 
-        return $datatable->eloquent($hostgroups)
+        return $dataTable->eloquent($hostgroups)
             ->addColumn('rules', function (Hostgroup $group) {
                 return $group->present()->rulesCount();
             })

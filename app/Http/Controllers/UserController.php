@@ -108,7 +108,7 @@ class UserController extends Controller
             ->withSuccess(__('user/messages.delete.success', ['name' => $user->username]));
     }
 
-    public function data(Datatables $datatable): JsonResponse
+    public function data(DataTables $dataTable): JsonResponse
     {
         $this->authorize('viewAny', User::class);
 
@@ -121,7 +121,7 @@ class UserController extends Controller
         ])
             ->orderBy('username', 'asc');
 
-        return $datatable->eloquent($users)
+        return $dataTable->eloquent($users)
             ->editColumn('username', function (User $user) {
                 return $user->present()->usernameWithDisabledBadge();
             })
