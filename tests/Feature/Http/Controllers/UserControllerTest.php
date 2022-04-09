@@ -47,36 +47,32 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_the_index_view(): void
+    public function it_should_show_the_index_view(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('users.index'));
-
-        $response->assertSuccessful();
-
-        $response->assertViewIs('user.index');
+            ->get(route('users.index'))
+            ->assertSuccessful()
+            ->assertViewIs('user.index');
     }
 
     /** @test */
-    public function it_shows_the_new_user_form(): void
+    public function it_should_show_the_new_user_form(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('users.create'));
-
-        $response->assertSuccessful();
-
-        $response->assertViewIs('user.create');
+            ->get(route('users.create'))
+            ->assertSuccessful()
+            ->assertViewIs('user.create');
     }
 
     /** @test */
-    public function it_creates_a_new_user(): void
+    public function it_should_create_a_new_user(): void
     {
         /** @var User $want */
         $want = User::factory()->make();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->post(route('users.store'), [
                 'username' => $want->username,
@@ -84,23 +80,25 @@ class UserControllerTest extends TestCase
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
                 'role' => Roles::Operator,
-            ]);
+            ])
+            ->assertRedirect(route('users.index'))
+            ->assertSessionHasNoErrors();
 
-        $response->assertRedirect(route('users.index'));
+        $user = User::query()
+            ->where('username', $want->username)
+            ->where('email', $want->email)
+            ->first();
 
-        $response->assertSessionHasNoErrors();
+        $this->assertInstanceOf(User::class, $user);
 
-        $this->assertDatabaseHas(User::class, [
-            'username' => $want->username,
-            'email' => $want->email,
-        ]);
+        $this->assertEquals(Roles::Operator, $user->role);
     }
 
     /**
      * @test
      * @dataProvider provideWrongDataForUserCreation
      */
-    public function it_returns_errors_when_creating_a_new_user(
+    public function it_should_return_errors_when_creating_a_new_user(
         array $data,
         array $errors
     ): void {
@@ -123,9 +121,8 @@ class UserControllerTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->post(route('users.store'), $formData);
-
-        $response->assertSessionHasErrors($errors);
+            ->post(route('users.store'), $formData)
+            ->assertSessionHasErrors($errors);
 
         $this->assertDatabaseMissing(User::class, [
             'username' => $formData['username'],
@@ -215,70 +212,64 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_the_edit_user_form(): void
+    public function it_should_show_the_edit_user_form(): void
     {
-        $testUser = User::factory()
-            ->create();
-        $testUser->assignRole(Roles::Operator);
+        $user = User::factory()->create();
+        $user->assignRole(Roles::Operator);
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('users.edit', $testUser));
-
-        $response->assertSuccessful();
-
-        $response->assertViewIs('user.edit');
-
-        $response->assertViewHas('user', $testUser);
+            ->get(route('users.edit', $user))
+            ->assertSuccessful()
+            ->assertViewIs('user.edit')
+            ->assertViewHas('user', $user);
     }
 
     /** @test */
-    public function it_updates_the_user(): void
+    public function it_should_update_the_user(): void
     {
-        /** @var User $testUser */
-        $testUser = User::factory()->create([
+        /** @var User $user */
+        $user = User::factory()->create([
             'enabled' => true,
         ]);
-        $testUser->assignRole(Roles::Auditor);
+        $user->assignRole(Roles::Auditor);
 
         /** @var User $want */
         $want = User::factory()->make([
             'enabled' => false,
         ]);
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->put(route('users.update', $testUser), [
+            ->put(route('users.update', $user), [
                 'email' => $want->email,
                 'enabled' => $want->enabled,
                 'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
                 'role' => Roles::Operator,
-            ]);
-
-        $response->assertRedirect(route('users.index'));
-
-        $response->assertSessionHasNoErrors();
+            ])
+            ->assertRedirect(route('users.index'))
+            ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas(User::class, [
-            'id' => $testUser->id,
-            'username' => $testUser->username,
+            'id' => $user->id,
+            'username' => $user->username,
             'email' => $want->email,
             'enabled' => $want->enabled,
         ]);
 
-        $testUser->refresh();
+        $user->refresh();
 
-        $this->assertTrue(Hash::check('new-password-123', $testUser->password));
+        $this->assertTrue(Hash::check('new-password-123', $user->password));
 
-        $this->assertEquals(Roles::Operator, $testUser->role);
+        $this->assertEquals(Roles::Operator, $user->role);
     }
 
     /**
      * @test
      * @dataProvider provideWrongDataForUserModification
      */
-    public function it_returns_errors_when_updating_a_user(
+    public function it_should_return_errors_when_updating_the_user(
         array $data,
         array $errors
     ): void {
@@ -288,38 +279,37 @@ class UserControllerTest extends TestCase
             'email' => 'john.doe@domain.local',
         ]);
 
-        /** @var User $testUser */
-        $testUser = User::factory()->create([
+        /** @var User $user */
+        $user = User::factory()->create([
             'password' => Hash::make('veryS3cr3t'),
         ]);
-        $testUser->assignRole(Roles::Admin);
+        $user->assignRole(Roles::Admin);
 
         $formData = [
-            'email' => $data['email'] ?? $testUser->email,
-            'password' => $data['password'] ?? $testUser->password,
-            'password_confirmation' => $data['password_confirmation'] ?? $testUser->password,
-            'role' => $data['role'] ?? $testUser->role,
-            'enabled' => $data['enabled'] ?? $testUser->enabled,
+            'email' => $data['email'] ?? $user->email,
+            'password' => $data['password'] ?? $user->password,
+            'password_confirmation' => $data['password_confirmation'] ?? $user->password,
+            'role' => $data['role'] ?? $user->role,
+            'enabled' => $data['enabled'] ?? $user->enabled,
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->put(route('users.update', $testUser), $formData);
-
-        $response->assertSessionHasErrors($errors);
+            ->put(route('users.update', $user), $formData)
+            ->assertSessionHasErrors($errors);
 
         $this->assertDatabaseHas(User::class, [
-            'id' => $testUser->id,
-            'username' => $testUser->username,
-            'email' => $testUser->email,
-            'enabled' => $testUser->enabled,
+            'id' => $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+            'enabled' => $user->enabled,
         ]);
 
-        $testUser->refresh();
+        $user->refresh();
 
-        $this->assertTrue(Hash::check('veryS3cr3t', $testUser->password));
+        $this->assertTrue(Hash::check('veryS3cr3t', $user->password));
 
-        $this->assertEquals(Roles::Admin, $testUser->role);
+        $this->assertEquals(Roles::Admin, $user->role);
     }
 
     public function provideWrongDataForUserModification(): Generator
@@ -376,46 +366,42 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_user(): void
+    public function it_should_delete_the_user(): void
     {
-        $testUser = User::factory()
-            ->create();
+        /** @var User $user */
+        $user = User::factory()->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->delete(route('users.destroy', $testUser));
+            ->delete(route('users.destroy', $user))
+            ->assertRedirect(route('users.index'))
+            ->assertSessionHas('success');
 
-        $response->assertRedirect(route('users.index'));
-
-        $response->assertSessionHas('success');
-
-        $this->assertSoftDeleted($testUser);
+        $this->assertSoftDeleted($user);
     }
 
     /** @test */
-    public function it_can_not_delete_itself(): void
+    public function it_should_return_error_when_deleting_itself(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->delete(route('users.destroy', $this->user));
-
-        $response->assertSessionHasErrors();
+            ->delete(route('users.destroy', $this->user))
+            ->assertSessionHasErrors();
 
         $this->assertModelExists($this->user);
     }
 
     /** @test */
-    public function data_method_should_return_error_when_not_ajax(): void
+    public function it_should_return_error_for_non_AJAX_requests(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('users.data'));
-
-        $response->assertForbidden();
+            ->get(route('users.data'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function data_method_should_return_data(): void
+    public function it_should_return_a_JSON_with_the_data(): void
     {
         $users = User::factory()
             ->count(3)
@@ -423,26 +409,18 @@ class UserControllerTest extends TestCase
                 'enabled' => 'true',
             ]);
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->ajaxGet(route('users.data'));
-
-        $response->assertSuccessful();
-
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'username',
-                    'email',
+            ->ajaxGet(route('users.data'))
+            ->assertSuccessful()
+            ->assertJsonCount(count($users) + 1, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'username',
+                        'email',
+                    ],
                 ],
-            ],
-        ]);
-
-        foreach ($users as $testUser) {
-            $response->assertJsonFragment([
-                'username' => $testUser->username,
-                'email' => $testUser->email,
             ]);
-        }
     }
 }
