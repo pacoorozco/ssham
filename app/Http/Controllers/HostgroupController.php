@@ -18,6 +18,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateHostGroupAction;
+use App\Actions\UpdateHostGroupAction;
 use App\Http\Requests\HostgroupCreateRequest;
 use App\Http\Requests\HostgroupUpdateRequest;
 use App\Jobs\CreateHostgroup;
@@ -51,12 +53,12 @@ class HostgroupController extends Controller
             ->with('hosts', $hosts);
     }
 
-    public function store(HostgroupCreateRequest $request): RedirectResponse
+    public function store(HostgroupCreateRequest $request, CreateHostGroupAction $createHostGroup): RedirectResponse
     {
-        $hostgroup = CreateHostgroup::dispatchSync(
-            $request->name(),
-            $request->description(),
-            $request->hosts()
+        $hostgroup = $createHostGroup(
+            name: $request->name(),
+            description: $request->description(),
+            members: $request->hosts()
         );
 
         return redirect()->route('hostgroups.index')
@@ -79,13 +81,13 @@ class HostgroupController extends Controller
             ->with('hosts', $hosts);
     }
 
-    public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request): RedirectResponse
+    public function update(Hostgroup $hostgroup, HostgroupUpdateRequest $request, UpdateHostGroupAction $updateHostGroup): RedirectResponse
     {
-        UpdateHostgroup::dispatchSync(
-            $hostgroup,
-            $request->name(),
-            $request->description(),
-            $request->hosts()
+        $hostgroup = $updateHostGroup(
+            group: $hostgroup,
+            name: $request->name(),
+            description: $request->description(),
+            members: $request->hosts()
         );
 
         return redirect()->route('hostgroups.edit', [$hostgroup])
@@ -94,10 +96,12 @@ class HostgroupController extends Controller
 
     public function destroy(Hostgroup $hostgroup): RedirectResponse
     {
-        DeleteHostgroup::dispatchSync($hostgroup);
+        $name = $hostgroup->name;
+
+        $hostgroup->delete();
 
         return redirect()->route('hostgroups.index')
-            ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $hostgroup->name]));
+            ->withSuccess(__('hostgroup/messages.delete.success', ['name' => $name]));
     }
 
     public function data(DataTables $dataTable): JsonResponse

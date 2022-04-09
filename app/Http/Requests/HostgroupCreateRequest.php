@@ -24,11 +24,6 @@ use Illuminate\Validation\Rule;
 
 class HostgroupCreateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
@@ -45,7 +40,7 @@ class HostgroupCreateRequest extends Request
             'hosts.*' => [
                 Rule::forEach(function ($value, $attribute) {
                     return [
-                        Rule::exists(Host::class, 'id')
+                        Rule::exists(Host::class, 'id'),
                     ];
                 }),
             ],
@@ -62,8 +57,8 @@ class HostgroupCreateRequest extends Request
         return $this->input('description');
     }
 
-    public function hosts(): ?array
+    public function hosts(): array
     {
-        return $this->input('hosts');
+        return $this->input('hosts', []);
     }
 }
