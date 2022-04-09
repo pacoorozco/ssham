@@ -21,6 +21,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -41,146 +42,307 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function index_method_should_return_proper_view(): void
+    public function it_shows_the_index_view(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hostgroups.index'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('hostgroup.index');
+            ->get(route('hostgroups.index'))
+            ->assertSuccessful()
+            ->assertViewIs('hostgroup.index');
     }
 
     /** @test */
-    public function create_method_should_return_proper_view(): void
+    public function it_shows_the_new_hosts_group_form(): void
     {
         $hosts = Host::factory()
             ->count(3)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hostgroups.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('hostgroup.create');
-        $response->assertViewHas('hosts', $hosts->pluck('hostname', 'id'));
+            ->get(route('hostgroups.create'))
+            ->assertSuccessful()
+            ->assertViewIs('hostgroup.create')
+            ->assertViewHas('hosts', $hosts->pluck('hostname', 'id'));
     }
 
     /** @test */
-    public function store_method_should_create_a_new_group(): void
+    public function it_creates_a_new_hosts_group(): void
     {
-        $group = Hostgroup::factory()->make();
+        // Create some hosts to test the membership.
+        $hosts = Host::factory()
+            ->count(2)
+            ->create();
 
-        $response = $this
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $this
             ->actingAs($this->user)
             ->post(route('hostgroups.store'), [
-                'name' => $group->name,
-                'description' => $group->description,
-            ]);
+                'name' => $want->name,
+                'description' => $want->description,
+                'hosts' => $hosts->pluck('id')->toArray(),
+            ])
+            ->assertRedirect(route('hostgroups.index'))
+            ->assertSessionHasNoErrors();
 
-        $response->assertRedirect(route('hostgroups.index'));
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('hostgroups', [
-            'name' => $group->name,
-            'description' => $group->description,
+        $group = Hostgroup::query()
+            ->where('name', $want->name)
+            ->where('description', $want->description)
+            ->first();
+
+        $this->assertInstanceOf(Hostgroup::class, $group);
+
+        $this->assertCount(count($hosts), $group->hosts);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForHostsGroupCreation
+     */
+    public function it_returns_errors_when_creating_a_new_hosts_group(
+        array $data,
+        array $errors,
+    ): void {
+        // Group to validate unique rules...
+        Hostgroup::factory()->create([
+            'name' => 'foo',
+        ]);
+
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $formData = [
+            'name' => $data['name'] ?? $want->name,
+            'description' => $data['description'] ?? $want->description,
+            'hosts' => $data['hosts'] ?? [],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('hostgroups.store'), $formData)
+            ->assertSessionHasErrors($errors);
+
+        $this->assertDatabaseMissing(Hostgroup::class, [
+            'name' => $formData['name'],
+            'description' => $formData['description'],
         ]);
     }
 
-    /** @test */
-    public function edit_method_should_return_proper_view(): void
+    public function provideWrongDataForHostsGroupCreation(): Generator
     {
-        $group = Hostgroup::factory()
-            ->create();
+        yield 'name is empty' => [
+            'data' => [
+                'name' => '',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name < 5 chars' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name > 255 chars' => [
+            'data' => [
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name is taken' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'hosts ! a host' => [
+            'data' => [
+                'hosts' => [1],
+            ],
+            'errors' => ['hosts.*'],
+        ];
+    }
+
+    /** @test */
+    public function it_shows_the_edit_host_form(): void
+    {
+        $group = Hostgroup::factory()->create();
+
         $hosts = Host::factory()
             ->count(3)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hostgroups.edit', $group));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('hostgroup.edit');
-        $response->assertViewHas('hostgroup', $group);
-        $response->assertViewHas('hosts', $hosts->pluck('hostname', 'id'));
+            ->get(route('hostgroups.edit', $group))
+            ->assertSuccessful()
+            ->assertViewIs('hostgroup.edit')
+            ->assertViewHas('hostgroup', $group)
+            ->assertViewHas('hosts', $hosts->pluck('hostname', 'id'));
     }
 
     /** @test */
-    public function update_method_should_update_group(): void
+    public function it_updates_the_hosts_group(): void
     {
-        $want = Hostgroup::factory()->make();
+        // Create some hosts to test the membership.
+        $hosts = Host::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Hostgroup $group */
         $group = Hostgroup::factory()->create();
 
-        $response = $this
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $this
             ->actingAs($this->user)
             ->put(route('hostgroups.update', $group), [
                 'name' => $want->name,
                 'description' => $want->description,
-            ]);
+                'hosts' => $hosts->pluck('id')->toArray(),
+            ])
+            ->assertRedirect(route('hostgroups.edit', [$group]))
+            ->assertSessionHasNoErrors();
 
-        $response->assertRedirect(route('hostgroups.edit', [$group]));
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('hostgroups', [
-            'id' => $group->id,
-            'name' => $want->name,
-            'description' => $want->description,
+        $group->refresh();
+
+        $this->assertModelExists($group);
+
+        $this->assertCount(count($hosts), $group->hosts);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForHostsGroupModification
+     */
+    public function it_returns_errors_when_updating_a_hosts_group(
+        array $data,
+        array $errors,
+    ): void {
+        // Group to validate unique rules...
+        Hostgroup::factory()->create([
+            'name' => 'foo',
         ]);
+
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
+
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $formData = [
+            'name' => $data['name'] ?? $want->name,
+            'description' => $data['description'] ?? $want->description,
+            'hosts' => $data['hosts'] ?? [],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('hostgroups.update', $group), $formData)
+            ->assertSessionHasErrors($errors);
+
+        $this->assertDatabaseMissing(Hostgroup::class, [
+            'id' => $group->id,
+            'name' => $formData['name'],
+            'description' => $formData['description'],
+        ]);
+
+        $group->refresh();
+
+        $this->assertCount(0, $group->hosts);
+    }
+
+    public function provideWrongDataForHostsGroupModification(): Generator
+    {
+        yield 'name is empty' => [
+            'data' => [
+                'name' => '',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name < 5 chars' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name > 255 chars' => [
+            'data' => [
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name is taken' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'hosts ! a host' => [
+            'data' => [
+                'hosts' => [1],
+            ],
+            'errors' => ['hosts.*'],
+        ];
     }
 
     /** @test */
-    public function destroy_method_should_remove_group_and_returns_success(): void
+    public function it_deletes_a_hosts_group(): void
     {
-        $group = Hostgroup::factory()
-            ->create();
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->delete(route('hostgroups.destroy', $group));
+            ->delete(route('hostgroups.destroy', $group))
+            ->assertRedirect(route('hostgroups.index'))
+            ->assertSessionHas('success');
 
-        $response->assertRedirect(route('hostgroups.index'));
-        $response->assertSessionHas('success');
         $this->assertModelMissing($group);
     }
 
     /** @test */
-    public function data_method_should_return_error_when_not_ajax(): void
+    public function it_returns_error_for_non_AJAX_requests(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hostgroups.data'));
-
-        $response->assertForbidden();
+            ->get(route('hostgroups.data'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function data_method_should_return_data(): void
+    public function it_returns_a_JSON_with_the_data(): void
     {
         $groups = Hostgroup::factory()
             ->count(3)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->ajaxGet(route('hostgroups.data'));
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'name',
-                    'description',
-                    'hosts',
-                    'rules',
-                    'actions',
+            ->ajaxGet(route('hostgroups.data'))
+            ->assertSuccessful()
+            ->assertJsonCount(count($groups), 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'name',
+                        'description',
+                        'hosts',
+                        'rules',
+                        'actions',
+                    ],
                 ],
-            ],
-        ]);
-        foreach ($groups as $group) {
-            $response->assertJsonFragment([
-                'name' => $group['name'],
-                'description' => $group['description'],
             ]);
-        }
+
     }
 }
