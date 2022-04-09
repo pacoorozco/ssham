@@ -42,7 +42,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_the_index_view(): void
+    public function it_should_show_the_index(): void
     {
         $this
             ->actingAs($this->user)
@@ -52,7 +52,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_the_new_hosts_group_form(): void
+    public function it_should_show_the_new_hosts_group_form(): void
     {
         $hosts = Host::factory()
             ->count(3)
@@ -67,7 +67,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_new_hosts_group(): void
+    public function it_should_create_a_new_hosts_group(): void
     {
         // Create some hosts to test the membership.
         $hosts = Host::factory()
@@ -101,7 +101,7 @@ class HostgroupControllerTest extends TestCase
      * @test
      * @dataProvider provideWrongDataForHostsGroupCreation
      */
-    public function it_returns_errors_when_creating_a_new_hosts_group(
+    public function it_should_return_errors_when_creating_a_new_hosts_group(
         array $data,
         array $errors,
     ): void {
@@ -169,7 +169,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_the_edit_host_form(): void
+    public function it_should_show_the_edit_hosts_group_form(): void
     {
         $group = Hostgroup::factory()->create();
 
@@ -187,7 +187,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_the_hosts_group(): void
+    public function it_should_update_the_hosts_group(): void
     {
         // Create some hosts to test the membership.
         $hosts = Host::factory()
@@ -221,7 +221,7 @@ class HostgroupControllerTest extends TestCase
      * @test
      * @dataProvider provideWrongDataForHostsGroupModification
      */
-    public function it_returns_errors_when_updating_a_hosts_group(
+    public function it_should_return_errors_when_updating_the_hosts_group(
         array $data,
         array $errors,
     ): void {
@@ -297,7 +297,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_deletes_a_hosts_group(): void
+    public function it_should_delete_the_hosts_group(): void
     {
         /** @var Hostgroup $group */
         $group = Hostgroup::factory()->create();
@@ -312,7 +312,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_error_for_non_AJAX_requests(): void
+    public function it_should_return_error_for_non_AJAX_requests(): void
     {
         $this
             ->actingAs($this->user)
@@ -321,7 +321,7 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_JSON_with_the_data(): void
+    public function it_should_return_a_JSON_with_the_data(): void
     {
         $groups = Hostgroup::factory()
             ->count(3)
@@ -343,6 +343,5 @@ class HostgroupControllerTest extends TestCase
                     ],
                 ],
             ]);
-
     }
 }
