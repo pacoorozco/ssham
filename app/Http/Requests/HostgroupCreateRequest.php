@@ -18,6 +18,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Host;
+use App\Models\Hostgroup;
 use Illuminate\Validation\Rule;
 
 class HostgroupCreateRequest extends Request
@@ -34,11 +36,18 @@ class HostgroupCreateRequest extends Request
                 'required',
                 'min:5',
                 'max:255',
-                Rule::unique('hostgroups'),
+                Rule::unique(Hostgroup::class),
             ],
             'description' => [
                 'string',
                 'nullable',
+            ],
+            'hosts.*' => [
+                Rule::forEach(function ($value, $attribute) {
+                    return [
+                        Rule::exists(Host::class, 'id')
+                    ];
+                }),
             ],
         ];
     }

@@ -18,6 +18,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Host;
 use Illuminate\Validation\Rule;
 
 class HostgroupUpdateRequest extends Request
@@ -41,6 +42,13 @@ class HostgroupUpdateRequest extends Request
             'description' => [
                 'string',
                 'nullable',
+            ],
+            'hosts.*' => [
+                Rule::forEach(function ($value, $attribute) {
+                    return [
+                        Rule::exists(Host::class, 'id')
+                    ];
+                }),
             ],
         ];
     }
