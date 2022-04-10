@@ -23,11 +23,6 @@ use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class SettingsRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
@@ -108,7 +103,7 @@ class SettingsRequest extends Request
 
     public function mixedMode(): bool
     {
-        return (bool) $this->input('mixed_mode');
+        return $this->boolean('mixed_mode');
     }
 
     public function sshamFile(): string
@@ -124,30 +119,5 @@ class SettingsRequest extends Request
     public function cmdRemoteUpdater(): string
     {
         return $this->input('cmd_remote_updater');
-    }
-
-    /**
-     * Overrides the parent's getValidatorInstance() to sanitize user input before validation.
-     *
-     * @return mixed
-     */
-    protected function getValidatorInstance()
-    {
-        //$this->sanitize();
-
-        return parent::getValidatorInstance();
-    }
-
-    /**
-     * Sanitizes user input. In special 'public_key' to remove carriage returns.
-     */
-    protected function sanitize(): void
-    {
-        $input = $this->all();
-
-        // Removes carriage returns from 'public_key' input
-        $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
-
-        $this->replace($input);
     }
 }
