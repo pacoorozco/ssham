@@ -18,11 +18,14 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Enums\Roles;
 use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -37,18 +40,25 @@ class UserControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
 
-        // Roles and Permission are used when creating/updating users as part of its data.
-        $this->loadRolesAndPermissions();
+        $this->user = User::factory()->create();
+    }
 
-        $this->user = User::factory()
-            ->create();
+    /** @test */
+    public function users_can_not_see_the_index_view(): void
+    {
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.index'))
+            ->assertForbidden();
     }
 
     /** @test */
     public function it_should_show_the_index_view(): void
     {
+        $this->user->givePermissionTo(Permissions::ViewUsers);
+
         $this
             ->actingAs($this->user)
             ->get(route('users.index'))
@@ -57,8 +67,19 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_can_not_see_the_new_user_form(): void
+    {
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.create'))
+            ->assertForbidden();
+    }
+
+    /** @test */
     public function it_should_show_the_new_user_form(): void
     {
+        $this->user->givePermissionTo(Permissions::EditUsers);
+
         $this
             ->actingAs($this->user)
             ->get(route('users.create'))
@@ -67,7 +88,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_create_a_new_user(): void
+    public function users_can_not_create_users(): void
     {
         /** @var User $want */
         $want = User::factory()->make();
@@ -81,8 +102,33 @@ class UserControllerTest extends TestCase
                 'password_confirmation' => 'secret123',
                 'role' => Roles::Operator,
             ])
+            ->assertForbidden();
+
+        $this->assertDatabaseMissing(User::class, [
+            'username' => $want->username,
+            'email' => $want->email,
+        ]);
+    }
+
+    /** @test */
+    public function it_should_create_a_new_user(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditUsers);
+
+        /** @var User $want */
+        $want = User::factory()->make();
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('users.store'), [
+                'username' => $want->username,
+                'email' => $want->email,
+                'password' => 'secret123',
+                'password_confirmation' => 'secret123',
+                'role' => Roles::Operator,
+            ])
             ->assertRedirect(route('users.index'))
-            ->assertSessionHasNoErrors();
+            ->assertValid();
 
         $user = User::query()
             ->where('username', $want->username)
@@ -102,6 +148,8 @@ class UserControllerTest extends TestCase
         array $data,
         array $errors
     ): void {
+        $this->user->givePermissionTo(Permissions::EditUsers);
+
         // User to validate unique rules...
         User::factory()->create([
             'username' => 'john',
@@ -119,10 +167,10 @@ class UserControllerTest extends TestCase
             'role' => $data['role'] ?? null,
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->post(route('users.store'), $formData)
-            ->assertSessionHasErrors($errors);
+            ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(User::class, [
             'username' => $formData['username'],
@@ -212,8 +260,36 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_can_not_see_the_others_edit_user_form(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole(Roles::Operator);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.edit', $user))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function it_should_allow_their_own_edit_user_form(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole(Roles::Operator);
+
+        $this
+            ->actingAs($user)
+            ->get(route('users.edit', $user))
+            ->assertSuccessful()
+            ->assertViewIs('user.edit')
+            ->assertViewHas('user', $user);
+    }
+
+    /** @test */
     public function it_should_show_the_edit_user_form(): void
     {
+        $this->user->givePermissionTo(Permissions::EditUsers);
+
         $user = User::factory()->create();
         $user->assignRole(Roles::Operator);
 
@@ -226,8 +302,146 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_can_not_update_other_users(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user->assignRole(Roles::Auditor);
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('users.update', $user), [])
+            ->assertForbidden();
+
+        $this->assertModelExists($user);
+    }
+
+    /** @test */
+    public function users_can_update_its_own_credentials(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create([
+            'enabled' => true,
+            'password' => bcrypt('veryS3cretP4ssword'),
+        ]);
+        $user->assignRole(Roles::Auditor);
+
+        $this
+            ->actingAs($user)
+            ->put(route('users.update', $user), [
+                'email' => $user->email,
+                'enabled' => $user->enabled,
+                'current_password' => 'veryS3cretP4ssword',
+                'password' => 'new-password-123',
+                'password_confirmation' => 'new-password-123',
+                'role' => Roles::Auditor,
+            ])
+            ->assertRedirect(route('users.index'))
+            ->assertValid();
+
+        $this->assertModelExists($user);
+
+        $user->refresh();
+
+        $this->assertTrue(Hash::check('new-password-123', $user->password));
+    }
+
+    /** @test */
+    public function users_can_not_change_its_credentials_without_the_current_password(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create([
+            'enabled' => true,
+            'password' => bcrypt('veryS3cretP4ssword'),
+        ]);
+        $user->assignRole(Roles::Auditor);
+
+        $this
+            ->actingAs($user)
+            ->put(route('users.update', $user), [
+                'email' => $user->email,
+                'enabled' => $user->enabled,
+                'current_password' => '',
+                'password' => 'new-password-123',
+                'password_confirmation' => 'new-password-123',
+                'role' => Roles::Auditor,
+            ])
+            ->assertInvalid('current_password');
+
+        $this->assertModelExists($user);
+
+        $user->refresh();
+
+        $this->assertTrue(Hash::check('veryS3cretP4ssword', $user->password));
+    }
+
+    /** @test */
+    public function users_can_update_themselves(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create([
+            'enabled' => true,
+        ]);
+        $user->assignRole(Roles::Auditor);
+
+        /** @var User $want */
+        $want = User::factory()->make();
+
+        $this
+            ->actingAs($user)
+            ->put(route('users.update', $user), [
+                'email' => $want->email,
+                'enabled' => $user->enabled,
+                'role' => Roles::Auditor,
+            ])
+            ->assertRedirect(route('users.index'))
+            ->assertValid();
+
+        $this->assertDatabaseHas(User::class, [
+            'id' => $user->id,
+            'username' => $user->username,
+            'email' => $want->email,
+        ]);
+
+        $user->refresh();
+
+        $this->assertEquals(Roles::Auditor, $user->role);
+    }
+
+    /** @test */
+    public function users_can_not_update_some_of_its_own_parameters(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create([
+            'enabled' => true,
+        ]);
+        $user->assignRole(Roles::Auditor);
+
+        $this
+            ->actingAs($user)
+            ->put(route('users.update', $user), [
+                'email' => $user->email,
+                'enabled' => false,
+                'role' => Roles::Operator,
+            ])
+            ->assertInvalid(['enabled', 'role']);
+
+        $this->assertDatabaseHas(User::class, [
+            'id' => $user->id,
+            'username' => $user->username,
+            'enabled' => $user->enabled,
+        ]);
+
+        $user->refresh();
+
+        $this->assertEquals(Roles::Auditor, $user->role);
+    }
+
+    /** @test */
     public function it_should_update_the_user(): void
     {
+        $this->user->givePermissionTo(Permissions::EditUsers);
+
         /** @var User $user */
         $user = User::factory()->create([
             'enabled' => true,
@@ -249,7 +463,7 @@ class UserControllerTest extends TestCase
                 'role' => Roles::Operator,
             ])
             ->assertRedirect(route('users.index'))
-            ->assertSessionHasNoErrors();
+            ->assertValid();
 
         $this->assertDatabaseHas(User::class, [
             'id' => $user->id,
@@ -273,6 +487,8 @@ class UserControllerTest extends TestCase
         array $data,
         array $errors
     ): void {
+        $this->user->givePermissionTo(Permissions::EditUsers);
+
         // User to validate unique rules...
         User::factory()->create([
             'username' => 'john',
@@ -296,7 +512,7 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('users.update', $user), $formData)
-            ->assertSessionHasErrors($errors);
+            ->assertInvalid($errors);
 
         $this->assertDatabaseHas(User::class, [
             'id' => $user->id,
@@ -366,7 +582,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_delete_the_user(): void
+    public function users_can_not_delete_users(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -374,26 +590,47 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->delete(route('users.destroy', $user))
-            ->assertRedirect(route('users.index'))
-            ->assertSessionHas('success');
+            ->assertForbidden();
+
+        $this->assertModelExists($user);
+    }
+
+    /** @test */
+    public function users_can_not_delete_themselves(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user->givePermissionTo(Permissions::DeleteUsers);
+
+        $this
+            ->actingAs($user)
+            ->delete(route('users.destroy', $user))
+            ->assertForbidden();
+
+        $this->assertModelExists($user);
+    }
+
+    /** @test */
+    public function it_should_delete_the_user(): void
+    {
+        $this->user->givePermissionTo(Permissions::DeleteUsers);
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('users.destroy', $user))
+            ->assertRedirect(route('users.index'));
 
         $this->assertSoftDeleted($user);
     }
 
     /** @test */
-    public function it_should_return_error_when_deleting_itself(): void
-    {
-        $this
-            ->actingAs($this->user)
-            ->delete(route('users.destroy', $this->user))
-            ->assertSessionHasErrors();
-
-        $this->assertModelExists($this->user);
-    }
-
-    /** @test */
     public function it_should_return_error_for_non_AJAX_requests(): void
     {
+        $this->user->givePermissionTo(Permissions::ViewUsers);
+
         $this
             ->actingAs($this->user)
             ->get(route('users.data'))
@@ -401,8 +638,19 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_can_not_make_AJAX_requests(): void
+    {
+        $this
+            ->actingAs($this->user)
+            ->ajaxGet(route('users.data'))
+            ->assertForbidden();
+    }
+
+    /** @test */
     public function it_should_return_a_JSON_with_the_data(): void
     {
+        $this->user->givePermissionTo(Permissions::ViewUsers);
+
         $users = User::factory()
             ->count(3)
             ->create([

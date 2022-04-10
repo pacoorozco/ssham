@@ -26,7 +26,6 @@ use App\Jobs\ChangeUserPassword;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
@@ -94,12 +93,6 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
-        // it is handle here instead of UserPolicy to avoid that the SuperAdmin can delete itself.
-        if ($user->id === Auth::id()) {
-            return redirect()->back()
-                ->withErrors(trans('user/messages.delete.impossible'));
-        }
-
         $username = $user->username;
 
         $user->delete();

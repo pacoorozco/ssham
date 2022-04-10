@@ -15,6 +15,7 @@ return [
     'edit' => [
         'incorrect_password' => 'Your current password does not match with the stored one.',
         'disabled_status_not_allowed' => 'You cannot disable your own account.',
+        'role_change_not_allowed' => 'You cannot change your own role.',
         'error' => 'There was an issue editing the user. Please try again.',
         'success' => 'The user \':name\' was edited successfully.',
     ],
