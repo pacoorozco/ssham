@@ -21,7 +21,7 @@ class KeygroupPolicyTest extends TestCase
     {
         parent::setUp();
 
-        $this->enablePermissionsCheck();
+        $this->setupRolesAndPermissions();
 
         $this->user = User::factory()->create();
     }

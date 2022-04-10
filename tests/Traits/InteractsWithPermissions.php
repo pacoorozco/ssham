@@ -31,7 +31,7 @@ trait InteractsWithPermissions
         });
     }
 
-    public function enablePermissionsCheck(): void
+    public function setupRolesAndPermissions(): void
     {
         $this->loadRolesAndPermissions();
     }

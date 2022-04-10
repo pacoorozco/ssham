@@ -6,7 +6,6 @@ use App\Enums\Permissions;
 use App\Models\Hostgroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -21,7 +20,7 @@ class HostgroupPolicyTest extends TestCase
     {
         parent::setUp();
 
-        $this->enablePermissionsCheck();
+        $this->setupRolesAndPermissions();
 
         $this->user = User::factory()->create();
     }
@@ -32,32 +31,34 @@ class HostgroupPolicyTest extends TestCase
         $this->user->givePermissionTo(Permissions::asArray());
         $this->user->revokePermissionTo(Permissions::EditHosts);
 
-        $response = $this->createHostgroupRequestAs($this->user);
-
-        $response->assertForbidden();
-    }
-
-    private function createHostgroupRequestAs(User $user): TestResponse
-    {
         /** @var Hostgroup $want */
         $want = Hostgroup::factory()->make();
 
-        return $this->actingAs($user)
+        $this
+            ->actingAs($this->user)
             ->post(route('hostgroups.store'), [
                 'name' => $want->name,
                 'description' => $want->description,
-            ]);
+            ])
+            ->assertForbidden();
     }
 
     /** @test */
     public function can_create_hostgroups_with_the_proper_permission(): void
     {
         $this->user->syncPermissions(Permissions::EditHosts);
-        $response = $this->createHostgroupRequestAs($this->user);
 
-        $response->assertRedirect(route('hostgroups.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('hostgroups.store'), [
+                'name' => $want->name,
+                'description' => $want->description,
+            ])
+            ->assertRedirect(route('hostgroups.index'))
+            ->assertValid();
     }
 
     /** @test */
@@ -65,24 +66,20 @@ class HostgroupPolicyTest extends TestCase
     {
         $this->user->givePermissionTo(Permissions::asArray());
         $this->user->revokePermissionTo(Permissions::EditHosts);
-        /** @var Hostgroup $hostgroup */
-        $hostgroup = Hostgroup::factory()->create();
 
-        $response = $this->editHostgroupRequestAs($this->user, $hostgroup);
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
 
-        $response->assertForbidden();
-    }
-
-    private function editHostgroupRequestAs(User $user, Hostgroup $hostgroup): TestResponse
-    {
         /** @var Hostgroup $want */
         $want = Hostgroup::factory()->make();
 
-        return $this->actingAs($user)
-            ->put(route('hostgroups.update', $hostgroup), [
+        $this
+            ->actingAs($this->user)
+            ->put(route('hostgroups.update', $group), [
                 'name' => $want->name,
                 'description' => $want->description,
-            ]);
+            ])
+            ->assertForbidden();
     }
 
     /** @test */
@@ -90,14 +87,20 @@ class HostgroupPolicyTest extends TestCase
     {
         $this->user->syncPermissions(Permissions::EditHosts);
 
-        /** @var Hostgroup $hostgroup */
-        $hostgroup = Hostgroup::factory()->create();
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
 
-        $response = $this->editHostgroupRequestAs($this->user, $hostgroup);
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
 
-        $response->assertRedirect(route('hostgroups.edit', $hostgroup));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
+        $this
+            ->actingAs($this->user)
+            ->put(route('hostgroups.update', $group), [
+                'name' => $want->name,
+                'description' => $want->description,
+            ])
+            ->assertRedirect(route('hostgroups.edit', $group))
+            ->assertValid();
     }
 
     /** @test */
@@ -106,27 +109,30 @@ class HostgroupPolicyTest extends TestCase
         $this->user->givePermissionTo(Permissions::asArray());
         $this->user->revokePermissionTo(Permissions::DeleteHosts);
 
-        $response = $this->deleteHostgroupsRequestAs($this->user);
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
 
-        $response->assertForbidden();
-    }
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
 
-    private function deleteHostgroupsRequestAs(User $user): TestResponse
-    {
-        $host = Hostgroup::factory()->create();
-
-        return $this->actingAs($user)
-            ->delete(route('hostgroups.destroy', $host));
+        $this
+            ->actingAs($this->user)
+            ->delete(route('hostgroups.destroy', $group))
+            ->assertForbidden();
     }
 
     /** @test */
     public function can_delete_hostgroups_with_the_proper_permission(): void
     {
         $this->user->syncPermissions(Permissions::DeleteHosts);
-        $response = $this->deleteHostgroupsRequestAs($this->user);
 
-        $response->assertRedirect(route('hostgroups.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('hostgroups.destroy', $group))
+            ->assertRedirect(route('hostgroups.index'))
+            ->assertValid();
     }
 }

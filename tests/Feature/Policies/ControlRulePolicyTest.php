@@ -4,10 +4,8 @@ namespace Tests\Feature\Policies;
 
 use App\Enums\Permissions;
 use App\Models\ControlRule;
-use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -23,7 +21,7 @@ class ControlRulePolicyTest extends TestCase
     {
         parent::setUp();
 
-        $this->enablePermissionsCheck();
+        $this->setupRolesAndPermissions();
 
         $this->user = User::factory()->create();
     }
@@ -34,9 +32,8 @@ class ControlRulePolicyTest extends TestCase
         $this->user->givePermissionTo(Permissions::asArray());
         $this->user->revokePermissionTo(Permissions::EditRules);
 
-        $response = $this->createControlRuleRequestAs($this->user);
-
-        $response->assertForbidden();
+        $this->createControlRuleRequestAs($this->user)
+            ->assertForbidden();
     }
 
     private function createControlRuleRequestAs(User $user): TestResponse
@@ -57,11 +54,10 @@ class ControlRulePolicyTest extends TestCase
     public function can_create_rules_with_the_proper_permission(): void
     {
         $this->user->syncPermissions(Permissions::EditRules);
-        $response = $this->createControlRuleRequestAs($this->user);
 
-        $response->assertRedirect(route('rules.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
+        $this->createControlRuleRequestAs($this->user)
+            ->assertRedirect(route('rules.index'))
+            ->assertValid();
     }
 
     /** @test */
@@ -70,9 +66,8 @@ class ControlRulePolicyTest extends TestCase
         $this->user->givePermissionTo(Permissions::asArray());
         $this->user->revokePermissionTo(Permissions::DeleteRules);
 
-        $response = $this->deleteControlRulesRequestAs($this->user);
-
-        $response->assertForbidden();
+        $this->deleteControlRulesRequestAs($this->user)
+            ->assertForbidden();
     }
 
     private function deleteControlRulesRequestAs(User $user): TestResponse
@@ -87,10 +82,9 @@ class ControlRulePolicyTest extends TestCase
     public function can_delete_rules_with_the_proper_permission(): void
     {
         $this->user->syncPermissions(Permissions::DeleteRules);
-        $response = $this->deleteControlRulesRequestAs($this->user);
 
-        $response->assertRedirect(route('rules.index'));
-        $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success');
+        $this->deleteControlRulesRequestAs($this->user)
+            ->assertRedirect(route('rules.index'))
+            ->assertValid();
     }
 }

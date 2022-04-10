@@ -35,7 +35,7 @@ class PersonalAccessTokenControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->enablePermissionsCheck();
+        $this->setupRolesAndPermissions();
     }
 
     /** @test */
