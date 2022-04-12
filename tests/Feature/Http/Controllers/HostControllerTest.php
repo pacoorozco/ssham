@@ -193,7 +193,8 @@ class HostControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_ensures_uniqueness_when_creating_a_host(): void {
+    public function it_ensures_uniqueness_when_creating_a_host(): void
+    {
         /** @var Host $want */
         $want = Host::factory()->create([
             'hostname' => 'existing-server.domain.local',
@@ -273,8 +274,7 @@ class HostControllerTest extends TestCase
     public function it_returns_errors_when_updating_a_host(
         array $data,
         array $errors,
-    ): void
-    {
+    ): void {
         /** @var Host $host */
         $host = Host::factory()->create();
 

@@ -71,6 +71,5 @@ class CreateHostActionTest extends TestCase
             'username' => 'john.doe',
             'options' => [],
         ];
-
     }
 }
