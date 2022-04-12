@@ -18,6 +18,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -75,14 +76,13 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
 
-        $this->user = User::factory()
-            ->create();
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function it_should_show_the_index_view(): void
+    public function users_should_see_the_index_view(): void
     {
         setting()->set(self::TEST_SETTINGS);
 
@@ -95,8 +95,21 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
     }
 
     /** @test */
-    public function it_should_show_the_edit_settings_form(): void
+    public function users_should_not_see_the_edit_settings_form(): void
     {
+        setting()->set(self::TEST_SETTINGS);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('settings.edit'))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_edit_settings_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditSettings);
+
         setting()->set(self::TEST_SETTINGS);
 
         $this
@@ -108,8 +121,38 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
     }
 
     /** @test */
-    public function it_should_update_the_settings(): void
+    public function users_should_not_update_the_settings(): void
     {
+        setting()->set(self::TEST_SETTINGS);
+
+        [$privateKey, $publicKey] = (new KeyPair())->generate();
+
+        $formData = [
+            'authorized_keys' => 'foo_authorized_keys',
+            'private_key' => trim($privateKey),
+            'public_key' => trim($publicKey),
+            'temp_dir' => 'foo_temp_dir',
+            'ssh_timeout' => 10,
+            'ssh_port' => 2022,
+            'mixed_mode' => false,
+            'ssham_file' => 'foo_ssham_file',
+            'non_ssham_file' => 'foo_non_ssham_file',
+            'cmd_remote_updater' => 'foo_cmd_remote_updater',
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('settings.update', $formData))
+            ->assertForbidden();
+
+        $this->assertEquals(self::TEST_SETTINGS, setting()->all()->toArray());
+    }
+
+    /** @test */
+    public function editors_should_update_the_settings(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditSettings);
+
         setting()->set(self::TEST_SETTINGS);
 
         [$privateKey, $publicKey] = (new KeyPair())->generate();
@@ -140,10 +183,12 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
      * @test
      * @dataProvider provideWrongDataForSettingsModification
      */
-    public function it_should_return_errors_when_updating_the_settings(
+    public function editors_should_get_errors_when_updating_the_settings_with_wrong_data(
         array $data,
         array $errors,
     ): void {
+        $this->user->givePermissionTo(Permissions::EditSettings);
+
         setting()->set(self::TEST_SETTINGS);
 
         $settings = self::TEST_SETTINGS;
