@@ -30,7 +30,7 @@ class HostCreateRequest extends Request
                 'max:255',
                 // 'hostname' and 'username' combination must be unique
                 Rule::unique('hosts')
-                    ->where(fn($query) => $query->where('username', $this->input('username'))),
+                    ->where(fn ($query) => $query->where('username', $this->input('username'))),
             ],
             'username' => [
                 'required',
