@@ -20,23 +20,19 @@ namespace App\Http\Requests;
 
 class SearchRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
             'q' => [
+                'sometimes',
                 'nullable',
                 'string',
             ],
         ];
     }
 
-    public function searchString(): ?string
+    public function searchString(): string
     {
-        return $this->input('q');
+        return $this->input('q') ?? '';
     }
 }

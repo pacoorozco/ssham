@@ -26,6 +26,7 @@ use App\Models\Keygroup;
 use Illuminate\View\View;
 use Spatie\Searchable\ModelSearchAspect;
 use Spatie\Searchable\Search;
+use Spatie\Searchable\SearchResultCollection;
 
 class SearchController extends Controller
 {
@@ -33,11 +34,20 @@ class SearchController extends Controller
     {
         $searchString = $request->searchString();
 
-        if (is_null($searchString)) {
+        if (empty($searchString)) {
             return view('search.index');
         }
 
-        $searchResults = (new Search())
+        $searchResults = $this->doSearch($searchString);
+
+        return view('search.results')
+            ->with('searchString', $searchString)
+            ->with('searchResults', $searchResults);
+    }
+
+    private function doSearch(string $query): SearchResultCollection
+    {
+        return (new Search())
             ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
                 $modelSearchAspect
                     ->addSearchableAttribute('username') // return results for partial matches on usernames
@@ -46,10 +56,6 @@ class SearchController extends Controller
             ->registerModel(Keygroup::class, 'name', 'description')
             ->registerModel(Host::class, 'hostname')
             ->registerModel(Hostgroup::class, 'name', 'description')
-            ->perform($searchString);
-
-        return view('search.results')
-            ->with('searchString', $searchString)
-            ->with('searchResults', $searchResults);
+            ->perform($query);
     }
 }
