@@ -24,8 +24,6 @@ use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Exceptions\UnauthorizedException;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -46,7 +44,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_see_the_index_view(): void
+    public function users_should_not_see_the_index_view(): void
     {
         $this
             ->actingAs($this->user)
@@ -55,7 +53,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_show_the_index_view(): void
+    public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewUsers);
 
@@ -67,7 +65,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_see_the_new_user_form(): void
+    public function users_should_not_see_the_new_user_form(): void
     {
         $this
             ->actingAs($this->user)
@@ -76,7 +74,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_show_the_new_user_form(): void
+    public function editors_should_see_the_new_user_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
 
@@ -88,7 +86,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_create_users(): void
+    public function users_should_not_create_users(): void
     {
         /** @var User $want */
         $want = User::factory()->make();
@@ -111,7 +109,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_create_a_new_user(): void
+    public function editors_should_create_users(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
 
@@ -144,7 +142,7 @@ class UserControllerTest extends TestCase
      * @test
      * @dataProvider provideWrongDataForUserCreation
      */
-    public function it_should_return_errors_when_creating_a_new_user(
+    public function editors_should_get_errors_when_creating_users_with_wrong_data(
         array $data,
         array $errors
     ): void {
@@ -260,7 +258,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_see_the_others_edit_user_form(): void
+    public function users_should_not_see_other_edit_user_form(): void
     {
         $user = User::factory()->create();
         $user->assignRole(Roles::Operator);
@@ -272,7 +270,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_allow_their_own_edit_user_form(): void
+    public function users_should_see_their_own_edit_user_form(): void
     {
         $user = User::factory()->create();
         $user->assignRole(Roles::Operator);
@@ -286,7 +284,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_show_the_edit_user_form(): void
+    public function editors_should_see_the_edit_user_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
 
@@ -302,7 +300,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_update_other_users(): void
+    public function users_should_not_update_other_users(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -317,7 +315,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_update_its_own_credentials(): void
+    public function users_should_change_their_own_credentials(): void
     {
         /** @var User $user */
         $user = User::factory()->create([
@@ -347,7 +345,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_change_its_credentials_without_the_current_password(): void
+    public function users_should_not_change_its_own_credentials_without_the_current_password(): void
     {
         /** @var User $user */
         $user = User::factory()->create([
@@ -376,7 +374,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_update_themselves(): void
+    public function users_should_update_themselves(): void
     {
         /** @var User $user */
         $user = User::factory()->create([
@@ -409,7 +407,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_update_some_of_its_own_parameters(): void
+    public function users_should_not_update_neither_status_nor_role(): void
     {
         /** @var User $user */
         $user = User::factory()->create([
@@ -438,7 +436,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_update_the_user(): void
+    public function editors_should_update_users(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
 
@@ -483,7 +481,7 @@ class UserControllerTest extends TestCase
      * @test
      * @dataProvider provideWrongDataForUserModification
      */
-    public function it_should_return_errors_when_updating_the_user(
+    public function editors_should_get_errors_when_updating_users_with_wrong_data(
         array $data,
         array $errors
     ): void {
@@ -582,7 +580,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_delete_users(): void
+    public function users_should_not_delete_users(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -596,7 +594,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_delete_themselves(): void
+    public function users_should_not_delete_themselves(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -611,7 +609,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_delete_the_user(): void
+    public function eliminators_should_delete_users(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteUsers);
 
@@ -627,7 +625,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_error_for_non_AJAX_requests(): void
+    public function viewers_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
     {
         $this->user->givePermissionTo(Permissions::ViewUsers);
 
@@ -638,7 +636,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_can_not_make_AJAX_requests(): void
+    public function users_should_not_get_data_tables_data(): void
     {
         $this
             ->actingAs($this->user)
@@ -647,7 +645,7 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_a_JSON_with_the_data(): void
+    public function viewers_should_get_data_tables_data(): void
     {
         $this->user->givePermissionTo(Permissions::ViewUsers);
 
