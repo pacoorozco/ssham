@@ -43,7 +43,7 @@ class Keygroup extends Model implements Searchable
     use HasFactory;
     use Presentable;
 
-    public string $searchableType = 'SSH Key groups';
+    public string $searchableType = 'SSH Keys groups';
     protected string $presenter = KeygroupPresenter::class;
     protected $table = 'keygroups';
     protected $fillable = [
