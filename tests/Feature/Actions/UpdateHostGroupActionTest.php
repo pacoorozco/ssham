@@ -50,7 +50,7 @@ class UpdateHostGroupActionTest extends TestCase
         /** @var Hostgroup $want */
         $want = Hostgroup::factory()->make();
 
-       $action(
+        $action(
             group: $group,
             name: $want->name,
             description: $want->description,
