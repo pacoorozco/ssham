@@ -24,6 +24,7 @@ use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\KeygroupDataTablesController;
 use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
@@ -141,12 +142,9 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('keygroups/data',
-            [KeygroupController::class, 'data'])
+        ->get('keygroups/data', KeygroupDataTablesController::class)
         ->name('keygroups.data');
 
-    // Pre-baked resource controller actions for index, create, store,
-    // show, edit, update, destroy
     Route::resource('keygroups', KeygroupController::class);
 
     /**
