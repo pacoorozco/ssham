@@ -22,6 +22,7 @@ use App\Http\Controllers\DownloadPrivateKeyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
 use App\Http\Controllers\HostgroupController;
+use App\Http\Controllers\HostgroupDataTablesController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\KeygroupController;
 use App\Http\Controllers\KeygroupDataTablesController;
@@ -154,8 +155,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('hostgroups/data',
-            [HostgroupController::class, 'data'])
+        ->get('hostgroups/data', HostgroupDataTablesController::class)
         ->name('hostgroups.data');
 
     // Pre-baked resource controller actions for index, create, store,
