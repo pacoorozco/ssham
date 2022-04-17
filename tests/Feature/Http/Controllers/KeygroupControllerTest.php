@@ -232,7 +232,6 @@ class KeygroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-
     /** @test */
     public function editors_should_see_the_edit_group_form(): void
     {
