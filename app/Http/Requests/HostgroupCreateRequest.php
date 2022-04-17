@@ -52,9 +52,9 @@ class HostgroupCreateRequest extends Request
         return $this->input('name');
     }
 
-    public function description(): ?string
+    public function description(): string
     {
-        return $this->input('description');
+        return $this->input('description') ?? '';
     }
 
     public function hosts(): array
