@@ -18,57 +18,98 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class DownloadPrivateKeyControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithPermissions;
 
-    private User $user_to_act_as;
+    private User $user;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user_to_act_as = User::factory()
-            ->create();
+
+        $this->setupRolesAndPermissions();
+
+        $this->user = User::factory()->create();
+    }
+
+    /**
+     * @test
+     * @dataProvider providePrivateKeysToDownload
+     */
+    public function users_should_not_download_existing_private_keys(
+        array $data,
+    ): void {
+        $key = Key::factory()
+            ->create($data);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.download', $key))
+            ->assertForbidden();
+
+        $this->assertModelExists($key);
+    }
+
+    public function providePrivateKeysToDownload(): \Generator
+    {
+        yield 'private key ! exist' => [
+            'data' => [
+                'private' => '',
+            ],
+        ];
+
+        yield 'private key exist' => [
+            'data' => [],
+        ];
     }
 
     /** @test */
-    public function downloadPrivateKey_method_removes_private_key_after_it_is_downloaded(): void
+    public function editors_should_remove_private_key_after_downloading_it(): void
     {
-        $key = Key::factory()
-            ->create();
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        $key = Key::factory()->create();
+
         $wantPrivateKeyContent = $key->private;
 
         $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('keys.download', $key));
+            ->actingAs($this->user)
+            ->get(route('keys.download', $key))
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'application/pkcs8')
+            ->assertDownload('id_rsa');
 
-        $response->assertSuccessful();
-        $response->assertHeader('Content-Type', 'application/pkcs8');
-        $response->assertHeader('Content-Disposition', 'attachment; filename=id_rsa');
         $this->assertEquals($wantPrivateKeyContent, $response->streamedContent());
-        $this->assertDatabaseHas('keys', [
-            'id' => $key->id,
-            'private' => '',
-        ]);
+
+        // Second time should response 404.
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.download', $key))
+            ->assertNotFound();
     }
 
     /** @test */
-    public function downloadPrivateKey_method_returns_error_when_private_key_is_not_present(): void
+    public function editors_should_get_error_when_private_key_does_not_exist(): void
     {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
         $key = Key::factory()
             ->create([
-                'private' => null,
+                'private' => '',
             ]);
 
-        $response = $this
-            ->actingAs($this->user_to_act_as)
-            ->get(route('keys.download', $key));
-
-        $response->assertNotFound();
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.download', $key))
+            ->assertNotFound();
     }
 }

@@ -38,7 +38,8 @@ class ControlRuleControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
+
         $this->user = User::factory()->create();
     }
 
