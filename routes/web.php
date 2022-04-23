@@ -18,6 +18,7 @@
 
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ControlRuleController;
+use App\Http\Controllers\ControlRuleDataTablesController;
 use App\Http\Controllers\DownloadPrivateKeyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
@@ -168,8 +169,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // Datatables Ajax route.
     Route::middleware(['ajax'])
-        ->get('rules/data',
-            [ControlRuleController::class, 'data'])
+        ->get('rules/data', ControlRuleDataTablesController::class)
         ->name('rules.data');
 
     // Pre-baked resource controller actions for index, create, store,

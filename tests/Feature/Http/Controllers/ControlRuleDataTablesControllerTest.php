@@ -1,6 +1,6 @@
 <?php
 /**
- * SSH Access Manager - SSH keygroups management solution.
+ * SSH Access Manager - SSH keys management solution.
  *
  * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
@@ -19,13 +19,13 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\Permissions;
-use App\Models\Hostgroup;
+use App\Models\ControlRule;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
-class HostgroupDataTableControllerTest extends TestCase
+class ControlRuleDataTablesControllerTest extends TestCase
 {
     use RefreshDatabase;
     use InteractsWithPermissions;
@@ -44,11 +44,11 @@ class HostgroupDataTableControllerTest extends TestCase
     /** @test */
     public function viewers_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
     {
-        $this->user->givePermissionTo(Permissions::ViewHosts);
+        $this->user->givePermissionTo(Permissions::ViewRules);
 
         $this
             ->actingAs($this->user)
-            ->get(route('hostgroups.data'))
+            ->get(route('rules.data'))
             ->assertForbidden();
     }
 
@@ -57,31 +57,32 @@ class HostgroupDataTableControllerTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->ajaxGet(route('hostgroups.data'))
+            ->ajaxGet(route('rules.data'))
             ->assertForbidden();
     }
 
     /** @test */
     public function viewers_should_get_data_tables_data(): void
     {
-        $this->user->givePermissionTo(Permissions::ViewHosts);
+        $this->user->givePermissionTo(Permissions::ViewRules);
 
-        $groups = Hostgroup::factory()
-            ->count(2)
+        $rules = ControlRule::factory()
+            ->count(3)
             ->create();
 
         $this
             ->actingAs($this->user)
-            ->ajaxGet(route('hostgroups.data'))
+            ->ajaxGet(route('rules.data'))
             ->assertSuccessful()
-            ->assertJsonCount(count($groups), 'data')
+            ->assertJsonCount(count($rules), 'data')
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
+                        'id',
                         'name',
-                        'description',
-                        'hosts',
-                        'rules',
+                        'action',
+                        'source',
+                        'target',
                         'actions',
                     ],
                 ],

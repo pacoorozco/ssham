@@ -18,7 +18,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Enums\Roles;
+use App\Enums\Permissions;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
@@ -44,113 +44,210 @@ class ControlRuleControllerTest extends TestCase
     }
 
     /** @test */
-    public function index_method_returns_proper_view(): void
+    public function users_should_not_see_the_index_view(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('rules.index'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('rule.index');
+            ->get(route('rules.index'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function create_method_returns_proper_view_with_data(): void
+    public function viewers_should_see_the_index_view(): void
     {
-        $sources = Keygroup::factory()
-            ->count(3)
-            ->create();
-        $targets = Hostgroup::factory()
-            ->count(3)
-            ->create();
+        $this->user->givePermissionTo(Permissions::ViewRules);
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('rules.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('rule.create');
-        $response->assertViewHas('sources');
-        $response->assertViewHas('targets');
+            ->get(route('rules.index'))
+            ->assertSuccessful()
+            ->assertViewIs('rule.index');
     }
 
     /** @test */
-    public function create_method_creates_a_rule(): void
+    public function users_should_not_see_the_new_rule_form(): void
     {
-        $expectedControlRule = ControlRule::factory()->make();
+        Keygroup::factory()->create();
+
+        Hostgroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('rules.create'))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_new_rule_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditRules);
+
+        Keygroup::factory()
+            ->count(2)
+            ->create();
+
+        Hostgroup::factory()
+            ->count(2)
+            ->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('rules.create'))
+            ->assertSuccessful()
+            ->assertViewIs('rule.create')
+            ->assertViewHas('sources')
+            ->assertViewHas('targets');
+    }
+
+    /** @test */
+    public function users_should_not_create_rules(): void
+    {
+        /** @var ControlRule $want */
+        $want = ControlRule::factory()->make();
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('rules.store'), [
+                'name' => $want->namw,
+                'source' => $want->source->id,
+                'target' => $want->target->id,
+                'action' => $want->action->value,
+            ])
+            ->assertForbidden();
+
+        $this->assertDatabaseMissing(Hostgroup::class, [
+            'name' => $want->name,
+            'action' => $want->action->value,
+        ]);
+    }
+
+    /** @test */
+    public function editors_should_create_rules(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditRules);
+
+        /** @var ControlRule $want */
+        $want = ControlRule::factory()->make();
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('rules.store'), [
+                'name' => $want->name,
+                'source' => $want->source->id,
+                'target' => $want->target->id,
+                'action' => $want->action->value,
+            ])
+            ->assertRedirect(route('rules.index'))
+            ->assertValid();
+
+        $this->assertDatabaseHas(ControlRule::class, [
+            'name' => $want->name,
+            'source_id' => $want->source->id,
+            'target_id' => $want->target->id,
+            'action' => $want->action->value,
+        ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForRuleCreation
+     */
+    public function editors_should_get_errors_when_creating_rules_with_wrong_data(
+        array $data,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditRules);
+
+        // Rule to validate unique rules...
+        ControlRule::factory()->create([
+            'name' => 'foo',
+        ]);
+
+        /** @var ControlRule $want */
+        $want = ControlRule::factory()->make();
 
         $formData = [
-            'name' => $expectedControlRule->name,
-            'source' => $expectedControlRule->source->id,
-            'target' => $expectedControlRule->target->id,
-            'action' => $expectedControlRule->action->value,
+            'name' => $data['name'] ?? $want->name,
+            'source' => $data['source'] ?? $want->source->id,
+            'target' => $data['target'] ?? $want->target->id,
+            'action' => $data['action'] ?? $want->action->value,
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->post(route('rules.store'), $formData);
+            ->post(route('rules.store'), $formData)
+            ->assertInvalid($errors);
 
-        $response->assertRedirect(route('rules.index'));
-        $this->assertDatabaseHas('hostgroup_keygroup_permissions', [
-            'name' => $expectedControlRule->name,
-            'source_id' => $expectedControlRule->source->id,
-            'target_id' => $expectedControlRule->target->id,
-            'action' => $expectedControlRule->action->value,
+        $this->assertDatabaseMissing(ControlRule::class, [
+            'name' => $formData['name'],
+            'source_id' => $formData['source'],
+            'target_id' => $formData['target'],
+            'action' => $formData['action'],
         ]);
     }
 
-    /** @test */
-    public function destroy_method_removes_the_rule(): void
+    public function provideWrongDataForRuleCreation(): \Generator
     {
-        $rule = ControlRule::factory()
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->delete(route('rules.destroy', $rule));
-
-        $response->assertRedirect(route('rules.index'));
-        $this->assertDatabaseMissing('hostgroup_keygroup_permissions', [
-            'id' => $rule->id,
-        ]);
-    }
-
-    /** @test */
-    public function data_method_returns_error_when_not_ajax(): void
-    {
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('rules.data'));
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function data_method_returns_json_data(): void
-    {
-        $rules = ControlRule::factory()
-            ->count(3)
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->ajaxGet(route('rules.data'));
-
-        //var_dump($response->dump());
-
-        $response->assertSuccessful();
-        $response->assertJsonCount(3, 'data');
-        $response->assertJsonStructure([
+        yield 'name is empty' => [
             'data' => [
-                '*' => [
-                    'id',
-                    'name',
-                    'action',
-                    'source',
-                    'target',
-                    'actions',
-                ],
+                'name' => '',
             ],
-        ]);
+            'errors' => ['name'],
+        ];
+
+        yield 'source ! a keys group' => [
+            'data' => [
+                'source' => 10,
+            ],
+            'errors' => ['source'],
+        ];
+
+        yield 'target ! a hosts group' => [
+            'data' => [
+                'target' => 10,
+            ],
+            'errors' => ['target'],
+        ];
+
+        yield 'source and target is taken' => [
+            'data' => [
+                'source' => 1,
+                'target' => 1,
+            ],
+            'errors' => ['source'],
+        ];
+
+        yield 'action ! an action' => [
+            'data' => [
+                'action' => 'non-existent-action',
+            ],
+            'errors' => ['action'],
+        ];
+    }
+
+    /** @test */
+    public function users_should_not_delete_rules(): void
+    {
+        $rule = ControlRule::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('rules.destroy', $rule))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function eliminators_should_delete_rules(): void
+    {
+        $this->user->givePermissionTo(Permissions::DeleteRules);
+
+        $rule = ControlRule::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('rules.destroy', $rule))
+            ->assertRedirect(route('rules.index'));
+
+        $this->assertModelMissing($rule);
     }
 }
