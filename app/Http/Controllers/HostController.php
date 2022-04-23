@@ -20,18 +20,12 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateHostAction;
 use App\Actions\UpdateHostAction;
-use App\Actions\UpdateUserAction;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
-use App\Jobs\CreateHost;
-use App\Jobs\DeleteHost;
-use App\Jobs\UpdateHost;
 use App\Models\Host;
 use App\Models\Hostgroup;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Yajra\DataTables\DataTables;
 
 class HostController extends Controller
 {
@@ -110,41 +104,5 @@ class HostController extends Controller
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.delete.success', ['hostname' => $fullHostname]));
-    }
-
-    public function data(DataTables $dataTable): JsonResponse
-    {
-        $this->authorize('viewAny', Host::class);
-
-        $hosts = Host::select([
-            'id',
-            'hostname',
-            'username',
-            'synced',
-            'status_code',
-            'enabled',
-        ])
-            ->withCount('groups as groups') // count number of groups without loading the models
-            ->orderBy('hostname', 'asc');
-
-        return $dataTable->eloquent($hosts)
-            ->editColumn('enabled', function (Host $host) {
-                return $host->present()->enabledAsBadge();
-            })
-            ->editColumn('synced', function (Host $host) {
-                return $host->present()->pendingSyncAsBadge();
-            })
-            ->editColumn('status_code', function (Host $host) {
-                return $host->present()->statusCode();
-            })
-            ->addColumn('actions', function (Host $host) {
-                return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('modelType', 'hosts')
-                    ->with('model', $host)
-                    ->render();
-            })
-            ->rawColumns(['enabled', 'synced', 'actions'])
-            ->removeColumn('id')
-            ->toJson();
     }
 }

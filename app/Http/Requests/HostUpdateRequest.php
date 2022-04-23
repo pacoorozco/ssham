@@ -18,6 +18,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Hostgroup;
+use Illuminate\Validation\Rule;
+
 class HostUpdateRequest extends Request
 {
     public function rules(): array
@@ -27,7 +30,6 @@ class HostUpdateRequest extends Request
                 'required',
                 'boolean',
             ],
-
             'port' => [
                 'sometimes',
                 'required',
@@ -35,12 +37,18 @@ class HostUpdateRequest extends Request
                 'min:1',
                 'max:65535',
             ],
-
             'authorized_keys_file' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:255',
+            ],
+            'groups.*' => [
+                Rule::forEach(function ($value, $attribute) {
+                    return [
+                        Rule::exists(Hostgroup::class, 'id'),
+                    ];
+                }),
             ],
         ];
     }
@@ -55,12 +63,12 @@ class HostUpdateRequest extends Request
         return $this->input('authorized_keys_file');
     }
 
-    public function groups(): ?array
+    public function groups(): array
     {
-        return $this->input('groups');
+        return $this->input('groups', []);
     }
 
-    public function enabled(): bool
+    public function enabled(): ?bool
     {
         return $this->boolean('enabled');
     }

@@ -240,8 +240,8 @@ class HostgroupControllerTest extends TestCase
 
         $group = Hostgroup::factory()->create();
 
-        // Create some keys to test the membership.
-        $keys = Host::factory()
+        // Create some hosts to test the membership.
+        $hosts = Host::factory()
             ->count(2)
             ->create();
 
@@ -251,7 +251,7 @@ class HostgroupControllerTest extends TestCase
             ->assertSuccessful()
             ->assertViewIs('hostgroup.edit')
             ->assertViewHas('hostgroup', $group)
-            ->assertViewHas('hosts', $keys->pluck('hostname', 'id'));
+            ->assertViewHas('hosts', $hosts->pluck('hostname', 'id'));
     }
 
     /** @test */

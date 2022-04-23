@@ -18,6 +18,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
@@ -39,47 +40,94 @@ class HostControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
+
         $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function it_shows_the_index_view(): void
+    public function users_should_not_see_the_index_view(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hosts.index'));
-
-        $response->assertSuccessful();
-
-        $response->assertViewIs('host.index');
+            ->get(route('hosts.index'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function it_shows_the_new_host_form(): void
+    public function viewers_should_see_the_index_view(): void
     {
-        $groups = Hostgroup::factory()
-            ->count(3)
+        $this->user->givePermissionTo(Permissions::ViewHosts);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('hosts.index'))
+            ->assertSuccessful()
+            ->assertViewIs('host.index');
+    }
+
+    /** @test */
+    public function users_should_not_see_the_new_host_form(): void
+    {
+        Host::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('hosts.create'))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_new_host_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        $keys = Hostgroup::factory()
+            ->count(2)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hosts.create'));
-
-        $response->assertSuccessful();
-
-        $response->assertViewIs('host.create');
-
-        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
+            ->get(route('hosts.create'))
+            ->assertSuccessful()
+            ->assertViewIs('host.create')
+            ->assertViewHas('groups', $keys->pluck('name', 'id'));
     }
 
     /** @test */
-    public function it_creates_a_new_host(): void
+    public function users_should_not_create_hosts(): void
     {
         /** @var Host $want */
         $want = Host::factory()->make();
 
-        $response = $this
+        $this
+            ->actingAs($this->user)
+            ->post(route('hosts.store'), [
+                'hostname' => $want->hostname,
+                'username' => $want->username,
+            ])
+            ->assertForbidden();
+
+        $this->assertDatabaseMissing(Host::class, [
+            'hostname' => $want->hostname,
+            'username' => $want->username,
+        ]);
+    }
+
+    /** @test */
+    public function editors_should_create_hosts(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        // Create some hosts groups to test the membership.
+        $groups = Hostgroup::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Host $want */
+        $want = Host::factory()->make();
+
+        $this
             ->actingAs($this->user)
             ->post(route('hosts.store'), [
                 'hostname' => $want->hostname,
@@ -87,29 +135,41 @@ class HostControllerTest extends TestCase
                 'enabled' => $want->enabled,
                 'port' => $want->port,
                 'authorized_keys_file' => $want->authorized_keys_file,
-            ]);
+                'groups' => $groups->pluck('id')->toArray(),
+            ])
+            ->assertRedirect(route('hosts.index'))
+            ->assertValid();
 
-        $response->assertRedirect(route('hosts.index'));
+        $host = Host::query()
+            ->where('hostname', $want->hostname)
+            ->where('username', $want->username)
+            ->where('enabled', $want->enabled)
+            ->where('port', $want->port)
+            ->where('authorized_keys_file', $want->authorized_keys_file)
+            ->first();
 
-        $response->assertSessionHasNoErrors();
+        $this->assertInstanceOf(Host::class, $host);
 
-        $this->assertDatabaseHas(Host::class, [
-            'hostname' => $want->hostname,
-            'username' => $want->username,
-            'enabled' => $want->enabled,
-            'port' => $want->port,
-            'authorized_keys_file' => $want->authorized_keys_file,
-        ]);
+        $this->assertCount(count($groups), $host->groups);
     }
 
     /**
      * @test
      * @dataProvider provideWrongDataForHostCreation
      */
-    public function it_returns_errors_when_creating_a_new_host(
+    public function editors_should_get_errors_when_creating_hosts_with_wrong_data(
         array $data,
-        array $errors,
+        array $errors
     ): void {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        // Host to validate unique rules...
+        Host::factory()->create([
+            'hostname' => 'foo',
+            'username' => 'bar',
+            'authorized_keys_file' => 'already-created-host',
+        ]);
+
         /** @var Host $want */
         $want = Host::factory()->make();
 
@@ -119,17 +179,20 @@ class HostControllerTest extends TestCase
             'enabled' => $data['enabled'] ?? $want->enabled,
             'port' => $data['port'] ?? $want->port,
             'authorized_keys_file' => $data['authorized_keys_file'] ?? $want->authorized_keys_file,
+            'groups' => $data['groups'] ?? [],
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->post(route('hosts.store'), $formData);
-
-        $response->assertSessionHasErrors($errors);
+            ->post(route('hosts.store'), $formData)
+            ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Host::class, [
             'hostname' => $formData['hostname'],
             'username' => $formData['username'],
+            'enabled' => $formData['enabled'],
+            'port' => $formData['port'],
+            'authorized_keys_file' => $formData['authorized_keys_file'],
         ]);
     }
 
@@ -163,6 +226,14 @@ class HostControllerTest extends TestCase
             'errors' => ['username'],
         ];
 
+        yield 'hostname & username is taken' => [
+            'data' => [
+                'hostname' => 'foo',
+                'username' => 'bar',
+            ],
+            'errors' => ['hostname'],
+        ];
+
         yield 'port ! valid' => [
             'data' => [
                 'port' => 'non-integer',
@@ -193,88 +264,84 @@ class HostControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_ensures_uniqueness_when_creating_a_host(): void
+    public function users_should_not_see_edit_host_form(): void
     {
-        /** @var Host $want */
-        $want = Host::factory()->create([
-            'hostname' => 'existing-server.domain.local',
-            'username' => 'admin',
-        ]);
+        $host = Host::factory()->create();
 
-        $response = $this
+        // Create some groups to test the membership.
+        Hostgroup::factory()->create();
+
+        $this
             ->actingAs($this->user)
-            ->post(route('hosts.store'), [
-                'hostname' => $want->hostname,
-                'username' => $want->username,
-                'enabled' => true,
-            ]);
-
-        $response->assertSessionHasErrors(['hostname']);
-
-        $this->assertDatabaseCount(Host::class, 1);
+            ->get(route('hosts.edit', $host))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function it_shows_the_edit_host_form(): void
+    public function editors_should_see_the_edit_host_form(): void
     {
-        $host = Host::factory()
-            ->create();
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        $host = Host::factory()->create();
+
+        // Create some keys to test the membership.
         $groups = Hostgroup::factory()
-            ->count(3)
+            ->count(2)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('hosts.edit', $host));
-
-        $response->assertSuccessful();
-
-        $response->assertViewIs('host.edit');
-
-        $response->assertViewHas('host', $host);
-
-        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
+            ->get(route('hosts.edit', $host))
+            ->assertSuccessful()
+            ->assertViewIs('host.edit')
+            ->assertViewHas('host', $host)
+            ->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
     /** @test */
-    public function it_updates_the_host(): void
+    public function editors_should_update_groups(): void
     {
-        /** @var Host $host */
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        // Create some groups to test the membership.
+        $groups = Hostgroup::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Host $group */
         $host = Host::factory()->create();
 
         /** @var Host $want */
         $want = Host::factory()->make();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->put(route('hosts.update', $host), [
                 'enabled' => $want->enabled,
                 'port' => $want->port,
                 'authorized_keys_file' => $want->authorized_keys_file,
-            ]);
+                'groups' => $groups->pluck('id')->toArray(),
+            ])
+            ->assertRedirect(route('hosts.index'))
+            ->assertValid();
 
-        $response->assertRedirect(route('hosts.index'));
+        $host->refresh();
 
-        $response->assertSessionHasNoErrors();
+        $this->assertModelExists($host);
 
-        $this->assertDatabaseHas(Host::class, [
-            'id' => $host->id,
-            'hostname' => $host->hostname,
-            'username' => $host->username,
-            'enabled' => $want->enabled,
-            'port' => $want->port,
-            'authorized_keys_file' => $want->authorized_keys_file,
-        ]);
+        $this->assertCount(count($groups), $host->groups);
     }
 
     /**
      * @test
      * @dataProvider provideWrongDataForHostModification
      */
-    public function it_returns_errors_when_updating_a_host(
+    public function editors_should_get_errors_when_updating_hosts_with_wrong_data(
         array $data,
-        array $errors,
+        array $errors
     ): void {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
         /** @var Host $host */
         $host = Host::factory()->create();
 
@@ -285,13 +352,13 @@ class HostControllerTest extends TestCase
             'enabled' => $data['enabled'] ?? $want->enabled,
             'port' => $data['port'] ?? $want->port,
             'authorized_keys_file' => $data['authorized_keys_file'] ?? $want->authorized_keys_file,
+            'groups' => $data['groups'] ?? [],
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->put(route('hosts.update', $host), $formData);
-
-        $response->assertSessionHasErrors($errors);
+            ->put(route('hosts.update', $host), $formData)
+            ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Host::class, [
             'id' => $host->id,
@@ -301,6 +368,10 @@ class HostControllerTest extends TestCase
             'port' => $formData['port'],
             'authorized_keys_file' => $formData['authorized_keys_file'],
         ]);
+
+        $host->refresh();
+
+        $this->assertCount(0, $host->groups);
     }
 
     public function provideWrongDataForHostModification(): Generator
@@ -332,64 +403,39 @@ class HostControllerTest extends TestCase
             ],
             'errors' => ['authorized_keys_file'],
         ];
+
+        yield 'groups ! a group' => [
+            'data' => [
+                'port' => 2022,
+                'groups' => [1],
+            ],
+            'errors' => ['groups.0'],
+        ];
     }
 
     /** @test */
-    public function it_can_delete_a_host(): void
+    public function users_should_not_delete_hosts(): void
     {
-        $host = Host::factory()
-            ->create();
+        $host = Host::factory()->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->delete(route('hosts.destroy', $host));
+            ->delete(route('hosts.destroy', $host))
+            ->assertForbidden();
+    }
 
-        $response->assertRedirect(route('hosts.index'));
+    /** @test */
+    public function eliminators_should_delete_hosts(): void
+    {
+        $this->user->givePermissionTo(Permissions::DeleteHosts);
 
-        $response->assertSessionHas('success');
+        $host = Host::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('hosts.destroy', $host))
+            ->assertRedirect(route('hosts.index'));
 
         $this->assertModelMissing($host);
-    }
-
-    /** @test */
-    public function data_method_should_return_error_when_not_ajax(): void
-    {
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('hosts.data'));
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function data_method_should_return_data(): void
-    {
-        $hosts = Host::factory()
-            ->count(3)
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->ajaxGet(route('hosts.data'));
-
-        $response->assertSuccessful();
-
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'hostname',
-                    'username',
-                    'groups',
-                    'actions',
-                ],
-            ],
-        ]);
-
-        foreach ($hosts as $host) {
-            $response->assertJsonFragment([
-                'hostname' => $host['hostname'],
-                'username' => $host['username'],
-            ]);
-        }
     }
 }
