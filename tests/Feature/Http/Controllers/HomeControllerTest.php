@@ -11,22 +11,20 @@ class HomeControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function index_should_return_a_view(): void
+    public function users_should_see_the_dashboard(): void
     {
         $user = User::factory()
             ->create();
 
-        $response = $this->actingAs($user)
-            ->get(route('home'));
-
-        $response->assertSuccessful();
+        $this->actingAs($user)
+            ->get(route('home'))
+            ->assertSuccessful();
     }
 
     /** @test */
-    public function index_without_auth_should_return_login_form(): void
+    public function users_should_not_see_the_dashboard(): void
     {
-        $response = $this->get(route('home'));
-
-        $response->assertRedirect(route('login'));
+        $this->get(route('home'))
+            ->assertRedirect(route('login'));
     }
 }

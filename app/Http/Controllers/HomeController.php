@@ -27,14 +27,16 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(): View
+    public function __invoke(): View
     {
         $key_count = Key::count();
         $host_count = Host::count();
         $rule_count = ControlRule::count();
         $user_count = User::count();
 
-        $activities = Activity::all()->sortByDesc('created_at')->take(15);
+        $activities = Activity::all()
+            ->sortByDesc('created_at')
+            ->take(15);
 
         return view('dashboard.index')
             ->with('key_count', $key_count)

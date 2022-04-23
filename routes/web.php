@@ -57,8 +57,7 @@ Auth::routes([
 ]);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/',
-        [HomeController::class, 'index'])
+    Route::get('/', HomeController::class)
         ->name('home');
 
     Route::get('search', SearchController::class)
