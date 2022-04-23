@@ -79,10 +79,9 @@ class UserController extends Controller
         );
 
         if ($request->filled('password')) {
-            ChangeUserPassword::dispatchSync(
-                $user,
-                $request->password()
-            );
+            $user->update([
+                'password' => bcrypt($request->password()),
+            ]);
         }
 
         return redirect()->route('users.index')
