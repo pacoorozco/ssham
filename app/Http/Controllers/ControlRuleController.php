@@ -46,14 +46,14 @@ class ControlRuleController extends Controller
             ->orderBy('name')
             ->get()
             ->mapWithKeys(
-                fn($group) => [$group->id => $group->present()->nameWithKeysCount()]
+                fn ($group) => [$group->id => $group->present()->nameWithKeysCount()]
             );
 
         $targets = Hostgroup::query()
             ->orderBy('name')
             ->get()
             ->mapWithKeys(
-                fn($group) => [$group->id => $group->present()->nameWithHostsCount()]
+                fn ($group) => [$group->id => $group->present()->nameWithHostsCount()]
             );
 
         return view('rule.create')
