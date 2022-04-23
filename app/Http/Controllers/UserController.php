@@ -24,10 +24,8 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Jobs\ChangeUserPassword;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -99,39 +97,5 @@ class UserController extends Controller
 
         return redirect()->route('users.index')
             ->withSuccess(__('user/messages.delete.success', ['name' => $username]));
-    }
-
-    public function data(DataTables $dataTable): JsonResponse
-    {
-        $this->authorize('viewAny', User::class);
-
-        $users = User::select([
-            'id',
-            'username',
-            'email',
-            'enabled',
-            'auth_type',
-        ])
-            ->orderBy('username', 'asc');
-
-        return $dataTable->eloquent($users)
-            ->editColumn('username', function (User $user) {
-                return $user->present()->usernameWithDisabledBadge();
-            })
-            ->editColumn('enabled', function (User $user) {
-                return $user->present()->enabledAsBadge();
-            })
-            ->addColumn('authentication', function (User $user) {
-                return $user->present()->authenticationAsBadge();
-            })
-            ->addColumn('actions', function (User $user) {
-                return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('modelType', 'users')
-                    ->with('model', $user)
-                    ->render();
-            })
-            ->rawColumns(['username', 'actions'])
-            ->removeColumn(['id', 'tokens'])
-            ->toJson();
     }
 }

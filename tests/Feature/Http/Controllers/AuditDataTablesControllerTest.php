@@ -22,7 +22,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
-class AuditControllerTest extends TestCase
+class AuditDataTablesControllerTest extends TestCase
 {
     use RefreshDatabase;
     use InteractsWithPermissions;
@@ -39,20 +39,21 @@ class AuditControllerTest extends TestCase
     }
 
     /** @test */
-    public function users_should_see_the_index_view(): void
+    public function users_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
     {
         $this
             ->actingAs($this->user)
-            ->get(route('audit'))
-            ->assertSuccessful()
-            ->assertViewIs('audit.index');
+            ->get(route('audit.data'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function guests_should_not_see_the_index_view(): void
+    public function users_should_get_data_tables_data(): void
     {
         $this
-            ->get(route('audit'))
-            ->assertRedirect(route('login'));
+            ->actingAs($this->user)
+            ->ajaxGet(route('audit.data'))
+            ->assertSuccessful()
+            ->assertJsonCount(5);
     }
 }

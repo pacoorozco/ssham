@@ -17,6 +17,7 @@
  */
 
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\AuditDataTablesController;
 use App\Http\Controllers\ControlRuleController;
 use App\Http\Controllers\ControlRuleDataTablesController;
 use App\Http\Controllers\DownloadPrivateKeyController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserDataTablesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -69,14 +71,12 @@ Route::middleware(['auth'])->group(function () {
      * Audit
      * ------------------------------------------.
      */
-    Route::get('audit',
-        [AuditController::class, 'index'])
+    Route::get('audit', AuditController::class)
         ->name('audit');
 
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('audit/data',
-            [AuditController::class, 'data'])
+        ->get('audit/data', AuditDataTablesController::class)
         ->name('audit.data');
 
     /**
@@ -86,8 +86,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('users/data',
-            [UserController::class, 'data'])
+        ->get('users/data', UserDataTablesController::class)
         ->name('users.data');
 
     // Pre-baked resource controller actions for index, create, store,
