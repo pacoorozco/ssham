@@ -17,8 +17,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreatePersonalAccessTokenAction;
 use App\Http\Requests\PersonalAccessTokenRequest;
-use App\Jobs\CreatePersonalAccessToken;
 use App\Jobs\RevokePersonalAccessToken;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
@@ -50,20 +50,23 @@ class PersonalAccessTokenController extends Controller
             ]);
     }
 
-    public function store(PersonalAccessTokenRequest $request): RedirectResponse
-    {
+    public function store(
+        PersonalAccessTokenRequest $request,
+        CreatePersonalAccessTokenAction $createPersonalAccessToken
+    ): RedirectResponse {
         $user = $request->requestedUser();
 
         $this->authorize('create', [PersonalAccessToken::class, $user]);
 
-        $plainTextToken = CreatePersonalAccessToken::dispatchSync($user, $request->name());
+        $plainTextToken = $createPersonalAccessToken(
+            user: $user,
+            name: $request->name()
+        );
 
         return redirect()->route('users.tokens.index', $user)
-            ->with([
-                'newTokenName' => $request->name(),
-                'newPlainTextToken' => $plainTextToken,
-                'success' => __('user/personal_access_token.created'),
-            ]);
+            ->with('newTokenName', $request->name())
+            ->with('newPlainTextToken', $plainTextToken)
+            ->with('success', __('user/personal_access_token.created'));
     }
 
     public function destroy(PersonalAccessToken $token): RedirectResponse
@@ -72,7 +75,7 @@ class PersonalAccessTokenController extends Controller
 
         $this->authorize('delete', [PersonalAccessToken::class, $user]);
 
-        RevokePersonalAccessToken::dispatchSync($token);
+        $token->delete();
 
         return redirect()->route('users.tokens.index', $user)
             ->withSuccess(__('user/personal_access_token.revoked'));

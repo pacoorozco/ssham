@@ -31,119 +31,64 @@ class PersonalAccessTokenControllerTest extends TestCase
     use WithFaker;
     use InteractsWithPermissions;
 
+    private User $user;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->setupRolesAndPermissions();
+
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function users_can_access_to_its_own_token_data(): void
+    public function users_should_view_its_own_tokens(): void
     {
-        $user = User::factory()->create();
         $expectedTokenName = $this->faker->name();
-        $user->createToken($expectedTokenName);
+        $this->user->createToken($expectedTokenName);
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('users.tokens.index', $user));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('user.personal_access_tokens.show');
-        $response->assertSee($expectedTokenName);
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.tokens.index', $this->user))
+            ->assertSuccessful()
+            ->assertViewIs('user.personal_access_tokens.show')
+            ->assertSee($expectedTokenName);
     }
 
     /** @test */
-    public function superadmins_can_access_to_others_token_data(): void
-    {
-        $superAdmin = User::factory()->create();
-        $superAdmin->assignRole(Roles::SuperAdmin);
-
-        $viewedUser = User::factory()->create();
-        $expectedTokenName = $this->faker->name();
-        $viewedUser->createToken($expectedTokenName);
-
-        $response = $this
-            ->actingAs($superAdmin)
-            ->get(route('users.tokens.index', $viewedUser));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('user.personal_access_tokens.show');
-        $response->assertSee($expectedTokenName);
-    }
-
-    /** @test */
-    public function superadmins_can_create_others_token(): void
+    public function super_admins_should_see_others_tokens(): void
     {
         $superAdmin = User::factory()->create();
         $superAdmin->assignRole(Roles::SuperAdmin);
 
-        /** @var User $viewedUser */
-        $viewedUser = User::factory()->create();
+        $expectedTokenName = $this->faker->name();
+        $this->user->createToken($expectedTokenName);
+
+        $this
+            ->actingAs($superAdmin)
+            ->get(route('users.tokens.index', $this->user))
+            ->assertSuccessful()
+            ->assertViewIs('user.personal_access_tokens.show')
+            ->assertSee($expectedTokenName);
+    }
+
+    /** @test */
+    public function super_admins_should_create_others_tokens(): void
+    {
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole(Roles::SuperAdmin);
 
         $expectedTokenName = $this->faker->name();
 
-        $response = $this
+        $this
             ->actingAs($superAdmin)
-            ->post(route('users.tokens.store', $viewedUser), [
+            ->post(route('users.tokens.store', $this->user), [
                 'name' => $expectedTokenName,
-            ]);
+            ])
+            ->assertRedirect(route('users.tokens.index', $this->user));
 
-        $response->assertRedirect(route('users.tokens.index', $viewedUser));
-        $this->assertTrue($this->userHasToken($viewedUser, $expectedTokenName));
-    }
-
-    /** @test */
-    public function user_can_create_its_own_token(): void
-    {
-        $user = User::factory()->create();
-
-        $expectedTokenName = $this->faker->name();
-
-        $response = $this
-            ->actingAs($user)
-            ->post(route('users.tokens.store', $user), [
-                'name' => $expectedTokenName,
-            ]);
-
-        $response->assertRedirect(route('users.tokens.index', $user));
-        $this->assertTrue($this->userHasToken($user, $expectedTokenName));
-    }
-
-    /** @test */
-    public function user_can_revoke_its_own_token(): void
-    {
-        $user = User::factory()->create();
-
-        $expectedTokenName = $this->faker->name();
-        $token = $user->createToken($expectedTokenName)->accessToken;
-
-        $response = $this
-            ->actingAs($user)
-            ->delete(route('tokens.destroy', $token));
-
-        $response->assertRedirect(route('users.tokens.index', $user));
-        $this->assertFalse($this->userHasToken($user, $expectedTokenName));
-    }
-
-    /** @test */
-    public function superadmins_can_revoke_others_token(): void
-    {
-        $superAdmin = User::factory()->create();
-        $superAdmin->assignRole(Roles::SuperAdmin);
-
-        $viewedUser = User::factory()->create();
-
-        $expectedTokenName = $this->faker->name();
-        $token = $viewedUser->createToken($expectedTokenName)->accessToken;
-
-        $response = $this
-            ->actingAs($superAdmin)
-            ->delete(route('tokens.destroy', $token));
-
-        $response->assertRedirect(route('users.tokens.index', $viewedUser));
-        $this->assertFalse($this->userHasToken($viewedUser, $expectedTokenName));
+        $this->assertTrue($this->userHasToken($this->user, $expectedTokenName));
     }
 
     private function userHasToken(User $user, string $tokenName): bool
@@ -151,5 +96,51 @@ class PersonalAccessTokenControllerTest extends TestCase
         $tokens = $user->tokens()->pluck('name');
 
         return false !== $tokens->search($tokenName);
+    }
+
+    /** @test */
+    public function users_should_create_its_own_tokens(): void
+    {
+        $expectedTokenName = $this->faker->name();
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('users.tokens.store', $this->user), [
+                'name' => $expectedTokenName,
+            ])
+            ->assertRedirect(route('users.tokens.index', $this->user));
+
+        $this->assertTrue($this->userHasToken($this->user, $expectedTokenName));
+    }
+
+    /** @test */
+    public function users_should_revoke_its_own_tokens(): void
+    {
+        $expectedTokenName = $this->faker->name();
+        $token = $this->user->createToken($expectedTokenName)->accessToken;
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('tokens.destroy', $token))
+            ->assertRedirect(route('users.tokens.index', $this->user));
+
+        $this->assertFalse($this->userHasToken($this->user, $expectedTokenName));
+    }
+
+    /** @test */
+    public function super_admins_should_revoke_others_tokens(): void
+    {
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole(Roles::SuperAdmin);
+
+        $expectedTokenName = $this->faker->name();
+        $token = $this->user->createToken($expectedTokenName)->accessToken;
+
+        $this
+            ->actingAs($superAdmin)
+            ->delete(route('tokens.destroy', $token))
+            ->assertRedirect(route('users.tokens.index', $this->user));
+
+        $this->assertFalse($this->userHasToken($this->user, $expectedTokenName));
     }
 }
