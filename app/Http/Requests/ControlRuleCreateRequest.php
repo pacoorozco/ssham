@@ -51,14 +51,14 @@ class ControlRuleCreateRequest extends Request
         ];
     }
 
-    public function source(): Keygroup
+    public function source(): int
     {
-        return Keygroup::find($this->input('source'));
+        return $this->input('source');
     }
 
-    public function target(): Hostgroup
+    public function target(): int
     {
-        return Hostgroup::find($this->input('target'));
+        return $this->input('target');
     }
 
     public function action(): ControlRuleAction
