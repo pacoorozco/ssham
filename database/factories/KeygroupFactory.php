@@ -21,6 +21,9 @@ namespace Database\Factories;
 use App\Models\Keygroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Keygroup>
+ */
 class KeygroupFactory extends Factory
 {
     protected $model = Keygroup::class;
