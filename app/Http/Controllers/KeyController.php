@@ -140,6 +140,7 @@ class KeyController extends Controller
             $key->delete();
         } catch (Throwable $exception) {
             Log::error("Key '$key->username' was not deleted: {$exception->getMessage()}");
+
             return redirect()->back()
                 ->withErrors(trans('key/messages.delete.error'));
         }

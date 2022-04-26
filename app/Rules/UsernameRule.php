@@ -31,6 +31,7 @@ class UsernameRule implements Rule
         if (Str::length($value) < 1 || Str::length($value) > 255) {
             return false;
         }
+
         return 1 == preg_match(self::VALID_USERNAME_REGEXP, $value);
     }
 
