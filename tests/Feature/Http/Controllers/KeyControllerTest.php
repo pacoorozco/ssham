@@ -23,9 +23,8 @@ use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -157,7 +156,7 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    public function provideDataForKeyCreation(): \Generator
+    public function provideDataForKeyCreation(): Generator
     {
         yield 'creating a key' => [
             'data' => [
@@ -208,7 +207,7 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    public function provideWrongDataForKeyCreation(): \Generator
+    public function provideWrongDataForKeyCreation(): Generator
     {
         yield 'username is empty' => [
             'data' => [
@@ -328,7 +327,7 @@ class KeyControllerTest extends TestCase
         $this->assertCount(count($groups), $key->groups);
     }
 
-    public function provideDataForKeyModification(): \Generator
+    public function provideDataForKeyModification(): Generator
     {
         yield 'creating a key' => [
             'data' => [
@@ -390,7 +389,7 @@ class KeyControllerTest extends TestCase
         $this->assertCount(0, $key->groups);
     }
 
-    public function provideWrongDataForKeyModification(): \Generator
+    public function provideWrongDataForKeyModification(): Generator
     {
         yield 'enabled ! valid' => [
             'data' => [

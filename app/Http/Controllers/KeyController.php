@@ -18,18 +18,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateKeyAction;
+use App\Actions\UpdateKeyAction;
 use App\Http\Requests\KeyCreateRequest;
 use App\Http\Requests\KeyUpdateRequest;
 use App\Models\Key;
 use App\Models\Keygroup;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use PacoOrozco\OpenSSH\KeyPair;
 use PacoOrozco\OpenSSH\PublicKey;
-use Yajra\DataTables\DataTables;
+use Throwable;
 
 class KeyController extends Controller
 {
@@ -46,17 +46,16 @@ class KeyController extends Controller
     public function create(): View
     {
         // Get all existing key groups
-        $groups = Keygroup::orderBy('name')->pluck('name', 'id');
+        $groups = Keygroup::query()
+            ->orderBy('name')
+            ->pluck('name', 'id');
 
         return view('key.create')
             ->with('groups', $groups);
     }
 
-    public function store(KeyCreateRequest $request): RedirectResponse
+    public function store(KeyCreateRequest $request, CreateKeyAction $createKey): RedirectResponse
     {
-        // Use transaction to ensure that the key is created with all the required data.
-        DB::beginTransaction();
-
         try {
             if ($request->wantsCreateKey()) {
                 [$privateKey, $publicKey] = (new KeyPair())->generate();
@@ -64,17 +63,7 @@ class KeyController extends Controller
                 $publicKey = PublicKey::fromString($request->publicKey());
                 $privateKey = null;
             }
-
-            $key = Key::create([
-                'username' => $request->username(),
-                'public' => (string) $publicKey,
-                'private' => (string) $privateKey,
-            ]);
-
-            $key->groups()->attach($request->groups());
-        } catch (\Throwable $exception) {
-            DB::rollBack(); // RollBack in case of error.
-
+        } catch (Throwable $exception) {
             Log::error("Key '{$request->username()}' was not created: {$exception->getMessage()}");
 
             return redirect()->back()
@@ -82,8 +71,12 @@ class KeyController extends Controller
                 ->withErrors(trans('key/messages.create.error'));
         }
 
-        // Everything went fine, we can commit the transaction.
-        DB::commit();
+        $key = $createKey(
+            username: $request->username(),
+            publicKey: $publicKey,
+            privateKey: $privateKey,
+            groups: $request->groups()
+        );
 
         return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.create.success', ['username' => $key->username]));
@@ -98,18 +91,17 @@ class KeyController extends Controller
     public function edit(Key $key): View
     {
         // Get all existing key groups
-        $groups = Keygroup::orderBy('name')->pluck('name', 'id');
+        $groups = Keygroup::query()
+            ->orderBy('name')
+            ->pluck('name', 'id');
 
         return view('key.edit')
             ->with('key', $key)
             ->with('groups', $groups);
     }
 
-    public function update(Key $key, KeyUpdateRequest $request): RedirectResponse
+    public function update(Key $key, KeyUpdateRequest $request, UpdateKeyAction $updateKey): RedirectResponse
     {
-        // Use transaction to ensure that the key is updated with all the required data.
-        DB::beginTransaction();
-
         try {
             $privateKey = $key->private;
             $publicKey = $key->public;
@@ -120,26 +112,21 @@ class KeyController extends Controller
                 $publicKey = PublicKey::fromString($request->publicKey());
                 $privateKey = null;
             }
-
-            $key->update([
-                'enabled' => $request->enabled(),
-                'private' => $privateKey,
-                'public' => $publicKey,
-            ]);
-
-            $key->groups()->sync(collect($request->groups()));
-        } catch (\Throwable $exception) {
-            DB::rollBack(); // RollBack in case of error.
-
-            Log::error("Key '{$key->username}' was not updated: {$exception->getMessage()}");
+        } catch (Throwable $exception) {
+            Log::error("Key '$key->username' was not updated: {$exception->getMessage()}");
 
             return redirect()->back()
                 ->withInput()
                 ->withErrors(trans('key/messages.edit.error'));
         }
 
-        // Everything went fine, we can commit the transaction.
-        DB::commit();
+        $updateKey(
+            key: $key,
+            publicKey: $publicKey,
+            privateKey: $privateKey,
+            groups: $request->groups(),
+            enabled: $request->enabled(),
+        );
 
         return redirect()->route('keys.show', $key)
             ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
@@ -151,7 +138,8 @@ class KeyController extends Controller
 
         try {
             $key->delete();
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
+            Log::error("Key '$key->username' was not deleted: {$exception->getMessage()}");
             return redirect()->back()
                 ->withErrors(trans('key/messages.delete.error'));
         }

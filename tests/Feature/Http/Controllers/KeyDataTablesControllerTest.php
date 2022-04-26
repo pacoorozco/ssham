@@ -18,13 +18,10 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Enums\KeyOperation;
 use App\Enums\Permissions;
 use App\Models\Key;
-use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 

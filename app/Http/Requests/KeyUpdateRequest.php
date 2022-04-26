@@ -19,7 +19,6 @@
 namespace App\Http\Requests;
 
 use App\Enums\KeyOperation;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 use PacoOrozco\OpenSSH\Rules\PublicKeyRule;

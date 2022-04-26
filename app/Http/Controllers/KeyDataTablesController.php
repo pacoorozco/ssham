@@ -18,17 +18,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\KeyCreateRequest;
-use App\Http\Requests\KeyUpdateRequest;
 use App\Models\Key;
-use App\Models\Keygroup;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\View\View;
-use PacoOrozco\OpenSSH\KeyPair;
-use PacoOrozco\OpenSSH\PublicKey;
 use Yajra\DataTables\DataTables;
 
 class KeyDataTablesController extends Controller
@@ -37,14 +28,15 @@ class KeyDataTablesController extends Controller
     {
         $this->authorize('viewAny', Key::class);
 
-        $keys = Key::select([
-            'id',
-            'username',
-            'fingerprint',
-            'enabled',
-        ])
+        $keys = Key::query()
+            ->select([
+                'id',
+                'username',
+                'fingerprint',
+                'enabled',
+            ])
             ->withCount('groups as groups') // count number of groups without loading the models
-            ->orderBy('username', 'asc');
+            ->orderBy('username');
 
         return $dataTable->eloquent($keys)
             ->editColumn('username', function (Key $key) {
