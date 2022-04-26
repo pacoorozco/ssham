@@ -49,7 +49,6 @@ class UsernameRuleTest extends TestCase
         $rule = new UsernameRule();
 
         $this->assertFalse($rule->passes('username', $input));
-
     }
 
     public function provideInvalidUsernames(): Generator
