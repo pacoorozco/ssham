@@ -299,7 +299,7 @@ class HostControllerTest extends TestCase
     }
 
     /** @test */
-    public function editors_should_update_groups(): void
+    public function editors_should_update_hosts(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
 
@@ -308,7 +308,7 @@ class HostControllerTest extends TestCase
             ->count(2)
             ->create();
 
-        /** @var Host $group */
+        /** @var Host $host */
         $host = Host::factory()->create();
 
         /** @var Host $want */
