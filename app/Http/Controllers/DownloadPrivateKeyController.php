@@ -11,6 +11,8 @@ class DownloadPrivateKeyController extends Controller
 {
     public function __invoke(Key $key): StreamedResponse
     {
+        $this->authorize('update', $key);
+
         abort_unless($key->hasPrivateKey(), ResponseCode::HTTP_NOT_FOUND);
 
         // Private key content should be stored in a variable before dispatching

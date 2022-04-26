@@ -72,6 +72,9 @@ class UserUpdateRequest extends Request
             if (! $this->enabled()) {
                 $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
             }
+            if ($this->role()->isNot($this->user->role)) {
+                $validator->errors()->add('role', __('user/messages.edit.role_change_not_allowed'));
+            }
         });
     }
 

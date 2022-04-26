@@ -22,6 +22,9 @@ use App\Models\Key;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use PacoOrozco\OpenSSH\KeyPair;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Key>
+ */
 class KeyFactory extends Factory
 {
     protected $model = Key::class;

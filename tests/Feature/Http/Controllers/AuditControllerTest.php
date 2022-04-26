@@ -27,63 +27,32 @@ class AuditControllerTest extends TestCase
     use RefreshDatabase;
     use InteractsWithPermissions;
 
+    private User $user;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
+
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function calling_index_should_return_index_view(): void
+    public function users_should_see_the_index_view(): void
     {
-        $user = User::factory()
-            ->create();
-
-        $response = $this->actingAs($user)
-            ->get(route('audit'));
-
-        $response->assertViewIs('audit.index');
+        $this
+            ->actingAs($this->user)
+            ->get(route('audit'))
+            ->assertSuccessful()
+            ->assertViewIs('audit.index');
     }
 
     /** @test */
-    public function calling_index_without_auth_should_return_login_route(): void
+    public function guests_should_not_see_the_index_view(): void
     {
-        $response = $this->get(route('audit'));
-
-        $response->assertRedirect(route('login'));
-    }
-
-    /** @test */
-    public function calling_data_should_return_a_json(): void
-    {
-        $user = User::factory()
-            ->create();
-
-        $response = $this->actingAs($user)
-            ->ajaxGet(route('audit.data'));
-
-        $response->assertSuccessful();
-        $response->assertJsonCount(5);
-    }
-
-    /** @test */
-    public function calling_data_without_ajax_should_return_error(): void
-    {
-        $user = User::factory()
-            ->create();
-
-        $response = $this->actingAs($user)
-            ->get(route('audit.data'));
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function calling_data_without_auth_should_return_login_route(): void
-    {
-        $response = $this->ajaxGet(route('audit.data'));
-
-        $response->assertRedirect(route('login'));
+        $this
+            ->get(route('audit'))
+            ->assertRedirect(route('login'));
     }
 }

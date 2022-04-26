@@ -18,15 +18,20 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Str;
 
 class UsernameRule implements Rule
 {
     // Based on 'The Open Group Base Specifications Issue 7, 2018 edition'.
     // https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_437
-    const VALID_USERNAME_REGEXP = '/^[A-Za-z0-9][A-Za-z0-9._-]*$/';
+    const VALID_USERNAME_REGEXP = '/^[A-Za-z\d][A-Za-z\d._-]*$/';
 
     public function passes($attribute, $value): bool
     {
+        if (Str::length($value) < 1 || Str::length($value) > 255) {
+            return false;
+        }
+
         return 1 == preg_match(self::VALID_USERNAME_REGEXP, $value);
     }
 

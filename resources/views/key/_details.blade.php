@@ -45,7 +45,7 @@
 
                 </dl>
 
-            @if (!empty($key->private))
+            @unless(empty($key->private))
                 <!-- private key -->
                     <dl class="row hide-after-download">
                         <dt class="col-sm-3">
@@ -59,7 +59,7 @@
                         </dd>
                     </dl>
                     <!-- ./ private key -->
-                @endif
+                @endunless
 
             </div>
             <!-- ./ left column -->
@@ -128,17 +128,17 @@
                     <legend>@lang('key/messages.danger_zone_section')</legend>
 
                     @can('delete', $key)
-                    <ul class="list-group border border-danger">
-                        <li class="list-group-item">
-                            <strong>@lang('key/messages.delete_button')</strong>
-                            <button type="button" class="btn btn-outline-danger btn-sm float-right"
-                                    data-toggle="modal"
-                                    data-target="#confirmationModal">
-                                @lang('key/messages.delete_button')
-                            </button>
-                            <p>@lang('key/messages.delete_help')</p>
-                        </li>
-                    </ul>
+                        <ul class="list-group border border-danger">
+                            <li class="list-group-item">
+                                <strong>@lang('key/messages.delete_button')</strong>
+                                <button type="button" class="btn btn-outline-danger btn-sm float-right"
+                                        data-toggle="modal"
+                                        data-target="#confirmationModal">
+                                    @lang('key/messages.delete_button')
+                                </button>
+                                <p>@lang('key/messages.delete_help')</p>
+                            </li>
+                        </ul>
                     @else
                         <p class="text-muted">@lang('key/messages.delete_avoided')</p>
                     @endcan
@@ -151,7 +151,8 @@
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('keys.edit', $key) }}" class="btn btn-primary @cannot('update', $key) disabled @endcannot" role="button">
+        <a href="{{ route('keys.edit', $key) }}" class="btn btn-primary @cannot('update', $key) disabled @endcannot"
+           role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('keys.index') }}" class="btn btn-link" role="button">
@@ -161,21 +162,21 @@
 </div>
 <!-- ./ card -->
 
-@can('delete', $keygroup)
-<!-- confirmation modal -->
-<x-modals.confirmation
-    action="{{ route('keys.destroy', $key) }}"
-    confirmationText="{{ $key->username }}"
-    buttonText="{{ __('key/messages.delete_confirmation_button') }}">
+@can('delete', $key)
+    <!-- confirmation modal -->
+    <x-modals.confirmation
+        action="{{ route('keys.destroy', $key) }}"
+        confirmationText="{{ $key->username }}"
+        buttonText="{{ __('key/messages.delete_confirmation_button') }}">
 
-    <div class="alert alert-warning" role="alert">
-        @lang('key/messages.delete_confirmation_warning', ['username' => $key->username])
-    </div>
-</x-modals.confirmation>
-<!-- ./ confirmation modal -->
+        <div class="alert alert-warning" role="alert">
+            @lang('key/messages.delete_confirmation_warning', ['username' => $key->username])
+        </div>
+    </x-modals.confirmation>
+    <!-- ./ confirmation modal -->
 @endcan
 
-@if (!empty($key->private))
+@unless(empty($key->private))
     <!-- download private key modal -->
     <div class="modal fade" id="download-private-key">
         <!-- modal-dialog -->
@@ -189,13 +190,18 @@
                         <span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    @lang('key/messages.download_private_key_help')
+                    @can('update', $key)
+                        @lang('key/messages.download_private_key_help')
+                    @endcan
+                    @cannot('update', $key)
+                        @lang('key/messages.download_private_key_forbidden')
+                    @endcannot
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <a href="{{ route('keys.download', $key->id) }}" class="btn btn-primary" role="button"
-                       id="download-button">
-                        <i class="fa fa-download"></i> @lang('key/messages.download_private_key')
-                    </a>
+                        <a href="@can('update', $key) {{ route('keys.download', $key) }} @endcan" class="btn btn-primary @cannot('update', $key) disabled @endcannot" role="button"
+                           id="download-button">
+                            <i class="fa fa-download"></i> @lang('key/messages.download_private_key')
+                        </a>
                     <button type="button" class="btn btn-link" data-dismiss="modal">
                         @lang('general.cancel')
                     </button>
@@ -206,7 +212,7 @@
         <!-- ./modal-dialog -->
     </div>
     <!-- ./download private key modal -->
-@endif
+@endunless
 
 @push('scripts')
     <script>

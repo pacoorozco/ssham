@@ -17,17 +17,24 @@
  */
 
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\AuditDataTablesController;
 use App\Http\Controllers\ControlRuleController;
+use App\Http\Controllers\ControlRuleDataTablesController;
 use App\Http\Controllers\DownloadPrivateKeyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HostController;
+use App\Http\Controllers\HostDataTablesController;
 use App\Http\Controllers\HostgroupController;
+use App\Http\Controllers\HostgroupDataTablesController;
 use App\Http\Controllers\KeyController;
+use App\Http\Controllers\KeyDataTablesController;
 use App\Http\Controllers\KeygroupController;
+use App\Http\Controllers\KeygroupDataTablesController;
 use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserDataTablesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -54,8 +61,7 @@ Auth::routes([
 ]);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/',
-        [HomeController::class, 'index'])
+    Route::get('/', HomeController::class)
         ->name('home');
 
     Route::get('search', SearchController::class)
@@ -66,14 +72,12 @@ Route::middleware(['auth'])->group(function () {
      * Audit
      * ------------------------------------------.
      */
-    Route::get('audit',
-        [AuditController::class, 'index'])
+    Route::get('audit', AuditController::class)
         ->name('audit');
 
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('audit/data',
-            [AuditController::class, 'data'])
+        ->get('audit/data', AuditDataTablesController::class)
         ->name('audit.data');
 
     /**
@@ -83,8 +87,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('users/data',
-            [UserController::class, 'data'])
+        ->get('users/data', UserDataTablesController::class)
         ->name('users.data');
 
     // Pre-baked resource controller actions for index, create, store,
@@ -107,8 +110,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('keys/data',
-            [KeyController::class, 'data'])
+        ->get('keys/data', KeyDataTablesController::class)
         ->name('keys.data');
 
     // Download a private key.
@@ -126,8 +128,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('hosts/data',
-            [HostController::class, 'data'])
+        ->get('hosts/data', HostDataTablesController::class)
         ->name('hosts.data');
 
     // Pre-baked resource controller actions for index, create, store,
@@ -141,12 +142,9 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('keygroups/data',
-            [KeygroupController::class, 'data'])
+        ->get('keygroups/data', KeygroupDataTablesController::class)
         ->name('keygroups.data');
 
-    // Pre-baked resource controller actions for index, create, store,
-    // show, edit, update, destroy
     Route::resource('keygroups', KeygroupController::class);
 
     /**
@@ -156,8 +154,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('hostgroups/data',
-            [HostgroupController::class, 'data'])
+        ->get('hostgroups/data', HostgroupDataTablesController::class)
         ->name('hostgroups.data');
 
     // Pre-baked resource controller actions for index, create, store,
@@ -171,8 +168,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // Datatables Ajax route.
     Route::middleware(['ajax'])
-        ->get('rules/data',
-            [ControlRuleController::class, 'data'])
+        ->get('rules/data', ControlRuleDataTablesController::class)
         ->name('rules.data');
 
     // Pre-baked resource controller actions for index, create, store,

@@ -18,17 +18,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateKeysGroupAction;
+use App\Actions\UpdateKeysGroupAction;
 use App\Http\Requests\KeygroupCreateRequest;
 use App\Http\Requests\KeygroupUpdateRequest;
-use App\Jobs\CreateKeygroup;
-use App\Jobs\DeleteKeygroup;
-use App\Jobs\UpdateKeygroup;
 use App\Models\Key;
 use App\Models\Keygroup;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Yajra\DataTables\DataTables;
 
 class KeygroupController extends Controller
 {
@@ -51,16 +48,18 @@ class KeygroupController extends Controller
             ->with('keys', $keys);
     }
 
-    public function store(KeygroupCreateRequest $request): RedirectResponse
-    {
-        $keygroup = CreateKeygroup::dispatchSync(
-            $request->name(),
-            $request->description(),
-            $request->keys(),
+    public function store(
+        KeygroupCreateRequest $request,
+        CreateKeysGroupAction $createKeysGroup
+    ): RedirectResponse {
+        $group = $createKeysGroup(
+            name: $request->name(),
+            description: $request->description(),
+            members: $request->keys(),
         );
 
         return redirect()->route('keygroups.index')
-            ->withSuccess(__('keygroup/messages.create.success', ['name' => $keygroup->name]));
+            ->withSuccess(__('keygroup/messages.create.success', ['name' => $group->name]));
     }
 
     public function show(Keygroup $keygroup): View
@@ -79,51 +78,29 @@ class KeygroupController extends Controller
             ->with('keys', $keys);
     }
 
-    public function update(Keygroup $keygroup, KeygroupUpdateRequest $request): RedirectResponse
-    {
-        UpdateKeygroup::dispatchSync(
-            $keygroup,
-            $request->name(),
-            $request->description(),
-            $request->keys(),
+    public function update(
+        Keygroup $keygroup,
+        KeygroupUpdateRequest $request,
+        UpdateKeysGroupAction $updateKeysGroup
+    ): RedirectResponse {
+        $updateKeysGroup(
+            group: $keygroup,
+            name: $request->name(),
+            description: $request->description(),
+            members: $request->keys(),
         );
 
-        return redirect()->route('keygroups.edit', $keygroup->id)
+        return redirect()->route('keygroups.edit', $keygroup)
             ->withSuccess(__('keygroup/messages.edit.success', ['name' => $keygroup->name]));
     }
 
     public function destroy(Keygroup $keygroup): RedirectResponse
     {
-        DeleteKeygroup::dispatchSync($keygroup);
+        $name = $keygroup->name;
+
+        $keygroup->delete();
 
         return redirect()->route('keygroups.index')
-            ->withSuccess(__('keygroup/messages.delete.success', ['name' =>$keygroup->name]));
-    }
-
-    public function data(DataTables $dataTable): JsonResponse
-    {
-        $this->authorize('viewAny', Keygroup::class);
-
-        $keygroups = Keygroup::select([
-            'id',
-            'name',
-            'description',
-        ])
-            ->withCount('keys as keys') // count number of keys in keygroups without loading the models
-            ->orderBy('name', 'asc');
-
-        return $dataTable->eloquent($keygroups)
-            ->addColumn('rules', function (Keygroup $group) {
-                return $group->present()->rulesCount();
-            })
-            ->addColumn('actions', function (Keygroup $keygroup) {
-                return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('modelType', 'keygroups')
-                    ->with('model', $keygroup)
-                    ->render();
-            })
-            ->rawColumns(['actions'])
-            ->removeColumn('id')
-            ->toJson();
+            ->withSuccess(__('keygroup/messages.delete.success', ['name' => $name]));
     }
 }

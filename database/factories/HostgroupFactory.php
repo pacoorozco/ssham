@@ -21,6 +21,9 @@ namespace Database\Factories;
 use App\Models\Hostgroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Hostgroup>
+ */
 class HostgroupFactory extends Factory
 {
     protected $model = Hostgroup::class;

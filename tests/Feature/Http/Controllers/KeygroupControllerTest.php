@@ -18,9 +18,11 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -36,150 +38,358 @@ class KeygroupControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
+
         $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function index_method_should_return_proper_view(): void
+    public function users_should_not_see_the_index_view(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('keygroups.index'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('keygroup.index');
+            ->get(route('keygroups.index'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function create_method_should_return_proper_view(): void
+    public function viewers_should_see_the_index_view(): void
     {
+        $this->user->givePermissionTo(Permissions::ViewKeys);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keygroups.index'))
+            ->assertSuccessful()
+            ->assertViewIs('keygroup.index');
+    }
+
+    /** @test */
+    public function users_should_not_see_the_new_group_form(): void
+    {
+        Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keygroups.create'))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_new_group_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
         $keys = Key::factory()
-            ->count(3)
+            ->count(2)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('keygroups.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('keygroup.create');
-        $response->assertViewHas('keys', $keys->pluck('username', 'id'));
+            ->get(route('keygroups.create'))
+            ->assertSuccessful()
+            ->assertViewIs('keygroup.create')
+            ->assertViewHas('keys', $keys->pluck('username', 'id'));
     }
 
     /** @test */
-    public function store_method_should_create_a_new_group(): void
+    public function users_should_not_create_groups(): void
     {
+        /** @var Keygroup $group */
         $group = Keygroup::factory()->make();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->post(route('keygroups.store'), [
                 'name' => $group->name,
                 'description' => $group->description,
-            ]);
+            ])
+            ->assertForbidden();
 
-        $response->assertRedirect(route('keygroups.index'));
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keygroups', [
+        $this->assertDatabaseMissing(Keygroup::class, [
             'name' => $group->name,
             'description' => $group->description,
         ]);
     }
 
     /** @test */
-    public function edit_method_should_return_proper_view(): void
+    public function editors_should_create_groups(): void
     {
-        $group = Keygroup::factory()
-            ->create();
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        // Create some keys to test the membership.
         $keys = Key::factory()
-            ->count(3)
+            ->count(2)
             ->create();
 
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('keygroups.edit', $group->id));
+        /** @var Keygroup $want */
+        $want = Keygroup::factory()->make();
 
-        $response->assertSuccessful();
-        $response->assertViewIs('keygroup.edit');
-        $response->assertViewHas('keygroup', $group);
-        $response->assertViewHas('keys', $keys->pluck('username', 'id'));
+        $this
+            ->actingAs($this->user)
+            ->post(route('keygroups.store'), [
+                'name' => $want->name,
+                'description' => $want->description,
+                'keys' => $keys->pluck('id')->toArray(),
+            ])
+            ->assertRedirect(route('keygroups.index'))
+            ->assertValid();
+
+        $group = Keygroup::query()
+            ->where('name', $want->name)
+            ->where('description', $want->description)
+            ->first();
+
+        $this->assertInstanceOf(Keygroup::class, $group);
+
+        $this->assertCount(count($keys), $group->keys);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForGroupCreation
+     */
+    public function editors_should_get_errors_when_creating_groups_with_wrong_data(
+        array $data,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        // Group to validate unique rules...
+        Keygroup::factory()->create([
+            'name' => 'foo',
+        ]);
+
+        /** @var Keygroup $want */
+        $want = Keygroup::factory()->make();
+
+        $formData = [
+            'name' => $data['name'] ?? $want->name,
+            'description' => $data['description'] ?? $want->description,
+            'keys' => $data['keys'] ?? [],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('keygroups.store'), $formData)
+            ->assertInvalid($errors);
+
+        $this->assertDatabaseMissing(Keygroup::class, [
+            'name' => $formData['name'],
+            'description' => $formData['description'],
+        ]);
+    }
+
+    public function provideWrongDataForGroupCreation(): Generator
+    {
+        yield 'name is empty' => [
+            'data' => [
+                'name' => '',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name < 5 chars' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name > 255 chars' => [
+            'data' => [
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name is taken' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'keys ! a key' => [
+            'data' => [
+                'keys' => [1],
+            ],
+            'errors' => ['keys.0'],
+        ];
     }
 
     /** @test */
-    public function update_method_should_update_group(): void
+    public function users_should_not_see_edit_group_form(): void
     {
-        $want = Keygroup::factory()->make();
         $group = Keygroup::factory()->create();
 
-        $response = $this
+        // Create some keys to test the membership.
+        Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keygroups.edit', $group))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_edit_group_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        $group = Keygroup::factory()->create();
+
+        // Create some keys to test the membership.
+        $keys = Key::factory()
+            ->count(2)
+            ->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keygroups.edit', $group))
+            ->assertSuccessful()
+            ->assertViewIs('keygroup.edit')
+            ->assertViewHas('keygroup', $group)
+            ->assertViewHas('keys', $keys->pluck('username', 'id'));
+    }
+
+    /** @test */
+    public function editors_should_update_groups(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        // Create some keys to test the membership.
+        $keys = Key::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Keygroup $group */
+        $group = Keygroup::factory()->create();
+
+        /** @var Keygroup $want */
+        $want = Keygroup::factory()->make();
+
+        $this
             ->actingAs($this->user)
             ->put(route('keygroups.update', $group), [
                 'name' => $want->name,
                 'description' => $want->description,
-            ]);
+                'keys' => $keys->pluck('id')->toArray(),
+            ])
+            ->assertRedirect(route('keygroups.edit', $group))
+            ->assertValid();
 
-        $response->assertRedirect(route('keygroups.edit', $group));
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keygroups', [
+        $group->refresh();
+
+        $this->assertModelExists($group);
+
+        $this->assertCount(count($keys), $group->keys);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForGroupModification
+     */
+    public function editors_should_get_errors_when_updating_groups_with_wrong_data(
+        array $data,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        // Group to validate unique rules...
+        Keygroup::factory()->create([
+            'name' => 'foo',
+        ]);
+
+        /** @var Keygroup $group */
+        $group = Keygroup::factory()->create();
+
+        /** @var Keygroup $want */
+        $want = Keygroup::factory()->make();
+
+        $formData = [
+            'name' => $data['name'] ?? $want->name,
+            'description' => $data['description'] ?? $want->description,
+            'keys' => $data['keys'] ?? [],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('keygroups.update', $group), $formData)
+            ->assertInvalid($errors);
+
+        $this->assertDatabaseMissing(Keygroup::class, [
             'id' => $group->id,
-            'name' => $want->name,
-            'description' => $want->description,
+            'name' => $formData['name'],
+            'description' => $formData['description'],
         ]);
+
+        $group->refresh();
+
+        $this->assertCount(0, $group->keys);
     }
 
-    /** @test */
-    public function destroy_method_should_remove_group_and_returns_success(): void
+    public function provideWrongDataForGroupModification(): Generator
     {
-        $group = Keygroup::factory()
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->delete(route('keygroups.destroy', $group));
-
-        $response->assertSessionHas('success');
-        $this->assertModelMissing($group);
-    }
-
-    /** @test */
-    public function data_method_should_return_error_when_not_ajax(): void
-    {
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('keygroups.data'));
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function data_method_should_return_data(): void
-    {
-        $groups = Keygroup::factory()
-            ->count(3)
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->ajaxGet(route('keygroups.data'));
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
+        yield 'name is empty' => [
             'data' => [
-                '*' => [
-                    'name',
-                    'description',
-                    'keys',
-                    'rules',
-                    'actions',
-                ],
+                'name' => '',
             ],
-        ]);
-        foreach ($groups as $group) {
-            $response->assertJsonFragment([
-                'name' => $group['name'],
-                'description' => $group['description'],
-            ]);
-        }
+            'errors' => ['name'],
+        ];
+
+        yield 'name < 5 chars' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name > 255 chars' => [
+            'data' => [
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'name is taken' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => ['name'],
+        ];
+
+        yield 'keys ! a key' => [
+            'data' => [
+                'keys' => [1],
+            ],
+            'errors' => ['keys.0'],
+        ];
+    }
+
+    /** @test */
+    public function users_should_not_delete_groups(): void
+    {
+        $group = Keygroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('keygroups.destroy', $group))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function eliminators_should_delete_groups(): void
+    {
+        $this->user->givePermissionTo(Permissions::DeleteKeys);
+
+        $group = Keygroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('keygroups.destroy', $group))
+            ->assertRedirect(route('keygroups.index'));
+
+        $this->assertModelMissing($group);
     }
 }

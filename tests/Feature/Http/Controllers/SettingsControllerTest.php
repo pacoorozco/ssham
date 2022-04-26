@@ -18,23 +18,18 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\Permissions;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
+use PacoOrozco\OpenSSH\KeyPair;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithPermissions;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
-
-    private User $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->user = User::factory()
-            ->create();
-    }
+    use InteractsWithPermissions;
 
     const TEST_SETTINGS = [
         'authorized_keys' => '.ssh/authorized_keys',
@@ -75,38 +70,248 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
     ];
 
-    private function createDefaultSettingsForTesting(): Collection
+    private User $user;
+
+    public function setUp(): void
     {
-        // Set settings
+        parent::setUp();
+
+        $this->setupRolesAndPermissions();
+
+        $this->user = User::factory()->create();
+    }
+
+    /** @test */
+    public function users_should_see_the_index_view(): void
+    {
         setting()->set(self::TEST_SETTINGS);
 
-        return setting()->all();
+        $this
+            ->actingAs($this->user)
+            ->get(route('settings.index'))
+            ->assertSuccessful()
+            ->assertViewIs('settings.index')
+            ->assertViewHas('settings', setting()->all());
     }
 
-    /** @test  */
-    public function index_method_should_return_proper_view(): void
+    /** @test */
+    public function users_should_not_see_the_edit_settings_form(): void
     {
-        $this->createDefaultSettingsForTesting();
+        setting()->set(self::TEST_SETTINGS);
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('settings.index'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('settings.index');
+            ->get(route('settings.edit'))
+            ->assertForbidden();
     }
 
-    /** @test  */
-    public function index_method_should_return_proper_data()
+    /** @test */
+    public function editors_should_see_the_edit_settings_form(): void
     {
-        $settings = $this->createDefaultSettingsForTesting();
+        $this->user->givePermissionTo(Permissions::EditSettings);
 
-        $response = $this
+        setting()->set(self::TEST_SETTINGS);
+
+        $this
             ->actingAs($this->user)
-            ->get(route('settings.index'));
+            ->get(route('settings.edit'))
+            ->assertSuccessful()
+            ->assertViewIs('settings.edit')
+            ->assertViewHas('settings', setting()->all());
+    }
 
-        $response->assertSuccessful();
-        $response->assertViewIs('settings.index');
-        $response->assertViewHas('settings', $settings);
+    /** @test */
+    public function users_should_not_update_the_settings(): void
+    {
+        setting()->set(self::TEST_SETTINGS);
+
+        [$privateKey, $publicKey] = (new KeyPair())->generate();
+
+        $formData = [
+            'authorized_keys' => 'foo_authorized_keys',
+            'private_key' => trim($privateKey),
+            'public_key' => trim($publicKey),
+            'temp_dir' => 'foo_temp_dir',
+            'ssh_timeout' => 10,
+            'ssh_port' => 2022,
+            'mixed_mode' => false,
+            'ssham_file' => 'foo_ssham_file',
+            'non_ssham_file' => 'foo_non_ssham_file',
+            'cmd_remote_updater' => 'foo_cmd_remote_updater',
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('settings.update', $formData))
+            ->assertForbidden();
+
+        $this->assertEquals(self::TEST_SETTINGS, setting()->all()->toArray());
+    }
+
+    /** @test */
+    public function editors_should_update_the_settings(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditSettings);
+
+        setting()->set(self::TEST_SETTINGS);
+
+        [$privateKey, $publicKey] = (new KeyPair())->generate();
+
+        $formData = [
+            'authorized_keys' => 'foo_authorized_keys',
+            'private_key' => trim($privateKey),
+            'public_key' => trim($publicKey),
+            'temp_dir' => 'foo_temp_dir',
+            'ssh_timeout' => 10,
+            'ssh_port' => 2022,
+            'mixed_mode' => false,
+            'ssham_file' => 'foo_ssham_file',
+            'non_ssham_file' => 'foo_non_ssham_file',
+            'cmd_remote_updater' => 'foo_cmd_remote_updater',
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('settings.update', $formData))
+            ->assertRedirect(route('settings.index'))
+            ->assertSessionHasNoErrors();
+
+        $this->assertEquals($formData, setting()->all()->toArray());
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForSettingsModification
+     */
+    public function editors_should_get_errors_when_updating_the_settings_with_wrong_data(
+        array $data,
+        array $errors,
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditSettings);
+
+        setting()->set(self::TEST_SETTINGS);
+
+        $settings = self::TEST_SETTINGS;
+
+        $formData = [
+            'authorized_keys' => $data['authorized_keys'] ?? $settings['authorized_keys'],
+            'private_key' => $data['private_key'] ?? $settings['private_key'],
+            'public_key' => $data['public_key'] ?? $settings['public_key'],
+            'temp_dir' => $data['temp_dir'] ?? $settings['temp_dir'],
+            'ssh_timeout' => $data['ssh_timeout'] ?? $settings['ssh_timeout'],
+            'ssh_port' => $data['ssh_port'] ?? $settings['ssh_port'],
+            'mixed_mode' => $data['mixed_mode'] ?? $settings['mixed_mode'],
+            'ssham_file' => $data['ssham_file'] ?? $settings['ssham_file'],
+            'non_ssham_file' => $data['non_ssham_file'] ?? $settings['non_ssham_file'],
+            'cmd_remote_updater' => $data['cmd_remote_updater'] ?? $settings['cmd_remote_updater'],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('settings.update', $formData))
+            ->assertInvalid($errors);
+
+        $this->assertEquals($settings, setting()->all()->toArray());
+    }
+
+    public function provideWrongDataForSettingsModification(): Generator
+    {
+        yield 'authorized_keys is empty' => [
+            'data' => [
+                'authorized_keys' => '',
+            ],
+            'errors' => ['authorized_keys'],
+        ];
+
+        yield 'private_key is empty' => [
+            'data' => [
+                'private_key' => '',
+            ],
+            'errors' => ['private_key'],
+        ];
+
+        yield 'private_key ! valid' => [
+            'data' => [
+                'private_key' => 'no-valid-private-key',
+            ],
+            'errors' => ['private_key'],
+        ];
+
+        yield 'public_key is empty' => [
+            'data' => [
+                'public_key' => '',
+            ],
+            'errors' => ['public_key'],
+        ];
+
+        yield 'public_key ! valid' => [
+            'data' => [
+                'public_key' => 'no-valid-public-key',
+            ],
+            'errors' => ['public_key'],
+        ];
+
+        yield 'temp_dir is empty' => [
+            'data' => [
+                'temp_dir' => '',
+            ],
+            'errors' => ['temp_dir'],
+        ];
+
+        yield 'ssh_port ! valid' => [
+            'data' => [
+                'ssh_port' => 'no-numeric',
+            ],
+            'errors' => ['ssh_port'],
+        ];
+
+        yield 'ssh_timeout ! valid' => [
+            'data' => [
+                'ssh_timeout' => 'no-numeric',
+            ],
+            'errors' => ['ssh_timeout'],
+        ];
+
+        yield 'ssh_timeout < 5' => [
+            'data' => [
+                'ssh_timeout' => '4',
+            ],
+            'errors' => ['ssh_timeout'],
+        ];
+
+        yield 'ssh_timeout < 15' => [
+            'data' => [
+                'ssh_timeout' => '16',
+            ],
+            'errors' => ['ssh_timeout'],
+        ];
+
+        yield 'mixed_mode ! valid' => [
+            'data' => [
+                'mixed_mode' => 'non-boolean',
+            ],
+            'errors' => ['mixed_mode'],
+        ];
+
+        yield 'ssham_file is empty' => [
+            'data' => [
+                'ssham_file' => '',
+            ],
+            'errors' => ['ssham_file'],
+        ];
+
+        yield 'non_ssham_file is empty' => [
+            'data' => [
+                'non_ssham_file' => '',
+            ],
+            'errors' => ['non_ssham_file'],
+        ];
+
+        yield 'cmd_remote_updater is empty' => [
+            'data' => [
+                'cmd_remote_updater' => '',
+            ],
+            'errors' => ['cmd_remote_updater'],
+        ];
     }
 }

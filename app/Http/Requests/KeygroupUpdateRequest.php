@@ -18,15 +18,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Key;
+use App\Models\Keygroup;
 use Illuminate\Validation\Rule;
 
 class KeygroupUpdateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         $group = $this->keygroup;
@@ -36,11 +33,18 @@ class KeygroupUpdateRequest extends Request
                 'required',
                 'min:5',
                 'max:255',
-                Rule::unique('keygroups')->ignore($group->id),
+                Rule::unique(Keygroup::class)->ignore($group->id),
             ],
             'description' => [
                 'string',
                 'nullable',
+            ],
+            'keys.*' => [
+                Rule::forEach(function ($value, $attribute) {
+                    return [
+                        Rule::exists(Key::class, 'id'),
+                    ];
+                }),
             ],
         ];
     }
@@ -50,13 +54,13 @@ class KeygroupUpdateRequest extends Request
         return $this->input('name');
     }
 
-    public function description(): ?string
+    public function description(): string
     {
-        return $this->input('description');
+        return $this->input('description') ?? '';
     }
 
-    public function keys(): ?array
+    public function keys(): array
     {
-        return $this->input('keys');
+        return $this->input('keys', []);
     }
 }

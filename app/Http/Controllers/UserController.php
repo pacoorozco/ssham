@@ -18,19 +18,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateUserAction;
+use App\Actions\UpdateUserAction;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Jobs\ChangeUserPassword;
-use App\Jobs\CreateUser;
-use App\Jobs\DeleteUser;
-use App\Jobs\UpdateUser;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -49,13 +44,13 @@ class UserController extends Controller
         return view('user.create');
     }
 
-    public function store(UserCreateRequest $request): RedirectResponse
+    public function store(UserCreateRequest $request, CreateUserAction $createUser): RedirectResponse
     {
-        $user = CreateUser::dispatchSync(
-            $request->username(),
-            $request->email(),
-            $request->password(),
-            $request->role()
+        $user = $createUser(
+            username: $request->username(),
+            email: $request->email(),
+            password: $request->password(),
+            role: $request->role()
         );
 
         return redirect()->route('users.index')
@@ -74,20 +69,19 @@ class UserController extends Controller
             ->with('user', $user);
     }
 
-    public function update(UserUpdateRequest $request, User $user): RedirectResponse
+    public function update(UserUpdateRequest $request, UpdateUserAction $updateUser, User $user): RedirectResponse
     {
-        UpdateUser::dispatchSync(
-            $user,
-            $request->email(),
-            $request->enabled(),
-            $request->role()
+        $user = $updateUser(
+            user: $user,
+            email: $request->email(),
+            enabled: $request->enabled(),
+            role: $request->role()
         );
 
         if ($request->filled('password')) {
-            ChangeUserPassword::dispatchSync(
-                $user,
-                $request->password()
-            );
+            $user->update([
+                'password' => bcrypt($request->password()),
+            ]);
         }
 
         return redirect()->route('users.index')
@@ -96,49 +90,11 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
-        // it is handle here instead of UserPolicy to avoid that the SuperAdmin can delete itself.
-        if ($user->id === Auth::id()) {
-            return redirect()->back()
-                ->withErrors(trans('user/messages.delete.impossible'));
-        }
+        $username = $user->username;
 
-        DeleteUser::dispatchSync($user);
+        $user->delete();
 
         return redirect()->route('users.index')
-            ->withSuccess(__('user/messages.delete.success', ['name' => $user->username]));
-    }
-
-    public function data(DataTables $dataTable): JsonResponse
-    {
-        $this->authorize('viewAny', User::class);
-
-        $users = User::select([
-            'id',
-            'username',
-            'email',
-            'enabled',
-            'auth_type',
-        ])
-            ->orderBy('username', 'asc');
-
-        return $dataTable->eloquent($users)
-            ->editColumn('username', function (User $user) {
-                return $user->present()->usernameWithDisabledBadge();
-            })
-            ->editColumn('enabled', function (User $user) {
-                return $user->present()->enabledAsBadge();
-            })
-            ->addColumn('authentication', function (User $user) {
-                return $user->present()->authenticationAsBadge();
-            })
-            ->addColumn('actions', function (User $user) {
-                return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('modelType', 'users')
-                    ->with('model', $user)
-                    ->render();
-            })
-            ->rawColumns(['username', 'actions'])
-            ->removeColumn(['id', 'tokens'])
-            ->toJson();
+            ->withSuccess(__('user/messages.delete.success', ['name' => $username]));
     }
 }

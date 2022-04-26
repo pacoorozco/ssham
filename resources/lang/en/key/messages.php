@@ -23,6 +23,7 @@ return [
     'private_key_available' => 'Private key is available',
     'download_private_key' => 'Download private key',
     'download_private_key_help' => 'You are going to download the RSA private key of this user. Bear in mind that this action <b>can only be done once</b>, keep safe the file containing the private key.',
+    'download_private_key_forbidden' => 'You are not authorized to download the RSA private key of this user.',
 
     'groups_help' => 'Please select the groups where this key belongs to',
     'groups_empty' => 'This key does not belong to any group.',

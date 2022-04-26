@@ -18,17 +18,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateHostAction;
+use App\Actions\UpdateHostAction;
 use App\Http\Requests\HostCreateRequest;
 use App\Http\Requests\HostUpdateRequest;
-use App\Jobs\CreateHost;
-use App\Jobs\DeleteHost;
-use App\Jobs\UpdateHost;
 use App\Models\Host;
 use App\Models\Hostgroup;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Yajra\DataTables\DataTables;
 
 class HostController extends Controller
 {
@@ -51,9 +48,9 @@ class HostController extends Controller
             ->with('groups', $groups);
     }
 
-    public function store(HostCreateRequest $request): RedirectResponse
+    public function store(HostCreateRequest $request, CreateHostAction $createHost): RedirectResponse
     {
-        $host = CreateHost::dispatchSync(
+        $host = $createHost(
             $request->hostname(),
             $request->username(),
             [
@@ -83,9 +80,9 @@ class HostController extends Controller
             ->with('groups', $groups);
     }
 
-    public function update(Host $host, HostUpdateRequest $request): RedirectResponse
+    public function update(Host $host, HostUpdateRequest $request, UpdateHostAction $updateHost): RedirectResponse
     {
-        UpdateHost::dispatchSync(
+        $updateHost(
             $host,
             [
                 'enabled' => $request->enabled(),
@@ -101,45 +98,11 @@ class HostController extends Controller
 
     public function destroy(Host $host): RedirectResponse
     {
-        DeleteHost::dispatchSync($host);
+        $fullHostname = $host->full_hostname;
+
+        $host->delete();
 
         return redirect()->route('hosts.index')
-            ->withSuccess(__('host/messages.delete.success', ['hostname' => $host->hostname]));
-    }
-
-    public function data(DataTables $dataTable): JsonResponse
-    {
-        $this->authorize('viewAny', Host::class);
-
-        $hosts = Host::select([
-            'id',
-            'hostname',
-            'username',
-            'synced',
-            'status_code',
-            'enabled',
-        ])
-            ->withCount('groups as groups') // count number of groups without loading the models
-            ->orderBy('hostname', 'asc');
-
-        return $dataTable->eloquent($hosts)
-            ->editColumn('enabled', function (Host $host) {
-                return $host->present()->enabledAsBadge();
-            })
-            ->editColumn('synced', function (Host $host) {
-                return $host->present()->pendingSyncAsBadge();
-            })
-            ->editColumn('status_code', function (Host $host) {
-                return $host->present()->statusCode();
-            })
-            ->addColumn('actions', function (Host $host) {
-                return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('modelType', 'hosts')
-                    ->with('model', $host)
-                    ->render();
-            })
-            ->rawColumns(['enabled', 'synced', 'actions'])
-            ->removeColumn('id')
-            ->toJson();
+            ->withSuccess(__('host/messages.delete.success', ['hostname' => $fullHostname]));
     }
 }

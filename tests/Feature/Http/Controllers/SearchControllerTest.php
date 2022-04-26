@@ -23,8 +23,8 @@ use App\Models\Hostgroup;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class SearchControllerTest extends TestCase
@@ -36,13 +36,46 @@ class SearchControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()
-            ->create();
+
+        $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function index_method_should_return_proper_view(): void
+    public function users_should_see_the_search_view(): void
     {
+        Key::factory()->create([
+            'username' => 'qwerty_key',
+        ]);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('search'))
+            ->assertSuccessful()
+            ->assertViewIs('search.index');
+    }
+
+    /** @test */
+    public function users_should_see_the_search_view_when_using_an_empty_query(): void
+    {
+        Key::factory()->create([
+            'username' => 'qwerty_key',
+        ]);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('search', ['q' => '']))
+            ->assertSuccessful()
+            ->assertViewIs('search.index');
+    }
+
+    /**
+     * @test
+     * @dataProvider provideSearchQueriesAndExpectedResults
+     */
+    public function users_should_see_the_search_results(
+        string $query,
+        array $want,
+    ): void {
         Key::factory()->create([
             'username' => 'qwerty_key',
         ]);
@@ -50,36 +83,50 @@ class SearchControllerTest extends TestCase
             'hostname' => 'qwerty_host',
         ]);
         Keygroup::factory()->create([
-            'name' => 'qwerty_keygroup',
+            'name' => 'qwerty_keys_group',
         ]);
         Hostgroup::factory()->create([
-            'name' => 'qwerty_hostgroup',
+            'name' => 'qwerty_hosts_group',
         ]);
 
-        $testCases = [
-            'qwerty' => ['qwerty_key', 'qwerty_host', 'qwerty_keygroup', 'qwerty_hostgroup'],
-            'key' => ['qwerty_key', 'qwerty_keygroup'],
-            'host' => ['qwerty_host', 'qwerty_hostgroup'],
-            'group' => ['qwerty_keygroup', 'qwerty_hostgroup'],
-            'keygroup' => ['qwerty_keygroup'],
-            'hostgroup' => ['qwerty_hostgroup'],
-        ];
-
-        foreach ($testCases as $searchString => $expectedResults) {
-            $response = $this
-                ->actingAs($this->user)
-                ->get(route('search', ['q' => $searchString]));
-
-            $response->assertSuccessful();
-            $response->assertViewIs('search.results');
-            $this->assertResultsArePresent($response, $expectedResults);
-        }
+        $this
+            ->actingAs($this->user)
+            ->get(route('search', ['q' => $query]))
+            ->assertSuccessful()
+            ->assertViewIs('search.results')
+            ->assertSee($want);
     }
 
-    private function assertResultsArePresent(TestResponse $response, array $expectedResults): void
+    public function provideSearchQueriesAndExpectedResults(): Generator
     {
-        foreach ($expectedResults as $expectedResult) {
-            $response->assertSee($expectedResult);
-        }
+        yield 'find a key, host, keys group and hosts group' => [
+            'query' => 'qwerty',
+            'want' => ['qwerty_key', 'qwerty_host', 'qwerty_keys_group', 'qwerty_hosts_group'],
+        ];
+
+        yield 'find a key and keys group' => [
+            'query' => 'key',
+            'want' => ['qwerty_key', 'qwerty_keys_group'],
+        ];
+
+        yield 'find a host and hosts group' => [
+            'query' => 'host',
+            'want' => ['qwerty_host', 'qwerty_hosts_group'],
+        ];
+
+        yield 'find a keys group and hosts group' => [
+            'query' => 'group',
+            'want' => ['qwerty_keys_group', 'qwerty_hosts_group'],
+        ];
+
+        yield 'find a keys group' => [
+            'query' => 'keys_group',
+            'want' => ['qwerty_keys_group'],
+        ];
+
+        yield 'no results found' => [
+            'query' => 'foo',
+            'want' => ['No matching records found'],
+        ];
     }
 }

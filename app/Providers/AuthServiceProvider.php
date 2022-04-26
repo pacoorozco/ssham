@@ -33,24 +33,19 @@ use App\Policies\KeyPolicy;
 use App\Policies\PersonalAccessTokenPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
      * The policy mappings for the application.
      *
-     * @var array
+     * Policies are discovered automatically using the Policy Auto-Discovery.
+     *
+     * @see https://laravel.com/docs/9.x/authorization#policy-auto-discovery
+     *
+     * @var array<class-string, class-string>
      */
-    protected $policies = [
-        Host::class => HostPolicy::class,
-        Hostgroup::class => HostgroupPolicy::class,
-        Key::class => KeyPolicy::class,
-        Keygroup::class => KeygroupPolicy::class,
-        ControlRule::class => ControlRulePolicy::class,
-        User::class => UserPolicy::class,
-        PersonalAccessToken::class, PersonalAccessTokenPolicy::class,
-    ];
+    protected $policies = [];
 
     /**
      * Register any authentication / authorization services.

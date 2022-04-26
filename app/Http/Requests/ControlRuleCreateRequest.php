@@ -22,32 +22,19 @@ use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
-use BenSampo\Enum\Rules\Enum;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
 
 class ControlRuleCreateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
-        $target_id = $this->input('target');
-
-        // 'keygroup' and 'hostgroup' combination must be unique
-        $unique = Rule::unique(ControlRule::class, 'source_id')
-            ->where(function ($query) use ($target_id) {
-                return $query->where('target_id', $target_id);
-            });
-
         return [
             'source' => [
                 'required',
                 Rule::exists(Keygroup::class, 'id'),
-                $unique,
+                Rule::unique(ControlRule::class, 'source_id')
+                ->where(fn ($query) => $query->where('target_id', $this->input('target'))),
             ],
             'target' => [
                 'required',

@@ -18,15 +18,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Host;
 use Illuminate\Validation\Rule;
 
 class HostgroupUpdateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         $group = $this->hostgroup;
@@ -42,6 +38,13 @@ class HostgroupUpdateRequest extends Request
                 'string',
                 'nullable',
             ],
+            'hosts.*' => [
+                Rule::forEach(function ($value, $attribute) {
+                    return [
+                        Rule::exists(Host::class, 'id'),
+                    ];
+                }),
+            ],
         ];
     }
 
@@ -50,13 +53,13 @@ class HostgroupUpdateRequest extends Request
         return $this->input('name');
     }
 
-    public function description(): ?string
+    public function description(): string
     {
-        return $this->input('description');
+        return $this->input('description') ?? '';
     }
 
-    public function hosts(): ?array
+    public function hosts(): array
     {
-        return $this->input('hosts');
+        return $this->input('hosts', []);
     }
 }

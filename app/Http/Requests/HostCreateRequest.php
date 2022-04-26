@@ -18,30 +18,49 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Hostgroup;
 use Illuminate\Validation\Rule;
 
 class HostCreateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
             'hostname' => [
-                'required', 'max:255',
+                'required',
+                'max:255',
                 // 'hostname' and 'username' combination must be unique
-                Rule::unique('hosts')->where(function ($query) {
-                    return $query->where('username', $this->input('username'));
+                Rule::unique('hosts')
+                    ->where(fn ($query) => $query->where('username', $this->input('username'))),
+            ],
+            'username' => [
+                'required',
+                'max:255',
+            ],
+            'enabled' => [
+                'sometimes',
+                'boolean',
+            ],
+            'port' => [
+                'sometimes',
+                'required',
+                'integer',
+                'min:1',
+                'max:65535',
+            ],
+            'authorized_keys_file' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+            ],
+            'groups.*' => [
+                Rule::forEach(function ($value, $attribute) {
+                    return [
+                        Rule::exists(Hostgroup::class, 'id'),
+                    ];
                 }),
             ],
-            'username' => ['required', 'max:255'],
-
-            'enabled' => ['boolean'],
-            'port' => ['sometimes', 'required', 'integer', 'min:1', 'max:65535'],
-            'authorized_keys_file' => ['sometimes', 'required', 'string', 'max:255'],
         ];
     }
 
@@ -57,7 +76,7 @@ class HostCreateRequest extends Request
 
     public function enabled(): bool
     {
-        return $this->input('enabled', true);
+        return $this->boolean('enabled', true);
     }
 
     public function port(): int
@@ -70,8 +89,8 @@ class HostCreateRequest extends Request
         return $this->input('authorized_keys_file', '');
     }
 
-    public function groups(): ?array
+    public function groups(): array
     {
-        return $this->input('groups');
+        return $this->input('groups', []);
     }
 }
