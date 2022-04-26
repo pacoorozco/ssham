@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Updates dependencies.
 - Testing for validation rules.
 
+## 0.14.5 - 2022-04-06
+
+### Changed
+- Update dependencies to fix some security vulnerabilities.
+
 ## 0.14.4 - 2022-03-08
 
 > Migrated to [Laravel 9.x](https://laravel.com/docs/9.x/releases) to take benefit of the new features. ([#243][i243])
