@@ -1,6 +1,6 @@
 <?php
 /**
- * SSH Access Manager - SSH keygroups management solution.
+ * SSH Access Manager - SSH keys management solution.
  *
  * Copyright (c) 2017 - 2020 by Paco Orozco <paco@pacoorozco.info>
  *
@@ -18,14 +18,17 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\KeyOperation;
 use App\Enums\Permissions;
+use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
-class KeygroupDataTableControllerTest extends TestCase
+class KeyDataTablesControllerTest extends TestCase
 {
     use RefreshDatabase;
     use InteractsWithPermissions;
@@ -48,7 +51,7 @@ class KeygroupDataTableControllerTest extends TestCase
 
         $this
             ->actingAs($this->user)
-            ->get(route('keygroups.data'))
+            ->get(route('keys.data'))
             ->assertForbidden();
     }
 
@@ -57,7 +60,7 @@ class KeygroupDataTableControllerTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->ajaxGet(route('keygroups.data'))
+            ->ajaxGet(route('keys.data'))
             ->assertForbidden();
     }
 
@@ -66,22 +69,21 @@ class KeygroupDataTableControllerTest extends TestCase
     {
         $this->user->givePermissionTo(Permissions::ViewKeys);
 
-        $groups = Keygroup::factory()
+        $keys = Key::factory()
             ->count(2)
             ->create();
 
         $this
             ->actingAs($this->user)
-            ->ajaxGet(route('keygroups.data'))
+            ->ajaxGet(route('keys.data'))
             ->assertSuccessful()
-            ->assertJsonCount(count($groups), 'data')
+            ->assertJsonCount(count($keys), 'data')
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
-                        'name',
-                        'description',
-                        'keys',
-                        'rules',
+                        'username',
+                        'fingerprint',
+                        'groups',
                         'actions',
                     ],
                 ],

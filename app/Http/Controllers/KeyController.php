@@ -118,6 +118,7 @@ class KeyController extends Controller
                 [$privateKey, $publicKey] = (new KeyPair())->generate();
             } elseif ($request->wantsImportKey()) {
                 $publicKey = PublicKey::fromString($request->publicKey());
+                $privateKey = null;
             }
 
             $key->update([
@@ -157,36 +158,5 @@ class KeyController extends Controller
 
         return redirect()->route('keys.index')
             ->with('success', __('key/messages.delete.success', ['username' => $username]));
-    }
-
-    public function data(DataTables $dataTable): JsonResponse
-    {
-        $this->authorize('viewAny', Key::class);
-
-        $keys = Key::select([
-            'id',
-            'username',
-            'fingerprint',
-            'enabled',
-        ])
-            ->withCount('groups as groups') // count number of groups without loading the models
-            ->orderBy('username', 'asc');
-
-        return $dataTable->eloquent($keys)
-            ->editColumn('username', function (Key $key) {
-                return $key->present()->usernameWithDisabledBadge();
-            })
-            ->editColumn('enabled', function (Key $key) {
-                return $key->present()->enabledAsBadge();
-            })
-            ->addColumn('actions', function (Key $key) {
-                return view('partials.buttons-to-show-and-edit-actions')
-                    ->with('modelType', 'keys')
-                    ->with('model', $key)
-                    ->render();
-            })
-            ->rawColumns(['username', 'enabled', 'actions'])
-            ->removeColumn('id')
-            ->toJson();
     }
 }

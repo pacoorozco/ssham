@@ -19,6 +19,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\KeyOperation;
+use App\Models\Key;
 use App\Rules\UsernameRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
@@ -27,19 +28,13 @@ use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class KeyCreateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
             'username' => [
                 'required',
-                'max:255',
                 new UsernameRule(),
-                'unique:keys',
+                Rule::unique(Key::class),
             ],
             'operation' => [
                 'required',
@@ -70,35 +65,13 @@ class KeyCreateRequest extends Request
         return $this->input('public_key', '');
     }
 
-    public function groups(): ?array
+    public function groups(): array
     {
-        return $this->input('groups');
+        return $this->input('groups', []);
     }
 
     public function wantsCreateKey(): bool
     {
         return $this->input('operation') === KeyOperation::CREATE_OPERATION;
-    }
-
-    protected function getValidatorInstance(): Validator
-    {
-        //$this->sanitize();
-
-        return parent::getValidatorInstance();
-    }
-
-    /**
-     * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
-     */
-    protected function sanitize(): void
-    {
-        $input = $this->all();
-
-        // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key'])) {
-            $input['public_key'] = str_replace(["\n", "\t", "\r"], '', $input['public_key']);
-        }
-
-        $this->replace($input);
     }
 }

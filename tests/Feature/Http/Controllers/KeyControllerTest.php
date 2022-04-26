@@ -19,11 +19,13 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\KeyOperation;
+use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -41,243 +43,394 @@ class KeyControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
+
         $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function index_method_should_return_proper_view(): void
+    public function users_should_not_see_the_index_view(): void
     {
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('keys.index'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('key.index');
+            ->get(route('keys.index'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function create_method_should_return_proper_view(): void
+    public function viewers_should_see_the_index_view(): void
     {
-        $groups = Keygroup::factory()
-            ->count(3)
+        $this->user->givePermissionTo(Permissions::ViewKeys);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.index'))
+            ->assertSuccessful()
+            ->assertViewIs('key.index');
+    }
+
+    /** @test */
+    public function users_should_not_see_the_new_key_form(): void
+    {
+        Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.create'))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_new_key_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        $keys = Keygroup::factory()
+            ->count(2)
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->get(route('keys.create'));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('key.create');
-        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
+            ->get(route('keys.create'))
+            ->assertSuccessful()
+            ->assertViewIs('key.create')
+            ->assertViewHas('groups', $keys->pluck('name', 'id'));
     }
 
     /** @test */
-    public function store_method_should_create_a_new_key_when_it_is_not_supplied(): void
+    public function users_should_not_create_keys(): void
     {
-        /** @var Key $key */
-        $key = Key::factory()->make();
+        /** @var Key $want */
+        $want = Key::factory()->make();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->post(route('keys.store'), [
-                'username' => $key->username,
+                'username' => $want->username,
                 'operation' => KeyOperation::CREATE_OPERATION,
-            ]);
+            ])
+            ->assertForbidden();
 
-        $response->assertStatus(Response::HTTP_FOUND); // Can't use assertRedirect() because we don't know the created UUID.
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keys', [
-            'username' => $key->username,
+        $this->assertDatabaseMissing(Key::class, [
+            'username' => $want->username,
         ]);
     }
 
-    /** @test */
-    public function store_method_should_fail_when_invalid_key_is_supplied(): void
-    {
-        /** @var Key $key */
-        $key = Key::factory()->make();
+    /**
+     * @test
+     * @dataProvider provideDataForKeyCreation
+     */
+    public function editors_should_create_keys(
+        array $data,
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditKeys);
 
-        $response = $this
+        // Create some keys groups to test the membership.
+        $groups = Keygroup::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Key $want */
+        $want = Key::factory()->make();
+
+        $formData = array_merge([
+            'username' => $want->username,
+            'operation' => KeyOperation::CREATE_OPERATION,
+            'groups' => $groups->pluck('id')->toArray(),
+        ], $data);
+
+        $this
             ->actingAs($this->user)
-            ->post(route('keys.store'), [
-                'username' => $key->username,
-                'operation' => KeyOperation::IMPORT_OPERATION,
-                'public_key' => 'Invalid Key',
-            ]);
+            ->post(route('keys.store'), $formData)
+            ->assertValid();
 
-        $response->assertStatus(Response::HTTP_FOUND); // Can't use assertRedirect() because we don't know the created UUID.
-        $response->assertSessionHasErrors();
-        $this->assertDatabaseMissing('keys', [
-            'username' => $key->username,
-        ]);
+        $key = Key::query()
+            ->where('username', $want->username)
+            ->first();
+
+        $this->assertInstanceOf(Key::class, $key);
+
+        $this->assertCount(count($groups), $key->groups);
+
+        if (isset($formData['public_key'])) {
+            $this->assertEquals($formData['public_key'], $key->public);
+        }
     }
 
-    /** @test */
-    public function store_method_should_create_a_key_when_valid_key_is_supplied(): void
+    public function provideDataForKeyCreation(): \Generator
     {
-        /** @var Key $key */
-        $key = Key::factory()->make();
+        yield 'creating a key' => [
+            'data' => [
+                'operation' => KeyOperation::CREATE_OPERATION,
+            ],
+        ];
 
-        $response = $this
-            ->actingAs($this->user)
-            ->post(route('keys.store'), [
-                'username' => $key->username,
+        yield 'importing a key' => [
+            'data' => [
                 'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => self::VALID_PUBLIC_KEY_ONE,
-            ]);
-
-        $response->assertStatus(Response::HTTP_FOUND); // Can't use assertRedirect() because we don't know the created UUID.
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keys', [
-            'username' => $key->username,
-            'public' => self::VALID_PUBLIC_KEY_ONE,
-        ]);
-    }
-
-    /** @test */
-    public function edit_method_should_return_proper_view(): void
-    {
-        /** @var Key $key */
-        $key = Key::factory()
-            ->create();
-        $groups = Keygroup::factory()
-            ->count(3)
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('keys.edit', $key->id));
-
-        $response->assertSuccessful();
-        $response->assertViewIs('key.edit');
-        $response->assertViewHas('key', $key);
-        $response->assertViewHas('groups', $groups->pluck('name', 'id'));
-    }
-
-    /** @test */
-    public function update_method_should_maintain_the_key_when_noop_operation_is_used(): void
-    {
-        $wantPublicKey = self::VALID_PUBLIC_KEY_ONE;
-
-        /** @var Key $key */
-        $key = Key::factory()->create([
-            'public' => $wantPublicKey,
-        ]);
-
-        $response = $this
-            ->actingAs($this->user)
-            ->put(route('keys.update', $key), [
-                'operation' => KeyOperation::NOOP_OPERATION,
-                'enabled' => true,
-            ]);
-
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keys', ['id' => $key->id, 'public' => $wantPublicKey]);
-    }
-
-    /** @test */
-    public function update_method_should_change_the_key_when_import_operation_is_used(): void
-    {
-        /** @var Key $key */
-        $key = Key::factory()->create([
-            'public' => self::VALID_PUBLIC_KEY_ONE,
-        ]);
-        $wantPublicKey = self::VALID_PUBLIC_KEY_TWO;
-
-        $response = $this
-            ->actingAs($this->user)
-            ->put(route('keys.update', $key), [
-                'operation' => KeyOperation::IMPORT_OPERATION,
-                'public_key' => $wantPublicKey,
-                'enabled' => true,
-            ]);
-
-        $response->assertRedirect(route('keys.update', $key));
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('keys', [
-            'id' => $key->id,
-            'public' => $wantPublicKey,
-        ]);
-    }
-
-    /** @test */
-    public function update_method_should_create_a_new_key_when_create_operation_is_used(): void
-    {
-        /** @var Key $key */
-        $key = Key::factory()->create([
-            'public' => self::VALID_PUBLIC_KEY_ONE,
-        ]);
-
-        $response = $this
-            ->actingAs($this->user)
-            ->put(route('keys.update', $key), [
-                'operation' => KeyOperation::CREATE_OPERATION,
-                'enabled' => true,
-            ]);
-
-        $response->assertRedirect(route('keys.update', $key));
-        $response->assertSessionHasNoErrors();
-        $this->assertNotEquals(self::VALID_PUBLIC_KEY_ONE, optional(Key::findOrFail($key->id))->public);
-    }
-
-    /** @test */
-    public function destroy_method_should_return_proper_success_message(): void
-    {
-        /** @var Key $key */
-        $key = Key::factory()
-            ->create();
-
-        $response = $this
-            ->actingAs($this->user)
-            ->delete(route('keys.destroy', $key));
-
-        $response->assertRedirect(route('keys.index'));
-        $response->assertSessionHas('success');
-        $this->assertModelMissing($key);
-    }
-
-    /** @test */
-    public function data_method_should_return_error_when_not_ajax(): void
-    {
-        $response = $this
-            ->actingAs($this->user)
-            ->get(route('keys.data'));
-
-        $response->assertForbidden();
-    }
-
-    /** @test */
-    public function data_method_should_return_data(): void
-    {
-        $keys = Key::factory()
-            ->count(3)
-            ->create(
-                [
-                    'enabled' => 'true',
-                ]
-            );
-
-        $response = $this
-            ->actingAs($this->user)
-            ->ajaxGet(route('keys.data'));
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'username',
-                    'fingerprint',
-                    'groups',
-                    'actions',
-                ],
             ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForKeyCreation
+     */
+    public function editors_should_get_errors_when_creating_keys_with_wrong_data(
+        array $data,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        // Key to validate unique rules...
+        Key::factory()->create([
+            'username' => 'foo',
         ]);
-        foreach ($keys as $key) {
-            $response->assertJsonFragment([
-                'username' => $key['username'],
-                'fingerprint' => $key['fingerprint'],
+
+        /** @var Key $want */
+        $want = Key::factory()->make();
+
+        $formData = [
+            'username' => $data['username'] ?? $want->username,
+            'operation' => $data['operation'] ?? KeyOperation::CREATE_OPERATION,
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->post(route('keys.store'), $formData)
+            ->assertInvalid($errors);
+
+        if ($formData['username'] != 'foo') {
+            $this->assertDatabaseMissing(Key::class, [
+                'username' => $formData['username'],
             ]);
         }
+    }
+
+    public function provideWrongDataForKeyCreation(): \Generator
+    {
+        yield 'username is empty' => [
+            'data' => [
+                'username' => '',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username > 255 chars' => [
+            'data' => [
+                'username' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username ! valid' => [
+            'data' => [
+                'username' => '_foo34',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'username is taken' => [
+            'data' => [
+                'username' => 'foo',
+            ],
+            'errors' => ['username'],
+        ];
+
+        yield 'operation ! valid' => [
+            'data' => [
+                'operation' => 'not-valid-operation',
+            ],
+            'errors' => ['operation'],
+        ];
+
+        yield 'public_key ! valid' => [
+            'data' => [
+                'operation' => KeyOperation::IMPORT_OPERATION,
+                'public_key' => 'this-public-key-is-invalid',
+            ],
+            'errors' => ['public_key'],
+        ];
+    }
+
+    /** @test */
+    public function users_should_not_see_edit_key_form(): void
+    {
+        $key = Key::factory()->create();
+
+        // Create some groups to test the membership.
+        Keygroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.edit', $key))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_see_the_edit_key_form(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        $key = Key::factory()->create();
+
+        // Create some keys to test the membership.
+        $groups = Keygroup::factory()
+            ->count(2)
+            ->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.edit', $key))
+            ->assertSuccessful()
+            ->assertViewIs('key.edit')
+            ->assertViewHas('key', $key)
+            ->assertViewHas('groups', $groups->pluck('name', 'id'));
+    }
+
+    /**
+     * @test
+     * @dataProvider provideDataForKeyModification
+     */
+    public function editors_should_update_keys(
+        array $data,
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        // Create some groups to test the membership.
+        $groups = Keygroup::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Key $key */
+        $key = Key::factory()->create();
+
+        /** @var Key $want */
+        $want = Key::factory()->make();
+
+        $formData = array_merge([
+            'enabled' => $want->enabled,
+            'operation' => KeyOperation::NOOP_OPERATION,
+            'groups' => $groups->pluck('id')->toArray(),
+        ], $data);
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('keys.update', $key), $formData)
+            ->assertRedirect(route('keys.show', ['key' => $key]))
+            ->assertValid();
+
+        $key->refresh();
+
+        $this->assertModelExists($key);
+
+        $this->assertCount(count($groups), $key->groups);
+    }
+
+    public function provideDataForKeyModification(): \Generator
+    {
+        yield 'creating a key' => [
+            'data' => [
+                'operation' => KeyOperation::CREATE_OPERATION,
+            ],
+        ];
+
+        yield 'importing a key' => [
+            'data' => [
+                'operation' => KeyOperation::IMPORT_OPERATION,
+                'public_key' => self::VALID_PUBLIC_KEY_TWO,
+            ],
+        ];
+
+        yield 'not touching the key' => [
+            'data' => [
+                'operation' => KeyOperation::NOOP_OPERATION,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForKeyModification
+     */
+    public function editors_should_get_errors_when_updating_keys_with_wrong_data(
+        array $data,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditKeys);
+
+        /** @var Key $key */
+        $key = Key::factory()->create();
+
+        /** @var Key $want */
+        $want = Key::factory()->make();
+
+        $formData = [
+            'enabled' => $data['enabled'] ?? $want->enabled,
+            'operation' => $data['operation'] ?? KeyOperation::NOOP_OPERATION,
+            'public_key' => $data['public_key'] ?? $key->public,
+            'groups' => $data['groups'] ?? [],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->put(route('keys.update', $key), $formData)
+            ->assertInvalid($errors);
+
+        $this->assertDatabaseMissing(Key::class, [
+            'id' => $key->id,
+            'username' => $key->username,
+            'enabled' => $formData['enabled'],
+            'public' => $formData['public_key'],
+        ]);
+
+        $key->refresh();
+
+        $this->assertCount(0, $key->groups);
+    }
+
+    public function provideWrongDataForKeyModification(): \Generator
+    {
+        yield 'enabled ! valid' => [
+            'data' => [
+                'enabled' => 'non-boolean',
+            ],
+            'errors' => ['enabled'],
+        ];
+
+        yield 'public_key ! valid' => [
+            'data' => [
+                'operation' => KeyOperation::IMPORT_OPERATION,
+                'public_key' => 'this-public-key-is-invalid',
+            ],
+            'errors' => ['public_key'],
+        ];
+    }
+
+    /** @test */
+    public function users_should_not_delete_keys(): void
+    {
+        $key = Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('keys.destroy', $key))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function eliminators_should_delete_keys(): void
+    {
+        $this->user->givePermissionTo(Permissions::DeleteKeys);
+
+        $key = Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('keys.destroy', $key))
+            ->assertRedirect(route('keys.index'));
+
+        $this->assertModelMissing($key);
     }
 }

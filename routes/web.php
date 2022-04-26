@@ -27,6 +27,7 @@ use App\Http\Controllers\HostDataTablesController;
 use App\Http\Controllers\HostgroupController;
 use App\Http\Controllers\HostgroupDataTablesController;
 use App\Http\Controllers\KeyController;
+use App\Http\Controllers\KeyDataTablesController;
 use App\Http\Controllers\KeygroupController;
 use App\Http\Controllers\KeygroupDataTablesController;
 use App\Http\Controllers\PersonalAccessTokenController;
@@ -109,8 +110,7 @@ Route::middleware(['auth'])->group(function () {
      */
     // DataTables Ajax route.
     Route::middleware(['ajax'])
-        ->get('keys/data',
-            [KeyController::class, 'data'])
+        ->get('keys/data', KeyDataTablesController::class)
         ->name('keys.data');
 
     // Download a private key.

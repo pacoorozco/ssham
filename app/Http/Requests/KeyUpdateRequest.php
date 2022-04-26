@@ -26,11 +26,6 @@ use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class KeyUpdateRequest extends Request
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
@@ -58,29 +53,14 @@ class KeyUpdateRequest extends Request
         return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
 
-    /**
-     * Sanitizes user input. In special 'public_key_input' to remove carriage returns.
-     */
-    public function sanitize(): void
-    {
-        $input = $this->all();
-
-        // Removes carriage returns from 'public_key' input
-        if (isset($input['public_key_input'])) {
-            $input['public_key_input'] = str_replace(["\n", "\t", "\r"], '', $input['public_key_input']);
-        }
-
-        $this->replace($input);
-    }
-
     public function publicKey(): string
     {
         return $this->input('public_key', '');
     }
 
-    public function groups(): ?array
+    public function groups(): array
     {
-        return $this->input('groups');
+        return $this->input('groups', []);
     }
 
     public function enabled(): bool
@@ -91,12 +71,5 @@ class KeyUpdateRequest extends Request
     public function wantsCreateKey(): bool
     {
         return $this->input('operation') === KeyOperation::CREATE_OPERATION;
-    }
-
-    protected function getValidatorInstance(): Validator
-    {
-        //$this->sanitize();
-
-        return parent::getValidatorInstance();
     }
 }
