@@ -237,4 +237,42 @@ class HostTest extends TestCase
 
         $this->assertEquals($want, $host->full_hostname);
     }
+
+    /**
+     * @test
+     * @dataProvider provideGetPortOrDefaultTestCases
+     */
+    public function getPortOrDefault_return_the_port(
+        string $port,
+        int $want,
+    ): void {
+
+        // Sets the default port.
+        setting()->set('ssh_port', 22);
+
+        /** @var Host $host */
+        $host = Host::factory()->make([
+            'port' => $port,
+        ]);
+
+        $this->assertEquals($want, $host->getPortOrDefault());
+    }
+
+    public function provideGetPortOrDefaultTestCases(): \Generator
+    {
+        yield "custom port" => [
+            'port' => '2022',
+            'want' => 2022,
+        ];
+
+        yield "default port" => [
+            'port' => '0',
+            'want' => 22,
+        ];
+
+        yield "port is empty" => [
+            'port' => '',
+            'want' => 22,
+        ];
+    }
 }
