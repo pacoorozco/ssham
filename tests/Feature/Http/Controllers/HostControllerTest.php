@@ -67,6 +67,32 @@ class HostControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_should_not_see_any_host(): void
+    {
+        $host = Host::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('hosts.show', $host))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function viewers_should_see_any_host(): void
+    {
+        $this->user->givePermissionTo(Permissions::ViewHosts);
+
+        $host = Host::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('hosts.show', $host))
+            ->assertSuccessful()
+            ->assertViewIs('host.show')
+            ->assertViewHas('host', $host);
+    }
+
+    /** @test */
     public function users_should_not_see_the_new_host_form(): void
     {
         Host::factory()->create();

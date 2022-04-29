@@ -65,6 +65,33 @@ class UserControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_should_not_see_any_user(): void
+    {
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.show', $user))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function viewers_should_see_any_user(): void
+    {
+        $this->user->givePermissionTo(Permissions::ViewUsers);
+
+        $user = User::factory()->create();
+        $user->assignRole(Roles::Operator);
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.show', $user))
+            ->assertSuccessful()
+            ->assertViewIs('user.show')
+            ->assertViewHas('user', $user);
+    }
+
+    /** @test */
     public function users_should_not_see_the_new_user_form(): void
     {
         $this
