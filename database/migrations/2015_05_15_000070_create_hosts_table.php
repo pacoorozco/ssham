@@ -30,8 +30,8 @@ class CreateHostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('hostname');
             $table->string('username');
-            $table->integer('port')->unsigned();
-            $table->string('authorized_keys_file');
+            $table->integer('port')->unsigned()->nullable();
+            $table->string('authorized_keys_file')->nullable();
             $table->enum('type', ['linux'])->default('linux');
             $table->string('key_hash')->nullable();
             $table->boolean('enabled')->default(true);

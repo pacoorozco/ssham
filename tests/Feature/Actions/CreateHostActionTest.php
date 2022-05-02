@@ -19,7 +19,6 @@
 namespace Tests\Feature\Actions;
 
 use App\Actions\CreateHostAction;
-use App\Models\Hostgroup;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -30,12 +29,13 @@ class CreateHostActionTest extends TestCase
 
     /**
      * @test
-     * @dataProvider providesHostData
+     * @dataProvider providesHostTestCases
      */
     public function it_can_create_a_host(
         string $hostname,
         string $username,
         array $options,
+        array $want,
     ): void {
         $action = app(CreateHostAction::class);
 
@@ -45,21 +45,22 @@ class CreateHostActionTest extends TestCase
             options: $options,
         );
 
-        $this->assertDatabaseHas('hosts', [
-            'hostname' => $hostname,
-            'username' => $username,
-            'enabled' => $options['enabled'] ?? true,
-            'port' => $options['port'] ?? 0,
-            'authorized_keys_file' => $options['authorized_keys_file'] ?? '',
-        ]);
+        $this->assertDatabaseHas('hosts', $want);
     }
 
-    public function providesHostData(): Generator
+    public function providesHostTestCases(): Generator
     {
         yield 'custom options' => [
             'hostname' => 'server.domain.local',
             'username' => 'john.doe',
             'options' => [
+                'enabled' => true,
+                'port' => 2022,
+                'authorized_keys_file' => 'custom_authorized_keys_file',
+            ],
+            'want' => [
+                'hostname' => 'server.domain.local',
+                'username' => 'john.doe',
                 'enabled' => true,
                 'port' => 2022,
                 'authorized_keys_file' => 'custom_authorized_keys_file',
@@ -70,6 +71,28 @@ class CreateHostActionTest extends TestCase
             'hostname' => 'server.domain.local',
             'username' => 'john.doe',
             'options' => [],
+            'want' => [
+                'hostname' => 'server.domain.local',
+                'username' => 'john.doe',
+                'enabled' => true,
+                'port' => null,
+                'authorized_keys_file' => null,
+            ],
+        ];
+
+        yield 'only port option' => [
+            'hostname' => 'server.domain.local',
+            'username' => 'john.doe',
+            'options' => [
+                'port' => 2022,
+            ],
+            'want' => [
+                'hostname' => 'server.domain.local',
+                'username' => 'john.doe',
+                'enabled' => true,
+                'port' => 2022,
+                'authorized_keys_file' => null,
+            ],
         ];
     }
 }

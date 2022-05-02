@@ -151,7 +151,9 @@ class HostControllerTest extends TestCase
             ->create();
 
         /** @var Host $want */
-        $want = Host::factory()->make();
+        $want = Host::factory()
+            ->customized()
+            ->make();
 
         $this
             ->actingAs($this->user)
@@ -338,7 +340,9 @@ class HostControllerTest extends TestCase
         $host = Host::factory()->create();
 
         /** @var Host $want */
-        $want = Host::factory()->make();
+        $want = Host::factory()
+            ->customized()
+            ->make();
 
         $this
             ->actingAs($this->user)

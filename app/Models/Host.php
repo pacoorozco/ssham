@@ -21,6 +21,7 @@ use App\Enums\ControlRuleAction;
 use App\Enums\HostStatus;
 use App\Presenters\HostPresenter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -82,39 +83,50 @@ class Host extends Model implements Searchable
         return $this->belongsToMany(Hostgroup::class);
     }
 
-    public function setUsernameAttribute(string $value): void
+    protected function username(): Attribute
     {
-        $this->attributes['username'] = strtolower($value);
+        return Attribute::make(
+            set: fn($value) => strtolower($value),
+        );
     }
 
-    public function setHostnameAttribute(string $value): void
+    protected function hostname(): Attribute
     {
-        $this->attributes['hostname'] = strtolower($value);
+        return Attribute::make(
+            set: fn($value) => strtolower($value),
+        );
     }
 
-    public function getFullHostnameAttribute(): string
+    public function fullHostname(): Attribute
     {
-        return "{$this->username}@{$this->hostname}";
+        return Attribute::make(
+            get: fn($value, $attributes) => $attributes['username'] . '@' . $attributes['hostname'],
+        );
     }
 
-    public function getPortOrDefault(): int
+    public function port(): Attribute
     {
-        return $this->hasCustomPort() ? $this->port : setting()->get('ssh_port');
+        return Attribute::make(
+            get: fn($value) => $value ?: setting()->get('ssh_port', 22),
+            set: fn($value) => (int) $value > 0 ? (int) $value : null,
+        );
     }
 
-    public function hasCustomPort(): bool
-    {
-        return $this->port !== 0;
+    public function hasCustomPort(): bool {
+        return !is_null($this->attributes['port']);
     }
 
-    public function getAuthorizedKeysFileOrDefault(): string
-    {
-        return $this->hasCustomAuthorizedKeysFile() ? $this->authorized_keys_file : setting()->get('authorized_keys');
+    public function hasCustomAuthorizedKeysFile(): bool {
+        return !is_null($this->attributes['authorized_keys_file']);
     }
 
-    public function hasCustomAuthorizedKeysFile(): bool
+
+    public function authorizedKeysFile(): Attribute
     {
-        return $this->authorized_keys_file !== '';
+        return Attribute::make(
+            get: fn($value) => $value ?: setting()->get('authorized_keys', ''),
+            set: fn($value) => !empty($value) ? $value : null,
+        );
     }
 
     public function scopeNotInSync(Builder $query): Builder
@@ -163,7 +175,7 @@ class Host extends Model implements Searchable
                             break;
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username.'@ssham';
+                            $content[2] = $key->username . '@ssham';
                             $sshKeys[$key->username] = join(' ', $content);
                             break;
                         default:
@@ -172,7 +184,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (! is_null($bastionSSHPublicKey)) {
+        if (!is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 
