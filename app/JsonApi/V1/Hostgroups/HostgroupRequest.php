@@ -10,15 +10,23 @@ class HostgroupRequest extends ResourceRequest
 {
     public function rules(): array
     {
-        $unique = Rule::unique('hostgroups');
+        $uniqueName = Rule::unique('hostgroups');
 
         if ($group = $this->model()) {
-            $unique = $unique->ignore($group);
+            $uniqueName = $uniqueName->ignoreModel($group);
         }
 
         return [
-            'name' => ['required', 'min:5', 'max:255', $unique],
-            'description' => ['nullable', 'max:255'],
+            'name' => [
+                'required',
+                'min:5',
+                'max:255',
+                $uniqueName,
+            ],
+            'description' => [
+                'string',
+                'nullable',
+            ],
             'hosts' => JsonApiRule::toMany(),
         ];
     }
