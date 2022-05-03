@@ -99,7 +99,7 @@ class ApiHostsTest extends ApiTestCase
             ],
             'relationships' => [
                 'groups' => [
-                    'data' => $groups->map(fn(Hostgroup $group) => [
+                    'data' => $groups->map(fn (Hostgroup $group) => [
                         'type' => 'hostgroups',
                         'id' => (string) $group->getRouteKey(),
                     ])->all(),
@@ -288,7 +288,7 @@ class ApiHostsTest extends ApiTestCase
             ->customized()
             ->create();
 
-        $self = 'http://localhost/api/v1/hosts/' . $host->getRouteKey();
+        $self = 'http://localhost/api/v1/hosts/'.$host->getRouteKey();
 
         $expected = [
             'type' => 'hosts',
@@ -383,7 +383,7 @@ class ApiHostsTest extends ApiTestCase
             ],
             'relationships' => [
                 'groups' => [
-                    'data' => $groups->map(fn(Hostgroup $group) => [
+                    'data' => $groups->map(fn (Hostgroup $group) => [
                         'type' => 'hostgroups',
                         'id' => (string) $group->getRouteKey(),
                     ])->all(),

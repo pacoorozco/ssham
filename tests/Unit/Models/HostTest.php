@@ -62,22 +62,22 @@ class HostTest extends ModelTestCase
 
     public function provideUsernameTestCases(): \Generator
     {
-        yield "user, should be user" => [
+        yield 'user, should be user' => [
             'input' => 'user',
             'want' => 'user',
         ];
 
-        yield "User, should be user" => [
+        yield 'User, should be user' => [
             'input' => 'User',
             'want' => 'user',
         ];
 
-        yield "ADMIN, should be admin" => [
+        yield 'ADMIN, should be admin' => [
             'input' => 'ADMIN',
             'want' => 'admin',
         ];
 
-        yield "Adm1n, should be adm1n" => [
+        yield 'Adm1n, should be adm1n' => [
             'input' => 'Adm1n',
             'want' => 'adm1n',
         ];
@@ -101,22 +101,22 @@ class HostTest extends ModelTestCase
 
     public function provideHostnameTestCases(): \Generator
     {
-        yield "lowercase input" => [
+        yield 'lowercase input' => [
             'input' => 'server.domain.local',
             'want' => 'server.domain.local',
         ];
 
-        yield "uppercase input" => [
+        yield 'uppercase input' => [
             'input' => 'SERVER',
             'want' => 'server',
         ];
 
-        yield "mixed input" => [
+        yield 'mixed input' => [
             'input' => 'SERVER.domain.LOCAL',
             'want' => 'server.domain.local',
         ];
 
-        yield "mixed input with numbers" => [
+        yield 'mixed input with numbers' => [
             'input' => 'SERVER12.domain.LOCAL',
             'want' => 'server12.domain.local',
         ];
