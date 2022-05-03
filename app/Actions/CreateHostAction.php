@@ -26,14 +26,17 @@ class CreateHostAction
         string $username,
         array $options = []
     ): Host {
-        /* @var Host $host */
-        $host = Host::create([
+        /*
+         * These are optional values that can or can not be present.
+         * If they are not present, we use the database defaults.
+         */
+        $data = array_merge([
             'hostname' => $hostname,
             'username' => $username,
-            'enabled' => $options['enabled'] ?? true,
-            'port' => $options['port'] ?? 0,
-            'authorized_keys_file' => $options['authorized_keys_file'] ?? '',
-        ]);
+        ], $options);
+
+        /* @var Host $host */
+        $host = Host::create($data);
 
         $host->groups()->sync($options['groups'] ?? []);
 

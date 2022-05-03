@@ -8,7 +8,7 @@ use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\Key;
 use App\Models\Keygroup;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,78 +16,68 @@ class HostTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test  */
-    public function scopeEnabled_returns_correct_data(): void
+    /** @test */
+    public function it_should_return_the_enabled_hosts(): void
     {
-        // two disabled Host
         Host::factory()
             ->count(2)
-            ->create([
-                'enabled' => false,
-            ]);
+            ->disabled()
+            ->create();
 
-        // three enabled Host
-        Host::factory()
+        $want = Host::factory()
             ->count(3)
-            ->create([
-                'enabled' => true,
-            ]);
+            ->enabled()
+            ->create()
+            ->pluck(['id', 'username', 'hostname']);
 
-        $got = Host::enabled()->get();
+        $got = Host::enabled()
+            ->get()
+            ->pluck(['id', 'username', 'hostname']);
 
-        $this->assertCount(3, $got);
+        $this->assertEquals($want, $got);
     }
 
     /** @test */
-    public function scopeEnabled_returns_no_data_if_all_hosts_are_disabled(): void
+    public function it_should_not_return_the_enabled_hosts_if_there_are_not(): void
     {
-        // two disabled Host
         Host::factory()
             ->count(2)
-            ->create([
-                'enabled' => false,
-            ]);
+            ->disabled()
+            ->create();
 
-        $got = Host::enabled()->get();
-
-        $this->assertEmpty($got);
+        $this->assertEmpty(Host::enabled()->get());
     }
 
     /** @test */
-    public function scopeNotInSync_returns_correct_data(): void
+    public function it_should_return_the_hosts_that_are_not_in_sync(): void
     {
-        // two synced Host
         Host::factory()
             ->count(2)
-            ->create([
-                'synced' => true,
-            ]);
+            ->synced()
+            ->create();
 
-        // three not in sync Host
-        Host::factory()
+        $want = Host::factory()
             ->count(3)
-            ->create([
-                'synced' => false,
-            ]);
+            ->desynced()
+            ->create()
+            ->pluck(['id', 'username', 'hostname']);
 
-        $got = Host::notInSync()->get();
+        $got = Host::notInSync()
+            ->get()
+            ->pluck(['id', 'username', 'hostname']);
 
-        $this->assertCount(3, $got);
+        $this->assertEquals($want, $got);
     }
 
     /** @test */
-    public function scopeNotInSync_returns_no_data_if_all_hosts_are_disabled(): void
+    public function it_should_not_return_the_desynced_hosts_if_there_are_not(): void
     {
-        // two synced Host
         Host::factory()
             ->count(2)
-            ->create([
-                'synced' => true,
-            ]);
+            ->synced()
+            ->create();
 
-        $got = Host::notInSync()->get();
-
-        $this->assertEmpty($got);
+        $this->assertEmpty(Host::notInSync()->get());
     }
 
     /** @test */
@@ -225,16 +215,174 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function getFullHostname_return_the_full_hostname(): void
+    public function it_should_return_the_host_full_name(): void
     {
         /** @var Host $host */
-        $host = Host::factory()->makeOne([
+        $host = Host::factory()->make([
             'username' => 'root',
             'hostname' => 'server1.domain.local',
-            'port' => 12345,
         ]);
+
         $want = 'root@server1.domain.local';
 
         $this->assertEquals($want, $host->full_hostname);
+    }
+
+    const SSH_PORT_DEFAULT_VALUE = 22;
+
+    /**
+     * @test
+     * @dataProvider provideGetPortTestCases
+     */
+    public function it_should_return_the_host_port(
+        array $attributes,
+        int $want,
+    ): void {
+
+        // Set the default value.
+        setting()->set('ssh_port', self::SSH_PORT_DEFAULT_VALUE);
+
+        /** @var Host $host */
+        $host = Host::factory()->make([
+            'port' => $attributes['port'],
+        ]);
+
+        $this->assertEquals($want, $host->port);
+    }
+
+    public function provideGetPortTestCases(): Generator
+    {
+        yield 'custom value as int, should return the provided value' => [
+            'attributes' => [
+                'port' => 2022,
+            ],
+            'want' => 2022,
+        ];
+
+        yield 'custom value as string, should return the provided value' => [
+            'attributes' => [
+                'port' => '2022',
+            ],
+            'want' => 2022,
+        ];
+
+        yield 'empty value, should return the default setting' => [
+            'attributes' => [
+                'port' => '',
+            ],
+            'want' => self::SSH_PORT_DEFAULT_VALUE,
+        ];
+
+        yield 'null value, should return the default setting' => [
+            'attributes' => [
+                'port' => null,
+            ],
+            'want' => self::SSH_PORT_DEFAULT_VALUE,
+        ];
+
+        yield 'value of 0,  should return the provided value' => [
+            'attributes' => [
+                'port' => 0,
+            ],
+            'want' => self::SSH_PORT_DEFAULT_VALUE,
+        ];
+
+        yield 'invalid value, should return the provided value' => [
+            'attributes' => [
+                'port' => 'foo',
+            ],
+            'want' => self::SSH_PORT_DEFAULT_VALUE,
+        ];
+    }
+
+    const AUTHORIZED_KEYS_DEFAULT_VALUE = '~/.ssh/authorized_keys_file';
+
+    /**
+     * @test
+     * @dataProvider provideGetAuthorizedKeysFileTestCases
+     */
+    public function it_should_return_the_authorized_keys_file(
+        array $attributes,
+        string $want,
+    ): void {
+        // Set the default value.
+        setting()->set('authorized_keys', self::AUTHORIZED_KEYS_DEFAULT_VALUE);
+
+        /** @var Host $host */
+        $host = Host::factory()->make([
+            'authorized_keys_file' => $attributes['authorized_keys_file'],
+        ]);
+
+        $this->assertEquals($want, $host->authorized_keys_file);
+    }
+
+    public function provideGetAuthorizedKeysFileTestCases(): Generator
+    {
+        yield 'custom value, should return the provided value' => [
+            'attributes' => [
+                'authorized_keys_file' => 'my-custom-path',
+            ],
+            'want' => 'my-custom-path',
+        ];
+
+        yield 'empty value, should return the default setting' => [
+            'attributes' => [
+                'authorized_keys_file' => '',
+            ],
+            'want' => self::AUTHORIZED_KEYS_DEFAULT_VALUE,
+        ];
+
+        yield 'null value, should return the default setting' => [
+            'attributes' => [
+                'authorized_keys_file' => null,
+            ],
+            'want' => self::AUTHORIZED_KEYS_DEFAULT_VALUE,
+        ];
+    }
+
+    /** @test */
+    public function it_should_return_lowercase_username(): void
+    {
+        $testCases = [
+            'User' => 'user',
+            'ADMIN' => 'admin',
+            'user' => 'user',
+            'admin' => 'admin',
+        ];
+
+        foreach ($testCases as $input => $want) {
+            /** @var Host $host */
+            $host = Host::factory()->makeOne([
+                'username' => $input,
+            ]);
+            $this->assertEquals($want, $host->username);
+        }
+    }
+
+    public function provideUsernameTestCases(): Generator
+    {
+        yield 'User, should be user' => [
+            'input' => 'User',
+            'want' => 'user',
+        ];
+    }
+
+    /** @test */
+    public function hostname_is_lowercase(): void
+    {
+        $testCases = [
+            'server.domain.local' => 'server.domain.local',
+            'Server.Domain.Local' => 'server.domain.local',
+            'SERVER' => 'server',
+            'SERVER.domain.LOCAL' => 'server.domain.local',
+        ];
+
+        foreach ($testCases as $input => $want) {
+            /** @var Host $host */
+            $host = Host::factory()->makeOne([
+                'hostname' => $input,
+            ]);
+            $this->assertEquals($want, $host->hostname);
+        }
     }
 }

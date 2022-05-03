@@ -65,6 +65,32 @@ class KeygroupControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_should_not_see_any_keys_group(): void
+    {
+        $group = Keygroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keygroups.show', $group))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function viewers_should_see_any_keys_group(): void
+    {
+        $this->user->givePermissionTo(Permissions::ViewKeys);
+
+        $group = Keygroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keygroups.show', $group))
+            ->assertSuccessful()
+            ->assertViewIs('keygroup.show')
+            ->assertViewHas('keygroup', $group);
+    }
+
+    /** @test */
     public function users_should_not_see_the_new_group_form(): void
     {
         Key::factory()->create();

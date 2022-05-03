@@ -23,6 +23,7 @@ use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
 use App\Models\User;
+use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -186,7 +187,7 @@ class ControlRuleControllerTest extends TestCase
         ]);
     }
 
-    public function provideWrongDataForRuleCreation(): \Generator
+    public function provideWrongDataForRuleCreation(): Generator
     {
         yield 'name is empty' => [
             'data' => [

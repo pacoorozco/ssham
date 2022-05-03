@@ -61,11 +61,6 @@ class HostPresenter extends Presenter
 
     public function port(): string
     {
-        return sprintf('%d', $this->model->getPortOrDefault());
-    }
-
-    public function authorizedKeysFile(): string
-    {
-        return $this->model->getAuthorizedKeysFileOrDefault();
+        return sprintf('%d', $this->model->port);
     }
 }

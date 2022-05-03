@@ -69,6 +69,32 @@ class KeyControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_should_not_see_any_key(): void
+    {
+        $key = Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.show', $key))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function viewers_should_see_any_key(): void
+    {
+        $this->user->givePermissionTo(Permissions::ViewKeys);
+
+        $key = Key::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('keys.show', $key))
+            ->assertSuccessful()
+            ->assertViewIs('key.show')
+            ->assertViewHas('key', $key);
+    }
+
+    /** @test */
     public function users_should_not_see_the_new_key_form(): void
     {
         Key::factory()->create();

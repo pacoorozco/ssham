@@ -2,9 +2,13 @@
 
 namespace Tests\Feature\Http\Api;
 
+use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
+use Generator;
+use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\ApiTestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -18,35 +22,76 @@ class ApiHostgroupsTest extends ApiTestCase
     {
         parent::setUp();
 
-        $this->disablePermissionsCheck();
+        $this->setupRolesAndPermissions();
+
         $this->user = User::factory()->create();
     }
 
     /** @test */
-    public function it_should_return_many_resources(): void
+    public function users_should_not_see_any_resource(): void
     {
-        $groups = Hostgroup::factory()->count(3)->create();
+        Hostgroup::factory()->count(2)->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
-            ->jsonApi()
-            ->expects('hostgroups')
-            ->get('/api/v1/hostgroups');
-
-        $response->assertFetchedMany($groups);
+            ->get(route('v1.hostgroups.index'))
+            ->assertForbidden();
     }
 
     /** @test */
-    public function it_should_success_when_creating_a_hostgroup(): void
+    public function viewers_should_see_the_resources(): void
     {
-        $group = Hostgroup::factory()->make();
-        $hosts = Host::factory()->count(2)->create();
+        $this->user->givePermissionTo(Permissions::ViewHosts);
+
+        $groups = Hostgroup::factory()->count(3)->create();
+
+        $this
+            ->actingAs($this->user)
+            ->jsonApi()
+            ->expects('hostgroups')
+            ->get(route('v1.hostgroups.index'))
+            ->assertFetchedMany($groups);
+    }
+
+    /** @test */
+    public function users_should_not_create_hosts_groups(): void
+    {
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
 
         $data = [
             'type' => 'hostgroups',
             'attributes' => [
-                'name' => $group->name,
-                'description' => $group->description,
+                'name' => $want->name,
+                'description' => $want->description,
+            ],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->jsonApi()
+            ->withData($data)
+            ->post(route('v1.hostgroups.store'))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_create_hosts_groups(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $hosts = Host::factory()
+            ->count(2)
+            ->create();
+
+        $data = [
+            'type' => 'hostgroups',
+            'attributes' => [
+                'name' => $want->name,
+                'description' => $want->description,
             ],
             'relationships' => [
                 'hosts' => [
@@ -58,66 +103,126 @@ class ApiHostgroupsTest extends ApiTestCase
             ],
         ];
 
-        $response = $this
+        $id = $this
             ->actingAs($this->user)
             ->jsonApi()
             ->expects('hostgroups')
             ->withData($data)
             ->includePaths('hosts')
-            ->post('/api/v1/hostgroups');
-
-        $id = $response
+            ->post(route('v1.hostgroups.store'))
             ->assertCreatedWithServerId('http://localhost/api/v1/hostgroups', $data)
             ->id();
 
-        $this->assertDatabaseHas('hostgroups', [
-            'id' => $id,
-            'name' => $group->name,
-            'description' => $group->description,
-        ]);
+        $group = Hostgroup::query()
+            ->where('id', $id)
+            ->where('name', $want->name)
+            ->where('description', $want->description)
+            ->first();
 
-        foreach ($hosts as $host) {
-            $this->assertDatabaseHas('host_hostgroup', [
-                'host_id' => $host->getRouteKey(),
-                'hostgroup_id' => $id,
-            ]);
-        }
+        $this->assertInstanceOf(Hostgroup::class, $group);
+
+        $this->assertCount(count($hosts), $group->hosts);
     }
 
-    /** @test */
-    public function it_should_return_error_when_trying_to_create_an_existing_hostgroup(): void
-    {
-        $existingGroup = Hostgroup::factory()->create();
+    /**
+     * @test
+     * @dataProvider provideWrongDataForGroupCreation
+     */
+    public function editors_should_get_errors_when_creating_groups_with_wrong_data(
+        array $input,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditHosts);
 
-        $group = Hostgroup::factory()->make([
-            'name' => $existingGroup->name,
+        // Group to validate unique rules...
+        Hostgroup::factory()->create([
+            'name' => 'foo',
         ]);
+
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
 
         $data = [
             'type' => 'hostgroups',
             'attributes' => [
-                'name' => $group->name,
-                'description' => $group->description,
+                'name' => $input['name'] ?? $want->name,
+                'description' => $input['description'] ?? $want->description,
             ],
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->jsonApi()
             ->expects('hostgroups')
             ->withData($data)
-            ->post('/api/v1/hostgroups');
+            ->post(route('v1.hostgroups.store'))->assertError(Response::HTTP_UNPROCESSABLE_ENTITY, $errors);
 
-        $response->assertStatusCode(422);
-        $response->assertErrorStatus([
-            'status' => '422',
+        $this->assertDatabaseMissing(Hostgroup::class, [
+            'name' => Arr::get($data, 'attributes.name'),
+            'description' => Arr::get($data, 'attributes.description'),
         ]);
     }
 
+    public function provideWrongDataForGroupCreation(): Generator
+    {
+        yield 'name is empty' => [
+            'input' => [
+                'name' => '',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+
+        yield 'name < 5 chars' => [
+            'input' => [
+                'name' => 'foo',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+
+        yield 'name > 255 chars' => [
+            'input' => [
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+
+        yield 'name is taken' => [
+            'input' => [
+                'name' => 'foo',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+    }
+
     /** @test */
-    public function it_should_success_when_getting_an_existing_hostgroup(): void
+    public function users_should_not_see_a_resource(): void
     {
         $group = Hostgroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->jsonApi()
+            ->expects('hosts')
+            ->get(route('v1.hostgroups.show', $group))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function viewers_should_see_a_resource(): void
+    {
+        $this->user->givePermissionTo(Permissions::ViewHosts);
+
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
+
         $self = 'http://localhost/api/v1/hostgroups/'.$group->getRouteKey();
 
         $expected = [
@@ -141,34 +246,65 @@ class ApiHostgroupsTest extends ApiTestCase
             ],
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->jsonApi()
             ->expects('hostgroups')
-            ->get($self);
-
-        $response->assertFetchedOneExact($expected);
+            ->get(route('v1.hostgroups.show', $group))
+            ->assertFetchedOneExact($expected);
     }
 
     /** @test */
-    public function it_should_success_when_updating_a_hostgroup(): void
+    public function users_should_not_update_hosts_groups(): void
     {
         $group = Hostgroup::factory()->create();
-        $group->hosts()->attach($existing = Host::factory()->create());
 
-        $newData = Hostgroup::factory()->make([
-            'name' => $group->name,
-        ]);
-        $newHosts = Host::factory()->count(2)->create();
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()
+            ->make();
+
         $data = [
             'type' => 'hostgroups',
             'id' => (string) $group->getRouteKey(),
             'attributes' => [
-                'description' => $newData->description,
+                'description' => $want->description,
+            ],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->jsonApi()
+            ->expects('hostgroups')
+            ->withData($data)
+            ->patch(route('v1.hostgroups.update', $group))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function editors_should_update_hosts_groups(): void
+    {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        // Create some hosts to test the membership.
+        $hosts = Host::factory()
+            ->count(2)
+            ->create();
+
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
+
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $data = [
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
+            'attributes' => [
+                'description' => $want->description,
             ],
             'relationships' => [
                 'hosts' => [
-                    'data' => $newHosts->map(fn (Host $host) => [
+                    'data' => $hosts->map(fn (Host $host) => [
                         'type' => 'hosts',
                         'id' => (string) $host->getRouteKey(),
                     ])->all(),
@@ -181,57 +317,147 @@ class ApiHostgroupsTest extends ApiTestCase
             'id' => (string) $group->getRouteKey(),
             'attributes' => [
                 'name' => $group->name,
-                'description' => $newData->description,
+                'description' => $want->description,
                 'createdAt' => $group->created_at->jsonSerialize(),
             ],
         ];
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->jsonApi()
             ->expects('hostgroups')
             ->includePaths('hosts')
             ->withData($data)
-            ->patch('/api/v1/hostgroups/'.$group->getRouteKey());
+            ->patch(route('v1.hostgroups.update', $group))
+            ->assertFetchedOne($expected);
 
-        $response->assertFetchedOne($expected);
+        $group = Hostgroup::query()
+            ->where('id', $group->id)
+            ->where('name', $group->name)
+            ->where('description', $want->description)
+            ->first();
 
-        /** The modified values should have been changed */
-        $this->assertDatabaseHas('hostgroups', [
-            'id' => $group->getKey(),
-            'name' => $group->name,
-            'description' => $newData->description,
+        $this->assertInstanceOf(Hostgroup::class, $group);
+
+        $this->assertCount(count($hosts), $group->hosts);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWrongDataForGroupModification
+     */
+    public function editors_should_get_errors_when_updating_groups_with_wrong_data(
+        array $input,
+        array $errors
+    ): void {
+        $this->user->givePermissionTo(Permissions::EditHosts);
+
+        // Group to validate unique rules...
+        Hostgroup::factory()->create([
+            'name' => 'foo',
         ]);
 
-        /** The existing host should have been detached. */
-        $this->assertDatabaseMissing('host_hostgroup', [
-            'host_id' => $existing->getKey(),
-            'hostgroup_id' => $group->getKey(),
+        /** @var Hostgroup $group */
+        $group = Hostgroup::factory()->create();
+
+        /** @var Hostgroup $want */
+        $want = Hostgroup::factory()->make();
+
+        $data = [
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
+            'attributes' => [
+                'name' => $input['name'] ?? $want->name,
+                'description' => $input['description'] ?? $want->description,
+            ],
+        ];
+
+        $this
+            ->actingAs($this->user)
+            ->jsonApi()
+            ->expects('hostgroups')
+            ->includePaths('hosts')
+            ->withData($data)
+            ->patch(route('v1.hostgroups.update', $group))
+            ->assertError(Response::HTTP_UNPROCESSABLE_ENTITY, $errors);
+
+        $this->assertDatabaseMissing(Hostgroup::class, [
+            'id' => $group->id,
+            'name' => Arr::get($data, 'attributes.name'),
+            'description' => Arr::get($data, 'attributes.description'),
         ]);
 
-        /** These hosts should have been attached. */
-        foreach ($newHosts as $host) {
-            $this->assertDatabaseHas('host_hostgroup', [
-                'host_id' => $host->getKey(),
-                'hostgroup_id' => $group->getRouteKey(),
-            ]);
-        }
+        $group->refresh();
+
+        $this->assertCount(0, $group->hosts);
+    }
+
+    public function provideWrongDataForGroupModification(): Generator
+    {
+        yield 'name is empty' => [
+            'data' => [
+                'name' => '',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+
+        yield 'name < 5 chars' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+
+        yield 'name > 255 chars' => [
+            'data' => [
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
+
+        yield 'name is taken' => [
+            'data' => [
+                'name' => 'foo',
+            ],
+            'errors' => [
+                'source' => ['pointer' => '/data/attributes/name'],
+            ],
+        ];
     }
 
     /** @test */
-    public function it_should_success_when_deleting_a_host(): void
+    public function users_should_not_delete_hosts_groups(): void
     {
         $group = Hostgroup::factory()->create();
 
-        $response = $this
+        $this
             ->actingAs($this->user)
             ->jsonApi()
-            ->delete('/api/v1/hostgroups/'.$group->getRouteKey());
+            ->delete(route('v1.hostgroups.destroy', $group))
+            ->assertForbidden();
 
-        $response->assertNoContent();
+        $this->assertModelExists($group);
+    }
 
-        $this->assertDatabaseMissing('hostgroups', [
-            'id' => $group->getKey(),
-        ]);
+    /** @test */
+    public function eliminators_should_delete_hosts_groups(): void
+    {
+        $this->user->givePermissionTo(Permissions::DeleteHosts);
+
+        $group = Hostgroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->jsonApi()
+            ->delete(route('v1.hostgroups.destroy', $group))
+            ->assertNoContent();
+
+        $this->assertModelMissing($group);
     }
 }

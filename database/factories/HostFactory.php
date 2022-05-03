@@ -18,7 +18,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -34,14 +33,55 @@ class HostFactory extends Factory
         return [
             'username' => $this->faker->userName,
             'hostname' => $this->faker->unique()->domainWord.'.'.$this->faker->domainName,
-            'port' => 22,
-            'authorized_keys_file' => '~/.ssh/authorized_keys',
-            'type' => 'linux',
-            'enabled' => true,
-            'synced' => false,
-            'status_code' => HostStatus::INITIAL_STATUS,
-            'key_hash' => null,
-            'last_rotation' => null,
+            'port' => 0,
+            'enabled' => $this->faker->boolean,
         ];
+    }
+
+    public function disabled(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'enabled' => false,
+            ];
+        });
+    }
+
+    public function enabled(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'enabled' => true,
+            ];
+        });
+    }
+
+    public function synced(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'synced' => true,
+            ];
+        });
+    }
+
+    public function desynced(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'synced' => false,
+            ];
+        });
+    }
+
+    public function customized(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'port' => $this->faker->numberBetween(1024, 65535),
+                'authorized_keys_file' => '~/.ssh/authorized_keys',
+                'enabled' => true,
+            ];
+        });
     }
 }

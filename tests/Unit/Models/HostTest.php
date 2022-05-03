@@ -44,41 +44,81 @@ class HostTest extends ModelTestCase
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 
-    /** @test */
-    public function username_is_lowercase(): void
-    {
-        $testCases = [
-            'User' => 'user',
-            'ADMIN' => 'admin',
-            'user' => 'user',
-            'admin' => 'admin',
-        ];
+    /**
+     * @test
+     * @dataProvider provideUsernameTestCases
+     */
+    public function it_should_return_lowercase_usernames(
+        string $input,
+        string $want,
+    ): void {
+        /** @var Host $host */
+        $host = Host::factory()->make([
+            'username' => $input,
+        ]);
 
-        foreach ($testCases as $input => $want) {
-            /** @var Host $host */
-            $host = Host::factory()->makeOne([
-                'username' => $input,
-            ]);
-            $this->assertEquals($want, $host->username);
-        }
+        $this->assertEquals($want, $host->username);
     }
 
-    /** @test */
-    public function hostname_is_lowercase(): void
+    public function provideUsernameTestCases(): \Generator
     {
-        $testCases = [
-            'server.domain.local' => 'server.domain.local',
-            'Server.Domain.Local' => 'server.domain.local',
-            'SERVER' => 'server',
-            'SERVER.domain.LOCAL' => 'server.domain.local',
+        yield 'user, should be user' => [
+            'input' => 'user',
+            'want' => 'user',
         ];
 
-        foreach ($testCases as $input => $want) {
-            /** @var Host $host */
-            $host = Host::factory()->makeOne([
-                'hostname' => $input,
-            ]);
-            $this->assertEquals($want, $host->hostname);
-        }
+        yield 'User, should be user' => [
+            'input' => 'User',
+            'want' => 'user',
+        ];
+
+        yield 'ADMIN, should be admin' => [
+            'input' => 'ADMIN',
+            'want' => 'admin',
+        ];
+
+        yield 'Adm1n, should be adm1n' => [
+            'input' => 'Adm1n',
+            'want' => 'adm1n',
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provideHostnameTestCases
+     */
+    public function it_should_return_lowercase_hostnames(
+        string $input,
+        string $want,
+    ): void {
+        /** @var Host $host */
+        $host = Host::factory()->makeOne([
+            'hostname' => $input,
+        ]);
+
+        $this->assertEquals($want, $host->hostname);
+    }
+
+    public function provideHostnameTestCases(): \Generator
+    {
+        yield 'lowercase input' => [
+            'input' => 'server.domain.local',
+            'want' => 'server.domain.local',
+        ];
+
+        yield 'uppercase input' => [
+            'input' => 'SERVER',
+            'want' => 'server',
+        ];
+
+        yield 'mixed input' => [
+            'input' => 'SERVER.domain.LOCAL',
+            'want' => 'server.domain.local',
+        ];
+
+        yield 'mixed input with numbers' => [
+            'input' => 'SERVER12.domain.LOCAL',
+            'want' => 'server12.domain.local',
+        ];
     }
 }

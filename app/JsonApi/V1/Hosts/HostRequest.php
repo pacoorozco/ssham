@@ -13,20 +13,41 @@ class HostRequest extends ResourceRequest
         $data = $this->validationData();
 
         // Scope the query to only search records that have the proper 'username'.
-        $unique = Rule::unique('hosts')->where(function ($query) use ($data) {
-            return $query->where('username', $data['username']);
-        });
+        $unique = Rule::unique('hosts')
+            ->where(function ($query) use ($data) {
+                return $query->where('username', $data['username']);
+            });
 
         if ($host = $this->model()) {
             $unique = $unique->ignore($host);
         }
 
         return [
-            'hostname' => ['required', 'max:255', $unique],
-            'username' => ['required', 'max:255'],
-            'port' => ['nullable', 'integer', 'min:1', 'max:65535'],
-            'authorizedKeysFile' => ['nullable', 'string', 'max:255'],
-            'enabled' => ['boolean'],
+            'hostname' => [
+                'required',
+                'max:255',
+                $unique,
+            ],
+            'username' => [
+                'required',
+                'max:255',
+            ],
+            'port' => [
+                'sometimes',
+                'required',
+                'integer',
+                'min:1',
+                'max:65535',
+            ],
+            'authorizedKeysFile' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+            ],
+            'enabled' => [
+                'boolean',
+            ],
             'groups' => JsonApiRule::toMany(),
         ];
     }

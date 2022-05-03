@@ -65,6 +65,32 @@ class HostgroupControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_should_not_see_any_hosts_group(): void
+    {
+        $group = Hostgroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('hostgroups.show', $group))
+            ->assertForbidden();
+    }
+
+    /** @test */
+    public function viewers_should_see_any_hosts_group(): void
+    {
+        $this->user->givePermissionTo(Permissions::ViewHosts);
+
+        $group = Hostgroup::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('hostgroups.show', $group))
+            ->assertSuccessful()
+            ->assertViewIs('hostgroup.show')
+            ->assertViewHas('hostgroup', $group);
+    }
+
+    /** @test */
     public function users_should_not_see_the_new_group_form(): void
     {
         Host::factory()->create();

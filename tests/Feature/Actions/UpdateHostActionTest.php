@@ -38,7 +38,9 @@ class UpdateHostActionTest extends TestCase
         array $options,
     ): void {
         /** @var Host $host */
-        $host = Host::factory()->create();
+        $host = Host::factory()
+            ->customized()
+            ->create();
 
         $action = app(UpdateHostAction::class);
 
