@@ -36,7 +36,7 @@ class CreateUserAction
             'password' => Hash::make($password),
         ]);
 
-        $role = Roles::coerce($role)?->value ?? Roles::Auditor;
+        $role = Roles::coerce($role)->value ?? Roles::Auditor;
 
         return $user->assignRole($role);
     }

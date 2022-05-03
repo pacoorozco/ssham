@@ -13,7 +13,7 @@ class HostgroupRequest extends ResourceRequest
         $uniqueName = Rule::unique('hostgroups');
 
         if ($group = $this->model()) {
-            $uniqueName = $uniqueName->ignoreModel($group);
+            $uniqueName = $uniqueName->ignore($group);
         }
 
         return [
