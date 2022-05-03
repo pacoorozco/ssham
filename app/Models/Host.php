@@ -86,46 +86,47 @@ class Host extends Model implements Searchable
     protected function username(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => strtolower($value),
+            set: fn ($value) => strtolower($value),
         );
     }
 
     protected function hostname(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => strtolower($value),
+            set: fn ($value) => strtolower($value),
         );
     }
 
     public function fullHostname(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => $attributes['username'] . '@' . $attributes['hostname'],
+            get: fn ($value, $attributes) => $attributes['username'].'@'.$attributes['hostname'],
         );
     }
 
     public function port(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value ?: setting()->get('ssh_port', 22),
-            set: fn($value) => (int) $value > 0 ? (int) $value : null,
+            get: fn ($value) => $value ?: setting()->get('ssh_port', 22),
+            set: fn ($value) => (int) $value > 0 ? (int) $value : null,
         );
     }
 
-    public function hasCustomPort(): bool {
-        return !is_null($this->attributes['port']);
+    public function hasCustomPort(): bool
+    {
+        return ! is_null($this->attributes['port']);
     }
 
-    public function hasCustomAuthorizedKeysFile(): bool {
-        return !is_null($this->attributes['authorized_keys_file']);
+    public function hasCustomAuthorizedKeysFile(): bool
+    {
+        return ! is_null($this->attributes['authorized_keys_file']);
     }
-
 
     public function authorizedKeysFile(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value ?: setting()->get('authorized_keys', ''),
-            set: fn($value) => !empty($value) ? $value : null,
+            get: fn ($value) => $value ?: setting()->get('authorized_keys', ''),
+            set: fn ($value) => ! empty($value) ? $value : null,
         );
     }
 
@@ -175,7 +176,7 @@ class Host extends Model implements Searchable
                             break;
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username . '@ssham';
+                            $content[2] = $key->username.'@ssham';
                             $sshKeys[$key->username] = join(' ', $content);
                             break;
                         default:
@@ -184,7 +185,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (!is_null($bastionSSHPublicKey)) {
+        if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 

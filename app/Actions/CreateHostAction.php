@@ -35,7 +35,6 @@ class CreateHostAction
             'username' => $username,
         ], $options);
 
-
         /* @var Host $host */
         $host = Host::create($data);
 

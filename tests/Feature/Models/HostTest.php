@@ -252,48 +252,47 @@ class HostTest extends TestCase
 
     public function provideGetPortTestCases(): Generator
     {
-        yield "custom value as int, should return the provided value" => [
+        yield 'custom value as int, should return the provided value' => [
             'attributes' => [
                 'port' => 2022,
             ],
             'want' => 2022,
         ];
 
-        yield "custom value as string, should return the provided value" => [
+        yield 'custom value as string, should return the provided value' => [
             'attributes' => [
                 'port' => '2022',
             ],
             'want' => 2022,
         ];
 
-        yield "empty value, should return the default setting" => [
+        yield 'empty value, should return the default setting' => [
             'attributes' => [
                 'port' => '',
             ],
             'want' => self::SSH_PORT_DEFAULT_VALUE,
         ];
 
-        yield "null value, should return the default setting" => [
+        yield 'null value, should return the default setting' => [
             'attributes' => [
                 'port' => null,
             ],
             'want' => self::SSH_PORT_DEFAULT_VALUE,
         ];
 
-        yield "value of 0,  should return the provided value" => [
+        yield 'value of 0,  should return the provided value' => [
             'attributes' => [
                 'port' => 0,
             ],
             'want' => self::SSH_PORT_DEFAULT_VALUE,
         ];
 
-        yield "invalid value, should return the provided value" => [
+        yield 'invalid value, should return the provided value' => [
             'attributes' => [
                 'port' => 'foo',
             ],
             'want' => self::SSH_PORT_DEFAULT_VALUE,
         ];
-
     }
 
     const AUTHORIZED_KEYS_DEFAULT_VALUE = '~/.ssh/authorized_keys_file';
@@ -319,21 +318,21 @@ class HostTest extends TestCase
 
     public function provideGetAuthorizedKeysFileTestCases(): Generator
     {
-        yield "custom value, should return the provided value" => [
+        yield 'custom value, should return the provided value' => [
             'attributes' => [
                 'authorized_keys_file' => 'my-custom-path',
             ],
             'want' => 'my-custom-path',
         ];
 
-        yield "empty value, should return the default setting" => [
+        yield 'empty value, should return the default setting' => [
             'attributes' => [
                 'authorized_keys_file' => '',
             ],
             'want' => self::AUTHORIZED_KEYS_DEFAULT_VALUE,
         ];
 
-        yield "null value, should return the default setting" => [
+        yield 'null value, should return the default setting' => [
             'attributes' => [
                 'authorized_keys_file' => null,
             ],
@@ -362,7 +361,7 @@ class HostTest extends TestCase
 
     public function provideUsernameTestCases(): Generator
     {
-        yield "User, should be user" => [
+        yield 'User, should be user' => [
             'input' => 'User',
             'want' => 'user',
         ];
