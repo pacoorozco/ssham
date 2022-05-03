@@ -30,23 +30,23 @@ class HostRequest extends ResourceRequest
             ],
             'username' => [
                 'required',
-                'max:255'
+                'max:255',
             ],
             'port' => [
                 'sometimes',
                 'required',
                 'integer',
                 'min:1',
-                'max:65535'
+                'max:65535',
             ],
             'authorizedKeysFile' => [
                 'sometimes',
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'enabled' => [
-                'boolean'
+                'boolean',
             ],
             'groups' => JsonApiRule::toMany(),
         ];
