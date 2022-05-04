@@ -296,7 +296,7 @@ class ApiHostsTest extends ApiTestCase
             'attributes' => [
                 'hostname' => $host->hostname,
                 'username' => $host->username,
-                'port' => (string) $host->port,
+                'port' => $host->port,
                 'fullHostname' => $host->full_hostname,
                 'authorizedKeysFile' => $host->authorized_keys_file,
                 'enabled' => $host->enabled,
