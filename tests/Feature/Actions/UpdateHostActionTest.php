@@ -18,10 +18,8 @@
 
 namespace Tests\Feature\Actions;
 
-use App\Actions\CreateHostAction;
 use App\Actions\UpdateHostAction;
 use App\Models\Host;
-use App\Models\Hostgroup;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -32,43 +30,53 @@ class UpdateHostActionTest extends TestCase
 
     /**
      * @test
-     * @dataProvider providesHostData
+     * @dataProvider provideNullableFieldsForHosts
      */
     public function it_can_update_a_host(
-        array $options,
+        array $nullable,
     ): void {
+        $action = app(UpdateHostAction::class);
+
         /** @var Host $host */
         $host = Host::factory()
             ->customized()
             ->create();
 
-        $action = app(UpdateHostAction::class);
+        /** @var Host $want */
+        $want = Host::factory()->make();
 
         $action(
             host: $host,
-            options: $options,
+            enabled: $want->enabled,
+            port: $nullable['port'] ?? $want->port,
+            authorizedKeysFile: $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
+            groups: [],
         );
 
         $this->assertDatabaseHas(Host::class, [
             'hostname' => $host->hostname,
             'username' => $host->username,
-            'enabled' => $options['enabled'] ?? $host->enabled,
-            'port' => $options['port'] ?? $host->port,
-            'authorized_keys_file' => $options['authorized_keys_file'] ?? $host->authorized_keys_file,
+            'enabled' => $want->enabled,
+            'port' => $nullable['port'] ?? $want->port,
+            'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
         ]);
     }
 
-    public function providesHostData(): Generator
+    public function provideNullableFieldsForHosts(): Generator
     {
-        yield 'empty options' => [
-            'options' => [],
+        yield 'without null values' => [
+            'nullable' => [],
         ];
 
-        yield 'custom options' => [
-            'options' => [
-                'enabled' => true,
-                'port' => 2022,
-                'authorized_keys_file' => 'custom_authorized_keys_file',
+        yield 'null port' => [
+            'nullable' => [
+                'port' => null,
+            ],
+        ];
+
+        yield 'null authorized_keys_file' => [
+            'nullable' => [
+                'authorized_keys_file' => null,
             ],
         ];
     }

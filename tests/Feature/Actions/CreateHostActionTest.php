@@ -19,6 +19,8 @@
 namespace Tests\Feature\Actions;
 
 use App\Actions\CreateHostAction;
+use App\Models\Host;
+use App\Models\Hostgroup;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -32,66 +34,68 @@ class CreateHostActionTest extends TestCase
      * @dataProvider providesHostTestCases
      */
     public function it_can_create_a_host(
-        string $hostname,
-        string $username,
-        array $options,
-        array $want,
+        array $want
     ): void {
         $action = app(CreateHostAction::class);
 
+        $groups = Hostgroup::factory()
+            ->count($want['groups'])
+            ->create();
+
         $action(
-            hostname: $hostname,
-            username: $username,
-            options: $options,
+            hostname: $want['hostname'],
+            username: $want['username'],
+            enabled: $want['enabled'],
+            port: $want['port'],
+            authorizedKeysFile: $want['authorized_keys_file'],
+            groups: $groups->pluck('id')->toArray(),
         );
 
-        $this->assertDatabaseHas('hosts', $want);
+        $host = Host::query()
+            ->where('hostname', $want['hostname'])
+            ->where('username', $want['username'])
+            ->where('enabled', $want['enabled'])
+            ->where('port', $want['port'])
+            ->where('authorized_keys_file', $want['authorized_keys_file'])
+            ->first();
+
+        $this->assertInstanceOf(Host::class, $host);
+
+        $this->assertCount($want['groups'], $host->groups);
     }
 
     public function providesHostTestCases(): Generator
     {
-        yield 'custom options' => [
-            'hostname' => 'server.domain.local',
-            'username' => 'john.doe',
-            'options' => [
-                'enabled' => true,
-                'port' => 2022,
-                'authorized_keys_file' => 'custom_authorized_keys_file',
-            ],
+        yield 'custom values' => [
             'want' => [
                 'hostname' => 'server.domain.local',
                 'username' => 'john.doe',
                 'enabled' => true,
                 'port' => 2022,
                 'authorized_keys_file' => 'custom_authorized_keys_file',
+                'groups' => 2,
             ],
         ];
 
-        yield 'empty options' => [
-            'hostname' => 'server.domain.local',
-            'username' => 'john.doe',
-            'options' => [],
+        yield 'null values' => [
             'want' => [
                 'hostname' => 'server.domain.local',
                 'username' => 'john.doe',
                 'enabled' => true,
                 'port' => null,
                 'authorized_keys_file' => null,
+                'groups' => 0,
             ],
         ];
 
-        yield 'only port option' => [
-            'hostname' => 'server.domain.local',
-            'username' => 'john.doe',
-            'options' => [
-                'port' => 2022,
-            ],
+        yield 'custom port' => [
             'want' => [
                 'hostname' => 'server.domain.local',
                 'username' => 'john.doe',
                 'enabled' => true,
                 'port' => 2022,
                 'authorized_keys_file' => null,
+                'groups' => 0,
             ],
         ];
     }

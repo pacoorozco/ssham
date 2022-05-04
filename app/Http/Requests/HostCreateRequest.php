@@ -76,17 +76,17 @@ class HostCreateRequest extends Request
 
     public function enabled(): bool
     {
-        return $this->boolean('enabled', true);
+        return $this->boolean('enabled');
     }
 
-    public function port(): int
+    public function port(): ?int
     {
-        return $this->input('port', 0);
+        return $this->input('port');
     }
 
-    public function authorized_keys_file(): string
+    public function authorized_keys_file(): ?string
     {
-        return $this->input('authorized_keys_file', '');
+        return $this->input('authorized_keys_file');
     }
 
     public function groups(): array

@@ -30,7 +30,7 @@ class UpdateServer implements ShouldQueue
 
         $this->pusher = new SFTPPusher(
             $this->host->hostname,
-            $this->host->port,
+            $this->host->portOrDefaultSetting(),
             setting()->get('ssh_timeout'),
         );
     }

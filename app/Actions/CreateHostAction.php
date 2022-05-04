@@ -24,21 +24,21 @@ class CreateHostAction
     public function __invoke(
         string $hostname,
         string $username,
-        array $options = []
+        bool $enabled,
+        int|null $port,
+        string|null $authorizedKeysFile,
+        array $groups = []
     ): Host {
-        /*
-         * These are optional values that can or can not be present.
-         * If they are not present, we use the database defaults.
-         */
-        $data = array_merge([
+        /* @var Host $host */
+        $host = Host::create([
             'hostname' => $hostname,
             'username' => $username,
-        ], $options);
+            'port' => $port,
+            'enabled' => $enabled,
+            'authorized_keys_file' => $authorizedKeysFile,
+        ]);
 
-        /* @var Host $host */
-        $host = Host::create($data);
-
-        $host->groups()->sync($options['groups'] ?? []);
+        $host->groups()->sync($groups);
 
         return $host;
     }

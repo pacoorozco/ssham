@@ -33,11 +33,11 @@ use Spatie\Searchable\SearchResult;
 /**
  * Class Host.
  *
- * @property int $id
+ * @property-read int $id
  * @property string $hostname
  * @property string $username
- * @property int $port
- * @property string $authorized_keys_file
+ * @property int|null $port - null value means using the default setting.
+ * @property string|null $authorized_keys_file - null value means using the default setting.
  * @property string $type
  * @property string|null $key_hash
  * @property bool $enabled
@@ -107,9 +107,35 @@ class Host extends Model implements Searchable
     public function port(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ?: setting()->get('ssh_port', 22),
             set: fn ($value) => (int) $value > 0 ? (int) $value : null,
         );
+    }
+
+    public function portOrDefaultSetting(): int
+    {
+        return $this->port ?? $this->portDefaultSetting();
+    }
+
+    public function portDefaultSetting(): int
+    {
+        return setting()->get('ssh_port', 0);
+    }
+
+    public function authorizedKeysFile(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => ! empty($value) ? $value : null,
+        );
+    }
+
+    public function authorizedKeysFileOrDefaultSetting(): string
+    {
+        return $this->authorized_keys_file ?? $this->authorizedKeysFileDefaultSetting();
+    }
+
+    public function authorizedKeysFileDefaultSetting(): string
+    {
+        return setting()->get('authorized_keys', '');
     }
 
     public function hasCustomPort(): bool
@@ -120,14 +146,6 @@ class Host extends Model implements Searchable
     public function hasCustomAuthorizedKeysFile(): bool
     {
         return ! is_null($this->attributes['authorized_keys_file']);
-    }
-
-    public function authorizedKeysFile(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value ?: setting()->get('authorized_keys', ''),
-            set: fn ($value) => ! empty($value) ? $value : null,
-        );
     }
 
     public function scopeNotInSync(Builder $query): Builder
