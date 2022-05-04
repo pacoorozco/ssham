@@ -23,15 +23,18 @@ class UpdateHostAction
 {
     public function __invoke(
         Host $host,
-        array $options,
+        bool $enabled,
+        int|null $port,
+        string|null $authorizedKeysFile,
+        array $groups = []
     ): Host {
         $host->update([
-            'port' => $options['port'] ?? $host->port,
-            'enabled' => $options['enabled'] ?? $host->enabled,
-            'authorized_keys_file' => $options['authorized_keys_file'] ?? $host->authorized_keys_file,
+            'port' => $port,
+            'enabled' => $enabled,
+            'authorized_keys_file' => $authorizedKeysFile,
         ]);
 
-        $host->groups()->sync($options['groups'] ?? []);
+        $host->groups()->sync($groups);
 
         return $host->refresh();
     }

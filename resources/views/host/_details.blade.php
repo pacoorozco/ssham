@@ -41,10 +41,13 @@
                         <strong>@lang('host/model.port')</strong>
                     </dt>
                     <dd class="col-sm-9">
-                        {{ $host->present()->port }}
-                        @unless($host->hasCustomPort())
+
+                        @if($host->hasCustomPort())
+                            {{ $host->present()->port }}
+                        @else
+                            {{ $host->present()->portDefaultSetting() }}
                             (set by <a href="{{ route('settings.index') }}">settings</a>)
-                        @endunless
+                        @endif
                     </dd>
                     <!-- ./ port -->
 
@@ -54,7 +57,10 @@
                     </dt>
                     <dd class="col-sm-9">
                         {{ $host->present()->authorized_keys_file }}
-                        @unless($host->hasCustomAuthorizedKeysFile())
+                        @if($host->hasCustomAuthorizedKeysFile())
+                            {{ $host->present()->authorized_keys_file }}
+                        @else
+                            {{ $host->present()->authorizedKeysFileDefaultSetting() }}
                             (set by <a href="{{ route('settings.index') }}">settings</a>)
                         @endunless
                     </dd>
@@ -156,7 +162,8 @@
 
     </div>
     <div class="card-footer">
-        <a href="{{ route('hosts.edit', $host->id) }}" class="btn btn-primary @cannot('update', $host) disabled @endcannot" role="button">
+        <a href="{{ route('hosts.edit', $host->id) }}"
+           class="btn btn-primary @cannot('update', $host) disabled @endcannot" role="button">
             @lang('general.edit')
         </a>
         <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">

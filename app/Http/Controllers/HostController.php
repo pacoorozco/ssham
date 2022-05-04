@@ -51,14 +51,13 @@ class HostController extends Controller
     public function store(HostCreateRequest $request, CreateHostAction $createHost): RedirectResponse
     {
         $host = $createHost(
-            $request->hostname(),
-            $request->username(),
-            [
-                'enabled' => $request->enabled(),
-                'port' => $request->port(),
-                'authorized_keys_file' => $request->authorized_keys_file(),
-                'groups' => $request->groups(),
-            ]);
+            hostname: $request->hostname(),
+            username: $request->username(),
+            enabled: $request->enabled(),
+            port: $request->port(),
+            authorizedKeysFile: $request->authorized_keys_file(),
+            groups: $request->groups()
+        );
 
         return redirect()->route('hosts.index')
             ->withSuccess(__('host/messages.create.success', ['hostname' => $host->full_hostname]));
@@ -83,13 +82,11 @@ class HostController extends Controller
     public function update(Host $host, HostUpdateRequest $request, UpdateHostAction $updateHost): RedirectResponse
     {
         $updateHost(
-            $host,
-            [
-                'enabled' => $request->enabled(),
-                'port' => $request->port(),
-                'authorized_keys_file' => $request->authorized_keys_file(),
-                'groups' => $request->groups(),
-            ]
+            host: $host,
+            enabled: $request->enabled(),
+            port: $request->port(),
+            authorizedKeysFile: $request->authorized_keys_file(),
+            groups: $request->groups()
         );
 
         return redirect()->route('hosts.index')

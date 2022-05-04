@@ -140,9 +140,13 @@ class HostControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function editors_should_create_hosts(): void
-    {
+    /**
+     * @test
+     * @dataProvider provideNullableFieldsForHosts
+     */
+    public function editors_should_create_hosts(
+        array $nullable,
+    ): void {
         $this->user->givePermissionTo(Permissions::EditHosts);
 
         // Create some hosts groups to test the membership.
@@ -161,8 +165,8 @@ class HostControllerTest extends TestCase
                 'hostname' => $want->hostname,
                 'username' => $want->username,
                 'enabled' => $want->enabled,
-                'port' => $want->port,
-                'authorized_keys_file' => $want->authorized_keys_file,
+                'port' => $nullable['port'] ?? $want->port,
+                'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
                 'groups' => $groups->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('hosts.index'))
@@ -172,13 +176,32 @@ class HostControllerTest extends TestCase
             ->where('hostname', $want->hostname)
             ->where('username', $want->username)
             ->where('enabled', $want->enabled)
-            ->where('port', $want->port)
-            ->where('authorized_keys_file', $want->authorized_keys_file)
+            ->where('port', $nullable['port'] ?? $want->port)
+            ->where('authorized_keys_file', $nullable['authorized_keys_file'] ?? $want->authorized_keys_file)
             ->first();
 
         $this->assertInstanceOf(Host::class, $host);
 
         $this->assertCount(count($groups), $host->groups);
+    }
+
+    public function provideNullableFieldsForHosts(): Generator
+    {
+        yield 'without null values' => [
+            'nullable' => [],
+        ];
+
+        yield 'null port' => [
+            'nullable' => [
+                'port' => null,
+            ],
+        ];
+
+        yield 'null authorized_keys_file' => [
+            'nullable' => [
+                'authorized_keys_file' => null,
+            ],
+        ];
     }
 
     /**
@@ -326,9 +349,13 @@ class HostControllerTest extends TestCase
             ->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    /** @test */
-    public function editors_should_update_hosts(): void
-    {
+    /**
+     * @test
+     * @dataProvider provideNullableFieldsForHosts
+     */
+    public function editors_should_update_hosts(
+        array $nullable,
+    ): void {
         $this->user->givePermissionTo(Permissions::EditHosts);
 
         // Create some groups to test the membership.
@@ -348,16 +375,22 @@ class HostControllerTest extends TestCase
             ->actingAs($this->user)
             ->put(route('hosts.update', $host), [
                 'enabled' => $want->enabled,
-                'port' => $want->port,
-                'authorized_keys_file' => $want->authorized_keys_file,
+                'port' => $nullable['port'] ?? $want->port,
+                'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
                 'groups' => $groups->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('hosts.index'))
             ->assertValid();
 
-        $host->refresh();
+        $this->assertDatabaseHas(Host::class, [
+            'hostname' => $host->hostname,
+            'username' => $host->username,
+            'enabled' => $want->enabled,
+            'port' => $nullable['port'] ?? $want->port,
+            'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
+        ]);
 
-        $this->assertModelExists($host);
+        $host->refresh();
 
         $this->assertCount(count($groups), $host->groups);
     }

@@ -68,7 +68,7 @@ class HostUpdateRequest extends Request
         return $this->input('groups', []);
     }
 
-    public function enabled(): ?bool
+    public function enabled(): bool
     {
         return $this->boolean('enabled');
     }

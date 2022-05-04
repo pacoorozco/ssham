@@ -33,11 +33,11 @@ use Spatie\Searchable\SearchResult;
 /**
  * Class Host.
  *
- * @property int $id
+ * @property-read int $id
  * @property string $hostname
  * @property string $username
- * @property int $port
- * @property string $authorized_keys_file
+ * @property int|null $port - null value means using the default setting.
+ * @property string|null $authorized_keys_file - null value means using the default setting.
  * @property string $type
  * @property string|null $key_hash
  * @property bool $enabled
@@ -86,48 +86,66 @@ class Host extends Model implements Searchable
     protected function username(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => strtolower($value),
+            set: fn($value) => strtolower($value),
         );
     }
 
     protected function hostname(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => strtolower($value),
+            set: fn($value) => strtolower($value),
         );
     }
 
     public function fullHostname(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['username'].'@'.$attributes['hostname'],
+            get: fn($value, $attributes) => $attributes['username'] . '@' . $attributes['hostname'],
         );
     }
 
     public function port(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ?: setting()->get('ssh_port', 22),
-            set: fn ($value) => (int) $value > 0 ? (int) $value : null,
+            set: fn($value) => (int) $value > 0 ? (int) $value : null,
         );
     }
 
-    public function hasCustomPort(): bool
+    public function portOrDefaultSetting(): int
     {
-        return ! is_null($this->attributes['port']);
+        return $this->port ?? $this->portDefaultSetting();
     }
 
-    public function hasCustomAuthorizedKeysFile(): bool
+    public function portDefaultSetting(): int
     {
-        return ! is_null($this->attributes['authorized_keys_file']);
+        return setting()->get('ssh_port', 0);
     }
 
     public function authorizedKeysFile(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ?: setting()->get('authorized_keys', ''),
-            set: fn ($value) => ! empty($value) ? $value : null,
+            set: fn($value) => !empty($value) ? $value : null,
         );
+    }
+
+    public function authorizedKeysFileOrDefaultSetting(): string
+    {
+        return $this->authorized_keys_file ?? $this->authorizedKeysFileDefaultSetting();
+    }
+
+    public function authorizedKeysFileDefaultSetting(): string
+    {
+        return setting()->get('authorized_keys', '');
+    }
+
+    public function hasCustomPort(): bool
+    {
+        return !is_null($this->attributes['port']);
+    }
+
+    public function hasCustomAuthorizedKeysFile(): bool
+    {
+        return !is_null($this->attributes['authorized_keys_file']);
     }
 
     public function scopeNotInSync(Builder $query): Builder
@@ -176,7 +194,7 @@ class Host extends Model implements Searchable
                             break;
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username.'@ssham';
+                            $content[2] = $key->username . '@ssham';
                             $sshKeys[$key->username] = join(' ', $content);
                             break;
                         default:
@@ -185,7 +203,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (! is_null($bastionSSHPublicKey)) {
+        if (!is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 

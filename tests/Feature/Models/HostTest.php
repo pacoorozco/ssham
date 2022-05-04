@@ -247,7 +247,7 @@ class HostTest extends TestCase
             'port' => $attributes['port'],
         ]);
 
-        $this->assertEquals($want, $host->port);
+        $this->assertEquals($want, $host->portOrDefaultSetting());
     }
 
     public function provideGetPortTestCases(): Generator
@@ -313,7 +313,7 @@ class HostTest extends TestCase
             'authorized_keys_file' => $attributes['authorized_keys_file'],
         ]);
 
-        $this->assertEquals($want, $host->authorized_keys_file);
+        $this->assertEquals($want, $host->authorizedKeysFileOrDefaultSetting());
     }
 
     public function provideGetAuthorizedKeysFileTestCases(): Generator
