@@ -79,6 +79,5 @@ class UpdateHostActionTest extends TestCase
                 'authorized_keys_file' => null,
             ],
         ];
-
     }
 }
