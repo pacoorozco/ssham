@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Enums\HostStatus;
-use App\Events\HostKeysUpdated;
 use App\Models\Host;
 use App\Services\SFTP\SFTPPusher;
 use Illuminate\Bus\Queueable;
@@ -53,7 +52,6 @@ class UpdateServer implements ShouldQueue
         $this->host->setStatus(HostStatus::SUCCESS_STATUS());
 
         $this->pusher->disconnect();
-        HostKeysUpdated::dispatch($this->host);
     }
 
     /**
