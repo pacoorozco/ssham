@@ -35,7 +35,8 @@ class SendKeysToHostsCommand extends Command
             ->get();
 
         if ($hosts->count() === 0) {
-            $this->info("There are not pending servers.");
+            $this->info('There are not pending servers.');
+
             return self::SUCCESS;
         }
 

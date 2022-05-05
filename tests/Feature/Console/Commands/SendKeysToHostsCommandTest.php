@@ -24,7 +24,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
-
 class SendKeysToHostsCommandTest extends TestCase
 {
     use RefreshDatabase;
@@ -65,7 +64,7 @@ class SendKeysToHostsCommandTest extends TestCase
         Queue::fake();
 
         $this->artisan('ssham:send')
-            ->expectsOutput('Pending hosts to be updated: ' . count($hosts))
+            ->expectsOutput('Pending hosts to be updated: '.count($hosts))
             ->assertSuccessful();
 
         Queue::assertPushed(UpdateServer::class, count($hosts));
