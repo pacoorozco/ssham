@@ -30,7 +30,15 @@ class SendKeysToHostsCommand extends Command
 
     public function handle(): int
     {
-        $hosts = Host::enabled()->get();
+        $hosts = Host::query()
+            ->enabled()
+            ->get();
+
+        if ($hosts->count() === 0) {
+            $this->info('There are not pending servers.');
+
+            return self::SUCCESS;
+        }
 
         $this->info("Pending hosts to be updated: {$hosts->count()}");
 

@@ -56,19 +56,11 @@ class KeyController extends Controller
 
     public function store(KeyCreateRequest $request, CreateKeyAction $createKey): RedirectResponse
     {
-        try {
-            if ($request->wantsCreateKey()) {
-                [$privateKey, $publicKey] = (new KeyPair())->generate();
-            } else {
-                $publicKey = PublicKey::fromString($request->publicKey());
-                $privateKey = null;
-            }
-        } catch (Throwable $exception) {
-            Log::error("Key '{$request->username()}' was not created: {$exception->getMessage()}");
-
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(trans('key/messages.create.error'));
+        if ($request->wantsCreateKey()) {
+            [$privateKey, $publicKey] = (new KeyPair())->generate();
+        } else {
+            $publicKey = PublicKey::fromString($request->publicKey());
+            $privateKey = null;
         }
 
         $key = $createKey(
@@ -102,22 +94,14 @@ class KeyController extends Controller
 
     public function update(Key $key, KeyUpdateRequest $request, UpdateKeyAction $updateKey): RedirectResponse
     {
-        try {
-            $privateKey = $key->private;
-            $publicKey = $key->public;
+        $privateKey = $key->private;
+        $publicKey = $key->public;
 
-            if ($request->wantsCreateKey()) {
-                [$privateKey, $publicKey] = (new KeyPair())->generate();
-            } elseif ($request->wantsImportKey()) {
-                $publicKey = PublicKey::fromString($request->publicKey());
-                $privateKey = null;
-            }
-        } catch (Throwable $exception) {
-            Log::error("Key '$key->username' was not updated: {$exception->getMessage()}");
-
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(trans('key/messages.edit.error'));
+        if ($request->wantsCreateKey()) {
+            [$privateKey, $publicKey] = (new KeyPair())->generate();
+        } elseif ($request->wantsImportKey()) {
+            $publicKey = PublicKey::fromString($request->publicKey());
+            $privateKey = null;
         }
 
         $updateKey(
