@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /tags/*
-
-Sitemap: https://ssham.pacoorozco.info/sitemap.xml
