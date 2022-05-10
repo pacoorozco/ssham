@@ -16,7 +16,7 @@ geekdocBreadcrumb: false
 
 Secure and tightly automate the distribution and management of SSH keys.
 
-{{< button size="large" relref="guide/getting-started/" >}}Getting Started {{< icon "gdoc_arrow_right_alt" >}}{{< /button >}}
+{{< button size="large" relref="about/why-ssham" >}}Getting Started {{< icon "gdoc_arrow_right_alt" >}}{{< /button >}}
 
 ---
 
