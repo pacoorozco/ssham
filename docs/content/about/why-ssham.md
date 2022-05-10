@@ -6,7 +6,19 @@ date: "2022-03-01"
 lastmod: "2022-03-01"
 ---
 
-SSH Access Manager is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
+Proper management over any type of resource and its access credentials enables a secure, well controlled environment. You can ensure proper protection of keys with **SSH key management** — a combination of practices, policies, and tools for establishing secure SSH key usage routines within an organization. SSH key management can significantly enhance organization cybersecurity by protecting networks and systems from both external and insider attacks. It can also help an organization comply with cybersecurity standards, laws, and regulations.
+
+At its core, SSH key management will help you:
+
+- Account for all generated SSH keys
+- Ensure that no extra keys are generated except for valid reasons
+- Know who accesses keys and when
+- Avoid reusing keys across systems and users
+- Immediately change or revoke access to keys
+
+Without centralized control, **you can’t know how many SSH key pairs are in your organization’s network, who uses them, and how**. And if you mismanage your SSH keys, it will create severe cybersecurity risks.
+
+**SSH Access Manager** - ssham - is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
 
 It enables a team of system administrators to centrally manage and deploy SSH keys. This app is intended to be used in rather large environment where access to unix accounts are handled with SSH keys.
 
