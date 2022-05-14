@@ -25,6 +25,7 @@
     },
     "require": {
         "php": "^8.0.2",
+        "almasaeed2010/adminlte": "~3.2",
         "bensampo/laravel-enum": "^5.2.0",
         "fruitcake/laravel-cors": "^3.0.0",
         "guilhermegonzaga/presenter": "^1.0.6",
