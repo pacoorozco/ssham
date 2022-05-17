@@ -31,7 +31,7 @@ class ControlRulePresenter extends Presenter
         $action = $this->model->action;
 
         return $action->is(ControlRuleAction::Allow)
-            ? new HtmlString('<i class="fa fa-lock-open"></i> ' . $action->description)
-            : new HtmlString('<i class="fa fa-lock"></i> ' . $action->description);
+            ? new HtmlString('<i class="fa fa-lock-open"></i> '.$action->description)
+            : new HtmlString('<i class="fa fa-lock"></i> '.$action->description);
     }
 }

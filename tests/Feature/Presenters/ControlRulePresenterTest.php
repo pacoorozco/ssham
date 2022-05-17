@@ -39,5 +39,4 @@ class ControlRulePresenterTest extends ModelTestCase
             'want' => '<i class="fa fa-lock"></i>',
         ];
     }
-
 }
