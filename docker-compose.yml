@@ -1,30 +1,5 @@
 version: '3'
-
-volumes:
-  ssham-mysql:
-    driver: local
-
 services:
-
-  ### APP: Application server #########################################
-  app:
-    build:
-      context: ./
-      dockerfile: docker/app/Dockerfile
-      args:
-        - DOCKER_SSHAM_UID=${DOCKER_SSHAM_UID:-1000}
-    working_dir: /var/www
-    volumes:
-      - ./:/var/www
-    environment:
-      DB_HOST: database
-      DB_DATABASE: homestead
-      DB_USERNAME: homestead
-      DB_PASSWORD: secret
-    ports:
-      - "9000:9000"
-    depends_on:
-      - database
 
   ### WEB: Web server #################################################
   web:
@@ -40,22 +15,38 @@ services:
     depends_on:
       - app
 
+  ### APP: Application server #########################################
+  app:
+    build:
+      context: ./
+      dockerfile: docker/app/Dockerfile
+      args:
+        - DOCKER_SSHAM_UID=${DOCKER_SSHAM_UID:-1000}
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    environment:
+      - DB_HOST=database
+      - DB_DATABASE=homestead
+      - DB_USERNAME=homestead
+      - DB_PASSWORD=secret
+    ports:
+      - "9000:9000"
+    depends_on:
+      - database
+
   ### DATABASE: Database server #############################################
   database:
-    image: mysql/mysql-server:8.0
+    image: mysql/mysql-server:5.7
     volumes:
-      - ssham-mysql:/var/lib/mysql
+      - db-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 'verysecret'
-      MYSQL_DATABASE: 'homestead'
-      MYSQL_USER: 'homestead'
-      MYSQL_PASSWORD: 'secret'
+      - MYSQL_ROOT_PASSWORD=verysecret
+      - MYSQL_DATABASE=homestead
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=secret
     ports:
       - "3306:3306"
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-psecret" ]
-      retries: 3
-      timeout: 5s
 
   ### SSH-SERVER: SSH server ################################################
   ssh-server:
@@ -67,5 +58,7 @@ services:
     depends_on:
       - app
 
-
+volumes:
+  db-data:
+    driver: local
 
