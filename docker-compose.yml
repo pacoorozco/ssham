@@ -37,7 +37,7 @@ services:
 
   ### DATABASE: Database server #############################################
   database:
-    image: mysql/mysql-server:5.7
+    image: mysql:5.7
     volumes:
       - db-data:/var/lib/mysql
     environment:
