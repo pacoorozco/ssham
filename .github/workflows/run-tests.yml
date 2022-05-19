@@ -24,7 +24,6 @@ jobs:
       DB_PASSWORD: password
       BROADCAST_DRIVER: log
       CACHE_DRIVER: redis
-      QUEUE_CONNECTION: redis
       SESSION_DRIVER: redis
 
     services:
