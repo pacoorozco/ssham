@@ -26,6 +26,7 @@ class UpdateServer implements ShouldQueue
 
     /**
      * Delete the job if its models no longer exist.
+     *
      * @see https://laravel.com/docs/9.x/queues#ignoring-missing-models
      */
     public bool $deleteWhenMissingModels = true;
@@ -41,6 +42,7 @@ class UpdateServer implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     *
      * @throws \App\Exceptions\PusherException
      */
     public function handle(): void
@@ -72,7 +74,6 @@ class UpdateServer implements ShouldQueue
      * Handle a job failure.
      *
      * @param  \Throwable  $exception
-     *
      * @return void
      */
     public function failed(Throwable $exception): void
@@ -103,7 +104,7 @@ class UpdateServer implements ShouldQueue
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
 
-        if (!is_null($remoteUpdater)) {
+        if (! is_null($remoteUpdater)) {
             $this->pusher->pushDataTo(
                 data: $remoteUpdater,
                 remotePath: setting()->get('cmd_remote_updater'),
@@ -121,7 +122,7 @@ class UpdateServer implements ShouldQueue
 
         $sshKeysCollection = collect($sshKeys);
 
-        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL) . PHP_EOL;
+        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL).PHP_EOL;
 
         $this->pusher->pushDataTo(
             data: $authorizedKeysFileContent,
@@ -135,11 +136,11 @@ class UpdateServer implements ShouldQueue
      */
     protected function execRemoteUpdater(): void
     {
-        $command = setting()->get('cmd_remote_updater') . ' update '
-            . ((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
-            . setting()->get('authorized_keys') . ' '
-            . setting()->get('non_ssham_file') . ' '
-            . setting()->get('ssham_file');
+        $command = setting()->get('cmd_remote_updater').' update '
+            .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
+            .setting()->get('authorized_keys').' '
+            .setting()->get('non_ssham_file').' '
+            .setting()->get('ssham_file');
 
         $this->pusher->exec($command);
     }
