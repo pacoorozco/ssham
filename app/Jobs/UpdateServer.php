@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Actions\UpdateHostStatusAction;
 use App\Enums\HostStatus;
+use App\Http\Requests\HostUpdateRequest;
 use App\Models\Host;
 use App\Services\SFTP\SFTPPusher;
 use Illuminate\Bus\Queueable;
@@ -12,7 +14,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use PacoOrozco\OpenSSH\PrivateKey;
+use phpseclib3\Crypt\PublicKeyLoader;
+use Throwable;
 
 class UpdateServer implements ShouldQueue
 {
@@ -21,37 +24,44 @@ class UpdateServer implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected Host $host;
+    /**
+     * Delete the job if its models no longer exist.
+     * @see https://laravel.com/docs/9.x/queues#ignoring-missing-models
+     */
+    public bool $deleteWhenMissingModels = true;
+
     protected SFTPPusher $pusher;
 
-    public function __construct(Host $host)
-    {
-        $this->host = $host;
+    public function __construct(
+        protected Host $host
+    ) {
     }
 
+    /**
+     * Execute the job.
+     *
+     * @return void
+     * @throws \App\Exceptions\PusherException
+     */
     public function handle(): void
     {
-        try {
-            $this->pusher = new SFTPPusher(
-                hostname: $this->host->hostname,
-                port: $this->host->portOrDefaultSetting(),
-                timeout: setting()->get('ssh_timeout'),
-            );
+        $this->pusher = new SFTPPusher(
+            hostname: $this->host->hostname,
+            port: $this->host->portOrDefaultSetting(),
+            timeout: setting()->get('ssh_timeout', 5),
+        );
 
-            $this->connectRemoteServer();
+        $this->connectRemoteServer();
 
-            $this->sendRemoteUpdaterCLI();
+        $this->sendRemoteUpdaterCLI();
 
-            $this->updateRemoteSSHKeys();
+        $this->updateRemoteSSHKeys();
 
-            $this->execRemoteUpdater();
-        } catch (\Throwable $exception) {
-            Log::error("Updating server '" . $this->host->full_hostname . "' got this error: " . $exception->getMessage());
+        $this->execRemoteUpdater();
 
-            $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
-            $this->fail($exception);
-            return;
-        }
+        Log::info('Remote server update succeeded.', [
+            'hostname' => $this->host->full_hostname,
+        ]);
 
         $this->host->setStatus(HostStatus::SUCCESS_STATUS());
 
@@ -59,13 +69,30 @@ class UpdateServer implements ShouldQueue
     }
 
     /**
-     * @throws \App\Exceptions\PusherException|\PacoOrozco\OpenSSH\Exceptions\InvalidPrivateKey
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     *
+     * @return void
+     */
+    public function failed(Throwable $exception): void
+    {
+        Log::error('Remote server update failed.', [
+            'hostname' => $this->host->full_hostname,
+            'error' => $exception->getMessage(),
+        ]);
+
+        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
+    }
+
+    /**
+     * @throws \App\Exceptions\PusherException|\phpseclib3\Exception\NoKeyLoadedException
      */
     protected function connectRemoteServer(): void
     {
         $this->pusher->login(
             username: $this->host->username,
-            privateKey: PrivateKey::fromString(setting()->get('private_key'))
+            key: PublicKeyLoader::load(setting()->get('private_key'))
         );
     }
 
@@ -75,9 +102,10 @@ class UpdateServer implements ShouldQueue
     protected function sendRemoteUpdaterCLI(): void
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
+
         if (!is_null($remoteUpdater)) {
-            $this->pusher->pushFileTo(
-                localPath: $remoteUpdater,
+            $this->pusher->pushDataTo(
+                data: $remoteUpdater,
                 remotePath: setting()->get('cmd_remote_updater'),
                 permission: 0700
             );
@@ -90,8 +118,13 @@ class UpdateServer implements ShouldQueue
     protected function updateRemoteSSHKeys(): void
     {
         $sshKeys = $this->host->getSSHKeysForHost(setting()->get('public_key'));
+
+        $sshKeysCollection = collect($sshKeys);
+
+        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL) . PHP_EOL;
+
         $this->pusher->pushDataTo(
-            data: join(PHP_EOL, $sshKeys),
+            data: $authorizedKeysFileContent,
             remotePath: setting()->get('ssham_file'),
             permission: 0600
         );
