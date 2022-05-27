@@ -64,7 +64,7 @@ class SendKeysToHostsCommandTest extends TestCase
         Queue::fake();
 
         $this->artisan('ssham:send')
-            ->expectsOutput('Hosts to be updated: ' . count($hosts))
+            ->expectsOutput('Hosts to be updated: '.count($hosts))
             ->assertSuccessful();
 
         Queue::assertPushed(UpdateServer::class, count($hosts));
