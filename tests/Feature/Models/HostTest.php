@@ -49,20 +49,20 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_should_return_the_hosts_that_are_not_in_sync(): void
+    public function it_should_return_the_hosts_that_has_pending_changes(): void
     {
         Host::factory()
             ->count(2)
-            ->synced()
+            ->withoutPendingChanges()
             ->create();
 
         $want = Host::factory()
             ->count(3)
-            ->desynced()
+            ->withPendingChanges()
             ->create()
             ->pluck(['id', 'username', 'hostname']);
 
-        $got = Host::notInSync()
+        $got = Host::withPendingChanges()
             ->get()
             ->pluck(['id', 'username', 'hostname']);
 
@@ -70,14 +70,14 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_should_not_return_the_desynced_hosts_if_there_are_not(): void
+    public function it_should_not_return_hosts_with_pending_changes_if_there_are_not(): void
     {
         Host::factory()
             ->count(2)
-            ->synced()
+            ->withoutPendingChanges()
             ->create();
 
-        $this->assertEmpty(Host::notInSync()->get());
+        $this->assertEmpty(Host::withPendingChanges()->get());
     }
 
     /** @test */

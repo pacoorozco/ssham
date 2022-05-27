@@ -41,8 +41,14 @@ class SFTPPusher
      */
     public function login(string $username, AsymmetricKey $key): void
     {
-        if (false === $this->sftp->login($username, $key)) {
-            throw new PusherException('Logging in with invalid credentials.');
+        try {
+            $isLogged = $this->sftp->login($username, $key);
+        } catch (Throwable $exception) {
+            throw new PusherException($exception->getMessage());
+        }
+
+        if (false === $isLogged) {
+            throw new PusherException('Invalid credentials');
         }
     }
 
@@ -72,15 +78,15 @@ class SFTPPusher
         try {
             $this->sftp->enableQuietMode();
 
-            $result = $this->sftp->exec($command);
+            $isExecuted = $this->sftp->exec($command);
         } catch (Throwable $exception) {
             throw new PusherException('Unable to execute command: '.$exception->getMessage());
         } finally {
             $this->sftp->disableQuietMode();
         }
 
-        if (false === $result) {
-            throw new PusherException('Unable to execute command.');
+        if (false === $isExecuted) {
+            throw new PusherException('Unable to execute command');
         }
 
         if ($this->sftp->getExitStatus() !== 0) {

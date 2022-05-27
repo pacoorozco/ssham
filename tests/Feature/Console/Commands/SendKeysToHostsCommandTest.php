@@ -30,7 +30,7 @@ class SendKeysToHostsCommandTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function it_finnish_successfully_when_there_are_not_pending_servers()
+    public function it_finnish_successfully_when_there_are_not_enabled_servers()
     {
         setting()->set('ssh_timeout', 5);
 
@@ -48,7 +48,7 @@ class SendKeysToHostsCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_finnish_successfully_when_there_are_pending_servers()
+    public function it_finnish_successfully_when_there_are_enabled_servers()
     {
         setting()->set('ssh_timeout', 5);
 
@@ -64,9 +64,34 @@ class SendKeysToHostsCommandTest extends TestCase
         Queue::fake();
 
         $this->artisan('ssham:send')
-            ->expectsOutput('Pending hosts to be updated: '.count($hosts))
+            ->expectsOutput('Hosts to be updated: '.count($hosts))
             ->assertSuccessful();
 
         Queue::assertPushed(UpdateServer::class, count($hosts));
+    }
+
+    /** @test */
+    public function it_should_only_update_hosts_with_pending_changes()
+    {
+        setting()->set('ssh_timeout', 5);
+
+        $host = Host::factory()
+            ->enabled()
+            ->withPendingChanges()
+            ->create();
+
+        Host::factory()
+            ->enabled()
+            ->withoutPendingChanges()
+            ->create();
+
+        Queue::fake();
+
+        $this->artisan('ssham:send --pending')
+            ->expectsOutput('Hosts to be updated: 1')
+            ->expectsOutput("-> Queueing job for {$host->full_hostname}...")
+            ->assertSuccessful();
+
+        Queue::assertPushed(UpdateServer::class, 1);
     }
 }
