@@ -20,19 +20,26 @@ namespace App\Console\Commands;
 
 use App\Jobs\UpdateServer;
 use App\Models\Host;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Console\Command;
 
 class SendKeysToHostsCommand extends Command
 {
-    protected $signature = 'ssham:send';
+    protected $signature = 'ssham:send
+                            {--pending : only host with pending changes will be updated}';
 
-    protected $description = 'Send SSH keys to managed hosts.';
+    protected $description = 'Update the authorized SSH keys file on the remote hosts';
 
     public function handle(): int
     {
-        $hosts = Host::query()
-            ->enabled()
-            ->get();
+        $query = Host::query()
+                ->enabled();
+
+        if ($this->option('pending')) {
+                $query->withPendingChanges();
+        }
+
+        $hosts = $query->get();
 
         if ($hosts->count() === 0) {
             $this->info('There are not pending servers.');
@@ -40,11 +47,17 @@ class SendKeysToHostsCommand extends Command
             return self::SUCCESS;
         }
 
-        $this->info("Pending hosts to be updated: {$hosts->count()}");
+        $this->info("Hosts to be updated: {$hosts->count()}");
+        $this->newLine();
 
         foreach ($hosts as $host) {
-            $this->info("Updating keys for {$host->full_hostname}...");
-            UpdateServer::dispatch($host);
+            $this->info("-> Queueing job for {$host->full_hostname}...");
+
+            try {
+                UpdateServer::dispatch($host);
+            } catch (\Throwable $exception) {
+                $this->error($exception->getMessage());
+            }
         }
 
         $this->newLine();

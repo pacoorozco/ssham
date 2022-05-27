@@ -56,7 +56,7 @@ class HostFactory extends Factory
         });
     }
 
-    public function synced(): Factory
+    public function withoutPendingChanges(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -65,7 +65,7 @@ class HostFactory extends Factory
         });
     }
 
-    public function desynced(): Factory
+    public function withPendingChanges(): Factory
     {
         return $this->state(function (array $attributes) {
             return [

@@ -148,7 +148,7 @@ class Host extends Model implements Searchable
         return ! is_null($this->attributes['authorized_keys_file']);
     }
 
-    public function scopeNotInSync(Builder $query): Builder
+    public function scopeWithPendingChanges(Builder $query): Builder
     {
         return $query->where('synced', false);
     }
