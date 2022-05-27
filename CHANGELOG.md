@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.15.1 - 2022-05-27
+
+### Fixed
+- Stack trace is logged when server could not be reached bug. ([#313][i313])
+
+[i313]: https://github.com/pacoorozco/ssham/issues/313
+
 ## 0.15.0 - 2022-05-27
 
 ### Added
