@@ -81,6 +81,8 @@ class SendKeysToHostsCommandTest extends TestCase
             ->create();
 
         Host::factory()
+            ->enabled()
+            ->withoutPendingChanges()
             ->create();
 
         Queue::fake();
