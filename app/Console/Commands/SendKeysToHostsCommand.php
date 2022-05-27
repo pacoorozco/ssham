@@ -36,7 +36,7 @@ class SendKeysToHostsCommand extends Command
                 ->enabled();
 
         if ($this->option('pending')) {
-                $query->withPendingChanges();
+            $query->withPendingChanges();
         }
 
         $hosts = $query->get();
