@@ -4,9 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
+
+## 0.15.0 - 2022-05-27
+
+### Added
+- Testing for validation rules to improve test coverage.
+- Testing for the Settings controller.
+- Test roles and permission in all the controllers to ensure security.
+
 ### Changes
 - Updates dependencies.
-- Testing for validation rules.
+- Moves language files to the Laravel 9.x default folder.
+- Update docker versions to use latest ones.
+
+### Fixed
+- Use of internal Actions instead of Jobs for synchronous changes.
+- ssh connection not work. ([#307][i307])
+- `ssham:send` command was not working, several errors were found. ([#305][i305])
+
+[i307]: https://github.com/pacoorozco/ssham/issues/307
+[i305]: https://github.com/pacoorozco/ssham/issues/305
 
 ## 0.14.5 - 2022-04-06
 
