@@ -18,16 +18,19 @@
 namespace App\Services\SFTP;
 
 use App\Exceptions\PusherException;
-use PacoOrozco\OpenSSH\PrivateKey;
+use phpseclib3\Crypt\Common\AsymmetricKey;
 use phpseclib3\Net\SFTP;
-use phpseclib3\Net\SSH2;
+use Throwable;
 
 class SFTPPusher
 {
     protected SFTP $sftp;
 
-    public function __construct(string $hostname, int $port = 22, int $timeout = 10)
-    {
+    public function __construct(
+        string $hostname,
+        int $port = 22,
+        int $timeout = 10
+    ) {
         $this->sftp = new SFTP($hostname, $port, $timeout);
     }
 
@@ -36,42 +39,26 @@ class SFTPPusher
      *
      * @throws \App\Exceptions\PusherException
      */
-    public function login(string $username, PrivateKey $privateKey): void
+    public function login(string $username, AsymmetricKey $key): void
     {
-        if (false === $this->sftp->login($username, $privateKey)) {
-            throw new PusherException('Invalid credentials');
+        if (false === $this->sftp->login($username, $key)) {
+            throw new PusherException('Logging in with invalid credentials.');
         }
     }
 
     /**
-     * Pushes a file to the server, remote permission will be set if it's specified.
-     *
-     * @throws \App\Exceptions\PusherException
-     */
-    public function pushFileTo(string $localPath, string $remotePath, int $permission = 0700): void
-    {
-        if (false === $this->sftp->put($remotePath, $localPath, SFTP::SOURCE_LOCAL_FILE)) {
-            throw new PusherException("Unable to push file {$localPath}");
-        }
-
-        if (false === $this->sftp->chmod($permission, $remotePath)) {
-            throw new PusherException("Unable to push file {$localPath}");
-        }
-    }
-
-    /**
-     * Pushes the content to the server, remote permission will be set if it's specified.
+     * Pushes the supplied data to a file in the server, remote permission will be set if it's specified.
      *
      * @throws \App\Exceptions\PusherException
      */
     public function pushDataTo(string $data, string $remotePath, int $permission = 0700): void
     {
         if (false === $this->sftp->put($remotePath, $data, SFTP::SOURCE_STRING)) {
-            throw new PusherException('Unable to put file');
+            throw new PusherException('Unable to create the file: '.$remotePath);
         }
 
         if (false === $this->sftp->chmod($permission, $remotePath)) {
-            throw new PusherException('Unable to put file');
+            throw new PusherException('Unable to set permission to the file: '.$remotePath);
         }
     }
 
@@ -80,18 +67,24 @@ class SFTPPusher
      *
      * @throws \App\Exceptions\PusherException
      */
-    public function exec(string $command, bool $quietMode = true): void
+    public function exec(string $command): void
     {
-        if ($quietMode) {
+        try {
             $this->sftp->enableQuietMode();
-        }
 
-        if (! $this->sftp->exec($command)) {
-            throw new PusherException('Unable to exec command');
-        }
-
-        if ($quietMode) {
+            $result = $this->sftp->exec($command);
+        } catch (Throwable $exception) {
+            throw new PusherException('Unable to execute command: '.$exception->getMessage());
+        } finally {
             $this->sftp->disableQuietMode();
+        }
+
+        if (false === $result) {
+            throw new PusherException('Unable to execute command.');
+        }
+
+        if ($this->sftp->getExitStatus() !== 0) {
+            throw new PusherException('Command execution failed, error: '.$this->sftp->getExitStatus());
         }
     }
 
