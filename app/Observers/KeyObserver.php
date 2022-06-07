@@ -50,6 +50,6 @@ class KeyObserver
 
     public function saving(Key $key): void
     {
-        $key->fingerprint = PublicKey::fromString($key->public)->getFingerPrint();
+        $key->fingerprint = PublicKey::fromString($key->public)->getFingerPrint('md5');
     }
 }

@@ -21,7 +21,7 @@ class KeyTest extends TestCase
         $key = Key::factory()->create([
             'public' => self::VALID_PUBLIC_KEY,
         ]);
-        $wantFingerprint = PublicKey::fromString(self::VALID_PUBLIC_KEY)->getFingerPrint();
+        $wantFingerprint = PublicKey::fromString(self::VALID_PUBLIC_KEY)->getFingerPrint('md5');
 
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
     }
@@ -34,7 +34,7 @@ class KeyTest extends TestCase
         $key->update([
             'public' => self::VALID_PUBLIC_KEY,
         ]);
-        $wantFingerprint = PublicKey::fromString(self::VALID_PUBLIC_KEY)->getFingerPrint();
+        $wantFingerprint = PublicKey::fromString(self::VALID_PUBLIC_KEY)->getFingerPrint('md5');
 
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
     }

@@ -27,7 +27,7 @@ use App\Models\Keygroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use PacoOrozco\OpenSSH\KeyPair;
+use PacoOrozco\OpenSSH\PrivateKey;
 use PacoOrozco\OpenSSH\PublicKey;
 use Throwable;
 
@@ -57,7 +57,8 @@ class KeyController extends Controller
     public function store(KeyCreateRequest $request, CreateKeyAction $createKey): RedirectResponse
     {
         if ($request->wantsCreateKey()) {
-            [$privateKey, $publicKey] = (new KeyPair())->generate();
+            $privateKey = PrivateKey::generate();
+            $publicKey = $privateKey->getPublicKey();
         } else {
             $publicKey = PublicKey::fromString($request->publicKey());
             $privateKey = null;
@@ -98,7 +99,8 @@ class KeyController extends Controller
         $publicKey = $key->public;
 
         if ($request->wantsCreateKey()) {
-            [$privateKey, $publicKey] = (new KeyPair())->generate();
+            $privateKey = PrivateKey::generate();
+            $publicKey = $privateKey->getPublicKey();
         } elseif ($request->wantsImportKey()) {
             $publicKey = PublicKey::fromString($request->publicKey());
             $privateKey = null;
