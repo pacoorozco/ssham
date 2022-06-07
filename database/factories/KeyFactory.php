@@ -20,7 +20,7 @@ namespace Database\Factories;
 
 use App\Models\Key;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use PacoOrozco\OpenSSH\KeyPair;
+use PacoOrozco\OpenSSH\PrivateKey;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Key>
@@ -31,12 +31,13 @@ class KeyFactory extends Factory
 
     public function definition(): array
     {
-        [$privateKey, $publicKey] = (new KeyPair())->generate();
+        $privateKey = PrivateKey::generate();
+        $publicKey = $privateKey->getPublicKey();
 
         return [
             'username' => $this->faker->unique()->userName,
-            'public' => $publicKey,
-            'private' => $privateKey,
+            'public' => (string) $publicKey,
+            'private' => (string) $privateKey,
             'enabled' => true,
         ];
     }

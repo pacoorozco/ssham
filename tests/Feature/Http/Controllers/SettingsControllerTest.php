@@ -23,6 +23,7 @@ use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PacoOrozco\OpenSSH\KeyPair;
+use PacoOrozco\OpenSSH\PrivateKey;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 
@@ -125,7 +126,8 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
     {
         setting()->set(self::TEST_SETTINGS);
 
-        [$privateKey, $publicKey] = (new KeyPair())->generate();
+        $privateKey = PrivateKey::generate();
+        $publicKey = $privateKey->getPublicKey();
 
         $formData = [
             'authorized_keys' => 'foo_authorized_keys',
@@ -155,7 +157,8 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
 
         setting()->set(self::TEST_SETTINGS);
 
-        [$privateKey, $publicKey] = (new KeyPair())->generate();
+        $privateKey = PrivateKey::generate();
+        $publicKey = $privateKey->getPublicKey();
 
         $formData = [
             'authorized_keys' => 'foo_authorized_keys',
