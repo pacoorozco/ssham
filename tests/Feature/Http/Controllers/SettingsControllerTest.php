@@ -22,7 +22,6 @@ use App\Enums\Permissions;
 use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PacoOrozco\OpenSSH\KeyPair;
 use PacoOrozco\OpenSSH\PrivateKey;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -238,20 +237,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
                 'private_key' => 'no-valid-private-key',
             ],
             'errors' => ['private_key'],
-        ];
-
-        yield 'public_key is empty' => [
-            'data' => [
-                'public_key' => '',
-            ],
-            'errors' => ['public_key'],
-        ];
-
-        yield 'public_key ! valid' => [
-            'data' => [
-                'public_key' => 'no-valid-public-key',
-            ],
-            'errors' => ['public_key'],
         ];
 
         yield 'temp_dir is empty' => [

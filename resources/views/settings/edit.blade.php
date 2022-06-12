@@ -81,19 +81,6 @@
                                 </div>
                                 <!-- ./ private_key -->
                             </div>
-                            <div class="col-6">
-                                <!-- public_key -->
-                                <div class="form-group">
-                                    {!! Form::label('public_key', __('settings/model.public_key')) !!}
-                                    {!! Form::textarea('public_key', $settings['public_key'], array('class' => 'form-control' . ($errors->has('public_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                    <span
-                                        class="form-text text-muted">@lang('settings/model.public_key_help')</span>
-                                    @error('public_key'))
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!-- ./ public_key -->
-                            </div>
                         </div>
                     </fieldset>
 

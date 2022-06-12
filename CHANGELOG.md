@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ### Changed
 - Updated dependencies to the latest versions.
+- The bastion's public key will be created from the private key submitted in the `Settings` page. ([#318][i318])
+
+[i318]: https://github.com/pacoorozco/ssham/issues/318
 
 ## 0.15.1 - 2022-05-27
 

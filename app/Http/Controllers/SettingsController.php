@@ -21,7 +21,9 @@ namespace App\Http\Controllers;
 use App\Enums\Permissions;
 use App\Http\Requests\SettingsRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use PacoOrozco\OpenSSH\PrivateKey;
 
 class SettingsController extends Controller
 {
@@ -47,10 +49,22 @@ class SettingsController extends Controller
     {
         $this->authorize(Permissions::EditSettings);
 
+        try {
+            $publicKey = PrivateKey::fromString($request->privateKey())->getPublicKey();
+        } catch (\Throwable $exception) {
+            Log::error('Unable to create public key from the provided private key. error='.$exception->getMessage());
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'private_key' => __('settings/messages.public_key_can_not_be_created'),
+                ]);
+        }
+
         setting()->set([
             'authorized_keys' => $request->authorizedKeys(),
             'private_key' => $request->privateKey(),
-            'public_key' => $request->publicKey(),
+            'public_key' => (string) $publicKey,
             'temp_dir' => $request->tempDir(),
             'ssh_timeout' => $request->sshTimeout(),
             'ssh_port' => $request->sshPort(),
