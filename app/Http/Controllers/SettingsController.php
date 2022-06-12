@@ -65,7 +65,6 @@ class SettingsController extends Controller
             'authorized_keys' => $request->authorizedKeys(),
             'private_key' => $request->privateKey(),
             'public_key' => (string) $publicKey,
-            'temp_dir' => $request->tempDir(),
             'ssh_timeout' => $request->sshTimeout(),
             'ssh_port' => $request->sshPort(),
             'mixed_mode' => $request->mixedMode(),

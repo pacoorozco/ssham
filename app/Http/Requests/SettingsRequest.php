@@ -34,10 +34,6 @@ class SettingsRequest extends Request
                 'required',
                 new PrivateKeyRule(),
             ],
-            'temp_dir' => [
-                'required',
-                'string',
-            ],
             'ssh_port' => [
                 'required',
                 'numeric',
@@ -75,11 +71,6 @@ class SettingsRequest extends Request
     public function privateKey(): string
     {
         return $this->input('private_key');
-    }
-
-    public function tempDir(): string
-    {
-        return $this->input('temp_dir');
     }
 
     public function sshTimeout(): int
