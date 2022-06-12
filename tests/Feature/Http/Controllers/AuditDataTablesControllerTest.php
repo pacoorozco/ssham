@@ -17,6 +17,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Host;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -50,10 +51,12 @@ class AuditDataTablesControllerTest extends TestCase
     /** @test */
     public function users_should_get_data_tables_data(): void
     {
+        Host::factory()->count(4)->create();
+
         $this
             ->actingAs($this->user)
             ->ajaxGet(route('audit.data'))
             ->assertSuccessful()
-            ->assertJsonCount(5);
+            ->assertJsonCount(5, 'data'); // 4 Hosts + 1 User (see setUp)
     }
 }
