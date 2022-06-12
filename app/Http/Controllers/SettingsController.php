@@ -52,12 +52,12 @@ class SettingsController extends Controller
         try {
             $publicKey = PrivateKey::fromString($request->privateKey())->getPublicKey();
         } catch (\Throwable $exception) {
-            Log::error('Unable to create public key from the provided private key. error=' . $exception->getMessage());
+            Log::error('Unable to create public key from the provided private key. error='.$exception->getMessage());
 
             return back()
                 ->withInput()
                 ->withErrors([
-                    'private_key' => __('settings/messages.public_key_can_not_be_created')
+                    'private_key' => __('settings/messages.public_key_can_not_be_created'),
                 ]);
         }
 
