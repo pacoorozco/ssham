@@ -31,7 +31,7 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
     public function relatedUser(): User
     {
         $user = $this->tokenable;
-        if (!$user instanceof User) {
+        if (! $user instanceof User) {
             throw new RelationNotFoundException('The related model is not an User instance.');
         }
 
@@ -46,6 +46,6 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
         return LogOptions::defaults()
             ->logOnly(['name'])
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn(string $eventName) => "Access token ':subject.name' for user '{$relatedUser}' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "Access token ':subject.name' for user '{$relatedUser}' was {$eventName}");
     }
 }

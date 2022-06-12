@@ -117,6 +117,6 @@ final class User extends Authenticatable
             ->logOnly(['email'])
             ->logOnlyDirty()
             ->dontLogIfAttributesChangedOnly(['updated_at'])
-            ->setDescriptionForEvent(fn(string $eventName) => "User ':subject.username' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "User ':subject.username' was {$eventName}");
     }
 }
