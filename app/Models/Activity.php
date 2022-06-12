@@ -39,6 +39,6 @@ class Activity extends \Spatie\Activitylog\Models\Activity
     {
         // There is a default value in order to avoid errors when database contains old messages
         // which doesn't have a value now.
-        return ActivityStatus::coerce($this->getExtraProperty('status')) ?? ActivityStatus::Unknown();
+        return ActivityStatus::coerce($this->getExtraProperty('status')) ?? ActivityStatus::Success();
     }
 }

@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * Class ControlRule.
@@ -43,6 +44,7 @@ class ControlRule extends Model
 {
     use HasFactory;
     use Presentable;
+    use LogsActivity;
 
     protected string $presenter = ControlRulePresenter::class;
 
@@ -73,6 +75,8 @@ class ControlRule extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logFillable();
+            ->logFillable()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn(string $eventName) => "Rule ':subject.name' was {$eventName}");
     }
 }
