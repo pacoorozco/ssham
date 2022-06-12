@@ -61,7 +61,6 @@ BBHAb40w/ou64RHttUVGSzNr7vXceadp57RVWqnMpQiWKQX3iDnxa+CCjIwyeKPg
 c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
 -----END RSA PRIVATE KEY-----',
         'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWufLcxLzYj5l+KvxlKKe/M4+e4GztZ4Zg2UPa1Ug9wm5DB2hH3B7KSj+ew2zNBJDEgHkxsNSW3ivZqH3ysmuiqjaYZqMrNlxnFLeRWTuFJo35bzEEa4bmEee5pNqPDYKMNJnbRRdJnkjUTlyVJc7neEFzWBEmIV/CaBymx2dh/lIZJUIzB5iKZqbEnBrj2A4PsEy+ZNIHYzcHV2qEWmjajCMmTfiejliHIGC/6Vnexwa3UGbO5h+9Q72sj5zOsE3ptKN3WSnZHHGG4A03JgGClV/Lv72Jdj8i9FtE6HXJuQjg0dD1G8MXRz5eOSYQ/sek11tv6VshURtKbRHEObt5 root@ssham',
-        'temp_dir' => '/tmp',
         'ssh_timeout' => '5',
         'ssh_port' => '22',
         'mixed_mode' => true,
@@ -132,7 +131,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'authorized_keys' => 'foo_authorized_keys',
             'private_key' => trim($privateKey),
             'public_key' => trim($publicKey),
-            'temp_dir' => 'foo_temp_dir',
             'ssh_timeout' => 10,
             'ssh_port' => 2022,
             'mixed_mode' => false,
@@ -163,7 +161,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'authorized_keys' => 'foo_authorized_keys',
             'private_key' => trim($privateKey),
             'public_key' => trim($publicKey),
-            'temp_dir' => 'foo_temp_dir',
             'ssh_timeout' => 10,
             'ssh_port' => 2022,
             'mixed_mode' => false,
@@ -199,7 +196,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'authorized_keys' => $data['authorized_keys'] ?? $settings['authorized_keys'],
             'private_key' => $data['private_key'] ?? $settings['private_key'],
             'public_key' => $data['public_key'] ?? $settings['public_key'],
-            'temp_dir' => $data['temp_dir'] ?? $settings['temp_dir'],
             'ssh_timeout' => $data['ssh_timeout'] ?? $settings['ssh_timeout'],
             'ssh_port' => $data['ssh_port'] ?? $settings['ssh_port'],
             'mixed_mode' => $data['mixed_mode'] ?? $settings['mixed_mode'],
@@ -237,13 +233,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
                 'private_key' => 'no-valid-private-key',
             ],
             'errors' => ['private_key'],
-        ];
-
-        yield 'temp_dir is empty' => [
-            'data' => [
-                'temp_dir' => '',
-            ],
-            'errors' => ['temp_dir'],
         ];
 
         yield 'ssh_port ! valid' => [

@@ -122,17 +122,6 @@
                         </div>
                         <!-- ./ cmd_remote_updater -->
 
-                        <!-- temp_dir -->
-                        <div class="form-group">
-                            {!! Form::label('temp_dir', __('settings/model.temp_dir')) !!}
-                            {!! Form::text('temp_dir', $settings['temp_dir'], array('class' => 'form-control' . ($errors->has('temp_dir') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span class="form-text text-muted">@lang('settings/model.temp_dir_help')</span>
-                            @error('temp_dir'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- ./ temp_dir -->
-
                         <!-- authorized_keys -->
                         <div class="form-group">
                             {!! Form::label('authorized_keys', __('settings/model.authorized_keys')) !!}

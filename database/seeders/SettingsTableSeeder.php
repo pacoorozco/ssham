@@ -80,11 +80,6 @@ ZCkjCidc3bPcjZGQAAAApwYWNvQGNpZ3JvAQIDBAUGBw==
             'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDq+n4fg/aWUmHb3nPulsvHpIBnyjqqO/QwhBUwk0iESQmP8at8YF2w+9NEOVT2lQaGWzH7ZN484oMqWH1x+lwfu5xdi3Zjx3zZpWlgSKZ8V5bJ3ERoSobXY+epwR4+1xSet/qndXIRA3MWbEyh139epbR+dflQ59JwphU26lZtMqLwsgqacRCAUOzCabXe6Xh4bevZG7934Q5UPH9nqfqF/wq4L2LSkbGqL8xQveeIC9YFtf2ikhMhIfBBRQAQrp5dCcmMnIgfCw53atTorR9RK2gidOuBWn+jdXvkqydlIH0xidliegyI3vUYKd2ImpENg5XH29UB8K68uvrNWBp/qXzWPIdqCm6PM8tnjmSBqXoElS043B+JcyYkbZGZ9VDAitCrjWLB33X84GaadNSafsZB+KTUgcCYGQp1WxQi4REPjfGCz45QM9aaTy/BgsJdAOYtNPkQS+IBdjpddWOb7wPV784QaBlCESi2BqwajhDdgG7R6AymGs2EKYB9Aus= paco@cigro',
 
             /*
-             * Where must I put temporary files?
-             */
-            'temp_dir' => '/tmp',
-
-            /*
              * Time (seconds) to wait before a SSH connection ends (timed out)
              */
             'ssh_timeout' => '5',
