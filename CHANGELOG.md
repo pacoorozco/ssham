@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 ### Fixed
 - Everytime a user logs in, the model is updated (some date) on audit. ([#163][i163])
 - PHPStan message about Yajra DataTables. ([#331][i331])
+- Fix flaky test in `Feature/Http/Controllers/AuditDataTablesControllerTest.php`.
 
 [i318]: https://github.com/pacoorozco/ssham/issues/318
 [i165]: https://github.com/pacoorozco/ssham/issues/165
