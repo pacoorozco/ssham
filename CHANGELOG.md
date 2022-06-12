@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.15.2 - 2022-06-13
+
+
 ### Changed
 - Updated dependencies to the latest versions.
 - The bastion's public key will be created from the private key submitted in the `Settings` page. ([#318][i318])
