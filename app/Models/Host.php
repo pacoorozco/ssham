@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -53,6 +54,7 @@ class Host extends Model implements Searchable
 {
     use HasFactory;
     use Presentable;
+    use LogsActivity;
 
     protected string $presenter = HostPresenter::class;
 
@@ -214,6 +216,8 @@ class Host extends Model implements Searchable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['hostname', 'username']);
+            ->logFillable()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn (string $eventName) => "Host ':subject.full_hostname' was {$eventName}");
     }
 }

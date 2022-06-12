@@ -19,11 +19,14 @@ namespace App\Models;
 
 use App\Presenters\KeyPresenter;
 use App\Traits\UsesUUID;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laracodes\Presenter\Traits\Presentable;
+use PacoOrozco\OpenSSH\PublicKey;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -46,31 +49,48 @@ class Key extends Model implements Searchable
     use HasFactory;
     use UsesUUID;
     use Presentable;
+    use LogsActivity;
 
     public string $searchableType = 'SSH Keys';
+
     protected string $presenter = KeyPresenter::class;
+
     protected $table = 'keys';
+
     protected $fillable = [
         'username',
         'public',
         'private',
         'enabled',
     ];
+
     protected $casts = [
         'enabled' => 'boolean',
     ];
 
     /**
-     * An Key belongs to many Keygroups (many-to-many).
+     * A Key belongs to many Key groups (many-to-many).
      */
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Keygroup::class);
     }
 
-    public function setUsernameAttribute(string $value): void
+    protected function username(): Attribute
     {
-        $this->attributes['username'] = strtolower($value);
+        return Attribute::make(
+            set: fn ($value) => strtolower($value),
+        );
+    }
+
+    protected function public(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => [
+                'public' => $value,
+                'fingerprint' => PublicKey::fromString($value)->getFingerPrint('md5'),
+            ],
+        );
     }
 
     public function getSearchResult(): SearchResult
@@ -93,6 +113,15 @@ class Key extends Model implements Searchable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['username', 'enabled']);
+            ->logOnly(['username', 'enabled'])
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn (string $eventName) => "Key ':subject.username' was {$eventName}");
+    }
+
+    /** @codeCoverageIgnore */
+    public function tapActivity(Activity $activity, string $eventName): void
+    {
+        // Do not use store the subject_id because we use UUID which are not compatible.
+        $activity->subject_id = null;
     }
 }

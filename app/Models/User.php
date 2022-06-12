@@ -20,12 +20,14 @@ namespace App\Models;
 use App\Enums\AuthType;
 use App\Enums\Roles;
 use App\Presenters\UserPresenter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laracodes\Presenter\Traits\Presentable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -51,6 +53,7 @@ final class User extends Authenticatable
     use Notifiable;
     use Presentable;
     use HasRoles;
+    use LogsActivity;
 
     protected string $presenter = UserPresenter::class;
 
@@ -78,9 +81,11 @@ final class User extends Authenticatable
         'auth_type' => AuthType::Local,
     ];
 
-    public function setUsernameAttribute(string $value): void
+    protected function username(): Attribute
     {
-        $this->attributes['username'] = strtolower($value);
+        return Attribute::make(
+            set: fn ($value) => strtolower($value),
+        );
     }
 
     public function hasTokens(): bool
@@ -109,6 +114,9 @@ final class User extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['username', 'email']);
+            ->logOnly(['email'])
+            ->logOnlyDirty()
+            ->dontLogIfAttributesChangedOnly(['updated_at'])
+            ->setDescriptionForEvent(fn (string $eventName) => "User ':subject.username' was {$eventName}");
     }
 }

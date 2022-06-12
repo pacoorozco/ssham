@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
@@ -42,6 +43,7 @@ class Keygroup extends Model implements Searchable
 {
     use HasFactory;
     use Presentable;
+    use LogsActivity;
 
     public string $searchableType = 'SSH Keys groups';
     protected string $presenter = KeygroupPresenter::class;
@@ -86,6 +88,8 @@ class Keygroup extends Model implements Searchable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logFillable();
+            ->logFillable()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn (string $eventName) => "Key group ':subject.name' was {$eventName}");
     }
 }
