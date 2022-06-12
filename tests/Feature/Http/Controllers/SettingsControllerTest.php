@@ -22,7 +22,6 @@ use App\Enums\Permissions;
 use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PacoOrozco\OpenSSH\KeyPair;
 use PacoOrozco\OpenSSH\PrivateKey;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
