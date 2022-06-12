@@ -119,7 +119,7 @@ class Key extends Model implements Searchable
     }
 
     /** @codeCoverageIgnore */
-    public function tapActivity(Activity $activity, string $eventName)
+    public function tapActivity(Activity $activity, string $eventName): void
     {
         // Do not use store the subject_id because we use UUID which are not compatible.
         $activity->subject_id = null;

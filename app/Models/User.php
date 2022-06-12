@@ -20,6 +20,7 @@ namespace App\Models;
 use App\Enums\AuthType;
 use App\Enums\Roles;
 use App\Presenters\UserPresenter;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -80,9 +81,11 @@ final class User extends Authenticatable
         'auth_type' => AuthType::Local,
     ];
 
-    public function setUsernameAttribute(string $value): void
+    protected function username(): Attribute
     {
-        $this->attributes['username'] = strtolower($value);
+        return Attribute::make(
+            set: fn ($value) => strtolower($value),
+        );
     }
 
     public function hasTokens(): bool

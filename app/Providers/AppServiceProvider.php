@@ -18,9 +18,7 @@
 
 namespace App\Providers;
 
-use App\Models\Key;
 use App\Models\PersonalAccessToken;
-use App\Observers\KeyObserver;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 
