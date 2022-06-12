@@ -86,7 +86,7 @@ class Key extends Model implements Searchable
     protected function public(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value) => [
+            set: fn (string $value) => [
                 'public' => $value,
                 'fingerprint' => PublicKey::fromString($value)->getFingerPrint('md5'),
             ],
@@ -106,7 +106,7 @@ class Key extends Model implements Searchable
 
     public function hasPrivateKey(): bool
     {
-        return !empty($this->private);
+        return ! empty($this->private);
     }
 
     /** @codeCoverageIgnore */
@@ -115,7 +115,7 @@ class Key extends Model implements Searchable
         return LogOptions::defaults()
             ->logOnly(['username', 'enabled'])
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn(string $eventName) => "Key ':subject.username' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "Key ':subject.username' was {$eventName}");
     }
 
     /** @codeCoverageIgnore */

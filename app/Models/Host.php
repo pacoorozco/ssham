@@ -218,6 +218,6 @@ class Host extends Model implements Searchable
         return LogOptions::defaults()
             ->logFillable()
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn(string $eventName) => "Host ':subject.full_hostname' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "Host ':subject.full_hostname' was {$eventName}");
     }
 }

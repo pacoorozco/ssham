@@ -77,6 +77,6 @@ class ControlRule extends Model
         return LogOptions::defaults()
             ->logFillable()
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn(string $eventName) => "Rule ':subject.name' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "Rule ':subject.name' was {$eventName}");
     }
 }
