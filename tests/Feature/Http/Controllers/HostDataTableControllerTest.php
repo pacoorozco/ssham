@@ -21,6 +21,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -66,6 +67,14 @@ class HostDataTableControllerTest extends TestCase
 
         $hosts = Host::factory()
             ->count(2)
+            ->state(new Sequence(
+                ['enabled' => true],
+                ['enabled' => false],
+            ))
+            ->state(new Sequence(
+                ['synced' => true],
+                ['synced' => false],
+            ))
             ->create();
 
         $this

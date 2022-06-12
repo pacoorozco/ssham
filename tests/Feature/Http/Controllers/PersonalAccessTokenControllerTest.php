@@ -57,6 +57,27 @@ class PersonalAccessTokenControllerTest extends TestCase
     }
 
     /** @test */
+    public function users_should_see_the_token_creation_form(): void
+    {
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.tokens.create', $this->user))
+            ->assertSuccessful()
+            ->assertViewIs('user.personal_access_tokens.create');
+    }
+
+    /** @test */
+    public function users_should_not_see_the_others_token_creation_form(): void
+    {
+        $otherUser = User::factory()->create();
+
+        $this
+            ->actingAs($this->user)
+            ->get(route('users.tokens.create', $otherUser))
+            ->assertForbidden();
+    }
+
+    /** @test */
     public function super_admins_should_see_others_tokens(): void
     {
         $superAdmin = User::factory()->create();
@@ -71,6 +92,19 @@ class PersonalAccessTokenControllerTest extends TestCase
             ->assertSuccessful()
             ->assertViewIs('user.personal_access_tokens.show')
             ->assertSee($expectedTokenName);
+    }
+
+    /** @test */
+    public function super_admins_should_see_the_others_token_creation_form(): void
+    {
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole(Roles::SuperAdmin);
+
+        $this
+            ->actingAs($superAdmin)
+            ->get(route('users.tokens.create', $this->user))
+            ->assertSuccessful()
+            ->assertViewIs('user.personal_access_tokens.create');
     }
 
     /** @test */

@@ -25,9 +25,9 @@ class AuditDataTablesController extends Controller
 {
     public function __invoke(DataTables $dataTable): JsonResponse
     {
-        $activities = Activity::all();
+        $activities = Activity::query();
 
-        return $dataTable->collection($activities)
+        return $dataTable->eloquent($activities)
             ->addColumn('timestamp', function (Activity $activity) {
                 return $activity->present()->created_at;
             })

@@ -5,13 +5,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.15.2 - 2022-06-13
+
+
 ### Changed
 - Updated dependencies to the latest versions.
 - The bastion's public key will be created from the private key submitted in the `Settings` page. ([#318][i318])
 - The unused temporary dir has been removed from the `Settings` page. ([#165][i165]) 
 
+### Fixed
+- Everytime a user logs in, the model is updated (some date) on audit. ([#163][i163])
+- PHPStan message about Yajra DataTables. ([#331][i331])
+- Fix flaky test in `Feature/Http/Controllers/AuditDataTablesControllerTest.php`.
+
 [i318]: https://github.com/pacoorozco/ssham/issues/318
 [i165]: https://github.com/pacoorozco/ssham/issues/165
+[i163]: https://github.com/pacoorozco/ssham/issues/163
+[i331]: https://github.com/pacoorozco/ssham/issues/331
 
 ## 0.15.1 - 2022-05-27
 
