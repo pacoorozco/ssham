@@ -34,10 +34,6 @@ class SettingsRequest extends Request
                 'required',
                 new PrivateKeyRule(),
             ],
-            'public_key' => [
-                'required',
-                new PublicKeyRule(),
-            ],
             'temp_dir' => [
                 'required',
                 'string',
@@ -79,11 +75,6 @@ class SettingsRequest extends Request
     public function privateKey(): string
     {
         return $this->input('private_key');
-    }
-
-    public function publicKey(): string
-    {
-        return $this->input('public_key');
     }
 
     public function tempDir(): string

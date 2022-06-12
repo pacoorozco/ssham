@@ -240,20 +240,6 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'errors' => ['private_key'],
         ];
 
-        yield 'public_key is empty' => [
-            'data' => [
-                'public_key' => '',
-            ],
-            'errors' => ['public_key'],
-        ];
-
-        yield 'public_key ! valid' => [
-            'data' => [
-                'public_key' => 'no-valid-public-key',
-            ],
-            'errors' => ['public_key'],
-        ];
-
         yield 'temp_dir is empty' => [
             'data' => [
                 'temp_dir' => '',
