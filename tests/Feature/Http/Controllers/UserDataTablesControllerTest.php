@@ -22,6 +22,7 @@ use App\Enums\Permissions;
 use App\Enums\Roles;
 use App\Models\User;
 use Generator;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -70,9 +71,11 @@ class UserDataTablesControllerTest extends TestCase
 
         $users = User::factory()
             ->count(3)
-            ->create([
-                'enabled' => 'true',
-            ]);
+            ->state(new Sequence(
+                ['enabled' => true],
+                ['enabled' => false],
+            ))
+            ->create();
 
         $this
             ->actingAs($this->user)

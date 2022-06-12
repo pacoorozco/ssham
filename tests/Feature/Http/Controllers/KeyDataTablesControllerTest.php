@@ -21,6 +21,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -68,6 +69,10 @@ class KeyDataTablesControllerTest extends TestCase
 
         $keys = Key::factory()
             ->count(2)
+            ->state(new Sequence(
+                ['enabled' => true],
+                ['enabled' => false],
+            ))
             ->create();
 
         $this

@@ -51,11 +51,7 @@ class UserPresenter extends Presenter
 
     public function authTypeAsBadge(): HtmlString
     {
-        if ($this->model->auth_type === AuthType::External) {
-            return new HtmlString('<span class="badge badge-pill badge-info">external</span>');
-        }
-
-        return new HtmlString('<span class="badge badge-pill badge-secondary">'.$this->model->auth_type.'</span>');
+        return new HtmlString('<span class="badge badge-pill badge-secondary">'.AuthType::Local.'</span>');
     }
 
     public function tokensCountAsBadge(): HtmlString
