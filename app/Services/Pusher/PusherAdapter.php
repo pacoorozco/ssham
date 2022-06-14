@@ -11,7 +11,6 @@ interface PusherAdapter
      */
     public function write(string $path, string $contents, int $permission): void;
 
-
     /**
      * @throws \App\Exceptions\PusherException
      */

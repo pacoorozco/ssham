@@ -8,7 +8,7 @@ use RuntimeException;
 
 class UnableToLoadPrivateKeyException extends RuntimeException
 {
-    public function __construct(string $message = "Unable to load private key.")
+    public function __construct(string $message = 'Unable to load private key.')
     {
         parent::__construct($message);
     }

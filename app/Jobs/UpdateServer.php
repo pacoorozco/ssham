@@ -75,7 +75,7 @@ class UpdateServer implements ShouldQueue
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
 
-        if (!is_null($remoteUpdater)) {
+        if (! is_null($remoteUpdater)) {
             $this->pusher->write(
                 path: setting()->get('cmd_remote_updater'),
                 contents: $remoteUpdater,
@@ -93,7 +93,7 @@ class UpdateServer implements ShouldQueue
 
         $sshKeysCollection = collect($sshKeys);
 
-        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL) . PHP_EOL;
+        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL).PHP_EOL;
 
         $this->pusher->write(
             path: setting()->get('ssham_file'),
@@ -107,11 +107,11 @@ class UpdateServer implements ShouldQueue
      */
     protected function execRemoteUpdater(): void
     {
-        $command = setting()->get('cmd_remote_updater') . ' update '
-            . ((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
-            . setting()->get('authorized_keys') . ' '
-            . setting()->get('non_ssham_file') . ' '
-            . setting()->get('ssham_file');
+        $command = setting()->get('cmd_remote_updater').' update '
+            .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
+            .setting()->get('authorized_keys').' '
+            .setting()->get('non_ssham_file').' '
+            .setting()->get('ssham_file');
 
         $this->pusher->exec($command);
     }
@@ -120,7 +120,6 @@ class UpdateServer implements ShouldQueue
      * Handle a job failure.
      *
      * @param  \Throwable  $exception
-     *
      * @return void
      */
     public function failed(Throwable $exception): void

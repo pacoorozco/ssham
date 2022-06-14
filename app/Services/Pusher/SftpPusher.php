@@ -33,12 +33,11 @@ class SftpPusher implements PusherAdapter
     {
         $connection = $this->connectionProvider->provideConnection();
 
-        if (!$connection->put($path, $contents, SFTP::SOURCE_STRING)) {
-            throw new PusherException('Not able to write the file: ' . $path);
+        if (! $connection->put($path, $contents, SFTP::SOURCE_STRING)) {
+            throw new PusherException('Not able to write the file: '.$path);
         }
 
         $this->setVisibility($path, $permission);
-
     }
 
     /**
@@ -48,8 +47,8 @@ class SftpPusher implements PusherAdapter
     {
         $connection = $this->connectionProvider->provideConnection();
 
-        if (!$connection->chmod($permission, $path, false)) {
-            throw new PusherException('Unable to set permission to the file: ' . $path);
+        if (! $connection->chmod($permission, $path, false)) {
+            throw new PusherException('Unable to set permission to the file: '.$path);
         }
     }
 
@@ -65,7 +64,7 @@ class SftpPusher implements PusherAdapter
 
             $isExecuted = $connection->exec($command);
         } catch (Throwable $exception) {
-            throw new PusherException('Not able to execute command: ' . $exception->getMessage());
+            throw new PusherException('Not able to execute command: '.$exception->getMessage());
         } finally {
             $connection->disableQuietMode();
         }
@@ -82,8 +81,7 @@ class SftpPusher implements PusherAdapter
         $exitStatus = $this->execute($command);
 
         if ($exitStatus !== 0) {
-            throw new PusherException('Command execution failed, error: ' . $exitStatus);
+            throw new PusherException('Command execution failed, error: '.$exitStatus);
         }
     }
-
 }

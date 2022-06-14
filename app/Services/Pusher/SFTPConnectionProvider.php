@@ -33,7 +33,7 @@ class SFTPConnectionProvider implements ConnectionProvider
             ? $this->connection
             : $this->setupConnection();
 
-        if (!$this->connection->isConnected()) {
+        if (! $this->connection->isConnected()) {
             $connection->disconnect();
             $this->connection = null;
 
@@ -79,7 +79,7 @@ class SFTPConnectionProvider implements ConnectionProvider
 
     private function loadPrivateKey(): AsymmetricKey
     {
-        if (!str_starts_with($this->privateKey, "---") && is_file($this->privateKey)) {
+        if (! str_starts_with($this->privateKey, '---') && is_file($this->privateKey)) {
             $this->privateKey = file_get_contents($this->privateKey);
         }
 
