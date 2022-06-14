@@ -2,11 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Actions\UpdateHostStatusAction;
 use App\Enums\HostStatus;
-use App\Http\Requests\HostUpdateRequest;
 use App\Models\Host;
-use App\Services\SFTP\SFTPPusher;
+use App\Services\Pusher\PusherAdapter;
+use App\Services\Pusher\SFTPConnectionProvider;
+use App\Services\Pusher\SFTPPusher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,7 +31,7 @@ class UpdateServer implements ShouldQueue
      */
     public bool $deleteWhenMissingModels = true;
 
-    protected SFTPPusher $pusher;
+    protected PusherAdapter $pusher;
 
     public function __construct(
         protected Host $host
@@ -47,13 +47,13 @@ class UpdateServer implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->pusher = new SFTPPusher(
-            hostname: $this->host->hostname,
+        $this->pusher = new SFTPPusher(new SFTPConnectionProvider(
+            host: $this->host->hostname,
+            username: $this->host->username,
+            privateKey: PublicKeyLoader::load(setting()->get('private_key')),
             port: $this->host->portOrDefaultSetting(),
             timeout: setting()->get('ssh_timeout', 5),
-        );
-
-        $this->connectRemoteServer();
+        ));
 
         $this->sendRemoteUpdaterCLI();
 
@@ -66,35 +66,6 @@ class UpdateServer implements ShouldQueue
         ]);
 
         $this->host->setStatus(HostStatus::SUCCESS_STATUS());
-
-        $this->pusher->disconnect();
-    }
-
-    /**
-     * Handle a job failure.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     */
-    public function failed(Throwable $exception): void
-    {
-        Log::error('Remote server update failed.', [
-            'hostname' => $this->host->full_hostname,
-            'error' => $exception->getMessage(),
-        ]);
-
-        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
-    }
-
-    /**
-     * @throws \App\Exceptions\PusherException|\phpseclib3\Exception\NoKeyLoadedException
-     */
-    protected function connectRemoteServer(): void
-    {
-        $this->pusher->login(
-            username: $this->host->username,
-            key: PublicKeyLoader::load(setting()->get('private_key'))
-        );
     }
 
     /**
@@ -104,10 +75,10 @@ class UpdateServer implements ShouldQueue
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
 
-        if (! is_null($remoteUpdater)) {
-            $this->pusher->pushDataTo(
-                data: $remoteUpdater,
-                remotePath: setting()->get('cmd_remote_updater'),
+        if (!is_null($remoteUpdater)) {
+            $this->pusher->write(
+                path: setting()->get('cmd_remote_updater'),
+                contents: $remoteUpdater,
                 permission: 0700
             );
         }
@@ -122,11 +93,11 @@ class UpdateServer implements ShouldQueue
 
         $sshKeysCollection = collect($sshKeys);
 
-        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL).PHP_EOL;
+        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL) . PHP_EOL;
 
-        $this->pusher->pushDataTo(
-            data: $authorizedKeysFileContent,
-            remotePath: setting()->get('ssham_file'),
+        $this->pusher->write(
+            path: setting()->get('ssham_file'),
+            contents: $authorizedKeysFileContent,
             permission: 0600
         );
     }
@@ -136,12 +107,29 @@ class UpdateServer implements ShouldQueue
      */
     protected function execRemoteUpdater(): void
     {
-        $command = setting()->get('cmd_remote_updater').' update '
-            .((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
-            .setting()->get('authorized_keys').' '
-            .setting()->get('non_ssham_file').' '
-            .setting()->get('ssham_file');
+        $command = setting()->get('cmd_remote_updater') . ' update '
+            . ((setting()->get('mixed_mode') == '1') ? 'true ' : 'false ')
+            . setting()->get('authorized_keys') . ' '
+            . setting()->get('non_ssham_file') . ' '
+            . setting()->get('ssham_file');
 
         $this->pusher->exec($command);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     *
+     * @return void
+     */
+    public function failed(Throwable $exception): void
+    {
+        Log::error('Remote server update failed.', [
+            'hostname' => $this->host->full_hostname,
+            'error' => $exception->getMessage(),
+        ]);
+
+        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
     }
 }
