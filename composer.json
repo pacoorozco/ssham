@@ -32,7 +32,7 @@
         "larapacks/setting": "^3.0.1",
         "laravel-json-api/laravel": "^2.4.0",
         "laravel/framework": "^9.35.1",
-        "laravel/sanctum": "^v2.15.1",
+        "laravel/sanctum": "^v3.0.1",
         "laravel/ui": "^4.0.2",
         "laravelcollective/html": "^6.3.0",
         "pacoorozco/openssh": "^0.4.0",
