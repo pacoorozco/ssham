@@ -52,7 +52,7 @@ class HostUpdateRequest extends Request
 
     public function port(): ?int
     {
-        return (int)$this->input('port');
+        return (int) $this->input('port');
     }
 
     public function authorized_keys_file(): ?string
