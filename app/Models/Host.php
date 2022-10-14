@@ -102,7 +102,7 @@ class Host extends Model implements Searchable
     public function fullHostname(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['username'].'@'.$attributes['hostname'],
+            get: fn ($value) => $this->username.'@'.$this->hostname,
         );
     }
 
