@@ -35,7 +35,7 @@
         "laravel/sanctum": "^v2.15.1",
         "laravel/ui": "^3.4.5",
         "laravelcollective/html": "^6.3.0",
-        "pacoorozco/openssh": "^0.3.0",
+        "pacoorozco/openssh": "^0.4.0",
         "phpseclib/phpseclib": "^3.0.14",
         "spatie/laravel-activitylog": "^4.5.3",
         "spatie/laravel-permission": "^5.5.4",
