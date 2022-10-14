@@ -240,7 +240,7 @@ class HostgroupControllerTest extends TestCase
             'data' => [
                 'hosts' => [1],
             ],
-            'errors' => ['hosts.0'],
+            'errors' => ['hosts'],
         ];
     }
 
@@ -389,7 +389,7 @@ class HostgroupControllerTest extends TestCase
             'data' => [
                 'hosts' => [1],
             ],
-            'errors' => ['hosts.0'],
+            'errors' => ['hosts'],
         ];
     }
 

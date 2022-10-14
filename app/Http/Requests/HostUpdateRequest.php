@@ -43,19 +43,16 @@ class HostUpdateRequest extends Request
                 'string',
                 'max:255',
             ],
-            'groups.*' => [
-                Rule::forEach(function ($value, $attribute) {
-                    return [
-                        Rule::exists(Hostgroup::class, 'id'),
-                    ];
-                }),
+            'groups' => [
+                'array',
+                Rule::exists(Hostgroup::class, 'id'),
             ],
         ];
     }
 
     public function port(): ?int
     {
-        return (int) $this->input('port');
+        return (int)$this->input('port');
     }
 
     public function authorized_keys_file(): ?string

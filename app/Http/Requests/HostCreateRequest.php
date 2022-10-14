@@ -31,7 +31,7 @@ class HostCreateRequest extends Request
                 'max:255',
                 // 'hostname' and 'username' combination must be unique
                 Rule::unique('hosts')
-                    ->where(fn ($query) => $query->where('username', $this->input('username'))),
+                    ->where(fn($query) => $query->where('username', $this->input('username'))),
             ],
             'username' => [
                 'required',
@@ -54,12 +54,9 @@ class HostCreateRequest extends Request
                 'string',
                 'max:255',
             ],
-            'groups.*' => [
-                Rule::forEach(function ($value, $attribute) {
-                    return [
-                        Rule::exists(Hostgroup::class, 'id'),
-                    ];
-                }),
+            'groups' => [
+                'array',
+                Rule::exists(Hostgroup::class, 'id')
             ],
         ];
     }

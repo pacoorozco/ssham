@@ -472,7 +472,7 @@ class HostControllerTest extends TestCase
                 'port' => 2022,
                 'groups' => [1],
             ],
-            'errors' => ['groups.0'],
+            'errors' => ['groups'],
         ];
     }
 
