@@ -5,8 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
-## 0.15.2 - 2022-06-13
+## 0.16.0 - 2022-10-14
 
+### Added
+- Support for `ed25519` public keys. ([#346][i346])
+
+[i346]: https://github.com/pacoorozco/ssham/issues/346
+
+## 0.15.2 - 2022-06-13
 
 ### Changed
 - Updated dependencies to the latest versions.
