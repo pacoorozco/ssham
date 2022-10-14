@@ -43,7 +43,7 @@
         "yajra/laravel-datatables-oracle": "^10.1.6"
     },
     "require-dev": {
-        "brianium/paratest": "^6.6",
+        "brianium/paratest": "^6.4.4",
         "doctrine/dbal": "^3.4.5",
         "fakerphp/faker": "^1.20.0",
         "laravel-json-api/testing": "^1.1.1",
