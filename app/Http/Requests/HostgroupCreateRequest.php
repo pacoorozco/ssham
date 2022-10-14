@@ -37,12 +37,9 @@ class HostgroupCreateRequest extends Request
                 'string',
                 'nullable',
             ],
-            'hosts.*' => [
-                Rule::forEach(function ($value, $attribute) {
-                    return [
-                        Rule::exists(Host::class, 'id'),
-                    ];
-                }),
+            'hosts' => [
+                'array',
+                Rule::exists(Host::class, 'id'),
             ],
         ];
     }

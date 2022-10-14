@@ -240,7 +240,7 @@ class KeygroupControllerTest extends TestCase
             'data' => [
                 'keys' => [1],
             ],
-            'errors' => ['keys.0'],
+            'errors' => ['keys'],
         ];
     }
 
@@ -389,7 +389,7 @@ class KeygroupControllerTest extends TestCase
             'data' => [
                 'keys' => [1],
             ],
-            'errors' => ['keys.0'],
+            'errors' => ['keys'],
         ];
     }
 

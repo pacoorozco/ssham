@@ -70,6 +70,6 @@ class UserPresenter extends Presenter
 
     public function role(): string
     {
-        return $this->model->role->description;
+        return $this->model->role->description ?? 'N/A';
     }
 }

@@ -39,12 +39,9 @@ class KeygroupUpdateRequest extends Request
                 'string',
                 'nullable',
             ],
-            'keys.*' => [
-                Rule::forEach(function ($value, $attribute) {
-                    return [
-                        Rule::exists(Key::class, 'id'),
-                    ];
-                }),
+            'keys' => [
+                'array',
+                Rule::exists(Key::class, 'id'),
             ],
         ];
     }

@@ -54,12 +54,9 @@ class HostCreateRequest extends Request
                 'string',
                 'max:255',
             ],
-            'groups.*' => [
-                Rule::forEach(function ($value, $attribute) {
-                    return [
-                        Rule::exists(Hostgroup::class, 'id'),
-                    ];
-                }),
+            'groups' => [
+                'array',
+                Rule::exists(Hostgroup::class, 'id'),
             ],
         ];
     }

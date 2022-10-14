@@ -19,6 +19,7 @@ namespace App\Presenters;
 
 use App\Enums\ActivityStatus;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Laracodes\Presenter\Presenter;
 
 class ActivityPresenter extends Presenter
@@ -39,10 +40,13 @@ class ActivityPresenter extends Presenter
     public function statusBadge(): HtmlString
     {
         $status = $this->model->status;
+
         if ($status->is(ActivityStatus::Success)) {
-            return new HtmlString('<p class="text-success">'.$status->description.'</p>');
+            return Str::of('<p class="text-success">'.$status->description.'</p>')
+                ->toHtmlString();
         }
 
-        return new HtmlString($status->description);
+        return Str::of($status->description ?? '')
+            ->toHtmlString();
     }
 }
