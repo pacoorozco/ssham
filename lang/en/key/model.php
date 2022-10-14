@@ -26,7 +26,7 @@ return [
     'item' => 'SSH Keys',
     'username' => 'Username',
     'public_key' => 'SSH public key',
-    'private_key' => 'RSA private key',
+    'private_key' => 'Private key',
     'fingerprint' => 'Key fingerprint',
     'enabled' => 'Status',
     'groups' => 'Group membership',

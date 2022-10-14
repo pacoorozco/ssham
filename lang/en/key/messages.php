@@ -30,9 +30,9 @@ return [
     'create_public_key' => 'Create a new RSA private / public key',
     'create_public_key_help' => 'A new RSA key pair will be generated. The private key <strong>must be downloaded and delivered securely</strong> to the user.',
     'change_public_key_help_notice' => 'The current public key will be revoked. Please act with caution',
-    'maintain_public_key' => 'Maintain current RSA public key',
-    'import_public_key' => 'Import RSA public key',
-    'import_public_key_help' => 'Do not paste the private part of the SSH key. Paste only the public part, which is usually beginning with `ssh-rsa`.',
+    'maintain_public_key' => 'Maintain current public key',
+    'import_public_key' => 'Import a public key',
+    'import_public_key_help' => 'Do not paste the private part of the SSH key. Paste only the public part.',
 
     'create' => [
         'error' => 'Key was not created, please try again.',
