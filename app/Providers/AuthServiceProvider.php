@@ -18,20 +18,6 @@
 
 namespace App\Providers;
 
-use App\Models\ControlRule;
-use App\Models\Host;
-use App\Models\Hostgroup;
-use App\Models\Key;
-use App\Models\Keygroup;
-use App\Models\PersonalAccessToken;
-use App\Models\User;
-use App\Policies\ControlRulePolicy;
-use App\Policies\HostgroupPolicy;
-use App\Policies\HostPolicy;
-use App\Policies\KeygroupPolicy;
-use App\Policies\KeyPolicy;
-use App\Policies\PersonalAccessTokenPolicy;
-use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

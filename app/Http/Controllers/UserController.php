@@ -22,7 +22,6 @@ use App\Actions\CreateUserAction;
 use App\Actions\UpdateUserAction;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Jobs\ChangeUserPassword;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;

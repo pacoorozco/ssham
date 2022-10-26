@@ -20,7 +20,6 @@ namespace App\Console\Commands;
 
 use App\Jobs\UpdateServer;
 use App\Models\Host;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Console\Command;
 
 class SendKeysToHostsCommand extends Command

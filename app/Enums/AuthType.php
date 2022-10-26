@@ -12,5 +12,6 @@ use BenSampo\Enum\Enum;
 final class AuthType extends Enum
 {
     const Local = 'local';
+
     const External = 'external';
 }

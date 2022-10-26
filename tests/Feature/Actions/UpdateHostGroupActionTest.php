@@ -18,7 +18,6 @@
 
 namespace Tests\Feature\Actions;
 
-use App\Actions\CreateHostGroupAction;
 use App\Actions\UpdateHostGroupAction;
 use App\Models\Host;
 use App\Models\Hostgroup;

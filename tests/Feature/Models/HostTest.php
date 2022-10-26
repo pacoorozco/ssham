@@ -238,7 +238,6 @@ class HostTest extends TestCase
         array $attributes,
         int $want,
     ): void {
-
         // Set the default value.
         setting()->set('ssh_port', self::SSH_PORT_DEFAULT_VALUE);
 

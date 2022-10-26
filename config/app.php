@@ -16,9 +16,6 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use Zizaco\Entrust\EntrustFacade;
-use Zizaco\Entrust\EntrustServiceProvider;
-
 return [
 
     /*

@@ -18,13 +18,10 @@
 
 namespace Tests\Feature\Actions;
 
-use App\Actions\CreateUserAction;
 use App\Actions\UpdateUserAction;
 use App\Enums\Roles;
 use App\Models\User;
-use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 

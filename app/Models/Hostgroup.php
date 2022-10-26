@@ -46,8 +46,11 @@ class Hostgroup extends Model implements Searchable
     use LogsActivity;
 
     public string $searchableType = 'Host groups';
+
     protected string $presenter = HostgroupPresenter::class;
+
     protected $table = 'hostgroups';
+
     protected $fillable = [
         'name',
         'description',

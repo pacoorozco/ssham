@@ -2,9 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Actions\UpdateHostStatusAction;
 use App\Enums\HostStatus;
-use App\Http\Requests\HostUpdateRequest;
 use App\Models\Host;
 use App\Services\SFTP\SFTPPusher;
 use Illuminate\Bus\Queueable;

@@ -197,7 +197,7 @@ class Host extends Model implements Searchable
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
                             $content[2] = $key->username.'@ssham';
-                            $sshKeys[$key->username] = join(' ', $content);
+                            $sshKeys[$key->username] = implode(' ', $content);
                             break;
                         default:
                             // There is no more cases, but just in case (NOOP).

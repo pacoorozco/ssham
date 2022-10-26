@@ -19,7 +19,6 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreatePersonalAccessTokenAction;
 use App\Http\Requests\PersonalAccessTokenRequest;
-use App\Jobs\RevokePersonalAccessToken;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
