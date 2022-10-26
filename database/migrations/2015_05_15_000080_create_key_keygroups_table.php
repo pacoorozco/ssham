@@ -20,7 +20,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKeyKeygroupsTable extends Migration
+return new class extends Migration
 {
     public function up(): void
     {
@@ -38,4 +38,4 @@ class CreateKeyKeygroupsTable extends Migration
     {
         Schema::drop('key_keygroup');
     }
-}
+};

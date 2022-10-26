@@ -12,11 +12,4 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable()->after('last_used_at');
         });
     }
-
-    public function down(): void
-    {
-        Schema::table('personal_access_token', function (Blueprint $table) {
-            $table->dropColumn('expires_at');
-        });
-    }
 };
