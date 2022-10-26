@@ -33,7 +33,7 @@ class SettingsControllerTest extends TestCase
 
     const TEST_SETTINGS = [
         'authorized_keys' => '.ssh/authorized_keys',
-        'private_key' => '-----BEGIN RSA PRIVATE KEY-----
+        'private_key'     => '-----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEA1rny3MS82I+Zfir8ZSinvzOPnuBs7WeGYNlD2tVIPcJuQwdo
 R9weyko/nsNszQSQxIB5MbDUlt4r2ah98rJroqo2mGajKzZcZxS3kVk7hSaN+W8x
 BGuG5hHnuaTajw2CjDSZ20UXSZ5I1E5clSXO53hBc1gRJiFfwmgcpsdnYf5SGSVC
@@ -60,12 +60,12 @@ FXZJAoGAeO3ixxEgnfAi9KRLclX8CG651ue4PhldllO82z4y1C8BIUD1SrQEIFU7
 BBHAb40w/ou64RHttUVGSzNr7vXceadp57RVWqnMpQiWKQX3iDnxa+CCjIwyeKPg
 c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
 -----END RSA PRIVATE KEY-----',
-        'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWufLcxLzYj5l+KvxlKKe/M4+e4GztZ4Zg2UPa1Ug9wm5DB2hH3B7KSj+ew2zNBJDEgHkxsNSW3ivZqH3ysmuiqjaYZqMrNlxnFLeRWTuFJo35bzEEa4bmEee5pNqPDYKMNJnbRRdJnkjUTlyVJc7neEFzWBEmIV/CaBymx2dh/lIZJUIzB5iKZqbEnBrj2A4PsEy+ZNIHYzcHV2qEWmjajCMmTfiejliHIGC/6Vnexwa3UGbO5h+9Q72sj5zOsE3ptKN3WSnZHHGG4A03JgGClV/Lv72Jdj8i9FtE6HXJuQjg0dD1G8MXRz5eOSYQ/sek11tv6VshURtKbRHEObt5 root@ssham',
-        'ssh_timeout' => '5',
-        'ssh_port' => '22',
-        'mixed_mode' => true,
-        'ssham_file' => '.ssh/authorized_keys-ssham',
-        'non_ssham_file' => '.ssh/authorized_keys-non-ssham',
+        'public_key'         => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWufLcxLzYj5l+KvxlKKe/M4+e4GztZ4Zg2UPa1Ug9wm5DB2hH3B7KSj+ew2zNBJDEgHkxsNSW3ivZqH3ysmuiqjaYZqMrNlxnFLeRWTuFJo35bzEEa4bmEee5pNqPDYKMNJnbRRdJnkjUTlyVJc7neEFzWBEmIV/CaBymx2dh/lIZJUIzB5iKZqbEnBrj2A4PsEy+ZNIHYzcHV2qEWmjajCMmTfiejliHIGC/6Vnexwa3UGbO5h+9Q72sj5zOsE3ptKN3WSnZHHGG4A03JgGClV/Lv72Jdj8i9FtE6HXJuQjg0dD1G8MXRz5eOSYQ/sek11tv6VshURtKbRHEObt5 root@ssham',
+        'ssh_timeout'        => '5',
+        'ssh_port'           => '22',
+        'mixed_mode'         => true,
+        'ssham_file'         => '.ssh/authorized_keys-ssham',
+        'non_ssham_file'     => '.ssh/authorized_keys-non-ssham',
         'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
     ];
 
@@ -128,14 +128,14 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $publicKey = $privateKey->getPublicKey();
 
         $formData = [
-            'authorized_keys' => 'foo_authorized_keys',
-            'private_key' => trim($privateKey),
-            'public_key' => trim($publicKey),
-            'ssh_timeout' => 10,
-            'ssh_port' => 2022,
-            'mixed_mode' => false,
-            'ssham_file' => 'foo_ssham_file',
-            'non_ssham_file' => 'foo_non_ssham_file',
+            'authorized_keys'    => 'foo_authorized_keys',
+            'private_key'        => trim($privateKey),
+            'public_key'         => trim($publicKey),
+            'ssh_timeout'        => 10,
+            'ssh_port'           => 2022,
+            'mixed_mode'         => false,
+            'ssham_file'         => 'foo_ssham_file',
+            'non_ssham_file'     => 'foo_non_ssham_file',
             'cmd_remote_updater' => 'foo_cmd_remote_updater',
         ];
 
@@ -158,14 +158,14 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $publicKey = $privateKey->getPublicKey();
 
         $formData = [
-            'authorized_keys' => 'foo_authorized_keys',
-            'private_key' => trim($privateKey),
-            'public_key' => trim($publicKey),
-            'ssh_timeout' => 10,
-            'ssh_port' => 2022,
-            'mixed_mode' => false,
-            'ssham_file' => 'foo_ssham_file',
-            'non_ssham_file' => 'foo_non_ssham_file',
+            'authorized_keys'    => 'foo_authorized_keys',
+            'private_key'        => trim($privateKey),
+            'public_key'         => trim($publicKey),
+            'ssh_timeout'        => 10,
+            'ssh_port'           => 2022,
+            'mixed_mode'         => false,
+            'ssham_file'         => 'foo_ssham_file',
+            'non_ssham_file'     => 'foo_non_ssham_file',
             'cmd_remote_updater' => 'foo_cmd_remote_updater',
         ];
 
@@ -193,14 +193,14 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $settings = self::TEST_SETTINGS;
 
         $formData = [
-            'authorized_keys' => $data['authorized_keys'] ?? $settings['authorized_keys'],
-            'private_key' => $data['private_key'] ?? $settings['private_key'],
-            'public_key' => $data['public_key'] ?? $settings['public_key'],
-            'ssh_timeout' => $data['ssh_timeout'] ?? $settings['ssh_timeout'],
-            'ssh_port' => $data['ssh_port'] ?? $settings['ssh_port'],
-            'mixed_mode' => $data['mixed_mode'] ?? $settings['mixed_mode'],
-            'ssham_file' => $data['ssham_file'] ?? $settings['ssham_file'],
-            'non_ssham_file' => $data['non_ssham_file'] ?? $settings['non_ssham_file'],
+            'authorized_keys'    => $data['authorized_keys'] ?? $settings['authorized_keys'],
+            'private_key'        => $data['private_key'] ?? $settings['private_key'],
+            'public_key'         => $data['public_key'] ?? $settings['public_key'],
+            'ssh_timeout'        => $data['ssh_timeout'] ?? $settings['ssh_timeout'],
+            'ssh_port'           => $data['ssh_port'] ?? $settings['ssh_port'],
+            'mixed_mode'         => $data['mixed_mode'] ?? $settings['mixed_mode'],
+            'ssham_file'         => $data['ssham_file'] ?? $settings['ssham_file'],
+            'non_ssham_file'     => $data['non_ssham_file'] ?? $settings['non_ssham_file'],
             'cmd_remote_updater' => $data['cmd_remote_updater'] ?? $settings['cmd_remote_updater'],
         ];
 

@@ -57,7 +57,7 @@ use Illuminate\Support\Facades\Route;
  */
 Auth::routes([
     'register' => false,  // User registration
-    'verify' => false, // E-mail verification
+    'verify'   => false, // E-mail verification
 ]);
 
 Route::middleware(['auth'])->group(function () {
@@ -181,15 +181,21 @@ Route::middleware(['auth'])->group(function () {
      * Settings
      * ------------------------------------------.
      */
-    Route::get('settings',
-        [SettingsController::class, 'index'])
+    Route::get(
+        'settings',
+        [SettingsController::class, 'index']
+    )
         ->name('settings.index');
 
-    Route::get('settings/edit',
-        [SettingsController::class, 'edit'])
+    Route::get(
+        'settings/edit',
+        [SettingsController::class, 'edit']
+    )
         ->name('settings.edit');
 
-    Route::put('settings',
-        [SettingsController::class, 'update'])
+    Route::put(
+        'settings',
+        [SettingsController::class, 'update']
+    )
         ->name('settings.update');
 });

@@ -60,8 +60,8 @@ class UpdateUserActionTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'username' => $user->username,
-            'email' => $want->email,
-            'enabled' => $want->enabled,
+            'email'    => $want->email,
+            'enabled'  => $want->enabled,
         ]);
 
         $this->assertEquals($wantRole->value, $user->role);

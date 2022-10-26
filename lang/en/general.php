@@ -2,26 +2,26 @@
 
 return [
     'yes' => 'Yes',
-    'no' => 'No',
+    'no'  => 'No',
     'all' => 'All',
 
-    'enabled' => 'Enabled',
+    'enabled'  => 'Enabled',
     'disabled' => 'Disabled',
 
-    'active' => 'Active',
+    'active'  => 'Active',
     'blocked' => 'Blocked',
 
-    'show' => 'Show',
-    'create' => 'Create',
-    'edit' => 'Edit',
-    'delete' => 'Delete',
-    'update' => 'Update',
-    'save' => 'Save',
-    'back' => 'Back',
-    'submit' => 'Submit',
+    'show'      => 'Show',
+    'create'    => 'Create',
+    'edit'      => 'Edit',
+    'delete'    => 'Delete',
+    'update'    => 'Update',
+    'save'      => 'Save',
+    'back'      => 'Back',
+    'submit'    => 'Submit',
     'view_more' => 'View More',
-    'close' => 'Close',
-    'cancel' => 'Cancel',
+    'close'     => 'Close',
+    'cancel'    => 'Cancel',
 
     'filter_box_help' => 'Start typing to filter values',
 ];

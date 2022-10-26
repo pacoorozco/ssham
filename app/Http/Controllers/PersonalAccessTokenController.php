@@ -34,7 +34,7 @@ class PersonalAccessTokenController extends Controller
 
         return view('user.personal_access_tokens.show')
             ->with([
-                'user' => $user,
+                'user'   => $user,
                 'tokens' => $tokens,
             ]);
     }

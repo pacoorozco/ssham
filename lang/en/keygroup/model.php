@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'item' => 'key groups',
-    'name' => 'Name',
+    'item'        => 'key groups',
+    'name'        => 'Name',
     'description' => 'Description',
-    'keys' => 'Keys',
-    'rules' => 'Used in',
+    'keys'        => 'Keys',
+    'rules'       => 'Used in',
 
 ];
