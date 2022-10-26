@@ -19,7 +19,6 @@
 namespace App\Http\Requests;
 
 use PacoOrozco\OpenSSH\Rules\PrivateKeyRule;
-use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class SettingsRequest extends Request
 {

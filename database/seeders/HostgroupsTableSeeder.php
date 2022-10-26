@@ -27,11 +27,11 @@ class HostgroupsTableSeeder extends Seeder
     {
         $hostgroups = [
             [
-                'name' => 'PRO_servers',
+                'name'        => 'PRO_servers',
                 'description' => 'Production Servers',
             ],
             [
-                'name' => 'DEV_servers',
+                'name'        => 'DEV_servers',
                 'description' => 'Development Servers',
             ],
         ];

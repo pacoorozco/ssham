@@ -26,7 +26,7 @@ class ControlRuleTest extends ModelTestCase
     {
         $m = new ControlRule();
         $this->assertEquals([
-            'id' => 'int',
+            'id'     => 'int',
             'action' => ControlRuleAction::class,
         ], $m->getCasts());
     }

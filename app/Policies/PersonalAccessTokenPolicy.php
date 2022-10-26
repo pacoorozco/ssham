@@ -2,8 +2,6 @@
 
 namespace App\Policies;
 
-use App\Enums\Permissions;
-use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

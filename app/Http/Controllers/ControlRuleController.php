@@ -20,7 +20,6 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateRuleAction;
 use App\Http\Requests\ControlRuleCreateRequest;
-use App\Jobs\DeleteControlRule;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;

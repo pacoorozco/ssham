@@ -13,6 +13,7 @@ use BenSampo\Enum\Enum;
 final class ActivityStatus extends Enum implements LocalizedEnum
 {
     const Success = 'STATUS_SUCCESS';
+
     const Failure = 'STATUS_FAIL';
 
     // Used on presenter if the value on the database is different from the ones above.

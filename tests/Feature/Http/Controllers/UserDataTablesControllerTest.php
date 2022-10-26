@@ -19,12 +19,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\Permissions;
-use App\Enums\Roles;
 use App\Models\User;
-use Generator;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
 

@@ -18,7 +18,6 @@
 
 namespace Tests\Feature\Actions;
 
-use App\Actions\CreateHostGroupAction;
 use App\Actions\UpdateHostGroupAction;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -58,8 +57,8 @@ class UpdateHostGroupActionTest extends TestCase
         );
 
         $this->assertDatabaseHas(Hostgroup::class, [
-            'id' => $group->id,
-            'name' => $want->name,
+            'id'          => $group->id,
+            'name'        => $want->name,
             'description' => $want->description,
         ]);
 

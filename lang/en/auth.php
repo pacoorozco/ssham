@@ -25,17 +25,17 @@ return [
     |
     */
 
-    'login' => 'Login',
-    'logout' => 'Logout',
-    'username' => 'Username',
-    'email' => 'Email',
-    'password' => 'Password',
-    'remember_me' => 'Keep me signed in',
-    'sign_title' => 'Sign in to your account',
-    'sign_instructions' => 'Sign in to start your session.',
+    'login'               => 'Login',
+    'logout'              => 'Logout',
+    'username'            => 'Username',
+    'email'               => 'Email',
+    'password'            => 'Password',
+    'remember_me'         => 'Keep me signed in',
+    'sign_title'          => 'Sign in to your account',
+    'sign_instructions'   => 'Sign in to start your session.',
     'invalid_credentials' => 'These credentials do not match our records. Try again?',
     'logout_successfully' => 'You have successfully logged out!',
-    'forgot_password' => 'I forgot my password',
-    'confirm_password' => 'Confirm password',
+    'forgot_password'     => 'I forgot my password',
+    'confirm_password'    => 'Confirm password',
 
 ];

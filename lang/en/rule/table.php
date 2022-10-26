@@ -17,10 +17,10 @@
  */
 
 return [
-    'source' => 'Source (SSH Key Group)',
-    'target' => 'Target (Host Group)',
-    'name' => 'Description',
-    'action' => 'Action',
+    'source'  => 'Source (SSH Key Group)',
+    'target'  => 'Target (Host Group)',
+    'name'    => 'Description',
+    'action'  => 'Action',
     'enabled' => 'Enabled',
     'actions' => 'Actions',
 ];

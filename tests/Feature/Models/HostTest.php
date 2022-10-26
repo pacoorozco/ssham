@@ -101,7 +101,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
+                'action'    => ControlRuleAction::Allow,
             ]);
 
         // This key should NOT appear on the getSSHKeysForHost() list.
@@ -115,7 +115,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $deniedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Deny,
+                'action'    => ControlRuleAction::Deny,
             ]);
 
         $got = $host->getSSHKeysForHost();
@@ -141,7 +141,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
+                'action'    => ControlRuleAction::Allow,
             ]);
 
         $deniedKeyGroup = Keygroup::factory()->create();
@@ -151,7 +151,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $deniedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Deny,
+                'action'    => ControlRuleAction::Deny,
             ]);
 
         $got = $host->getSSHKeysForHost();
@@ -180,7 +180,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
+                'action'    => ControlRuleAction::Allow,
             ]);
 
         $got = $host->getSSHKeysForHost();
@@ -205,7 +205,7 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
+                'action'    => ControlRuleAction::Allow,
             ]);
 
         $bastionHostKey = Key::factory()->create();
@@ -238,7 +238,6 @@ class HostTest extends TestCase
         array $attributes,
         int $want,
     ): void {
-
         // Set the default value.
         setting()->set('ssh_port', self::SSH_PORT_DEFAULT_VALUE);
 
@@ -344,9 +343,9 @@ class HostTest extends TestCase
     public function it_should_return_lowercase_username(): void
     {
         $testCases = [
-            'User' => 'user',
+            'User'  => 'user',
             'ADMIN' => 'admin',
-            'user' => 'user',
+            'user'  => 'user',
             'admin' => 'admin',
         ];
 
@@ -363,7 +362,7 @@ class HostTest extends TestCase
     {
         yield 'User, should be user' => [
             'input' => 'User',
-            'want' => 'user',
+            'want'  => 'user',
         ];
     }
 
@@ -373,7 +372,7 @@ class HostTest extends TestCase
         $testCases = [
             'server.domain.local' => 'server.domain.local',
             'Server.Domain.Local' => 'server.domain.local',
-            'SERVER' => 'server',
+            'SERVER'              => 'server',
             'SERVER.domain.LOCAL' => 'server.domain.local',
         ];
 

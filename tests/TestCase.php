@@ -2,11 +2,7 @@
 
 namespace Tests;
 
-use Database\Seeders\PermissionsTableSeeder;
-use Database\Seeders\RolesTableSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Testing\TestResponse;
 
 abstract class TestCase extends BaseTestCase
@@ -16,7 +12,8 @@ abstract class TestCase extends BaseTestCase
     /**
      * Make ajax GET request.
      *
-     * @param  string  $uri
+     * @param string $uri
+     *
      * @return TestResponse
      */
     protected function ajaxGet(string $uri): TestResponse

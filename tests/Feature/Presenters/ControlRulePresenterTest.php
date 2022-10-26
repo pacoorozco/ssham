@@ -31,12 +31,12 @@ class ControlRulePresenterTest extends ModelTestCase
     {
         yield 'allow action' => [
             'action' => ControlRuleAction::Allow,
-            'want' => '<i class="fa fa-lock-open"></i>',
+            'want'   => '<i class="fa fa-lock-open"></i>',
         ];
 
         yield 'deny action' => [
             'action' => ControlRuleAction::Deny,
-            'want' => '<i class="fa fa-lock"></i>',
+            'want'   => '<i class="fa fa-lock"></i>',
         ];
     }
 }

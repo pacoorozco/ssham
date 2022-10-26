@@ -53,7 +53,7 @@ class CreateHostGroupActionTest extends TestCase
         );
 
         $this->assertDatabaseHas(Hostgroup::class, [
-            'name' => $want->name,
+            'name'        => $want->name,
             'description' => $want->description,
         ]);
 

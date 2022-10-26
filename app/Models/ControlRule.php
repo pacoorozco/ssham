@@ -29,12 +29,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * Class ControlRule.
  *
- * @property int $id
- * @property int $source_id
- * @property int $target_id
- * @property \App\Enums\ControlRuleAction $action
- * @property string|null $name
- * @property int $enabled
+ * @property int                             $id
+ * @property int                             $source_id
+ * @property int                             $target_id
+ * @property \App\Enums\ControlRuleAction    $action
+ * @property string|null                     $name
+ * @property int                             $enabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Keygroup $source
@@ -57,6 +57,7 @@ class ControlRule extends Model
         'name',
         'enabled',
     ];
+
     protected $casts = [
         'action' => ControlRuleAction::class,
     ];

@@ -26,7 +26,8 @@ class DownloadPrivateKeyController extends Controller
 
     private function privateKeyFileDownloadResponse(string $privateKeyContent, string $filename): StreamedResponse
     {
-        return response()->streamDownload(function () use ($privateKeyContent) {
+        return response()->streamDownload(
+            function () use ($privateKeyContent) {
             echo "$privateKeyContent";
         },
             $filename,

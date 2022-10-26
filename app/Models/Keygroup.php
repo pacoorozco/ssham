@@ -31,9 +31,9 @@ use Spatie\Searchable\SearchResult;
 /**
  * Class Keygroup.
  *
- * @property int $id
- * @property string $name
- * @property string|null $description
+ * @property int                             $id
+ * @property string                          $name
+ * @property string|null                     $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Key[] $keys
@@ -46,8 +46,11 @@ class Keygroup extends Model implements Searchable
     use LogsActivity;
 
     public string $searchableType = 'SSH Keys groups';
+
     protected string $presenter = KeygroupPresenter::class;
+
     protected $table = 'keygroups';
+
     protected $fillable = [
         'name',
         'description',

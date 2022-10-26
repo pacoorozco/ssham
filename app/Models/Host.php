@@ -35,15 +35,15 @@ use Spatie\Searchable\SearchResult;
  * Class Host.
  *
  * @property-read int $id
- * @property string $hostname
- * @property string $username
- * @property int|null $port - null value means using the default setting.
- * @property string|null $authorized_keys_file - null value means using the default setting.
- * @property string $type
- * @property string|null $key_hash
- * @property bool $enabled
- * @property bool $synced
- * @property \App\Enums\HostStatus $status_code
+ * @property string                          $hostname
+ * @property string                          $username
+ * @property int|null                        $port                 - null value means using the default setting.
+ * @property string|null                     $authorized_keys_file - null value means using the default setting.
+ * @property string                          $type
+ * @property string|null                     $key_hash
+ * @property bool                            $enabled
+ * @property bool                            $synced
+ * @property \App\Enums\HostStatus           $status_code
  * @property \Illuminate\Support\Carbon|null $last_rotation
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -69,11 +69,11 @@ class Host extends Model implements Searchable
     ];
 
     protected $casts = [
-        'enabled' => 'boolean',
-        'synced' => 'boolean',
+        'enabled'       => 'boolean',
+        'synced'        => 'boolean',
         'last_rotation' => 'datetime',
-        'status_code' => HostStatus::class,
-        'port' => 'int',
+        'status_code'   => HostStatus::class,
+        'port'          => 'int',
     ];
 
     protected $attributes = [
@@ -126,7 +126,7 @@ class Host extends Model implements Searchable
     public function authorizedKeysFile(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => ! empty($value) ? $value : null,
+            set: fn ($value) => !empty($value) ? $value : null,
         );
     }
 
@@ -142,12 +142,12 @@ class Host extends Model implements Searchable
 
     public function hasCustomPort(): bool
     {
-        return ! is_null($this->attributes['port']);
+        return !is_null($this->attributes['port']);
     }
 
     public function hasCustomAuthorizedKeysFile(): bool
     {
-        return ! is_null($this->attributes['authorized_keys_file']);
+        return !is_null($this->attributes['authorized_keys_file']);
     }
 
     public function scopeWithPendingChanges(Builder $query): Builder
@@ -197,7 +197,7 @@ class Host extends Model implements Searchable
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
                             $content[2] = $key->username.'@ssham';
-                            $sshKeys[$key->username] = join(' ', $content);
+                            $sshKeys[$key->username] = implode(' ', $content);
                             break;
                         default:
                             // There is no more cases, but just in case (NOOP).
@@ -205,7 +205,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (! is_null($bastionSSHPublicKey)) {
+        if (!is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 
