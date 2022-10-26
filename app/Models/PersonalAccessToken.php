@@ -12,10 +12,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * Class PersonalAccessToken.
  *
- * @property int $id
- * @property string $name
- * @property string $token
- * @property array|null $abilities
+ * @property int                             $id
+ * @property string                          $name
+ * @property string                          $token
+ * @property array|null                      $abilities
  * @property \Illuminate\Support\Carbon|null $last_used_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -31,7 +31,7 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
     public function relatedUser(): User
     {
         $user = $this->tokenable;
-        if (! $user instanceof User) {
+        if (!$user instanceof User) {
             throw new RelationNotFoundException('The related model is not an User instance.');
         }
 

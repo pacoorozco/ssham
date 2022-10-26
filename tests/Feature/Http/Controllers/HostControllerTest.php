@@ -162,12 +162,12 @@ class HostControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('hosts.store'), [
-                'hostname' => $want->hostname,
-                'username' => $want->username,
-                'enabled' => $want->enabled,
-                'port' => $nullable['port'] ?? $want->port,
+                'hostname'             => $want->hostname,
+                'username'             => $want->username,
+                'enabled'              => $want->enabled,
+                'port'                 => $nullable['port'] ?? $want->port,
                 'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
-                'groups' => $groups->pluck('id')->toArray(),
+                'groups'               => $groups->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('hosts.index'))
             ->assertValid();
@@ -216,8 +216,8 @@ class HostControllerTest extends TestCase
 
         // Host to validate unique rules...
         Host::factory()->create([
-            'hostname' => 'foo',
-            'username' => 'bar',
+            'hostname'             => 'foo',
+            'username'             => 'bar',
             'authorized_keys_file' => 'already-created-host',
         ]);
 
@@ -225,12 +225,12 @@ class HostControllerTest extends TestCase
         $want = Host::factory()->make();
 
         $formData = [
-            'hostname' => $data['hostname'] ?? $want->hostname,
-            'username' => $data['username'] ?? $want->username,
-            'enabled' => $data['enabled'] ?? $want->enabled,
-            'port' => $data['port'] ?? $want->port,
+            'hostname'             => $data['hostname'] ?? $want->hostname,
+            'username'             => $data['username'] ?? $want->username,
+            'enabled'              => $data['enabled'] ?? $want->enabled,
+            'port'                 => $data['port'] ?? $want->port,
             'authorized_keys_file' => $data['authorized_keys_file'] ?? $want->authorized_keys_file,
-            'groups' => $data['groups'] ?? [],
+            'groups'               => $data['groups'] ?? [],
         ];
 
         $this
@@ -239,10 +239,10 @@ class HostControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Host::class, [
-            'hostname' => $formData['hostname'],
-            'username' => $formData['username'],
-            'enabled' => $formData['enabled'],
-            'port' => $formData['port'],
+            'hostname'             => $formData['hostname'],
+            'username'             => $formData['username'],
+            'enabled'              => $formData['enabled'],
+            'port'                 => $formData['port'],
             'authorized_keys_file' => $formData['authorized_keys_file'],
         ]);
     }
@@ -374,19 +374,19 @@ class HostControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('hosts.update', $host), [
-                'enabled' => $want->enabled,
-                'port' => $nullable['port'] ?? $want->port,
+                'enabled'              => $want->enabled,
+                'port'                 => $nullable['port'] ?? $want->port,
                 'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
-                'groups' => $groups->pluck('id')->toArray(),
+                'groups'               => $groups->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('hosts.index'))
             ->assertValid();
 
         $this->assertDatabaseHas(Host::class, [
-            'hostname' => $host->hostname,
-            'username' => $host->username,
-            'enabled' => $want->enabled,
-            'port' => $nullable['port'] ?? $want->port,
+            'hostname'             => $host->hostname,
+            'username'             => $host->username,
+            'enabled'              => $want->enabled,
+            'port'                 => $nullable['port'] ?? $want->port,
             'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
         ]);
 
@@ -412,10 +412,10 @@ class HostControllerTest extends TestCase
         $want = Host::factory()->make();
 
         $formData = [
-            'enabled' => $data['enabled'] ?? $want->enabled,
-            'port' => $data['port'] ?? $want->port,
+            'enabled'              => $data['enabled'] ?? $want->enabled,
+            'port'                 => $data['port'] ?? $want->port,
             'authorized_keys_file' => $data['authorized_keys_file'] ?? $want->authorized_keys_file,
-            'groups' => $data['groups'] ?? [],
+            'groups'               => $data['groups'] ?? [],
         ];
 
         $this
@@ -424,11 +424,11 @@ class HostControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Host::class, [
-            'id' => $host->id,
-            'hostname' => $host->hostname,
-            'username' => $host->username,
-            'enabled' => $formData['enabled'],
-            'port' => $formData['port'],
+            'id'                   => $host->id,
+            'hostname'             => $host->hostname,
+            'username'             => $host->username,
+            'enabled'              => $formData['enabled'],
+            'port'                 => $formData['port'],
             'authorized_keys_file' => $formData['authorized_keys_file'],
         ]);
 
@@ -469,7 +469,7 @@ class HostControllerTest extends TestCase
 
         yield 'groups ! a group' => [
             'data' => [
-                'port' => 2022,
+                'port'   => 2022,
                 'groups' => [1],
             ],
             'errors' => ['groups'],

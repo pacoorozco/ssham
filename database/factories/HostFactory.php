@@ -33,8 +33,8 @@ class HostFactory extends Factory
         return [
             'username' => $this->faker->userName,
             'hostname' => $this->faker->unique()->domainWord.'.'.$this->faker->domainName,
-            'port' => 0,
-            'enabled' => $this->faker->boolean,
+            'port'     => 0,
+            'enabled'  => $this->faker->boolean,
         ];
     }
 
@@ -78,9 +78,9 @@ class HostFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'port' => $this->faker->numberBetween(1024, 65535),
+                'port'                 => $this->faker->numberBetween(1024, 65535),
                 'authorized_keys_file' => '~/.ssh/authorized_keys',
-                'enabled' => true,
+                'enabled'              => true,
             ];
         });
     }

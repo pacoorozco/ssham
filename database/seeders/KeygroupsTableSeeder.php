@@ -30,11 +30,11 @@ class KeygroupsTableSeeder extends Seeder
 
         $keygroups = [
             [
-                'name' => 'developers',
+                'name'        => 'developers',
                 'description' => 'Group of awesome developers',
             ],
             [
-                'name' => 'operators',
+                'name'        => 'operators',
                 'description' => 'Group of incredible operators',
             ],
         ];

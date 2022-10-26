@@ -33,13 +33,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => $this->faker->unique()->userName,
-            'email' => $this->faker->unique()->safeEmail,
-            'auth_type' => AuthType::Local,
+            'username'          => $this->faker->unique()->userName,
+            'email'             => $this->faker->unique()->safeEmail,
+            'auth_type'         => AuthType::Local,
             'email_verified_at' => now(),
-            'password' => bcrypt('password'),
-            'enabled' => true,
-            'remember_token' => Str::random(10),
+            'password'          => bcrypt('password'),
+            'enabled'           => true,
+            'remember_token'    => Str::random(10),
         ];
     }
 }

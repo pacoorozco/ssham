@@ -29,7 +29,7 @@ class UpdateUserAction
         Roles $role
     ): User {
         $user->update([
-            'email' => $email,
+            'email'   => $email,
             'enabled' => $enabled,
         ]);
 

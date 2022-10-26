@@ -18,10 +18,10 @@
 
 return [
     'save' => [
-        'error' => 'Settings was not saved, please try again.',
+        'error'   => 'Settings was not saved, please try again.',
         'success' => 'Settings saved successfully.',
     ],
-    'edit_button' => 'Edit settings',
-    'private_key_can_not_be_shown' => 'Private key is not shown by security reasons.',
+    'edit_button'                   => 'Edit settings',
+    'private_key_can_not_be_shown'  => 'Private key is not shown by security reasons.',
     'public_key_can_not_be_created' => 'Public key can not be created from the private key. Please, ensure that private key is valid.',
 ];

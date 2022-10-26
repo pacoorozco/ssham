@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'item' => 'host groups',
-    'name' => 'Name',
+    'item'        => 'host groups',
+    'name'        => 'Name',
     'description' => 'Description',
-    'hosts' => 'Hosts',
+    'hosts'       => 'Hosts',
 ];
