@@ -127,13 +127,13 @@ class KeygroupControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('keygroups.store'), [
-                'name' => $group->name,
+                'name'        => $group->name,
                 'description' => $group->description,
             ])
             ->assertForbidden();
 
         $this->assertDatabaseMissing(Keygroup::class, [
-            'name' => $group->name,
+            'name'        => $group->name,
             'description' => $group->description,
         ]);
     }
@@ -154,9 +154,9 @@ class KeygroupControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('keygroups.store'), [
-                'name' => $want->name,
+                'name'        => $want->name,
                 'description' => $want->description,
-                'keys' => $keys->pluck('id')->toArray(),
+                'keys'        => $keys->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('keygroups.index'))
             ->assertValid();
@@ -190,9 +190,9 @@ class KeygroupControllerTest extends TestCase
         $want = Keygroup::factory()->make();
 
         $formData = [
-            'name' => $data['name'] ?? $want->name,
+            'name'        => $data['name'] ?? $want->name,
             'description' => $data['description'] ?? $want->description,
-            'keys' => $data['keys'] ?? [],
+            'keys'        => $data['keys'] ?? [],
         ];
 
         $this
@@ -201,7 +201,7 @@ class KeygroupControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Keygroup::class, [
-            'name' => $formData['name'],
+            'name'        => $formData['name'],
             'description' => $formData['description'],
         ]);
     }
@@ -298,9 +298,9 @@ class KeygroupControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('keygroups.update', $group), [
-                'name' => $want->name,
+                'name'        => $want->name,
                 'description' => $want->description,
-                'keys' => $keys->pluck('id')->toArray(),
+                'keys'        => $keys->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('keygroups.edit', $group))
             ->assertValid();
@@ -334,9 +334,9 @@ class KeygroupControllerTest extends TestCase
         $want = Keygroup::factory()->make();
 
         $formData = [
-            'name' => $data['name'] ?? $want->name,
+            'name'        => $data['name'] ?? $want->name,
             'description' => $data['description'] ?? $want->description,
-            'keys' => $data['keys'] ?? [],
+            'keys'        => $data['keys'] ?? [],
         ];
 
         $this
@@ -345,8 +345,8 @@ class KeygroupControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Keygroup::class, [
-            'id' => $group->id,
-            'name' => $formData['name'],
+            'id'          => $group->id,
+            'name'        => $formData['name'],
             'description' => $formData['description'],
         ]);
 

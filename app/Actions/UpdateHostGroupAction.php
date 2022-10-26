@@ -28,7 +28,7 @@ class UpdateHostGroupAction
         array $members = []
     ): Hostgroup {
         $group->update([
-            'name' => $name,
+            'name'        => $name,
             'description' => $description,
         ]);
 

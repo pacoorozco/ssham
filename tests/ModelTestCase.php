@@ -26,17 +26,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 abstract class ModelTestCase extends TestCase
 {
     /**
-     * @param  Model  $model
-     * @param  array  $fillable
-     * @param  array  $guarded
-     * @param  array  $hidden
-     * @param  array  $visible
-     * @param  array  $casts
-     * @param  array  $dates
-     * @param  string  $collectionClass
-     * @param  null  $table
-     * @param  string  $primaryKey
-     * @param  null  $connection
+     * @param Model  $model
+     * @param array  $fillable
+     * @param array  $guarded
+     * @param array  $hidden
+     * @param array  $visible
+     * @param array  $casts
+     * @param array  $dates
+     * @param string $collectionClass
+     * @param null   $table
+     * @param string $primaryKey
+     * @param null   $connection
      *
      * - `$fillable` -> `getFillable()`
      * - `$guarded` -> `getGuarded()`
@@ -85,12 +85,12 @@ abstract class ModelTestCase extends TestCase
     }
 
     /**
-     * @param  HasMany  $relation
-     * @param  Model  $model
-     * @param  Model  $related
-     * @param  string  $key
-     * @param  string  $parent
-     * @param  \Closure  $queryCheck
+     * @param HasMany  $relation
+     * @param Model    $model
+     * @param Model    $related
+     * @param string   $key
+     * @param string   $parent
+     * @param \Closure $queryCheck
      *
      * - `getQuery()`: assert query has not been modified or modified properly.
      * - `getForeignKey()`: any `HasOneOrMany` or `BelongsTo` relation, but key type differs (see documentaiton).
@@ -101,7 +101,7 @@ abstract class ModelTestCase extends TestCase
     {
         $this->assertInstanceOf(HasMany::class, $relation);
 
-        if (! is_null($queryCheck)) {
+        if (!is_null($queryCheck)) {
             $queryCheck->bindTo($this);
             $queryCheck($relation->getQuery(), $model, $relation);
         }
@@ -120,12 +120,12 @@ abstract class ModelTestCase extends TestCase
     }
 
     /**
-     * @param  BelongsTo  $relation
-     * @param  Model  $model
-     * @param  Model  $related
-     * @param  string  $key
-     * @param  string  $owner
-     * @param  \Closure  $queryCheck
+     * @param BelongsTo $relation
+     * @param Model     $model
+     * @param Model     $related
+     * @param string    $key
+     * @param string    $owner
+     * @param \Closure  $queryCheck
      *
      * - `getQuery()`: assert query has not been modified or modified properly.
      * - `getForeignKey()`: any `HasOneOrMany` or `BelongsTo` relation, but key type differs (see documentaiton).
@@ -135,7 +135,7 @@ abstract class ModelTestCase extends TestCase
     {
         $this->assertInstanceOf(BelongsTo::class, $relation);
 
-        if (! is_null($queryCheck)) {
+        if (!is_null($queryCheck)) {
             $queryCheck->bindTo($this);
             $queryCheck($relation->getQuery(), $model, $relation);
         }

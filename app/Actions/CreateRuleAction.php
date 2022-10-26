@@ -31,10 +31,10 @@ class CreateRuleAction
         ControlRuleAction $action
     ): ControlRule {
         return ControlRule::create([
-            'name' => $name,
+            'name'      => $name,
             'source_id' => $source->id,
             'target_id' => $target->id,
-            'action' => $action->value,
+            'action'    => $action->value,
         ]);
     }
 }

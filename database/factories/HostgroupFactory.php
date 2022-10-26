@@ -31,7 +31,7 @@ class HostgroupFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Group_'.$this->faker->unique()->colorName,
+            'name'        => 'Group_'.$this->faker->unique()->colorName,
             'description' => $this->faker->text,
         ];
     }

@@ -61,7 +61,7 @@ class CreateUserActionTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'username' => $username,
-            'email' => $email,
+            'email'    => $email,
         ]);
 
         $this->assertTrue(Hash::check($password, $user->password));
@@ -73,49 +73,49 @@ class CreateUserActionTest extends TestCase
     {
         yield 'role = SuperAdmin' => [
             'username' => 'john',
-            'email' => 'john.doe@nowhere.local',
+            'email'    => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::SuperAdmin,
+            'role'     => Roles::SuperAdmin,
             'wantRole' => Roles::SuperAdmin,
         ];
 
         yield 'role = Admin' => [
             'username' => 'john',
-            'email' => 'john.doe@nowhere.local',
+            'email'    => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::Admin,
+            'role'     => Roles::Admin,
             'wantRole' => Roles::Admin,
         ];
 
         yield 'role = Operator' => [
             'username' => 'john',
-            'email' => 'john.doe@nowhere.local',
+            'email'    => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::Operator,
+            'role'     => Roles::Operator,
             'wantRole' => Roles::Operator,
         ];
 
         yield 'role = Auditor' => [
             'username' => 'john',
-            'email' => 'john.doe@nowhere.local',
+            'email'    => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::Auditor,
+            'role'     => Roles::Auditor,
             'wantRole' => Roles::Auditor,
         ];
 
         yield 'empty role' => [
             'username' => 'john',
-            'email' => 'john.doe@nowhere.local',
+            'email'    => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => null,
+            'role'     => null,
             'wantRole' => Roles::Auditor,
         ];
 
         yield 'invalid role' => [
             'username' => 'john',
-            'email' => 'john.doe@nowhere.local',
+            'email'    => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => 'non-existent-role',
+            'role'     => 'non-existent-role',
             'wantRole' => Roles::Auditor,
         ];
     }

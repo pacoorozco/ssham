@@ -109,7 +109,7 @@ class ControlRuleControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('rules.store'), [
-                'name' => $want->namw,
+                'name'   => $want->namw,
                 'source' => $want->source->id,
                 'target' => $want->target->id,
                 'action' => $want->action->value,
@@ -117,7 +117,7 @@ class ControlRuleControllerTest extends TestCase
             ->assertForbidden();
 
         $this->assertDatabaseMissing(Hostgroup::class, [
-            'name' => $want->name,
+            'name'   => $want->name,
             'action' => $want->action->value,
         ]);
     }
@@ -133,7 +133,7 @@ class ControlRuleControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('rules.store'), [
-                'name' => $want->name,
+                'name'   => $want->name,
                 'source' => $want->source->id,
                 'target' => $want->target->id,
                 'action' => $want->action->value,
@@ -142,10 +142,10 @@ class ControlRuleControllerTest extends TestCase
             ->assertValid();
 
         $this->assertDatabaseHas(ControlRule::class, [
-            'name' => $want->name,
+            'name'      => $want->name,
             'source_id' => $want->source->id,
             'target_id' => $want->target->id,
-            'action' => $want->action->value,
+            'action'    => $want->action->value,
         ]);
     }
 
@@ -168,7 +168,7 @@ class ControlRuleControllerTest extends TestCase
         $want = ControlRule::factory()->make();
 
         $formData = [
-            'name' => $data['name'] ?? $want->name,
+            'name'   => $data['name'] ?? $want->name,
             'source' => $data['source'] ?? $want->source->id,
             'target' => $data['target'] ?? $want->target->id,
             'action' => $data['action'] ?? $want->action->value,
@@ -180,10 +180,10 @@ class ControlRuleControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(ControlRule::class, [
-            'name' => $formData['name'],
+            'name'      => $formData['name'],
             'source_id' => $formData['source'],
             'target_id' => $formData['target'],
-            'action' => $formData['action'],
+            'action'    => $formData['action'],
         ]);
     }
 

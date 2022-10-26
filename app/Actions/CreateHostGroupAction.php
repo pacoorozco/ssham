@@ -28,7 +28,7 @@ class CreateHostGroupAction
     ): Hostgroup {
         /* @var Hostgroup $group */
         $group = Hostgroup::create([
-            'name' => $name,
+            'name'        => $name,
             'description' => $description,
         ]);
 
