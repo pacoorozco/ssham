@@ -60,9 +60,9 @@ class ApiHostgroupsTest extends ApiTestCase
         $want = Hostgroup::factory()->make();
 
         $data = [
-            'type'       => 'hostgroups',
+            'type' => 'hostgroups',
             'attributes' => [
-                'name'        => $want->name,
+                'name' => $want->name,
                 'description' => $want->description,
             ],
         ];
@@ -88,9 +88,9 @@ class ApiHostgroupsTest extends ApiTestCase
             ->create();
 
         $data = [
-            'type'       => 'hostgroups',
+            'type' => 'hostgroups',
             'attributes' => [
-                'name'        => $want->name,
+                'name' => $want->name,
                 'description' => $want->description,
             ],
             'relationships' => [
@@ -143,9 +143,9 @@ class ApiHostgroupsTest extends ApiTestCase
         $want = Hostgroup::factory()->make();
 
         $data = [
-            'type'       => 'hostgroups',
+            'type' => 'hostgroups',
             'attributes' => [
-                'name'        => $input['name'] ?? $want->name,
+                'name' => $input['name'] ?? $want->name,
                 'description' => $input['description'] ?? $want->description,
             ],
         ];
@@ -158,7 +158,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->post(route('v1.hostgroups.store'))->assertError(Response::HTTP_UNPROCESSABLE_ENTITY, $errors);
 
         $this->assertDatabaseMissing(Hostgroup::class, [
-            'name'        => Arr::get($data, 'attributes.name'),
+            'name' => Arr::get($data, 'attributes.name'),
             'description' => Arr::get($data, 'attributes.description'),
         ]);
     }
@@ -226,17 +226,17 @@ class ApiHostgroupsTest extends ApiTestCase
         $self = 'http://localhost/api/v1/hostgroups/'.$group->getRouteKey();
 
         $expected = [
-            'type'       => 'hostgroups',
-            'id'         => (string) $group->getRouteKey(),
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
             'attributes' => [
-                'name'        => $group->name,
+                'name' => $group->name,
                 'description' => $group->description,
-                'createdAt'   => $group->created_at->jsonSerialize(),
+                'createdAt' => $group->created_at->jsonSerialize(),
             ],
             'relationships' => [
                 'hosts' => [
                     'links' => [
-                        'self'    => "{$self}/relationships/hosts",
+                        'self' => "{$self}/relationships/hosts",
                         'related' => "{$self}/hosts",
                     ],
                 ],
@@ -264,8 +264,8 @@ class ApiHostgroupsTest extends ApiTestCase
             ->make();
 
         $data = [
-            'type'       => 'hostgroups',
-            'id'         => (string) $group->getRouteKey(),
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
             'attributes' => [
                 'description' => $want->description,
             ],
@@ -297,8 +297,8 @@ class ApiHostgroupsTest extends ApiTestCase
         $want = Hostgroup::factory()->make();
 
         $data = [
-            'type'       => 'hostgroups',
-            'id'         => (string) $group->getRouteKey(),
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
             'attributes' => [
                 'description' => $want->description,
             ],
@@ -313,12 +313,12 @@ class ApiHostgroupsTest extends ApiTestCase
         ];
 
         $expected = [
-            'type'       => 'hostgroups',
-            'id'         => (string) $group->getRouteKey(),
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
             'attributes' => [
-                'name'        => $group->name,
+                'name' => $group->name,
                 'description' => $want->description,
-                'createdAt'   => $group->created_at->jsonSerialize(),
+                'createdAt' => $group->created_at->jsonSerialize(),
             ],
         ];
 
@@ -364,10 +364,10 @@ class ApiHostgroupsTest extends ApiTestCase
         $want = Hostgroup::factory()->make();
 
         $data = [
-            'type'       => 'hostgroups',
-            'id'         => (string) $group->getRouteKey(),
+            'type' => 'hostgroups',
+            'id' => (string) $group->getRouteKey(),
             'attributes' => [
-                'name'        => $input['name'] ?? $want->name,
+                'name' => $input['name'] ?? $want->name,
                 'description' => $input['description'] ?? $want->description,
             ],
         ];
@@ -382,8 +382,8 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertError(Response::HTTP_UNPROCESSABLE_ENTITY, $errors);
 
         $this->assertDatabaseMissing(Hostgroup::class, [
-            'id'          => $group->id,
-            'name'        => Arr::get($data, 'attributes.name'),
+            'id' => $group->id,
+            'name' => Arr::get($data, 'attributes.name'),
             'description' => Arr::get($data, 'attributes.description'),
         ]);
 

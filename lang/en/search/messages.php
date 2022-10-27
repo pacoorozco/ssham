@@ -17,9 +17,9 @@
  */
 
 return [
-    'title'               => 'Search',
+    'title' => 'Search',
     'showing_all_results' => 'Showing all results matching ":searchString".',
-    'input_help'          => 'Type your search string',
-    'results_section'     => 'Search results',
-    'no_results'          => 'No matching records found.',
+    'input_help' => 'Type your search string',
+    'results_section' => 'Search results',
+    'no_results' => 'No matching records found.',
 ];

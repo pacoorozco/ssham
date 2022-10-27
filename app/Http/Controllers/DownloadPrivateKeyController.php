@@ -28,8 +28,8 @@ class DownloadPrivateKeyController extends Controller
     {
         return response()->streamDownload(
             function () use ($privateKeyContent) {
-            echo "$privateKeyContent";
-        },
+                echo "$privateKeyContent";
+            },
             $filename,
             [
                 'Content-Type' => 'application/pkcs8',

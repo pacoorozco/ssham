@@ -54,10 +54,10 @@ class UpdateHostActionTest extends TestCase
         );
 
         $this->assertDatabaseHas(Host::class, [
-            'hostname'             => $host->hostname,
-            'username'             => $host->username,
-            'enabled'              => $want->enabled,
-            'port'                 => $nullable['port'] ?? $want->port,
+            'hostname' => $host->hostname,
+            'username' => $host->username,
+            'enabled' => $want->enabled,
+            'port' => $nullable['port'] ?? $want->port,
             'authorized_keys_file' => $nullable['authorized_keys_file'] ?? $want->authorized_keys_file,
         ]);
     }

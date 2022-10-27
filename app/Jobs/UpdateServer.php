@@ -39,9 +39,9 @@ class UpdateServer implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @throws \App\Exceptions\PusherException
-     *
      * @return void
+     *
+     * @throws \App\Exceptions\PusherException
      */
     public function handle(): void
     {
@@ -71,15 +71,14 @@ class UpdateServer implements ShouldQueue
     /**
      * Handle a job failure.
      *
-     * @param \Throwable $exception
-     *
+     * @param  \Throwable  $exception
      * @return void
      */
     public function failed(Throwable $exception): void
     {
         Log::error('Remote server update failed.', [
             'hostname' => $this->host->full_hostname,
-            'error'    => $exception->getMessage(),
+            'error' => $exception->getMessage(),
         ]);
 
         $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
@@ -103,7 +102,7 @@ class UpdateServer implements ShouldQueue
     {
         $remoteUpdater = Storage::disk('private')->get('ssham-remote-updater.sh');
 
-        if (!is_null($remoteUpdater)) {
+        if (! is_null($remoteUpdater)) {
             $this->pusher->pushDataTo(
                 data: $remoteUpdater,
                 remotePath: setting()->get('cmd_remote_updater'),

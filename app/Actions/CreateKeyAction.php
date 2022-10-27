@@ -29,8 +29,8 @@ class CreateKeyAction
     ): Key {
         $key = Key::create([
             'username' => $username,
-            'public'   => $publicKey,
-            'private'  => $privateKey,
+            'public' => $publicKey,
+            'private' => $privateKey,
         ]);
 
         $key->groups()->sync($groups);

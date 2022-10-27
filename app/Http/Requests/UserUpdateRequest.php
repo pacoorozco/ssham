@@ -66,10 +66,10 @@ class UserUpdateRequest extends Request
             if (Auth::id() !== $this->user->id) {
                 return;
             }
-            if ($this->password() && !Hash::check($this->current_password, $this->user->password)) {
+            if ($this->password() && ! Hash::check($this->current_password, $this->user->password)) {
                 $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
             }
-            if (!$this->enabled()) {
+            if (! $this->enabled()) {
                 $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
             }
             if ($this->role()->isNot($this->user->role)) {

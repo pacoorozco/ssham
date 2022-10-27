@@ -22,7 +22,7 @@ use App\Enums\ControlRuleAction;
 return [
     ControlRuleAction::class => [
         ControlRuleAction::Allow => 'Allow',
-        ControlRuleAction::Deny  => 'Deny',
+        ControlRuleAction::Deny => 'Deny',
     ],
     ActivityStatus::class => [
         ActivityStatus::Success => 'Success',

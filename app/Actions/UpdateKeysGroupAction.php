@@ -28,7 +28,7 @@ class UpdateKeysGroupAction
         array $members
     ): Keygroup {
         $group->update([
-            'name'        => $name,
+            'name' => $name,
             'description' => $description,
         ]);
 

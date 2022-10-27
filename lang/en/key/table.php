@@ -17,9 +17,9 @@
  */
 
 return [
-    'username'    => 'Username',
-    'groups'      => 'Groups',
-    'enabled'     => 'Status',
+    'username' => 'Username',
+    'groups' => 'Groups',
+    'enabled' => 'Status',
     'fingerprint' => 'Fingerprint',
-    'actions'     => 'Actions',
+    'actions' => 'Actions',
 ];

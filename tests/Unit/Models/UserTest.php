@@ -50,10 +50,10 @@ class UserTest extends ModelTestCase
     {
         $m = new User();
         $this->assertEquals([
-            'id'                => 'int',
-            'enabled'           => 'boolean',
+            'id' => 'int',
+            'enabled' => 'boolean',
             'email_verified_at' => 'datetime',
-            'auth_type'         => AuthType::class,
+            'auth_type' => AuthType::class,
         ], $m->getCasts());
     }
 
@@ -61,9 +61,9 @@ class UserTest extends ModelTestCase
     public function username_is_lowercase(): void
     {
         $testCases = [
-            'User'  => 'user',
+            'User' => 'user',
             'ADMIN' => 'admin',
-            'user'  => 'user',
+            'user' => 'user',
             'admin' => 'admin',
         ];
 

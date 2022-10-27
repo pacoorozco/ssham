@@ -23,14 +23,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'item'        => 'SSH Keys',
-    'username'    => 'Username',
-    'public_key'  => 'SSH public key',
+    'item' => 'SSH Keys',
+    'username' => 'Username',
+    'public_key' => 'SSH public key',
     'private_key' => 'Private key',
     'fingerprint' => 'Key fingerprint',
-    'enabled'     => 'Status',
-    'groups'      => 'Group membership',
-    'no_groups'   => 'Key does not pertain to any group',
-    'created_at'  => 'Created',
-    'updated_at'  => 'Last update',
+    'enabled' => 'Status',
+    'groups' => 'Group membership',
+    'no_groups' => 'Key does not pertain to any group',
+    'created_at' => 'Created',
+    'updated_at' => 'Last update',
 ];

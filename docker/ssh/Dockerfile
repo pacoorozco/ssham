@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM alpine:latest
 
 LABEL maintainer="paco@pacoorozco.info"
 
@@ -6,21 +6,18 @@ LABEL maintainer="paco@pacoorozco.info"
 ARG USER=admin
 ARG PASSWORD=docker
 
-# Run ssh server on the DNS server.
-RUN apt-get update && apt-get install -y openssh-server
-RUN mkdir -p /run/sshd
-
-# Creates the user that ProBIND will use to access to the DNS server.
-RUN useradd --home-dir /home/${USER} --create-home ${USER} && \
+RUN apk add --update --no-cache openssh
+RUN adduser -h /home/${USER} -s /bin/sh -D ${USER} && \
     echo "${USER}:${PASSWORD}" | chpasswd
-COPY --chown=${USER}:${USER} ./docker/ssh/authorized_keys /home/${USER}/.ssh/authorized_keys
+COPY --chown=${USER}:${USER} ./authorized_keys /home/${USER}/.ssh/authorized_keys
 
 # Configures SSH to enable SFTP service.
-COPY ./docker/ssh/sshd/*.conf /etc/ssh/sshd_config.d/
+COPY ./sshd/*.conf /etc/ssh/sshd_config.d/
 RUN sed -i "s/__DOCKER_USER__/${USER}/" /etc/ssh/sshd_config.d/sftp.conf
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 22
 
-# -D in CMD below prevents sshd from becoming a daemon. -e is to log everything to stderr.
-CMD ["/usr/sbin/sshd", "-D", "-e"]
-
+ENTRYPOINT ["/entrypoint.sh"]

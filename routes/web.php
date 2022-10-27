@@ -57,7 +57,7 @@ use Illuminate\Support\Facades\Route;
  */
 Auth::routes([
     'register' => false,  // User registration
-    'verify'   => false, // E-mail verification
+    'verify' => false, // E-mail verification
 ]);
 
 Route::middleware(['auth'])->group(function () {

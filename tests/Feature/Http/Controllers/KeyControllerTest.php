@@ -134,7 +134,7 @@ class KeyControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('keys.store'), [
-                'username'  => $want->username,
+                'username' => $want->username,
                 'operation' => KeyOperation::CREATE_OPERATION,
             ])
             ->assertForbidden();
@@ -162,9 +162,9 @@ class KeyControllerTest extends TestCase
         $want = Key::factory()->make();
 
         $formData = array_merge([
-            'username'  => $want->username,
+            'username' => $want->username,
             'operation' => KeyOperation::CREATE_OPERATION,
-            'groups'    => $groups->pluck('id')->toArray(),
+            'groups' => $groups->pluck('id')->toArray(),
         ], $data);
 
         $this
@@ -195,14 +195,14 @@ class KeyControllerTest extends TestCase
 
         yield 'importing a RSA key' => [
             'data' => [
-                'operation'  => KeyOperation::IMPORT_OPERATION,
+                'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => self::VALID_RSA_PUBLIC_KEY_ONE,
             ],
         ];
 
         yield 'importing a ED25519 key' => [
             'data' => [
-                'operation'  => KeyOperation::IMPORT_OPERATION,
+                'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => self::VALID_ED25519_PUBLIC_KEY,
             ],
         ];
@@ -227,7 +227,7 @@ class KeyControllerTest extends TestCase
         $want = Key::factory()->make();
 
         $formData = [
-            'username'  => $data['username'] ?? $want->username,
+            'username' => $data['username'] ?? $want->username,
             'operation' => $data['operation'] ?? KeyOperation::CREATE_OPERATION,
         ];
 
@@ -282,7 +282,7 @@ class KeyControllerTest extends TestCase
 
         yield 'public_key ! valid' => [
             'data' => [
-                'operation'  => KeyOperation::IMPORT_OPERATION,
+                'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => 'this-public-key-is-invalid',
             ],
             'errors' => ['public_key'],
@@ -345,9 +345,9 @@ class KeyControllerTest extends TestCase
         $want = Key::factory()->make();
 
         $formData = array_merge([
-            'enabled'   => $want->enabled,
+            'enabled' => $want->enabled,
             'operation' => KeyOperation::NOOP_OPERATION,
-            'groups'    => $groups->pluck('id')->toArray(),
+            'groups' => $groups->pluck('id')->toArray(),
         ], $data);
 
         $this
@@ -373,14 +373,14 @@ class KeyControllerTest extends TestCase
 
         yield 'importing a RSA key' => [
             'data' => [
-                'operation'  => KeyOperation::IMPORT_OPERATION,
+                'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => self::VALID_RSA_PUBLIC_KEY_TWO,
             ],
         ];
 
         yield 'importing a ED25519 key' => [
             'data' => [
-                'operation'  => KeyOperation::IMPORT_OPERATION,
+                'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => self::VALID_ED25519_PUBLIC_KEY,
             ],
         ];
@@ -409,10 +409,10 @@ class KeyControllerTest extends TestCase
         $want = Key::factory()->make();
 
         $formData = [
-            'enabled'    => $data['enabled'] ?? $want->enabled,
-            'operation'  => $data['operation'] ?? KeyOperation::NOOP_OPERATION,
+            'enabled' => $data['enabled'] ?? $want->enabled,
+            'operation' => $data['operation'] ?? KeyOperation::NOOP_OPERATION,
             'public_key' => $data['public_key'] ?? $key->public,
-            'groups'     => $data['groups'] ?? [],
+            'groups' => $data['groups'] ?? [],
         ];
 
         $this
@@ -421,10 +421,10 @@ class KeyControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Key::class, [
-            'id'       => $key->id,
+            'id' => $key->id,
             'username' => $key->username,
-            'enabled'  => $formData['enabled'],
-            'public'   => $formData['public_key'],
+            'enabled' => $formData['enabled'],
+            'public' => $formData['public_key'],
         ]);
 
         $key->refresh();
@@ -443,7 +443,7 @@ class KeyControllerTest extends TestCase
 
         yield 'public_key ! valid' => [
             'data' => [
-                'operation'  => KeyOperation::IMPORT_OPERATION,
+                'operation' => KeyOperation::IMPORT_OPERATION,
                 'public_key' => 'this-public-key-is-invalid',
             ],
             'errors' => ['public_key'],

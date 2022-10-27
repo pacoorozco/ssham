@@ -27,12 +27,12 @@ class HostTest extends ModelTestCase
     {
         $m = new Host();
         $this->assertEquals([
-            'id'            => 'int',
-            'enabled'       => 'boolean',
-            'synced'        => 'boolean',
+            'id' => 'int',
+            'enabled' => 'boolean',
+            'synced' => 'boolean',
             'last_rotation' => 'datetime',
-            'status_code'   => HostStatus::class,
-            'port'          => 'int',
+            'status_code' => HostStatus::class,
+            'port' => 'int',
         ], $m->getCasts());
     }
 
@@ -64,22 +64,22 @@ class HostTest extends ModelTestCase
     {
         yield 'user, should be user' => [
             'input' => 'user',
-            'want'  => 'user',
+            'want' => 'user',
         ];
 
         yield 'User, should be user' => [
             'input' => 'User',
-            'want'  => 'user',
+            'want' => 'user',
         ];
 
         yield 'ADMIN, should be admin' => [
             'input' => 'ADMIN',
-            'want'  => 'admin',
+            'want' => 'admin',
         ];
 
         yield 'Adm1n, should be adm1n' => [
             'input' => 'Adm1n',
-            'want'  => 'adm1n',
+            'want' => 'adm1n',
         ];
     }
 
@@ -103,22 +103,22 @@ class HostTest extends ModelTestCase
     {
         yield 'lowercase input' => [
             'input' => 'server.domain.local',
-            'want'  => 'server.domain.local',
+            'want' => 'server.domain.local',
         ];
 
         yield 'uppercase input' => [
             'input' => 'SERVER',
-            'want'  => 'server',
+            'want' => 'server',
         ];
 
         yield 'mixed input' => [
             'input' => 'SERVER.domain.LOCAL',
-            'want'  => 'server.domain.local',
+            'want' => 'server.domain.local',
         ];
 
         yield 'mixed input with numbers' => [
             'input' => 'SERVER12.domain.LOCAL',
-            'want'  => 'server12.domain.local',
+            'want' => 'server12.domain.local',
         ];
     }
 }
