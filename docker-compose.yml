@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: sail-8.1/app
+        image: sail-8.0/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -44,6 +44,19 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+
+    ### SSH-SERVER: SSH server ################################################
+    ssh-server:
+      build:
+        context: ./docker/ssh
+        dockerfile: Dockerfile
+      ports:
+        - '${SSH_PORT:-2201}:22'
+      networks:
+        - sail
+      depends_on:
+        - laravel.test
+
 networks:
     sail:
         driver: bridge
