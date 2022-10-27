@@ -72,9 +72,9 @@ final class User extends Authenticatable
     ];
 
     protected $casts = [
-        'enabled'           => 'boolean',
+        'enabled' => 'boolean',
         'email_verified_at' => 'datetime',
-        'auth_type'         => AuthType::class,
+        'auth_type' => AuthType::class,
     ];
 
     protected $attributes = [

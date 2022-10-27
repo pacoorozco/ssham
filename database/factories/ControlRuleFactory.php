@@ -36,8 +36,8 @@ class ControlRuleFactory extends Factory
         return [
             'source_id' => Keygroup::factory(),
             'target_id' => Hostgroup::factory(),
-            'action'    => $this->faker->randomElement(ControlRuleAction::getValues()),
-            'name'      => $this->faker->sentence,
+            'action' => $this->faker->randomElement(ControlRuleAction::getValues()),
+            'name' => $this->faker->sentence,
         ];
     }
 }

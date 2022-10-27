@@ -101,32 +101,32 @@ class SearchControllerTest extends TestCase
     {
         yield 'find a key, host, keys group and hosts group' => [
             'query' => 'qwerty',
-            'want'  => ['qwerty_key', 'qwerty_host', 'qwerty_keys_group', 'qwerty_hosts_group'],
+            'want' => ['qwerty_key', 'qwerty_host', 'qwerty_keys_group', 'qwerty_hosts_group'],
         ];
 
         yield 'find a key and keys group' => [
             'query' => 'key',
-            'want'  => ['qwerty_key', 'qwerty_keys_group'],
+            'want' => ['qwerty_key', 'qwerty_keys_group'],
         ];
 
         yield 'find a host and hosts group' => [
             'query' => 'host',
-            'want'  => ['qwerty_host', 'qwerty_hosts_group'],
+            'want' => ['qwerty_host', 'qwerty_hosts_group'],
         ];
 
         yield 'find a keys group and hosts group' => [
             'query' => 'group',
-            'want'  => ['qwerty_keys_group', 'qwerty_hosts_group'],
+            'want' => ['qwerty_keys_group', 'qwerty_hosts_group'],
         ];
 
         yield 'find a keys group' => [
             'query' => 'keys_group',
-            'want'  => ['qwerty_keys_group'],
+            'want' => ['qwerty_keys_group'],
         ];
 
         yield 'no results found' => [
             'query' => 'foo',
-            'want'  => ['No matching records found'],
+            'want' => ['No matching records found'],
         ];
     }
 }

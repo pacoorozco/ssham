@@ -28,7 +28,7 @@ class CreateKeysGroupAction
     ): Keygroup {
         /* @var Keygroup $group */
         $group = Keygroup::create([
-            'name'        => $name,
+            'name' => $name,
             'description' => $description,
         ]);
 

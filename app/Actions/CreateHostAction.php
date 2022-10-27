@@ -31,10 +31,10 @@ class CreateHostAction
     ): Host {
         /* @var Host $host */
         $host = Host::create([
-            'hostname'             => $hostname,
-            'username'             => $username,
-            'port'                 => $port,
-            'enabled'              => $enabled,
+            'hostname' => $hostname,
+            'username' => $username,
+            'port' => $port,
+            'enabled' => $enabled,
             'authorized_keys_file' => $authorizedKeysFile,
         ]);
 

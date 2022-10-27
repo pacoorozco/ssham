@@ -17,20 +17,20 @@
  */
 
 return [
-    'title'       => 'SSHAM',
-    'home'        => 'Dashboard',
-    'search'      => 'Search',
-    'keys'        => 'SSH Keys',
-    'key_groups'  => 'SSH Key groups',
-    'hosts'       => 'Hosts',
+    'title' => 'SSHAM',
+    'home' => 'Dashboard',
+    'search' => 'Search',
+    'keys' => 'SSH Keys',
+    'key_groups' => 'SSH Key groups',
+    'hosts' => 'Hosts',
     'host_groups' => 'Host groups',
-    'rules'       => 'Rules',
-    'audit'       => 'Audit',
+    'rules' => 'Rules',
+    'audit' => 'Audit',
 
     'admin_sidebar_header' => 'ADMINISTRATION',
-    'users'                => 'User management',
-    'settings'             => 'Settings',
+    'users' => 'User management',
+    'settings' => 'Settings',
 
-    'language'       => 'English',    // Used for jQuery Datatables
+    'language' => 'English',    // Used for jQuery Datatables
     'language_short' => 'en',   // Used for some jQuery Plugins (like select2)
 ];

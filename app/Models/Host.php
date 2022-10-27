@@ -69,11 +69,11 @@ class Host extends Model implements Searchable
     ];
 
     protected $casts = [
-        'enabled'       => 'boolean',
-        'synced'        => 'boolean',
+        'enabled' => 'boolean',
+        'synced' => 'boolean',
         'last_rotation' => 'datetime',
-        'status_code'   => HostStatus::class,
-        'port'          => 'int',
+        'status_code' => HostStatus::class,
+        'port' => 'int',
     ];
 
     protected $attributes = [
@@ -126,7 +126,7 @@ class Host extends Model implements Searchable
     public function authorizedKeysFile(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => !empty($value) ? $value : null,
+            set: fn ($value) => ! empty($value) ? $value : null,
         );
     }
 
@@ -142,12 +142,12 @@ class Host extends Model implements Searchable
 
     public function hasCustomPort(): bool
     {
-        return !is_null($this->attributes['port']);
+        return ! is_null($this->attributes['port']);
     }
 
     public function hasCustomAuthorizedKeysFile(): bool
     {
-        return !is_null($this->attributes['authorized_keys_file']);
+        return ! is_null($this->attributes['authorized_keys_file']);
     }
 
     public function scopeWithPendingChanges(Builder $query): Builder
@@ -205,7 +205,7 @@ class Host extends Model implements Searchable
                 }
             }
         }
-        if (!is_null($bastionSSHPublicKey)) {
+        if (! is_null($bastionSSHPublicKey)) {
             $sshKeys[] = $bastionSSHPublicKey;
         }
 

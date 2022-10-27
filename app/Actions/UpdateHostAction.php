@@ -29,8 +29,8 @@ class UpdateHostAction
         array $groups = []
     ): Host {
         $host->update([
-            'port'                 => $port,
-            'enabled'              => $enabled,
+            'port' => $port,
+            'enabled' => $enabled,
             'authorized_keys_file' => $authorizedKeysFile,
         ]);
 

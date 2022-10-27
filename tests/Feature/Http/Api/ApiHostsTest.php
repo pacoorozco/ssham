@@ -60,7 +60,7 @@ class ApiHostsTest extends ApiTestCase
         $want = Host::factory()->make();
 
         $data = [
-            'type'       => 'hosts',
+            'type' => 'hosts',
             'attributes' => [
                 'hostname' => $want->hostname,
                 'username' => $want->username,
@@ -90,11 +90,11 @@ class ApiHostsTest extends ApiTestCase
             ->create();
 
         $data = [
-            'type'       => 'hosts',
+            'type' => 'hosts',
             'attributes' => [
-                'hostname'           => $want->hostname,
-                'username'           => $want->username,
-                'port'               => $want->port,
+                'hostname' => $want->hostname,
+                'username' => $want->username,
+                'port' => $want->port,
                 'authorizedKeysFile' => $want->authorized_keys_file,
             ],
             'relationships' => [
@@ -142,8 +142,8 @@ class ApiHostsTest extends ApiTestCase
 
         // Host to validate unique rules...
         Host::factory()->create([
-            'hostname'             => 'foo',
-            'username'             => 'bar',
+            'hostname' => 'foo',
+            'username' => 'bar',
             'authorized_keys_file' => 'already-created-host',
         ]);
 
@@ -153,12 +153,12 @@ class ApiHostsTest extends ApiTestCase
             ->make();
 
         $data = [
-            'type'       => 'hosts',
+            'type' => 'hosts',
             'attributes' => [
-                'hostname'           => $input['hostname'] ?? $want->hostname,
-                'username'           => $input['username'] ?? $want->username,
-                'enabled'            => $input['enabled'] ?? $want->enabled,
-                'port'               => $input['port'] ?? $want->port,
+                'hostname' => $input['hostname'] ?? $want->hostname,
+                'username' => $input['username'] ?? $want->username,
+                'enabled' => $input['enabled'] ?? $want->enabled,
+                'port' => $input['port'] ?? $want->port,
                 'authorizedKeysFile' => $input['authorizedKeysFile'] ?? $want->authorized_keys_file,
             ],
         ];
@@ -172,10 +172,10 @@ class ApiHostsTest extends ApiTestCase
             ->assertError(Response::HTTP_UNPROCESSABLE_ENTITY, $errors);
 
         $this->assertDatabaseMissing(Host::class, [
-            'hostname'             => Arr::get($data, 'attributes.hostname'),
-            'username'             => Arr::get($data, 'attributes.username'),
-            'enabled'              => Arr::get($data, 'attributes.enabled'),
-            'port'                 => Arr::get($data, 'attributes.port'),
+            'hostname' => Arr::get($data, 'attributes.hostname'),
+            'username' => Arr::get($data, 'attributes.username'),
+            'enabled' => Arr::get($data, 'attributes.enabled'),
+            'port' => Arr::get($data, 'attributes.port'),
             'authorized_keys_file' => Arr::get($data, 'attributes.authorizedKeysFile'),
         ]);
     }
@@ -291,24 +291,24 @@ class ApiHostsTest extends ApiTestCase
         $self = 'http://localhost/api/v1/hosts/'.$host->getRouteKey();
 
         $expected = [
-            'type'       => 'hosts',
-            'id'         => (string) $host->getRouteKey(),
+            'type' => 'hosts',
+            'id' => (string) $host->getRouteKey(),
             'attributes' => [
-                'hostname'           => $host->hostname,
-                'username'           => $host->username,
-                'port'               => $host->port,
-                'fullHostname'       => $host->full_hostname,
+                'hostname' => $host->hostname,
+                'username' => $host->username,
+                'port' => $host->port,
+                'fullHostname' => $host->full_hostname,
                 'authorizedKeysFile' => $host->authorized_keys_file,
-                'enabled'            => $host->enabled,
-                'createdAt'          => $host->created_at->jsonSerialize(),
-                'synced'             => false,
-                'syncedAt'           => optional($host->last_rotation)->jsonSerialize(),
-                'syncedStatus'       => $host->status_code->description,
+                'enabled' => $host->enabled,
+                'createdAt' => $host->created_at->jsonSerialize(),
+                'synced' => false,
+                'syncedAt' => optional($host->last_rotation)->jsonSerialize(),
+                'syncedStatus' => $host->status_code->description,
             ],
             'relationships' => [
                 'groups' => [
                     'links' => [
-                        'self'    => "{$self}/relationships/groups",
+                        'self' => "{$self}/relationships/groups",
                         'related' => "{$self}/groups",
                     ],
                 ],
@@ -337,12 +337,12 @@ class ApiHostsTest extends ApiTestCase
             ->make();
 
         $data = [
-            'type'       => 'hosts',
-            'id'         => (string) $host->getRouteKey(),
+            'type' => 'hosts',
+            'id' => (string) $host->getRouteKey(),
             'attributes' => [
-                'port'               => $want->port,
+                'port' => $want->port,
                 'authorizedKeysFile' => $want->authorized_keys_file,
-                'enabled'            => $want->enabled,
+                'enabled' => $want->enabled,
             ],
         ];
 
@@ -374,12 +374,12 @@ class ApiHostsTest extends ApiTestCase
             ->make();
 
         $data = [
-            'type'       => 'hosts',
-            'id'         => (string) $host->getRouteKey(),
+            'type' => 'hosts',
+            'id' => (string) $host->getRouteKey(),
             'attributes' => [
-                'port'               => $want->port,
+                'port' => $want->port,
                 'authorizedKeysFile' => $want->authorized_keys_file,
-                'enabled'            => $want->enabled,
+                'enabled' => $want->enabled,
             ],
             'relationships' => [
                 'groups' => [
@@ -392,19 +392,19 @@ class ApiHostsTest extends ApiTestCase
         ];
 
         $expected = [
-            'type'       => 'hosts',
-            'id'         => (string) $host->getRouteKey(),
+            'type' => 'hosts',
+            'id' => (string) $host->getRouteKey(),
             'attributes' => [
-                'hostname'           => $host->hostname,
-                'username'           => $host->username,
-                'port'               => $want->port,
-                'fullHostname'       => $host->full_hostname,
+                'hostname' => $host->hostname,
+                'username' => $host->username,
+                'port' => $want->port,
+                'fullHostname' => $host->full_hostname,
                 'authorizedKeysFile' => $want->authorized_keys_file,
-                'enabled'            => $want->enabled,
-                'createdAt'          => $host->created_at->jsonSerialize(),
-                'synced'             => false,
-                'syncedAt'           => $host->last_rotation?->jsonSerialize(),
-                'syncedStatus'       => $host->status_code->description,
+                'enabled' => $want->enabled,
+                'createdAt' => $host->created_at->jsonSerialize(),
+                'synced' => false,
+                'syncedAt' => $host->last_rotation?->jsonSerialize(),
+                'syncedStatus' => $host->status_code->description,
             ],
         ];
 
@@ -443,8 +443,8 @@ class ApiHostsTest extends ApiTestCase
 
         // Host to validate unique rules...
         Host::factory()->create([
-            'hostname'             => 'foo',
-            'username'             => 'bar',
+            'hostname' => 'foo',
+            'username' => 'bar',
             'authorized_keys_file' => 'already-created-host',
         ]);
 
@@ -457,13 +457,13 @@ class ApiHostsTest extends ApiTestCase
             ->make();
 
         $data = [
-            'type'       => 'hosts',
-            'id'         => (string) $host->getRouteKey(),
+            'type' => 'hosts',
+            'id' => (string) $host->getRouteKey(),
             'attributes' => [
-                'hostname'           => $input['hostname'] ?? $want->hostname,
-                'username'           => $input['username'] ?? $want->username,
-                'enabled'            => $input['enabled'] ?? $want->enabled,
-                'port'               => $input['port'] ?? $want->port,
+                'hostname' => $input['hostname'] ?? $want->hostname,
+                'username' => $input['username'] ?? $want->username,
+                'enabled' => $input['enabled'] ?? $want->enabled,
+                'port' => $input['port'] ?? $want->port,
                 'authorizedKeysFile' => $input['authorizedKeysFile'] ?? $want->authorized_keys_file,
             ],
         ];
@@ -477,10 +477,10 @@ class ApiHostsTest extends ApiTestCase
             ->assertError(Response::HTTP_UNPROCESSABLE_ENTITY, $errors);
 
         $this->assertDatabaseMissing(Host::class, [
-            'hostname'             => Arr::get($data, 'attributes.hostname'),
-            'username'             => Arr::get($data, 'attributes.username'),
-            'enabled'              => Arr::get($data, 'attributes.enabled'),
-            'port'                 => Arr::get($data, 'attributes.port'),
+            'hostname' => Arr::get($data, 'attributes.hostname'),
+            'username' => Arr::get($data, 'attributes.username'),
+            'enabled' => Arr::get($data, 'attributes.enabled'),
+            'port' => Arr::get($data, 'attributes.port'),
             'authorized_keys_file' => Arr::get($data, 'attributes.authorizedKeysFile'),
         ]);
     }

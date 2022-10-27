@@ -121,17 +121,17 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('users.store'), [
-                'username'              => $want->username,
-                'email'                 => $want->email,
-                'password'              => 'secret123',
+                'username' => $want->username,
+                'email' => $want->email,
+                'password' => 'secret123',
                 'password_confirmation' => 'secret123',
-                'role'                  => Roles::Operator,
+                'role' => Roles::Operator,
             ])
             ->assertForbidden();
 
         $this->assertDatabaseMissing(User::class, [
             'username' => $want->username,
-            'email'    => $want->email,
+            'email' => $want->email,
         ]);
     }
 
@@ -146,11 +146,11 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('users.store'), [
-                'username'              => $want->username,
-                'email'                 => $want->email,
-                'password'              => 'secret123',
+                'username' => $want->username,
+                'email' => $want->email,
+                'password' => 'secret123',
                 'password_confirmation' => 'secret123',
-                'role'                  => Roles::Operator,
+                'role' => Roles::Operator,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
@@ -178,18 +178,18 @@ class UserControllerTest extends TestCase
         // User to validate unique rules...
         User::factory()->create([
             'username' => 'john',
-            'email'    => 'john.doe@domain.local',
+            'email' => 'john.doe@domain.local',
         ]);
 
         /** @var User $want */
         $want = User::factory()->make();
 
         $formData = [
-            'username'              => $data['username'] ?? $want->username,
-            'email'                 => $data['email'] ?? $want->email,
-            'password'              => $data['password'] ?? $want->password,
+            'username' => $data['username'] ?? $want->username,
+            'email' => $data['email'] ?? $want->email,
+            'password' => $data['password'] ?? $want->password,
             'password_confirmation' => $data['password_confirmation'] ?? $want->password,
-            'role'                  => $data['role'] ?? null,
+            'role' => $data['role'] ?? null,
         ];
 
         $this
@@ -199,7 +199,7 @@ class UserControllerTest extends TestCase
 
         $this->assertDatabaseMissing(User::class, [
             'username' => $formData['username'],
-            'email'    => $formData['email'],
+            'email' => $formData['email'],
         ]);
     }
 
@@ -270,7 +270,7 @@ class UserControllerTest extends TestCase
 
         yield 'password ! confirmed' => [
             'data' => [
-                'password'              => 'verySecretPassword',
+                'password' => 'verySecretPassword',
                 'password_confirmation' => 'notSoSecretPassword',
             ],
             'errors' => ['password'],
@@ -346,7 +346,7 @@ class UserControllerTest extends TestCase
     {
         /** @var User $user */
         $user = User::factory()->create([
-            'enabled'  => true,
+            'enabled' => true,
             'password' => bcrypt('veryS3cretP4ssword'),
         ]);
         $user->assignRole(Roles::Auditor);
@@ -354,12 +354,12 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->put(route('users.update', $user), [
-                'email'                 => $user->email,
-                'enabled'               => $user->enabled,
-                'current_password'      => 'veryS3cretP4ssword',
-                'password'              => 'new-password-123',
+                'email' => $user->email,
+                'enabled' => $user->enabled,
+                'current_password' => 'veryS3cretP4ssword',
+                'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
-                'role'                  => Roles::Auditor,
+                'role' => Roles::Auditor,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
@@ -376,7 +376,7 @@ class UserControllerTest extends TestCase
     {
         /** @var User $user */
         $user = User::factory()->create([
-            'enabled'  => true,
+            'enabled' => true,
             'password' => bcrypt('veryS3cretP4ssword'),
         ]);
         $user->assignRole(Roles::Auditor);
@@ -384,12 +384,12 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->put(route('users.update', $user), [
-                'email'                 => $user->email,
-                'enabled'               => $user->enabled,
-                'current_password'      => '',
-                'password'              => 'new-password-123',
+                'email' => $user->email,
+                'enabled' => $user->enabled,
+                'current_password' => '',
+                'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
-                'role'                  => Roles::Auditor,
+                'role' => Roles::Auditor,
             ])
             ->assertInvalid('current_password');
 
@@ -415,17 +415,17 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->put(route('users.update', $user), [
-                'email'   => $want->email,
+                'email' => $want->email,
                 'enabled' => $user->enabled,
-                'role'    => Roles::Auditor,
+                'role' => Roles::Auditor,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
 
         $this->assertDatabaseHas(User::class, [
-            'id'       => $user->id,
+            'id' => $user->id,
             'username' => $user->username,
-            'email'    => $want->email,
+            'email' => $want->email,
         ]);
 
         $user->refresh();
@@ -445,16 +445,16 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->put(route('users.update', $user), [
-                'email'   => $user->email,
+                'email' => $user->email,
                 'enabled' => false,
-                'role'    => Roles::Operator,
+                'role' => Roles::Operator,
             ])
             ->assertInvalid(['enabled', 'role']);
 
         $this->assertDatabaseHas(User::class, [
-            'id'       => $user->id,
+            'id' => $user->id,
             'username' => $user->username,
-            'enabled'  => $user->enabled,
+            'enabled' => $user->enabled,
         ]);
 
         $user->refresh();
@@ -481,20 +481,20 @@ class UserControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('users.update', $user), [
-                'email'                 => $want->email,
-                'enabled'               => $want->enabled,
-                'password'              => 'new-password-123',
+                'email' => $want->email,
+                'enabled' => $want->enabled,
+                'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
-                'role'                  => Roles::Operator,
+                'role' => Roles::Operator,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
 
         $this->assertDatabaseHas(User::class, [
-            'id'       => $user->id,
+            'id' => $user->id,
             'username' => $user->username,
-            'email'    => $want->email,
-            'enabled'  => $want->enabled,
+            'email' => $want->email,
+            'enabled' => $want->enabled,
         ]);
 
         $user->refresh();
@@ -517,7 +517,7 @@ class UserControllerTest extends TestCase
         // User to validate unique rules...
         User::factory()->create([
             'username' => 'john',
-            'email'    => 'john.doe@domain.local',
+            'email' => 'john.doe@domain.local',
         ]);
 
         /** @var User $user */
@@ -527,11 +527,11 @@ class UserControllerTest extends TestCase
         $user->assignRole(Roles::Admin);
 
         $formData = [
-            'email'                 => $data['email'] ?? $user->email,
-            'password'              => $data['password'] ?? $user->password,
+            'email' => $data['email'] ?? $user->email,
+            'password' => $data['password'] ?? $user->password,
             'password_confirmation' => $data['password_confirmation'] ?? $user->password,
-            'role'                  => $data['role'] ?? $user->role,
-            'enabled'               => $data['enabled'] ?? $user->enabled,
+            'role' => $data['role'] ?? $user->role,
+            'enabled' => $data['enabled'] ?? $user->enabled,
         ];
 
         $this
@@ -540,10 +540,10 @@ class UserControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseHas(User::class, [
-            'id'       => $user->id,
+            'id' => $user->id,
             'username' => $user->username,
-            'email'    => $user->email,
-            'enabled'  => $user->enabled,
+            'email' => $user->email,
+            'enabled' => $user->enabled,
         ]);
 
         $user->refresh();
@@ -585,7 +585,7 @@ class UserControllerTest extends TestCase
 
         yield 'password ! confirmed' => [
             'data' => [
-                'password'              => 'verySecretPassword',
+                'password' => 'verySecretPassword',
                 'password_confirmation' => 'notSoSecretPassword',
             ],
             'errors' => ['password'],

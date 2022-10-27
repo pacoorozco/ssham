@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'name'        => 'Name',
+    'name' => 'Name',
     'description' => 'Description',
-    'hosts'       => 'Hosts',
-    'actions'     => 'Actions',
-    'rules'       => 'Present in',
+    'hosts' => 'Hosts',
+    'actions' => 'Actions',
+    'rules' => 'Present in',
 ];

@@ -57,8 +57,8 @@ class UpdateHostGroupActionTest extends TestCase
         );
 
         $this->assertDatabaseHas(Hostgroup::class, [
-            'id'          => $group->id,
-            'name'        => $want->name,
+            'id' => $group->id,
+            'name' => $want->name,
             'description' => $want->description,
         ]);
 

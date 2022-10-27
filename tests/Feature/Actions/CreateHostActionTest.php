@@ -68,34 +68,34 @@ class CreateHostActionTest extends TestCase
     {
         yield 'custom values' => [
             'want' => [
-                'hostname'             => 'server.domain.local',
-                'username'             => 'john.doe',
-                'enabled'              => true,
-                'port'                 => 2022,
+                'hostname' => 'server.domain.local',
+                'username' => 'john.doe',
+                'enabled' => true,
+                'port' => 2022,
                 'authorized_keys_file' => 'custom_authorized_keys_file',
-                'groups'               => 2,
+                'groups' => 2,
             ],
         ];
 
         yield 'null values' => [
             'want' => [
-                'hostname'             => 'server.domain.local',
-                'username'             => 'john.doe',
-                'enabled'              => true,
-                'port'                 => null,
+                'hostname' => 'server.domain.local',
+                'username' => 'john.doe',
+                'enabled' => true,
+                'port' => null,
                 'authorized_keys_file' => null,
-                'groups'               => 0,
+                'groups' => 0,
             ],
         ];
 
         yield 'custom port' => [
             'want' => [
-                'hostname'             => 'server.domain.local',
-                'username'             => 'john.doe',
-                'enabled'              => true,
-                'port'                 => 2022,
+                'hostname' => 'server.domain.local',
+                'username' => 'john.doe',
+                'enabled' => true,
+                'port' => 2022,
                 'authorized_keys_file' => null,
-                'groups'               => 0,
+                'groups' => 0,
             ],
         ];
     }

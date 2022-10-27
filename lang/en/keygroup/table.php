@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'name'        => 'Name',
+    'name' => 'Name',
     'description' => 'Description',
-    'keys'        => 'Keys',
-    'actions'     => 'Actions',
-    'rules'       => 'Present in',
+    'keys' => 'Keys',
+    'actions' => 'Actions',
+    'rules' => 'Present in',
 ];

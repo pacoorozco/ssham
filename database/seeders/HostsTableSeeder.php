@@ -26,9 +26,9 @@ class HostsTableSeeder extends Seeder
     public function run(): void
     {
         Host::create([
-            'hostname'             => 'ssh-server',
-            'username'             => 'admin',
-            'port'                 => 22,
+            'hostname' => 'ssh-server',
+            'username' => 'admin',
+            'port' => 22,
             'authorized_keys_file' => '.ssh/authorized_keys',
         ]);
     }

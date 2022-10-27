@@ -62,14 +62,14 @@ class SettingsController extends Controller
         }
 
         setting()->set([
-            'authorized_keys'    => $request->authorizedKeys(),
-            'private_key'        => $request->privateKey(),
-            'public_key'         => (string) $publicKey,
-            'ssh_timeout'        => $request->sshTimeout(),
-            'ssh_port'           => $request->sshPort(),
-            'mixed_mode'         => $request->mixedMode(),
-            'ssham_file'         => $request->sshamFile(),
-            'non_ssham_file'     => $request->nonSSHAMFile(),
+            'authorized_keys' => $request->authorizedKeys(),
+            'private_key' => $request->privateKey(),
+            'public_key' => (string) $publicKey,
+            'ssh_timeout' => $request->sshTimeout(),
+            'ssh_port' => $request->sshPort(),
+            'mixed_mode' => $request->mixedMode(),
+            'ssham_file' => $request->sshamFile(),
+            'non_ssham_file' => $request->nonSSHAMFile(),
             'cmd_remote_updater' => $request->cmdRemoteUpdater(),
         ]);
 

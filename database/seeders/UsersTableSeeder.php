@@ -33,27 +33,27 @@ class UsersTableSeeder extends Seeder
         $users = [
             [
                 'username' => 'superadmin',
-                'email'    => 'superadmin@domain.local',
+                'email' => 'superadmin@domain.local',
                 'password' => bcrypt('superadmin'),
-                'role'     => Roles::SuperAdmin,
+                'role' => Roles::SuperAdmin,
             ],
             [
                 'username' => 'admin',
-                'email'    => 'admin@domain.local',
+                'email' => 'admin@domain.local',
                 'password' => bcrypt('admin'),
-                'role'     => Roles::Admin,
+                'role' => Roles::Admin,
             ],
             [
                 'username' => 'operator',
-                'email'    => 'operator@domain.local',
+                'email' => 'operator@domain.local',
                 'password' => bcrypt('operator'),
-                'role'     => Roles::Operator,
+                'role' => Roles::Operator,
             ],
             [
                 'username' => 'auditor',
-                'email'    => 'auditor@domain.local',
+                'email' => 'auditor@domain.local',
                 'password' => bcrypt('auditor'),
-                'role'     => Roles::Auditor,
+                'role' => Roles::Auditor,
             ],
         ];
 

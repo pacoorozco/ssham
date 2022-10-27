@@ -32,7 +32,7 @@ class CreateUserAction
         /* @var User $user */
         $user = User::create([
             'username' => $username,
-            'email'    => $email,
+            'email' => $email,
             'password' => Hash::make($password),
         ]);
 

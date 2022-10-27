@@ -29,7 +29,7 @@ class UpdateKeyAction
         bool $enabled,
     ): Key {
         $key->update([
-            'public'  => $publicKey,
+            'public' => $publicKey,
             'private' => $privateKey,
             'enabled' => $enabled,
         ]);

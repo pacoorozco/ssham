@@ -127,13 +127,13 @@ class HostgroupControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('hostgroups.store'), [
-                'name'        => $group->name,
+                'name' => $group->name,
                 'description' => $group->description,
             ])
             ->assertForbidden();
 
         $this->assertDatabaseMissing(Hostgroup::class, [
-            'name'        => $group->name,
+            'name' => $group->name,
             'description' => $group->description,
         ]);
     }
@@ -154,9 +154,9 @@ class HostgroupControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('hostgroups.store'), [
-                'name'        => $want->name,
+                'name' => $want->name,
                 'description' => $want->description,
-                'hosts'       => $hosts->pluck('id')->toArray(),
+                'hosts' => $hosts->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('hostgroups.index'))
             ->assertValid();
@@ -190,9 +190,9 @@ class HostgroupControllerTest extends TestCase
         $want = Hostgroup::factory()->make();
 
         $formData = [
-            'name'        => $data['name'] ?? $want->name,
+            'name' => $data['name'] ?? $want->name,
             'description' => $data['description'] ?? $want->description,
-            'hosts'       => $data['hosts'] ?? [],
+            'hosts' => $data['hosts'] ?? [],
         ];
 
         $this
@@ -201,7 +201,7 @@ class HostgroupControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Hostgroup::class, [
-            'name'        => $formData['name'],
+            'name' => $formData['name'],
             'description' => $formData['description'],
         ]);
     }
@@ -298,9 +298,9 @@ class HostgroupControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('hostgroups.update', $group), [
-                'name'        => $want->name,
+                'name' => $want->name,
                 'description' => $want->description,
-                'hosts'       => $hosts->pluck('id')->toArray(),
+                'hosts' => $hosts->pluck('id')->toArray(),
             ])
             ->assertRedirect(route('hostgroups.edit', $group))
             ->assertValid();
@@ -334,9 +334,9 @@ class HostgroupControllerTest extends TestCase
         $want = Hostgroup::factory()->make();
 
         $formData = [
-            'name'        => $data['name'] ?? $want->name,
+            'name' => $data['name'] ?? $want->name,
             'description' => $data['description'] ?? $want->description,
-            'hosts'       => $data['hosts'] ?? [],
+            'hosts' => $data['hosts'] ?? [],
         ];
 
         $this
@@ -345,8 +345,8 @@ class HostgroupControllerTest extends TestCase
             ->assertInvalid($errors);
 
         $this->assertDatabaseMissing(Hostgroup::class, [
-            'id'          => $group->id,
-            'name'        => $formData['name'],
+            'id' => $group->id,
+            'name' => $formData['name'],
             'description' => $formData['description'],
         ]);
 

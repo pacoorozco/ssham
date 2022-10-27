@@ -36,9 +36,9 @@ class KeyFactory extends Factory
 
         return [
             'username' => $this->faker->unique()->userName,
-            'public'   => (string) $publicKey,
-            'private'  => (string) $privateKey,
-            'enabled'  => true,
+            'public' => (string) $publicKey,
+            'private' => (string) $privateKey,
+            'enabled' => true,
         ];
     }
 }

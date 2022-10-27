@@ -32,15 +32,15 @@ class HostgroupKeygroupPermissionsTableSeeder extends Seeder
 
         $permissions = [
             [
-                'keygroup'    => 'developers',
-                'hostgroup'   => 'DEV_servers',
-                'action'      => 'allow',
+                'keygroup' => 'developers',
+                'hostgroup' => 'DEV_servers',
+                'action' => 'allow',
                 'description' => 'Developers can develop on development hosts',
             ],
             [
-                'keygroup'    => 'operators',
-                'hostgroup'   => 'PRO_servers',
-                'action'      => 'deny',
+                'keygroup' => 'operators',
+                'hostgroup' => 'PRO_servers',
+                'action' => 'deny',
                 'description' => 'Operators can make its magic on production hosts',
             ],
         ];
@@ -52,8 +52,8 @@ class HostgroupKeygroupPermissionsTableSeeder extends Seeder
             ControlRule::create([
                 'source_id' => $keygroup->id,
                 'target_id' => $hostgroup->id,
-                'action'    => $permission['action'],
-                'name'      => $permission['description'],
+                'action' => $permission['action'],
+                'name' => $permission['description'],
             ]);
         }
     }
