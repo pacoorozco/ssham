@@ -48,6 +48,7 @@
         "fakerphp/faker": "^1.20.0",
         "laravel-json-api/testing": "^1.1.1",
         "laravel/pint": "^1.2",
+        "laravel/sail": "^1.16",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.3.1",
         "nunomaduro/larastan": "^2.2.6",
