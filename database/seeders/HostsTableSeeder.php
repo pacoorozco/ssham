@@ -31,11 +31,5 @@ class HostsTableSeeder extends Seeder
             'port'                 => 22,
             'authorized_keys_file' => '.ssh/authorized_keys',
         ]);
-
-        Host::factory()
-            ->count(3)
-            ->create([
-                'enabled' => false,
-            ]);
     }
 }
