@@ -20,7 +20,7 @@ jobs:
     name: PHP ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
     env:
-      DB_HOST: 127.0.0.1
+      DB_HOST: mysql
       DB_DATABASE: testing
       DB_USERNAME: root
       DB_PASSWORD: password
