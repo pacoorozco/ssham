@@ -22,6 +22,7 @@ use App\Enums\Permissions;
 use App\Models\User;
 use Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Larapacks\Setting\Setting;
 use PacoOrozco\OpenSSH\PrivateKey;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithPermissions;
@@ -122,7 +123,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
     /** @test */
     public function users_should_not_update_the_settings(): void
     {
-        setting()->set(self::TEST_SETTINGS);
+        Setting::set(self::TEST_SETTINGS);
 
         $privateKey = PrivateKey::generate();
         $publicKey = $privateKey->getPublicKey();
@@ -144,7 +145,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             ->put(route('settings.update', $formData))
             ->assertForbidden();
 
-        $this->assertEquals(self::TEST_SETTINGS, setting()->all()->toArray());
+        $this->assertEquals(self::TEST_SETTINGS, Setting::all()->toArray());
     }
 
     /** @test */
