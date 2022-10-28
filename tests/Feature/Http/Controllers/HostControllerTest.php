@@ -31,7 +31,6 @@ use Tests\Traits\InteractsWithPermissions;
 class HostControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use DatabaseMigrations;
     use InteractsWithPermissions;
 
     private User $user;
@@ -409,7 +408,9 @@ class HostControllerTest extends TestCase
         $host = Host::factory()->create();
 
         /** @var Host $want */
-        $want = Host::factory()->make();
+        $want = Host::factory()
+            ->customized()
+            ->make();
 
         $formData = [
             'enabled' => $data['enabled'] ?? $want->enabled,

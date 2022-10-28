@@ -648,6 +648,6 @@ class UserControllerTest extends TestCase
             ->delete(route('users.destroy', $user))
             ->assertRedirect(route('users.index'));
 
-        $this->assertSoftDeleted($user);
+        $this->assertModelMissing($user);
     }
 }

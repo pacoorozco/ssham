@@ -27,7 +27,6 @@ use Tests\TestCase;
 class SendKeysToHostsCommandTest extends TestCase
 {
     use RefreshDatabase;
-    use DatabaseMigrations;
 
     /** @test */
     public function it_finnish_successfully_when_there_are_not_enabled_servers()

@@ -116,7 +116,7 @@ class ControlRuleControllerTest extends TestCase
             ])
             ->assertForbidden();
 
-        $this->assertDatabaseMissing(Hostgroup::class, [
+        $this->assertDatabaseMissing(ControlRule::class, [
             'name' => $want->name,
             'action' => $want->action->value,
         ]);
