@@ -82,13 +82,11 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "php artisan package:discover --ansi"
         ],
         "test": [
-            "@php artisan test --parallel"
-        ],
-        "test-coverage": [
-            "@php artisan test --parallel --coverage-html test-coverage"
+            "sail artisan migrate --env=testing",
+            "sail artisan test --parallel --runner WrapperRunner"
         ],
         "build": [
             "@composer archive --format=zip --dir=dist"

@@ -24,13 +24,10 @@ use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class SearchControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     private User $user;
 
     public function setUp(): void

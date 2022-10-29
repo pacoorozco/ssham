@@ -3,15 +3,12 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Key;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use PacoOrozco\OpenSSH\PublicKey;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class KeyTest extends TestCase
 {
-    use RefreshDatabase;
-
     const VALID_PUBLIC_KEY = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDl8cMHgSYgkMFo27dvnv+1RY3el3628wCF6h+fvNwH5YLbKQZTSSFlWH6BMsMahMp3zYOvb4kURkloaPTX6paZZ+axZo6Uhww+ISws3fkykEhZWanOABy1/cKjT36SqfJD/xFVgL+FaE5QB5gvarf2IH1lNT9iYutKY0hJVz15IQ== valid-key';
 
     /** @test */

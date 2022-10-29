@@ -21,14 +21,12 @@ namespace Tests\Feature\Http\Controllers;
 use App\Enums\Permissions;
 use App\Models\User;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use PacoOrozco\OpenSSH\PrivateKey;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class SettingsControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     const TEST_SETTINGS = [

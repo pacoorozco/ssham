@@ -9,13 +9,10 @@ use App\Models\Hostgroup;
 use App\Models\Key;
 use App\Models\Keygroup;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class HostTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_should_return_the_enabled_hosts(): void
     {

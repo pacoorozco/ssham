@@ -9,8 +9,8 @@ use App\Models\User;
 use Generator;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\ApiTestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\ApiTestCase;
+use Tests\Feature\InteractsWithPermissions;
 
 class ApiHostsTest extends ApiTestCase
 {

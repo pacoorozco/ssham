@@ -19,7 +19,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Key;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Tests\ModelTestCase;
+use Tests\Unit\ModelTestCase;
 
 class KeyTest extends ModelTestCase
 {

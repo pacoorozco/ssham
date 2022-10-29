@@ -3,13 +3,10 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class HomeControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function users_should_see_the_dashboard(): void
     {

@@ -5,7 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\Hostgroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Tests\ModelTestCase;
+use Tests\Unit\ModelTestCase;
 
 class HostgroupTest extends ModelTestCase
 {

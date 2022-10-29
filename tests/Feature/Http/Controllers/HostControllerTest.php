@@ -23,15 +23,11 @@ use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
 use Generator;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class HostControllerTest extends TestCase
 {
-    use RefreshDatabase;
-    use DatabaseMigrations;
     use InteractsWithPermissions;
 
     private User $user;
@@ -409,7 +405,9 @@ class HostControllerTest extends TestCase
         $host = Host::factory()->create();
 
         /** @var Host $want */
-        $want = Host::factory()->make();
+        $want = Host::factory()
+            ->customized()
+            ->make();
 
         $formData = [
             'enabled' => $data['enabled'] ?? $want->enabled,

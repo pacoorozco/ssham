@@ -23,13 +23,11 @@ use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class KeygroupControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     private User $user;

@@ -19,13 +19,11 @@ namespace Tests\Feature\Models;
 
 use App\Enums\Roles;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     public function setUp(): void

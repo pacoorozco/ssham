@@ -22,25 +22,26 @@ use App\Actions\UpdateHostGroupAction;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class UpdateHostGroupActionTest extends TestCase
 {
-    use RefreshDatabase;
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Host::factory()
+            ->count(3)
+            ->create();
+    }
 
     /**
      * @test
      * @dataProvider providesMembershipData
      */
     public function it_updates_a_host_group(
-        array $members,
+        int $members_count,
     ): void {
-        // Create some hosts to test the membership.
-        Host::factory()
-            ->count(3)
-            ->create();
-
         /** @var Hostgroup $group */
         $group = Hostgroup::factory()->create();
 
@@ -48,6 +49,11 @@ class UpdateHostGroupActionTest extends TestCase
 
         /** @var Hostgroup $want */
         $want = Hostgroup::factory()->make();
+
+        $members = Host::query()
+            ->take($members_count)
+            ->pluck('id')
+            ->toArray();
 
         $action(
             group: $group,
@@ -64,21 +70,21 @@ class UpdateHostGroupActionTest extends TestCase
 
         $group->refresh();
 
-        $this->assertCount(count($members), $group->hosts);
+        $this->assertCount($members_count, $group->hosts);
     }
 
     public function providesMembershipData(): Generator
     {
-        yield '! members' => [
-            'members' => [],
+        yield 'empty members' => [
+            'members' => 0,
         ];
 
         yield 'one member' => [
-            'members' => [1],
+            'members' => 1,
         ];
 
-        yield 'all members' => [
-            'members' => [1, 2, 3],
+        yield 'more than one members' => [
+            'members' => 3,
         ];
     }
 }

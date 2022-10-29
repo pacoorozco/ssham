@@ -22,29 +22,35 @@ use App\Actions\CreateHostGroupAction;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class CreateHostGroupActionTest extends TestCase
 {
-    use RefreshDatabase;
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Host::factory()
+            ->count(3)
+            ->create();
+    }
 
     /**
      * @test
      * @dataProvider providesMembershipData
      */
     public function it_creates_a_host_group(
-        array $members,
+        int $members_count,
     ): void {
-        // Create some hosts to test the membership.
-        Host::factory()
-            ->count(3)
-            ->create();
-
         $action = app(CreateHostGroupAction::class);
 
         /** @var Hostgroup $want */
         $want = Hostgroup::factory()->make();
+
+        $members = Host::query()
+            ->take($members_count)
+            ->pluck('id')
+            ->toArray();
 
         $group = $action(
             name: $want->name,
@@ -57,21 +63,21 @@ class CreateHostGroupActionTest extends TestCase
             'description' => $want->description,
         ]);
 
-        $this->assertCount(count($members), $group->hosts);
+        $this->assertCount($members_count, $group->hosts);
     }
 
     public function providesMembershipData(): Generator
     {
-        yield '! members' => [
-            'members' => [],
+        yield 'empty members' => [
+            'members_count' => 0,
         ];
 
         yield 'one member' => [
-            'members' => [1],
+            'members_count' => 1,
         ];
 
-        yield 'all members' => [
-            'members' => [1, 2, 3],
+        yield 'more than one members' => [
+            'members_count' => 3,
         ];
     }
 }

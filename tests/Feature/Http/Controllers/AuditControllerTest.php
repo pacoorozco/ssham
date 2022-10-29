@@ -18,13 +18,11 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class AuditControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     private User $user;

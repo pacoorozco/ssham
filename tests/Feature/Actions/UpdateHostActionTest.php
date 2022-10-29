@@ -21,13 +21,10 @@ namespace Tests\Feature\Actions;
 use App\Actions\UpdateHostAction;
 use App\Models\Host;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class UpdateHostActionTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      * @dataProvider provideNullableFieldsForHosts

@@ -19,16 +19,11 @@ namespace Tests\Feature\Console\Commands;
 
 use App\Jobs\UpdateServer;
 use App\Models\Host;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class SendKeysToHostsCommandTest extends TestCase
 {
-    use RefreshDatabase;
-    use DatabaseMigrations;
-
     /** @test */
     public function it_finnish_successfully_when_there_are_not_enabled_servers()
     {

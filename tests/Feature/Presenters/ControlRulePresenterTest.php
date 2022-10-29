@@ -5,13 +5,10 @@ namespace Tests\Feature\Presenters;
 use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\ModelTestCase;
+use Tests\Unit\ModelTestCase;
 
 class ControlRulePresenterTest extends ModelTestCase
 {
-    use RefreshDatabase;
-
     /**
      * @test
      * @dataProvider providesActionValues
