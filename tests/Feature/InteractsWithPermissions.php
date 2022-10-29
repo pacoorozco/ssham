@@ -15,7 +15,7 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace Tests\Traits;
+namespace Tests\Feature;
 
 use Database\Seeders\PermissionsTableSeeder;
 use Database\Seeders\RolesTableSeeder;

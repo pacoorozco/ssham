@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
-use Tests\ModelTestCase;
+use Tests\Unit\ModelTestCase;
 
 class ControlRuleTest extends ModelTestCase
 {

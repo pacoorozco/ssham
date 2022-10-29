@@ -23,13 +23,11 @@ use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class HostgroupControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     private User $user;

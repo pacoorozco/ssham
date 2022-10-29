@@ -15,15 +15,12 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-namespace Tests;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use LaravelJsonApi\Testing\MakesJsonApiRequests;
+use Tests\Feature\TestCase as BaseTestCase;
 
 abstract class ApiTestCase extends BaseTestCase
 {
-    use CreatesApplication;
     use MakesJsonApiRequests;
-    use RefreshDatabase;
 }

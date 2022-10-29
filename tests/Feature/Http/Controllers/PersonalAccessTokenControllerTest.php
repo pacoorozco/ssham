@@ -20,14 +20,12 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\Roles;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class PersonalAccessTokenControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
     use InteractsWithPermissions;
 

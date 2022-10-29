@@ -21,14 +21,12 @@ namespace Tests\Feature\Actions;
 use App\Actions\CreateUserAction;
 use App\Enums\Roles;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class CreateUserActionTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     public function setUp(): void

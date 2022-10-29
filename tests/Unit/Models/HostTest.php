@@ -5,7 +5,7 @@ namespace Tests\Unit\Models;
 use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Tests\ModelTestCase;
+use Tests\Unit\ModelTestCase;
 
 class HostTest extends ModelTestCase
 {

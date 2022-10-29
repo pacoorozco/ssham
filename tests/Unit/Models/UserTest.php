@@ -19,7 +19,7 @@ namespace Tests\Unit\Models;
 
 use App\Enums\AuthType;
 use App\Models\User;
-use Tests\ModelTestCase;
+use Tests\Unit\ModelTestCase;
 
 class UserTest extends ModelTestCase
 {

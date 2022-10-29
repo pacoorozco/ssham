@@ -22,13 +22,10 @@ use App\Actions\CreateHostGroupAction;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use Generator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\TestCase;
 
 class CreateHostGroupActionTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();

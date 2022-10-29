@@ -16,12 +16,13 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-namespace Tests;
+namespace Tests\Unit;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Tests\TestCase;
 
 abstract class ModelTestCase extends TestCase
 {

@@ -21,13 +21,11 @@ namespace Tests\Feature\Actions;
 use App\Actions\UpdateUserAction;
 use App\Enums\Roles;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\Traits\InteractsWithPermissions;
+use Tests\Feature\InteractsWithPermissions;
+use Tests\Feature\TestCase;
 
 class UpdateUserActionTest extends TestCase
 {
-    use RefreshDatabase;
     use InteractsWithPermissions;
 
     public function setUp(): void
