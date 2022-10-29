@@ -82,7 +82,7 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "sail artisan package:discover --ansi"
+            "php artisan package:discover --ansi"
         ],
         "test": [
             "sail artisan migrate --env=testing",
