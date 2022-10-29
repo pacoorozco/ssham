@@ -36,3 +36,13 @@ To create a new token go to: User management > Edit > Personal access tokens.
 The token will have the same capabilities than the user who is owning the token.
 {{< /hint >}}
 
+## Default credentials
+Some users are created by default:
+
+Role | Username | Password | It can modify...
+---|---|---|---
+Super Admin | superadmin | superadmin | Everything
+Admin | admin |admin | Everything, except Users and Settings
+Operator | operator | operator | Keys and Hosts
+Auditor | auditor | auditor | Nothing, READ-ONLY role
+
