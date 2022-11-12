@@ -20,16 +20,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('host_hostgroup', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('host_id')->unsigned();
-            $table->foreign('host_id')->references('id')->on('hosts')->onDelete('cascade');
-            $table->unsignedBigInteger('hostgroup_id')->unsigned();
-            $table->foreign('hostgroup_id')->references('id')->on('hostgroups')->onDelete('cascade');
+            $table->id();
+
+            $table->foreignId('host_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('hostgroup_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->unique(['host_id', 'hostgroup_id']);
         });
     }

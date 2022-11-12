@@ -26,7 +26,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hosts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('hostname');
             $table->string('username');
             $table->integer('port')->unsigned()->nullable();

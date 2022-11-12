@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::connection(config('activitylog.database_connection'))->create(config('activitylog.table_name'), function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('log_name')->nullable();
             $table->text('description');
             $table->nullableMorphs('subject', 'subject');

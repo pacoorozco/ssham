@@ -26,15 +26,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hostgroup_keygroup_permissions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('source_id')->unsigned();
-            $table->foreign('source_id')->references('id')->on('keygroups')->onDelete('cascade');
-            $table->unsignedBigInteger('target_id')->unsigned();
-            $table->foreign('target_id')->references('id')->on('hostgroups')->onDelete('cascade');
-            $table->enum('action', ControlRuleAction::getValues())->default(ControlRuleAction::Allow);
-            $table->string('name')->nullable();
-            $table->boolean('enabled')->default('1');
+            $table->id();
+
+            $table->foreignId('source_id')
+                ->constrained('keygroups')
+                ->cascadeOnDelete();
+
+            $table->foreignId('target_id')
+                ->constrained('hostgroups')
+                ->cascadeOnDelete();
+
+            $table->enum('action', ControlRuleAction::getValues())
+                ->default(ControlRuleAction::Allow);
+
+            $table->string('name')
+                ->nullable();
+
+            $table->boolean('enabled')
+                ->default('1');
+
             $table->timestamps();
+
             $table->unique(['source_id', 'target_id']);
         });
     }
