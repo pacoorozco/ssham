@@ -25,7 +25,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('keygroups', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->timestamps();

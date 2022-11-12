@@ -20,16 +20,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('key_keygroup', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->uuid('key_id');
-            $table->foreign('key_id')->references('id')->on('keys')->onDelete('cascade');
-            $table->unsignedBigInteger('keygroup_id')->unsigned();
-            $table->foreign('keygroup_id')->references('id')->on('keygroups')->onDelete('cascade');
+            $table->id();
+
+            $table->foreignUuid('key_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('keygroup_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->unique(['key_id', 'keygroup_id']);
         });
     }

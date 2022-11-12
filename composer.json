@@ -85,7 +85,7 @@
             "php artisan package:discover --ansi"
         ],
         "test": [
-            "sail artisan migrate --env=testing",
+            "sail artisan migrate:fresh --env=testing",
             "sail artisan test --parallel --runner WrapperRunner"
         ],
         "build": [
