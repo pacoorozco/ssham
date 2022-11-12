@@ -181,21 +181,16 @@ Route::middleware(['auth'])->group(function () {
      * Settings
      * ------------------------------------------.
      */
-    Route::get(
-        'settings',
-        [SettingsController::class, 'index']
-    )
-        ->name('settings.index');
+    Route::controller(SettingsController::class)->group(function () {
+        Route::get('settings', 'index')
+            ->name('settings.index');
 
-    Route::get(
-        'settings/edit',
-        [SettingsController::class, 'edit']
-    )
-        ->name('settings.edit');
+        Route::get(
+            'settings/edit', 'edit')
+            ->name('settings.edit');
 
-    Route::put(
-        'settings',
-        [SettingsController::class, 'update']
-    )
-        ->name('settings.update');
+        Route::put(
+            'settings', 'update')
+            ->name('settings.update');
+    });
 });
