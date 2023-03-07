@@ -4,7 +4,7 @@ npm-debug.log
 yarn-error.log
 package-lock.json
 
-# Laravel 5 & Lumen specific
+# Laravel specific
 /vendor
 /public/storage
 /public/hot
@@ -17,6 +17,7 @@ package-lock.json
 .env.backup
 .phpunit.result.cache
 .rnd
+/.phpunit.cache
 
 # Homestead deployment. https://laravel.com/docs/master/homestead
 Homestead.yaml

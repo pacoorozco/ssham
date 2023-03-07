@@ -26,19 +26,25 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class HostFactory extends Factory
 {
-    protected $model = Host::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
-            'username' => $this->faker->userName,
-            'hostname' => $this->faker->unique()->domainWord.'.'.$this->faker->domainName,
+            'username' => fake()->userName,
+            'hostname' => fake()->unique()->domainWord.'.'.fake()->domainName,
             'port' => 0,
-            'enabled' => $this->faker->boolean,
+            'enabled' => fake()->boolean,
         ];
     }
 
-    public function disabled(): Factory
+    /**
+     * Indicates that the model should be disabled.
+     */
+    public function disabled(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -47,7 +53,10 @@ class HostFactory extends Factory
         });
     }
 
-    public function enabled(): Factory
+    /**
+     * Indicates that the model should be enabled.
+     */
+    public function enabled(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -56,7 +65,10 @@ class HostFactory extends Factory
         });
     }
 
-    public function withoutPendingChanges(): Factory
+    /**
+     * Indicates that the model should be in sync, wo/ pending changes.
+     */
+    public function withoutPendingChanges(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -65,7 +77,10 @@ class HostFactory extends Factory
         });
     }
 
-    public function withPendingChanges(): Factory
+    /**
+     * Indicates that the model should have pending changes.
+     */
+    public function withPendingChanges(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -74,11 +89,14 @@ class HostFactory extends Factory
         });
     }
 
-    public function customized(): Factory
+    /**
+     * Indicates that the model have customized values.
+     */
+    public function customized(): static
     {
         return $this->state(function (array $attributes) {
             return [
-                'port' => $this->faker->numberBetween(1024, 65535),
+                'port' => fake()->numberBetween(1024, 65535),
                 'authorized_keys_file' => '~/.ssh/authorized_keys',
                 'enabled' => true,
             ];

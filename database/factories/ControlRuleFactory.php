@@ -29,15 +29,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ControlRuleFactory extends Factory
 {
-    protected $model = ControlRule::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
             'source_id' => Keygroup::factory(),
             'target_id' => Hostgroup::factory(),
-            'action' => $this->faker->randomElement(ControlRuleAction::getValues()),
-            'name' => $this->faker->sentence,
+            'action' => fake()->randomElement(ControlRuleAction::getValues()),
+            'name' => fake()->sentence,
         ];
     }
 }

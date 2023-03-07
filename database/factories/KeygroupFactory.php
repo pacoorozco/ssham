@@ -26,13 +26,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class KeygroupFactory extends Factory
 {
-    protected $model = Keygroup::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
-            'name' => 'Group_'.$this->faker->unique()->word(),
-            'description' => $this->faker->text,
+            'name' => 'Group_'.fake()->unique()->word(),
+            'description' => fake()->text,
         ];
     }
 }
