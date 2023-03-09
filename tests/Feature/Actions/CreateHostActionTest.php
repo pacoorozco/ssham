@@ -61,7 +61,7 @@ class CreateHostActionTest extends TestCase
         $this->assertCount($want['groups'], $host->groups);
     }
 
-    public function providesHostTestCases(): Generator
+    public static function providesHostTestCases(): Generator
     {
         yield 'custom values' => [
             'want' => [

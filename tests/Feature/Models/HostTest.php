@@ -246,7 +246,7 @@ class HostTest extends TestCase
         $this->assertEquals($want, $host->portOrDefaultSetting());
     }
 
-    public function provideGetPortTestCases(): Generator
+    public static function provideGetPortTestCases(): Generator
     {
         yield 'custom value as int, should return the provided value' => [
             'attributes' => [
@@ -312,7 +312,7 @@ class HostTest extends TestCase
         $this->assertEquals($want, $host->authorizedKeysFileOrDefaultSetting());
     }
 
-    public function provideGetAuthorizedKeysFileTestCases(): Generator
+    public static function provideGetAuthorizedKeysFileTestCases(): Generator
     {
         yield 'custom value, should return the provided value' => [
             'attributes' => [
@@ -355,7 +355,7 @@ class HostTest extends TestCase
         }
     }
 
-    public function provideUsernameTestCases(): Generator
+    public static function provideUsernameTestCases(): Generator
     {
         yield 'User, should be user' => [
             'input' => 'User',

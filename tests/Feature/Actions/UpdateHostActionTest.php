@@ -59,7 +59,7 @@ class UpdateHostActionTest extends TestCase
         ]);
     }
 
-    public function provideNullableFieldsForHosts(): Generator
+    public static function provideNullableFieldsForHosts(): Generator
     {
         yield 'without null values' => [
             'nullable' => [],

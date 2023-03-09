@@ -57,7 +57,7 @@ class DownloadPrivateKeyControllerTest extends TestCase
         $this->assertModelExists($key);
     }
 
-    public function providePrivateKeysToDownload(): \Generator
+    public static function providePrivateKeysToDownload(): \Generator
     {
         yield 'private key ! exist' => [
             'data' => [

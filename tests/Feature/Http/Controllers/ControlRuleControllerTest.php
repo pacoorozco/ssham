@@ -185,7 +185,7 @@ class ControlRuleControllerTest extends TestCase
         ]);
     }
 
-    public function provideWrongDataForRuleCreation(): Generator
+    public static function provideWrongDataForRuleCreation(): Generator
     {
         yield 'name is empty' => [
             'data' => [

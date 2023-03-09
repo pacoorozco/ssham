@@ -60,7 +60,7 @@ class HostTest extends ModelTestCase
         $this->assertEquals($want, $host->username);
     }
 
-    public function provideUsernameTestCases(): \Generator
+    public static function provideUsernameTestCases(): \Generator
     {
         yield 'user, should be user' => [
             'input' => 'user',
@@ -99,7 +99,7 @@ class HostTest extends ModelTestCase
         $this->assertEquals($want, $host->hostname);
     }
 
-    public function provideHostnameTestCases(): \Generator
+    public static function provideHostnameTestCases(): \Generator
     {
         yield 'lowercase input' => [
             'input' => 'server.domain.local',

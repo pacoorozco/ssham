@@ -67,7 +67,7 @@ class CreateUserActionTest extends TestCase
         $this->assertEquals($wantRole, $user->role);
     }
 
-    public function providesUserData(): Generator
+    public static function providesUserData(): Generator
     {
         yield 'role = SuperAdmin' => [
             'username' => 'john',

@@ -180,7 +180,7 @@ class ApiHostsTest extends ApiTestCase
         ]);
     }
 
-    public function provideWrongDataForHostCreation(): Generator
+    public static function provideWrongDataForHostCreation(): Generator
     {
         yield 'hostname is empty' => [
             'input' => [
@@ -485,7 +485,7 @@ class ApiHostsTest extends ApiTestCase
         ]);
     }
 
-    public function provideWrongDataForHostModification(): Generator
+    public static function provideWrongDataForHostModification(): Generator
     {
         yield 'hostname is empty' => [
             'input' => [

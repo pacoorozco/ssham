@@ -181,7 +181,7 @@ class HostControllerTest extends TestCase
         $this->assertCount(count($groups), $host->groups);
     }
 
-    public function provideNullableFieldsForHosts(): Generator
+    public static function provideNullableFieldsForHosts(): Generator
     {
         yield 'without null values' => [
             'nullable' => [],
@@ -243,7 +243,7 @@ class HostControllerTest extends TestCase
         ]);
     }
 
-    public function provideWrongDataForHostCreation(): Generator
+    public static function provideWrongDataForHostCreation(): Generator
     {
         yield 'hostname is empty' => [
             'data' => [
@@ -435,7 +435,7 @@ class HostControllerTest extends TestCase
         $this->assertCount(0, $host->groups);
     }
 
-    public function provideWrongDataForHostModification(): Generator
+    public static function provideWrongDataForHostModification(): Generator
     {
         yield 'port ! valid' => [
             'data' => [
