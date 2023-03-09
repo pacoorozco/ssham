@@ -94,7 +94,7 @@ class SearchControllerTest extends TestCase
             ->assertSee($want);
     }
 
-    public function provideSearchQueriesAndExpectedResults(): Generator
+    public static function provideSearchQueriesAndExpectedResults(): Generator
     {
         yield 'find a key, host, keys group and hosts group' => [
             'query' => 'qwerty',

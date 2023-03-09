@@ -201,7 +201,7 @@ class UserControllerTest extends TestCase
         ]);
     }
 
-    public function provideWrongDataForUserCreation(): Generator
+    public static function provideWrongDataForUserCreation(): Generator
     {
         yield 'username is empty' => [
             'data' => [
@@ -551,7 +551,7 @@ class UserControllerTest extends TestCase
         $this->assertEquals(Roles::Admin, $user->role);
     }
 
-    public function provideWrongDataForUserModification(): Generator
+    public static function provideWrongDataForUserModification(): Generator
     {
         yield 'email is empty' => [
             'data' => [

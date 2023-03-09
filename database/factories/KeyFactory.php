@@ -20,22 +20,27 @@ namespace Database\Factories;
 
 use App\Models\Key;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use PacoOrozco\OpenSSH\Exceptions\NoKeyLoadedException;
 use PacoOrozco\OpenSSH\PrivateKey;
+use PacoOrozco\OpenSSH\PublicKey;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Key>
  */
 class KeyFactory extends Factory
 {
-    protected $model = Key::class;
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         $privateKey = PrivateKey::generate();
         $publicKey = $privateKey->getPublicKey();
 
         return [
-            'username' => $this->faker->unique()->userName,
+            'username' => fake()->unique()->userName,
             'public' => (string) $publicKey,
             'private' => (string) $privateKey,
             'enabled' => true,

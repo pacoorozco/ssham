@@ -210,7 +210,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $this->assertEquals($settings, setting()->all()->toArray());
     }
 
-    public function provideWrongDataForSettingsModification(): Generator
+    public static function provideWrongDataForSettingsModification(): Generator
     {
         yield 'authorized_keys is empty' => [
             'data' => [

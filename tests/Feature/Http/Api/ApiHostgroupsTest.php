@@ -163,7 +163,7 @@ class ApiHostgroupsTest extends ApiTestCase
         ]);
     }
 
-    public function provideWrongDataForGroupCreation(): Generator
+    public static function provideWrongDataForGroupCreation(): Generator
     {
         yield 'name is empty' => [
             'input' => [
@@ -392,7 +392,7 @@ class ApiHostgroupsTest extends ApiTestCase
         $this->assertCount(0, $group->hosts);
     }
 
-    public function provideWrongDataForGroupModification(): Generator
+    public static function provideWrongDataForGroupModification(): Generator
     {
         yield 'name is empty' => [
             'data' => [

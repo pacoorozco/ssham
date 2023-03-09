@@ -204,7 +204,7 @@ class KeygroupControllerTest extends TestCase
         ]);
     }
 
-    public function provideWrongDataForGroupCreation(): Generator
+    public static function provideWrongDataForGroupCreation(): Generator
     {
         yield 'name is empty' => [
             'data' => [
@@ -353,7 +353,7 @@ class KeygroupControllerTest extends TestCase
         $this->assertCount(0, $group->keys);
     }
 
-    public function provideWrongDataForGroupModification(): Generator
+    public static function provideWrongDataForGroupModification(): Generator
     {
         yield 'name is empty' => [
             'data' => [

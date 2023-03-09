@@ -66,7 +66,7 @@ class CreateHostGroupActionTest extends TestCase
         $this->assertCount($members_count, $group->hosts);
     }
 
-    public function providesMembershipData(): Generator
+    public static function providesMembershipData(): Generator
     {
         yield 'empty members' => [
             'members_count' => 0,

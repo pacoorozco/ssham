@@ -24,7 +24,7 @@ class ControlRulePresenterTest extends ModelTestCase
         $this->assertStringContainsString($want, $m->present()->actionWithIcon());
     }
 
-    public function providesActionValues(): Generator
+    public static function providesActionValues(): Generator
     {
         yield 'allow action' => [
             'action' => ControlRuleAction::Allow,

@@ -183,7 +183,7 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    public function provideDataForKeyCreation(): Generator
+    public static function provideDataForKeyCreation(): Generator
     {
         yield 'creating a key' => [
             'data' => [
@@ -241,7 +241,7 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    public function provideWrongDataForKeyCreation(): Generator
+    public static function provideWrongDataForKeyCreation(): Generator
     {
         yield 'username is empty' => [
             'data' => [
@@ -361,7 +361,7 @@ class KeyControllerTest extends TestCase
         $this->assertCount(count($groups), $key->groups);
     }
 
-    public function provideDataForKeyModification(): Generator
+    public static function provideDataForKeyModification(): Generator
     {
         yield 'creating a key' => [
             'data' => [
@@ -430,7 +430,7 @@ class KeyControllerTest extends TestCase
         $this->assertCount(0, $key->groups);
     }
 
-    public function provideWrongDataForKeyModification(): Generator
+    public static function provideWrongDataForKeyModification(): Generator
     {
         yield 'enabled ! valid' => [
             'data' => [

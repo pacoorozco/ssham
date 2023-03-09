@@ -47,7 +47,7 @@ class UserTest extends TestCase
         $this->assertEquals($want, $user->isSuperAdmin());
     }
 
-    public function provideRoleInfo()
+    public static function provideRoleInfo()
     {
         yield 'Auditor is not Super Admin' => [
             'role' => Roles::Auditor(),

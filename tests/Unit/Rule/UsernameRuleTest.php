@@ -51,7 +51,7 @@ class UsernameRuleTest extends TestCase
         $this->assertFalse($rule->passes('username', $input));
     }
 
-    public function provideInvalidUsernames(): Generator
+    public static function provideInvalidUsernames(): Generator
     {
         yield 'username beginning with hyphen' => [
             'input' => '-root',
