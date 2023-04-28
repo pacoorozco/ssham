@@ -84,7 +84,7 @@ class ApiHostgroupsTest extends ApiTestCase
         $want = Hostgroup::factory()->make();
 
         $hosts = Host::factory()
-            ->count(2)
+            ->count(1)
             ->create();
 
         $data = [
@@ -121,7 +121,7 @@ class ApiHostgroupsTest extends ApiTestCase
 
         $this->assertInstanceOf(Hostgroup::class, $group);
 
-        $this->assertCount(count($hosts), $group->hosts);
+        $this->assertEquals($hosts->pluck('id'), $group->hosts->pluck('id'));
     }
 
     /**
