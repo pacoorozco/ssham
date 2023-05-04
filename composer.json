@@ -33,7 +33,6 @@
         "laravel/framework": "^10.9.0",
         "laravel/sanctum": "^3.2.4",
         "laravel/ui": "^4.2.1",
-        "laravelcollective/html": "^6.4.1",
         "pacoorozco/openssh": "^0.5.0",
         "phpseclib/phpseclib": "^3.0.19",
         "protonemedia/laravel-form-components": "^3.8",
