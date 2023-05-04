@@ -11,15 +11,16 @@
     </ul>
 
     <!-- start: SEARCH FORM -->
-    {!! Form::open(['route' => 'search', 'class' => 'form-inline ml-3', 'method' => 'get', 'role' => 'search']) !!}
-    <div class="input-group input-group-sm">
-        {!! Form::text('q', null, ['class' => 'form-control form-control-navbar', 'placeholder' => __('site.search'), 'aria-label' => __('site.search')]) !!}
-        <div class="input-group-append">
-            {!! Form::button('<i class="fas fa-search"></i>', array('type' => 'submit', 'class' => 'btn btn-navbar')) !!}
+    <form action="{{ route('search') }}" method="GET" role="search" class="form-inline ml-3">
+        <div class="input-group input-group-sm">
+            <input name="q" class="form-control form-control-navbar" placeholder="@lang('site.search')"
+                   aria-label="@lang('site.search')">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-navbar"><i class="fas fa-search"></i></button>
+            </div>
         </div>
-    </div>
-    {!! Form::close() !!}
-<!-- end: SEARCH FORM -->
+    </form>
+    <!-- end: SEARCH FORM -->
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">

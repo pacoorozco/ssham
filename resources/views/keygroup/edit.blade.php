@@ -29,7 +29,8 @@
 
     <!-- Card -->
     <div class="card">
-        {!! Form::model($keygroup, ['route' => ['keygroups.update', $keygroup], 'method' => 'put']) !!}
+
+        <x-form :action="route('keygroups.update', $keygroup)" method="PUT">
 
         <div class="card-header">
             <h2 class="card-title">
@@ -46,25 +47,23 @@
                         <legend>@lang('keygroup/messages.basic_information_section')</legend>
 
                         <!-- name -->
-                        <div class="form-group">
-                            {!! Form::label('name', __('keygroup/model.name')) !!}
-                            <small class="form-text text-muted">@lang('keygroup/messages.name_help')</small>
-                            {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                            @error('name')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="name" :label="__('keygroup/model.name')" :default="$keygroup->name" required autofocus>
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('keygroup/messages.name_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ name -->
 
                         <!-- description -->
-                        <div class="form-group">
-                            {!! Form::label('description', __('keygroup/model.description')) !!}
-                            <small class="form-text text-muted">@lang('keygroup/messages.description_help')</small>
-                            {!! Form::textarea('description', null, array('class' => 'form-control' . ($errors->has('description') ? ' is-invalid' : ''))) !!}
-                            @error('description'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-textarea name="description" :label="__('keygroup/model.description')" :default="$keygroup->description">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('keygroup/messages.description_help')
+                                </small>
+                            @endslot
+                        </x-form-textarea>
                         <!-- ./ description -->
                     </fieldset>
                 </div>
@@ -77,11 +76,13 @@
                         <legend>@lang('hostgroup/messages.group_members_section')</legend>
 
                         <!-- key groups -->
-                        <div class="form-group">
-                            {!! Form::label('keys[]', __('keygroup/model.keys')) !!}
-                            {!! Form::select('keys[]', $keys, $keygroup->keys->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control duallistbox')) !!}
-                            <small class="form-text text-muted">@lang('keygroup/messages.group_help')</small>
-                        </div>
+                        <x-form-select name="keys[]" :label="__('keygroup/model.hosts')" :options="$keys" multiple class="duallistbox" :default="$keygroup->keys->pluck('id')">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('keygroup/messages.group_help')
+                                </small>
+                            @endslot
+                        </x-form-select>
                         <!-- ./ key groups -->
 
                     </fieldset>
@@ -112,14 +113,17 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            {!! Form::button(__('general.update'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.update')
+            </x-form-submit>
+
             <a href="{{ route('keygroups.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
             </a>
             <!-- ./ form actions -->
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
     <!-- ./ card -->
 

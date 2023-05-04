@@ -30,7 +30,8 @@
     <!-- ./ notifications -->
 
     <div class="card">
-        {!! Form::open(['route' => 'hostgroups.store', 'method' => 'post']) !!}
+        <x-form :action="route('hostgroups.store')">
+
         <div class="card-body">
             <div class="form-row">
                 <!-- left column -->
@@ -39,26 +40,23 @@
                     <fieldset>
                         <legend>@lang('hostgroup/messages.basic_information_section')</legend>
                         <!-- name -->
-                        <div class="form-group">
-                            {!! Form::label('name', __('hostgroup/model.name')) !!}
-                            <small class="form-text text-muted">@lang('hostgroup/messages.name_help')</small>
-                            {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                            @error('name')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-
-                        </div>
+                        <x-form-input name="name" :label="__('hostgroup/model.name')" required autofocus>
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('hostgroup/messages.name_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ name -->
 
                         <!-- description -->
-                        <div class="form-group">
-                            {!! Form::label('description', __('hostgroup/model.description')) !!}
-                            <small class="form-text text-muted">@lang('hostgroup/messages.description_help')</small>
-                            {!! Form::textarea('description', null, array('class' => 'form-control' . ($errors->has('description') ? ' is-invalid' : ''))) !!}
-                            @error('description'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-textarea name="description" :label="__('hostgroup/model.description')">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('hostgroup/messages.description_help')
+                                </small>
+                            @endslot
+                        </x-form-textarea>
                         <!-- ./ description -->
                     </fieldset>
                 </div>
@@ -69,11 +67,13 @@
                     <fieldset>
                         <legend>@lang('hostgroup/messages.group_members_section')</legend>
                         <!-- group members -->
-                        <div class="form-group">
-                            {!! Form::label('hosts[]', __('hostgroup/model.hosts')) !!}
-                            {!! Form::select('hosts[]', $hosts, null, array('multiple' => 'multiple', 'class' => 'form-control duallistbox')) !!}
-                            <small class="form-text text-muted">@lang('hostgroup/messages.group_help')</small>
-                        </div>
+                        <x-form-select name="hosts[]" :label="__('hostgroup/model.hosts')" :options="$hosts" multiple class="duallistbox">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('hostgroup/messages.group_help')
+                                </small>
+                            @endslot
+                        </x-form-select>
                         <!-- ./ group members -->
                     </fieldset>
                 </div>
@@ -82,14 +82,17 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            {!! Form::button(__('general.create'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.create')
+            </x-form-submit>
+
             <a href="{{ route('hostgroups.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
             </a>
             <!-- ./ form actions -->
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
 @endsection
 

@@ -50,27 +50,25 @@
                 <div class="card-body">
                     <p>@lang('user/personal_access_token.help')</p>
 
-                {!! Form::open(['route' => ['users.tokens.store', $user]]) !!}
+                    <x-form :action="route('users.tokens.store', $user)">
+                        <!-- name -->
+                        <x-form-input name="name" :label="__('user/personal_access_token.name_input')" required autofocus>
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('user/personal_access_token.name_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
+                        <!-- ./ name -->
 
-                <!-- name -->
-                    <div class="form-group">
-                        {!! Form::label('name', __('user/personal_access_token.name_input')) !!}
-                        {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                        <small class="form-text text-muted">
-                            @lang('user/personal_access_token.name_help')
-                        </small>
-                        @error('name')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <!-- ./ name -->
+                        <x-form-submit class="btn-success">
+                            @lang('user/personal_access_token.generate_button')
+                        </x-form-submit>
 
-                    {!! Form::button(__('user/personal_access_token.generate_button'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
-                    <a href="{{ route('users.tokens.index', $user) }}" class="btn btn-link" role="button">
-                        @lang('general.cancel')
-                    </a>
-
-                    {!! Form::close() !!}
+                        <a href="{{ route('users.tokens.index', $user) }}" class="btn btn-link" role="button">
+                            @lang('general.cancel')
+                        </a>
+                    </x-form>
 
                 </div>
             </div>

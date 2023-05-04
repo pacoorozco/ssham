@@ -31,77 +31,69 @@
     <!-- ./ notifications -->
 
     <div class="card">
-        {!! Form::open(['route' => 'rules.store', 'method' => 'post']) !!}
+
+        <x-form :action="route('rules.store')">
 
         <div class="card-body">
             <div class="form-row">
 
                 <!-- source -->
                 <div class="col-md-4">
-                    <div class="form-group">
-                        {!! Form::label('source', __('rule/model.source')) !!}
-                        {!! Form::select('source', $sources, null, array('placeholder' => '', 'class' => 'form-control search-select' . ($errors->has('source') ? ' is-invalid' : ''))) !!}
-                        <small class="form-text text-muted">This is the group of SSH keys which will be have access to
-                            the target.</small>
-                        @error('source')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <x-form-select name="source" :label="__('rule/model.source')" :options="$sources" class="search-select">
+                        @slot('help')
+                            <small class="form-text text-muted">
+                                This is the group of SSH keys which will have access to the target.
+                            </small>
+                        @endslot
+                    </x-form-select>
                 </div>
                 <!-- ./ source -->
 
                 <!-- action -->
                 <div class="col-md-1">
-                    <!-- action -->
-                    <div class="form-group">
-                        {!! Form::label('action', __('rule/model.action')) !!}
-                        {!! Form::select('action', \App\Enums\ControlRuleAction::asSelectArray(), null, array('class' => 'form-control' . ($errors->has('action') ? ' is-invalid' : ''))) !!}
-                        @error('description')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <x-form-select name="action" :label="__('rule/model.action')" :options="\App\Enums\ControlRuleAction::asSelectArray()"/>
                 </div>
                 <!-- ./ action -->
 
                 <!-- target -->
                 <div class="col-md-4">
-                    <div class="form-group">
-                        {!! Form::label('target', __('rule/model.target')) !!}
-                        {!! Form::select('target', $targets, null, array('placeholder' => '', 'class' => 'form-control search-select' . ($errors->has('target') ? ' is-invalid' : ''))) !!}
-                        <small class="form-text text-muted">This is the group of hosts to which you are granting access
-                            to.</small>
-                        @error('target')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <x-form-select name="target" :label="__('rule/model.target')" :options="$targets" class="search-select">
+                        @slot('help')
+                            <small class="form-text text-muted">
+                                This is the group of hosts to which you are granting access to.
+                            </small>
+                        @endslot
+                    </x-form-select>
                 </div>
                 <!-- ./ target -->
 
-                <!-- description -->
+                <!-- name -->
                 <div class="col-md-3">
-                    <div class="form-group">
-                        {!! Form::label('name', __('rule/model.name')) !!}
-                        {!! Form::text('name', null, array('class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                        <small class="form-text text-muted">Short description to identify the rule easily.</small>
-                        @error('name')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <x-form-input name="name" :label="__('rule/model.name')" required>
+                        @slot('help')
+                            <small class="form-text text-muted">
+                                Short description to identify the rule easily.
+                            </small>
+                        @endslot
+                    </x-form-input>
                 </div>
-                <!-- ./ description -->
+                <!-- ./ name -->
             </div>
         </div>
 
         <div class="card-footer">
             <!-- Form Actions -->
-            {!! Form::button(__('general.create'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.create')
+            </x-form-submit>
+
             <a href="{{ route('rules.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
             </a>
             <!-- ./ form actions -->
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
     <!-- ./ card -->
 @endsection

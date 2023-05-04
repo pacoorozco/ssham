@@ -30,7 +30,7 @@
     <!-- Card -->
     <div class="card">
 
-        {!! Form::model($host, ['route' => ['hosts.update', $host->id], 'method' => 'put']) !!}
+        <x-form :action="route('hosts.update', $host)" method="PUT">
 
         <div class="card-header @unless($host->enabled) bg-gray-dark @endunless">
             <h2 class="card-title">
@@ -49,17 +49,11 @@
                     <fieldset>
                         <legend>@lang('host/title.host_information_section')</legend>
                         <!-- hostname -->
-                        <div class="form-group">
-                            {!! Form::label('hostname', __('host/model.hostname')) !!}
-                            {!! Form::text('hostname', $host->present()->hostname, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
-                        </div>
+                        <x-form-input name="hostname" :label="__('host/model.hostname')" :default="$host->present()->hostname" disabled/>
                         <!-- ./ hostname -->
 
                         <!-- username -->
-                        <div class="form-group">
-                            {!! Form::label('username', __('host/model.username')) !!}
-                            {!! Form::text('username', $host->present()->username, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
-                        </div>
+                        <x-form-input name="username" :label="__('host/model.username')" :default="$host->present()->username" disabled/>
                         <!-- ./ username -->
                     </fieldset>
 
@@ -69,14 +63,10 @@
                             <strong>@lang('host/model.enabled')</strong>
                         </legend>
                         <div class="col-sm-10">
-                            <div class="form-check">
-                                {!! Form::radio('enabled', 1, null, array('class' => 'form-check-input')) !!}
-                                {!! Form::label('enabled', __('general.enabled'), array('class' => 'form-check-label')) !!}
-                            </div>
-                            <div class="form-check">
-                                {!! Form::radio('enabled', 0, null, array('class' => 'form-check-input')) !!}
-                                {!! Form::label('enabled', __('general.disabled'), array('class' => 'form-check-label')) !!}
-                            </div>
+                            <x-form-group name="enabled">
+                                <x-form-radio name="enabled" value="1" :label="__('general.enabled')" :bind="$host"/>
+                                <x-form-radio name="enabled" value="0" :label="__('general.disabled')" :bind="$host"/>
+                            </x-form-group>
                         </div>
                     </fieldset>
                     <!-- ./ enabled -->
@@ -87,11 +77,11 @@
                         <!-- port -->
                         <div class="card form-group">
                             <div class="card-header">
-                                {!! Form::label('port', __('host/model.port')) !!}
+                                <label for="port">@lang('host/model.port')</label>
                                 <div class="form-check float-right">
                                     <input class="form-check-input" type="checkbox" id="custom-port-check"
                                            @if($errors->has('port') || old('port') || $host->hasCustomPort()) checked @endif>
-                                    <label class="form-check-label">@lang('host/messages.custom-port-check')</label>
+                                    <label for="custom-port-check" class="form-check-label">@lang('host/messages.custom-port-check')</label>
                                 </div>
                                 <small class="form-text text-muted">
                                     {!! __('host/messages.custom-port-help', ['url' => route('settings.index'), 'default-value' => setting()->get('ssh_port')]) !!}
@@ -99,10 +89,7 @@
                             </div>
                             <div class="collapse" id="custom-port-card">
                                 <div class="card-body">
-                                    {!! Form::number('port', null, array('id' => 'port', 'class' => 'form-control' . ($errors->has('port') ? ' is-invalid' : ''), 'required' => 'required', 'disabled' => 'disabled')) !!}
-                                    @error('port')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
+                                    <x-form-input name="port" id="port" type="number" required disabled :default="$host->port"/>
                                 </div>
                             </div>
                         </div>
@@ -111,11 +98,11 @@
                         <!-- authorized_keys_file -->
                         <div class="card form-group">
                             <div class="card-header">
-                                {!! Form::label('path', __('host/model.authorized_keys_file')) !!}
+                                <label for="path">@lang('host/model.authorized_keys_file')</label>
                                 <div class="form-check float-right">
                                     <input class="form-check-input" type="checkbox" id="custom-path-check"
                                            @if(old('authorized_keys_file') || $host->hasCustomAuthorizedKeysFile()) checked @endif>
-                                    <label class="form-check-label">@lang('host/messages.custom-path-check')</label>
+                                    <label for="custom-path-check" class="form-check-label">@lang('host/messages.custom-path-check')</label>
                                 </div>
                                 <small class="form-text text-muted">
                                     {!! __('host/messages.custom-path-help', ['url' => route('settings.index'), 'default-value' => setting()->get('authorized_keys')]) !!}
@@ -123,10 +110,7 @@
                             </div>
                             <div class="collapse" id="custom-path-card">
                                 <div class="card-body">
-                                    {!! Form::text('authorized_keys_file', null, array('id' => 'path', 'class' => 'form-control' . ($errors->has('authorized_keys_file') ? ' is-invalid' : ''), 'required' => 'required', 'disabled' => 'disabled')) !!}
-                                    @error('authorized_keys_file')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
+                                    <x-form-input name="authorized_keys_file" id="path" required disabled :default="$host->authorized_keys_file"/>
                                 </div>
                             </div>
                         </div>
@@ -141,14 +125,13 @@
                     <fieldset>
                         <legend>@lang('host/title.membership_section')</legend>
                         <!-- host groups -->
-                        <div class="form-group">
-                            {!! Form::label('groups[]', __('host/model.groups')) !!}
-                            {!! Form::select('groups[]', $groups, $host->groups->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
-
-                            <small class="form-text text-muted">
-                                @lang('host/messages.groups_help')
-                            </small>
-                        </div>
+                        <x-form-select name="groups[]" :label="__('host/model.groups')" :options="$groups" multiple class="search-select" :default="$host->groups->pluck('id')">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('host/messages.groups_help')
+                                </small>
+                            @endslot
+                        </x-form-select>
                         <!-- ./ host groups -->
                     </fieldset>
 
@@ -227,14 +210,17 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            {!! Form::button(__('general.update'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.update')
+            </x-form-submit>
+
             <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">
                 {{ __('general.cancel') }}
             </a>
             <!-- ./ form actions -->
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
     <!-- ./ card -->
 

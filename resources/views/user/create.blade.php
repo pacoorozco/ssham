@@ -31,7 +31,7 @@
 
     <!-- Card -->
     <div class="card">
-        {!! Form::open(['route' => 'users.store']) !!}
+        <x-form :action="route('users.store')">
 
         <div class="card-body">
             <div class="form-row">
@@ -41,31 +41,21 @@
                     <fieldset>
                         <legend>@lang('user/title.personal_information_section')</legend>
                         <!-- username -->
-                        <div class="form-group">
-                            {!! Form::label('username', __('user/model.username')) !!}
-                            {!! Form::text('username', null, array('class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                            <span class="form-text text-muted">@lang('user/messages.username_help')</span>
-                            @error('username')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                            <x-form-input name="username" :label="__('user/model.username')" required autofocus>
+                                @slot('help')
+                                    <small class="form-text text-muted">
+                                        @lang('user/messages.username_help')
+                                    </small>
+                                @endslot
+                            </x-form-input>
                         <!-- ./ username -->
 
                         <!-- email -->
-                        <div class="form-group">
-                            {!! Form::label('email', __('user/model.email')) !!}
-                            {!! Form::email('email', null, array('class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            @error('email')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="email" type="email" :label="__('user/model.email')" required/>
                         <!-- ./ email -->
 
                         <!-- role -->
-                        <div class="form-group">
-                            {!! Form::label('role', __('user/model.role')) !!}
-                            {!! Form::select('role', \App\Enums\Roles::asSelectArray(), \App\Enums\Roles::Operator, array('class' => 'form-control', 'required' => 'required')) !!}
-                        </div>
+                        <x-form-select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="\App\Enums\Roles::Operator" required/>
                         <!-- ./ role -->
                     </fieldset>
 
@@ -78,23 +68,11 @@
                         <legend>@lang('user/title.credentials')</legend>
 
                         <!-- password -->
-                        <div class="form-group">
-                            {!! Form::label('password', __('user/model.password')) !!}
-                            {!! Form::password('password', array('class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            @error('password')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="password" type="password" :label="__('user/model.password')" required/>
                         <!-- ./ password -->
 
                         <!-- password_confirmation -->
-                        <div class="form-group">
-                            {!! Form::label('password_confirmation', __('user/model.password_confirmation')) !!}
-                            {!! Form::password('password_confirmation', array('class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            @error('password_confirmation')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="password_confirmation" type="password" :label="__('user/model.password_confirmation')" required/>
                         <!-- ./ password_confirmation -->
                     </fieldset>
 
@@ -105,7 +83,10 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            {!! Form::button(__('general.create'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.create')
+            </x-form-submit>
+
             <a href="{{ route('users.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
             </a>
@@ -113,7 +94,7 @@
             <!-- ./ form actions -->
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
     <!-- ./ card -->
 @endsection

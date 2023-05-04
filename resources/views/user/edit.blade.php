@@ -37,7 +37,7 @@
         <div class="col-md-10">
             <!-- Card -->
             <div class="card">
-                {!! Form::model($user, ['route' => ['users.update', $user], 'method' => 'put']) !!}
+                <x-form :action="route('users.update', $user)" method="PUT">
 
                 <div class="card-body">
                     <div class="form-row">
@@ -48,31 +48,21 @@
                                 <legend>@lang('user/title.personal_information_section')</legend>
 
                                 <!-- username -->
-                                <div class="form-group">
-                                    {!! Form::label('username', __('user/model.username')) !!}
-                                    {!! Form::text('username', $user->username, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
-                                    <small class="form-text text-muted">@lang('user/messages.username_help')</small>
-                                    @error('username')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                <x-form-input name="username" :label="__('user/model.username')" :value="$user->username" readonly>
+                                    @slot('help')
+                                        <small class="form-text text-muted">
+                                            @lang('user/messages.username_help')
+                                        </small>
+                                    @endslot
+                                </x-form-input>
                                 <!-- ./ username -->
 
                                 <!-- email -->
-                                <div class="form-group">
-                                    {!! Form::label('email', __('user/model.email')) !!}
-                                    {!! Form::email('email', $user->email, array('class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                                    @error('email')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                <x-form-input name="email" type="email" :label="__('user/model.email')" :default="$user->email" required autofocus/>
                                 <!-- ./ email -->
 
                                 <!-- role -->
-                                <div class="form-group">
-                                    {!! Form::label('role', __('user/model.role')) !!}
-                                    {!! Form::select('role', \App\Enums\Roles::asSelectArray(), $user->role, array('class' => 'form-control', 'required' => 'required')) !!}
-                                </div>
+                                <x-form-select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="$user->role" required/>
                                 <!-- ./ role -->
                             </fieldset>
 
@@ -84,19 +74,15 @@
                                     </legend>
                                     <div class="col-sm-10">
                                         @can('delete', $user)
-                                            <div class="form-check">
-                                                {!! Form::radio('enabled', 0, null, array('class' => 'form-check-input')) !!}
-                                                {!! Form::label('enabled', __('general.blocked'), array('class' => 'form-check-label')) !!}
-                                            </div>
-                                            <div class="form-check">
-                                                {!! Form::radio('enabled', 1, null, array('class' => 'form-check-input')) !!}
-                                                {!! Form::label('enabled', __('general.active'), array('class' => 'form-check-label')) !!}
-                                            </div>
+                                            <x-form-group name="enabled">
+                                                <x-form-radio name="enabled" value="1" :label="__('general.active')" :bind="$user"/>
+                                                <x-form-radio name="enabled" value="0" :label="__('general.blocked')" :bind="$user"/>
+                                            </x-form-group>
                                         @else
                                             <small class="form-text text-muted">
                                                 @lang('user/messages.edit_status_avoided')
                                             </small>
-                                            {!! Form::hidden('enabled', ($user->enabled) ? 1 : 0) !!}
+                                            <x-form-radio name="enabled" type="hidden" :default="$user->enabled"/>
                                         @endcan
                                     </div>
                                 </div>
@@ -115,34 +101,16 @@
 
                             @if (Auth::id() === $user->id)
                                 <!-- current password -->
-                                    <div class="form-group">
-                                        {!! Form::label('current_password', __('user/model.current_password')) !!}
-                                        {!! Form::password('current_password', array('class' => 'form-control' . ($errors->has('current_password') ? ' is-invalid' : ''))) !!}
-                                        @error('current_password')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                    <x-form-input name="current_password" type="password" :label="__('user/model.current_password')"/>
                                     <!-- ./ current_password -->
                             @endif
 
                             <!-- password -->
-                                <div class="form-group">
-                                    {!! Form::label('password', __('user/model.password')) !!}
-                                    {!! Form::password('password', array('class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''))) !!}
-                                    @error('password')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <!-- ./ password -->
+                                <x-form-input name="password" type="password" :label="__('user/model.password')"/>
+                                  <!-- ./ password -->
 
                                 <!-- password_confirmation -->
-                                <div class="form-group">
-                                    {!! Form::label('password_confirmation', __('user/model.password_confirmation')) !!}
-                                    {!! Form::password('password_confirmation', array('class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''))) !!}
-                                    @error('password_confirmation')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                <x-form-input name="password_confirmation" type="password" :label="__('user/model.password_confirmation')"/>
                                 <!-- ./ password_confirmation -->
                             </fieldset>
                             <!-- ./ about the user -->
@@ -156,8 +124,7 @@
                                         <strong>@lang('user/model.created_at')</strong>
                                     </div>
                                     <div class="col-9">
-                                        {{ $user->present()->createdAtForHumans() }} ({{ $user->present()->created_at }}
-                                        )
+                                        {{ $user->present()->createdAtForHumans() }} ({{ $user->present()->created_at }})
                                     </div>
                                 </div>
                                 <!-- ./ created at -->
@@ -213,14 +180,17 @@
                 </div>
                 <div class="card-footer">
                     <!-- Form Actions -->
-                    {!! Form::button(__('general.update'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+                    <x-form-submit class="btn-success">
+                        @lang('general.update')
+                    </x-form-submit>
+
                     <a href="{{ route('users.index') }}" class="btn btn-link" role="button">
                         @lang('general.cancel')
                     </a>
                     <!-- ./ form actions -->
                 </div>
 
-                {!! Form::close() !!}
+                </x-form>
             </div>
         </div>
         <!-- ./ card -->
