@@ -31,144 +31,120 @@
 
     <!-- Card -->
     <div class="card">
-        {!! Form::open(['route' => 'hosts.store', 'method' => 'post']) !!}
+        <x-form :action="route('hosts.store')">
 
-        <div class="card-body">
-            <div class="form-row">
-                <!-- left column -->
-                <div class="col-md-6">
+            <div class="card-body">
+                <div class="form-row">
+                    <!-- left column -->
+                    <div class="col-md-6">
 
-                    <fieldset>
-                        <legend>@lang('host/title.host_information_section')</legend>
-                        <!-- hostname -->
-                        <div class="form-group">
-                            {!! Form::label('hostname', __('host/model.hostname')) !!}
-                            {!! Form::text('hostname', null, array('class' => 'form-control' . ($errors->has('hostname') ? ' is-invalid' : ''), 'required' => 'required', 'autofocus' => 'autofocus')) !!}
-                            @error('hostname')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
+                        <fieldset>
+                            <legend>@lang('host/title.host_information_section')</legend>
+                            <!-- hostname -->
+                            <x-form-input name="hostname" :label="__('host/model.hostname')" required autofocus/>
+                            <!-- ./ hostname -->
 
-                        </div>
-                        <!-- ./ hostname -->
+                            <!-- username -->
+                            <x-form-input name="username" :label="__('host/model.username')" required value="root"/>
+                            <!-- ./ username -->
+                        </fieldset>
 
-                        <!-- username -->
-                        <div class="form-group">
-                            {!! Form::label('username', __('host/model.username')) !!}
-                            {!! Form::text('username', 'root', array('class' => 'form-control' . ($errors->has('username') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            @error('username')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <!-- ./ username -->
-                    </fieldset>
-
-                    <!-- enabled -->
-                    <fieldset class="form-group row">
-                        <legend class="col-form-label col-sm-2 float-sm-left pt-0">
-                            <strong>@lang('host/model.enabled')</strong>
-                        </legend>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                {!! Form::radio('enabled', 1, true, array('class' => 'form-check-input')) !!}
-                                {!! Form::label('enabled', __('general.enabled'), array('class' => 'form-check-label')) !!}
+                        <!-- enabled -->
+                        <fieldset class="form-group row">
+                            <legend class="col-form-label col-sm-2 float-sm-left pt-0">
+                                <strong>@lang('host/model.enabled')</strong>
+                            </legend>
+                            <div class="col-sm-10">
+                                <x-form-group name="enabled">
+                                    <x-form-radio name="enabled" value="1" :label="__('general.enabled')" default/>
+                                    <x-form-radio name="enabled" value="0" :label="__('general.disabled')"/>
+                                </x-form-group>
                             </div>
-                            <div class="form-check">
-                                {!! Form::radio('enabled', 0, false, array('class' => 'form-check-input')) !!}
-                                {!! Form::label('enabled', __('general.disabled'), array('class' => 'form-check-label')) !!}
-                            </div>
-                            @error('enabled')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </fieldset>
-                    <!-- ./ enabled -->
+                        </fieldset>
+                        <!-- ./ enabled -->
 
-                    <fieldset>
-                        <legend>@lang('host/title.advanced_config_section')</legend>
+                        <fieldset>
+                            <legend>@lang('host/title.advanced_config_section')</legend>
 
-                        <!-- port -->
-                        <div class="card form-group">
-                            <div class="card-header">
-                                {!! Form::label('port', __('host/model.port')) !!}
-                                <div class="form-check float-right">
-                                    <input class="form-check-input" type="checkbox" id="custom-port-check"
-                                           @if($errors->has('port') || old('port')) checked @endif>
-                                    <label class="form-check-label">@lang('host/messages.custom-port-check')</label>
+                            <!-- port -->
+                            <div class="card form-group">
+                                <div class="card-header">
+                                    <label for="port">@lang('host/model.port')</label>
+                                    <div class="form-check float-right">
+                                        <input class="form-check-input" type="checkbox" id="custom-port-check"
+                                               @if($errors->has('port') || old('port')) checked @endif>
+                                        <label for="custom-port-check" class="form-check-label">@lang('host/messages.custom-port-check')</label>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        {!! __('host/messages.custom-port-help', ['url' => route('settings.index'), 'default-value' => setting()->get('ssh_port')]) !!}
+                                    </small>
+
                                 </div>
-                                <small class="form-text text-muted">
-                                    {!! __('host/messages.custom-port-help', ['url' => route('settings.index'), 'default-value' => setting()->get('ssh_port')]) !!}
-                                </small>
-
-                            </div>
-                            <div class="collapse" id="custom-port-card">
-                                <div class="card-body">
-                                    {!! Form::number('port', null, array('id' => 'port', 'class' => 'form-control' . ($errors->has('port') ? ' is-invalid' : ''), 'required' => 'required', 'disabled' => 'disabled')) !!}
-                                    @error('port')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
+                                <div class="collapse" id="custom-port-card">
+                                    <div class="card-body">
+                                        <x-form-input name="port" id="port" type="number" required disabled/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- ./ port -->
+                            <!-- ./ port -->
 
-                        <!-- authorized_keys_file -->
-                        <div class="card form-group">
-                            <div class="card-header">
-                                {!! Form::label('path', __('host/model.authorized_keys_file')) !!}
-                                <div class="form-check float-right">
-                                    <input class="form-check-input" type="checkbox" id="custom-path-check"
-                                           @if(old('authorized_keys_file')) checked @endif>
-                                    <label class="form-check-label">@lang('host/messages.custom-path-check')</label>
+                            <!-- authorized_keys_file -->
+                            <div class="card form-group">
+                                <div class="card-header">
+                                    <label for="path">@lang('host/model.authorized_keys_file')</label>
+                                    <div class="form-check float-right">
+                                        <input class="form-check-input" type="checkbox" id="custom-path-check"
+                                               @if(old('authorized_keys_file')) checked @endif>
+                                        <label for="custom-path-check" class="form-check-label">@lang('host/messages.custom-path-check')</label>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        {!! __('host/messages.custom-path-help', ['url' => route('settings.index'), 'default-value' => setting()->get('authorized_keys')]) !!}
+                                    </small>
                                 </div>
-                                <small class="form-text text-muted">
-                                    {!! __('host/messages.custom-path-help', ['url' => route('settings.index'), 'default-value' => setting()->get('authorized_keys')]) !!}
-                                </small>
-                            </div>
-                            <div class="collapse" id="custom-path-card">
-                                <div class="card-body">
-                                    {!! Form::text('authorized_keys_file', null, array('id' => 'path', 'class' => 'form-control' . ($errors->has('authorized_keys_file') ? ' is-invalid' : ''), 'required' => 'required', 'disabled' => 'disabled')) !!}
-                                    @error('authorized_keys_file')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
+                                <div class="collapse" id="custom-path-card">
+                                    <div class="card-body">
+                                        <x-form-input name="authorized_keys_file" id="path" required disabled/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- ./ authorized_keys_file -->
-                    </fieldset>
+                            <!-- ./ authorized_keys_file -->
+                        </fieldset>
+                    </div>
+                    <!-- ./ left column -->
+
+                    <!-- right column -->
+                    <div class="col-md-6">
+
+                        <fieldset>
+                            <legend>@lang('host/title.membership_section')</legend>
+
+                            <!-- host groups -->
+                            <x-form-select name="groups[]" :label="__('host/model.groups')" :options="$groups" multiple class="search-select">
+                                @slot('help')
+                                    <small class="form-text text-muted">
+                                        @lang('host/messages.groups_help')
+                                    </small>
+                                @endslot
+                            </x-form-select>
+                            <!-- ./ host groups -->
+                        </fieldset>
+                    </div>
+
                 </div>
-                <!-- ./ left column -->
-
-                <!-- right column -->
-                <div class="col-md-6">
-
-                    <fieldset>
-                        <legend>@lang('host/title.membership_section')</legend>
-
-                        <!-- host groups -->
-                        <div class="form-group">
-                            {!! Form::label('groups[]', __('host/model.groups')) !!}
-                            {!! Form::select('groups[]', $groups, null, array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
-
-                            <small class="form-text text-muted">
-                                @lang('host/messages.groups_help')
-                            </small>
-                        </div>
-                        <!-- ./ host groups -->
-                    </fieldset>
-                </div>
-
             </div>
-        </div>
-        <div class="card-footer">
-            <!-- Form Actions -->
-            {!! Form::button(__('general.create'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
-            <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">
-                {{ __('general.cancel') }}
-            </a>
-            <!-- ./ form actions -->
-        </div>
+            <div class="card-footer">
+                <!-- Form Actions -->
+                <x-form-submit class="btn-success">
+                    @lang('general.create')
+                </x-form-submit>
 
-        {!! Form::close() !!}
+                <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">
+                    {{ __('general.cancel') }}
+                </a>
+                <!-- ./ form actions -->
+            </div>
+
+        </x-form>
     </div>
 
 @endsection

@@ -29,7 +29,8 @@
     <!-- ./ notifications -->
 
     <div class="card card-tabs">
-        {!! Form::open(['route' => ['settings.update'], 'method' => 'put']) !!}
+
+        <x-form :action="route('settings.update')" method="PUT">
 
         <div class="card-header p-0 pt-1 boder-bottom-0">
             <ul class="nav nav-tabs" role="tablist">
@@ -70,15 +71,13 @@
                         <div class="form-row">
                             <div class="col-6">
                                 <!-- private_key -->
-                                <div class="form-group">
-                                    {!! Form::label('private_key', __('settings/model.private_key')) !!}
-                                    {!! Form::textarea('private_key', $settings['private_key'], array('class' => 'form-control' . ($errors->has('private_key') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                                    <span
-                                        class="form-text text-muted">@lang('settings/model.private_key_help')</span>
-                                    @error('private_key'))
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                <x-form-textarea name="private_key" :label="__('settings/model.private_key')" :default="$settings['private_key']" cols="50" rows="10" required>
+                                    @slot('help')
+                                        <small class="form-text text-muted">
+                                            @lang('settings/model.private_key_help')
+                                        </small>
+                                    @endslot
+                                </x-form-textarea>
                                 <!-- ./ private_key -->
                             </div>
                         </div>
@@ -88,14 +87,13 @@
                         <legend>@lang('settings/title.ssh_options_section')</legend>
 
                         <!-- SSH connect timeout -->
-                        <div class="form-group">
-                            {!! Form::label('ssh_timeout', __('settings/model.ssh_timeout')) !!}
-                            {!! Form::number('ssh_timeout', $settings['ssh_timeout'], array('class' => 'form-control' . ($errors->has('ssh_timeout') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span class="form-text text-muted">@lang('settings/model.ssh_timeout_help')</span>
-                            @error('ssh_timeout'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="ssh_timeout" type="number" :label="__('settings/model.ssh_timeout')" required :default="$settings['ssh_timeout']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.ssh_timeout_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ SSH connect timeout -->
 
                     </fieldset>
@@ -111,37 +109,33 @@
                         <legend>@lang('settings/title.defaults_section')</legend>
 
                         <!-- cmd_remote_updater -->
-                        <div class="form-group">
-                            {!! Form::label('cmd_remote_updater', __('settings/model.cmd_remote_updater')) !!}
-                            {!! Form::text('cmd_remote_updater', $settings['cmd_remote_updater'], array('class' => 'form-control' . ($errors->has('cmd_remote_updater') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span
-                                class="form-text text-muted">@lang('settings/model.cmd_remote_updater_help')</span>
-                            @error('cmd_remote_updater'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="cmd_remote_updater" :label="__('settings/model.cmd_remote_updater')" required :default="$settings['cmd_remote_updater']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.cmd_remote_updater_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ cmd_remote_updater -->
 
                         <!-- authorized_keys -->
-                        <div class="form-group">
-                            {!! Form::label('authorized_keys', __('settings/model.authorized_keys')) !!}
-                            {!! Form::text('authorized_keys', $settings['authorized_keys'], array('class' => 'form-control' . ($errors->has('authorized_keys') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span class="form-text text-muted">@lang('settings/model.authorized_keys_help')</span>
-                            @error('authorized_keys'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="authorized_keys" :label="__('settings/model.authorized_keys')" required :default="$settings['authorized_keys']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.authorized_keys_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ authorized_keys -->
 
                         <!-- SSH port -->
-                        <div class="form-group">
-                            {!! Form::label('ssh_port', __('settings/model.ssh_port')) !!}
-                            {!! Form::number('ssh_port', $settings['ssh_port'], array('class' => 'form-control' . ($errors->has('ssh_port') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span class="form-text text-muted">@lang('settings/model.ssh_port_help')</span>
-                            @error('ssh_port'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="ssh_port" type="number" :label="__('settings/model.ssh_port')" required :default="$settings['ssh_port']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.ssh_port_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ SSH port -->
 
                     </fieldset>
@@ -157,14 +151,10 @@
                             <strong>@lang('settings/title.mixed_mode_section')</strong>
                         </legend>
                         <div class="col-sm-10">
-                            <div class="form-check">
-                                {!! Form::radio('mixed_mode', 1, ($settings['mixed_mode'] == 1), array('class' => 'form-check-input', 'id' => 'enable_mixed_mode')) !!}
-                                {!! Form::label('mixed_mode', __('general.enabled'), array('class' => 'form-check-label')) !!}
-                            </div>
-                            <div class="form-check">
-                                {!! Form::radio('mixed_mode', 0, ($settings['mixed_mode'] == 0), array('class' => 'form-check-input', 'id' => 'disable_mixed_mode')) !!}
-                                {!! Form::label('mixed_mode', __('general.disabled'), array('class' => 'form-check-label')) !!}
-                            </div>
+                            <x-form-group name="mixed_mode">
+                                <x-form-radio name="mixed_mode" id="enable_mixed_mode" value="1" :label="__('general.enabled')" :default="($settings['mixed_mode'] == 1)"/>
+                                <x-form-radio name="mixed_mode" id="disable_mixed_mode" value="0" :label="__('general.disabled')" :default="($settings['mixed_mode'] == 0)"/>
+                            </x-form-group>
                         </div>
                     </fieldset>
                     <!-- ./ mixed_mode -->
@@ -172,26 +162,23 @@
                     <fieldset id="mixed_mode_options_form">
 
                         <!-- ssham_file -->
-                        <div class="form-group">
-                            {!! Form::label('ssham_file', __('settings/model.ssham_file')) !!}
-                            {!! Form::text('ssham_file', $settings['ssham_file'], array('class' => 'form-control'. ($errors->has('ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span class="form-text text-muted">@lang('settings/model.ssham_file_help')</span>
-                            @error('ssham_file'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="ssham_file" :label="__('settings/model.ssham_file')" required :default="$settings['ssham_file']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.ssham_file_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ ssham_file -->
 
                         <!-- non_ssham_file -->
-                        <div class="form-group">
-                            {!! Form::label('non_ssham_file', __('settings/model.non_ssham_file')) !!}
-                            {!! Form::text('non_ssham_file', $settings['non_ssham_file'], array('class' => 'form-control' . ($errors->has('non_ssham_file') ? ' is-invalid' : ''), 'required' => 'required')) !!}
-                            <span
-                                class="form-text text-muted">@lang('settings/model.non_ssham_file_help')</span>
-                            @error('non_ssham_file'))
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="non_ssham_file" :label="__('settings/model.non_ssham_file')" required :default="$settings['non_ssham_file']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.non_ssham_file_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ non_ssham_file -->
 
                     </fieldset>
@@ -201,13 +188,16 @@
             </div>
         </div>
         <div class="card-footer">
-            {!! Form::button(__('general.save'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.save')
+            </x-form-submit>
+
             <a href="{{ route('settings.index') }}" class="btn btn-link" role="button">
                 {{ __('general.cancel') }}
             </a>
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
 
 @endsection

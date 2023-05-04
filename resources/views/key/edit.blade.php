@@ -29,7 +29,7 @@
 
     <!-- Card -->
     <div class="card">
-        {!! Form::model($key, ['route' => ['keys.update', $key->id], 'method' => 'put']) !!}
+        <x-form :action="route('keys.update', $key)" method="PUT">
 
         <div class="card-header @unless($key->enabled) bg-gray-dark @endunless">
             <h2 class="card-title">
@@ -48,14 +48,13 @@
                     <fieldset>
                         <legend>@lang('key/title.key_identification_section')</legend>
                         <!-- username -->
-                        <div class="form-group">
-                            {!! Form::label('username', __('key/model.username')) !!}
-                            {!! Form::text('username', $key->username, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
-                            <span class="form-text text-muted">@lang('key/messages.username_help')</span>
-                            @error('username')
-                            <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-form-input name="username" :label="__('key/model.username')" :value="$key->username" readonly>
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('key/messages.username_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
                         <!-- ./ username -->
                     </fieldset>
 
@@ -66,14 +65,10 @@
                                 <strong>@lang('key/model.enabled')</strong>
                             </legend>
                             <div class="col-sm-10">
-                                <div class="form-check">
-                                    {!! Form::radio('enabled', 0, null, array('class' => 'form-check-input')) !!}
-                                    {!! Form::label('enabled', __('general.disabled'), array('class' => 'form-check-label')) !!}
-                                </div>
-                                <div class="form-check">
-                                    {!! Form::radio('enabled', 1, null, array('class' => 'form-check-input')) !!}
-                                    {!! Form::label('enabled', __('general.enabled'), array('class' => 'form-check-label')) !!}
-                                </div>
+                                <x-form-group name="enabled">
+                                    <x-form-radio name="enabled" value="1" :label="__('general.enabled')" :bind="$key"/>
+                                    <x-form-radio name="enabled" value="0" :label="__('general.disabled')" :bind="$key"/>
+                                </x-form-group>
                             </div>
                         </div>
                     </fieldset>
@@ -83,52 +78,50 @@
                     <fieldset>
                         <legend>@lang('key/title.public_key_section')</legend>
 
-                        <div class="form-group">
-                            <!-- maintain RSA key -->
-                            <div class="form-check">
-                                {!! Form::radio('operation', \App\Enums\KeyOperation::NOOP_OPERATION, true, array('class' => 'form-check-input', 'id' => 'maintain_public_key', 'checked' => 'checked')) !!}
-                                {!! Form::label('maintain_public_key', __('key/messages.maintain_public_key'), array('class' => 'form-check-label')) !!}
-                                <div id="maintain_public_key_form">
-                                    <p>
-                                        <b>@lang('key/model.fingerprint')</b>: {{ $key->fingerprint }}
-                                        <a data-toggle="collapse" href="#collapsePublicKey" aria-expanded="false"
-                                           aria-controls="collapsePublicKey">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </p>
-                                    <div class="collapse" id="collapsePublicKey">
-                                        <pre class="key-code">{{ $key->public }}</pre>
+
+                        <x-form-group name="operation">
+
+                            <!-- maintain key option -->
+                            <x-form-radio name="operation" id="maintain_public_key" :value="\App\Enums\KeyOperation::NOOP_OPERATION" :label="__('key/messages.maintain_public_key')" default>
+                                @slot('help')
+                                    <div id="maintain_public_key_form">
+                                        <small class="form-text text-muted">
+                                            <b>@lang('key/model.fingerprint')</b>: {{ $key->fingerprint }}
+                                            <a data-toggle="collapse" href="#collapsePublicKey" aria-expanded="false"
+                                               aria-controls="collapsePublicKey">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </small>
+                                        <div class="collapse" id="collapsePublicKey">
+                                            <pre class="key-code">{{ $key->public }}</pre>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- ./ maintain RSA key -->
-                            <!-- create RSA key -->
-                            <div class="form-check">
-                                {!! Form::radio('operation', \App\Enums\KeyOperation::CREATE_OPERATION, false, array('class' => 'form-check-input', 'id' => 'create_public_key')) !!}
-                                {!! Form::label('create_public_key', __('key/messages.create_public_key'), array('class' => 'form-check-label')) !!}
+                                @endslot
+                            </x-form-radio>
+                            <!-- ./maintain key option -->
+
+                            <!-- create key option -->
+                            <x-form-radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION" :label="__('key/messages.create_public_key')">
+                                @slot('help')
                                 <div id="create_public_key_form">
-                                    <p class="form-text text-muted">@lang('key/messages.create_public_key_help') @lang('key/messages.change_public_key_help_notice')</p>
+                                    <small class="form-text text-muted">@lang('key/messages.create_public_key_help') @lang('key/messages.change_public_key_help_notice')</small>
                                 </div>
-                            </div>
-                            <!-- ./ create RSA key -->
+                                @endslot
+                            </x-form-radio>
+                            <!-- ./create key option -->
 
-                            <!-- import public_key -->
-                            <div class="form-check">
-                                {!! Form::radio('operation', \App\Enums\KeyOperation::IMPORT_OPERATION, false, array('class' => 'form-check-input', 'id' => 'import_public_key')) !!}
-                                {!! Form::label('import_public_key', __('key/messages.import_public_key'), array('class' => 'form-check-label')) !!}
-                                <div id="import_public_key_form">
-                                    {!! Form::textarea('public_key', null, array('class' => 'form-control' . ($errors->has('public_key') ? ' is-invalid' : ''), 'id' => 'public_key', 'rows' => '5', 'required' => 'required', 'placeholder' => __('key/messages.import_public_key_help'))) !!}
-                                    <span class="form-text text-muted">
-                                            @lang('key/messages.change_public_key_help_notice')
-                                        </span>
-                                    @error('public_key')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!-- ./ import public_key -->
+                            <!-- import key option -->
+                            <x-form-radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION" :label="__('key/messages.import_public_key')">
+                                @slot('help')
+                                    <div id="import_public_key_form">
+                                        <x-form-textarea name="public_key" id="public_key" rows="5" :placeholder="__('key/messages.import_public_key_help')" required/>
+                                    </div>
+                                @endslot
+                            </x-form-radio>
+                            <!-- ./import key option -->
 
-                        </div>
+                        </x-form-group>
+
                     </fieldset>
                     <!-- ./ SSH public key -->
 
@@ -142,14 +135,13 @@
                         <legend>@lang('key/title.membership_section')</legend>
 
                         <!-- key's groups -->
-                        <div class="form-group">
-                            {!! Form::label('groups[]', __('key/model.groups')) !!}
-                            {!! Form::select('groups[]', $groups, $key->groups->pluck('id'), array('multiple' => 'multiple', 'class' => 'form-control search-select')) !!}
-
-                            <small class="form-text text-muted">
-                                {{ __('key/messages.groups_help') }}
-                            </small>
-                        </div>
+                        <x-form-select name="groups[]" :label="__('key/model.groups')" :options="$groups" :default="$key->groups->pluck('id')" multiple class="search-select">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('key/messages.groups_help')
+                                </small>
+                            @endslot
+                        </x-form-select>
                         <!-- ./ key's groups -->
                     </fieldset>
 
@@ -202,14 +194,17 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            {!! Form::button(__('general.update'), array('type' => 'submit', 'class' => 'btn btn-success')) !!}
+            <x-form-submit class="btn-success">
+                @lang('general.update')
+            </x-form-submit>
+
             <a href="{{ route('keys.index') }}" class="btn btn-link" role="button">
                 {{ __('general.cancel') }}
             </a>
             <!-- ./ form actions -->
         </div>
 
-        {!! Form::close() !!}
+        </x-form>
     </div>
     <!-- ./ card -->
 
