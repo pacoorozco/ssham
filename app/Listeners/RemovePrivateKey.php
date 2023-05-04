@@ -32,6 +32,6 @@ class RemovePrivateKey
         activity()
             //->performedOn($key)
             ->withProperties(['status' => ActivityStatus::Success])
-            ->log(sprintf("Private key was removed from key '%s'.", $key->username));
+            ->log(sprintf("Private key was removed from key '%s'.", $key->name));
     }
 }

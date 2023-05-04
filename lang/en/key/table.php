@@ -17,7 +17,7 @@
  */
 
 return [
-    'username' => 'Username',
+    'name' => 'Name',
     'groups' => 'Groups',
     'enabled' => 'Status',
     'fingerprint' => 'Fingerprint',

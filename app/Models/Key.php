@@ -34,7 +34,7 @@ use Spatie\Searchable\SearchResult;
  * Class Key.
  *
  * @property string                          $id
- * @property string                          $username
+ * @property string                          $name
  * @property bool                            $enabled
  * @property string                          $type
  * @property string                          $public
@@ -58,7 +58,7 @@ class Key extends Model implements Searchable
     protected $table = 'keys';
 
     protected $fillable = [
-        'username',
+        'name',
         'public',
         'private',
         'enabled',
@@ -74,13 +74,6 @@ class Key extends Model implements Searchable
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Keygroup::class);
-    }
-
-    protected function username(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => strtolower($value),
-        );
     }
 
     protected function public(): Attribute
@@ -99,7 +92,7 @@ class Key extends Model implements Searchable
 
         return new SearchResult(
             $this,
-            $this->username,
+            $this->name,
             $url
         );
     }
@@ -113,9 +106,9 @@ class Key extends Model implements Searchable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['username', 'enabled'])
+            ->logOnly(['name', 'enabled'])
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn (string $eventName) => "Key ':subject.username' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "Key ':subject.name' was {$eventName}");
     }
 
     /** @codeCoverageIgnore */

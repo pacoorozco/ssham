@@ -81,7 +81,7 @@ class KeyDataTablesControllerTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
-                        'username',
+                        'name',
                         'fingerprint',
                         'groups',
                         'actions',

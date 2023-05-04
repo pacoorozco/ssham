@@ -41,7 +41,7 @@ class SearchControllerTest extends TestCase
     public function users_should_see_the_search_view(): void
     {
         Key::factory()->create([
-            'username' => 'qwerty_key',
+            'name' => 'qwerty_key',
         ]);
 
         $this
@@ -55,7 +55,7 @@ class SearchControllerTest extends TestCase
     public function users_should_see_the_search_view_when_using_an_empty_query(): void
     {
         Key::factory()->create([
-            'username' => 'qwerty_key',
+            'name' => 'qwerty_key',
         ]);
 
         $this
@@ -74,7 +74,7 @@ class SearchControllerTest extends TestCase
         array $want,
     ): void {
         Key::factory()->create([
-            'username' => 'qwerty_key',
+            'name' => 'qwerty_key',
         ]);
         Host::factory()->create([
             'hostname' => 'qwerty_host',

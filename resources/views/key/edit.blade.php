@@ -33,7 +33,7 @@
 
         <div class="card-header @unless($key->enabled) bg-gray-dark @endunless">
             <h2 class="card-title">
-                {{ $key->username }}
+                {{ $key->name }}
                 @unless($key->enabled)
                     {{ $key->present()->enabledAsBadge() }}
                 @endunless
@@ -47,15 +47,15 @@
 
                     <fieldset>
                         <legend>@lang('key/title.key_identification_section')</legend>
-                        <!-- username -->
-                        <x-form-input name="username" :label="__('key/model.username')" :value="$key->username" readonly>
+                        <!-- name -->
+                        <x-form-input name="name" :label="__('key/model.name')" :value="$key->name" readonly>
                             @slot('help')
                                 <small class="form-text text-muted">
-                                    @lang('key/messages.username_help')
+                                    @lang('key/messages.name_help')
                                 </small>
                             @endslot
                         </x-form-input>
-                        <!-- ./ username -->
+                        <!-- ./ name -->
                     </fieldset>
 
                     <!-- enabled -->
@@ -212,11 +212,11 @@
     <!-- confirmation modal -->
     <x-modals.confirmation
         action="{{ route('keys.destroy', $key) }}"
-        confirmationText="{{ $key->username }}"
+        confirmationText="{{ $key->name }}"
         buttonText="{{ __('key/messages.delete_confirmation_button') }}">
 
         <div class="alert alert-warning" role="alert">
-            @lang('key/messages.delete_confirmation_warning', ['username' => $key->username])
+            @lang('key/messages.delete_confirmation_warning', ['name' => $key->name])
         </div>
 
     </x-modals.confirmation>

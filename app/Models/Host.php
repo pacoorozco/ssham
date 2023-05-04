@@ -192,12 +192,12 @@ class Host extends Model implements Searchable
                 foreach ($keys as $key) {
                     switch ($rule->action) {
                         case ControlRuleAction::Deny:
-                            unset($sshKeys[$key->username]);
+                            unset($sshKeys[$key->name]);
                             break;
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->username.'@ssham';
-                            $sshKeys[$key->username] = implode(' ', $content);
+                            $content[2] = $key->name.'@ssham';
+                            $sshKeys[$key->name] = implode(' ', $content);
                             break;
                         default:
                             // There is no more cases, but just in case (NOOP).

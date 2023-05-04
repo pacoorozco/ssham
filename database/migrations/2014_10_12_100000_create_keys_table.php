@@ -26,7 +26,7 @@ return new class extends Migration
     {
         Schema::create('keys', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('username')->unique();
+            $table->string('name')->unique();
             $table->text('type')->nullable();
             $table->text('length')->nullable();
             $table->text('public')->nullable();

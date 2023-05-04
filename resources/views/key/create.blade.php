@@ -40,15 +40,15 @@
 
                     <fieldset>
                         <legend>@lang('key/title.key_identification_section')</legend>
-                        <!-- username -->
-                        <x-form-input name="username" :label="__('key/model.username')" required autofocus>
+                        <!-- name -->
+                        <x-form-input name="name" :label="__('key/model.name')" required autofocus>
                             @slot('help')
                                 <small class="form-text text-muted">
-                                    @lang('key/messages.username_help')
+                                    @lang('key/messages.name_help')
                                 </small>
                             @endslot
                         </x-form-input>
-                        <!-- ./ username -->
+                        <!-- ./ name -->
                     </fieldset>
 
                     <!-- SSH public key -->

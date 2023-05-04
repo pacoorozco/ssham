@@ -113,7 +113,7 @@ class KeygroupControllerTest extends TestCase
             ->get(route('keygroups.create'))
             ->assertSuccessful()
             ->assertViewIs('keygroup.create')
-            ->assertViewHas('keys', $keys->pluck('username', 'id'));
+            ->assertViewHas('keys', $keys->pluck('name', 'id'));
     }
 
     /** @test */
@@ -274,7 +274,7 @@ class KeygroupControllerTest extends TestCase
             ->assertSuccessful()
             ->assertViewIs('keygroup.edit')
             ->assertViewHas('keygroup', $group)
-            ->assertViewHas('keys', $keys->pluck('username', 'id'));
+            ->assertViewHas('keys', $keys->pluck('name', 'id'));
     }
 
     /** @test */

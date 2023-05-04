@@ -50,7 +50,7 @@ class SearchController extends Controller
         return (new Search())
             ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
                 $modelSearchAspect
-                    ->addSearchableAttribute('username') // return results for partial matches on usernames
+                    ->addSearchableAttribute('name') // return results for partial matches on key names
                     ->addExactSearchableAttribute('fingerprint'); // only return results that exactly match the fingerprint
             })
             ->registerModel(Keygroup::class, 'name', 'description')
