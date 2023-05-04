@@ -196,7 +196,7 @@ class Host extends Model implements Searchable
                             break;
                         case ControlRuleAction::Allow:
                             $content = explode(' ', $key->public, 3);
-                            $content[2] = $key->name.'@ssham';
+                            $content[2] = 'ssham: ' . $key->name;
                             $sshKeys[$key->name] = implode(' ', $content);
                             break;
                         default:
