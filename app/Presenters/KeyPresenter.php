@@ -35,13 +35,13 @@ class KeyPresenter extends Presenter
         return optional($this->model->updated_at)->diffForHumans() ?? 'N/A';
     }
 
-    public function usernameWithDisabledBadge(): HtmlString
+    public function nameWithDisabledBadge(): HtmlString
     {
         $badge = $this->enabledAsBadge();
 
         return $this->model->enabled
-            ? new HtmlString($this->model->username)
-            : new HtmlString($this->model->username.' '.$badge);
+            ? new HtmlString($this->model->name)
+            : new HtmlString($this->model->name.' '.$badge);
     }
 
     public function enabledAsBadge(): HtmlString

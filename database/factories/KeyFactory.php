@@ -40,7 +40,7 @@ class KeyFactory extends Factory
         $publicKey = $privateKey->getPublicKey();
 
         return [
-            'username' => fake()->unique()->userName,
+            'name' => fake()->unique()->userName,
             'public' => (string) $publicKey,
             'private' => (string) $privateKey,
             'enabled' => true,

@@ -31,16 +31,16 @@ class KeyDataTablesController extends Controller
         $keys = Key::query()
             ->select([
                 'id',
-                'username',
+                'name',
                 'fingerprint',
                 'enabled',
             ])
             ->withCount('groups as groups') // count number of groups without loading the models
-            ->orderBy('username');
+            ->orderBy('name');
 
         return $dataTable->eloquent($keys)
-            ->editColumn('username', function (Key $key) {
-                return $key->present()->usernameWithDisabledBadge();
+            ->editColumn('name', function (Key $key) {
+                return $key->present()->nameWithDisabledBadge();
             })
             ->editColumn('enabled', function (Key $key) {
                 return $key->present()->enabledAsBadge();
@@ -51,7 +51,7 @@ class KeyDataTablesController extends Controller
                     ->with('model', $key)
                     ->render();
             })
-            ->rawColumns(['username', 'enabled', 'actions'])
+            ->rawColumns(['name', 'enabled', 'actions'])
             ->removeColumn('id')
             ->toJson();
     }

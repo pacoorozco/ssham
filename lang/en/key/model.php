@@ -24,7 +24,7 @@ return [
     |
     */
     'item' => 'SSH Keys',
-    'username' => 'Username',
+    'name' => 'Name',
     'public_key' => 'SSH public key',
     'private_key' => 'Private key',
     'fingerprint' => 'Key fingerprint',

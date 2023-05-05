@@ -132,13 +132,13 @@ class KeyControllerTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('keys.store'), [
-                'username' => $want->username,
+                'name' => $want->name,
                 'operation' => KeyOperation::CREATE_OPERATION,
             ])
             ->assertForbidden();
 
         $this->assertDatabaseMissing(Key::class, [
-            'username' => $want->username,
+            'name' => $want->name,
         ]);
     }
 
@@ -160,7 +160,7 @@ class KeyControllerTest extends TestCase
         $want = Key::factory()->make();
 
         $formData = array_merge([
-            'username' => $want->username,
+            'name' => $want->name,
             'operation' => KeyOperation::CREATE_OPERATION,
             'groups' => $groups->pluck('id')->toArray(),
         ], $data);
@@ -171,7 +171,7 @@ class KeyControllerTest extends TestCase
             ->assertValid();
 
         $key = Key::query()
-            ->where('username', $want->username)
+            ->where('name', $want->name)
             ->first();
 
         $this->assertInstanceOf(Key::class, $key);
@@ -218,14 +218,14 @@ class KeyControllerTest extends TestCase
 
         // Key to validate unique rules...
         Key::factory()->create([
-            'username' => 'foo',
+            'name' => 'foo',
         ]);
 
         /** @var Key $want */
         $want = Key::factory()->make();
 
         $formData = [
-            'username' => $data['username'] ?? $want->username,
+            'name' => $data['name'] ?? $want->name,
             'operation' => $data['operation'] ?? KeyOperation::CREATE_OPERATION,
         ];
 
@@ -234,41 +234,34 @@ class KeyControllerTest extends TestCase
             ->post(route('keys.store'), $formData)
             ->assertInvalid($errors);
 
-        if ($formData['username'] != 'foo') {
+        if ($formData['name'] != 'foo') {
             $this->assertDatabaseMissing(Key::class, [
-                'username' => $formData['username'],
+                'name' => $formData['name'],
             ]);
         }
     }
 
     public static function provideWrongDataForKeyCreation(): Generator
     {
-        yield 'username is empty' => [
+        yield 'name is empty' => [
             'data' => [
-                'username' => '',
+                'name' => '',
             ],
-            'errors' => ['username'],
+            'errors' => ['name'],
         ];
 
-        yield 'username > 255 chars' => [
+        yield 'name > 255 chars' => [
             'data' => [
-                'username' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
+                'name' => '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345',
             ],
-            'errors' => ['username'],
+            'errors' => ['name'],
         ];
 
-        yield 'username ! valid' => [
+        yield 'name is taken' => [
             'data' => [
-                'username' => '_foo34',
+                'name' => 'foo',
             ],
-            'errors' => ['username'],
-        ];
-
-        yield 'username is taken' => [
-            'data' => [
-                'username' => 'foo',
-            ],
-            'errors' => ['username'],
+            'errors' => ['name'],
         ];
 
         yield 'operation ! valid' => [
@@ -420,7 +413,7 @@ class KeyControllerTest extends TestCase
 
         $this->assertDatabaseMissing(Key::class, [
             'id' => $key->id,
-            'username' => $key->username,
+            'name' => $key->name,
             'enabled' => $formData['enabled'],
             'public' => $formData['public_key'],
         ]);

@@ -65,14 +65,14 @@ class KeyController extends Controller
         }
 
         $key = $createKey(
-            username: $request->username(),
+            name: $request->name(),
             publicKey: $publicKey,
             privateKey: $privateKey,
             groups: $request->groups()
         );
 
         return redirect()->route('keys.show', $key)
-            ->with('success', __('key/messages.create.success', ['username' => $key->username]));
+            ->with('success', __('key/messages.create.success', ['name' => $key->name]));
     }
 
     public function show(Key $key): View
@@ -115,23 +115,23 @@ class KeyController extends Controller
         );
 
         return redirect()->route('keys.show', $key)
-            ->with('success', __('key/messages.edit.success', ['username' => $key->username]));
+            ->with('success', __('key/messages.edit.success', ['name' => $key->name]));
     }
 
     public function destroy(Key $key): RedirectResponse
     {
-        $username = $key->username;
+        $name = $key->name;
 
         try {
             $key->delete();
         } catch (Throwable $exception) {
-            Log::error("Key '$key->username' was not deleted: {$exception->getMessage()}");
+            Log::error("Key '$key->name' was not deleted: {$exception->getMessage()}");
 
             return redirect()->back()
                 ->withErrors(trans('key/messages.delete.error'));
         }
 
         return redirect()->route('keys.index')
-            ->with('success', __('key/messages.delete.success', ['username' => $username]));
+            ->with('success', __('key/messages.delete.success', ['name' => $name]));
     }
 }

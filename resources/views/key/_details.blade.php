@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header @unless($key->enabled) bg-gray-dark @endunless">
         <h2 class="card-title">
-            {{ $key->present()->username }}
+            {{ $key->present()->name }}
             @unless($key->enabled)
                 {{ $key->present()->enabledAsBadge() }}
             @endunless
@@ -16,14 +16,14 @@
                 <h3>@lang('key/title.key_identification_section')</h3>
                 <dl class="row">
 
-                    <!-- username -->
+                    <!-- name -->
                     <dt class="col-sm-3">
-                        <strong>@lang('key/model.username')</strong>
+                        <strong>@lang('key/model.name')</strong>
                     </dt>
                     <dd class="col-sm-9">
-                        {{ $key->present()->username }}
+                        {{ $key->present()->name }}
                     </dd>
-                    <!-- ./ username -->
+                    <!-- ./ name -->
 
                     <!-- fingerprint -->
                     <dt class="col-sm-3">
@@ -166,11 +166,11 @@
     <!-- confirmation modal -->
     <x-modals.confirmation
         action="{{ route('keys.destroy', $key) }}"
-        confirmationText="{{ $key->username }}"
+        confirmationText="{{ $key->name }}"
         buttonText="{{ __('key/messages.delete_confirmation_button') }}">
 
         <div class="alert alert-warning" role="alert">
-            @lang('key/messages.delete_confirmation_warning', ['username' => $key->username])
+            @lang('key/messages.delete_confirmation_warning', ['name' => $key->name])
         </div>
     </x-modals.confirmation>
     <!-- ./ confirmation modal -->

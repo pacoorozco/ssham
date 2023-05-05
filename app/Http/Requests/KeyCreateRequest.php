@@ -30,9 +30,10 @@ class KeyCreateRequest extends Request
     public function rules(): array
     {
         return [
-            'username' => [
+            'name' => [
                 'required',
-                new UsernameRule(),
+                'string',
+                'max:255',
                 Rule::unique(Key::class),
             ],
             'operation' => [
@@ -54,9 +55,9 @@ class KeyCreateRequest extends Request
         return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
     }
 
-    public function username(): string
+    public function name(): string
     {
-        return $this->input('username');
+        return $this->input('name');
     }
 
     public function publicKey(): string

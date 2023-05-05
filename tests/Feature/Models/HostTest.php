@@ -86,8 +86,8 @@ class HostTest extends TestCase
         $hostGroup->hosts()->save($host);
 
         // These two keys should appear on the getSSHKeysForHost() list.
-        $key1 = Key::factory()->create(['username' => 'key1']);
-        $key2 = Key::factory()->create(['username' => 'key2']);
+        $key1 = Key::factory()->create(['name' => 'key1']);
+        $key2 = Key::factory()->create(['name' => 'key2']);
         $allowedKeyGroup = Keygroup::factory()->create();
         $allowedKeyGroup->keys()->saveMany([
             $key1,
@@ -117,9 +117,9 @@ class HostTest extends TestCase
 
         $got = $host->getSSHKeysForHost();
         $this->assertCount(2, $got);
-        $this->assertArrayHasKey($key1->username, $got);
-        $this->assertArrayHasKey($key2->username, $got);
-        $this->assertArrayNotHasKey($key3->username, $got);
+        $this->assertArrayHasKey($key1->name, $got);
+        $this->assertArrayHasKey($key2->name, $got);
+        $this->assertArrayNotHasKey($key3->name, $got);
     }
 
     /** @test */
@@ -130,7 +130,7 @@ class HostTest extends TestCase
         $hostGroup = Hostgroup::factory()->create();
         $hostGroup->hosts()->save($host);
 
-        $key1 = Key::factory()->create(['username' => 'key1']);
+        $key1 = Key::factory()->create(['name' => 'key1']);
         $allowedKeyGroup = Keygroup::factory()->create();
         $allowedKeyGroup->keys()->save($key1);
 
@@ -164,9 +164,9 @@ class HostTest extends TestCase
         $hostGroup->hosts()->save($host);
 
         // This key should appear on the getSSHKeysForHost() list.
-        $key1 = Key::factory()->create(['username' => 'key1']);
+        $key1 = Key::factory()->create(['name' => 'key1']);
         // This key should NOT appear, because is disabled, on the getSSHKeysForHost() list.
-        $key2 = Key::factory()->create(['username' => 'key2', 'enabled' => false]);
+        $key2 = Key::factory()->create(['name' => 'key2', 'enabled' => false]);
         $allowedKeyGroup = Keygroup::factory()->create();
         $allowedKeyGroup->keys()->saveMany([
             $key1,
@@ -182,8 +182,8 @@ class HostTest extends TestCase
 
         $got = $host->getSSHKeysForHost();
         $this->assertCount(1, $got);
-        $this->assertArrayHasKey($key1->username, $got);
-        $this->assertArrayNotHasKey($key2->username, $got);
+        $this->assertArrayHasKey($key1->name, $got);
+        $this->assertArrayNotHasKey($key2->name, $got);
     }
 
     /** @test */
@@ -194,7 +194,7 @@ class HostTest extends TestCase
         $hostGroup = Hostgroup::factory()->create();
         $hostGroup->hosts()->save($host);
 
-        $key1 = Key::factory()->create(['username' => 'key1']);
+        $key1 = Key::factory()->create(['name' => 'key1']);
         $allowedKeyGroup = Keygroup::factory()->create();
         $allowedKeyGroup->keys()->save($key1);
 

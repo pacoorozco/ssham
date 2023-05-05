@@ -18,7 +18,7 @@
 
 return [
 
-    'username_help' => 'For security reasons, username <strong>cannot</strong> be changed once the key is created.',
+    'name_help' => 'For security reasons, name <strong>cannot</strong> be changed once the key is created.',
 
     'private_key_available' => 'Private key is available',
     'download_private_key' => 'Download private key',
@@ -36,21 +36,21 @@ return [
 
     'create' => [
         'error' => 'Key was not created, please try again.',
-        'success' => 'The key \':username\' was created successfully.',
+        'success' => 'The key \':name\' was created successfully.',
     ],
     'edit' => [
         'error' => 'There was an issue editing the key. Please try again.',
-        'success' => 'The key \':username\' was edited successfully.',
+        'success' => 'The key \':name\' was edited successfully.',
     ],
     'delete' => [
         'error' => 'There was an issue deleting the key. Please try again.',
-        'success' => 'The key \':username\' was deleted successfully.',
+        'success' => 'The key \':name\' was deleted successfully.',
     ],
 
     'danger_zone_section' => 'Danger Zone',
     'delete_button' => 'Delete this SSH key',
     'delete_help' => 'Once you delete a SSH key, there is no going back. Please be certain.',
-    'delete_confirmation_warning' => 'This action <strong>cannot</strong> be undone. This will permanently delete the <strong>:username</strong> SSH key and remove all group associations.',
+    'delete_confirmation_warning' => 'This action <strong>cannot</strong> be undone. This will permanently delete the <strong>:name</strong> SSH key and remove all group associations.',
     'delete_confirmation_button' => 'I understand the consequences, delete this SSH key',
     'delete_avoided' => 'You are not allowed to delete this key.',
 

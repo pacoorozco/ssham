@@ -27,7 +27,7 @@ class KeyTest extends ModelTestCase
     {
         $m = new Key();
         $this->assertEquals([
-            'username',
+            'name',
             'public',
             'private',
             'enabled',

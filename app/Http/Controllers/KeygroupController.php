@@ -42,7 +42,7 @@ class KeygroupController extends Controller
     public function create(): View
     {
         // Get all existing keys
-        $keys = Key::orderBy('username')->pluck('username', 'id');
+        $keys = Key::orderBy('name')->pluck('name', 'id');
 
         return view('keygroup.create')
             ->with('keys', $keys);
@@ -71,7 +71,7 @@ class KeygroupController extends Controller
     public function edit(Keygroup $keygroup): View
     {
         // Get all existing keys
-        $keys = Key::orderBy('username')->pluck('username', 'id');
+        $keys = Key::orderBy('name')->pluck('name', 'id');
 
         return view('keygroup.edit')
             ->with('keygroup', $keygroup)

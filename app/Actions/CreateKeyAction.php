@@ -22,13 +22,13 @@ use App\Models\Key;
 class CreateKeyAction
 {
     public function __invoke(
-        string $username,
+        string $name,
         string $publicKey,
         string|null $privateKey,
         array $groups,
     ): Key {
         $key = Key::create([
-            'username' => $username,
+            'name' => $name,
             'public' => $publicKey,
             'private' => $privateKey,
         ]);
