@@ -1,4 +1,4 @@
-name: Upload Release Asset
+name: Release
 on:
   push:
     tags:
@@ -26,24 +26,11 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          tag: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          artifacts: ${{ steps.build_project.outputs.DIST_FILE }}.zip
+          artifactContentType: application/zip
           body: |
             Review [CHANGELOG](https://github.com/pacoorozco/ssham/blob/main/CHANGELOG.md) to see changes.
-
-      - name: Upload Release Asset (zip)
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.build_project.outputs.DIST_FILE }}.zip
-          asset_name: ssham-dist-${{ steps.get_version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
