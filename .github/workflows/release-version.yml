@@ -1,4 +1,4 @@
-name: Release new version
+name: Release version
 on:
   push:
     tags:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Release new version
+    name: Release version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
