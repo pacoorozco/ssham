@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 use Laracodes\Presenter\Traits\Presentable;
 use PacoOrozco\OpenSSH\PublicKey;
 use Spatie\Activitylog\LogOptions;
@@ -76,9 +77,18 @@ class Key extends Model implements Searchable
         return $this->belongsToMany(Keygroup::class);
     }
 
+    private function publicKeyComment(): string
+    {
+        return 'SSHAM['.$this->name.']';
+    }
+
     protected function public(): Attribute
     {
         return Attribute::make(
+            get: fn (string $value) => Str::of($value)
+                ->words(2, ' ')
+                ->append($this->publicKeyComment())
+                ->toString(),
             set: fn (string $value) => [
                 'public' => $value,
                 'fingerprint' => PublicKey::fromString($value)->getFingerPrint('md5'),
