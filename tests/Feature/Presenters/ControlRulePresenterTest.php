@@ -11,6 +11,7 @@ class ControlRulePresenterTest extends ModelTestCase
 {
     /**
      * @test
+     *
      * @dataProvider providesActionValues
      */
     public function it_should_return_the_proper_icon(

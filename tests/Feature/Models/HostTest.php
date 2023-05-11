@@ -229,6 +229,7 @@ class HostTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideGetPortTestCases
      */
     public function it_should_return_the_host_port(
@@ -295,6 +296,7 @@ class HostTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideGetAuthorizedKeysFileTestCases
      */
     public function it_should_return_the_authorized_keys_file(

@@ -37,6 +37,7 @@ class UpdateHostGroupActionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider providesMembershipData
      */
     public function it_updates_a_host_group(

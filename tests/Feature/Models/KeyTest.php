@@ -45,4 +45,19 @@ class KeyTest extends TestCase
         $this->assertTrue(Str::isUuid($key->id));
         $this->assertTrue(Str::isUuid($key->getKey()));
     }
+
+    /** @test */
+    public function it_should_return_a_formatted_key_comment(): void
+    {
+        /** @var Key $key */
+        $key = Key::factory()->create([
+            'name' => 'foo bar key',
+            'public' => self::VALID_PUBLIC_KEY,
+        ]);
+
+        // Get the last part of the public key, which is the key's comment.
+        $keyComment = explode(' ', $key->public, 3)[2];
+
+        $this->assertEquals('SSHAM[foo bar key]', $keyComment);
+    }
 }

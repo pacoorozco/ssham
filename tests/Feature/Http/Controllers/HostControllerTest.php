@@ -138,6 +138,7 @@ class HostControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideNullableFieldsForHosts
      */
     public function editors_should_create_hosts(
@@ -202,6 +203,7 @@ class HostControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForHostCreation
      */
     public function editors_should_get_errors_when_creating_hosts_with_wrong_data(
@@ -347,6 +349,7 @@ class HostControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideNullableFieldsForHosts
      */
     public function editors_should_update_hosts(
@@ -393,6 +396,7 @@ class HostControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForHostModification
      */
     public function editors_should_get_errors_when_updating_hosts_with_wrong_data(

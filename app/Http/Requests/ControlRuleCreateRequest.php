@@ -34,7 +34,7 @@ class ControlRuleCreateRequest extends Request
                 'required',
                 Rule::exists(Keygroup::class, 'id'),
                 Rule::unique(ControlRule::class, 'source_id')
-                ->where(fn ($query) => $query->where('target_id', $this->input('target'))),
+                    ->where(fn ($query) => $query->where('target_id', $this->input('target'))),
             ],
             'target' => [
                 'required',

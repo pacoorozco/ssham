@@ -39,7 +39,6 @@ class UpdateServer implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      *
      * @throws \App\Exceptions\PusherException
      */
@@ -70,9 +69,6 @@ class UpdateServer implements ShouldQueue
 
     /**
      * Handle a job failure.
-     *
-     * @param  \Throwable  $exception
-     * @return void
      */
     public function failed(Throwable $exception): void
     {

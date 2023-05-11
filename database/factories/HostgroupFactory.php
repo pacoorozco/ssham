@@ -18,7 +18,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Hostgroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

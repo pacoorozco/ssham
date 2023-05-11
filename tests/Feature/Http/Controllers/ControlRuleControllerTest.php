@@ -149,6 +149,7 @@ class ControlRuleControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForRuleCreation
      */
     public function editors_should_get_errors_when_creating_rules_with_wrong_data(

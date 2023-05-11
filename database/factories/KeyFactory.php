@@ -18,11 +18,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Key;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use PacoOrozco\OpenSSH\Exceptions\NoKeyLoadedException;
 use PacoOrozco\OpenSSH\PrivateKey;
-use PacoOrozco\OpenSSH\PublicKey;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Key>

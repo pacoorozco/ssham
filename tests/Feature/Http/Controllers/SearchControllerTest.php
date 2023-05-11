@@ -67,6 +67,7 @@ class SearchControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideSearchQueriesAndExpectedResults
      */
     public function users_should_see_the_search_results(

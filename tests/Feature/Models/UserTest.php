@@ -36,6 +36,7 @@ class UserTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideRoleInfo
      */
     public function it_returns_true_when_user_is_super_admin(Roles $role, bool $want): void

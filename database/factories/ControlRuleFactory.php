@@ -19,7 +19,6 @@
 namespace Database\Factories;
 
 use App\Enums\ControlRuleAction;
-use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
 use Illuminate\Database\Eloquent\Factories\Factory;

@@ -195,9 +195,7 @@ class Host extends Model implements Searchable
                             unset($sshKeys[$key->name]);
                             break;
                         case ControlRuleAction::Allow:
-                            $content = explode(' ', $key->public, 3);
-                            $content[2] = 'ssham: ' . $key->name;
-                            $sshKeys[$key->name] = implode(' ', $content);
+                            $sshKeys[$key->name] = $key->public;
                             break;
                         default:
                             // There is no more cases, but just in case (NOOP).
