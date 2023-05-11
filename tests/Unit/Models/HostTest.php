@@ -46,6 +46,7 @@ class HostTest extends ModelTestCase
 
     /**
      * @test
+     *
      * @dataProvider provideUsernameTestCases
      */
     public function it_should_return_lowercase_usernames(
@@ -85,6 +86,7 @@ class HostTest extends ModelTestCase
 
     /**
      * @test
+     *
      * @dataProvider provideHostnameTestCases
      */
     public function it_should_return_lowercase_hostnames(

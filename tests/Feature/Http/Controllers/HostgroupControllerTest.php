@@ -171,6 +171,7 @@ class HostgroupControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForGroupCreation
      */
     public function editors_should_get_errors_when_creating_groups_with_wrong_data(
@@ -312,6 +313,7 @@ class HostgroupControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForGroupModification
      */
     public function editors_should_get_errors_when_updating_groups_with_wrong_data(

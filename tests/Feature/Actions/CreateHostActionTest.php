@@ -28,6 +28,7 @@ class CreateHostActionTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider providesHostTestCases
      */
     public function it_can_create_a_host(

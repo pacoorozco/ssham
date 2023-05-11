@@ -178,6 +178,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForSettingsModification
      */
     public function editors_should_get_errors_when_updating_the_settings_with_wrong_data(

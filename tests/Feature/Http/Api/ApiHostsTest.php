@@ -132,6 +132,7 @@ class ApiHostsTest extends ApiTestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForHostCreation
      */
     public function editors_should_get_errors_when_creating_hosts_with_wrong_data(
@@ -433,6 +434,7 @@ class ApiHostsTest extends ApiTestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForHostModification
      */
     public function editors_should_get_errors_when_updating_hosts_with_wrong_data(

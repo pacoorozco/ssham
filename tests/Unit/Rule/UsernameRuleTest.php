@@ -41,6 +41,7 @@ class UsernameRuleTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideInvalidUsernames
      */
     public function usernames_containing_invalid_characters_should_fail(

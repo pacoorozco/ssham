@@ -27,6 +27,7 @@ class UpdateHostActionTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider provideNullableFieldsForHosts
      */
     public function it_can_update_a_host(

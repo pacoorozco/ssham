@@ -37,6 +37,7 @@ class CreateHostGroupActionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider providesMembershipData
      */
     public function it_creates_a_host_group(

@@ -39,6 +39,7 @@ class CreateUserActionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider providesUserData
      */
     public function it_can_create_a_user(

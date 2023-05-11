@@ -165,6 +165,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForUserCreation
      */
     public function editors_should_get_errors_when_creating_users_with_wrong_data(
@@ -504,6 +505,7 @@ class UserControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrongDataForUserModification
      */
     public function editors_should_get_errors_when_updating_users_with_wrong_data(

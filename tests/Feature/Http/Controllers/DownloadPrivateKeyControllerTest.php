@@ -41,6 +41,7 @@ class DownloadPrivateKeyControllerTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider providePrivateKeysToDownload
      */
     public function users_should_not_download_existing_private_keys(

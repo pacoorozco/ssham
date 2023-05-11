@@ -16,7 +16,6 @@
  *  @link        https://github.com/pacoorozco/ssham
  */
 
-
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;

@@ -32,7 +32,7 @@ class SendKeysToHostsCommand extends Command
     public function handle(): int
     {
         $query = Host::query()
-                ->enabled();
+            ->enabled();
 
         if ($this->option('pending')) {
             $query->withPendingChanges();
