@@ -175,19 +175,13 @@ class Host extends Model implements Searchable
             ->pluck('source_id');
 
         // Get all keys for the key groups that allow access to the host and are enabled.
-        $keys = Keygroup::whereIn('id', $keyGroupIds)
+        return Keygroup::whereIn('id', $keyGroupIds)
             ->with('keys')
             ->get()
             ->pluck('keys')
             ->flatten()
-            ->where('enabled', true);
-
-        // Add the keys to the $sshKeys collection.
-        foreach ($keys as $key) {
-            $sshKeys->push($key->public);
-        }
-
-        return $sshKeys;
+            ->where('enabled', true)
+            ->map(fn ($key) => $key->public);
     }
 
     public function groups(): BelongsToMany
