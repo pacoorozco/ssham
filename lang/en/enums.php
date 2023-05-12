@@ -17,13 +17,8 @@
  */
 
 use App\Enums\ActivityStatus;
-use App\Enums\ControlRuleAction;
 
 return [
-    ControlRuleAction::class => [
-        ControlRuleAction::Allow => 'Allow',
-        ControlRuleAction::Deny => 'Deny',
-    ],
     ActivityStatus::class => [
         ActivityStatus::Success => 'Success',
         ActivityStatus::Failure => 'Failure',

@@ -7,20 +7,16 @@
 <table id="rules-table" class="table table-bordered table-hover" data-form="deleteForm">
     <thead>
     <tr>
-        <th>#</th>
         <th>@lang('rule/table.source')</th>
         <th>@lang('rule/table.target')</th>
-        <th>@lang('rule/table.action')</th>
         <th>@lang('rule/table.name')</th>
         <th>@lang('rule/table.actions')</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
-        <th>#</th>
         <th>@lang('rule/table.source')</th>
         <th>@lang('rule/table.target')</th>
-        <th>@lang('rule/table.action')</th>
         <th>@lang('rule/table.name')</th>
         <th>@lang('rule/table.actions')</th>
     </tr>
@@ -52,13 +48,13 @@
                         <dd id="source-text">N/A</dd>
                         <dt>@lang('rule/model.target')</dt>
                         <dd id="target-text">N/A</dd>
-                        <dt>@lang('rule/model.action')</dt>
-                        <dd id="action-text">N/A</dd>
                     </dl>
-                    <p>
-                        @lang('rule/messages.confirmation_help', ['confirmationText' => 'delete rule'])
-                    </p>
-                    <input id="confirmationInput" type="text" class="form-control" autocomplete="off">
+                    <div class="form-group">
+                        <label for="confirmationInput">
+                            @lang('rule/messages.confirmation_help', ['confirmationText' => 'delete rule'])
+                        </label>
+                        <input id="confirmationInput" type="text" class="form-control" autocomplete="off">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-block btn-outline-danger" id="confirmationButton"
@@ -81,10 +77,8 @@
             $('#rules-table').DataTable({
                 "ajax": "{{ route('rules.data') }}",
                 "columns": [
-                    {data: "id", "orderable": false},
                     {data: "source"},
                     {data: "target"},
-                    {data: "action"},
                     {data: "name"},
                     {data: "actions", "orderable": false, "searchable": false}
                 ],
@@ -98,7 +92,7 @@
             });
         });
 
-        $('#confirmationInput').keyup(function (e) {
+        $('#confirmationInput').keyup(function () {
             if ($('#confirmationInput').val().trim() === 'delete rule') {
                 $('#confirmationButton').removeAttr('disabled');
             } else {
@@ -109,15 +103,13 @@
         $('#confirmationModal').on('show.bs.modal', function (event) {
             $('#confirmationInput').trigger('focus');
 
-            var button = $(event.relatedTarget);
-            var ruleId = button.data('rule-id');
-            var source = button.data('rule-source');
-            var target = button.data('rule-target');
-            var action = button.data('rule-action');
+            const button = $(event.relatedTarget);
+            const ruleId = button.data('rule-id');
+            const source = button.data('rule-source');
+            const target = button.data('rule-target');
             $('#confirmationForm').attr('action', 'rules/' + ruleId);
             $('#source-text').text(source);
             $('#target-text').text(target);
-            $('#action-text').text(action);
         });
 
     </script>

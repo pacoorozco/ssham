@@ -17,7 +17,6 @@
 
 namespace App\Actions;
 
-use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
@@ -28,13 +27,11 @@ class CreateRuleAction
         string $name,
         Keygroup $source,
         Hostgroup $target,
-        ControlRuleAction $action
     ): ControlRule {
         return ControlRule::create([
             'name' => $name,
             'source_id' => $source->id,
             'target_id' => $target->id,
-            'action' => $action->value,
         ]);
     }
 }

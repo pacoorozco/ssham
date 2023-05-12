@@ -65,8 +65,7 @@ class ControlRuleController extends Controller
         $rule = $createRule(
             name: $request->name(),
             source: Keygroup::findOrFail($request->source()),
-            target: Hostgroup::findOrFail($request->target()),
-            action: $request->action()
+            target: Hostgroup::findOrFail($request->target())
         );
 
         return redirect()->route('rules.index')

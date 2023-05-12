@@ -76,9 +76,7 @@ class ControlRuleDataTablesControllerTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
-                        'id',
                         'name',
-                        'action',
                         'source',
                         'target',
                         'actions',

@@ -110,13 +110,11 @@ class ControlRuleControllerTest extends TestCase
                 'name' => $want->namw,
                 'source' => $want->source->id,
                 'target' => $want->target->id,
-                'action' => $want->action->value,
             ])
             ->assertForbidden();
 
         $this->assertDatabaseMissing(ControlRule::class, [
             'name' => $want->name,
-            'action' => $want->action->value,
         ]);
     }
 
@@ -134,7 +132,6 @@ class ControlRuleControllerTest extends TestCase
                 'name' => $want->name,
                 'source' => $want->source->id,
                 'target' => $want->target->id,
-                'action' => $want->action->value,
             ])
             ->assertRedirect(route('rules.index'))
             ->assertValid();
@@ -143,7 +140,6 @@ class ControlRuleControllerTest extends TestCase
             'name' => $want->name,
             'source_id' => $want->source->id,
             'target_id' => $want->target->id,
-            'action' => $want->action->value,
         ]);
     }
 
@@ -170,7 +166,6 @@ class ControlRuleControllerTest extends TestCase
             'name' => $data['name'] ?? $want->name,
             'source' => $data['source'] ?? $want->source->id,
             'target' => $data['target'] ?? $want->target->id,
-            'action' => $data['action'] ?? $want->action->value,
         ];
 
         $this
@@ -182,7 +177,6 @@ class ControlRuleControllerTest extends TestCase
             'name' => $formData['name'],
             'source_id' => $formData['source'],
             'target_id' => $formData['target'],
-            'action' => $formData['action'],
         ]);
     }
 
@@ -215,13 +209,6 @@ class ControlRuleControllerTest extends TestCase
                 'target' => 1,
             ],
             'errors' => ['source'],
-        ];
-
-        yield 'action ! an action' => [
-            'data' => [
-                'action' => 'non-existent-action',
-            ],
-            'errors' => ['action'],
         ];
     }
 

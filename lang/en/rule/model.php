@@ -5,6 +5,5 @@ return [
     'item' => 'Rules',
     'source' => 'Source (SSH Key Group)',
     'target' => 'Target (Host Group)',
-    'action' => 'Action',
     'name' => 'Description',
 ];
