@@ -35,7 +35,6 @@ class ControlRuleDataTablesController extends Controller
             'name',
             'source_id',
             'target_id',
-            'action',
         ]);
 
         return $dataTable->eloquent($rules)
@@ -51,16 +50,13 @@ class ControlRuleDataTablesController extends Controller
 
                 return $target->present()->linkableNameWithHostsCount();
             })
-            ->editColumn('action', function (ControlRule $rule) {
-                return $rule->present()->actionWithIcon;
-            })
             ->addColumn('actions', function (ControlRule $rule) {
                 return view('rule._table_actions')
                     ->with('rule', $rule)
                     ->render();
             })
-            ->rawColumns(['source', 'target', 'action', 'actions'])
-            ->removeColumn(['source_id', 'target_id'])
+            ->rawColumns(['source', 'target', 'actions'])
+            ->removeColumn(['id', 'source_id', 'target_id'])
             ->toJson();
     }
 }

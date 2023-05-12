@@ -49,12 +49,6 @@
                 </div>
                 <!-- ./ source -->
 
-                <!-- action -->
-                <div class="col-md-1">
-                    <x-form-select name="action" :label="__('rule/model.action')" :options="\App\Enums\ControlRuleAction::asSelectArray()"/>
-                </div>
-                <!-- ./ action -->
-
                 <!-- target -->
                 <div class="col-md-4">
                     <x-form-select name="target" :label="__('rule/model.target')" :options="$targets" class="search-select">
@@ -68,7 +62,7 @@
                 <!-- ./ target -->
 
                 <!-- name -->
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <x-form-input name="name" :label="__('rule/model.name')" required>
                         @slot('help')
                             <small class="form-text text-muted">

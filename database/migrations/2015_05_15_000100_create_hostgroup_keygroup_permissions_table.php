@@ -16,7 +16,6 @@
  * @link        https://github.com/pacoorozco/ssham
  */
 
-use App\Enums\ControlRuleAction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -35,9 +34,6 @@ return new class extends Migration
             $table->foreignId('target_id')
                 ->constrained('hostgroups')
                 ->cascadeOnDelete();
-
-            $table->enum('action', ControlRuleAction::getValues())
-                ->default(ControlRuleAction::Allow);
 
             $table->string('name')
                 ->nullable();

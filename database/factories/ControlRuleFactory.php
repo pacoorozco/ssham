@@ -18,7 +18,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\ControlRuleAction;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -38,7 +37,6 @@ class ControlRuleFactory extends Factory
         return [
             'source_id' => Keygroup::factory(),
             'target_id' => Hostgroup::factory(),
-            'action' => fake()->randomElement(ControlRuleAction::getValues()),
             'name' => fake()->sentence,
         ];
     }

@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Models;
 
-use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use Tests\Unit\ModelTestCase;
 
@@ -15,7 +14,6 @@ class ControlRuleTest extends ModelTestCase
         $this->assertEquals([
             'source_id',
             'target_id',
-            'action',
             'name',
             'enabled',
         ], $m->getFillable());
@@ -27,7 +25,6 @@ class ControlRuleTest extends ModelTestCase
         $m = new ControlRule();
         $this->assertEquals([
             'id' => 'int',
-            'action' => ControlRuleAction::class,
         ], $m->getCasts());
     }
 }

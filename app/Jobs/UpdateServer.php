@@ -68,19 +68,6 @@ class UpdateServer implements ShouldQueue
     }
 
     /**
-     * Handle a job failure.
-     */
-    public function failed(Throwable $exception): void
-    {
-        Log::error('Remote server update failed.', [
-            'hostname' => $this->host->full_hostname,
-            'error' => $exception->getMessage(),
-        ]);
-
-        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
-    }
-
-    /**
      * @throws \App\Exceptions\PusherException|\phpseclib3\Exception\NoKeyLoadedException
      */
     protected function connectRemoteServer(): void
@@ -112,11 +99,12 @@ class UpdateServer implements ShouldQueue
      */
     protected function updateRemoteSSHKeys(): void
     {
-        $sshKeys = $this->host->getSSHKeysForHost(setting()->get('public_key'));
+        $sshKeys = $this->host->getSSHKeysForHost();
 
-        $sshKeysCollection = collect($sshKeys);
+        // Add the bastion host's SSH key
+        $sshKeys->push(setting()->get('public_key'));
 
-        $authorizedKeysFileContent = $sshKeysCollection->join(PHP_EOL).PHP_EOL;
+        $authorizedKeysFileContent = $sshKeys->join(PHP_EOL).PHP_EOL;
 
         $this->pusher->pushDataTo(
             data: $authorizedKeysFileContent,
@@ -137,5 +125,18 @@ class UpdateServer implements ShouldQueue
             .setting()->get('ssham_file');
 
         $this->pusher->exec($command);
+    }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(Throwable $exception): void
+    {
+        Log::error('Remote server update failed.', [
+            'hostname' => $this->host->full_hostname,
+            'error' => $exception->getMessage(),
+        ]);
+
+        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
     }
 }

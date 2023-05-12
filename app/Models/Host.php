@@ -17,7 +17,6 @@
 
 namespace App\Models;
 
-use App\Enums\ControlRuleAction;
 use App\Enums\HostStatus;
 use App\Presenters\HostPresenter;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +24,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Laracodes\Presenter\Traits\Presentable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -35,26 +36,28 @@ use Spatie\Searchable\SearchResult;
  * Class Host.
  *
  * @property-read int $id
- * @property string                          $hostname
- * @property string                          $username
- * @property int|null                        $port                 - null value means using the default setting.
- * @property string|null                     $authorized_keys_file - null value means using the default setting.
- * @property string                          $type
- * @property string|null                     $key_hash
- * @property bool                            $enabled
- * @property bool                            $synced
- * @property \App\Enums\HostStatus           $status_code
- * @property \Illuminate\Support\Carbon|null $last_rotation
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $hostname
+ * @property string $username
+ * @property int|null $port                 - null value means using the default setting.
+ * @property string|null $authorized_keys_file - null value means using the default setting.
+ * @property string $type
+ * @property string|null $key_hash
+ * @property bool $enabled
+ * @property bool $synced
+ * @property HostStatus $status_code
+ * @property Carbon|null $last_rotation
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read string $full_hostname
- * @property-read \App\Models\Hostgroup[] $groups
+ * @property-read Hostgroup[] $groups
  */
 class Host extends Model implements Searchable
 {
     use HasFactory;
     use Presentable;
     use LogsActivity;
+
+    public string $searchableType = 'Hosts';
 
     protected string $presenter = HostPresenter::class;
 
@@ -79,25 +82,6 @@ class Host extends Model implements Searchable
     protected $attributes = [
         'status_code' => HostStatus::INITIAL_STATUS,
     ];
-
-    public function groups(): BelongsToMany
-    {
-        return $this->belongsToMany(Hostgroup::class);
-    }
-
-    protected function username(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => strtolower($value),
-        );
-    }
-
-    protected function hostname(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => strtolower($value),
-        );
-    }
 
     public function fullHostname(): Attribute
     {
@@ -160,8 +144,6 @@ class Host extends Model implements Searchable
         return $query->where('enabled', true);
     }
 
-    public string $searchableType = 'Hosts';
-
     public function getSearchResult(): SearchResult
     {
         return new SearchResult(
@@ -179,35 +161,38 @@ class Host extends Model implements Searchable
         $this->save();
     }
 
-    // TODO: Needs a refactor to make code more readable.
-    public function getSSHKeysForHost(?string $bastionSSHPublicKey = null): array
+    public function getSSHKeysForHost(): Collection
     {
-        $sshKeys = [];
-        $hostGroups = $this->groups;
-        foreach ($hostGroups as $hostGroup) {
-            $rules = $hostGroup->rules;
-            foreach ($rules as $rule) {
-                $keygroup = $rule->source;
-                $keys = $keygroup->keys()->where('enabled', true)->get();
-                foreach ($keys as $key) {
-                    switch ($rule->action) {
-                        case ControlRuleAction::Deny:
-                            unset($sshKeys[$key->name]);
-                            break;
-                        case ControlRuleAction::Allow:
-                            $sshKeys[$key->name] = $key->public;
-                            break;
-                        default:
-                            // There is no more cases, but just in case (NOOP).
-                    }
-                }
-            }
-        }
-        if (! is_null($bastionSSHPublicKey)) {
-            $sshKeys[] = $bastionSSHPublicKey;
+        $sshKeys = collect();
+
+        // Get the host group IDs for this host.
+        $hostGroupIds = $this->groups()->pluck('hostgroups.id');
+
+        // Get the key group IDs for the rules that allow access to the host.
+        $keyGroupIds = ControlRule::whereIn('target_id', $hostGroupIds)
+            ->select('source_id')
+            ->distinct()
+            ->pluck('source_id');
+
+        // Get all keys for the key groups that allow access to the host and are enabled.
+        $keys = Keygroup::whereIn('id', $keyGroupIds)
+            ->with('keys')
+            ->get()
+            ->pluck('keys')
+            ->flatten()
+            ->where('enabled', true);
+
+        // Add the keys to the $sshKeys collection.
+        foreach ($keys as $key) {
+            $sshKeys->push($key->public);
         }
 
         return $sshKeys;
+    }
+
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Hostgroup::class);
     }
 
     /** @codeCoverageIgnore */
@@ -216,6 +201,22 @@ class Host extends Model implements Searchable
         return LogOptions::defaults()
             ->logFillable()
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn (string $eventName) => "Host ':subject.full_hostname' was {$eventName}");
+            ->setDescriptionForEvent(fn (string $eventName) => "Host ':subject.full_hostname' was $eventName");
+    }
+
+    // TODO: Needs a refactor to make code more readable.
+
+    protected function username(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => strtolower($value),
+        );
+    }
+
+    protected function hostname(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => strtolower($value),
+        );
     }
 }

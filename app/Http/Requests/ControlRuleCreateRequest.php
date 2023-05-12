@@ -18,11 +18,9 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
 use App\Models\Keygroup;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
 
 class ControlRuleCreateRequest extends Request
@@ -40,10 +38,6 @@ class ControlRuleCreateRequest extends Request
                 'required',
                 Rule::exists(Hostgroup::class, 'id'),
             ],
-            'action' => [
-                'required',
-                new EnumValue(ControlRuleAction::class),
-            ],
             'name' => [
                 'required',
                 'string',
@@ -59,11 +53,6 @@ class ControlRuleCreateRequest extends Request
     public function target(): int
     {
         return $this->input('target');
-    }
-
-    public function action(): ControlRuleAction
-    {
-        return ControlRuleAction::fromValue($this->input('action'));
     }
 
     public function name(): string

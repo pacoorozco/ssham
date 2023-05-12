@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Models;
 
-use App\Enums\ControlRuleAction;
 use App\Models\ControlRule;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -78,16 +77,22 @@ class HostTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_expected_number_of_keys_for_a_given_host(): void
+    public function it_should_return_the_expected_number_of_keys_for_a_given_host(): void
     {
+        /** @var Host $host */
         $host = Host::factory()->create();
 
+        /** @var Hostgroup $hostGroup */
         $hostGroup = Hostgroup::factory()->create();
         $hostGroup->hosts()->save($host);
 
-        // These two keys should appear on the getSSHKeysForHost() list.
+        // These two keys should appear on the allowed keys list.
+        /** @var Key $key1 */
         $key1 = Key::factory()->create(['name' => 'key1']);
+        /** @var Key $key2 */
         $key2 = Key::factory()->create(['name' => 'key2']);
+
+        /** @var Keygroup $allowedKeyGroup */
         $allowedKeyGroup = Keygroup::factory()->create();
         $allowedKeyGroup->keys()->saveMany([
             $key1,
@@ -98,75 +103,33 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
-            ]);
-
-        // This key should NOT appear on the getSSHKeysForHost() list.
-        $key3 = Key::factory()->create();
-        $deniedKeyGroup = Keygroup::factory()->create();
-        $deniedKeyGroup->keys()->save(
-            $key3
-        );
-
-        ControlRule::factory()
-            ->create([
-                'source_id' => $deniedKeyGroup->id,
-                'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Deny,
             ]);
 
         $got = $host->getSSHKeysForHost();
+
         $this->assertCount(2, $got);
-        $this->assertArrayHasKey($key1->name, $got);
-        $this->assertArrayHasKey($key2->name, $got);
-        $this->assertArrayNotHasKey($key3->name, $got);
-    }
-
-    /** @test */
-    public function it_returns_empty_array_when_key_is_allowed_and_denied_for_a_given_host(): void
-    {
-        $host = Host::factory()->create();
-
-        $hostGroup = Hostgroup::factory()->create();
-        $hostGroup->hosts()->save($host);
-
-        $key1 = Key::factory()->create(['name' => 'key1']);
-        $allowedKeyGroup = Keygroup::factory()->create();
-        $allowedKeyGroup->keys()->save($key1);
-
-        ControlRule::factory()
-            ->create([
-                'source_id' => $allowedKeyGroup->id,
-                'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
-            ]);
-
-        $deniedKeyGroup = Keygroup::factory()->create();
-        $deniedKeyGroup->keys()->save($key1);
-
-        ControlRule::factory()
-            ->create([
-                'source_id' => $deniedKeyGroup->id,
-                'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Deny,
-            ]);
-
-        $got = $host->getSSHKeysForHost();
-        $this->assertCount(0, $got);
+        $this->assertTrue($got->contains($key1->public));
+        $this->assertTrue($got->contains($key2->public));
     }
 
     /** @test */
     public function it_returns_the_expected_number_of_keys_when_key_is_disabled(): void
     {
+        /** @var Host $host */
         $host = Host::factory()->create();
 
+        /** @var Hostgroup $hostGroup */
         $hostGroup = Hostgroup::factory()->create();
         $hostGroup->hosts()->save($host);
 
         // This key should appear on the getSSHKeysForHost() list.
+        /** @var Key $key1 */
         $key1 = Key::factory()->create(['name' => 'key1']);
         // This key should NOT appear, because is disabled, on the getSSHKeysForHost() list.
+        /** @var Key $key2 */
         $key2 = Key::factory()->create(['name' => 'key2', 'enabled' => false]);
+
+        /** @var Keygroup $allowedKeyGroup */
         $allowedKeyGroup = Keygroup::factory()->create();
         $allowedKeyGroup->keys()->saveMany([
             $key1,
@@ -177,38 +140,12 @@ class HostTest extends TestCase
             ->create([
                 'source_id' => $allowedKeyGroup->id,
                 'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
             ]);
 
         $got = $host->getSSHKeysForHost();
         $this->assertCount(1, $got);
-        $this->assertArrayHasKey($key1->name, $got);
-        $this->assertArrayNotHasKey($key2->name, $got);
-    }
-
-    /** @test */
-    public function it_returns_the_provided_key_inside_results(): void
-    {
-        $host = Host::factory()->create();
-
-        $hostGroup = Hostgroup::factory()->create();
-        $hostGroup->hosts()->save($host);
-
-        $key1 = Key::factory()->create(['name' => 'key1']);
-        $allowedKeyGroup = Keygroup::factory()->create();
-        $allowedKeyGroup->keys()->save($key1);
-
-        ControlRule::factory()
-            ->create([
-                'source_id' => $allowedKeyGroup->id,
-                'target_id' => $hostGroup->id,
-                'action' => ControlRuleAction::Allow,
-            ]);
-
-        $bastionHostKey = Key::factory()->create();
-
-        $got = $host->getSSHKeysForHost($bastionHostKey->public);
-        $this->assertCount(2, $got);
+        $this->assertTrue($got->contains($key1->public));
+        $this->assertFalse($got->contains($key2->public));
     }
 
     /** @test */
