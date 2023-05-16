@@ -1,6 +1,6 @@
-# Code contibution to this app
+# Code contribution to this app
 
-Contributions are **welcomed** and will be fully **credited** (see [AUTHORS](AUTHORS)).
+Contributions are **welcomed** and will be fully **credited**.
 
 We accept contributions via Pull Requests on [GitHub Repository][github].
 
@@ -29,7 +29,7 @@ Help us to maximize the effort we can spend fixing issues and adding new feature
 * **Related Issues** - has a similar issue been reported before?
 * **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be causing the problem (line of code or commit)
 
-**If you get help, help others. Good karma rulez!**
+**If you get help, help others. Good karma rules!**
 
 ### Submitting a Pull Request
 Before you submit your pull request consider the following guidelines:
