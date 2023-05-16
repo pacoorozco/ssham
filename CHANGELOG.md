@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.18.0 - 2023-05-16
+
+### Added
+- Control over the public key comment. Users can customize it with the key's name. #353
+- Refactor to improve performance when generation `authorized_keys` files.
+
+### Changed
+- Dependencies are updated to the latest releases.
+- Replace `laravelcollective/html` by `laravel-form-components` package. #394
+- [CI] Use `RefreshDatabase` to enable refresh after each test.
+- [CI] Replace deprecated create release action
+
+### Fixed
+- Fix broken link on the CONTRIBUTING document.
+- [CI] Fix deprecation message on GHA
+
+### Removed
+- Possibility to set `Deny` rules. Denial is intended by default.
+
 ## 0.17.0 - 2023-03-09
 > NOTE: This release has **non-backwards compatible** changes. It may include some changes in the database tables.
 
