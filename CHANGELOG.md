@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.18.1 - 2023-10-06
+
+### Changed
+- Bump `yajra/laravel-datatables-oracle` from 10.4.0 to 10.4.2
+- Bump `laravel/ui` from 4.2.1 to 4.2.2
+- Bump `spatie/laravel-ignition` from 2.1.0 to 2.1.3
+- Bump `bensampo/laravel-enum` from 6.3.1 to 6.6.0
+- Bump `doctrine/dbal` from 3.6.2 to 3.6.5
+- [CI] Bump `aglipanci/laravel-pint-action` from 2.1.0 to 2.3.0
+- [CI] Bump `fakerphp/faker` from 1.21.0 to 1.23.0
+- [CI] Bump `laravel/sail` from 1.21.5 to 1.22.0
+- [CI] Bump `brianium/paratest` from 7.1.3 to 7.2.3
+- [CI] Bump `laravel/pint` from 1.10.0 to 1.10.5
+
 ## 0.18.0 - 2023-05-16
 
 ### Added

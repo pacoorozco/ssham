@@ -9,7 +9,7 @@ jobs:
     name: Release version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build project
         id: build_project
