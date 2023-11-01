@@ -37,7 +37,7 @@
         "phpseclib/phpseclib": "^3.0.19",
         "protonemedia/laravel-form-components": "^3.8",
         "spatie/laravel-activitylog": "^4.7.3",
-        "spatie/laravel-permission": "^5.10.1",
+        "spatie/laravel-permission": "^6.0.0",
         "spatie/laravel-searchable": "^1.11.2",
         "yajra/laravel-datatables-oracle": "^10.4.2"
     },
