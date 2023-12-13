@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+### Changed
+- **Important**: The required minimum version of PHP is v8.2.
+- Bump `bensampo/laravel-enum` from 6.6.0 to 6.7.0
+- Bump `laravel-json-api/laravel` from 3.0.0 to 3.2.0
+- Bump `laravel/framework` from 10.17.0 to 10.37.0
+- Bump `laravel/sanctum` from 3.2.5 to 3.3.2
+- Bump `laravel/ui` from 4.2.2 to 4.2.3
+- Bump `pacoorozco/openssh` from 0.5.0 to 0.5.1
+- Bump `phpseclib/phpseclib` from 3.0.19 to 3.0.34
+- Bump `spatie/laravel-permission` from 5.10.0 to 5.11.0
+- Bump `yajra/laravel-datatables-oracle` from 10.4.2 to 10.11.2
+
 ## 0.18.1 - 2023-10-06
 
 ### Changed
