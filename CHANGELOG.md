@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.19.0 - 2023-12-13
+
+
 ### Changed
 - **Important**: The required minimum version of PHP is v8.2.
 - Bump `bensampo/laravel-enum` from 6.6.0 to 6.7.0
