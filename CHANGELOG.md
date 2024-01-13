@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.19.1 - 2024-01-13
+### Changed
+- Bump `aglipanci/laravel-pint-action` to version 2.3.1
+- Bump `yajra/laravel-datatables-oracle` to version 10.11.3
+- [DEV] Bump `phpunit/phpunit` to version 10.5.5
+- Bump `laravel/framework` to version 10.40.0
+- Bump `laravel/ui` to version 4.3.0
+- Bump `spatie/laravel-permission` to version 6.3.0
+
 ## 0.19.0 - 2023-12-13
 
 
