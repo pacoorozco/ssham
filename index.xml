@@ -21,4 +21,4 @@ git clone https://github.com/pacoorozco/ssham.git ssham cd ssham Install PHP dep
 curl -s https://getcomposer.org/installer | php php composer.phar install Copy .env.example to .env.
 Modify the content of the .env file to put your settings, something like that:
 DB_HOST=&amp;#39;Your database host&amp;#39; DB_DATABASE=&amp;#39;Your database name&amp;#39; DB_USERNAME=&amp;#39;Your database user&amp;#39; DB_PASSWORD=&amp;#39;Your database password&amp;#39; Seed database in order to play with some data
-php artisan key:generate php artisan migrate --seed Make sure storage/ and bootstrap/cache/ folders are writable by your web server.</description></item></channel></rss>
+php artisan key:generate php artisan migrate:fresh --seed Make sure storage/ and bootstrap/cache/ folders are writable by your web server.</description></item></channel></rss>
