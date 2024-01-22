@@ -35,7 +35,7 @@ Prior to this installation, you **need to have installed** this software:
     -u "$(id -u):$(id -g)" \
     -v $(pwd):/var/www/html \
     -w /var/www/html \
-    laravelsail/php80-composer:latest \
+    laravelsail/php82-composer:latest \
     composer install --ignore-platform-reqs
     ```
 
@@ -48,16 +48,9 @@ Prior to this installation, you **need to have installed** this software:
 5. Seed database in order to play with some data
 
     ```Shell
-    php artisan key:generate 
-    php artisan migrate --seed
-    ```
-
-    **If you are using Sail, you should execute those commands using Sail**:
-
-    ```Shell
    # Running Artisan commands within Laravel Sail...
    sail artisan key:generate 
-   sail artisan migrate --seed
+   sail artisan migrate:fresh --seed
     ```
 
 1. Point your browser to `http://localhost` and test **SSH Access Manager**. Enjoy!

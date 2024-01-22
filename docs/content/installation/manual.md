@@ -36,7 +36,7 @@ lastmod: "2022-05-10"
 
     ```Shell
     php artisan key:generate 
-    php artisan migrate --seed
+    php artisan migrate:fresh --seed
     ```
 1. Make sure `storage/` and `bootstrap/cache/` folders are writable by your web server. You can do it this way:
 
