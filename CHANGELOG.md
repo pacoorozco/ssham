@@ -22,9 +22,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 - Bump `phpunit/phpunit` 10.5.10
 - Bump `spatie/laravel-ignition` to 2.4.2
 ### Fixed
-- Error when updating own profile wo/ password change  ([#357][i357])
+- Error when updating own profile wo/ password change  ([#457][i457])
 
-[i357]: https://github.com/pacoorozco/ssham/issues/357
+[i457]: https://github.com/pacoorozco/ssham/issues/457
 
 ## 0.19.1 - 2024-01-13
 ### Changed
