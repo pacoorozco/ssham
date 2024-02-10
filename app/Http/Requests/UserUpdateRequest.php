@@ -90,7 +90,7 @@ class UserUpdateRequest extends Request
 
     public function role(): Roles
     {
-        $roleName = $this->string('role');
+        $roleName = $this->input('role');
 
         return Roles::fromValue($roleName);
     }
