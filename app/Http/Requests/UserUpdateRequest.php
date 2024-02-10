@@ -22,7 +22,6 @@ use App\Enums\Roles;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Validator;
 
 class UserUpdateRequest extends Request
 {
@@ -39,7 +38,7 @@ class UserUpdateRequest extends Request
             'email' => [
                 'required',
                 'email:rfc',
-                'unique:users,email,'.$user->id,
+                'unique:users,email,' . $user->id,
             ],
             'password' => [
                 'nullable',
@@ -58,45 +57,46 @@ class UserUpdateRequest extends Request
         ];
     }
 
-    public function withValidator(Validator $validator): void
+    public function after(): array
     {
-        // checks user current password
-        // before making changes
-        $validator->after(function ($validator) {
-            if (Auth::id() !== $this->user->id) {
-                return;
+        return [
+            function ($validator) {
+                if (Auth::id() !== $this->user->id) {
+                    return;
+                }
+                // checks user current password
+                if ($this->password() && !Hash::check($this->current_password, $this->user->password)) {
+                    $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
+                }
+                if (!$this->enabled()) {
+                    $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
+                }
+                if ($this->role()->isNot($this->user->role)) {
+                    $validator->errors()->add('role', __('user/messages.edit.role_change_not_allowed'));
+                }
             }
-            if ($this->password() && ! Hash::check($this->current_password, $this->user->password)) {
-                $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
-            }
-            if (! $this->enabled()) {
-                $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
-            }
-            if ($this->role()->isNot($this->user->role)) {
-                $validator->errors()->add('role', __('user/messages.edit.role_change_not_allowed'));
-            }
-        });
-    }
-
-    public function email(): string
-    {
-        return $this->input('email');
+        ];
     }
 
     public function password(): string
     {
-        return $this->input('password', '');
+        return $this->string('password');
     }
 
     public function enabled(): bool
     {
-        return (bool) $this->input('enabled');
+        return $this->boolean('enabled');
     }
 
     public function role(): Roles
     {
-        $roleName = $this->input('role');
+        $roleName = $this->string('role');
 
         return Roles::fromValue($roleName);
+    }
+
+    public function email(): string
+    {
+        return $this->string('email');
     }
 }
