@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.19.2 - 2024-02-10
+### Changed
+- Bump `phpseclib/phpseclib` to 3.0.35
+- Bump ` larastan/larastan` to 2.8.1
+- Bump `bensampo/laravel-enum` to 6.8.0
+- Bump `laravel/sanctum` to 3.3.3
+- Bump `laravel/sail` to 1.27.3
+- Bump `laravel/framework` to 10.43.0
+- Bump `laravel/ui` to 4.4.0
+- Bump `yajra/laravel-datatables-oracle` to 10.11.3
+- Bump `brianium/paratest` to 7.4.1
+- Bump `doctrine/dbal` to 3.8.1
+- Bump `laravel/pint` to 10.13.10
+- Bump `laravel/sail` 1.27.3
+- Bump `phpunit/phpunit` 10.5.10
+- Bump `spatie/laravel-ignition` to 2.4.2
+### Fixed
+- Error when updating own profile wo/ password change  ([#357][i357])
+
+[i357]: https://github.com/pacoorozco/ssham/issues/357
+
 ## 0.19.1 - 2024-01-13
 ### Changed
 - Bump `aglipanci/laravel-pint-action` to version 2.3.1
