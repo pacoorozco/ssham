@@ -190,14 +190,14 @@ final class ControlRuleControllerTest extends TestCase
 
         yield 'source ! a keys group' => [
             'data' => [
-                'source' => 10,
+                'source' => 100,
             ],
             'errors' => ['source'],
         ];
 
         yield 'target ! a hosts group' => [
             'data' => [
-                'target' => 10,
+                'target' => 100,
             ],
             'errors' => ['target'],
         ];
