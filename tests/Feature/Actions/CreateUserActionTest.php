@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Actions;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Actions\CreateUserAction;
 use App\Enums\Roles;
 use Generator;
@@ -37,11 +39,8 @@ class CreateUserActionTest extends TestCase
         $this->loadRolesAndPermissions();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider providesUserData
-     */
+    #[Test]
+    #[DataProvider('providesUserData')]
     public function it_can_create_a_user(
         string $username,
         string $email,

@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -41,7 +43,7 @@ class HostControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_index_view(): void
     {
         $this
@@ -50,7 +52,7 @@ class HostControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -62,7 +64,7 @@ class HostControllerTest extends TestCase
             ->assertViewIs('host.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_host(): void
     {
         $host = Host::factory()->create();
@@ -73,7 +75,7 @@ class HostControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_any_host(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -88,7 +90,7 @@ class HostControllerTest extends TestCase
             ->assertViewHas('host', $host);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_new_host_form(): void
     {
         Host::factory()->create();
@@ -99,7 +101,7 @@ class HostControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_new_host_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -116,7 +118,7 @@ class HostControllerTest extends TestCase
             ->assertViewHas('groups', $keys->pluck('name', 'id'));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_hosts(): void
     {
         /** @var Host $want */
@@ -136,11 +138,8 @@ class HostControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideNullableFieldsForHosts
-     */
+    #[Test]
+    #[DataProvider('provideNullableFieldsForHosts')]
     public function editors_should_create_hosts(
         array $nullable,
     ): void {
@@ -201,11 +200,8 @@ class HostControllerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForHostCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForHostCreation')]
     public function editors_should_get_errors_when_creating_hosts_with_wrong_data(
         array $data,
         array $errors
@@ -312,7 +308,7 @@ class HostControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_edit_host_form(): void
     {
         $host = Host::factory()->create();
@@ -326,7 +322,7 @@ class HostControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_edit_host_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -347,11 +343,8 @@ class HostControllerTest extends TestCase
             ->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideNullableFieldsForHosts
-     */
+    #[Test]
+    #[DataProvider('provideNullableFieldsForHosts')]
     public function editors_should_update_hosts(
         array $nullable,
     ): void {
@@ -394,11 +387,8 @@ class HostControllerTest extends TestCase
         $this->assertCount(count($groups), $host->groups);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForHostModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForHostModification')]
     public function editors_should_get_errors_when_updating_hosts_with_wrong_data(
         array $data,
         array $errors
@@ -478,7 +468,7 @@ class HostControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_hosts(): void
     {
         $host = Host::factory()->create();
@@ -489,7 +479,7 @@ class HostControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_hosts(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteHosts);

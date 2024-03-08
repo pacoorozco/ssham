@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\Keygroup;
@@ -41,7 +43,7 @@ class KeygroupControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_index_view(): void
     {
         $this
@@ -50,7 +52,7 @@ class KeygroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewKeys);
@@ -62,7 +64,7 @@ class KeygroupControllerTest extends TestCase
             ->assertViewIs('keygroup.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_keys_group(): void
     {
         $group = Keygroup::factory()->create();
@@ -73,7 +75,7 @@ class KeygroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_any_keys_group(): void
     {
         $this->user->givePermissionTo(Permissions::ViewKeys);
@@ -88,7 +90,7 @@ class KeygroupControllerTest extends TestCase
             ->assertViewHas('keygroup', $group);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_new_group_form(): void
     {
         Key::factory()->create();
@@ -99,7 +101,7 @@ class KeygroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_new_group_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -116,7 +118,7 @@ class KeygroupControllerTest extends TestCase
             ->assertViewHas('keys', $keys->pluck('name', 'id'));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_groups(): void
     {
         /** @var Keygroup $group */
@@ -136,7 +138,7 @@ class KeygroupControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_create_groups(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -169,11 +171,8 @@ class KeygroupControllerTest extends TestCase
         $this->assertCount(count($keys), $group->keys);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForGroupCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForGroupCreation')]
     public function editors_should_get_errors_when_creating_groups_with_wrong_data(
         array $data,
         array $errors
@@ -243,7 +242,7 @@ class KeygroupControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_edit_group_form(): void
     {
         $group = Keygroup::factory()->create();
@@ -257,7 +256,7 @@ class KeygroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_edit_group_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -278,7 +277,7 @@ class KeygroupControllerTest extends TestCase
             ->assertViewHas('keys', $keys->pluck('name', 'id'));
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_update_groups(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -311,11 +310,8 @@ class KeygroupControllerTest extends TestCase
         $this->assertCount(count($keys), $group->keys);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForGroupModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForGroupModification')]
     public function editors_should_get_errors_when_updating_groups_with_wrong_data(
         array $data,
         array $errors
@@ -393,7 +389,7 @@ class KeygroupControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_groups(): void
     {
         $group = Keygroup::factory()->create();
@@ -404,7 +400,7 @@ class KeygroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_groups(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteKeys);

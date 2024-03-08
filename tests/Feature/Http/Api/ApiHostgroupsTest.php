@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Http\Api;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -27,7 +29,7 @@ class ApiHostgroupsTest extends ApiTestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_resource(): void
     {
         Hostgroup::factory()->count(2)->create();
@@ -38,7 +40,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_resources(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -53,7 +55,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertFetchedMany($groups);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_hosts_groups(): void
     {
         /** @var Hostgroup $want */
@@ -75,7 +77,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_create_hosts_groups(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -124,11 +126,8 @@ class ApiHostgroupsTest extends ApiTestCase
         $this->assertEquals($hosts->pluck('id'), $group->hosts->pluck('id'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForGroupCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForGroupCreation')]
     public function editors_should_get_errors_when_creating_groups_with_wrong_data(
         array $input,
         array $errors
@@ -203,7 +202,7 @@ class ApiHostgroupsTest extends ApiTestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_a_resource(): void
     {
         $group = Hostgroup::factory()->create();
@@ -216,7 +215,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_a_resource(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -255,7 +254,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertFetchedOneExact($expected);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_update_hosts_groups(): void
     {
         $group = Hostgroup::factory()->create();
@@ -281,7 +280,7 @@ class ApiHostgroupsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_update_hosts_groups(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -343,11 +342,8 @@ class ApiHostgroupsTest extends ApiTestCase
         $this->assertCount(count($hosts), $group->hosts);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForGroupModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForGroupModification')]
     public function editors_should_get_errors_when_updating_groups_with_wrong_data(
         array $input,
         array $errors
@@ -433,7 +429,7 @@ class ApiHostgroupsTest extends ApiTestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_hosts_groups(): void
     {
         $group = Hostgroup::factory()->create();
@@ -447,7 +443,7 @@ class ApiHostgroupsTest extends ApiTestCase
         $this->assertModelExists($group);
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_hosts_groups(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteHosts);

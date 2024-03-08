@@ -18,6 +18,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Hostgroup;
 use App\Models\User;
@@ -39,7 +40,7 @@ class HostgroupDataTableControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -50,7 +51,7 @@ class HostgroupDataTableControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_get_data_tables_data(): void
     {
         $this
@@ -59,7 +60,7 @@ class HostgroupDataTableControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_get_data_tables_data(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);

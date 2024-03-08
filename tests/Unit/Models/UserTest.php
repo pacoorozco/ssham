@@ -17,13 +17,14 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\AuthType;
 use App\Models\User;
 use Tests\Unit\ModelTestCase;
 
 class UserTest extends ModelTestCase
 {
-    /** @test */
+    #[Test]
     public function contains_valid_fillable_properties(): void
     {
         $m = new User();
@@ -35,7 +36,7 @@ class UserTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function contains_valid_hidden_properties(): void
     {
         $m = new User();
@@ -45,7 +46,7 @@ class UserTest extends ModelTestCase
         ], $m->getHidden());
     }
 
-    /** @test */
+    #[Test]
     public function contains_valid_casts_properties(): void
     {
         $m = new User();
@@ -57,7 +58,7 @@ class UserTest extends ModelTestCase
         ], $m->getCasts());
     }
 
-    /** @test */
+    #[Test]
     public function username_is_lowercase(): void
     {
         $testCases = [

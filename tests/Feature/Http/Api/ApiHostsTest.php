@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Http\Api;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -27,7 +29,7 @@ class ApiHostsTest extends ApiTestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_resource(): void
     {
         Host::factory()->count(2)->create();
@@ -38,7 +40,7 @@ class ApiHostsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_resources(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -53,7 +55,7 @@ class ApiHostsTest extends ApiTestCase
             ->assertFetchedMany($hosts);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_hosts(): void
     {
         /** @var Host $want */
@@ -75,7 +77,7 @@ class ApiHostsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_create_hosts(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -130,11 +132,8 @@ class ApiHostsTest extends ApiTestCase
         $this->assertEquals($groups->pluck('id'), $host->groups->pluck('id'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForHostCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForHostCreation')]
     public function editors_should_get_errors_when_creating_hosts_with_wrong_data(
         array $input,
         array $errors
@@ -266,7 +265,7 @@ class ApiHostsTest extends ApiTestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_a_resource(): void
     {
         $host = Host::factory()->create();
@@ -279,7 +278,7 @@ class ApiHostsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_a_resource(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -327,7 +326,7 @@ class ApiHostsTest extends ApiTestCase
             ->assertFetchedOne($expected);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_update_hosts(): void
     {
         $host = Host::factory()->create();
@@ -356,7 +355,7 @@ class ApiHostsTest extends ApiTestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_update_hosts(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -432,11 +431,8 @@ class ApiHostsTest extends ApiTestCase
         $this->assertEquals($groups->pluck('id'), $host->groups->pluck('id'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForHostModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForHostModification')]
     public function editors_should_get_errors_when_updating_hosts_with_wrong_data(
         array $input,
         array $errors
@@ -572,7 +568,7 @@ class ApiHostsTest extends ApiTestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_hosts(): void
     {
         $host = Host::factory()->create();
@@ -586,7 +582,7 @@ class ApiHostsTest extends ApiTestCase
         $this->assertModelExists($host);
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_hosts(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteHosts);

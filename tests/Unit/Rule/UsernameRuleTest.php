@@ -18,6 +18,8 @@
 
 namespace Tests\Unit\Rule;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Rules\UsernameRule;
 use Generator;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,7 +29,7 @@ class UsernameRuleTest extends TestCase
 {
     use WithFaker;
 
-    /** @test */
+    #[Test]
     public function usernames_created_by_faker_should_pass(): void
     {
         $rule = new UsernameRule();
@@ -39,11 +41,8 @@ class UsernameRuleTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideInvalidUsernames
-     */
+    #[Test]
+    #[DataProvider('provideInvalidUsernames')]
     public function usernames_containing_invalid_characters_should_fail(
         string $input,
     ): void {

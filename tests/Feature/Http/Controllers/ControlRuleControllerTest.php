@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\ControlRule;
 use App\Models\Hostgroup;
@@ -42,7 +44,7 @@ class ControlRuleControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_index_view(): void
     {
         $this
@@ -51,7 +53,7 @@ class ControlRuleControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewRules);
@@ -63,7 +65,7 @@ class ControlRuleControllerTest extends TestCase
             ->assertViewIs('rule.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_new_rule_form(): void
     {
         Keygroup::factory()->create();
@@ -76,7 +78,7 @@ class ControlRuleControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_new_rule_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditRules);
@@ -98,7 +100,7 @@ class ControlRuleControllerTest extends TestCase
             ->assertViewHas('targets');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_rules(): void
     {
         /** @var ControlRule $want */
@@ -118,7 +120,7 @@ class ControlRuleControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_create_rules(): void
     {
         $this->user->givePermissionTo(Permissions::EditRules);
@@ -143,11 +145,8 @@ class ControlRuleControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForRuleCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForRuleCreation')]
     public function editors_should_get_errors_when_creating_rules_with_wrong_data(
         array $data,
         array $errors
@@ -212,7 +211,7 @@ class ControlRuleControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_rules(): void
     {
         $rule = ControlRule::factory()->create();
@@ -223,7 +222,7 @@ class ControlRuleControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_rules(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteRules);

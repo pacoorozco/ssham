@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Response;
@@ -9,7 +10,7 @@ use Tests\Feature\TestCase;
 
 class AuthenticationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function login_displays_the_login_form(): void
     {
         $response = $this->get(route('login'));
@@ -18,7 +19,7 @@ class AuthenticationTest extends TestCase
         $response->assertViewIs('auth.login');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_authenticate_using_login(): void
     {
         $user = User::factory()->create([
@@ -35,7 +36,7 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create([

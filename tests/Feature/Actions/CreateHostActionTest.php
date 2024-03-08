@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Actions;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Actions\CreateHostAction;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -26,11 +28,8 @@ use Tests\Feature\TestCase;
 
 class CreateHostActionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider providesHostTestCases
-     */
+    #[Test]
+    #[DataProvider('providesHostTestCases')]
     public function it_can_create_a_host(
         array $want
     ): void {

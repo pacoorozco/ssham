@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Models;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\ControlRule;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -12,7 +14,7 @@ use Tests\Feature\TestCase;
 
 class HostTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_should_return_the_enabled_hosts(): void
     {
         Host::factory()
@@ -33,7 +35,7 @@ class HostTest extends TestCase
         $this->assertEquals($want, $got);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_not_return_the_enabled_hosts_if_there_are_not(): void
     {
         Host::factory()
@@ -44,7 +46,7 @@ class HostTest extends TestCase
         $this->assertEmpty(Host::enabled()->get());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_the_hosts_that_has_pending_changes(): void
     {
         Host::factory()
@@ -65,7 +67,7 @@ class HostTest extends TestCase
         $this->assertEquals($want, $got);
     }
 
-    /** @test */
+    #[Test]
     public function it_should_not_return_hosts_with_pending_changes_if_there_are_not(): void
     {
         Host::factory()
@@ -76,7 +78,7 @@ class HostTest extends TestCase
         $this->assertEmpty(Host::withPendingChanges()->get());
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_the_expected_number_of_keys_for_a_given_host(): void
     {
         /** @var Host $host */
@@ -112,7 +114,7 @@ class HostTest extends TestCase
         $this->assertTrue($got->contains($key2->public));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_expected_number_of_keys_when_key_is_disabled(): void
     {
         /** @var Host $host */
@@ -148,7 +150,7 @@ class HostTest extends TestCase
         $this->assertFalse($got->contains($key2->public));
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_the_host_full_name(): void
     {
         /** @var Host $host */
@@ -164,11 +166,8 @@ class HostTest extends TestCase
 
     const SSH_PORT_DEFAULT_VALUE = 22;
 
-    /**
-     * @test
-     *
-     * @dataProvider provideGetPortTestCases
-     */
+    #[Test]
+    #[DataProvider('provideGetPortTestCases')]
     public function it_should_return_the_host_port(
         array $attributes,
         int $want,
@@ -231,11 +230,8 @@ class HostTest extends TestCase
 
     const AUTHORIZED_KEYS_DEFAULT_VALUE = '~/.ssh/authorized_keys_file';
 
-    /**
-     * @test
-     *
-     * @dataProvider provideGetAuthorizedKeysFileTestCases
-     */
+    #[Test]
+    #[DataProvider('provideGetAuthorizedKeysFileTestCases')]
     public function it_should_return_the_authorized_keys_file(
         array $attributes,
         string $want,
@@ -275,7 +271,7 @@ class HostTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_lowercase_username(): void
     {
         $testCases = [
@@ -302,7 +298,7 @@ class HostTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function hostname_is_lowercase(): void
     {
         $testCases = [
