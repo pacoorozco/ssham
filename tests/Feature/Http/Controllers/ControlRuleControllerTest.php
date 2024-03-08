@@ -33,7 +33,7 @@ class ControlRuleControllerTest extends TestCase
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -26,7 +26,7 @@ use Tests\Feature\TestCase;
 
 class CreateHostGroupActionTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
