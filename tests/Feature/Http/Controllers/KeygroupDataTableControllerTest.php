@@ -25,7 +25,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class KeygroupDataTableControllerTest extends TestCase
+final class KeygroupDataTableControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

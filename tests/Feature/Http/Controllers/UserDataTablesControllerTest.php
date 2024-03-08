@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class UserDataTablesControllerTest extends TestCase
+final class UserDataTablesControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

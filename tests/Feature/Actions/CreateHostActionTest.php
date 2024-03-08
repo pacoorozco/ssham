@@ -26,7 +26,7 @@ use App\Models\Hostgroup;
 use Generator;
 use Tests\Feature\TestCase;
 
-class CreateHostActionTest extends TestCase
+final class CreateHostActionTest extends TestCase
 {
     #[Test]
     #[DataProvider('providesHostTestCases')]

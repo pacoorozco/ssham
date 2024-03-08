@@ -22,7 +22,7 @@ use App\Enums\AuthType;
 use App\Models\User;
 use Tests\Unit\ModelTestCase;
 
-class UserTest extends ModelTestCase
+final class UserTest extends ModelTestCase
 {
     #[Test]
     public function contains_valid_fillable_properties(): void

@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class HostDataTableControllerTest extends TestCase
+final class HostDataTableControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

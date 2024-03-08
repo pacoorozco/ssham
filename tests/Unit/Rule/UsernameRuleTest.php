@@ -25,7 +25,7 @@ use Generator;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsernameRuleTest extends TestCase
+final class UsernameRuleTest extends TestCase
 {
     use WithFaker;
 

@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Unit\ModelTestCase;
 
-class KeygroupTest extends ModelTestCase
+final class KeygroupTest extends ModelTestCase
 {
     #[Test]
     public function it_contains_valid_fillable_properties(): void

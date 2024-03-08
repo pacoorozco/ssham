@@ -25,7 +25,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class UpdateUserActionTest extends TestCase
+final class UpdateUserActionTest extends TestCase
 {
     use InteractsWithPermissions;
 

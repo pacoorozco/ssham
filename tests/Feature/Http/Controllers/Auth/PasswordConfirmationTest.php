@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Tests\Feature\TestCase;
 
-class PasswordConfirmationTest extends TestCase
+final class PasswordConfirmationTest extends TestCase
 {
     #[Test]
     public function confirm_password_screen_can_be_rendered(): void

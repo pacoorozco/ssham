@@ -29,7 +29,7 @@ use Generator;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class ControlRuleControllerTest extends TestCase
+final class ControlRuleControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

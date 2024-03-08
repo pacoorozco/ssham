@@ -25,7 +25,7 @@ use App\Models\Host;
 use Generator;
 use Tests\Feature\TestCase;
 
-class UpdateHostActionTest extends TestCase
+final class UpdateHostActionTest extends TestCase
 {
     #[Test]
     #[DataProvider('provideNullableFieldsForHosts')]

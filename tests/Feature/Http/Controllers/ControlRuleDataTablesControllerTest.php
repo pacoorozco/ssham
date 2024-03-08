@@ -25,7 +25,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class ControlRuleDataTablesControllerTest extends TestCase
+final class ControlRuleDataTablesControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

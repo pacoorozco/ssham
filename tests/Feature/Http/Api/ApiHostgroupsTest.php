@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\Feature\ApiTestCase;
 use Tests\Feature\InteractsWithPermissions;
 
-class ApiHostgroupsTest extends ApiTestCase
+final class ApiHostgroupsTest extends ApiTestCase
 {
     use InteractsWithPermissions;
 

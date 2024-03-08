@@ -9,7 +9,7 @@ use App\Models\Host;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\Unit\ModelTestCase;
 
-class HostTest extends ModelTestCase
+final class HostTest extends ModelTestCase
 {
     #[Test]
     public function contains_valid_fillable_properties(): void

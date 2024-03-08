@@ -28,7 +28,7 @@ use App\Models\User;
 use Generator;
 use Tests\Feature\TestCase;
 
-class SearchControllerTest extends TestCase
+final class SearchControllerTest extends TestCase
 {
     private User $user;
 

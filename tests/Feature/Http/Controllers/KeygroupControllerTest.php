@@ -28,7 +28,7 @@ use Generator;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class KeygroupControllerTest extends TestCase
+final class KeygroupControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

@@ -26,7 +26,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class DownloadPrivateKeyControllerTest extends TestCase
+final class DownloadPrivateKeyControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

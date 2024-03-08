@@ -25,7 +25,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class PersonalAccessTokenControllerTest extends TestCase
+final class PersonalAccessTokenControllerTest extends TestCase
 {
     use WithFaker;
     use InteractsWithPermissions;

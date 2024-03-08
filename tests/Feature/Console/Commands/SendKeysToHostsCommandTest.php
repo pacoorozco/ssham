@@ -23,7 +23,7 @@ use App\Models\Host;
 use Illuminate\Support\Facades\Queue;
 use Tests\Feature\TestCase;
 
-class SendKeysToHostsCommandTest extends TestCase
+final class SendKeysToHostsCommandTest extends TestCase
 {
     #[Test]
     public function it_finnish_successfully_when_there_are_not_enabled_servers(): void

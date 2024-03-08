@@ -25,7 +25,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class HostgroupDataTableControllerTest extends TestCase
+final class HostgroupDataTableControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

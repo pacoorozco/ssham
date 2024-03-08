@@ -23,7 +23,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class AuditDataTablesControllerTest extends TestCase
+final class AuditDataTablesControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

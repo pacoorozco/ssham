@@ -28,7 +28,7 @@ use Generator;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class HostControllerTest extends TestCase
+final class HostControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

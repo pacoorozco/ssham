@@ -30,7 +30,7 @@ use Illuminate\Support\Str;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class KeyControllerTest extends TestCase
+final class KeyControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 

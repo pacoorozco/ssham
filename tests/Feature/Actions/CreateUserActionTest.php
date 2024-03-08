@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class CreateUserActionTest extends TestCase
+final class CreateUserActionTest extends TestCase
 {
     use InteractsWithPermissions;
 

@@ -12,7 +12,7 @@ use App\Models\Keygroup;
 use Generator;
 use Tests\Feature\TestCase;
 
-class HostTest extends TestCase
+final class HostTest extends TestCase
 {
     #[Test]
     public function it_should_return_the_enabled_hosts(): void

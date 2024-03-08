@@ -21,7 +21,7 @@ use App\Models\Key;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\Unit\ModelTestCase;
 
-class KeyTest extends ModelTestCase
+final class KeyTest extends ModelTestCase
 {
     public function test_contains_valid_fillable_properties(): void
     {

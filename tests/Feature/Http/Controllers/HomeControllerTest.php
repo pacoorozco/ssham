@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Tests\Feature\TestCase;
 
-class HomeControllerTest extends TestCase
+final class HomeControllerTest extends TestCase
 {
     #[Test]
     public function users_should_see_the_dashboard(): void

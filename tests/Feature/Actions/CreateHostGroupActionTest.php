@@ -26,7 +26,7 @@ use App\Models\Hostgroup;
 use Generator;
 use Tests\Feature\TestCase;
 
-class CreateHostGroupActionTest extends TestCase
+final class CreateHostGroupActionTest extends TestCase
 {
     protected function setUp(): void
     {

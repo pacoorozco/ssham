@@ -24,7 +24,7 @@ use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
     use InteractsWithPermissions;
 

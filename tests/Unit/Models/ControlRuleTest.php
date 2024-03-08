@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use App\Models\ControlRule;
 use Tests\Unit\ModelTestCase;
 
-class ControlRuleTest extends ModelTestCase
+final class ControlRuleTest extends ModelTestCase
 {
     #[Test]
     public function contains_valid_fillable_properties(): void

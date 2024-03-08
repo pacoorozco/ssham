@@ -27,7 +27,7 @@ use PacoOrozco\OpenSSH\PrivateKey;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class SettingsControllerTest extends TestCase
+final class SettingsControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
