@@ -2,14 +2,15 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\Hostgroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Unit\ModelTestCase;
 
-class HostgroupTest extends ModelTestCase
+final class HostgroupTest extends ModelTestCase
 {
-    /** @test */
+    #[Test]
     public function it_contains_valid_fillable_properties(): void
     {
         $m = new Hostgroup();
@@ -19,7 +20,7 @@ class HostgroupTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function it_contains_a_hosts_relation(): void
     {
         $m = new Hostgroup();
@@ -27,7 +28,7 @@ class HostgroupTest extends ModelTestCase
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 
-    /** @test */
+    #[Test]
     public function it_contains_a_rules_relation(): void
     {
         $m = new Hostgroup();

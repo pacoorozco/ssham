@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\ControlRule;
 use Tests\Unit\ModelTestCase;
 
-class ControlRuleTest extends ModelTestCase
+final class ControlRuleTest extends ModelTestCase
 {
-    /** @test */
+    #[Test]
     public function contains_valid_fillable_properties(): void
     {
         $m = new ControlRule();
@@ -19,7 +20,7 @@ class ControlRuleTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function contains_valid_casts_properties(): void
     {
         $m = new ControlRule();

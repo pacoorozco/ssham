@@ -17,17 +17,18 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class AuditControllerTest extends TestCase
+final class AuditControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +37,7 @@ class AuditControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_see_the_index_view(): void
     {
         $this
@@ -46,7 +47,7 @@ class AuditControllerTest extends TestCase
             ->assertViewIs('audit.index');
     }
 
-    /** @test */
+    #[Test]
     public function guests_should_not_see_the_index_view(): void
     {
         $this

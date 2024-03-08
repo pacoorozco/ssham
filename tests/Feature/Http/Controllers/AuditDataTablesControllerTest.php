@@ -17,18 +17,19 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\Host;
 use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class AuditDataTablesControllerTest extends TestCase
+final class AuditDataTablesControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +38,7 @@ class AuditDataTablesControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
     {
         $this
@@ -46,7 +47,7 @@ class AuditDataTablesControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_get_data_tables_data(): void
     {
         Host::factory()->count(4)->create();

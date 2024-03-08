@@ -2,14 +2,16 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tests\Unit\ModelTestCase;
 
-class HostTest extends ModelTestCase
+final class HostTest extends ModelTestCase
 {
-    /** @test */
+    #[Test]
     public function contains_valid_fillable_properties(): void
     {
         $m = new Host();
@@ -22,7 +24,7 @@ class HostTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function contains_valid_casts_properties(): void
     {
         $m = new Host();
@@ -36,7 +38,7 @@ class HostTest extends ModelTestCase
         ], $m->getCasts());
     }
 
-    /** @test */
+    #[Test]
     public function has_groups_relation(): void
     {
         $m = new Host();
@@ -44,11 +46,8 @@ class HostTest extends ModelTestCase
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideUsernameTestCases
-     */
+    #[Test]
+    #[DataProvider('provideUsernameTestCases')]
     public function it_should_return_lowercase_usernames(
         string $input,
         string $want,
@@ -84,11 +83,8 @@ class HostTest extends ModelTestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideHostnameTestCases
-     */
+    #[Test]
+    #[DataProvider('provideHostnameTestCases')]
     public function it_should_return_lowercase_hostnames(
         string $input,
         string $want,

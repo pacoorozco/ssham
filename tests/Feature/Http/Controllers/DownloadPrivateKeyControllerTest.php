@@ -18,19 +18,21 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class DownloadPrivateKeyControllerTest extends TestCase
+final class DownloadPrivateKeyControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -39,11 +41,8 @@ class DownloadPrivateKeyControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider providePrivateKeysToDownload
-     */
+    #[Test]
+    #[DataProvider('providePrivateKeysToDownload')]
     public function users_should_not_download_existing_private_keys(
         array $data,
     ): void {
@@ -71,7 +70,7 @@ class DownloadPrivateKeyControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_remove_private_key_after_downloading_it(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -96,7 +95,7 @@ class DownloadPrivateKeyControllerTest extends TestCase
             ->assertNotFound();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_get_error_when_private_key_does_not_exist(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);

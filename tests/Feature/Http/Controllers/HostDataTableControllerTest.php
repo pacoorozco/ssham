@@ -18,6 +18,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\User;
@@ -25,13 +26,13 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class HostDataTableControllerTest extends TestCase
+final class HostDataTableControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -40,7 +41,7 @@ class HostDataTableControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
     {
         $this
@@ -49,7 +50,7 @@ class HostDataTableControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_get_data_tables_data(): void
     {
         $this
@@ -58,7 +59,7 @@ class HostDataTableControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_get_data_tables_data(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
