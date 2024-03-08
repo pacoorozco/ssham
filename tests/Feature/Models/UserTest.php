@@ -17,16 +17,18 @@
 
 namespace Tests\Feature\Models;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Roles;
 use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
     use InteractsWithPermissions;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -34,11 +36,8 @@ class UserTest extends TestCase
         $this->loadRolesAndPermissions();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideRoleInfo
-     */
+    #[Test]
+    #[DataProvider('provideRoleInfo')]
     public function it_returns_true_when_user_is_super_admin(Roles $role, bool $want): void
     {
         /** @var User $user */

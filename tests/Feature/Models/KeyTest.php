@@ -2,16 +2,17 @@
 
 namespace Tests\Feature\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\Key;
 use Illuminate\Support\Str;
 use PacoOrozco\OpenSSH\PublicKey;
 use Tests\Feature\TestCase;
 
-class KeyTest extends TestCase
+final class KeyTest extends TestCase
 {
     const VALID_PUBLIC_KEY = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDl8cMHgSYgkMFo27dvnv+1RY3el3628wCF6h+fvNwH5YLbKQZTSSFlWH6BMsMahMp3zYOvb4kURkloaPTX6paZZ+axZo6Uhww+ISws3fkykEhZWanOABy1/cKjT36SqfJD/xFVgL+FaE5QB5gvarf2IH1lNT9iYutKY0hJVz15IQ== valid-key';
 
-    /** @test */
+    #[Test]
     public function fingerprint_should_be_set_when_key_is_created(): void
     {
         /** @var Key $key */
@@ -23,7 +24,7 @@ class KeyTest extends TestCase
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
     }
 
-    /** @test */
+    #[Test]
     public function fingerprint_should_be_set_when_key_is_updated(): void
     {
         /** @var Key $key */
@@ -36,7 +37,7 @@ class KeyTest extends TestCase
         $this->assertDatabaseHas('keys', ['id' => $key->id, 'fingerprint' => $wantFingerprint]);
     }
 
-    /** @test */
+    #[Test]
     public function key_uses_uuid_as_primary_key(): void
     {
         /** @var Key $key */
@@ -46,7 +47,7 @@ class KeyTest extends TestCase
         $this->assertTrue(Str::isUuid($key->getKey()));
     }
 
-    /** @test */
+    #[Test]
     public function it_should_return_a_formatted_key_comment(): void
     {
         /** @var Key $key */

@@ -18,18 +18,17 @@
 
 namespace Tests\Feature\Actions;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Actions\UpdateHostAction;
 use App\Models\Host;
 use Generator;
 use Tests\Feature\TestCase;
 
-class UpdateHostActionTest extends TestCase
+final class UpdateHostActionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider provideNullableFieldsForHosts
-     */
+    #[Test]
+    #[DataProvider('provideNullableFieldsForHosts')]
     public function it_can_update_a_host(
         array $nullable,
     ): void {

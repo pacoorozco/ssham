@@ -17,15 +17,16 @@
 
 namespace Tests\Feature\Console\Commands;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Jobs\UpdateServer;
 use App\Models\Host;
 use Illuminate\Support\Facades\Queue;
 use Tests\Feature\TestCase;
 
-class SendKeysToHostsCommandTest extends TestCase
+final class SendKeysToHostsCommandTest extends TestCase
 {
-    /** @test */
-    public function it_finnish_successfully_when_there_are_not_enabled_servers()
+    #[Test]
+    public function it_finnish_successfully_when_there_are_not_enabled_servers(): void
     {
         setting()->set('ssh_timeout', 5);
 
@@ -42,8 +43,8 @@ class SendKeysToHostsCommandTest extends TestCase
         Queue::assertNothingPushed();
     }
 
-    /** @test */
-    public function it_finnish_successfully_when_there_are_enabled_servers()
+    #[Test]
+    public function it_finnish_successfully_when_there_are_enabled_servers(): void
     {
         setting()->set('ssh_timeout', 5);
 
@@ -65,8 +66,8 @@ class SendKeysToHostsCommandTest extends TestCase
         Queue::assertPushed(UpdateServer::class, count($hosts));
     }
 
-    /** @test */
-    public function it_should_only_update_hosts_with_pending_changes()
+    #[Test]
+    public function it_should_only_update_hosts_with_pending_changes(): void
     {
         setting()->set('ssh_timeout', 5);
 

@@ -17,14 +17,15 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\Keygroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Unit\ModelTestCase;
 
-class KeygroupTest extends ModelTestCase
+final class KeygroupTest extends ModelTestCase
 {
-    /** @test */
+    #[Test]
     public function it_contains_valid_fillable_properties(): void
     {
         $m = new Keygroup();
@@ -34,7 +35,7 @@ class KeygroupTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_keys_relation(): void
     {
         $m = new Keygroup();
@@ -42,7 +43,7 @@ class KeygroupTest extends ModelTestCase
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_rules_relation(): void
     {
         $m = new Keygroup();

@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Enums\Roles;
 use App\Models\User;
@@ -26,13 +28,13 @@ use Illuminate\Support\Facades\Hash;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class UserControllerTest extends TestCase
+final class UserControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -41,7 +43,7 @@ class UserControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_index_view(): void
     {
         $this
@@ -50,7 +52,7 @@ class UserControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewUsers);
@@ -62,7 +64,7 @@ class UserControllerTest extends TestCase
             ->assertViewIs('user.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_user(): void
     {
         $user = User::factory()->create();
@@ -73,7 +75,7 @@ class UserControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_any_user(): void
     {
         $this->user->givePermissionTo(Permissions::ViewUsers);
@@ -89,7 +91,7 @@ class UserControllerTest extends TestCase
             ->assertViewHas('user', $user);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_new_user_form(): void
     {
         $this
@@ -98,7 +100,7 @@ class UserControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_new_user_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
@@ -110,7 +112,7 @@ class UserControllerTest extends TestCase
             ->assertViewIs('user.create');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_users(): void
     {
         /** @var User $want */
@@ -133,7 +135,7 @@ class UserControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_create_users(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
@@ -163,11 +165,8 @@ class UserControllerTest extends TestCase
         $this->assertEquals(Roles::Operator, $user->role);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForUserCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForUserCreation')]
     public function editors_should_get_errors_when_creating_users_with_wrong_data(
         array $data,
         array $errors
@@ -283,7 +282,7 @@ class UserControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_other_edit_user_form(): void
     {
         $user = User::factory()->create();
@@ -295,7 +294,7 @@ class UserControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_see_their_own_edit_user_form(): void
     {
         $user = User::factory()->create();
@@ -309,7 +308,7 @@ class UserControllerTest extends TestCase
             ->assertViewHas('user', $user);
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_edit_user_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
@@ -325,7 +324,7 @@ class UserControllerTest extends TestCase
             ->assertViewHas('user', $user);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_update_other_users(): void
     {
         /** @var User $user */
@@ -340,7 +339,7 @@ class UserControllerTest extends TestCase
         $this->assertModelExists($user);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_change_their_own_credentials(): void
     {
         /** @var User $user */
@@ -370,7 +369,7 @@ class UserControllerTest extends TestCase
         $this->assertTrue(Hash::check('new-password-123', $user->password));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_change_its_own_credentials_without_the_current_password(): void
     {
         /** @var User $user */
@@ -399,7 +398,7 @@ class UserControllerTest extends TestCase
         $this->assertTrue(Hash::check('veryS3cretP4ssword', $user->password));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_update_themselves(): void
     {
         /** @var User $user */
@@ -432,7 +431,7 @@ class UserControllerTest extends TestCase
         $this->assertEquals(Roles::Auditor, $user->role);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_update_neither_status_nor_role(): void
     {
         /** @var User $user */
@@ -461,7 +460,7 @@ class UserControllerTest extends TestCase
         $this->assertEquals(Roles::Auditor, $user->role);
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_update_users(): void
     {
         $this->user->givePermissionTo(Permissions::EditUsers);
@@ -503,11 +502,8 @@ class UserControllerTest extends TestCase
         $this->assertEquals(Roles::Operator, $user->role);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForUserModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForUserModification')]
     public function editors_should_get_errors_when_updating_users_with_wrong_data(
         array $data,
         array $errors
@@ -606,7 +602,7 @@ class UserControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_users(): void
     {
         /** @var User $user */
@@ -620,7 +616,7 @@ class UserControllerTest extends TestCase
         $this->assertModelExists($user);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_themselves(): void
     {
         /** @var User $user */
@@ -635,7 +631,7 @@ class UserControllerTest extends TestCase
         $this->assertModelExists($user);
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_users(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteUsers);

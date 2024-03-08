@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\User;
 use Generator;
@@ -25,7 +27,7 @@ use PacoOrozco\OpenSSH\PrivateKey;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class SettingsControllerTest extends TestCase
+final class SettingsControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
@@ -69,7 +71,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -78,7 +80,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_see_the_index_view(): void
     {
         setting()->set(self::TEST_SETTINGS);
@@ -91,7 +93,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             ->assertViewHas('settings', setting()->all());
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_edit_settings_form(): void
     {
         setting()->set(self::TEST_SETTINGS);
@@ -102,7 +104,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_edit_settings_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditSettings);
@@ -117,7 +119,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             ->assertViewHas('settings', setting()->all());
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_update_the_settings(): void
     {
         setting()->set(self::TEST_SETTINGS);
@@ -145,7 +147,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $this->assertEquals(self::TEST_SETTINGS, setting()->all()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_update_the_settings(): void
     {
         $this->user->givePermissionTo(Permissions::EditSettings);
@@ -176,11 +178,8 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         $this->assertEquals($formData, setting()->all()->toArray());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForSettingsModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForSettingsModification')]
     public function editors_should_get_errors_when_updating_the_settings_with_wrong_data(
         array $data,
         array $errors,

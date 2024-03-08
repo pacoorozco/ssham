@@ -18,17 +18,18 @@
 
 namespace Tests\Feature\Actions;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Actions\UpdateUserAction;
 use App\Enums\Roles;
 use App\Models\User;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class UpdateUserActionTest extends TestCase
+final class UpdateUserActionTest extends TestCase
 {
     use InteractsWithPermissions;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +37,7 @@ class UpdateUserActionTest extends TestCase
         $this->loadRolesAndPermissions();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_a_user(): void
     {
         /** @var User $user */

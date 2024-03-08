@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
@@ -26,13 +28,13 @@ use Generator;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class HostgroupControllerTest extends TestCase
+final class HostgroupControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -41,7 +43,7 @@ class HostgroupControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_index_view(): void
     {
         $this
@@ -50,7 +52,7 @@ class HostgroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -62,7 +64,7 @@ class HostgroupControllerTest extends TestCase
             ->assertViewIs('hostgroup.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_hosts_group(): void
     {
         $group = Hostgroup::factory()->create();
@@ -73,7 +75,7 @@ class HostgroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_any_hosts_group(): void
     {
         $this->user->givePermissionTo(Permissions::ViewHosts);
@@ -88,7 +90,7 @@ class HostgroupControllerTest extends TestCase
             ->assertViewHas('hostgroup', $group);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_new_group_form(): void
     {
         Host::factory()->create();
@@ -99,7 +101,7 @@ class HostgroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_new_group_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -116,7 +118,7 @@ class HostgroupControllerTest extends TestCase
             ->assertViewHas('hosts', $keys->pluck('hostname', 'id'));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_groups(): void
     {
         /** @var Hostgroup $group */
@@ -136,7 +138,7 @@ class HostgroupControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_create_groups(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -169,11 +171,8 @@ class HostgroupControllerTest extends TestCase
         $this->assertCount(count($hosts), $group->hosts);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForGroupCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForGroupCreation')]
     public function editors_should_get_errors_when_creating_groups_with_wrong_data(
         array $data,
         array $errors
@@ -243,7 +242,7 @@ class HostgroupControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_edit_group_form(): void
     {
         $group = Hostgroup::factory()->create();
@@ -257,7 +256,7 @@ class HostgroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_edit_group_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -278,7 +277,7 @@ class HostgroupControllerTest extends TestCase
             ->assertViewHas('hosts', $hosts->pluck('hostname', 'id'));
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_update_groups(): void
     {
         $this->user->givePermissionTo(Permissions::EditHosts);
@@ -311,11 +310,8 @@ class HostgroupControllerTest extends TestCase
         $this->assertCount(count($hosts), $group->hosts);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForGroupModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForGroupModification')]
     public function editors_should_get_errors_when_updating_groups_with_wrong_data(
         array $data,
         array $errors
@@ -393,7 +389,7 @@ class HostgroupControllerTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_groups(): void
     {
         $group = Hostgroup::factory()->create();
@@ -404,7 +400,7 @@ class HostgroupControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_groups(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteHosts);

@@ -18,15 +18,17 @@
 
 namespace Tests\Feature\Actions;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Actions\UpdateHostGroupAction;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use Generator;
 use Tests\Feature\TestCase;
 
-class UpdateHostGroupActionTest extends TestCase
+final class UpdateHostGroupActionTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,11 +37,8 @@ class UpdateHostGroupActionTest extends TestCase
             ->create();
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider providesMembershipData
-     */
+    #[Test]
+    #[DataProvider('providesMembershipData')]
     public function it_updates_a_host_group(
         int $members_count,
     ): void {

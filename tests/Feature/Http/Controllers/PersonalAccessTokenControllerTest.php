@@ -18,20 +18,21 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class PersonalAccessTokenControllerTest extends TestCase
+final class PersonalAccessTokenControllerTest extends TestCase
 {
     use WithFaker;
     use InteractsWithPermissions;
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -40,7 +41,7 @@ class PersonalAccessTokenControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_view_its_own_tokens(): void
     {
         $expectedTokenName = $this->faker->name();
@@ -54,7 +55,7 @@ class PersonalAccessTokenControllerTest extends TestCase
             ->assertSee($expectedTokenName);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_see_the_token_creation_form(): void
     {
         $this
@@ -64,7 +65,7 @@ class PersonalAccessTokenControllerTest extends TestCase
             ->assertViewIs('user.personal_access_tokens.create');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_others_token_creation_form(): void
     {
         $otherUser = User::factory()->create();
@@ -75,7 +76,7 @@ class PersonalAccessTokenControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function super_admins_should_see_others_tokens(): void
     {
         $superAdmin = User::factory()->create();
@@ -92,7 +93,7 @@ class PersonalAccessTokenControllerTest extends TestCase
             ->assertSee($expectedTokenName);
     }
 
-    /** @test */
+    #[Test]
     public function super_admins_should_see_the_others_token_creation_form(): void
     {
         $superAdmin = User::factory()->create();
@@ -105,7 +106,7 @@ class PersonalAccessTokenControllerTest extends TestCase
             ->assertViewIs('user.personal_access_tokens.create');
     }
 
-    /** @test */
+    #[Test]
     public function super_admins_should_create_others_tokens(): void
     {
         $superAdmin = User::factory()->create();
@@ -130,7 +131,7 @@ class PersonalAccessTokenControllerTest extends TestCase
         return false !== $tokens->search($tokenName);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_create_its_own_tokens(): void
     {
         $expectedTokenName = $this->faker->name();
@@ -145,7 +146,7 @@ class PersonalAccessTokenControllerTest extends TestCase
         $this->assertTrue($this->userHasToken($this->user, $expectedTokenName));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_revoke_its_own_tokens(): void
     {
         $expectedTokenName = $this->faker->name();
@@ -159,7 +160,7 @@ class PersonalAccessTokenControllerTest extends TestCase
         $this->assertFalse($this->userHasToken($this->user, $expectedTokenName));
     }
 
-    /** @test */
+    #[Test]
     public function super_admins_should_revoke_others_tokens(): void
     {
         $superAdmin = User::factory()->create();

@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\Key;
@@ -26,18 +28,18 @@ use App\Models\User;
 use Generator;
 use Tests\Feature\TestCase;
 
-class SearchControllerTest extends TestCase
+final class SearchControllerTest extends TestCase
 {
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_see_the_search_view(): void
     {
         Key::factory()->create([
@@ -51,7 +53,7 @@ class SearchControllerTest extends TestCase
             ->assertViewIs('search.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_see_the_search_view_when_using_an_empty_query(): void
     {
         Key::factory()->create([
@@ -65,11 +67,8 @@ class SearchControllerTest extends TestCase
             ->assertViewIs('search.index');
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideSearchQueriesAndExpectedResults
-     */
+    #[Test]
+    #[DataProvider('provideSearchQueriesAndExpectedResults')]
     public function users_should_see_the_search_results(
         string $query,
         array $want,

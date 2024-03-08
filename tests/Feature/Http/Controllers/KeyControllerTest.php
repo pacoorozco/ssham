@@ -18,6 +18,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use App\Enums\KeyOperation;
 use App\Enums\Permissions;
 use App\Models\Key;
@@ -28,7 +30,7 @@ use Illuminate\Support\Str;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
-class KeyControllerTest extends TestCase
+final class KeyControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
@@ -149,7 +151,7 @@ class KeyControllerTest extends TestCase
         ];
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -158,7 +160,7 @@ class KeyControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_index_view(): void
     {
         $this
@@ -167,7 +169,7 @@ class KeyControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_the_index_view(): void
     {
         $this->user->givePermissionTo(Permissions::ViewKeys);
@@ -179,7 +181,7 @@ class KeyControllerTest extends TestCase
             ->assertViewIs('key.index');
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_any_key(): void
     {
         $key = Key::factory()->create();
@@ -190,7 +192,7 @@ class KeyControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function viewers_should_see_any_key(): void
     {
         $this->user->givePermissionTo(Permissions::ViewKeys);
@@ -205,7 +207,7 @@ class KeyControllerTest extends TestCase
             ->assertViewHas('key', $key);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_the_new_key_form(): void
     {
         Key::factory()->create();
@@ -216,7 +218,7 @@ class KeyControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_new_key_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -233,7 +235,7 @@ class KeyControllerTest extends TestCase
             ->assertViewHas('groups', $keys->pluck('name', 'id'));
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_create_keys(): void
     {
         /** @var Key $want */
@@ -252,11 +254,8 @@ class KeyControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideDataForKeyCreation
-     */
+    #[Test]
+    #[DataProvider('provideDataForKeyCreation')]
     public function editors_should_create_keys(
         array $data,
     ): void {
@@ -301,11 +300,8 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForKeyCreation
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForKeyCreation')]
     public function editors_should_get_errors_when_creating_keys_with_wrong_data(
         array $data,
         array $errors
@@ -337,7 +333,7 @@ class KeyControllerTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_see_edit_key_form(): void
     {
         $key = Key::factory()->create();
@@ -351,7 +347,7 @@ class KeyControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function editors_should_see_the_edit_key_form(): void
     {
         $this->user->givePermissionTo(Permissions::EditKeys);
@@ -372,11 +368,8 @@ class KeyControllerTest extends TestCase
             ->assertViewHas('groups', $groups->pluck('name', 'id'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideDataForKeyModification
-     */
+    #[Test]
+    #[DataProvider('provideDataForKeyModification')]
     public function editors_should_update_keys(
         array $data,
     ): void {
@@ -412,11 +405,8 @@ class KeyControllerTest extends TestCase
         $this->assertCount(count($groups), $key->groups);
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrongDataForKeyModification
-     */
+    #[Test]
+    #[DataProvider('provideWrongDataForKeyModification')]
     public function editors_should_get_errors_when_updating_keys_with_wrong_data(
         array $data,
         array $errors
@@ -453,7 +443,7 @@ class KeyControllerTest extends TestCase
         $this->assertCount(0, $key->groups);
     }
 
-    /** @test */
+    #[Test]
     public function users_should_not_delete_keys(): void
     {
         $key = Key::factory()->create();
@@ -464,7 +454,7 @@ class KeyControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function eliminators_should_delete_keys(): void
     {
         $this->user->givePermissionTo(Permissions::DeleteKeys);
