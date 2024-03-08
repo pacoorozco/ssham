@@ -23,7 +23,7 @@ use Tests\Unit\ModelTestCase;
 
 class KeyTest extends ModelTestCase
 {
-    public function test_contains_valid_fillable_properties()
+    public function test_contains_valid_fillable_properties(): void
     {
         $m = new Key();
         $this->assertEquals([
@@ -34,7 +34,7 @@ class KeyTest extends ModelTestCase
         ], $m->getFillable());
     }
 
-    public function test_contains_valid_casts_properties()
+    public function test_contains_valid_casts_properties(): void
     {
         $m = new Key();
         $this->assertEquals([
@@ -42,7 +42,7 @@ class KeyTest extends ModelTestCase
         ], $m->getCasts());
     }
 
-    public function test_groups_relation()
+    public function test_groups_relation(): void
     {
         $m = new Key();
         $r = $m->groups();

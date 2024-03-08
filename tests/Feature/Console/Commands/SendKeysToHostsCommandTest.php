@@ -26,7 +26,7 @@ use Tests\Feature\TestCase;
 class SendKeysToHostsCommandTest extends TestCase
 {
     #[Test]
-    public function it_finnish_successfully_when_there_are_not_enabled_servers()
+    public function it_finnish_successfully_when_there_are_not_enabled_servers(): void
     {
         setting()->set('ssh_timeout', 5);
 
@@ -44,7 +44,7 @@ class SendKeysToHostsCommandTest extends TestCase
     }
 
     #[Test]
-    public function it_finnish_successfully_when_there_are_enabled_servers()
+    public function it_finnish_successfully_when_there_are_enabled_servers(): void
     {
         setting()->set('ssh_timeout', 5);
 
@@ -67,7 +67,7 @@ class SendKeysToHostsCommandTest extends TestCase
     }
 
     #[Test]
-    public function it_should_only_update_hosts_with_pending_changes()
+    public function it_should_only_update_hosts_with_pending_changes(): void
     {
         setting()->set('ssh_timeout', 5);
 
