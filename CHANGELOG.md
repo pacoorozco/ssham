@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 0.19.3 - 2024-03-08
+### Changed
+- Bump `spatie/laravel-permission` to 6.4.0
+- Bump `yajra/laravel-datatables-oracle` to 10.11.4
+- Bump `bensampo/laravel-enum` to 6.10.0
+
+
 ## 0.19.2 - 2024-02-10
 ### Changed
 - Bump `phpseclib/phpseclib` to 3.0.35
