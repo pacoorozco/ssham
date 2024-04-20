@@ -4174,27 +4174,27 @@
         },
         {
             "name": "spatie/laravel-searchable",
-            "version": "1.11.2",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-searchable.git",
-                "reference": "63dea0cf4f817571933b193ba5a43bf499e53f78"
+                "reference": "02f53b35c537ebbd5c2cb15a0f683fa317248f4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-searchable/zipball/63dea0cf4f817571933b193ba5a43bf499e53f78",
-                "reference": "63dea0cf4f817571933b193ba5a43bf499e53f78",
+                "url": "https://api.github.com/repos/spatie/laravel-searchable/zipball/02f53b35c537ebbd5c2cb15a0f683fa317248f4f",
+                "reference": "02f53b35c537ebbd5c2cb15a0f683fa317248f4f",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "laravel/framework": "^8.78|^9.0|^10.0",
+                "laravel/framework": "^8.78|^9.0|^10.0|^11.0",
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
                 "larapack/dd": "^1.0",
                 "orchestra/testbench": "^6.27|^7.0|^8.0",
-                "phpunit/phpunit": "^9.3"
+                "phpunit/phpunit": "^9.3|^10.0"
             },
             "type": "library",
             "autoload": {
@@ -4228,7 +4228,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-searchable/issues",
-                "source": "https://github.com/spatie/laravel-searchable/tree/1.11.2"
+                "source": "https://github.com/spatie/laravel-searchable/tree/1.12.0"
             },
             "funding": [
                 {
@@ -4236,7 +4236,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-01-24T23:15:11+00:00"
+            "time": "2024-03-13T23:19:24+00:00"
         },
         {
             "name": "symfony/console",
