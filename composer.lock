@@ -924,21 +924,21 @@
         },
         {
             "name": "guilhermegonzaga/presenter",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guilhermegonzaga/presenter.git",
-                "reference": "0067fcadd4f68249b076fee73993f8b88294c5ab"
+                "reference": "1cc016e4476cf2bd5d1ebd427737db64eea9b02b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guilhermegonzaga/presenter/zipball/0067fcadd4f68249b076fee73993f8b88294c5ab",
-                "reference": "0067fcadd4f68249b076fee73993f8b88294c5ab",
+                "url": "https://api.github.com/repos/guilhermegonzaga/presenter/zipball/1cc016e4476cf2bd5d1ebd427737db64eea9b02b",
+                "reference": "1cc016e4476cf2bd5d1ebd427737db64eea9b02b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
-                "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
+                "illuminate/database": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
@@ -969,9 +969,9 @@
             ],
             "support": {
                 "issues": "https://github.com/guilhermegonzaga/presenter/issues",
-                "source": "https://github.com/guilhermegonzaga/presenter/tree/1.0.7"
+                "source": "https://github.com/guilhermegonzaga/presenter/tree/1.0.8"
             },
-            "time": "2023-02-27T02:51:29+00:00"
+            "time": "2024-05-28T21:20:21+00:00"
         },
         {
             "name": "guzzlehttp/uri-template",
