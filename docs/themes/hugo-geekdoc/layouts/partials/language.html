@@ -1,11 +1,11 @@
-{{ if .Site.IsMultiLingual }}
+{{ if hugo.IsMultilingual }}
   <span class="gdoc-language">
     <ul class="gdoc-language__selector" role="button" aria-pressed="false" tabindex="0">
       <li>
         {{ range .Site.Languages }}
           {{ if eq . $.Site.Language }}
             <span class="flex align-center">
-              <svg class="icon gdoc_language"><use xlink:href="#gdoc_language"></use></svg>
+              <svg class="gdoc-icon gdoc_language"><use xlink:href="#gdoc_language"></use></svg>
               <span>{{ .Lang | upper }}</span>
             </span>
           {{ end }}

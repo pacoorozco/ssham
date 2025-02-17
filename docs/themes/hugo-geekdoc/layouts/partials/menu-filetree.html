@@ -8,7 +8,7 @@
 
 
   <ul class="gdoc-nav__list">
-    {{ $sortBy := (default "title" .current.Site.Params.GeekdocFileTreeSortBy | lower) }}
+    {{ $sortBy := (default "title" .current.Site.Params.geekdocFileTreeSortBy | lower) }}
     {{ range .sect.GroupBy "Weight" }}
       {{ $rangeBy := .ByTitle }}
 
@@ -39,14 +39,13 @@
       {{ end }}
 
       {{ range $rangeBy }}
-        {{ if not .Params.GeekdocHidden }}
-
+        {{ if not .Params.geekdocHidden }}
           {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
-          {{ $isParent := and (ne $numberOfPages 0) (not .Params.GeekdocFlatSection) }}
+          {{ $isParent := and (ne $numberOfPages 0) (not .Params.geekdocFlatSection) }}
           {{ $isCurrent := eq $current . }}
           {{ $isAncestor := .IsAncestor $current }}
           {{ $id := substr (sha1 .Permalink) 0 8 }}
-          {{ $doCollapse := and $isParent (or .Params.GeekdocCollapseSection (default false .Site.Params.GeekdocCollapseAllSections)) }}
+          {{ $doCollapse := and $isParent (or .Params.geekdocCollapseSection (default false .Site.Params.geekdocCollapseAllSections)) }}
 
 
           <li>
@@ -61,10 +60,10 @@
             />
             <label
               {{ if $doCollapse }}
-                for="{{ printf "navtree-%s" $id }}" class="flex justify-between"
+                for="{{ printf "navtree-%s" $id }}" class="flex justify-between align-center"
               {{ end }}
             >
-              {{ if or .Content .Params.GeekdocFlatSection }}
+              {{ if or .Content .Params.geekdocFlatSection }}
                 <span class="flex">
                   <a
                     href="{{ .RelPermalink }}"
@@ -79,10 +78,10 @@
                 <span class="flex">{{ partial "utils/title" . }}</span>
               {{ end }}
               {{ if $doCollapse }}
-                <svg class="icon toggle gdoc_keyboard_arrow_left">
+                <svg class="gdoc-icon toggle gdoc_keyboard_arrow_left">
                   <use xlink:href="#gdoc_keyboard_arrow_left"></use>
                 </svg>
-                <svg class="icon toggle gdoc_keyboard_arrow_down">
+                <svg class="gdoc-icon toggle gdoc_keyboard_arrow_down">
                   <use xlink:href="#gdoc_keyboard_arrow_down"></use>
                 </svg>
               {{ end }}
