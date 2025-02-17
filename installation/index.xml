@@ -1,10 +1,63 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/installation/</link><description>Recent content on ssham: Secure Shell Access Manager</description><generator>Hugo 0.125.1</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/installation/index.xml" rel="self" type="application/rss+xml"/><item><title>Laravel Sail</title><link>https://ssham.pacoorozco.info/installation/laravel-sail/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/laravel-sail/</guid><description>Laravel Sail is a light-weight command-line interface for interacting with Laravel&amp;rsquo;s default Docker development environment. This will create several containers to implement all SSHAM needs. An application server and a database server.
-Prior to this installation, you need to have installed this software:
-Docker Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham Copy .env.example to .env.
-NOTE: You don&amp;rsquo;t need to touch anything from this file. It works with default settings.</description></item><item><title>Manual</title><link>https://ssham.pacoorozco.info/installation/manual/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/manual/</guid><description>Manual installation Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham Install PHP dependencies with composer
-curl -s https://getcomposer.org/installer | php php composer.phar install Copy .env.example to .env.
-Modify the content of the .env file to put your settings, something like that:
-DB_HOST=&amp;#39;Your database host&amp;#39; DB_DATABASE=&amp;#39;Your database name&amp;#39; DB_USERNAME=&amp;#39;Your database user&amp;#39; DB_PASSWORD=&amp;#39;Your database password&amp;#39; Seed database in order to play with some data
-php artisan key:generate php artisan migrate:fresh --seed Make sure storage/ and bootstrap/cache/ folders are writable by your web server.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/installation/</link><description>Recent content on ssham: Secure Shell Access Manager</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/installation/index.xml" rel="self" type="application/rss+xml"/><item><title>Laravel Sail</title><link>https://ssham.pacoorozco.info/installation/laravel-sail/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/laravel-sail/</guid><description>&lt;p>&lt;a
+ class="gdoc-markdown__link"
+ href="https://laravel.com/docs/9.x/sail"
+>Laravel Sail&lt;/a> is a light-weight command-line interface for interacting with
+Laravel&amp;rsquo;s default Docker development environment. This will create several containers to implement all SSHAM needs. An
+application server and a database server.&lt;/p>
+&lt;p>Prior to this installation, you &lt;strong>need to have installed&lt;/strong> this software:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a
+ class="gdoc-markdown__link"
+ href="https://www.docker.com/"
+>Docker&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>
+&lt;p>Clone the repository locally&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Shell" data-lang="Shell">&lt;span style="display:flex;">&lt;span>git clone https://github.com/pacoorozco/ssham.git ssham
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ssham
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Copy &lt;a
+ class="gdoc-markdown__link--code"
+ href=".env.example"
+>&lt;code>.env.example&lt;/code>&lt;/a> to &lt;code>.env&lt;/code>.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>NOTE&lt;/strong>: You don&amp;rsquo;t need to touch anything from this file. It works with default settings.&lt;/p></description></item><item><title>Manual</title><link>https://ssham.pacoorozco.info/installation/manual/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/manual/</guid><description>&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="manual-installation"
+ >
+ Manual installation
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/installation/manual/#manual-installation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Manual installation" aria-label="Anchor to: Manual installation" href="#manual-installation">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;ol>
+&lt;li>
+&lt;p>Clone the repository locally&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Shell" data-lang="Shell">&lt;span style="display:flex;">&lt;span>git clone https://github.com/pacoorozco/ssham.git ssham
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ssham
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Install PHP dependencies with &lt;a
+ class="gdoc-markdown__link"
+ href="http://getcomposer.org"
+>composer&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Shell" data-lang="Shell">&lt;span style="display:flex;">&lt;span>curl -s https://getcomposer.org/installer | php
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>php composer.phar install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Copy &lt;a
+ class="gdoc-markdown__link--code"
+ href=".env.example"
+>&lt;code>.env.example&lt;/code>&lt;/a> to &lt;code>.env&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Modify the content of the &lt;code>.env&lt;/code> file to put your settings, something like that:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-php" data-lang="php">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_HOST&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database host&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_DATABASE&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database name&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_USERNAME&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database user&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_PASSWORD&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database password&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Seed database in order to play with some data&lt;/p></description></item></channel></rss>

@@ -1,3 +1,80 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Using ssham on ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/using-ssham/</link><description>Recent content in Using ssham on ssham: Secure Shell Access Manager</description><generator>Hugo 0.125.1</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/using-ssham/index.xml" rel="self" type="application/rss+xml"/><item><title>Authorization</title><link>https://ssham.pacoorozco.info/using-ssham/auth/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/auth/</guid><description>There are 4 roles that you can assign to users. Each role provides different capabilities to manage ssham&amp;rsquo;s assets.
-Principle of least privilege
-Every privileged user of the system should operate using the least amount of privilege necessary to complete the job. Role Keys and group of keys Hosts and group of hosts Rules Users Super Admin Edit Edit Edit Edit Admin Edit Edit Edit View Operator Edit Edit View View Auditor View View View View Capabilities Edit includes viewing, creating, modifying and deleting asset capabilities.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Using ssham on ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/using-ssham/</link><description>Recent content in Using ssham on ssham: Secure Shell Access Manager</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/using-ssham/index.xml" rel="self" type="application/rss+xml"/><item><title>Authorization</title><link>https://ssham.pacoorozco.info/using-ssham/auth/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/auth/</guid><description>&lt;p>There are 4 roles that you can assign to users. Each role provides different &lt;a
+ class="gdoc-markdown__link"
+ href="#capabilities"
+>capabilities&lt;/a> to manage ssham&amp;rsquo;s assets.&lt;/p>
+
+
+
+&lt;blockquote class="gdoc-hint tip">
+ &lt;div class="gdoc-hint__title flex align-center">&lt;i class="fa tip" title="Tip">&lt;/i>&lt;/div>
+ &lt;div class="gdoc-hint__text">&lt;strong>&lt;a
+ class="gdoc-markdown__link"
+ href="https://en.wikipedia.org/wiki/Principle_of_least_privilege"
+>Principle of least privilege&lt;/a>&lt;/strong>&lt;br>
+Every privileged user of the system should operate using the least amount of privilege necessary to complete the job.&lt;/div>
+&lt;/blockquote>
+
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Role&lt;/th>
+ &lt;th style="text-align: center">Keys and group of keys&lt;/th>
+ &lt;th style="text-align: center">Hosts and group of hosts&lt;/th>
+ &lt;th style="text-align: center">Rules&lt;/th>
+ &lt;th style="text-align: center">Users&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Super Admin&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Admin&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Operator&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Auditor&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="capabilities"
+ >
+ Capabilities
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#capabilities" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Capabilities" aria-label="Anchor to: Capabilities" href="#capabilities">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;ul>
+&lt;li>&lt;strong>Edit&lt;/strong> includes viewing, creating, modifying and deleting asset capabilities.&lt;/li>
+&lt;li>&lt;strong>View&lt;/strong> only includes viewing assets capability.&lt;/li>
+&lt;/ul>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="api-authentication"
+ >
+ API authentication
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#api-authentication" class="gdoc-page__anchor clip flex align-center" title="Anchor to: API authentication" aria-label="Anchor to: API authentication" href="#api-authentication">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>In order to use the ssham API you need to create a &lt;strong>Personal access token&lt;/strong>.&lt;/p></description></item></channel></rss>

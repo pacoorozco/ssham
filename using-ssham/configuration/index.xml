@@ -1,8 +1,76 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Configuration on ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/</link><description>Recent content in Configuration on ssham: Secure Shell Access Manager</description><generator>Hugo 0.125.1</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/using-ssham/configuration/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH settings</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</guid><description>Under this section you can configure how the bastion host will communicate with the rest of remote servers.
-Bastion host credentials Private key SSHAM will use this key in order to connect to the remote hosts.
-Public key Remote hosts will identify SSHAM with this key. This key should be distributed to the remote hosts to allow access without password.
-The key distribution could be done using several approaches: ansible, puppet&amp;hellip;</description></item><item><title>Application defaults</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</guid><description>Remote paths Updater script remote path Path on remote hosts where the ssham-remote-updater.sh will be copied.
-authorized_keys remote path Path of the authorized_keys file which contains the SSH keys that can be used for logging into the remote hosts.
-SSH remote port Default port to reach remote hosts by SSH protocol.</description></item><item><title>Hybrid configuration</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</guid><description>Hybrid mode If hybrid mode is enabled, the remote hosts will accept other access keys non-managed by SSHAM.
-File to keep the managed keys File on remote hosts where SSHAM will generate the managed access keys.
-File containing keys non-managed by SSHAM File on remote hosts where you maintain access keys non-managed by SSHAM.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Configuration on ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/</link><description>Recent content in Configuration on ssham: Secure Shell Access Manager</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/using-ssham/configuration/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH settings</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</guid><description>&lt;p>Under this section you can configure how the bastion host will communicate with the rest of remote servers.&lt;/p>
+&lt;figure>&lt;img src="https://ssham.pacoorozco.info/ssh-settings.jpg">
+&lt;/figure>
+
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="bastion-host-credentials"
+ >
+ Bastion host credentials
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/#bastion-host-credentials" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Bastion host credentials" aria-label="Anchor to: Bastion host credentials" href="#bastion-host-credentials">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h3 id="private-key"
+ >
+ Private key
+ &lt;/h3>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/#private-key" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Private key" aria-label="Anchor to: Private key" href="#private-key">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>SSHAM will use this key in order to connect to the remote hosts.&lt;/p></description></item><item><title>Application defaults</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</guid><description>&lt;figure>&lt;img src="https://ssham.pacoorozco.info/app-defaults.jpg">
+&lt;/figure>
+
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="remote-paths"
+ >
+ Remote paths
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/#remote-paths" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Remote paths" aria-label="Anchor to: Remote paths" href="#remote-paths">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h3 id="updater-script-remote-path"
+ >
+ Updater script remote path
+ &lt;/h3>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/#updater-script-remote-path" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Updater script remote path" aria-label="Anchor to: Updater script remote path" href="#updater-script-remote-path">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>Path on remote hosts where the &lt;code>ssham-remote-updater.sh&lt;/code> will be copied.&lt;/p>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h3 id="authorized_keys-remote-path"
+ >
+ authorized_keys remote path
+ &lt;/h3>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/#authorized_keys-remote-path" class="gdoc-page__anchor clip flex align-center" title="Anchor to: authorized_keys remote path" aria-label="Anchor to: authorized_keys remote path" href="#authorized_keys-remote-path">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>Path of the &lt;code>authorized_keys&lt;/code> file which contains the SSH keys that can be used for logging into the remote hosts.&lt;/p></description></item><item><title>Hybrid configuration</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</guid><description>&lt;figure>&lt;img src="https://ssham.pacoorozco.info/hybrid-configuration.jpg">
+&lt;/figure>
+
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="hybrid-mode"
+ >
+ Hybrid mode
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/#hybrid-mode" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Hybrid mode" aria-label="Anchor to: Hybrid mode" href="#hybrid-mode">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>If hybrid mode is enabled, the remote hosts will accept other access keys non-managed by SSHAM.&lt;/p>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="file-to-keep-the-managed-keys"
+ >
+ File to keep the managed keys
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/#file-to-keep-the-managed-keys" class="gdoc-page__anchor clip flex align-center" title="Anchor to: File to keep the managed keys" aria-label="Anchor to: File to keep the managed keys" href="#file-to-keep-the-managed-keys">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>File on remote hosts where SSHAM will generate the managed access keys.&lt;/p></description></item></channel></rss>

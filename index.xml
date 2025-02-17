@@ -1,24 +1,236 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/</link><description>Recent content on ssham: Secure Shell Access Manager</description><generator>Hugo 0.125.1</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH settings</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</guid><description>Under this section you can configure how the bastion host will communicate with the rest of remote servers.
-Bastion host credentials Private key SSHAM will use this key in order to connect to the remote hosts.
-Public key Remote hosts will identify SSHAM with this key. This key should be distributed to the remote hosts to allow access without password.
-The key distribution could be done using several approaches: ansible, puppet&amp;hellip;</description></item><item><title>Overview</title><link>https://ssham.pacoorozco.info/about/overview/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/overview/</guid><description>Secure Shell, or Secure Socket Shell — commonly abbreviated as SSH — is a secure network protocol that allows users to securely authenticate to remote devices. SSH keys are used to access the SSH protocol. SSH leverages a pair of SSH keys to encrypt communication with a remote system. The key pair is cryptographic in nature and made up of a public and private key. The keys work in tandem to provide authentication between the client and the remote system.</description></item><item><title>Application defaults</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</guid><description>Remote paths Updater script remote path Path on remote hosts where the ssham-remote-updater.sh will be copied.
-authorized_keys remote path Path of the authorized_keys file which contains the SSH keys that can be used for logging into the remote hosts.
-SSH remote port Default port to reach remote hosts by SSH protocol.</description></item><item><title>SSH Authentication</title><link>https://ssham.pacoorozco.info/about/ssh-authentication/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/ssh-authentication/</guid><description>SSH authentication is broadly categorized into two types: password-based and public key authentication.
-1. Password-based authentication In password-based authentication, the client sends an authentication request to the server which includes the encrypted username and password for the remote server. Upon receipt, the server decrypts the request and validates the credentials in plain text. Once verified, the client is notified of the authentication outcome.
-2. Public key authentication Public key authentication — also known as asymmetric encryption — uses a cryptographic key pair which comprises a private and public key on the client system.</description></item><item><title>Authorization</title><link>https://ssham.pacoorozco.info/using-ssham/auth/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/auth/</guid><description>There are 4 roles that you can assign to users. Each role provides different capabilities to manage ssham&amp;rsquo;s assets.
-Principle of least privilege
-Every privileged user of the system should operate using the least amount of privilege necessary to complete the job. Role Keys and group of keys Hosts and group of hosts Rules Users Super Admin Edit Edit Edit Edit Admin Edit Edit Edit View Operator Edit Edit View View Auditor View View View View Capabilities Edit includes viewing, creating, modifying and deleting asset capabilities.</description></item><item><title>Hybrid configuration</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</guid><description>Hybrid mode If hybrid mode is enabled, the remote hosts will accept other access keys non-managed by SSHAM.
-File to keep the managed keys File on remote hosts where SSHAM will generate the managed access keys.
-File containing keys non-managed by SSHAM File on remote hosts where you maintain access keys non-managed by SSHAM.</description></item><item><title>Laravel Sail</title><link>https://ssham.pacoorozco.info/installation/laravel-sail/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/laravel-sail/</guid><description>Laravel Sail is a light-weight command-line interface for interacting with Laravel&amp;rsquo;s default Docker development environment. This will create several containers to implement all SSHAM needs. An application server and a database server.
-Prior to this installation, you need to have installed this software:
-Docker Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham Copy .env.example to .env.
-NOTE: You don&amp;rsquo;t need to touch anything from this file. It works with default settings.</description></item><item><title>Why ssham?</title><link>https://ssham.pacoorozco.info/about/why-ssham/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/why-ssham/</guid><description>Proper management over any type of resource and its access credentials enables a secure, well controlled environment. You can ensure proper protection of keys with SSH key management — a combination of practices, policies, and tools for establishing secure SSH key usage routines within an organization. SSH key management can significantly enhance organization cybersecurity by protecting networks and systems from both external and insider attacks. It can also help an organization comply with cybersecurity standards, laws, and regulations.</description></item><item><title>prepare your hosts</title><link>https://ssham.pacoorozco.info/how-to/prepare-hosts/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/how-to/prepare-hosts/</guid><description>ssham runs on top of a bastion host. A bastion host is a server that has SSH access to all the managed hosts.
-In order to grant access to the bastion host, you need a SSH keypair.
-The private key of the SSH keypair will be used by the bastion host to connect to the managed hosts. This key should be kept veru careful because it provides access to all the managed hosts.</description></item><item><title>How it works</title><link>https://ssham.pacoorozco.info/about/how-it-works/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/how-it-works/</guid><description>SSHAM runs on top of a bastion host. A bastion host is a server that has SSH access to other servers.
-The bastion host uses a SSH keypair to connect to the remote hosts. Every time that the bastion host wants to connect a remote server, it will use the private key. The remote server will authenticate the bastion host using the public key which was added the the remote&amp;rsquo;s authorized_keys file.</description></item><item><title>Manual</title><link>https://ssham.pacoorozco.info/installation/manual/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/manual/</guid><description>Manual installation Clone the repository locally
-git clone https://github.com/pacoorozco/ssham.git ssham cd ssham Install PHP dependencies with composer
-curl -s https://getcomposer.org/installer | php php composer.phar install Copy .env.example to .env.
-Modify the content of the .env file to put your settings, something like that:
-DB_HOST=&amp;#39;Your database host&amp;#39; DB_DATABASE=&amp;#39;Your database name&amp;#39; DB_USERNAME=&amp;#39;Your database user&amp;#39; DB_PASSWORD=&amp;#39;Your database password&amp;#39; Seed database in order to play with some data
-php artisan key:generate php artisan migrate:fresh --seed Make sure storage/ and bootstrap/cache/ folders are writable by your web server.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/</link><description>Recent content on ssham: Secure Shell Access Manager</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/index.xml" rel="self" type="application/rss+xml"/><item><title>SSH settings</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/</guid><description>&lt;p>Under this section you can configure how the bastion host will communicate with the rest of remote servers.&lt;/p>
+&lt;figure>&lt;img src="https://ssham.pacoorozco.info/ssh-settings.jpg">
+&lt;/figure>
+
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="bastion-host-credentials"
+ >
+ Bastion host credentials
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/#bastion-host-credentials" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Bastion host credentials" aria-label="Anchor to: Bastion host credentials" href="#bastion-host-credentials">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h3 id="private-key"
+ >
+ Private key
+ &lt;/h3>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/ssh-settings/#private-key" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Private key" aria-label="Anchor to: Private key" href="#private-key">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>SSHAM will use this key in order to connect to the remote hosts.&lt;/p></description></item><item><title>Overview</title><link>https://ssham.pacoorozco.info/about/overview/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/overview/</guid><description>&lt;p>Secure Shell, or Secure Socket Shell — commonly abbreviated as SSH — is a &lt;a
+ class="gdoc-markdown__link"
+ href="https://www.ssh.com/ssh/protocol/"
+>secure network protocol&lt;/a> that allows users to securely authenticate to remote devices. SSH keys are used to access the &lt;a
+ class="gdoc-markdown__link"
+ href="https://www.ssh.com/ssh/protocol/"
+>SSH protocol&lt;/a>. SSH leverages a pair of SSH keys to encrypt communication with a remote system. The key pair is cryptographic in nature and made up of a &lt;em>public&lt;/em> and &lt;em>private key&lt;/em>. The keys work in tandem to provide authentication between the client and the remote system.&lt;/p></description></item><item><title>Application defaults</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/</guid><description>&lt;figure>&lt;img src="https://ssham.pacoorozco.info/app-defaults.jpg">
+&lt;/figure>
+
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="remote-paths"
+ >
+ Remote paths
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/#remote-paths" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Remote paths" aria-label="Anchor to: Remote paths" href="#remote-paths">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h3 id="updater-script-remote-path"
+ >
+ Updater script remote path
+ &lt;/h3>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/#updater-script-remote-path" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Updater script remote path" aria-label="Anchor to: Updater script remote path" href="#updater-script-remote-path">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>Path on remote hosts where the &lt;code>ssham-remote-updater.sh&lt;/code> will be copied.&lt;/p>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h3 id="authorized_keys-remote-path"
+ >
+ authorized_keys remote path
+ &lt;/h3>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/app-defaults/#authorized_keys-remote-path" class="gdoc-page__anchor clip flex align-center" title="Anchor to: authorized_keys remote path" aria-label="Anchor to: authorized_keys remote path" href="#authorized_keys-remote-path">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>Path of the &lt;code>authorized_keys&lt;/code> file which contains the SSH keys that can be used for logging into the remote hosts.&lt;/p></description></item><item><title>SSH Authentication</title><link>https://ssham.pacoorozco.info/about/ssh-authentication/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/ssh-authentication/</guid><description>&lt;p>SSH authentication is broadly categorized into two types: &lt;em>password-based&lt;/em> and &lt;em>public key authentication&lt;/em>.&lt;/p>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="1-password-based-authentication"
+ >
+ 1. Password-based authentication
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/about/ssh-authentication/#1-password-based-authentication" class="gdoc-page__anchor clip flex align-center" title="Anchor to: 1. Password-based authentication" aria-label="Anchor to: 1. Password-based authentication" href="#1-password-based-authentication">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>In &lt;em>password-based authentication&lt;/em>, the client sends an authentication request to the server which includes the encrypted username and password for the remote server. Upon receipt, the server decrypts the request and validates the credentials in plain text. Once verified, the client is notified of the authentication outcome.&lt;/p></description></item><item><title>Authorization</title><link>https://ssham.pacoorozco.info/using-ssham/auth/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/auth/</guid><description>&lt;p>There are 4 roles that you can assign to users. Each role provides different &lt;a
+ class="gdoc-markdown__link"
+ href="#capabilities"
+>capabilities&lt;/a> to manage ssham&amp;rsquo;s assets.&lt;/p>
+
+
+
+&lt;blockquote class="gdoc-hint tip">
+ &lt;div class="gdoc-hint__title flex align-center">&lt;i class="fa tip" title="Tip">&lt;/i>&lt;/div>
+ &lt;div class="gdoc-hint__text">&lt;strong>&lt;a
+ class="gdoc-markdown__link"
+ href="https://en.wikipedia.org/wiki/Principle_of_least_privilege"
+>Principle of least privilege&lt;/a>&lt;/strong>&lt;br>
+Every privileged user of the system should operate using the least amount of privilege necessary to complete the job.&lt;/div>
+&lt;/blockquote>
+
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Role&lt;/th>
+ &lt;th style="text-align: center">Keys and group of keys&lt;/th>
+ &lt;th style="text-align: center">Hosts and group of hosts&lt;/th>
+ &lt;th style="text-align: center">Rules&lt;/th>
+ &lt;th style="text-align: center">Users&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Super Admin&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Admin&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Operator&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">Edit&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Auditor&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;td style="text-align: center">View&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="capabilities"
+ >
+ Capabilities
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#capabilities" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Capabilities" aria-label="Anchor to: Capabilities" href="#capabilities">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;ul>
+&lt;li>&lt;strong>Edit&lt;/strong> includes viewing, creating, modifying and deleting asset capabilities.&lt;/li>
+&lt;li>&lt;strong>View&lt;/strong> only includes viewing assets capability.&lt;/li>
+&lt;/ul>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="api-authentication"
+ >
+ API authentication
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#api-authentication" class="gdoc-page__anchor clip flex align-center" title="Anchor to: API authentication" aria-label="Anchor to: API authentication" href="#api-authentication">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>In order to use the ssham API you need to create a &lt;strong>Personal access token&lt;/strong>.&lt;/p></description></item><item><title>Hybrid configuration</title><link>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/</guid><description>&lt;figure>&lt;img src="https://ssham.pacoorozco.info/hybrid-configuration.jpg">
+&lt;/figure>
+
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="hybrid-mode"
+ >
+ Hybrid mode
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/#hybrid-mode" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Hybrid mode" aria-label="Anchor to: Hybrid mode" href="#hybrid-mode">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>If hybrid mode is enabled, the remote hosts will accept other access keys non-managed by SSHAM.&lt;/p>
+&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="file-to-keep-the-managed-keys"
+ >
+ File to keep the managed keys
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/configuration/hybrid-configuration/#file-to-keep-the-managed-keys" class="gdoc-page__anchor clip flex align-center" title="Anchor to: File to keep the managed keys" aria-label="Anchor to: File to keep the managed keys" href="#file-to-keep-the-managed-keys">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;p>File on remote hosts where SSHAM will generate the managed access keys.&lt;/p></description></item><item><title>Laravel Sail</title><link>https://ssham.pacoorozco.info/installation/laravel-sail/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/laravel-sail/</guid><description>&lt;p>&lt;a
+ class="gdoc-markdown__link"
+ href="https://laravel.com/docs/9.x/sail"
+>Laravel Sail&lt;/a> is a light-weight command-line interface for interacting with
+Laravel&amp;rsquo;s default Docker development environment. This will create several containers to implement all SSHAM needs. An
+application server and a database server.&lt;/p>
+&lt;p>Prior to this installation, you &lt;strong>need to have installed&lt;/strong> this software:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a
+ class="gdoc-markdown__link"
+ href="https://www.docker.com/"
+>Docker&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>
+&lt;p>Clone the repository locally&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Shell" data-lang="Shell">&lt;span style="display:flex;">&lt;span>git clone https://github.com/pacoorozco/ssham.git ssham
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ssham
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Copy &lt;a
+ class="gdoc-markdown__link--code"
+ href=".env.example"
+>&lt;code>.env.example&lt;/code>&lt;/a> to &lt;code>.env&lt;/code>.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>NOTE&lt;/strong>: You don&amp;rsquo;t need to touch anything from this file. It works with default settings.&lt;/p></description></item><item><title>Why ssham?</title><link>https://ssham.pacoorozco.info/about/why-ssham/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/why-ssham/</guid><description>&lt;p>Proper management over any type of resource and its access credentials enables a secure, well controlled environment. You can ensure proper protection of keys with &lt;strong>SSH key management&lt;/strong> — a combination of practices, policies, and tools for establishing secure SSH key usage routines within an organization. SSH key management can significantly enhance organization cybersecurity by protecting networks and systems from both external and insider attacks. It can also help an organization comply with cybersecurity standards, laws, and regulations.&lt;/p></description></item><item><title>prepare your hosts</title><link>https://ssham.pacoorozco.info/how-to/prepare-hosts/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/how-to/prepare-hosts/</guid><description>&lt;p>ssham runs on top of a bastion host. A bastion host is a server that has SSH access to all the managed hosts.&lt;/p>
+&lt;p>In order to grant access to the bastion host, you need a SSH keypair.&lt;/p>
+&lt;p>The private key of the SSH keypair will be used by the bastion host to connect to the managed hosts. This key should be kept veru careful because it provides access to all the managed hosts.&lt;/p></description></item><item><title>How it works</title><link>https://ssham.pacoorozco.info/about/how-it-works/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/about/how-it-works/</guid><description>&lt;p>SSHAM runs on top of a bastion host. A bastion host is a server that has SSH access to other servers.&lt;/p>
+&lt;p>The bastion host uses a SSH keypair to connect to the remote hosts. Every time that the bastion host wants to connect a remote server, it will use the private key. The remote server will authenticate the bastion host using the public key which was added the the remote&amp;rsquo;s &lt;code>authorized_keys&lt;/code> file.&lt;/p></description></item><item><title>Manual</title><link>https://ssham.pacoorozco.info/installation/manual/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/installation/manual/</guid><description>&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;h2 id="manual-installation"
+ >
+ Manual installation
+ &lt;/h2>
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/installation/manual/#manual-installation" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Manual installation" aria-label="Anchor to: Manual installation" href="#manual-installation">
+ &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
+ &lt;/a>
+&lt;/div>
+&lt;ol>
+&lt;li>
+&lt;p>Clone the repository locally&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Shell" data-lang="Shell">&lt;span style="display:flex;">&lt;span>git clone https://github.com/pacoorozco/ssham.git ssham
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cd ssham
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Install PHP dependencies with &lt;a
+ class="gdoc-markdown__link"
+ href="http://getcomposer.org"
+>composer&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Shell" data-lang="Shell">&lt;span style="display:flex;">&lt;span>curl -s https://getcomposer.org/installer | php
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>php composer.phar install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Copy &lt;a
+ class="gdoc-markdown__link--code"
+ href=".env.example"
+>&lt;code>.env.example&lt;/code>&lt;/a> to &lt;code>.env&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Modify the content of the &lt;code>.env&lt;/code> file to put your settings, something like that:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-php" data-lang="php">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_HOST&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database host&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_DATABASE&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database name&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_USERNAME&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database user&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">DB_PASSWORD&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#39;Your database password&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Seed database in order to play with some data&lt;/p></description></item></channel></rss>
