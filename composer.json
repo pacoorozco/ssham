@@ -24,7 +24,7 @@
         "issues": "https://github.com/pacoorozco/ssham/issues"
     },
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "almasaeed2010/adminlte": "^3.2.0",
         "bensampo/laravel-enum": "^6.11.1",
         "guilhermegonzaga/presenter": "^1.0.8",
