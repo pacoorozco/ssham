@@ -5,17 +5,16 @@
 'buttonText',
 ])
 
-<div class="modal fade" id="confirmationModal" tabindex="-1"
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
      aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ $action }}" method="post">
-                @csrf
-                @method('DELETE')
+            <x-forms.form action="{{ $action }}" method="delete">
+
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">
+                    <h4 class="modal-title" id="confirmationModalLabel">
                         {{ $title }}
-                    </h5>
+                    </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -23,24 +22,25 @@
                 <div class="modal-body">
                     {{ $slot }}
                     <p>
-                        @lang('components/modals/confirmation.help', ['confirmationText' => $confirmationText])
+                        {{ __('components/modals/confirmation.help', ['confirmationText' => $confirmationText]) }}
                     </p>
                     <input id="confirmationInput" type="text" class="form-control" autocomplete="off">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-block btn-outline-danger" id="confirmationButton"
+                    <button type="submit" class="btn btn-block btn-danger" id="confirmationButton"
                             disabled="disabled">
                         {{ $buttonText }}
                     </button>
                 </div>
-            </form>
+
+            </x-forms.form>
         </div>
     </div>
 </div>
 
 @push('scripts')
     <script>
-        $('#confirmationInput').keyup(function (e) {
+        $('#confirmationInput').keyup(function () {
             if ($('#confirmationInput').val().trim() === '{{ $confirmationText }}') {
                 $('#confirmationButton').removeAttr('disabled');
             } else {
