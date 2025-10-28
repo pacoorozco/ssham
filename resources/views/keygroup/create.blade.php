@@ -32,7 +32,7 @@
     <!-- Card -->
     <div class="card">
 
-        <x-form :action="route('keygroups.store')">
+        <x-forms.form :action="route('keygroups.store')">
 
         <div class="card-body">
             <div class="form-row">
@@ -43,23 +43,23 @@
                         <legend>@lang('keygroup/messages.basic_information_section')</legend>
 
                         <!-- name -->
-                        <x-form-input name="name" :label="__('keygroup/model.name')" required autofocus>
+                        <x-forms.input name="name" :label="__('keygroup/model.name')" required autofocus>
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('keygroup/messages.name_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ name -->
 
                         <!-- description -->
-                        <x-form-textarea name="description" :label="__('keygroup/model.description')">
+                        <x-forms.textarea name="description" :label="__('keygroup/model.description')">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('keygroup/messages.description_help')
                                 </small>
                             @endslot
-                        </x-form-textarea>
+                        </x-forms.textarea>
                         <!-- ./ description -->
                     </fieldset>
                 </div>
@@ -70,13 +70,13 @@
                     <fieldset>
                         <legend>@lang('keygroup/messages.group_members_section')</legend>
                         <!-- key's groups -->
-                        <x-form-select name="keys[]" :label="__('keygroup/model.keys')" :options="$keys" multiple class="duallistbox">
+                        <x-forms.select name="keys[]" :label="__('keygroup/model.keys')" :options="$keys" multiple class="duallistbox">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('keygroup/messages.group_help')
                                 </small>
                             @endslot
-                        </x-form-select>
+                        </x-forms.select>
                         <!-- ./ key's groups -->
                     </fieldset>
                 </div>
@@ -85,9 +85,9 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            <x-form-submit class="btn-success">
+            <x-forms.submit class="btn-success">
                 @lang('general.create')
-            </x-form-submit>
+            </x-forms.submit>
 
             <a href="{{ route('keygroups.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
@@ -95,7 +95,7 @@
             <!-- ./ form actions -->
         </div>
 
-        </x-form>
+        </x-forms.form>
     </div>
     <!-- ./ card -->
 @endsection

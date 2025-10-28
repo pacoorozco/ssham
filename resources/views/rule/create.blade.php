@@ -32,44 +32,44 @@
 
     <div class="card">
 
-        <x-form :action="route('rules.store')">
+        <x-forms.form :action="route('rules.store')">
 
         <div class="card-body">
             <div class="form-row">
 
                 <!-- source -->
                 <div class="col-md-4">
-                    <x-form-select name="source" :label="__('rule/model.source')" :options="$sources" class="search-select">
+                    <x-forms.select name="source" :label="__('rule/model.source')" :options="$sources" class="search-select">
                         @slot('help')
                             <small class="form-text text-muted">
                                 This is the group of SSH keys which will have access to the target.
                             </small>
                         @endslot
-                    </x-form-select>
+                    </x-forms.select>
                 </div>
                 <!-- ./ source -->
 
                 <!-- target -->
                 <div class="col-md-4">
-                    <x-form-select name="target" :label="__('rule/model.target')" :options="$targets" class="search-select">
+                    <x-forms.select name="target" :label="__('rule/model.target')" :options="$targets" class="search-select">
                         @slot('help')
                             <small class="form-text text-muted">
                                 This is the group of hosts to which you are granting access to.
                             </small>
                         @endslot
-                    </x-form-select>
+                    </x-forms.select>
                 </div>
                 <!-- ./ target -->
 
                 <!-- name -->
                 <div class="col-md-4">
-                    <x-form-input name="name" :label="__('rule/model.name')" required>
+                    <x-forms.input name="name" :label="__('rule/model.name')" required>
                         @slot('help')
                             <small class="form-text text-muted">
                                 Short description to identify the rule easily.
                             </small>
                         @endslot
-                    </x-form-input>
+                    </x-forms.input>
                 </div>
                 <!-- ./ name -->
             </div>
@@ -77,9 +77,9 @@
 
         <div class="card-footer">
             <!-- Form Actions -->
-            <x-form-submit class="btn-success">
+            <x-forms.submit>
                 @lang('general.create')
-            </x-form-submit>
+            </x-forms.submit>
 
             <a href="{{ route('rules.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
@@ -87,7 +87,7 @@
             <!-- ./ form actions -->
         </div>
 
-        </x-form>
+        </x-forms.form>
     </div>
     <!-- ./ card -->
 @endsection

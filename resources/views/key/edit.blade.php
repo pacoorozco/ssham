@@ -48,13 +48,13 @@
                     <fieldset>
                         <legend>@lang('key/title.key_identification_section')</legend>
                         <!-- name -->
-                        <x-form-input name="name" :label="__('key/model.name')" :value="$key->name" readonly>
+                        <x-forms.input name="name" :label="__('key/model.name')" :value="$key->name" readonly>
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('key/messages.name_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ name -->
                     </fieldset>
 
@@ -65,10 +65,10 @@
                                 <strong>@lang('key/model.enabled')</strong>
                             </legend>
                             <div class="col-sm-10">
-                                <x-form-group name="enabled">
-                                    <x-form-radio name="enabled" value="1" :label="__('general.enabled')" :bind="$key"/>
-                                    <x-form-radio name="enabled" value="0" :label="__('general.disabled')" :bind="$key"/>
-                                </x-form-group>
+                                <div class="form-group" name="enabled">
+                                    <x-forms.radio name="enabled" value="1" :label="__('general.enabled')" :checked="$key->enabled == 1"/>
+                                    <x-forms.radio name="enabled" value="0" :label="__('general.disabled')" :checked="$key->enabled == 0"/>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -79,10 +79,10 @@
                         <legend>@lang('key/title.public_key_section')</legend>
 
 
-                        <x-form-group name="operation">
+                        <div class="form-group" name="operation">
 
                             <!-- maintain key option -->
-                            <x-form-radio name="operation" id="maintain_public_key" :value="\App\Enums\KeyOperation::NOOP_OPERATION" :label="__('key/messages.maintain_public_key')" default>
+                            <x-forms.radio name="operation" id="maintain_public_key" :value="\App\Enums\KeyOperation::NOOP_OPERATION" :label="__('key/messages.maintain_public_key')" checked>
                                 @slot('help')
                                     <div id="maintain_public_key_form">
                                         <small class="form-text text-muted">
@@ -97,30 +97,30 @@
                                         </div>
                                     </div>
                                 @endslot
-                            </x-form-radio>
+                            </x-forms.radio>
                             <!-- ./maintain key option -->
 
                             <!-- create key option -->
-                            <x-form-radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION" :label="__('key/messages.create_public_key')">
+                            <x-forms.radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION" :label="__('key/messages.create_public_key')">
                                 @slot('help')
                                 <div id="create_public_key_form">
                                     <small class="form-text text-muted">@lang('key/messages.create_public_key_help') @lang('key/messages.change_public_key_help_notice')</small>
                                 </div>
                                 @endslot
-                            </x-form-radio>
+                            </x-forms.radio>
                             <!-- ./create key option -->
 
                             <!-- import key option -->
-                            <x-form-radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION" :label="__('key/messages.import_public_key')">
+                            <x-forms.radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION" :label="__('key/messages.import_public_key')">
                                 @slot('help')
                                     <div id="import_public_key_form">
-                                        <x-form-textarea name="public_key" id="public_key" rows="5" :placeholder="__('key/messages.import_public_key_help')" required/>
+                                        <x-forms.textarea name="public_key" id="public_key" rows="5" :placeholder="__('key/messages.import_public_key_help')" required/>
                                     </div>
                                 @endslot
-                            </x-form-radio>
+                            </x-forms.radio>
                             <!-- ./import key option -->
 
-                        </x-form-group>
+                        </div>
 
                     </fieldset>
                     <!-- ./ SSH public key -->
@@ -135,13 +135,13 @@
                         <legend>@lang('key/title.membership_section')</legend>
 
                         <!-- key's groups -->
-                        <x-form-select name="groups[]" :label="__('key/model.groups')" :options="$groups" :default="$key->groups->pluck('id')" multiple class="search-select">
+                        <x-forms.select name="groups[]" :label="__('key/model.groups')" :options="$groups" :default="$key->groups->pluck('id')" multiple class="search-select">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('key/messages.groups_help')
                                 </small>
                             @endslot
-                        </x-form-select>
+                        </x-forms.select>
                         <!-- ./ key's groups -->
                     </fieldset>
 
@@ -194,9 +194,9 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            <x-form-submit class="btn-success">
+            <x-forms.submit class="btn-success">
                 @lang('general.update')
-            </x-form-submit>
+            </x-forms.submit>
 
             <a href="{{ route('keys.index') }}" class="btn btn-link" role="button">
                 {{ __('general.cancel') }}

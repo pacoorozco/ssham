@@ -31,7 +31,7 @@
 
     <!-- Card -->
     <div class="card">
-        <x-form :action="route('hosts.store')">
+        <x-forms.form :action="route('hosts.store')">
 
             <div class="card-body">
                 <div class="form-row">
@@ -41,11 +41,11 @@
                         <fieldset>
                             <legend>@lang('host/title.host_information_section')</legend>
                             <!-- hostname -->
-                            <x-form-input name="hostname" :label="__('host/model.hostname')" required autofocus/>
+                            <x-forms.input name="hostname" :label="__('host/model.hostname')" required autofocus/>
                             <!-- ./ hostname -->
 
                             <!-- username -->
-                            <x-form-input name="username" :label="__('host/model.username')" required value="root"/>
+                            <x-forms.input name="username" :label="__('host/model.username')" required value="root"/>
                             <!-- ./ username -->
                         </fieldset>
 
@@ -55,10 +55,10 @@
                                 <strong>@lang('host/model.enabled')</strong>
                             </legend>
                             <div class="col-sm-10">
-                                <x-form-group name="enabled">
-                                    <x-form-radio name="enabled" value="1" :label="__('general.enabled')" default/>
-                                    <x-form-radio name="enabled" value="0" :label="__('general.disabled')"/>
-                                </x-form-group>
+                                <div class="form-group" name="enabled">
+                                    <x-forms.radio name="enabled" value="1" :label="__('general.enabled')" checked/>
+                                    <x-forms.radio name="enabled" value="0" :label="__('general.disabled')"/>
+                                </div>
                             </div>
                         </fieldset>
                         <!-- ./ enabled -->
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="collapse" id="custom-port-card">
                                     <div class="card-body">
-                                        <x-form-input name="port" id="port" type="number" required disabled/>
+                                        <x-forms.input name="port" id="port" type="number" :label="__('host/model.port')" required disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="collapse" id="custom-path-card">
                                     <div class="card-body">
-                                        <x-form-input name="authorized_keys_file" id="path" required disabled/>
+                                        <x-forms.input name="authorized_keys_file" id="path" :label="__('host/model.authorized_keys_file')" required disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -119,13 +119,13 @@
                             <legend>@lang('host/title.membership_section')</legend>
 
                             <!-- host groups -->
-                            <x-form-select name="groups[]" :label="__('host/model.groups')" :options="$groups" multiple class="search-select">
+                            <x-forms.select name="groups[]" :label="__('host/model.groups')" :options="$groups" multiple class="search-select">
                                 @slot('help')
                                     <small class="form-text text-muted">
                                         @lang('host/messages.groups_help')
                                     </small>
                                 @endslot
-                            </x-form-select>
+                            </x-forms.select>
                             <!-- ./ host groups -->
                         </fieldset>
                     </div>
@@ -134,9 +134,9 @@
             </div>
             <div class="card-footer">
                 <!-- Form Actions -->
-                <x-form-submit class="btn-success">
+                <x-forms.submit class="btn-success">
                     @lang('general.create')
-                </x-form-submit>
+                </x-forms.submit>
 
                 <a href="{{ route('hosts.index') }}" class="btn btn-link" role="button">
                     {{ __('general.cancel') }}
@@ -144,7 +144,7 @@
                 <!-- ./ form actions -->
             </div>
 
-        </x-form>
+        </x-forms.form>
     </div>
 
 @endsection

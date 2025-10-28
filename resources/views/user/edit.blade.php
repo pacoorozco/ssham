@@ -37,7 +37,7 @@
         <div class="col-md-10">
             <!-- Card -->
             <div class="card">
-                <x-form :action="route('users.update', $user)" method="PUT">
+                <x-forms.form :action="route('users.update', $user)" method="PUT">
 
                 <div class="card-body">
                     <div class="form-row">
@@ -48,21 +48,21 @@
                                 <legend>@lang('user/title.personal_information_section')</legend>
 
                                 <!-- username -->
-                                <x-form-input name="username" :label="__('user/model.username')" :value="$user->username" readonly>
+                                <x-forms.input name="username" :label="__('user/model.username')" :value="$user->username" readonly>
                                     @slot('help')
                                         <small class="form-text text-muted">
                                             @lang('user/messages.username_help')
                                         </small>
                                     @endslot
-                                </x-form-input>
+                                </x-forms.input>
                                 <!-- ./ username -->
 
                                 <!-- email -->
-                                <x-form-input name="email" type="email" :label="__('user/model.email')" :default="$user->email" required autofocus/>
+                                <x-forms.input name="email" type="email" :label="__('user/model.email')" :default="$user->email" required autofocus/>
                                 <!-- ./ email -->
 
                                 <!-- role -->
-                                <x-form-select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="$user->role" required/>
+                                <x-forms.select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="$user->role" required/>
                                 <!-- ./ role -->
                             </fieldset>
 
@@ -74,15 +74,15 @@
                                     </legend>
                                     <div class="col-sm-10">
                                         @can('delete', $user)
-                                            <x-form-group name="enabled">
-                                                <x-form-radio name="enabled" value="1" :label="__('general.active')" :bind="$user"/>
-                                                <x-form-radio name="enabled" value="0" :label="__('general.blocked')" :bind="$user"/>
-                                            </x-form-group>
+                                            <div class="form-group">
+                                                <x-forms.radio name="enabled" value="1" :label="__('general.active')" :checked="$user->enabled == 1"/>
+                                                <x-forms.radio name="enabled" value="0" :label="__('general.blocked')" :checked="$user->enabled == 0"/>
+                                            </div>
                                         @else
                                             <small class="form-text text-muted">
                                                 @lang('user/messages.edit_status_avoided')
                                             </small>
-                                            <x-form-radio name="enabled" type="hidden" :default="$user->enabled"/>
+                                            <input type="hidden" name="enabled" value="{{ $user->enabled }}"/>
                                         @endcan
                                     </div>
                                 </div>
@@ -101,16 +101,16 @@
 
                             @if (Auth::id() === $user->id)
                                 <!-- current password -->
-                                    <x-form-input name="current_password" type="password" :label="__('user/model.current_password')"/>
+                                    <x-forms.input name="current_password" type="password" :label="__('user/model.current_password')"/>
                                     <!-- ./ current_password -->
                             @endif
 
                             <!-- password -->
-                                <x-form-input name="password" type="password" :label="__('user/model.password')"/>
+                                <x-forms.input name="password" type="password" :label="__('user/model.password')"/>
                                   <!-- ./ password -->
 
                                 <!-- password_confirmation -->
-                                <x-form-input name="password_confirmation" type="password" :label="__('user/model.password_confirmation')"/>
+                                <x-forms.input name="password_confirmation" type="password" :label="__('user/model.password_confirmation')"/>
                                 <!-- ./ password_confirmation -->
                             </fieldset>
                             <!-- ./ about the user -->
@@ -180,9 +180,9 @@
                 </div>
                 <div class="card-footer">
                     <!-- Form Actions -->
-                    <x-form-submit class="btn-success">
+                    <x-forms.submit class="btn-success">
                         @lang('general.update')
-                    </x-form-submit>
+                    </x-forms.submit>
 
                     <a href="{{ route('users.index') }}" class="btn btn-link" role="button">
                         @lang('general.cancel')
@@ -190,7 +190,7 @@
                     <!-- ./ form actions -->
                 </div>
 
-                </x-form>
+                </x-forms.form>
             </div>
         </div>
         <!-- ./ card -->

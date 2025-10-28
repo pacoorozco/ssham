@@ -50,25 +50,25 @@
                 <div class="card-body">
                     <p>@lang('user/personal_access_token.help')</p>
 
-                    <x-form :action="route('users.tokens.store', $user)">
+                    <x-forms.form :action="route('users.tokens.store', $user)">
                         <!-- name -->
-                        <x-form-input name="name" :label="__('user/personal_access_token.name_input')" required autofocus>
+                        <x-forms.input name="name" :label="__('user/personal_access_token.name_input')" required autofocus>
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('user/personal_access_token.name_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ name -->
 
-                        <x-form-submit class="btn-success">
+                        <x-forms.submit class="btn-success">
                             @lang('user/personal_access_token.generate_button')
-                        </x-form-submit>
+                        </x-forms.submit>
 
                         <a href="{{ route('users.tokens.index', $user) }}" class="btn btn-link" role="button">
                             @lang('general.cancel')
                         </a>
-                    </x-form>
+                    </x-forms.form>
 
                 </div>
             </div>

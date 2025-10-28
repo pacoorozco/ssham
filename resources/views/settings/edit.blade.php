@@ -30,7 +30,7 @@
 
     <div class="card card-tabs">
 
-        <x-form :action="route('settings.update')" method="PUT">
+        <x-forms.form :action="route('settings.update')" method="PUT">
 
         <div class="card-header p-0 pt-1 boder-bottom-0">
             <ul class="nav nav-tabs" role="tablist">
@@ -71,13 +71,13 @@
                         <div class="form-row">
                             <div class="col-6">
                                 <!-- private_key -->
-                                <x-form-textarea name="private_key" :label="__('settings/model.private_key')" :default="$settings['private_key']" cols="50" rows="10" required>
+                                <x-forms.textarea name="private_key" :label="__('settings/model.private_key')" :default="$settings['private_key']" cols="50" rows="10" required>
                                     @slot('help')
                                         <small class="form-text text-muted">
                                             @lang('settings/model.private_key_help')
                                         </small>
                                     @endslot
-                                </x-form-textarea>
+                                </x-forms.textarea>
                                 <!-- ./ private_key -->
                             </div>
                         </div>
@@ -87,13 +87,13 @@
                         <legend>@lang('settings/title.ssh_options_section')</legend>
 
                         <!-- SSH connect timeout -->
-                        <x-form-input name="ssh_timeout" type="number" :label="__('settings/model.ssh_timeout')" required :default="$settings['ssh_timeout']">
+                        <x-forms.input name="ssh_timeout" type="number" :label="__('settings/model.ssh_timeout')" required :default="$settings['ssh_timeout']">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('settings/model.ssh_timeout_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ SSH connect timeout -->
 
                     </fieldset>
@@ -109,33 +109,33 @@
                         <legend>@lang('settings/title.defaults_section')</legend>
 
                         <!-- cmd_remote_updater -->
-                        <x-form-input name="cmd_remote_updater" :label="__('settings/model.cmd_remote_updater')" required :default="$settings['cmd_remote_updater']">
+                        <x-forms.input name="cmd_remote_updater" :label="__('settings/model.cmd_remote_updater')" required :default="$settings['cmd_remote_updater']">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('settings/model.cmd_remote_updater_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ cmd_remote_updater -->
 
                         <!-- authorized_keys -->
-                        <x-form-input name="authorized_keys" :label="__('settings/model.authorized_keys')" required :default="$settings['authorized_keys']">
+                        <x-forms.input name="authorized_keys" :label="__('settings/model.authorized_keys')" required :default="$settings['authorized_keys']">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('settings/model.authorized_keys_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ authorized_keys -->
 
                         <!-- SSH port -->
-                        <x-form-input name="ssh_port" type="number" :label="__('settings/model.ssh_port')" required :default="$settings['ssh_port']">
+                        <x-forms.input name="ssh_port" type="number" :label="__('settings/model.ssh_port')" required :default="$settings['ssh_port']">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('settings/model.ssh_port_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ SSH port -->
 
                     </fieldset>
@@ -151,10 +151,10 @@
                             <strong>@lang('settings/title.mixed_mode_section')</strong>
                         </legend>
                         <div class="col-sm-10">
-                            <x-form-group name="mixed_mode">
-                                <x-form-radio name="mixed_mode" id="enable_mixed_mode" value="1" :label="__('general.enabled')" :default="($settings['mixed_mode'] == 1)"/>
-                                <x-form-radio name="mixed_mode" id="disable_mixed_mode" value="0" :label="__('general.disabled')" :default="($settings['mixed_mode'] == 0)"/>
-                            </x-form-group>
+                            <div class="form-group" name="mixed_mode">
+                                <x-forms.radio name="mixed_mode" id="enable_mixed_mode" value="1" :label="__('general.enabled')" :checked="($settings['mixed_mode'] == 1)"/>
+                                <x-forms.radio name="mixed_mode" id="disable_mixed_mode" value="0" :label="__('general.disabled')" :checked="($settings['mixed_mode'] == 0)"/>
+                            </div>
                         </div>
                     </fieldset>
                     <!-- ./ mixed_mode -->
@@ -162,23 +162,23 @@
                     <fieldset id="mixed_mode_options_form">
 
                         <!-- ssham_file -->
-                        <x-form-input name="ssham_file" :label="__('settings/model.ssham_file')" required :default="$settings['ssham_file']">
+                        <x-forms.input name="ssham_file" :label="__('settings/model.ssham_file')" required :default="$settings['ssham_file']">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('settings/model.ssham_file_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ ssham_file -->
 
                         <!-- non_ssham_file -->
-                        <x-form-input name="non_ssham_file" :label="__('settings/model.non_ssham_file')" required :default="$settings['non_ssham_file']">
+                        <x-forms.input name="non_ssham_file" :label="__('settings/model.non_ssham_file')" required :default="$settings['non_ssham_file']">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('settings/model.non_ssham_file_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ non_ssham_file -->
 
                     </fieldset>
@@ -188,16 +188,16 @@
             </div>
         </div>
         <div class="card-footer">
-            <x-form-submit class="btn-success">
+            <x-forms.submit class="btn-success">
                 @lang('general.save')
-            </x-form-submit>
+            </x-forms.submit>
 
             <a href="{{ route('settings.index') }}" class="btn btn-link" role="button">
                 {{ __('general.cancel') }}
             </a>
         </div>
 
-        </x-form>
+        </x-forms.form>
     </div>
 
 @endsection

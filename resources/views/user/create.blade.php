@@ -31,7 +31,7 @@
 
     <!-- Card -->
     <div class="card">
-        <x-form :action="route('users.store')">
+        <x-forms.form :action="route('users.store')">
 
         <div class="card-body">
             <div class="form-row">
@@ -41,21 +41,21 @@
                     <fieldset>
                         <legend>@lang('user/title.personal_information_section')</legend>
                         <!-- username -->
-                            <x-form-input name="username" :label="__('user/model.username')" required autofocus>
+                            <x-forms.input name="username" :label="__('user/model.username')" required autofocus>
                                 @slot('help')
                                     <small class="form-text text-muted">
                                         @lang('user/messages.username_help')
                                     </small>
                                 @endslot
-                            </x-form-input>
+                            </x-forms.input>
                         <!-- ./ username -->
 
                         <!-- email -->
-                        <x-form-input name="email" type="email" :label="__('user/model.email')" required/>
+                        <x-forms.input name="email" type="email" :label="__('user/model.email')" required/>
                         <!-- ./ email -->
 
                         <!-- role -->
-                        <x-form-select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="\App\Enums\Roles::Operator" required/>
+                        <x-forms.select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="\App\Enums\Roles::Operator" required/>
                         <!-- ./ role -->
                     </fieldset>
 
@@ -68,11 +68,11 @@
                         <legend>@lang('user/title.credentials')</legend>
 
                         <!-- password -->
-                        <x-form-input name="password" type="password" :label="__('user/model.password')" required/>
+                        <x-forms.input name="password" type="password" :label="__('user/model.password')" required/>
                         <!-- ./ password -->
 
                         <!-- password_confirmation -->
-                        <x-form-input name="password_confirmation" type="password" :label="__('user/model.password_confirmation')" required/>
+                        <x-forms.input name="password_confirmation" type="password" :label="__('user/model.password_confirmation')" required/>
                         <!-- ./ password_confirmation -->
                     </fieldset>
 
@@ -83,9 +83,9 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            <x-form-submit class="btn-success">
+            <x-forms.submit class="btn-success">
                 @lang('general.create')
-            </x-form-submit>
+            </x-forms.submit>
 
             <a href="{{ route('users.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
@@ -94,7 +94,7 @@
             <!-- ./ form actions -->
         </div>
 
-        </x-form>
+        </x-forms.form>
     </div>
     <!-- ./ card -->
 @endsection

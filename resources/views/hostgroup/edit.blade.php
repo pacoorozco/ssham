@@ -29,7 +29,7 @@
 
     <div class="card">
 
-        <x-form :action="route('hostgroups.update', $hostgroup)" method="PUT">
+        <x-forms.form :action="route('hostgroups.update', $hostgroup)" method="PUT">
 
         <div class="card-header">
             <h2 class="card-title">
@@ -45,23 +45,23 @@
                     <fieldset>
                         <legend>@lang('hostgroup/messages.basic_information_section')</legend>
                         <!-- name -->
-                        <x-form-input name="name" :label="__('hostgroup/model.name')" :default="$hostgroup->name" required autofocus>
+                        <x-forms.input name="name" :label="__('hostgroup/model.name')" :default="$hostgroup->name" required autofocus>
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('hostgroup/messages.name_help')
                                 </small>
                             @endslot
-                        </x-form-input>
+                        </x-forms.input>
                         <!-- ./ name -->
 
                         <!-- description -->
-                        <x-form-textarea name="description" :label="__('hostgroup/model.description')" :default="$hostgroup->description">
+                        <x-forms.textarea name="description" :label="__('hostgroup/model.description')" :default="$hostgroup->description">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('hostgroup/messages.description_help')
                                 </small>
                             @endslot
-                        </x-form-textarea>
+                        </x-forms.textarea>
                         <!-- ./ description -->
                     </fieldset>
                 </div>
@@ -72,13 +72,13 @@
                     <fieldset>
                         <legend>@lang('hostgroup/messages.group_members_section')</legend>
                         <!-- host's groups -->
-                        <x-form-select name="hosts[]" :label="__('hostgroup/model.hosts')" :options="$hosts" multiple class="duallistbox" :default="$hostgroup->hosts->pluck('id')">
+                        <x-forms.select name="hosts[]" :label="__('hostgroup/model.hosts')" :options="$hosts" multiple class="duallistbox" :default="$hostgroup->hosts->pluck('id')">
                             @slot('help')
                                 <small class="form-text text-muted">
                                     @lang('hostgroup/messages.group_help')
                                 </small>
                             @endslot
-                        </x-form-select>
+                        </x-forms.select>
                         <!-- ./ host's groups -->
                     </fieldset>
 
@@ -107,9 +107,9 @@
         </div>
         <div class="card-footer">
             <!-- Form Actions -->
-            <x-form-submit class="btn-success">
+            <x-forms.submit class="btn-success">
                 @lang('general.update')
-            </x-form-submit>
+            </x-forms.submit>
 
             <a href="{{ route('hostgroups.index') }}" class="btn btn-link" role="button">
                 @lang('general.cancel')
@@ -117,7 +117,7 @@
             <!-- ./ form actions -->
         </div>
 
-        </x-form>
+        </x-forms.form>
     </div>
 
     @can('delete', $hostgroup)
