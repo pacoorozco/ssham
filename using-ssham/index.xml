@@ -1,80 +1,80 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Using ssham on ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/using-ssham/</link><description>Recent content in Using ssham on ssham: Secure Shell Access Manager</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/using-ssham/index.xml" rel="self" type="application/rss+xml"/><item><title>Authorization</title><link>https://ssham.pacoorozco.info/using-ssham/auth/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/auth/</guid><description>&lt;p>There are 4 roles that you can assign to users. Each role provides different &lt;a
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Using ssham on ssham: Secure Shell Access Manager</title><link>https://ssham.pacoorozco.info/using-ssham/</link><description>Recent content in Using ssham on ssham: Secure Shell Access Manager</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ssham.pacoorozco.info/using-ssham/index.xml" rel="self" type="application/rss+xml"/><item><title>Authorization</title><link>https://ssham.pacoorozco.info/using-ssham/auth/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://ssham.pacoorozco.info/using-ssham/auth/</guid><description>&lt;p&gt;There are 4 roles that you can assign to users. Each role provides different &lt;a
  class="gdoc-markdown__link"
  href="#capabilities"
->capabilities&lt;/a> to manage ssham&amp;rsquo;s assets.&lt;/p>
+&gt;capabilities&lt;/a&gt; to manage ssham&amp;rsquo;s assets.&lt;/p&gt;
 
 
 
-&lt;blockquote class="gdoc-hint tip">
- &lt;div class="gdoc-hint__title flex align-center">&lt;i class="fa tip" title="Tip">&lt;/i>&lt;/div>
- &lt;div class="gdoc-hint__text">&lt;strong>&lt;a
+&lt;blockquote class="gdoc-hint tip"&gt;
+ &lt;div class="gdoc-hint__title flex align-center"&gt;&lt;i class="fa tip" title="Tip"&gt;&lt;/i&gt;&lt;/div&gt;
+ &lt;div class="gdoc-hint__text"&gt;&lt;strong&gt;&lt;a
  class="gdoc-markdown__link"
  href="https://en.wikipedia.org/wiki/Principle_of_least_privilege"
->Principle of least privilege&lt;/a>&lt;/strong>&lt;br>
-Every privileged user of the system should operate using the least amount of privilege necessary to complete the job.&lt;/div>
-&lt;/blockquote>
+&gt;Principle of least privilege&lt;/a&gt;&lt;/strong&gt;&lt;br&gt;
+Every privileged user of the system should operate using the least amount of privilege necessary to complete the job.&lt;/div&gt;
+&lt;/blockquote&gt;
 
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th>Role&lt;/th>
- &lt;th style="text-align: center">Keys and group of keys&lt;/th>
- &lt;th style="text-align: center">Hosts and group of hosts&lt;/th>
- &lt;th style="text-align: center">Rules&lt;/th>
- &lt;th style="text-align: center">Users&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td>Super Admin&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>Admin&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>Operator&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">Edit&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>Auditor&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;td style="text-align: center">View&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;div class="flex align-center gdoc-page__anchorwrap">
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;Role&lt;/th&gt;
+ &lt;th style="text-align: center"&gt;Keys and group of keys&lt;/th&gt;
+ &lt;th style="text-align: center"&gt;Hosts and group of hosts&lt;/th&gt;
+ &lt;th style="text-align: center"&gt;Rules&lt;/th&gt;
+ &lt;th style="text-align: center"&gt;Users&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Super Admin&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Admin&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Operator&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;Edit&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Auditor&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;td style="text-align: center"&gt;View&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="flex align-center gdoc-page__anchorwrap"&gt;
  &lt;h2 id="capabilities"
- >
+ &gt;
  Capabilities
- &lt;/h2>
- &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#capabilities" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Capabilities" aria-label="Anchor to: Capabilities" href="#capabilities">
- &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
- &lt;/a>
-&lt;/div>
-&lt;ul>
-&lt;li>&lt;strong>Edit&lt;/strong> includes viewing, creating, modifying and deleting asset capabilities.&lt;/li>
-&lt;li>&lt;strong>View&lt;/strong> only includes viewing assets capability.&lt;/li>
-&lt;/ul>
-&lt;div class="flex align-center gdoc-page__anchorwrap">
+ &lt;/h2&gt;
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#capabilities" class="gdoc-page__anchor clip flex align-center" title="Anchor to: Capabilities" aria-label="Anchor to: Capabilities" href="#capabilities"&gt;
+ &lt;svg class="gdoc-icon gdoc_link"&gt;&lt;use xlink:href="#gdoc_link"&gt;&lt;/use&gt;&lt;/svg&gt;
+ &lt;/a&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Edit&lt;/strong&gt; includes viewing, creating, modifying and deleting asset capabilities.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;View&lt;/strong&gt; only includes viewing assets capability.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="flex align-center gdoc-page__anchorwrap"&gt;
  &lt;h2 id="api-authentication"
- >
+ &gt;
  API authentication
- &lt;/h2>
- &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#api-authentication" class="gdoc-page__anchor clip flex align-center" title="Anchor to: API authentication" aria-label="Anchor to: API authentication" href="#api-authentication">
- &lt;svg class="gdoc-icon gdoc_link">&lt;use xlink:href="#gdoc_link">&lt;/use>&lt;/svg>
- &lt;/a>
-&lt;/div>
-&lt;p>In order to use the ssham API you need to create a &lt;strong>Personal access token&lt;/strong>.&lt;/p></description></item></channel></rss>
+ &lt;/h2&gt;
+ &lt;a data-clipboard-text="https://ssham.pacoorozco.info/using-ssham/auth/#api-authentication" class="gdoc-page__anchor clip flex align-center" title="Anchor to: API authentication" aria-label="Anchor to: API authentication" href="#api-authentication"&gt;
+ &lt;svg class="gdoc-icon gdoc_link"&gt;&lt;use xlink:href="#gdoc_link"&gt;&lt;/use&gt;&lt;/svg&gt;
+ &lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;In order to use the ssham API you need to create a &lt;strong&gt;Personal access token&lt;/strong&gt;.&lt;/p&gt;</description></item></channel></rss>
