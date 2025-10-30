@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -25,7 +26,7 @@ final class KeyTest extends ModelTestCase
 {
     public function test_contains_valid_fillable_properties(): void
     {
-        $m = new Key();
+        $m = new Key;
         $this->assertEquals([
             'name',
             'public',
@@ -36,7 +37,7 @@ final class KeyTest extends ModelTestCase
 
     public function test_contains_valid_casts_properties(): void
     {
-        $m = new Key();
+        $m = new Key;
         $this->assertEquals([
             'enabled' => 'boolean',
         ], $m->getCasts());
@@ -44,7 +45,7 @@ final class KeyTest extends ModelTestCase
 
     public function test_groups_relation(): void
     {
-        $m = new Key();
+        $m = new Key;
         $r = $m->groups();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }

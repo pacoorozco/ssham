@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Models;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\ControlRule;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\Key;
 use App\Models\Keygroup;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\TestCase;
 
 final class HostTest extends TestCase

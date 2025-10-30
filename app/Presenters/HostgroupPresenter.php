@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -39,7 +40,7 @@ class HostgroupPresenter extends Presenter
     {
         $hostsCount = '('.trans_choice('hostgroup/messages.hosts_count', $this->model->hostsCount()).')';
 
-        if (false === $linkable) {
+        if ($linkable === false) {
             return new HtmlString(
                 $this->model->name.' '.$hostsCount
             );

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -35,13 +36,13 @@ use Spatie\Searchable\SearchResult;
 /**
  * Class Key.
  *
- * @property string                          $id
- * @property string                          $name
- * @property bool                            $enabled
- * @property string                          $type
- * @property string                          $public
- * @property string                          $private
- * @property string                          $fingerprint
+ * @property string $id
+ * @property string $name
+ * @property bool $enabled
+ * @property string $type
+ * @property string $public
+ * @property string $private
+ * @property string $fingerprint
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Keygroup[] $groups
@@ -49,9 +50,9 @@ use Spatie\Searchable\SearchResult;
 class Key extends Model implements Searchable
 {
     use HasFactory;
-    use UsesUUID;
-    use Presentable;
     use LogsActivity;
+    use Presentable;
+    use UsesUUID;
 
     public string $searchableType = 'SSH Keys';
 
@@ -72,6 +73,7 @@ class Key extends Model implements Searchable
 
     /**
      * A Key belongs to many Key groups (many-to-many).
+     *
      * @return BelongsToMany<Keygroup>
      */
     public function groups(): BelongsToMany

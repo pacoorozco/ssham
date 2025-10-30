@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -22,12 +23,12 @@ use App\Models\Key;
 class UpdateKeyAction
 {
     /**
-     * @param array<int> $groups
+     * @param  array<int>  $groups
      */
     public function __invoke(
         Key $key,
         string $publicKey,
-        string|null $privateKey,
+        ?string $privateKey,
         array $groups,
         bool $enabled,
     ): Key {

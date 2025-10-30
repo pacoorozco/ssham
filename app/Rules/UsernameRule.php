@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -32,7 +33,7 @@ class UsernameRule implements Rule
             return false;
         }
 
-        return 1 == preg_match(self::VALID_USERNAME_REGEXP, $value);
+        return preg_match(self::VALID_USERNAME_REGEXP, $value) == 1;
     }
 
     public function message(): string

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -17,10 +18,10 @@
 
 namespace Tests\Feature\Console\Commands;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Jobs\UpdateServer;
 use App\Models\Host;
 use Illuminate\Support\Facades\Queue;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\TestCase;
 
 final class SendKeysToHostsCommandTest extends TestCase

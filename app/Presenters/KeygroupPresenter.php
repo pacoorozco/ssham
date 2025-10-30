@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -34,7 +35,7 @@ class KeygroupPresenter extends Presenter
     {
         $keysCount = '('.trans_choice('keygroup/messages.keys_count', $this->model->keysCount()).')';
 
-        if (false === $linkable) {
+        if ($linkable === false) {
             return new HtmlString(
                 $this->model->name.' '.$keysCount
             );

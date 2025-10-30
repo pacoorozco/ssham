@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -95,7 +96,7 @@ abstract class ModelTestCase extends TestCase
      * - `getQualifiedParentKeyName()`: in case of `HasOneOrMany` relation, there is no `getLocalKey()` method, so this
      * one should be asserted.
      */
-    protected function assertHasManyRelation($relation, Model $model, Model $related, $key = null, $parent = null, \Closure $queryCheck = null)
+    protected function assertHasManyRelation($relation, Model $model, Model $related, $key = null, $parent = null, ?\Closure $queryCheck = null)
     {
         $this->assertInstanceOf(HasMany::class, $relation);
 
@@ -127,7 +128,7 @@ abstract class ModelTestCase extends TestCase
      * - `getForeignKey()`: any `HasOneOrMany` or `BelongsTo` relation, but key type differs (see documentaiton).
      * - `getOwnerKey()`: `BelongsTo` relation and its extendings.
      */
-    protected function assertBelongsToRelation($relation, Model $model, Model $related, $key, $owner = null, \Closure $queryCheck = null)
+    protected function assertBelongsToRelation($relation, Model $model, Model $related, $key, $owner = null, ?\Closure $queryCheck = null)
     {
         $this->assertInstanceOf(BelongsTo::class, $relation);
 

@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Http\Api;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\User;
 use Generator;
 use Illuminate\Support\Arr;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Feature\ApiTestCase;
 use Tests\Feature\InteractsWithPermissions;

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -17,10 +18,10 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\Keygroup;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\ModelTestCase;
 
 final class KeygroupTest extends ModelTestCase
@@ -28,7 +29,7 @@ final class KeygroupTest extends ModelTestCase
     #[Test]
     public function it_contains_valid_fillable_properties(): void
     {
-        $m = new Keygroup();
+        $m = new Keygroup;
         $this->assertEquals([
             'name',
             'description',
@@ -38,7 +39,7 @@ final class KeygroupTest extends ModelTestCase
     #[Test]
     public function it_has_keys_relation(): void
     {
-        $m = new Keygroup();
+        $m = new Keygroup;
         $r = $m->keys();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }
@@ -46,7 +47,7 @@ final class KeygroupTest extends ModelTestCase
     #[Test]
     public function it_has_rules_relation(): void
     {
-        $m = new Keygroup();
+        $m = new Keygroup;
         $r = $m->rules();
         $this->assertInstanceOf(HasMany::class, $r);
     }

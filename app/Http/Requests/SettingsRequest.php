@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -34,7 +35,7 @@ class SettingsRequest extends Request
             ],
             'private_key' => [
                 'required',
-                new PrivateKeyRule(),
+                new PrivateKeyRule,
             ],
             'ssh_port' => [
                 'required',

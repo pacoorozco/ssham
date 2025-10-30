@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -17,9 +18,9 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\AuthType;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\ModelTestCase;
 
 final class UserTest extends ModelTestCase
@@ -27,7 +28,7 @@ final class UserTest extends ModelTestCase
     #[Test]
     public function contains_valid_fillable_properties(): void
     {
-        $m = new User();
+        $m = new User;
         $this->assertEquals([
             'username',
             'email',
@@ -39,7 +40,7 @@ final class UserTest extends ModelTestCase
     #[Test]
     public function contains_valid_hidden_properties(): void
     {
-        $m = new User();
+        $m = new User;
         $this->assertEquals([
             'password',
             'remember_token',
@@ -49,7 +50,7 @@ final class UserTest extends ModelTestCase
     #[Test]
     public function contains_valid_casts_properties(): void
     {
-        $m = new User();
+        $m = new User;
         $this->assertEquals([
             'id' => 'int',
             'enabled' => 'boolean',

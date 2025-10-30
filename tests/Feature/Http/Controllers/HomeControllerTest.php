@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\TestCase;
 
 final class HomeControllerTest extends TestCase

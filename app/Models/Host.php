@@ -139,7 +139,7 @@ class Host extends Model implements Searchable
     }
 
     /**
-     * @param Builder<Host> $query
+     * @param  Builder<Host>  $query
      * @return Builder<Host>
      */
     public function scopeWithPendingChanges(Builder $query): Builder
@@ -148,7 +148,7 @@ class Host extends Model implements Searchable
     }
 
     /**
-     * @param Builder<Host> $query
+     * @param  Builder<Host>  $query
      * @return Builder<Host>
      */
     public function scopeEnabled(Builder $query): Builder

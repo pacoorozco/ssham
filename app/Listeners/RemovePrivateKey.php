@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -30,7 +31,7 @@ class RemovePrivateKey
 
         // Do not use ->performedOn() because Key uses UUID which are not compatible with it.
         activity()
-            //->performedOn($key)
+            // ->performedOn($key)
             ->withProperties(['status' => ActivityStatus::Success])
             ->log(sprintf("Private key was removed from key '%s'.", $key->name));
     }
