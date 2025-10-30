@@ -25,7 +25,6 @@
     },
     "require": {
         "php": "^8.3",
-        "almasaeed2010/adminlte": "^3.2.0",
         "guilhermegonzaga/presenter": "^1.0.8",
         "larapacks/setting": "^3.0.2",
         "laravel-json-api/laravel": "^3.4.0",
