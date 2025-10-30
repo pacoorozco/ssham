@@ -47,7 +47,7 @@ class ActivityPresenter extends Presenter
                 ->toHtmlString();
         }
 
-        return Str::of($status->label() ?? '')
+        return Str::of($status->label())
             ->toHtmlString();
     }
 }
