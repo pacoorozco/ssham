@@ -84,6 +84,7 @@ class Host extends Model implements Searchable
         'status_code' => HostStatus::INITIAL_STATUS,
     ];
 
+    /** @return Attribute<string, never> */
     public function fullHostname(): Attribute
     {
         return Attribute::make(
@@ -91,6 +92,7 @@ class Host extends Model implements Searchable
         );
     }
 
+    /** @return Attribute<never, int> */
     public function port(): Attribute
     {
         return Attribute::make(
@@ -108,6 +110,7 @@ class Host extends Model implements Searchable
         return setting()->get('ssh_port', 0);
     }
 
+    /** @return Attribute<never, string> */
     public function authorizedKeysFile(): Attribute
     {
         return Attribute::make(
@@ -135,11 +138,19 @@ class Host extends Model implements Searchable
         return ! is_null($this->attributes['authorized_keys_file']);
     }
 
+    /**
+     * @param Builder<Host> $query
+     * @return Builder<Host>
+     */
     public function scopeWithPendingChanges(Builder $query): Builder
     {
         return $query->where('synced', false);
     }
 
+    /**
+     * @param Builder<Host> $query
+     * @return Builder<Host>
+     */
     public function scopeEnabled(Builder $query): Builder
     {
         return $query->where('enabled', true);
@@ -162,6 +173,7 @@ class Host extends Model implements Searchable
         $this->save();
     }
 
+    /** @return Collection<int, string> */
     public function getSSHKeysForHost(): Collection
     {
         $sshKeys = collect();
@@ -185,6 +197,7 @@ class Host extends Model implements Searchable
             ->map(fn ($key) => $key->public);
     }
 
+    /** @return BelongsToMany<Hostgroup> */
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Hostgroup::class);
@@ -201,6 +214,7 @@ class Host extends Model implements Searchable
 
     // TODO: Needs a refactor to make code more readable.
 
+    /** @return Attribute<never, string> */
     protected function username(): Attribute
     {
         return Attribute::make(
@@ -208,6 +222,7 @@ class Host extends Model implements Searchable
         );
     }
 
+    /** @return Attribute<never, string> */
     protected function hostname(): Attribute
     {
         return Attribute::make(

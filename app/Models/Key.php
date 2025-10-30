@@ -27,6 +27,7 @@ use Illuminate\Support\Str;
 use Laracodes\Presenter\Traits\Presentable;
 use PacoOrozco\OpenSSH\PublicKey;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
@@ -71,6 +72,7 @@ class Key extends Model implements Searchable
 
     /**
      * A Key belongs to many Key groups (many-to-many).
+     * @return BelongsToMany<Keygroup>
      */
     public function groups(): BelongsToMany
     {
@@ -82,6 +84,7 @@ class Key extends Model implements Searchable
         return 'SSHAM['.$this->name.']';
     }
 
+    /** @return Attribute<string, string> */
     protected function public(): Attribute
     {
         return Attribute::make(

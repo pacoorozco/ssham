@@ -38,10 +38,17 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
         return $user;
     }
 
-    /** @codeCoverageIgnore */
+    /**
+     * @codeCoverageIgnore
+     * @return LogOptions
+     */
     public function getActivitylogOptions(): LogOptions
     {
-        $relatedUser = $this->relatedUser()->username;
+        try {
+            $relatedUser = $this->relatedUser()->username;
+        } catch (\Exception $e) {
+            $relatedUser = 'unknown';
+        }
 
         return LogOptions::defaults()
             ->logOnly(['name'])

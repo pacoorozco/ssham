@@ -55,11 +55,13 @@ class ControlRule extends Model
         'enabled',
     ];
 
+    /** @return BelongsTo<Keygroup, ControlRule> */
     public function source(): BelongsTo
     {
         return $this->belongsTo(Keygroup::class);
     }
 
+    /** @return BelongsTo<Hostgroup, ControlRule> */
     public function target(): BelongsTo
     {
         return $this->belongsTo(Hostgroup::class);

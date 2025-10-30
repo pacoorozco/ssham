@@ -82,6 +82,7 @@ final class User extends Authenticatable
         'auth_type' => AuthType::Local,
     ];
 
+    /** @return Attribute<never, string> */
     protected function username(): Attribute
     {
         return Attribute::make(
