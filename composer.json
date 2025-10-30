@@ -34,7 +34,6 @@
         "laravel/ui": "^4.6.1",
         "pacoorozco/laravel-form-components": "^4.0",
         "pacoorozco/openssh": "^0.5.1",
-        "phpseclib/phpseclib": "^3.0.47",
         "spatie/laravel-activitylog": "^4.10.2",
         "spatie/laravel-permission": "^6.22.0",
         "spatie/laravel-searchable": "^1.13.0",
