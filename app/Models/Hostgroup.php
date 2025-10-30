@@ -56,6 +56,7 @@ class Hostgroup extends Model implements Searchable
         'description',
     ];
 
+    /** @return BelongsToMany<Host> */
     public function hosts(): BelongsToMany
     {
         return $this->belongsToMany(Host::class)->orderBy('hostname');
@@ -71,6 +72,7 @@ class Hostgroup extends Model implements Searchable
         return $this->rules()->count();
     }
 
+    /** @return HasMany<ControlRule> */
     public function rules(): HasMany
     {
         return $this->hasMany(ControlRule::class, 'target_id');

@@ -61,6 +61,7 @@ class Keygroup extends Model implements Searchable
         return $this->keys()->count();
     }
 
+    /** @return BelongsToMany<Key> */
     public function keys(): BelongsToMany
     {
         return $this->belongsToMany(Key::class);
@@ -71,6 +72,7 @@ class Keygroup extends Model implements Searchable
         return $this->rules()->count();
     }
 
+    /** @return HasMany<ControlRule> */
     public function rules(): HasMany
     {
         return $this->hasMany(ControlRule::class, 'source_id');

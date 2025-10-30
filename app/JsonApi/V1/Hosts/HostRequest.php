@@ -8,6 +8,9 @@ use LaravelJsonApi\Validation\Rule as JsonApiRule;
 
 class HostRequest extends ResourceRequest
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         $data = $this->validationData();

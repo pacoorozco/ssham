@@ -23,6 +23,7 @@ class HostSchema extends Schema
 
     /**
      * Get the resource fields.
+     * @return array<mixed>
      */
     public function fields(): array
     {
@@ -48,6 +49,7 @@ class HostSchema extends Schema
 
     /**
      * Get the resource filters.
+     * @return array<mixed>
      */
     public function filters(): array
     {

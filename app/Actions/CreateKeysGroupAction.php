@@ -21,6 +21,9 @@ use App\Models\Keygroup;
 
 class CreateKeysGroupAction
 {
+    /**
+     * @param array<int> $members
+     */
     public function __invoke(
         string $name,
         string $description,

@@ -24,6 +24,9 @@ use Illuminate\Validation\Rule;
 
 class HostgroupCreateRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
@@ -54,6 +57,9 @@ class HostgroupCreateRequest extends Request
         return $this->input('description') ?? '';
     }
 
+    /**
+     * @return array<int>
+     */
     public function hosts(): array
     {
         return $this->input('hosts', []);

@@ -20,6 +20,9 @@ namespace App\Http\Requests;
 
 class SearchRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [

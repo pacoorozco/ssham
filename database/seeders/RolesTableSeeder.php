@@ -57,10 +57,9 @@ class RolesTableSeeder extends Seeder
                 Permissions::DeleteHosts->value,
                 Permissions::DeleteRules->value,
             ],
-            Roles::SuperAdmin->value => [
+            Roles::SuperAdmin->value =>
                 // gets all permissions.
                 array_map(fn ($p) => $p->value, Permissions::cases()),
-            ],
         ];
 
         foreach (Roles::cases() as $role) {
@@ -71,6 +70,9 @@ class RolesTableSeeder extends Seeder
         }
     }
 
+    /**
+     * @param array<string> $permissions
+     */
     private function giveManyPermissionsTo(Role $role, array $permissions): void
     {
         foreach ($permissions as $perm) {

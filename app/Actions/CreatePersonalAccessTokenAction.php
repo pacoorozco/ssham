@@ -21,6 +21,9 @@ use App\Models\User;
 
 class CreatePersonalAccessTokenAction
 {
+    /**
+     * @param array<string> $abilities
+     */
     public function __invoke(
         User $user,
         string $name,

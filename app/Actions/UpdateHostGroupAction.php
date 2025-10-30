@@ -21,6 +21,9 @@ use App\Models\Hostgroup;
 
 class UpdateHostGroupAction
 {
+    /**
+     * @param array<int> $members
+     */
     public function __invoke(
         Hostgroup $group,
         string $name,

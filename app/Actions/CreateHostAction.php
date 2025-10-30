@@ -21,6 +21,9 @@ use App\Models\Host;
 
 class CreateHostAction
 {
+    /**
+     * @param array<int> $groups
+     */
     public function __invoke(
         string $hostname,
         string $username,

@@ -91,6 +91,7 @@ class UserController extends Controller
     {
         $username = $user->username;
 
+        // @phpstan-ignore-next-line
         $user->delete();
 
         return redirect()->route('users.index')

@@ -25,6 +25,9 @@ use Illuminate\Validation\Rule;
 
 class ControlRuleCreateRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
