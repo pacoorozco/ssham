@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -51,7 +52,7 @@ class UserPresenter extends Presenter
 
     public function authTypeAsBadge(): HtmlString
     {
-        return new HtmlString('<span class="badge badge-pill badge-secondary">'.AuthType::Local.'</span>');
+        return new HtmlString('<span class="badge badge-pill badge-secondary">'.AuthType::Local->value.'</span>');
     }
 
     public function tokensCountAsBadge(): HtmlString
@@ -60,7 +61,7 @@ class UserPresenter extends Presenter
             return new HtmlString('<span class="badge badge-pill badge-danger">tokens</span>');
         }
 
-        return new HtmlString();
+        return new HtmlString;
     }
 
     public function createdAtForHumans(): string
@@ -70,6 +71,6 @@ class UserPresenter extends Presenter
 
     public function role(): string
     {
-        return $this->model->role->description ?? 'N/A';
+        return $this->model->role->value ?? 'N/A';
     }
 }

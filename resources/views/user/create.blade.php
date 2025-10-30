@@ -55,7 +55,7 @@
                         <!-- ./ email -->
 
                         <!-- role -->
-                        <x-form-select name="role" :label="__('user/model.role')" :options="\App\Enums\Roles::asSelectArray()" :default="\App\Enums\Roles::Operator" required/>
+                        <x-form-select name="role" :label="__('user/model.role')" :options="collect(\App\Enums\Roles::cases())->mapWithKeys(fn($case) => [$case->value => $case->name])" :default="\App\Enums\Roles::Operator->value" required/>
                         <!-- ./ role -->
                     </fieldset>
 

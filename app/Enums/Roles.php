@@ -2,15 +2,20 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-final class Roles extends Enum
+enum Roles: string
 {
-    const SuperAdmin = 'super-admin';
+    case SuperAdmin = 'super-admin';
+    case Admin = 'admin';
+    case Operator = 'operator';
+    case Auditor = 'auditor';
 
-    const Admin = 'admin';
-
-    const Operator = 'operator';
-
-    const Auditor = 'auditor';
+    public function label(): string
+    {
+        return match ($this) {
+            Roles::SuperAdmin => 'Super Admin',
+            Roles::Admin => 'Admin',
+            Roles::Operator => 'Operator',
+            Roles::Auditor => 'Auditor',
+        };
+    }
 }

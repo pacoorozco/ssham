@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -28,45 +29,45 @@ class RolesTableSeeder extends Seeder
     {
         // Defines which Permissions are given to each Role.
         $permissionsToRole = [
-            Roles::Auditor => [
-                Permissions::ViewKeys,
-                Permissions::ViewHosts,
-                Permissions::ViewRules,
-                Permissions::ViewUsers,
+            Roles::Auditor->value => [
+                Permissions::ViewKeys->value,
+                Permissions::ViewHosts->value,
+                Permissions::ViewRules->value,
+                Permissions::ViewUsers->value,
             ],
-            Roles::Operator => [
-                Permissions::ViewKeys,
-                Permissions::ViewHosts,
-                Permissions::ViewRules,
-                Permissions::ViewUsers,
-                Permissions::EditKeys,
-                Permissions::EditHosts,
-                Permissions::DeleteKeys,
-                Permissions::DeleteHosts,
+            Roles::Operator->value => [
+                Permissions::ViewKeys->value,
+                Permissions::ViewHosts->value,
+                Permissions::ViewRules->value,
+                Permissions::ViewUsers->value,
+                Permissions::EditKeys->value,
+                Permissions::EditHosts->value,
+                Permissions::DeleteKeys->value,
+                Permissions::DeleteHosts->value,
             ],
-            Roles::Admin => [
-                Permissions::ViewKeys,
-                Permissions::ViewHosts,
-                Permissions::ViewRules,
-                Permissions::ViewUsers,
-                Permissions::EditKeys,
-                Permissions::EditHosts,
-                Permissions::EditRules,
-                Permissions::DeleteKeys,
-                Permissions::DeleteHosts,
-                Permissions::DeleteRules,
+            Roles::Admin->value => [
+                Permissions::ViewKeys->value,
+                Permissions::ViewHosts->value,
+                Permissions::ViewRules->value,
+                Permissions::ViewUsers->value,
+                Permissions::EditKeys->value,
+                Permissions::EditHosts->value,
+                Permissions::EditRules->value,
+                Permissions::DeleteKeys->value,
+                Permissions::DeleteHosts->value,
+                Permissions::DeleteRules->value,
             ],
-            Roles::SuperAdmin => [
+            Roles::SuperAdmin->value => [
                 // gets all permissions.
-                Permissions::getValues(),
+                array_map(fn ($p) => $p->value, Permissions::cases()),
             ],
         ];
 
-        foreach (Roles::getValues() as $roleValue) {
-            /** @var Role $role */
-            $role = Role::create(['name' => $roleValue]);
+        foreach (Roles::cases() as $role) {
+            /** @var Role $roleModel */
+            $roleModel = Role::create(['name' => $role->value]);
 
-            $this->giveManyPermissionsTo($role, $permissionsToRole[$roleValue]);
+            $this->giveManyPermissionsTo($roleModel, $permissionsToRole[$role->value]);
         }
     }
 

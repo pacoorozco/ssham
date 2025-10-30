@@ -14,8 +14,8 @@ class PermissionsTableSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        foreach (Permissions::getValues() as $permission) {
-            Permission::create(['name' => $permission]);
+        foreach (Permissions::cases() as $permission) {
+            Permission::create(['name' => $permission->value]);
         }
     }
 }

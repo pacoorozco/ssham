@@ -31,7 +31,7 @@ final class SettingsControllerTest extends TestCase
 {
     use InteractsWithPermissions;
 
-    const TEST_SETTINGS = [
+    const array TEST_SETTINGS = [
         'authorized_keys' => '.ssh/authorized_keys',
         'private_key' => '-----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEA1rny3MS82I+Zfir8ZSinvzOPnuBs7WeGYNlD2tVIPcJuQwdo

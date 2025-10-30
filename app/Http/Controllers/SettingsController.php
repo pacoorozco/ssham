@@ -37,7 +37,7 @@ class SettingsController extends Controller
 
     public function edit(): View
     {
-        $this->authorize(Permissions::EditSettings);
+        $this->authorize(Permissions::EditSettings->value);
 
         $settings = setting()->all();
 
@@ -47,7 +47,7 @@ class SettingsController extends Controller
 
     public function update(SettingsRequest $request): RedirectResponse
     {
-        $this->authorize(Permissions::EditSettings);
+        $this->authorize(Permissions::EditSettings->value);
 
         try {
             $publicKey = PrivateKey::fromString($request->privateKey())->getPublicKey();

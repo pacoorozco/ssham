@@ -125,7 +125,7 @@ final class UserControllerTest extends TestCase
                 'email' => $want->email,
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
-                'role' => Roles::Operator,
+                'role' => Roles::Operator->value,
             ])
             ->assertForbidden();
 
@@ -150,7 +150,7 @@ final class UserControllerTest extends TestCase
                 'email' => $want->email,
                 'password' => 'secret123',
                 'password_confirmation' => 'secret123',
-                'role' => Roles::Operator,
+                'role' => Roles::Operator->value,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
@@ -357,7 +357,7 @@ final class UserControllerTest extends TestCase
                 'current_password' => 'veryS3cretP4ssword',
                 'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
-                'role' => Roles::Auditor,
+                'role' => Roles::Auditor->value,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
@@ -387,7 +387,7 @@ final class UserControllerTest extends TestCase
                 'current_password' => '',
                 'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
-                'role' => Roles::Auditor,
+                'role' => Roles::Auditor->value,
             ])
             ->assertInvalid('current_password');
 
@@ -415,7 +415,7 @@ final class UserControllerTest extends TestCase
             ->put(route('users.update', $user), [
                 'email' => $want->email,
                 'enabled' => $user->enabled,
-                'role' => Roles::Auditor,
+                'role' => Roles::Auditor->value,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
@@ -445,7 +445,7 @@ final class UserControllerTest extends TestCase
             ->put(route('users.update', $user), [
                 'email' => $user->email,
                 'enabled' => false,
-                'role' => Roles::Operator,
+                'role' => Roles::Operator->value,
             ])
             ->assertInvalid(['enabled', 'role']);
 
@@ -483,7 +483,7 @@ final class UserControllerTest extends TestCase
                 'enabled' => $want->enabled,
                 'password' => 'new-password-123',
                 'password_confirmation' => 'new-password-123',
-                'role' => Roles::Operator,
+                'role' => Roles::Operator->value,
             ])
             ->assertRedirect(route('users.index'))
             ->assertValid();
@@ -526,7 +526,7 @@ final class UserControllerTest extends TestCase
             'email' => $data['email'] ?? $user->email,
             'password' => $data['password'] ?? $user->password,
             'password_confirmation' => $data['password_confirmation'] ?? $user->password,
-            'role' => $data['role'] ?? $user->role,
+            'role' => $data['role'] ?? $user->role->value,
             'enabled' => $data['enabled'] ?? $user->enabled,
         ];
 

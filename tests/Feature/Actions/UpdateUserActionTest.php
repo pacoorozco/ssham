@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -18,10 +19,10 @@
 
 namespace Tests\Feature\Actions;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Actions\UpdateUserAction;
 use App\Enums\Roles;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
@@ -46,7 +47,7 @@ final class UpdateUserActionTest extends TestCase
 
         /** @var User $want */
         $want = User::factory()->make();
-        $wantRole = Roles::Admin();
+        $wantRole = Roles::Admin;
 
         $action = app(UpdateUserAction::class);
 
@@ -63,6 +64,6 @@ final class UpdateUserActionTest extends TestCase
             'enabled' => $want->enabled,
         ]);
 
-        $this->assertEquals($wantRole->value, $user->role);
+        $this->assertEquals($wantRole->value, $user->role->value);
     }
 }

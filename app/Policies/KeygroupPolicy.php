@@ -13,26 +13,26 @@ class KeygroupPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can(Permissions::ViewKeys, Keygroup::class);
+        return $user->can(Permissions::ViewKeys->value, Keygroup::class);
     }
 
     public function view(User $user, Keygroup $model): bool
     {
-        return $user->can(Permissions::ViewKeys, $model);
+        return $user->can(Permissions::ViewKeys->value, $model);
     }
 
     public function create(User $user): bool
     {
-        return $user->can(Permissions::EditKeys, Keygroup::class);
+        return $user->can(Permissions::EditKeys->value, Keygroup::class);
     }
 
     public function update(User $user, Keygroup $model): bool
     {
-        return $user->can(Permissions::EditKeys, $model);
+        return $user->can(Permissions::EditKeys->value, $model);
     }
 
     public function delete(User $user, Keygroup $model): bool
     {
-        return $user->can(Permissions::DeleteKeys, $model);
+        return $user->can(Permissions::DeleteKeys->value, $model);
     }
 }

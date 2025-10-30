@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -41,12 +42,12 @@ class ActivityPresenter extends Presenter
     {
         $status = $this->model->status;
 
-        if ($status->is(ActivityStatus::Success)) {
-            return Str::of('<p class="text-success">'.$status->description.'</p>')
+        if ($status === ActivityStatus::Success) {
+            return Str::of('<p class="text-success">'.$status->label().'</p>')
                 ->toHtmlString();
         }
 
-        return Str::of($status->description ?? '')
+        return Str::of($status->label())
             ->toHtmlString();
     }
 }

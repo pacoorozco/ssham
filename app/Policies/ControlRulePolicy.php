@@ -13,16 +13,16 @@ class ControlRulePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can(Permissions::ViewRules, ControlRule::class);
+        return $user->can(Permissions::ViewRules->value, ControlRule::class);
     }
 
     public function create(User $user): bool
     {
-        return $user->can(Permissions::EditRules, ControlRule::class);
+        return $user->can(Permissions::EditRules->value, ControlRule::class);
     }
 
     public function delete(User $user, ControlRule $rule): bool
     {
-        return $user->can(Permissions::DeleteRules, $rule);
+        return $user->can(Permissions::DeleteRules->value, $rule);
     }
 }

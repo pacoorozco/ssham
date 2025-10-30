@@ -27,7 +27,7 @@
 
         <div class="card-header">
             <a href="{{ route('settings.edit') }}"
-               class="btn btn-primary @cannot(\App\Enums\Permissions::EditSettings) disabled @endcannot" role="button">
+               class="btn btn-primary @cannot(\App\Enums\Permissions::EditSettings->value) disabled @endcannot" role="button">
                 <i class="fa fa-edit"></i> {{ __('settings/messages.edit_button') }}
             </a>
         </div>

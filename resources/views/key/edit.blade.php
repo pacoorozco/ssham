@@ -82,7 +82,7 @@
                         <x-form-group name="operation">
 
                             <!-- maintain key option -->
-                            <x-form-radio name="operation" id="maintain_public_key" :value="\App\Enums\KeyOperation::NOOP_OPERATION" :label="__('key/messages.maintain_public_key')" default>
+                            <x-form-radio name="operation" id="maintain_public_key" :value="\App\Enums\KeyOperation::NOOP_OPERATION->value" :label="__('key/messages.maintain_public_key')" default>
                                 @slot('help')
                                     <div id="maintain_public_key_form">
                                         <small class="form-text text-muted">
@@ -101,7 +101,7 @@
                             <!-- ./maintain key option -->
 
                             <!-- create key option -->
-                            <x-form-radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION" :label="__('key/messages.create_public_key')">
+                            <x-form-radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION->value" :label="__('key/messages.create_public_key')">
                                 @slot('help')
                                 <div id="create_public_key_form">
                                     <small class="form-text text-muted">@lang('key/messages.create_public_key_help') @lang('key/messages.change_public_key_help_notice')</small>
@@ -111,7 +111,7 @@
                             <!-- ./create key option -->
 
                             <!-- import key option -->
-                            <x-form-radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION" :label="__('key/messages.import_public_key')">
+                            <x-form-radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION->value" :label="__('key/messages.import_public_key')">
                                 @slot('help')
                                     <div id="import_public_key_form">
                                         <x-form-textarea name="public_key" id="public_key" rows="5" :placeholder="__('key/messages.import_public_key_help')" required/>
@@ -244,13 +244,13 @@
         $(function () {
             var $radioValue = $('input:radio[name=operation]:checked').val();
             switch ($radioValue) {
-                case '{{ \App\Enums\KeyOperation::CREATE_OPERATION }}':
+                case '{{ \App\Enums\KeyOperation::CREATE_OPERATION->value }}':
                     enablePublicKeyCreation();
                     break;
-                case '{{ \App\Enums\KeyOperation::IMPORT_OPERATION }}':
+                case '{{ \App\Enums\KeyOperation::IMPORT_OPERATION->value }}':
                     enablePublicKeyImport();
                     break;
-                case '{{ \App\Enums\KeyOperation::NOOP_OPERATION }}':
+                case '{{ \App\Enums\KeyOperation::NOOP_OPERATION->value }}':
                 default:
                     enablePublicKeyMaintain();
             }

@@ -13,26 +13,26 @@ class KeyPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can(Permissions::ViewKeys, Key::class);
+        return $user->can(Permissions::ViewKeys->value, Key::class);
     }
 
     public function view(User $user, Key $model): bool
     {
-        return $user->can(Permissions::ViewKeys, $model);
+        return $user->can(Permissions::ViewKeys->value, $model);
     }
 
     public function create(User $user): bool
     {
-        return $user->can(Permissions::EditKeys, Key::class);
+        return $user->can(Permissions::EditKeys->value, Key::class);
     }
 
     public function update(User $user, Key $model): bool
     {
-        return $user->can(Permissions::EditKeys, $model);
+        return $user->can(Permissions::EditKeys->value, $model);
     }
 
     public function delete(User $user, Key $model): bool
     {
-        return $user->can(Permissions::DeleteKeys, $model);
+        return $user->can(Permissions::DeleteKeys->value, $model);
     }
 }
