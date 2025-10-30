@@ -31,6 +31,9 @@ class UserUpdateRequest extends Request
         return true;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         $user = $this->user;
@@ -58,6 +61,9 @@ class UserUpdateRequest extends Request
         ];
     }
 
+    /**
+     * @return array<int, \Closure>
+     */
     public function after(): array
     {
         return [

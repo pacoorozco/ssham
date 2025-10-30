@@ -24,6 +24,9 @@ use Illuminate\Validation\Rule;
 
 class KeygroupUpdateRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         $group = $this->keygroup;
@@ -56,6 +59,9 @@ class KeygroupUpdateRequest extends Request
         return $this->input('description') ?? '';
     }
 
+    /**
+     * @return array<int>
+     */
     public function keys(): array
     {
         return $this->input('keys', []);

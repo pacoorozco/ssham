@@ -21,6 +21,9 @@ use App\Models\Keygroup;
 
 class UpdateKeysGroupAction
 {
+    /**
+     * @param array<int> $members
+     */
     public function __invoke(
         Keygroup $group,
         string $name,

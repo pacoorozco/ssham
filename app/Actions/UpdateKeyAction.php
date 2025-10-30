@@ -21,6 +21,9 @@ use App\Models\Key;
 
 class UpdateKeyAction
 {
+    /**
+     * @param array<int> $groups
+     */
     public function __invoke(
         Key $key,
         string $publicKey,

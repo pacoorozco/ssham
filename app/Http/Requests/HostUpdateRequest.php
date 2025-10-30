@@ -23,6 +23,9 @@ use Illuminate\Validation\Rule;
 
 class HostUpdateRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
@@ -60,6 +63,9 @@ class HostUpdateRequest extends Request
         return $this->input('authorized_keys_file');
     }
 
+    /**
+     * @return array<int>
+     */
     public function groups(): array
     {
         return $this->input('groups', []);

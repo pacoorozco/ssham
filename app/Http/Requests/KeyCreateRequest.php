@@ -26,6 +26,9 @@ use PacoOrozco\OpenSSH\Rules\PublicKeyRule;
 
 class KeyCreateRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
@@ -64,6 +67,9 @@ class KeyCreateRequest extends Request
         return $this->input('public_key', '');
     }
 
+    /**
+     * @return array<int>
+     */
     public function groups(): array
     {
         return $this->input('groups', []);

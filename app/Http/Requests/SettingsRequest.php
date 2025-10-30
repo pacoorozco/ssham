@@ -22,6 +22,9 @@ use PacoOrozco\OpenSSH\Rules\PrivateKeyRule;
 
 class SettingsRequest extends Request
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
