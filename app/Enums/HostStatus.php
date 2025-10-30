@@ -2,21 +2,10 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-/**
- * @method static static INITIAL_STATUS()
- * @method static static AUTH_FAIL_STATUS()
- * @method static static GENERIC_FAIL_STATUS()
- * @method static static SUCCESS_STATUS()
- */
-final class HostStatus extends Enum
+enum HostStatus: string
 {
-    const INITIAL_STATUS = 'INITIAL';
-
-    const AUTH_FAIL_STATUS = 'AUTHFAIL';
-
-    const GENERIC_FAIL_STATUS = 'GENERICFAIL';
-
-    const SUCCESS_STATUS = 'SUCCESS';
+    case INITIAL_STATUS = 'INITIAL';
+    case AUTH_FAIL_STATUS = 'AUTHFAIL';
+    case GENERIC_FAIL_STATUS = 'GENERICFAIL';
+    case SUCCESS_STATUS = 'SUCCESS';
 }

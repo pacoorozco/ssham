@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -29,27 +30,27 @@ class HostgroupPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can(Permissions::ViewHosts, Hostgroup::class);
+        return $user->can(Permissions::ViewHosts->value, Hostgroup::class);
     }
 
     public function view(User $user, Hostgroup $model): bool
     {
-        return $user->can(Permissions::ViewHosts, $model);
+        return $user->can(Permissions::ViewHosts->value, $model);
     }
 
     public function create(User $user): bool
     {
-        return $user->can(Permissions::EditHosts, Hostgroup::class);
+        return $user->can(Permissions::EditHosts->value, Hostgroup::class);
     }
 
     public function update(User $user, Hostgroup $model): bool
     {
-        return $user->can(Permissions::EditHosts, $model);
+        return $user->can(Permissions::EditHosts->value, $model);
     }
 
     public function delete(User $user, Hostgroup $model): bool
     {
-        return $user->can(Permissions::DeleteHosts, $model);
+        return $user->can(Permissions::DeleteHosts->value, $model);
     }
 
     public function viewHosts(User $user): bool

@@ -33,8 +33,7 @@ class UpdateServer implements ShouldQueue
 
     public function __construct(
         protected Host $host
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.
@@ -62,7 +61,7 @@ class UpdateServer implements ShouldQueue
             'hostname' => $this->host->full_hostname,
         ]);
 
-        $this->host->setStatus(HostStatus::SUCCESS_STATUS());
+        $this->host->setStatus(HostStatus::SUCCESS_STATUS);
 
         $this->pusher->disconnect();
     }
@@ -137,6 +136,6 @@ class UpdateServer implements ShouldQueue
             'error' => $exception->getMessage(),
         ]);
 
-        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS());
+        $this->host->setStatus(HostStatus::GENERIC_FAIL_STATUS);
     }
 }

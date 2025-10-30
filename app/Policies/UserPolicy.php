@@ -12,29 +12,29 @@ class UserPolicy
 
     public function viewAny(User $currentUser): bool
     {
-        return $currentUser->can(Permissions::ViewUsers, User::class);
+        return $currentUser->can(Permissions::ViewUsers->value, User::class);
     }
 
     public function view(User $currentUser, User $user): bool
     {
         return $currentUser->is($user)
-            || $currentUser->can(Permissions::ViewUsers, $user);
+            || $currentUser->can(Permissions::ViewUsers->value, $user);
     }
 
     public function create(User $currentUser): bool
     {
-        return $currentUser->can(Permissions::EditUsers, User::class);
+        return $currentUser->can(Permissions::EditUsers->value, User::class);
     }
 
     public function update(User $currentUser, User $user): bool
     {
         return $currentUser->is($user)
-            || $currentUser->can(Permissions::EditUsers, $user);
+            || $currentUser->can(Permissions::EditUsers->value, $user);
     }
 
     public function delete(User $currentUser, User $user): bool
     {
         return $currentUser->isNot($user)
-            && $currentUser->can(Permissions::DeleteUsers, $user);
+            && $currentUser->can(Permissions::DeleteUsers->value, $user);
     }
 }

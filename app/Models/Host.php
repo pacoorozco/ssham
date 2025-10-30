@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -38,7 +39,7 @@ use Spatie\Searchable\SearchResult;
  * @property-read int $id
  * @property string $hostname
  * @property string $username
- * @property int|null $port                 - null value means using the default setting.
+ * @property int|null $port - null value means using the default setting.
  * @property string|null $authorized_keys_file - null value means using the default setting.
  * @property string $type
  * @property string|null $key_hash
@@ -54,8 +55,8 @@ use Spatie\Searchable\SearchResult;
 class Host extends Model implements Searchable
 {
     use HasFactory;
-    use Presentable;
     use LogsActivity;
+    use Presentable;
 
     public string $searchableType = 'Hosts';
 
@@ -157,7 +158,7 @@ class Host extends Model implements Searchable
     {
         $this->status_code = $status;
         $this->last_rotation = now();
-        $this->synced = ($status->is(HostStatus::SUCCESS_STATUS));
+        $this->synced = ($status === HostStatus::SUCCESS_STATUS);
         $this->save();
     }
 

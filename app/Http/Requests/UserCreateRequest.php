@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -20,7 +21,7 @@ namespace App\Http\Requests;
 
 use App\Enums\Roles;
 use App\Rules\UsernameRule;
-use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rule;
 
 class UserCreateRequest extends Request
 {
@@ -35,7 +36,7 @@ class UserCreateRequest extends Request
             'username' => [
                 'required',
                 'max:255',
-                new UsernameRule(),
+                new UsernameRule,
                 'unique:users',
             ],
             'email' => [
@@ -51,7 +52,7 @@ class UserCreateRequest extends Request
             ],
             'role' => [
                 'required',
-                new EnumValue(Roles::class),
+                Rule::enum(Roles::class),
             ],
         ];
     }

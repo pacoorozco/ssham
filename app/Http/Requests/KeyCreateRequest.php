@@ -51,7 +51,7 @@ class KeyCreateRequest extends Request
 
     public function wantsImportKey(): bool
     {
-        return $this->input('operation') === KeyOperation::IMPORT_OPERATION;
+        return $this->input('operation') === KeyOperation::IMPORT_OPERATION->value;
     }
 
     public function name(): string
@@ -71,6 +71,6 @@ class KeyCreateRequest extends Request
 
     public function wantsCreateKey(): bool
     {
-        return $this->input('operation') === KeyOperation::CREATE_OPERATION;
+        return $this->input('operation') === KeyOperation::CREATE_OPERATION->value;
     }
 }

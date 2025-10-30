@@ -2,16 +2,8 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-/**
- * @method static static Local()
- * @method static static External()
- * @method static static Unknown()
- */
-final class AuthType extends Enum
+enum AuthType: string
 {
-    const Local = 'local';
-
-    const External = 'external';
+    case Local = 'local';
+    case External = 'external';
 }

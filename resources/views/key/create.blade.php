@@ -58,7 +58,7 @@
                         <x-form-group name="operation">
 
                             <!-- create key option -->
-                            <x-form-radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION" :label="__('key/messages.create_public_key')" default>
+                            <x-form-radio name="operation" id="create_public_key" :value="\App\Enums\KeyOperation::CREATE_OPERATION->value" :label="__('key/messages.create_public_key')" default>
                                 @slot('help')
                                     <small class="form-text text-muted">
                                         @lang('key/messages.create_public_key_help')
@@ -68,7 +68,7 @@
                             <!-- ./create key option -->
 
                             <!-- import key option -->
-                            <x-form-radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION" :label="__('key/messages.import_public_key')">
+                            <x-form-radio name="operation" id="import_public_key" :value="\App\Enums\KeyOperation::IMPORT_OPERATION->value" :label="__('key/messages.import_public_key')">
                                 @slot('help')
                                     <div id="import_public_key_form">
                                         <x-form-textarea name="public_key" id="public_key" rows="5" :placeholder="__('key/messages.import_public_key_help')" required/>

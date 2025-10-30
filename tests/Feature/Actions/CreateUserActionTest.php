@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -18,12 +19,12 @@
 
 namespace Tests\Feature\Actions;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Actions\CreateUserAction;
 use App\Enums\Roles;
 use Generator;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
@@ -64,7 +65,7 @@ final class CreateUserActionTest extends TestCase
 
         $this->assertTrue(Hash::check($password, $user->password));
 
-        $this->assertEquals($wantRole, $user->role);
+        $this->assertEquals($wantRole, $user->role->value);
     }
 
     public static function providesUserData(): Generator
@@ -73,32 +74,32 @@ final class CreateUserActionTest extends TestCase
             'username' => 'john',
             'email' => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::SuperAdmin,
-            'wantRole' => Roles::SuperAdmin,
+            'role' => Roles::SuperAdmin->value,
+            'wantRole' => Roles::SuperAdmin->value,
         ];
 
         yield 'role = Admin' => [
             'username' => 'john',
             'email' => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::Admin,
-            'wantRole' => Roles::Admin,
+            'role' => Roles::Admin->value,
+            'wantRole' => Roles::Admin->value,
         ];
 
         yield 'role = Operator' => [
             'username' => 'john',
             'email' => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::Operator,
-            'wantRole' => Roles::Operator,
+            'role' => Roles::Operator->value,
+            'wantRole' => Roles::Operator->value,
         ];
 
         yield 'role = Auditor' => [
             'username' => 'john',
             'email' => 'john.doe@nowhere.local',
             'password' => 'verySecret',
-            'role' => Roles::Auditor,
-            'wantRole' => Roles::Auditor,
+            'role' => Roles::Auditor->value,
+            'wantRole' => Roles::Auditor->value,
         ];
 
         yield 'empty role' => [
@@ -106,7 +107,7 @@ final class CreateUserActionTest extends TestCase
             'email' => 'john.doe@nowhere.local',
             'password' => 'verySecret',
             'role' => null,
-            'wantRole' => Roles::Auditor,
+            'wantRole' => Roles::Auditor->value,
         ];
 
         yield 'invalid role' => [
@@ -114,7 +115,7 @@ final class CreateUserActionTest extends TestCase
             'email' => 'john.doe@nowhere.local',
             'password' => 'verySecret',
             'role' => 'non-existent-role',
-            'wantRole' => Roles::Auditor,
+            'wantRole' => Roles::Auditor->value,
         ];
     }
 }

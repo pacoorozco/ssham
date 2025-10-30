@@ -2,18 +2,9 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-/**
- * @method static static CREATE_OPERATION()
- * @method static static IMPORT_OPERATION()
- * @method static static NOOP_OPERATION()
- */
-final class KeyOperation extends Enum
+enum KeyOperation: string
 {
-    const CREATE_OPERATION = 'create';
-
-    const IMPORT_OPERATION = 'import';
-
-    const NOOP_OPERATION = 'maintain';
+    case CREATE_OPERATION = 'create';
+    case IMPORT_OPERATION = 'import';
+    case NOOP_OPERATION = 'maintain';
 }

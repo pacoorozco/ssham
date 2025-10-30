@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -51,7 +52,7 @@ class HostPresenter extends Presenter
 
     public function statusCode(): string
     {
-        return $this->model->status_code->description ?? 'N/A';
+        return $this->model->status_code->value ?? 'N/A';
     }
 
     public function lastRotationForHumans(): string

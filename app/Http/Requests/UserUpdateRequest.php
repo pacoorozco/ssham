@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -19,9 +20,9 @@
 namespace App\Http\Requests;
 
 use App\Enums\Roles;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserUpdateRequest extends Request
 {
@@ -38,7 +39,7 @@ class UserUpdateRequest extends Request
             'email' => [
                 'required',
                 'email:rfc',
-                'unique:users,email,' . $user->id,
+                'unique:users,email,'.$user->id,
             ],
             'password' => [
                 'nullable',
@@ -48,7 +49,7 @@ class UserUpdateRequest extends Request
             ],
             'role' => [
                 'required',
-                new EnumValue(Roles::class),
+                Rule::enum(Roles::class),
             ],
             'enabled' => [
                 'required',
@@ -65,16 +66,16 @@ class UserUpdateRequest extends Request
                     return;
                 }
                 // checks user current password
-                if ($this->password() && !Hash::check($this->current_password, $this->user->password)) {
+                if ($this->password() && ! Hash::check($this->current_password, $this->user->password)) {
                     $validator->errors()->add('current_password', __('user/messages.edit.incorrect_password'));
                 }
-                if (!$this->enabled()) {
+                if (! $this->enabled()) {
                     $validator->errors()->add('enabled', __('user/messages.edit.disabled_status_not_allowed'));
                 }
-                if ($this->role()->isNot($this->user->role)) {
+                if ($this->role() !== $this->user->role) {
                     $validator->errors()->add('role', __('user/messages.edit.role_change_not_allowed'));
                 }
-            }
+            },
         ];
     }
 
@@ -92,7 +93,7 @@ class UserUpdateRequest extends Request
     {
         $roleName = $this->input('role');
 
-        return Roles::fromValue($roleName);
+        return Roles::from($roleName);
     }
 
     public function email(): string

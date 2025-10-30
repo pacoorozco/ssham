@@ -14,27 +14,27 @@ class HostPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can(Permissions::ViewHosts, Host::class);
+        return $user->can(Permissions::ViewHosts->value, Host::class);
     }
 
     public function view(User $user, Host $model): bool
     {
-        return $user->can(Permissions::ViewHosts, $model);
+        return $user->can(Permissions::ViewHosts->value, $model);
     }
 
     public function create(User $user): bool
     {
-        return $user->can(Permissions::EditHosts, Host::class);
+        return $user->can(Permissions::EditHosts->value, Host::class);
     }
 
     public function update(User $user, Host $model): bool
     {
-        return $user->can(Permissions::EditHosts, $model);
+        return $user->can(Permissions::EditHosts->value, $model);
     }
 
     public function delete(User $user, Host $model): bool
     {
-        return $user->can(Permissions::DeleteHosts, $model);
+        return $user->can(Permissions::DeleteHosts->value, $model);
     }
 
     public function viewGroups(User $user): bool

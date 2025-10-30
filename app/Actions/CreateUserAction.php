@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -36,7 +37,8 @@ class CreateUserAction
             'password' => Hash::make($password),
         ]);
 
-        $role = Roles::coerce($role)->value ?? Roles::Auditor;
+        $role = $role ? Roles::tryFrom($role)?->value : null;
+        $role = $role ?? Roles::Auditor->value;
 
         return $user->assignRole($role);
     }

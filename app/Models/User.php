@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -33,27 +34,27 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * Class User.
  *
- * @property int                             $id
- * @property string                          $username
- * @property string                          $name
- * @property string                          $email
- * @property string                          $password
- * @property bool                            $enabled
- * @property string                          $auth_type
+ * @property int $id
+ * @property string $username
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property bool $enabled
+ * @property string $auth_type
  * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string|null                     $remember_token
+ * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\PersonalAccessToken[] $tokens
  */
 final class User extends Authenticatable
 {
-    use HasFactory;
     use HasApiTokens;
-    use Notifiable;
-    use Presentable;
+    use HasFactory;
     use HasRoles;
     use LogsActivity;
+    use Notifiable;
+    use Presentable;
 
     protected string $presenter = UserPresenter::class;
 
@@ -107,7 +108,7 @@ final class User extends Authenticatable
     {
         $roleName = $this->getRoleNames()->first();
 
-        return Roles::fromValue($roleName);
+        return Roles::from($roleName);
     }
 
     /** @codeCoverageIgnore */

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -17,10 +18,10 @@
 
 namespace Tests\Feature\Models;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Roles;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
@@ -50,22 +51,22 @@ final class UserTest extends TestCase
     public static function provideRoleInfo()
     {
         yield 'Auditor is not Super Admin' => [
-            'role' => Roles::Auditor(),
+            'role' => Roles::Auditor,
             'expected' => false,
         ];
 
         yield 'Operator is not Super Admin' => [
-            'role' => Roles::Operator(),
+            'role' => Roles::Operator,
             'expected' => false,
         ];
 
         yield 'Admin is not Super Admin' => [
-            'role' => Roles::Admin(),
+            'role' => Roles::Admin,
             'expected' => false,
         ];
 
         yield 'SuperAdmin is Super Admin' => [
-            'role' => Roles::SuperAdmin(),
+            'role' => Roles::SuperAdmin,
             'expected' => true,
         ];
     }

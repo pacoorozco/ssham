@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -24,7 +25,7 @@ use Laracodes\Presenter\Traits\Presentable;
 /**
  * Class Activity.
  *
- * @property string                          $description
+ * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property-read \Illuminate\Database\Eloquent\Model $causer
  * @property-read \App\Enums\ActivityStatus $status
@@ -39,6 +40,6 @@ class Activity extends \Spatie\Activitylog\Models\Activity
     {
         // There is a default value in order to avoid errors when database contains old messages
         // which doesn't have a value now.
-        return ActivityStatus::coerce($this->getExtraProperty('status')) ?? ActivityStatus::Success();
+        return ActivityStatus::tryFrom($this->getExtraProperty('status')) ?? ActivityStatus::Success;
     }
 }
