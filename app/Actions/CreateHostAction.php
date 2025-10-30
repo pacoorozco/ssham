@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -22,14 +23,14 @@ use App\Models\Host;
 class CreateHostAction
 {
     /**
-     * @param array<int> $groups
+     * @param  array<int>  $groups
      */
     public function __invoke(
         string $hostname,
         string $username,
         bool $enabled,
-        int|null $port,
-        string|null $authorizedKeysFile,
+        ?int $port,
+        ?string $authorizedKeysFile,
         array $groups = []
     ): Host {
         /* @var Host $host */

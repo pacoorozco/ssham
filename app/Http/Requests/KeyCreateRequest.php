@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -47,7 +48,7 @@ class KeyCreateRequest extends Request
             ],
             'public_key' => [
                 new RequiredIf($this->wantsImportKey()),
-                new PublicKeyRule(),
+                new PublicKeyRule,
             ],
         ];
     }

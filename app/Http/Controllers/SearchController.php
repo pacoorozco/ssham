@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -47,7 +48,7 @@ class SearchController extends Controller
 
     private function doSearch(string $query): SearchResultCollection
     {
-        return (new Search())
+        return (new Search)
             ->registerModel(Key::class, function (ModelSearchAspect $modelSearchAspect) {
                 $modelSearchAspect
                     ->addSearchableAttribute('name') // return results for partial matches on key names

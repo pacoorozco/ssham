@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -47,7 +48,7 @@ class SFTPPusher
             throw new PusherException($exception->getMessage());
         }
 
-        if (false === $isLogged) {
+        if ($isLogged === false) {
             throw new PusherException('Invalid credentials');
         }
     }
@@ -59,11 +60,11 @@ class SFTPPusher
      */
     public function pushDataTo(string $data, string $remotePath, int $permission = 0700): void
     {
-        if (false === $this->sftp->put($remotePath, $data, SFTP::SOURCE_STRING)) {
+        if ($this->sftp->put($remotePath, $data, SFTP::SOURCE_STRING) === false) {
             throw new PusherException('Unable to create the file: '.$remotePath);
         }
 
-        if (false === $this->sftp->chmod($permission, $remotePath)) {
+        if ($this->sftp->chmod($permission, $remotePath) === false) {
             throw new PusherException('Unable to set permission to the file: '.$remotePath);
         }
     }
@@ -85,7 +86,7 @@ class SFTPPusher
             $this->sftp->disableQuietMode();
         }
 
-        if (false === $isExecuted) {
+        if ($isExecuted === false) {
             throw new PusherException('Unable to execute command');
         }
 

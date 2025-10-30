@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\TestCase;
 
 final class PasswordConfirmationTest extends TestCase

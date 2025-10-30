@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -18,14 +19,14 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\Host;
 use App\Models\Hostgroup;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\TestCase;
 
 final class SearchControllerTest extends TestCase

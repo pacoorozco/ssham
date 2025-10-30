@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -22,13 +23,13 @@ use App\Models\Host;
 class UpdateHostAction
 {
     /**
-     * @param array<int> $groups
+     * @param  array<int>  $groups
      */
     public function __invoke(
         Host $host,
         bool $enabled,
-        int|null $port,
-        string|null $authorizedKeysFile,
+        ?int $port,
+        ?string $authorizedKeysFile,
         array $groups = []
     ): Host {
         $host->update([

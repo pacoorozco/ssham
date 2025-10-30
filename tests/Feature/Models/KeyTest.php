@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Models;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\Key;
 use Illuminate\Support\Str;
 use PacoOrozco\OpenSSH\PublicKey;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\TestCase;
 
 final class KeyTest extends TestCase

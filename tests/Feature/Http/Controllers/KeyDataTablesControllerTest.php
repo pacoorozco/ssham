@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -18,11 +19,11 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
@@ -42,7 +43,7 @@ final class KeyDataTablesControllerTest extends TestCase
     }
 
     #[Test]
-    public function viewers_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
+    public function viewers_should_get_error_when_getting_data_tables_data_with_non_aja_x_requests(): void
     {
         $this->user->givePermissionTo(Permissions::ViewKeys);
 

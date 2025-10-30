@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\HostStatus;
 use App\Models\Host;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\ModelTestCase;
 
 final class HostTest extends ModelTestCase
@@ -14,7 +14,7 @@ final class HostTest extends ModelTestCase
     #[Test]
     public function contains_valid_fillable_properties(): void
     {
-        $m = new Host();
+        $m = new Host;
         $this->assertEquals([
             'hostname',
             'username',
@@ -27,7 +27,7 @@ final class HostTest extends ModelTestCase
     #[Test]
     public function contains_valid_casts_properties(): void
     {
-        $m = new Host();
+        $m = new Host;
         $this->assertEquals([
             'id' => 'int',
             'enabled' => 'boolean',
@@ -41,7 +41,7 @@ final class HostTest extends ModelTestCase
     #[Test]
     public function has_groups_relation(): void
     {
-        $m = new Host();
+        $m = new Host;
         $r = $m->groups();
         $this->assertInstanceOf(BelongsToMany::class, $r);
     }

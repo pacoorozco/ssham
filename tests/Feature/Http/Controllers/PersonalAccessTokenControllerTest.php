@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -18,17 +19,17 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
 final class PersonalAccessTokenControllerTest extends TestCase
 {
-    use WithFaker;
     use InteractsWithPermissions;
+    use WithFaker;
 
     private User $user;
 
@@ -128,7 +129,7 @@ final class PersonalAccessTokenControllerTest extends TestCase
     {
         $tokens = $user->tokens()->pluck('name');
 
-        return false !== $tokens->search($tokenName);
+        return $tokens->search($tokenName) !== false;
     }
 
     #[Test]

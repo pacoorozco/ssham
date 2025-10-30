@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keygroups management solution.
  *
@@ -18,13 +19,13 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Enums\Permissions;
 use App\Models\Key;
 use App\Models\Keygroup;
 use App\Models\User;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 

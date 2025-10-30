@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -22,7 +23,7 @@ use App\Models\Hostgroup;
 class CreateHostGroupAction
 {
     /**
-     * @param array<int> $members
+     * @param  array<int>  $members
      */
     public function __invoke(
         string $name,

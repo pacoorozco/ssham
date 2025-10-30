@@ -12,10 +12,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * Class PersonalAccessToken.
  *
- * @property int                             $id
- * @property string                          $name
- * @property string                          $token
- * @property array|null                      $abilities
+ * @property int $id
+ * @property string $name
+ * @property string $token
+ * @property array|null $abilities
  * @property \Illuminate\Support\Carbon|null $last_used_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -23,8 +23,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class PersonalAccessToken extends SanctumPersonalAccessToken
 {
-    use Presentable;
     use LogsActivity;
+    use Presentable;
 
     protected string $presenter = PersonalAccessTokenPresenter::class;
 
@@ -40,7 +40,6 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
 
     /**
      * @codeCoverageIgnore
-     * @return LogOptions
      */
     public function getActivitylogOptions(): LogOptions
     {

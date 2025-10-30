@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SSH Access Manager - SSH keys management solution.
  *
@@ -18,11 +19,11 @@
 
 namespace Tests\Unit\Rule;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use App\Rules\UsernameRule;
 use Generator;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 final class UsernameRuleTest extends TestCase
@@ -32,7 +33,7 @@ final class UsernameRuleTest extends TestCase
     #[Test]
     public function usernames_created_by_faker_should_pass(): void
     {
-        $rule = new UsernameRule();
+        $rule = new UsernameRule;
 
         for ($i = 0; $i <= 10; $i++) {
             $username = $this->faker->userName;
@@ -46,7 +47,7 @@ final class UsernameRuleTest extends TestCase
     public function usernames_containing_invalid_characters_should_fail(
         string $input,
     ): void {
-        $rule = new UsernameRule();
+        $rule = new UsernameRule;
 
         $this->assertFalse($rule->passes('username', $input));
     }

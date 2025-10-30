@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -22,7 +23,7 @@ use App\Models\User;
 class CreatePersonalAccessTokenAction
 {
     /**
-     * @param array<string> $abilities
+     * @param  array<string>  $abilities
      */
     public function __invoke(
         User $user,

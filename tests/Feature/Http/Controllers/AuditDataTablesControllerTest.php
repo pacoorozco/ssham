@@ -1,4 +1,5 @@
 <?php
+
 /*
  * SSH Access Manager - SSH keys management solution.
  *
@@ -17,9 +18,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\Host;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\InteractsWithPermissions;
 use Tests\Feature\TestCase;
 
@@ -39,7 +40,7 @@ final class AuditDataTablesControllerTest extends TestCase
     }
 
     #[Test]
-    public function users_should_get_error_when_getting_data_tables_data_with_non_AJAX_requests(): void
+    public function users_should_get_error_when_getting_data_tables_data_with_non_aja_x_requests(): void
     {
         $this
             ->actingAs($this->user)

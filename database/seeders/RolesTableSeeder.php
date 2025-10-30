@@ -71,7 +71,7 @@ class RolesTableSeeder extends Seeder
     }
 
     /**
-     * @param array<string> $permissions
+     * @param  array<string>  $permissions
      */
     private function giveManyPermissionsTo(Role $role, array $permissions): void
     {
