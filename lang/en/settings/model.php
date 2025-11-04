@@ -42,4 +42,6 @@ return [
     'non_ssham_file_help' => 'File on remote hosts where you maintain access keys non-managed by SSHAM.',
     'cmd_remote_updater' => 'Updater script remote path',
     'cmd_remote_updater_help' => 'Path on remote hosts where the <code>ssham-remote-updater.sh</code> will be copied.',
+    'audit_log_retention_days' => 'Audit log retention period (days)',
+    'audit_log_retention_days_help' => 'Number of days to keep audit log entries. Older entries will be automatically deleted.',
 ];

@@ -139,6 +139,23 @@
                         <!-- ./ SSH port -->
 
                     </fieldset>
+
+                    <fieldset>
+                        <legend>@lang('settings/title.audit_section')</legend>
+
+                        <x-form-input name="audit_log_retention_days"
+                                      type="number"
+                                      :label="__('settings/model.audit_log_retention_days')"
+                                      required
+                                      :default="$settings['audit_log_retention_days']">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    @lang('settings/model.audit_log_retention_days_help')
+                                </small>
+                            @endslot
+                        </x-form-input>
+
+                    </fieldset>
                 </div>
 
                 <!-- panel-advanced-settings -->

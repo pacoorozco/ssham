@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('cache:prune-stale-tags')->hourly();
+        $schedule->command('activitylog:clean --days=' . setting('audit_log_retention_days', 180))->daily();
     }
 
     /**
@@ -37,7 +38,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

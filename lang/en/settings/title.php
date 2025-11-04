@@ -33,4 +33,6 @@ return [
     'defaults_section' => 'Application defaults',
 
     'update' => 'Edit settings',
+
+    'audit_section' => 'Audit logs',
 ];
