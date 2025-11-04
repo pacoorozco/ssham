@@ -13,6 +13,12 @@ It enables a team of system administrators to centrally manage and deploy SSH ke
 
 SSH Access Manager allows you to maintain user public keys. You can organise these keys with group of keys called keyring. Then SSH Access Manager will deploy the keys and/or key rings to specified unix accounts / groups / servers.
 
+🎉 **SSH Access Manager v3.0.0 - First Stable Release**
+
+We're thrilled to announce the [first stable production release](https://github.com/pacoorozco/ssham/releases) of SSH Access Manager v3!
+
+After 11 years of evolution and a complete architectural rebuild, **SSH Access Manager v3 is now production-ready** for enterprise SSH key management.
+
 ## The SSHAM documentation
 SSH Access Manager has a complete documentation [here](https://ssham.pacoorozco.info/).
 
