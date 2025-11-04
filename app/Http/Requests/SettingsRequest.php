@@ -63,6 +63,12 @@ class SettingsRequest extends Request
                 'required',
                 'string',
             ],
+            'audit_log_retention_days' => [
+                'required',
+                'integer',
+                'min:1',
+                'max:3650', // 10 years
+            ],
         ];
     }
 
@@ -104,5 +110,10 @@ class SettingsRequest extends Request
     public function cmdRemoteUpdater(): string
     {
         return $this->input('cmd_remote_updater');
+    }
+
+    public function auditLogRetentionDays(): int
+    {
+        return (int) $this->input('audit_log_retention_days');
     }
 }

@@ -32,6 +32,9 @@ class SettingsController extends Controller
     {
         $settings = setting()->all();
 
+        // Set defaults for any missing settings
+        $settings['audit_log_retention_days'] = $settings['audit_log_retention_days'] ?? 180;
+
         return view('settings.index')
             ->with('settings', $settings);
     }
@@ -41,6 +44,9 @@ class SettingsController extends Controller
         $this->authorize(Permissions::EditSettings->value);
 
         $settings = setting()->all();
+
+        // Set defaults for any missing settings
+        $settings['audit_log_retention_days'] = $settings['audit_log_retention_days'] ?? 180;
 
         return view('settings.edit')
             ->with('settings', $settings);
@@ -72,6 +78,7 @@ class SettingsController extends Controller
             'ssham_file' => $request->sshamFile(),
             'non_ssham_file' => $request->nonSSHAMFile(),
             'cmd_remote_updater' => $request->cmdRemoteUpdater(),
+            'audit_log_retention_days' => $request->auditLogRetentionDays(),
         ]);
 
         return redirect()->route('settings.index')

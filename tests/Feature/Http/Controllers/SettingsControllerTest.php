@@ -68,6 +68,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
         'ssham_file' => '.ssh/authorized_keys-ssham',
         'non_ssham_file' => '.ssh/authorized_keys-non-ssham',
         'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
+        'audit_log_retention_days' => 180,
     ];
 
     private User $user;
@@ -138,6 +139,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'ssham_file' => 'foo_ssham_file',
             'non_ssham_file' => 'foo_non_ssham_file',
             'cmd_remote_updater' => 'foo_cmd_remote_updater',
+            'audit_log_retention_days' => 90,
         ];
 
         $this
@@ -168,6 +170,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'ssham_file' => 'foo_ssham_file',
             'non_ssham_file' => 'foo_non_ssham_file',
             'cmd_remote_updater' => 'foo_cmd_remote_updater',
+            'audit_log_retention_days' => 90,
         ];
 
         $this
@@ -201,6 +204,7 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
             'ssham_file' => $data['ssham_file'] ?? $settings['ssham_file'],
             'non_ssham_file' => $data['non_ssham_file'] ?? $settings['non_ssham_file'],
             'cmd_remote_updater' => $data['cmd_remote_updater'] ?? $settings['cmd_remote_updater'],
+            'audit_log_retention_days' => $data['audit_log_retention_days'] ?? $settings['audit_log_retention_days'],
         ];
 
         $this
@@ -288,6 +292,41 @@ c6i7uxhddb2j2GasjwJS0+KCE/csVWZ617lLWT0+U5SK7Aatjes=
                 'cmd_remote_updater' => '',
             ],
             'errors' => ['cmd_remote_updater'],
+        ];
+
+        yield 'audit_log_retention_days is empty' => [
+            'data' => [
+                'audit_log_retention_days' => '',
+            ],
+            'errors' => ['audit_log_retention_days'],
+        ];
+
+        yield 'audit_log_retention_days ! valid' => [
+            'data' => [
+                'audit_log_retention_days' => 'no-numeric',
+            ],
+            'errors' => ['audit_log_retention_days'],
+        ];
+
+        yield 'audit_log_retention_days = 0' => [
+            'data' => [
+                'audit_log_retention_days' => '0',
+            ],
+            'errors' => ['audit_log_retention_days'],
+        ];
+
+        yield 'audit_log_retention_days < 1' => [
+            'data' => [
+                'audit_log_retention_days' => '-1',
+            ],
+            'errors' => ['audit_log_retention_days'],
+        ];
+
+        yield 'audit_log_retention_days > 3650' => [
+            'data' => [
+                'audit_log_retention_days' => '3651',
+            ],
+            'errors' => ['audit_log_retention_days'],
         ];
     }
 }

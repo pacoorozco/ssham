@@ -118,6 +118,10 @@ ZCkjCidc3bPcjZGQAAAApwYWNvQGNpZ3JvAQIDBAUGBw==
              * Tools to use to deploy SSH
              */
             'cmd_remote_updater' => '.ssh/ssham-remote-updater.sh',
+            /*
+             * Set the retention time for the audit log (days)
+             */
+            'audit_log_retention_days' => 180,
         ]);
     }
 }

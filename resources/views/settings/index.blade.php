@@ -113,6 +113,19 @@
                     </div>
                     <!-- ./ SSH port -->
                 </div>
+
+                <h3>@lang('settings/title.audit_section')</h3>
+                <div class="row">
+                    <!-- Audit Log retention -->
+                    <div class="col-sm-3">
+                        <strong>@lang('settings/model.audit_log_retention_days')</strong><br>
+                        <small class="text-muted">@lang('settings/model.audit_log_retention_days_help')</small>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ $settings['audit_log_retention_days'] }}
+                    </div>
+                    <!-- ./ Audit Log retention -->
+                </div>
             </div>
 
             <!-- panel-advanced-settings -->

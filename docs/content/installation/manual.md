@@ -44,6 +44,17 @@ lastmod: "2022-05-10"
     chmod -R 777 storage/ bootstrap/cache/
     ```
 
+1. Configure crontab to run scheduled tasks (eg. cleaning audit logs)
+
+    ```Shell
+   crontab -e 
+    ```
+   
+    Add this line to execute the scheduler:
+
+    ```Shell
+   echo "* * * * * cd $(pwd) && php artisan schedule:run >> /dev/null 2>&1" >>
+    ```
 1. You can use the local PHP server to run the application.
 
     ```Shell
