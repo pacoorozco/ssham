@@ -5,6 +5,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## Unreleased
 
+## 3.0.0 - 2025-11-04
+
+🎉 **First Stable Release** - SSH Access Manager reaches production readiness!
+
+### Major Milestone
+- **First stable production release** of SSH Access Manager v3, a complete rebuild using Laravel
+- **Backwards compatible** with v0.x releases for seamless migration
+- Comprehensive SSH key management platform ready for enterprise deployment
+
+### What's Included
+This stable release includes all features developed during the 0.x series:
+- Centralized SSH key management and deployment
+- User and key organization with keyrings
+- Host and hostgroup management
+- Role-based permissions and user management
+- Comprehensive audit logging
+- REST API with Personal Access Tokens
+- Support for RSA, Ed25519, and OpenSSH key formats
+- Task scheduler for automated operations
+- Docker support for easy deployment
+
+### Migration Path
+- **From v0.x**: Direct upgrade path available - all v0.x features are preserved
+- **From legacy v2**: Manual migration required due to complete architectural rebuild
+
+### Technical Foundation
+- Built on Laravel 10.x with PHP 8.2+
+- Modern architecture with improved security and performance
+- Comprehensive test coverage and CI/CD pipeline
+- Production-ready configuration and deployment options
+
+This release represents 11 years of evolution from the original SSH Access Manager, now rebuilt from the ground up with modern technologies and enterprise-grade reliability.
+
+
 ## 0.19.3 - 2024-03-08
 ### Changed
 - Bump `spatie/laravel-permission` to 6.4.0
