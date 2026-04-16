@@ -1,0 +1,35 @@
+name: PHPstan
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '**.php'
+      - 'phpstan.neon'
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpstan.neon'
+      - '.forgejo/*.yml'
+
+jobs:
+  phpstan:
+    name: phpstan
+    runs-on: codeberg-small
+
+    steps:
+      - name: Checkout
+        uses: https://code.forgejo.org/actions/checkout@v6
+
+      - name: Setup PHP
+        uses: https://github.com/shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --memory-limit=2G
