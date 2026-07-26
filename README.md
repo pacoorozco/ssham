@@ -1,38 +1,16 @@
 # SSH Access Manager Web Interface
 
-[![Build Status](https://github.com/pacoorozco/ssham/actions/workflows/run-tests.yml/badge.svg)](https://github.com/pacoorozco/ssham/actions/workflows/run-tests.yml)
-[![codecov](https://codecov.io/gh/pacoorozco/ssham/branch/main/graph/badge.svg?token=exi4pl1izx)](https://codecov.io/gh/pacoorozco/ssham)
-[![License](https://img.shields.io/github/license/pacoorozco/ssham.svg)](LICENSE)
-[![Laravel Version](https://img.shields.io/badge/Laravel-10.x-brightgreen)](https://laravel.com/docs)
-[![GitHub release](https://img.shields.io/github/release/pacoorozco/ssham.svg?style=flat-square)](https://github.com/pacoorozco/ssham/releases)
+# Give Up GitHub
 
-## Overview
-**SSH Access Manager** is a comprehensive access security management platform that permits IT professionals to easily establish and maintain an enterprise-wide SSH access security solution from a central location.
+This project has given up GitHub.  ([See Software Freedom Conservancy's *Give Up  GitHub* site for details](https://GiveUpGitHub.org).)
 
-It enables a team of system administrators to centrally manage and deploy SSH keys. This app is intended to be used in rather large environment where access to unix accounts are handled with SSH keys.
+You can now find this project at [Codeberg](https://codeberg.org/pakus/ssham) instead.
 
-SSH Access Manager allows you to maintain user public keys. You can organise these keys with group of keys called keyring. Then SSH Access Manager will deploy the keys and/or key rings to specified unix accounts / groups / servers.
+Any use of this project's code by GitHub Copilot, past or present, is done without our permission.  We do not consent to GitHub's use of this project's code in Copilot.
 
-🎉 **SSH Access Manager v3.0.0 - First Stable Release**
+Join us; you can [give up GitHub](https://GiveUpGitHub.org) too!
 
-We're thrilled to announce the [first stable production release](https://github.com/pacoorozco/ssham/releases) of SSH Access Manager v3!
-
-After 11 years of evolution and a complete architectural rebuild, **SSH Access Manager v3 is now production-ready** for enterprise SSH key management.
-
-## The SSHAM documentation
-SSH Access Manager has a complete documentation [here](https://ssham.pacoorozco.info/).
-
-## Changelog
-
-See our [CHANGELOG](CHANGELOG.md) file in order to know what changes are implemented in every version.
-
-## Reporting issues
-
-If you have issues with **SSH Access Manager**, you can report them with the [GitHub issues module](https://github.com/pacoorozco/ssham/issues).
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+![Logo of the GiveUpGitHub campaign](https://sfconservancy.org/static/img/GiveUpGitHub.png)
 
 ## License
 
@@ -40,7 +18,4 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Authors
 
-This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info) 
-
-## Additional information
-This application was born with a different interface on [Sourceforge](https://sourceforge.net/projects/ssham/).
+This app was original coded by **Paco Orozco** (paco _at_ pacoorozco.info)
